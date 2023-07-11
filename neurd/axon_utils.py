@@ -1475,7 +1475,7 @@ def axon_angles(neuron_obj,
     return axon_angles
 
 
-import datajoint_utils as du
+
 def axon_features_from_neuron_obj(neuron_obj,
                                   add_axon_prefix_to_all_keys = True,
                                   features_to_exclude=(),
@@ -1578,72 +1578,7 @@ def axon_features_from_axon_sk_and_soma_center_old(axon_sk,
     return axon_dict
 """
 
-def axon_stats_from_proof_axon_skeleton(segment_id,
-                                      split_index = 0,
-                                      axon_sk = None,
-                                    plot_axon_skeleton = False,
-                                    plot_proofread_neuron = False,
-                                      verbose = False,
-                                       **kwargs):
 
-    """
-    Purpose: To compute certain statistics about an axon
-    just form the skeleton and the soma center
-    
-    Brainstorming: 
-    2) The volume spanned
-    3) x/y/z min/max
-    4) Number of branches
-    5) average skeletal length per branch
-    6) median skeletal length per branch
-    7) axon length
-
-    Psuedocode: 
-    1) Download the axon skeleton
-    2) Compute each feature for the skeleton
-    3) Output as dictionary
-    
-    Example:
-    import axon_utils as au
-    search_key = dict(segment_id=864691134884745210,
-        split_index = 0)
-    au.axon_stats_from_proof_axon_skeleton(**search_key)
-
-    """
-    
-    search_key = dict(segment_id=segment_id,
-                 split_index = split_index)
-    
-    if axon_sk is None:
-        axon_sk = du.fetch_proofread_axon_skeleton(**search_key)
-    
-    
-    
-
-    if plot_axon_skeleton:
-        nviz.plot_objects(skeletons=sk_branches,
-                         skeletons_colors="random",
-                          scatters=[soma_center],
-                          scatter_size=1,
-                         )
-
-    if plot_proofread_neuron:
-        du.plot_proofread_neuron(**search_key)
-        
-    soma_center = du.fetch_neuron_soma_center(**search_key)
-    
-#     axon_dict = au.axon_features_from_axon_sk_and_soma_center(axon_sk,
-#                                                              soma_center,
-#                                                               verbose=verbose,
-#                                                              **kwargs)
-    
-    axon_dict= nst.features_from_skeleton_and_soma_center(
-         axon_sk,
-        soma_center,
-        verbose = verbose,
-        **kwargs)
-    
-    return axon_dict
     
 def axon_spines_limb_branch_dict(
     neuron_obj,
@@ -3697,7 +3632,6 @@ def axon_start_distance_from_soma(
 from python_tools import module_utils as modu 
 from python_tools import general_utils as gu
 from python_tools import data_struct_utils as dsu
-import human_utils as hu
 
 attributes_dict_default = dict(
     rotation_function_axon_alignment = None,
@@ -3896,9 +3830,10 @@ global_parameters_dict_microns = {}
 global_parameters_dict_microns_auto_proof = {}
 attributes_dict_microns = {}
 
+from h01_volume_utils import data_interface as hvu
 attributes_dict_h01 = dict(
-    rotation_function_axon_alignment = hu.align_neuron_obj,
-    unrotation_function_axon_alignment = hu.unalign_neuron_obj,
+    rotation_function_axon_alignment = hvu.align_neuron_obj,
+    unrotation_function_axon_alignment = hvu.unalign_neuron_obj,
     
     max_ais_distance_from_soma = 50_000,
 )

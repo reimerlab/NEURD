@@ -103,7 +103,6 @@ import neuron_statistics as nst
 import microns_volume_utils as mcu
 import neuron_visualizations as nviz
 import numpy as np
-import human_utils as hu
 
 
 
@@ -1753,15 +1752,16 @@ global_parameters_dict_h01 = gu.merge_dicts([
         global_parameters_dict_h01_apical
 ])
 
-import dataInterfaceH01 as d_h01
+import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
-    rotation_function_axon_alignment = d_h01.data_interface.align_neuron_obj,
-    unrotation_function_axon_alignment =  d_h01.data_interface.unalign_neuron_obj,
+    rotation_function_axon_alignment = hvu.data_interface.align_neuron_obj,
+    unrotation_function_axon_alignment =  hvu.data_interface.unalign_neuron_obj,
 )
+modules_to_set = [apu]
+
 
 data_type = "default"
 algorithms = None
-modules_to_set = [apu]
 
 modsetter = modu.ModuleDataTypeSetter(
     module = modules_to_set,
@@ -1769,10 +1769,14 @@ modsetter = modu.ModuleDataTypeSetter(
 )
 
 set_global_parameters_and_attributes_by_data_type = modsetter.set_global_parameters_and_attributes_by_data_type
-set_global_parameters_and_attributes_by_data_type(data_type=data_type,
-                                                   algorithms=algorithms)
-
 output_global_parameters_and_attributes_from_current_data_type = modsetter.output_global_parameters_and_attributes_from_current_data_type
+
+set_global_parameters_and_attributes_by_data_type(
+    data_type=data_type,
+    algorithms=algorithms
+)
+
+
 
 
     

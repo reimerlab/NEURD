@@ -9,10 +9,9 @@ import numpy as np
 from python_tools import numpy_utils as nu
 from mesh_tools import skeleton_utils as sk
 import copy
-import neuron_utils as nru
+
 from python_tools import networkx_utils as xu
 import time
-import width_utils as wu
 
 """
 To Do: Want to add how close a spine is to upstream and downstream endpoint
@@ -6413,10 +6412,8 @@ def output_global_parameters_and_attributes_from_current_data_type(
 
 
 
-
-
-    
-    
+import neuron_utils as nru
+import width_utils as wu
     
             
 import spine_utils as spu

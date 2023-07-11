@@ -436,12 +436,15 @@ def EM_coordinates_to_layer(coordinates):
     coordinates = coordinates.reshape(-1,3)
     return layer_names[np.digitize(coordinates[:,1],bins)]    
 
-import datajoint_utils as du
+
 import networkx as nx
-def add_node_attributes_to_proofread_graph(G,
-                                          attributes=None,
-                                          add_visual_area=True,
-                                          debug=False):
+def add_node_attributes_to_proofread_graph(
+    G,
+    neuron_data_df,
+    attributes=None,
+    add_visual_area=True,
+    debug=False
+    ):
     """
     Pseudocode: 
     1) Download all of the attributes want to store in the nodes
@@ -449,28 +452,30 @@ def add_node_attributes_to_proofread_graph(G,
     3) set the attributes of the original graph
     """
     if attributes is None:
-        attributes_to_download = [
-                            "spine_category",
-                                  "cell_type_predicted",
-                                "n_axons",
-                                  "axon_length",
-                                  "n_apicals",
-                                  "n_spines",
-                                  "n_boutons",
-                                  "n_nuclei_in_radius",
-                                  "skeletal_length",
+        attributes = [
+            "spine_category",
+            "cell_type_predicted",
+            "n_axons",
+            "axon_length",
+            "n_apicals",
+            "n_spines",
+            "n_boutons",
+            "n_nuclei_in_radius",
+            "skeletal_length",
 
-                                 ] 
+        ] 
         
-    if "nucleus_id" not in attributes_to_download:
-        attributes_to_download.append("nucleus_id")
+    if "nucleus_id" not in attributes:
+        attributes.append("nucleus_id")
     
     if add_visual_area:
         for s_t in ["centroid_x","centroid_y","centroid_z"]:
-            if s_t not in attributes_to_download:
-                attributes_to_download.append(s_t)
+            if s_t not in attributes:
+                attributes.append(s_t)
 
-    neuron_data = du.proofreading_neurons_table().fetch(*attributes_to_download,as_dict=True)
+    #neuron_data = du.proofreading_neurons_table().fetch(*attributes,as_dict=True)
+    
+    neuron_data = neuron_data_df[attributes]
     
     if add_visual_area:
         soma_points = np.array([[k["centroid_x"],k["centroid_y"],k["centroid_z"]] for k in neuron_data])
@@ -609,5 +614,56 @@ def em_alignment_coordinates_info(
                 curr_dict[k] = v*voxel_to_nm_scaling
 
     return curr_dict
+
+
+def align_mesh(
+                mesh,
+                soma_center=None,
+                verbose = False):
+    return mesh
+
+def align_skeleton(
+                skeleton,
+                soma_center=None,
+                verbose = False):
+    return skeleton
+
+def align_array(
+                array,
+                soma_center=None,
+                verbose = False):
+    return array
+
+def align_neuron_obj(neuron_obj,**kwargs):
+    return neuron_obj
+
+def unalign_neuron_obj(neuron_obj,**kwargs):
+    return neuron_obj
+
+
+import volume_utils
+class DataInterface(volume_utils.DataInterface):
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
+    
+    def align_array(self,*args,**kwargs):
+        return align_array(*args,**kwargs)
+    
+    def align_mesh(self,*args,**kwargs):
+        return align_mesh(*args,**kwargs)
+    
+    def align_skeleton(self,*args,**kwargs):
+        return align_skeleton(*args,**kwargs)
+    
+    def align_neuron_obj(self,*args,**kwargs):
+        return align_neuron_obj(*args,**kwargs)
+
+    def unalign_neuron_obj(self,*args,**kwargs):
+        return unalign_neuron_obj(*args,**kwargs) 
+
+data_interface = DataInterface(
+    source = "microns",
+    voxel_to_nm_scaling = voxel_to_nm_scaling
+)
 
 import microns_volume_utils as mru

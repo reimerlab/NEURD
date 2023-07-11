@@ -865,8 +865,21 @@ def cut_limb_network_by_edges(curr_limb,
     else:
         return curr_limb
 
-import allen_proofreading_utils as apru
-import allen_utils as alu
+
+def soma_connections_from_split_title(title):
+    split_title = title.split(" ")
+    return split_title[0],split_title[-2]
+def soma_names_from_split_title(title,return_idx=False):
+    split_title = title.split(" ")
+    soma_idx_1 = split_title[0].split("_")[0]
+    soma_idx_2 = split_title[-2].split("_")[0]
+    
+    return_value = [soma_idx_1,soma_idx_2]
+    if return_idx:
+        return_value  = [nru.get_soma_int_name(k) for k in return_value]
+    return return_value
+
+
 def multi_soma_split_suggestions(neuron_obj,
                                 verbose=False,
                                 max_iterations=100,
@@ -1247,10 +1260,10 @@ def multi_soma_split_suggestions(neuron_obj,
                     print(f"Not expanding to removed branches")
 
                 all_red_blue_splits = dict() 
-                soma_idxs = apru.soma_names_from_split_title(soma_title,return_idx=True)
+                soma_idxs = soma_names_from_split_title(soma_title,return_idx=True)
 
 
-                for j,sm_name in enumerate(apru.soma_connections_from_split_title(soma_title)):
+                for j,sm_name in enumerate(soma_connections_from_split_title(soma_title)):
                     if verbose:
                         print(f"\n--Doing Red/Blue splits for {sm_name}")
 
@@ -2616,238 +2629,6 @@ def collapse_branches_on_limb(limb_obj,branch_list,
         nviz.plot_limb_correspondence(curr_limb_cp.limb_correspondence)
     
     return curr_limb_cp
-
-
-
-# ------------------ Neuroglancer Tools Info ---------------------------- #
-import numpy as np
-from python_tools import numpy_utils as nu
-import pandas as pd
-from annotationframeworkclient import FrameworkClient
-from caveclient import CAVEclient
-from nglui import statebuilder
-
-def get_client():
-    #return FrameworkClient('minnie65_phase3_v1')
-    client = CAVEclient('minnie65_phase3_v1')
-    return client
-
-def set_state_builder(layer_name = 'split_cands',
-                      color='#FFFFFF',
-                     transparency=0.5,
-                     fixed_ids = None,
-                    fixed_id_colors = None):
-    
-    #client = FrameworkClient('minnie65_phase3_v1')
-    client = pru.get_client()
-    # The following generates a statebuilder that can turn dataframes into neuroglancer states
-    img_layer = statebuilder.ImageLayerConfig(client.info.image_source(), contrast_controls=True, black=0.35, white=0.65)
-    seg_layer = statebuilder.SegmentationLayerConfig(client.info.segmentation_source(), selected_ids_column='root_id',
-                                                     fixed_ids=fixed_ids,
-                                                     fixed_id_colors=fixed_id_colors,
-                                                    view_kws={'alpha_3d': transparency})
-    pts = statebuilder.PointMapper('split_location', set_position=True)
-    anno_layer = statebuilder.AnnotationLayerConfig(layer_name, mapping_rules=pts, linked_segmentation_layer=seg_layer.name, color=color, active=True,
-                                                   tags=['valid', 'not_valid','proof'])
-    sb = statebuilder.StateBuilder([img_layer, seg_layer, anno_layer], state_server=client.state.state_service_endpoint)
-    return sb
-
-def set_edit_dataframe(split_locs,
-                      root_ids,
-                      priority=None,
-                      ):
-    """
-    Will create a dataframe that can be fed into a statebuilder
-    to generate a neuroglancer link
-    
-    """
-    if priority is None:
-        priority = list(np.arange(1,len(split_locs)+1))
-        
-    if not nu.is_array_like(root_ids):
-        root_ids = [root_ids]*len(split_locs)
-        
-    edit_df = pd.DataFrame({'split_location': split_locs,
-                            'root_id': root_ids,
-                            'priority': priority})
-    return edit_df
-
-def split_coordinates_to_neuroglancer_link(split_locs=None,
-                      root_ids=None,
-                            sb=None,
-                            edit_df=None,
-                      priority=None):
-    """
-    
-    
-    
-    Example:
-    limb_results = pru.multi_soma_split_suggestions(neuron_obj)
-    split_coordinates = pru.get_all_coordinate_suggestions(limb_results)
-    
-    neuroglancer_split_link(split_coordinates,
-                          neuron_obj.segment_id)
-    
-    
-    """
-    if sb is None:
-        sb = set_state_builder()
-    if edit_df is None:
-        edit_df = set_edit_dataframe(split_locs,
-                          root_ids,
-                          priority,
-                          )
-    
-    return sb.render_state(edit_df.sort_values(by='priority'), return_as='html')
-
-from python_tools import matplotlib_utils as mu
-import pandas as pd
-from annotationframeworkclient import FrameworkClient
-from nglui import statebuilder
-import copy
-
-def split_info_to_neuroglancer_link(segment_id,
-                                   split_info=None,
-                                    split_coordinates = None,
-                                    cut_path_coordinates = None,
-                                    not_cut_path_coordinates = None,
-                                   other_annotations = dict(),
-                                    output_type = "local",
-                                    split_coordinates_color = "red",
-                                    split_coordinates_name = "split_location",
-                                    cut_path_coordinates_color = "white",
-                                    cut_path_coordinates_name = "cut_path",
-                                    not_cut_path_coordinates_color = "green",
-                                    not_cut_path_coordinates_name = "not_cut_path",
-                                    add_FN_tab = True,
-                                    verbose = False,
-                                   transparency = 0.5,
-                                   return_states_and_df_list=False):
-    """
-    Purpose: To take the split suggestions output from the 
-    pru.multi_soma_split_suggestions and then to turn it into a neuroglancer link
-    to be rendered locally or uploaded to the server
-    
-    
-    """
-    
-    
-    
-    if split_coordinates is None:
-        split_coordinates = pru.get_all_coordinate_suggestions(split_info)
-
-    if (cut_path_coordinates is None or not_cut_path_coordinates is None) and split_info is not None:
-        cut_path_coordinates,not_cut_path_coordinates = pru.get_all_cut_and_not_cut_path_coordinates(split_info)
-
-
-    annotations_info = dict()
-    
-    if add_FN_tab:
-        annotations_info["FN"] = {"coordinates":np.array([]),
-                                 "color":"aqua"}
-        
-    annotations_info = dict()
-    for (name,c,coords) in zip([cut_path_coordinates_name,not_cut_path_coordinates_name,split_coordinates_name],
-                                [cut_path_coordinates_color,not_cut_path_coordinates_color,split_coordinates_color],
-                                  [cut_path_coordinates,not_cut_path_coordinates,split_coordinates]):
-        if coords is None:
-            continue
-        curr_dict = {name:dict(coordinates=list(coords),color = c)}
-        #print(f"curr_dict = {curr_dict}")
-        annotations_info.update({name:dict(coordinates=list(coords),color = c)})
-    
-#     annotations_info.update({
-#                         cut_path_coordinates_name:dict(coordinates=cut_path_coordinates,
-#                                                    color=cut_path_coordinates_color),
-#                         not_cut_path_coordinates_name:dict(coordinates=not_cut_path_coordinates,
-#                                                    color=not_cut_path_coordinates_color),
-#                         split_coordinates_name:dict(coordinates=split_coordinates,
-#                                                    color=split_coordinates_color),
-
-#                        })
-    
-
-    annotations_info.update(other_annotations)
-
-    df_list = []
-    states_list = []
-
-    for ann_name,ann_dict in annotations_info.items():
-        sb = pru.set_state_builder(layer_name=ann_name,
-                                         color=mu.color_to_hex(ann_dict["color"]),
-                                  transparency=transparency,)
-        df = pru.set_edit_dataframe(ann_dict["coordinates"],segment_id)
-
-        states_list.append(sb)
-        df_list.append(df)
-
-    if verbose:
-        print(f"Number of different layers = {len(states_list)}")
-        
-    if return_states_and_df_list:
-        return states_list,df_list
-
-    # building the chained state
-    chained_sb = statebuilder.ChainedStateBuilder(states_list)
-
-    if output_type=="local":
-        return_value= chained_sb.render_state(df_list, return_as='html')
-    elif output_type == "server":
-        # To upload to the state server for a shortened URL:
-        client = pru.get_client()
-        state = chained_sb.render_state(df_list, return_as='dict')
-        state_id = client.state.upload_state_json(state)
-        short_url = client.state.build_neuroglancer_url(state_id, ngl_url=client.info.viewer_site())
-        return_value = short_url
-    else:
-        raise Exception("Not implemented")
-
-    return return_value
-
-
-import re
-import pandas as pd
-from pathlib import Path
-
-def ipython_html_object_to_link(html_obj):
-    links = re.findall("href=[\"\'](.*?)[\"\']", html_obj.data)
-    return links[0]
-
-from python_tools.tqdm_utils import tqdm
-def split_suggestions_datajoint_dicts_to_neuroglancer_dataframe(split_suggestions_data,
-                                                               output_type="local",
-                                                               verbose=False):
-    """
-    Purpose: To turn the splt dictionaries into a datframe with neuroglancer links
-    
-    """
-    spreadsheet_data = []
-    for curr_data in tqdm(split_suggestions_data):
-        curr_link = pru.split_info_to_neuroglancer_link(segment_id=curr_data["segment_id"],
-                                            split_info = curr_data["split_results"],
-                                            output_type=output_type
-                                           )
-        
-
-        if type(curr_link) is str:
-            curr_link_html = curr_link
-        else:
-            curr_link_html = ipython_html_object_to_link(curr_link)
-
-        n_suggested_cuts = len(pru.get_all_coordinate_suggestions(curr_data["split_results"]))
-        n_paths_not_cut = pru.get_n_paths_not_cut(curr_data["split_results"])
-
-        if verbose:
-            print(f"n_suggested_cuts = {n_suggested_cuts}, n_paths_not_cut = {n_paths_not_cut}")
-
-        local_dict = dict(segment_id=curr_data["segment_id"],
-                         n_suggested_cuts=n_suggested_cuts,
-                         n_paths_not_cut=n_paths_not_cut,
-                         link=curr_link_html)
-
-        spreadsheet_data.append(local_dict)
-
-    return  pd.DataFrame.from_dict(spreadsheet_data)
 
 
 
@@ -4572,7 +4353,7 @@ def proofread_neuron(
 
 
 # --------------- Proofreading The Synapses ------------------------- #
-import datajoint_utils as du
+
 from pykdtree.kdtree import KDTree
 def synapse_filtering(neuron_obj,
                 split_index,
@@ -4960,7 +4741,7 @@ import proofreading_utils as pru
 import neuron_utils as nru
 import time
 from mesh_tools import trimesh_utils as tu
-import datajoint_utils as du
+
 import numpy as np
 
 import synapse_utils as syu
@@ -6507,8 +6288,8 @@ def limb_errors_to_cancel_to_red_blue_group(
             final_red_points = np.concatenate(blue_red_points[1])
             
             if verbose:
-                print(f"final_blue_points = {final_blue_points}, voxels = {final_blue_points/alu.voxel_to_nm_scaling}")
-                print(f"final_red_points = {final_red_points}, voxels = {final_blue_points/alu.voxel_to_nm_scaling}")
+                print(f"final_blue_points = {final_blue_points}, voxels = {final_blue_points/data_mod.voxel_to_nm_scaling}")
+                print(f"final_red_points = {final_red_points}, voxels = {final_blue_points/data_mod.voxel_to_nm_scaling}")
                 print(f"")
             
             
@@ -8108,10 +7889,10 @@ global_parameters_dict_default = gu.merge_dicts([
 
 
 
-#from dataInterfaceMinnie65 import data_interface as hdju_m65 
-import dataInterfaceMinnie65 as d_m65
+
+import microns_volume_utils as mvu
 attributes_dict_default = dict(
-    data_mod = d_m65.data_interface
+    data_mod = mvu.data_interface
 )    
 
 
@@ -8159,10 +7940,9 @@ global_parameters_dict_h01 = gu.merge_dicts([
     global_parameters_dict_h01_auto_proof
 ])
 
-#from dataInterfaceH01 import data_interface as hdju
-import dataInterfaceH01 as d_h01
+import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
-    data_mod = d_h01.data_interface
+    data_mod = hvu.data_interface
 )
 
 

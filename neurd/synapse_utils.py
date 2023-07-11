@@ -92,9 +92,7 @@ synapse_types = dict(soma="synapses_somas",
                 mesh_errored="mesh_errored_synapses",
                      distance_errored="distance_errored_synapses")
 
-import datajoint_utils as du
-import human_utils as hu
-import allen_utils as alu
+
 import branch_attr_utils as bau
 
 
@@ -132,7 +130,7 @@ def valid_query():
         query += f" and not({presyns_on_dendrite_query})"
     return query
     
-import datajoint_utils as du
+
 import numpy as np
 import spine_utils as spu
 
@@ -248,7 +246,8 @@ def plot_valid_error_synpases(neuron_obj = None,
     """
     if neuron_obj is not None:
         print(f"Using the mesh from the neuron object")
-
+        import validation_utils as vu
+        
         error_mesh, valid_mesh = vu.mesh_errored_after_neuron_proofreading(neuron_obj,return_valid_mesh=True)
         if plot_only_axon_skeleton:
             valid_skeleton = neuron_obj.axon_skeleton
@@ -541,86 +540,7 @@ def export(synapse_obj):
     return {k:getattr(synapse_obj,k,None) for k in synapse_attributes}
                     
     
-        
-def segment_id_to_synapse_dict(segment_id,
-                              verbose = False,
-                              validation=False,
-                               scale_to_nm=True,
-                               use_old_synapse_table = False,
-                               ver = None,
-                            ):
-    """
-    Purpose: To turn a segment_id into a dictionary mapping
-    type (presyn/postsyn) --> list of synapse ids
-    
-    Pseudocode: 
-    1) get the datajoint table for all the synapses
-    """
-    if validation or use_old_synapse_table:
-        beginning_direct_connections = data_fetcher.segment_id_to_synapse_table(segment_id,
-                                                                      ver=ver,
-                                                                    validation=validation)
-        if verbose:
-            print(f"Using the old synapse table method")
-            print(f"# of beginning_direct_connections = {len(beginning_direct_connections)} ")
-
-
-        synapse_dict = dict()
-        for synapse_type in ["presyn","postsyn"]:
-            table_for_type = beginning_direct_connections & f"{synapse_type}={segment_id}"
-            if len(table_for_type) > 0:
-                synapse_ids, centroid_xs, centroid_ys, centroid_zs,synapse_sizes = table_for_type.fetch("synapse_id","synapse_x","synapse_y","synapse_z","synapse_size")
-                synapse_centers = np.vstack([centroid_xs,centroid_ys,centroid_zs]).T
-                if scale_to_nm:
-                    synapse_centers_scaled = synapse_centers* voxel_to_nm_scaling
-                else:
-                    synapse_centers_scaled = synapse_centers
-            else:
-                synapse_centers_scaled = np.array([])
-                synapse_ids = np.array([])
-                synapse_sizes = np.array([])
-
-            synapse_dict[synapse_type] = dict(synapse_ids = synapse_ids,
-                                              synapse_coordinates= synapse_centers_scaled,
-                                              synapse_sizes = synapse_sizes)
-
-            if verbose:
-                print(f"# of {synapse_type}: {len(synapse_dict[synapse_type]['synapse_coordinates'] )}")
-                
-    else:
-        """
-        Purpose: If not validated then use the new method for 
-        querying the synapses
-        """
-        beginning_direct_connections = data_fetcher.segment_id_to_synapse_table_optimized(segment_id,
-                                                                      ver=ver,)
-
-        synapse_dict = dict()
-        for synapse_type in ["presyn","postsyn"]:
-            table_for_type = beginning_direct_connections & f"prepost='{synapse_type}'"
-            synapse_ids, centroid_xs, centroid_ys, centroid_zs,synapse_sizes = table_for_type.fetch("synapse_id","synapse_x","synapse_y","synapse_z","synapse_size")
-            if len(synapse_ids) > 0:
-                synapse_centers = np.vstack([centroid_xs,centroid_ys,centroid_zs]).T
-                if scale_to_nm:
-                    synapse_centers_scaled = synapse_centers* voxel_to_nm_scaling
-                else:
-                    synapse_centers_scaled = synapse_centers
-            else:
-                synapse_centers_scaled = np.array([])
-                synapse_ids = np.array([])
-                synapse_sizes = np.array([])
-
-            synapse_dict[synapse_type] = dict(synapse_ids = synapse_ids,
-                                                      synapse_coordinates= synapse_centers_scaled,
-                                                      synapse_sizes = synapse_sizes)
-
-            if verbose:
-                print(f"# of {synapse_type}: {len(synapse_dict[synapse_type]['synapse_coordinates'] )}")
-
-        
-    return synapse_dict
-
-
+       
 from python_tools import numpy_utils as nu
  
 def combine_synapse_dict_into_presyn_postsyn_valid_error_dict(synapse_dict,
@@ -697,125 +617,7 @@ def synapse_dict_mesh_labels_to_synapse_volume_dict(synapse_mesh_labels_dict,
             
 from mesh_tools import trimesh_utils as tu
 
-def fetch_synapse_dict_by_mesh_labels(
-    segment_id,
-    mesh,
-    synapse_dict = None,
-    original_mesh = None,
-    original_mesh_kd = None,
-    validation = False,
-    verbose = False,
-    original_mesh_method = True,
-    mapping_threshold = 500,
-    
-    plot_synapses=False,
-    plot_synapses_type = None,):
-    """
-    Purpose: To return a synapse dictionary mapping
 
-    type (presyn/postsyn)---> mesh_label  --> list of synapse ids
-
-    for a segment id based on which original mesh face
-    the synapses map to
-
-    Pseudocode: 
-    1) get synapses for the segment id
-    Iterate through presyn and postsyn
-        a. Find the errors because of distance
-        b. Find the errors because of mesh cancellation
-        c. Find the valid mesh (by set difference)
-        store all error types in output dict
-    2) Plot the synapses if requested
-    
-    Example:
-    mesh_label_dict = syu.fetch_synapse_dict_by_mesh_labels(
-        segment_id=o_neuron.segment_id,
-        mesh = nru.neuron_mesh_from_branches(o_neuron),
-        original_mesh = du.fetch_segment_id_mesh(segment_id),
-        validation=True,
-        plot_synapses=True,
-        verbose = True)
-    """
-
-    if synapse_dict is None:
-        synapse_dict = syu.segment_id_to_synapse_dict(segment_id,
-                                                 validation=validation,
-                                                 verbose=verbose)
-
-    mesh_label_dict = dict()
-
-
-    for synapse_type in ["presyn","postsyn"]:
-        if verbose:
-            print(f"-- Working on {synapse_type}--")
-        synapse_centers_scaled = synapse_dict[synapse_type]["synapse_coordinates"]
-        synapse_ids = synapse_dict[synapse_type]["synapse_ids"]
-
-        distance_errored_syn_idx = np.array([],dtype="int")
-        mesh_errored_syn_idx = np.array([],dtype="int")
-        valid_syn_idx = np.array([],dtype="int")
-
-        local_label_dict = dict()
-
-        if len(synapse_centers_scaled) > 0:
-            if not original_mesh_method:
-
-                distance_errored_syn_idx = tu.valid_coordiantes_mapped_to_mesh(mesh=mesh,
-                                         coordinates=synapse_centers_scaled,
-                                         mapping_threshold = mapping_threshold,
-                                         return_idx = True,
-                                         return_errors = True)
-                valid_syn_idx = np.delete(np.arange(len(synapse_centers_scaled)),distance_errored_syn_idx)
-
-            else:
-                """
-                Pseudocode:
-
-                """
-                if verbose:
-                    print(f"Using original_mesh_method")
-                    
-                if original_mesh is None:
-                    original_mesh = data_fetcher.fetch_segment_id_mesh(segment_id)
-                distance_errored_syn_idx = tu.valid_coordiantes_mapped_to_mesh(mesh=original_mesh,
-                                         coordinates=synapse_centers_scaled,
-                                         mapping_threshold = mapping_threshold,
-                                         return_idx = True,
-                                         return_errors = True)
-
-                mesh_errored_syn_idx_pre = tu.valid_coordiantes_mapped_to_mesh(mesh=mesh,
-                                                                        original_mesh = original_mesh,
-                                                                        original_mesh_kdtree=original_mesh_kd,
-                                         coordinates=synapse_centers_scaled,
-                                         mapping_threshold = mapping_threshold,
-                                         return_idx = True,
-                                         return_errors = True)
-                mesh_errored_syn_idx = np.setdiff1d(mesh_errored_syn_idx_pre,distance_errored_syn_idx)
-
-
-                total_error_syn_idx = np.hstack([distance_errored_syn_idx,mesh_errored_syn_idx])
-                valid_syn_idx = np.delete(np.arange(len(synapse_centers_scaled)),total_error_syn_idx)
-
-            if verbose:
-                print(f"# of distance_errored_syn_idx = {len(distance_errored_syn_idx)}")
-                print(f"# of mesh_errored_syn_idx = {len(mesh_errored_syn_idx)}")
-                print(f"# of valid_syn_idx = {len(valid_syn_idx)}")
-
-        local_label_dict["distance_errored"] = synapse_ids[distance_errored_syn_idx]
-        local_label_dict["mesh_errored"] = synapse_ids[mesh_errored_syn_idx]
-        local_label_dict["valid"] = synapse_ids[valid_syn_idx]
-
-        mesh_label_dict[synapse_type] = local_label_dict
-
-    if plot_synapses:
-        output_syn_dict = syu.synapse_dict_mesh_labels_to_synapse_coordinate_dict(synapse_mesh_labels_dict=mesh_label_dict,
-                                                       synapse_dict=synapse_dict)
-        syu.plot_valid_error_synpases(neuron_obj = None,
-                                 synapse_dict=output_syn_dict,
-                                mesh = mesh,
-                                original_mesh = original_mesh,
-                                keyword_to_plot=plot_synapses_type)
-    return mesh_label_dict
 
 def n_synapses(neuron_obj):
     if type(neuron_obj) != list:
@@ -2188,105 +1990,7 @@ def synapses_to_dj_keys_old(
     return syn_keys
 
 import pandas as pd
-def synapses_to_dj_keys(
-    neuron_obj,
-    valid_synapses = True,
-    verbose = False,
-    nucleus_id = None,
-    split_index = None,
-    output_spine_str=True,
-    add_secondary_segment = True,
-    ver=None,
-    synapses = None,
-    key = None):
-    """
-    Pseudocode: 
-    1) Get either the valid of invalid synapses
-    2) For each synapses export the following as dict
 
-    synapse_id=syn,
-    synapse_type=synapse_type,
-    nucleus_id = nucleus_id,
-    segment_id = segment_id,
-    split_index = split_index,
-    skeletal_distance_to_soma=np.round(syn_dist[syn_i],2),
-
-    return the list
-    
-    Ex: 
-    import numpy as np
-    dj_keys = syu.synapses_to_dj_keys(neuron_obj,
-                           verbose = True,
-                           nucleus_id=12345,
-                           split_index=0)
-    np.unique([k["compartment"] for k in dj_keys],return_counts=True)
-    
-    
-    Ex:  How to get error keys with version:
-    dj_keys = syu.synapses_to_dj_keys(neuron_obj,
-                                  valid_synapses = False,
-                       verbose = True,
-                       nucleus_id=12345,
-                       split_index=0,
-                                 ver=158)
-
-    """
-    segment_id = neuron_obj.segment_id
-    
-    if nucleus_id is not None:
-        neuron_obj.nucleus_id = nucleus_id
-    if split_index is not None:
-        neuron_obj.split_index = split_index
-    
-    if synapses is not None:
-        if valid_synapses:
-            export_func = syu.synapses_dj_export_dict_valid 
-        else:
-            export_func = syu.synapses_dj_export_dict_error
-    elif valid_synapses:
-        synapses = neuron_obj.synapses_valid
-        export_func = syu.synapses_dj_export_dict_valid 
-    else:
-        synapses = neuron_obj.synapses_error
-        export_func = syu.synapses_dj_export_dict_error
-        
-    for att in ["nucleus_id","segment_id","split_index"]:
-#         globs = globals()
-#         locs = locals()
-        if getattr(neuron_obj,att) is None and eval(att) is None:
-            raise Exception(f"{att} is None")
-    st = time.time()
-
-    syn_keys = [dict(export_func(syn,output_spine_str=output_spine_str),
-                                primary_nucleus_id=getattr(neuron_obj,"nucleus_id",nucleus_id),
-                    primary_seg_id=neuron_obj.segment_id,
-                    split_index = getattr(neuron_obj,"split_index",split_index)) for syn in synapses]
-    
-    #adding on the secondary seg
-    """
-    Purpose: To add on the secondary 
-    
-    """
-    if add_secondary_segment and len(syn_keys) > 0:
-        syn_keys_df = pd.DataFrame(syn_keys)
-        
-        df = data_fetcher.segment_id_to_synapse_table_optimized(
-            neuron_obj.segment_id,
-            return_df = True)
-        df_secondary = df[["synapse_id","secondary_seg_id"]]
-        syn_keys= pu.df_to_dicts(pd.merge(syn_keys_df,df_secondary,on="synapse_id"))
-            
-    
-    if verbose:
-        print(f"valid_synapses = {valid_synapses}")
-        print(f"Time for {len(syn_keys)} synapse entries = {time.time() - st}")
-    
-    if ver is not None:
-        syn_keys = [dict(k,ver=ver) for k in syn_keys]
-    if key is not None:
-        syn_keys = [gu.merge_dicts([k,key.copy()]) for k in syn_keys]
-    
-    return syn_keys
 
 def presyn_on_dendrite_synapses(
     neuron_obj,
@@ -3930,7 +3634,7 @@ def synapse_plot_items_by_type_or_query(
     synapses_size = 0.15,
     synapse_plot_type = "spine_bouton",#"compartment"#  "valid_error", "soma"
     synapse_compartments = apu.compartments_to_plot,
-    synapse_spine_bouton_labels = spu.spine_bouton_labels_to_plot(),
+    synapse_spine_bouton_labels = None,
     plot_error_synapses = True,
     valid_synapses_color = "orange",
     error_synapses_color = "aliceblue",
@@ -3944,7 +3648,8 @@ def synapse_plot_items_by_type_or_query(
     Purpose: will  
     
     """
-
+    if synapse_spine_bouton_labels is None:
+        synapse_spine_bouton_labels = spu.spine_bouton_labels_to_plot()
     def print_color_dict(color_dict):
         print(f"Synapse Colors:")
         for k,v in color_dict.items():
@@ -4246,14 +3951,10 @@ def presyn_on_dendrite_synapses_after_axon_on_dendrite_filter_away(
 # ------------- Setting up parameters -----------
 from python_tools import module_utils as modu 
 
-# data_fetcher = None
-# voxel_to_nm_scaling = None
-
 # -- default
-import dataInterfaceMinnie65
+import microns_volume_utils as mvu
 attributes_dict_default = dict(
-    voxel_to_nm_scaling = dataInterfaceMinnie65.voxel_to_nm_scaling,
-    data_fetcher = dataInterfaceMinnie65.data_interface
+    voxel_to_nm_scaling = mvu.voxel_to_nm_scaling,
 )    
 global_parameters_dict_default = dict(
     #max_ais_distance_from_soma = 50_000
@@ -4264,10 +3965,9 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-import dataInterfaceH01
+import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
-    voxel_to_nm_scaling = dataInterfaceH01.voxel_to_nm_scaling,
-    data_fetcher = dataInterfaceH01.data_interface
+    voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
 )
 global_parameters_dict_h01 = dict()
     
@@ -4317,7 +4017,7 @@ def output_global_parameters_and_attributes_from_current_data_type(
         )
 
 import neuron_utils as nru
-import validation_utils as vu
+
 import synapse_utils as syu
 
                     

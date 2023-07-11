@@ -1528,7 +1528,7 @@ def axon_mesh_from_labels(neuron_obj,
     return axon_mesh
 
 def axon_faces_from_labels_on_original_mesh(neuron_obj,
-                                           original_mesh=None,
+                                           original_mesh,
                                            original_mesh_kdtree=None,
                                             plot_axon=False,
                                            verbose=False,
@@ -1548,11 +1548,6 @@ def axon_faces_from_labels_on_original_mesh(neuron_obj,
                                            original_mesh=original_mesh,
                                            original_mesh_kdtree=original_mesh_kdtree)
     """
-    
-    if original_mesh is None:
-        if verbose:
-            print("No original mesh found so pulling from the database")
-        original_mesh  = du.fetch_segment_id_mesh(neuron_obj.segment_id)
         
     axon_mesh = axon_mesh_from_labels(neuron_obj,
                                      verbose=verbose,

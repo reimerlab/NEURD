@@ -3205,187 +3205,9 @@ def features_from_skeleton_and_soma_center(
 from mesh_tools import skeleton_utils as sk
 from python_tools import networkx_utils as xu
 import numpy as np
-import proofread_verification as pv
-import datajoint_utils as du
-
-def soma_to_limb_distances(
-    segment_id,
-    split_index = None,
-    verbose = False,
-    from_proofread_skeleton = True,
-    ):
-    """
-    Purpose: To get the distances of the limb connectors
-    to the center of mass of a soma
-
-    Pseudocode: 
-    1) Get the soma center
-    2) Get the skeleton of the neuron
-    3) convert the skeleton into a graph
-    4) Find the soma center node
-    5) Get all of the neighbors of the soma center
-    6) Get the coordiantes of all the neighbors
-    6) Find the distances between all of the coordinates
-
-    Will return an array of singular 0 if 
-    no skeleton or neighbors of soma
-    
-    
-    Ex 1: from proofread neurons
-    
-    import neuron_statistics as nst
-    nst.soma_center_to_limb_start_distances(
-    segment_id = mergers_exc[10],
-        verbose = True,
-    )
-    
-    Ex 2: From neuron objects (will potentially have more distances)
-    import neuron_statistics as nst
-    nst.soma_center_to_limb_start_distances(
-    segment_id = mergers_exc[10],
-        verbose = True,
-        from_proofread_skeleton=False,
-    )
-    
-    """
 
 
 
-
-    #2) Get the skeleton of the neuron
-    if from_proofread_skeleton:
-        if verbose:
-            print(f"Using proofread tables for skeleton")
-        #1) Get the soma center:
-        soma_center = pv.fetch_soma_center(segment_id,
-                                           split_index,
-                                          return_nm = True)
-
-
-        node_name = pv.node_name(segment_id,split_index)
-        neuron_sk = pv.fetch_proofread_skeleton(node_name)
-    else:
-        if verbose:
-            print(f"Using neuron obj for skeleton")
-        segment_id,split_index = pv.segment_id_and_split_index(segment_id,split_index)
-        neuron_obj = du.decomposition_with_spine_recalculation(segment_id,split_index)
-        neuron_sk = neuron_obj.skeleton
-
-        soma_center = neuron_obj["S0"].mesh_center
-
-    return_value = np.array([0])
-
-    if verbose:
-        print(f"soma_center = {soma_center}")
-        print(f"neuron_sk = {neuron_sk.shape}")
-
-    if len(neuron_sk) > 0:
-        #3) convert the skeleton into a graph
-        neuron_G = sk.convert_skeleton_to_graph(neuron_sk)
-
-        #4) Find the soma center node
-        soma_node = xu.get_graph_node_by_coordinate(neuron_G,
-                                       soma_center)
-        if verbose:
-            print(f"soma_node = {soma_node}")
-
-        #5) Get all of the neighbors of the soma center
-        soma_neigh = xu.get_neighbors(neuron_G,
-                                     soma_node)
-
-        if verbose:
-            print(f"soma_neigh= {soma_neigh}")
-
-        if len(soma_neigh) > 0:
-            #6) Get the coordiantes of all the neighbors
-            neigh_coords = np.array([xu.get_coordinate_by_graph_node(neuron_G,k)
-                           for k in soma_neigh]).reshape(-1,3)
-
-            if verbose:
-                print(f"neigh_coords = {neigh_coords}")
-
-            neigh_dists = np.linalg.norm(neigh_coords - soma_center,axis = 1)
-
-            if verbose:
-                print(f"neigh_dists = {neigh_dists}")
-
-            return_value = neigh_dists
-            
-    else:
-        if verbose:
-            print(f"Just return a one element 0 filled array")
-
-    return return_value
-    
-
-def soma_limb_distance_to_width_ratio(
-    segment_id,
-    split_index = None,
-    soma_mesh = None,
-    width_func_name = "ray_trace_percentile",
-    percentile = 70,
-    soma_limb_distances = None,
-    from_proofread_skeleton = True,
-    soma_limb_distance_summary_stat = "min",
-    summary_percentile = 20,
-    
-    verbose = False,
-    ):
-    """
-    Purpose: Finding the ratio of 
-    smallest soma center to limb connector
-    and the soma width
-
-    Pseudocode: 
-    1) Get the soma mesh
-    2) Calculate the width based on the ray_trace_distance
-    3) Calculate the soma_center to limb distances
-    4) Find the specific summary value of the limb distances
-    5) Get the ratio between width and summary value
-
-    """
-
-    segment_id,split_index = pv.segment_id_and_split_index(segment_id,split_index)
-
-    if soma_mesh is None:
-        soma_mesh = pv.fetch_soma_mesh(segment_id,split_index)
-
-    if verbose:
-        print(f"soma_mesh = {soma_mesh}")
-
-    #2) Calculate the width based on the ray_trace_distance
-    curr_ray_trace = tu.mesh_size(soma_mesh,
-                 size_type=width_func_name,
-                percentile = percentile)
-
-    if verbose:
-        print(f"soma_width = {curr_ray_trace}")
-
-    #3) Calculate the soma_center to limb distances
-    if soma_limb_distances is None:
-        soma_limb_distances= nst.soma_to_limb_distances(segment_id,split_index,
-                                                       from_proofread_skeleton = from_proofread_skeleton)
-        
-    if verbose:
-        print(f"soma_limb_distances= {soma_limb_distances}")
-
-    #4) Find the specific summary value of the limb distances
-    if soma_limb_distance_summary_stat == "min":
-        soma_limb_sum = np.min(soma_limb_distances)
-    elif soma_limb_distance_summary_stat == "percentile":
-        soma_limb_sum= np.percentile(soma_limb_distances,summary_percentile)
-    elif soma_limb_distance_summary_stat == "max":
-        soma_limb_sum = np.max(soma_limb_distances)
-    else:
-        raise Exception(f"Unimplemented soma_limb_distances_summary_stat: {soma_limb_distances_summary_stat}")
-
-    return_value = soma_limb_sum/curr_ray_trace
-
-    if verbose:
-        print(f"Ratio = {return_value}")
-    
-    return return_value
-    
 def branch_stats_over_limb_branch(
     neuron_obj,
     limb_branch_dict,
@@ -3486,7 +3308,6 @@ def upstream_endpoint_branch_set(neuron_obj,
             starting_coordinate = nru.upstream_endpoint(limb_obj,branch_idx)
             setattr(limb_obj[branch_idx],attr_name,starting_coordinate)
             
-import allen_utils as alu
 def centroid_stats_from_neuron_obj(neuron_obj,
                                   voxel_adjustment_vector=None,
                                   include_volume=True):
@@ -3957,31 +3778,35 @@ def euclidean_distance_farther_than_soma_limb_branch(
     plot = plot,
     )
 
+import neuron_statistics as nst
 # ----------------- Parameters ------------------------
 
 from python_tools import module_utils as modu
 from python_tools import general_utils as gu
-import human_utils as hu
 
 global_parameters_dict_default = dict(
 )
 
+import microns_volume_utils as mvu
 attributes_dict_default = dict(
-    voxel_to_nm_scaling = alu.voxel_to_nm_scaling
+    voxel_to_nm_scaling = mvu.voxel_to_nm_scaling
 )    
 
 global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 global_parameters_dict_h01 = {}
+
+
+import h01_volume_utils as hvu 
 attributes_dict_h01 = dict(
-    voxel_to_nm_scaling = hu.voxel_to_nm_scaling
+    voxel_to_nm_scaling = hvu.voxel_to_nm_scaling
 )
 
 data_type = "default"
 algorithms = None
 
-import neuron_statistics as nst
+
 modules_to_set = [nst]
 
 def set_global_parameters_and_attributes_by_data_type(dt,

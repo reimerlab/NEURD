@@ -9361,7 +9361,7 @@ def translate_neuron_obj(
     neuron_obj_rot = copy.deepcopy(neuron_obj)
     mesh_center = neuron_obj["S0"].mesh_center
     for i in range(0,10):
-        neuron_obj_rot = hu.align_neuron_obj(neuron_obj_rot,
+        neuron_obj_rot = hvu.align_neuron_obj(neuron_obj_rot,
                                              mesh_center=mesh_center,
                                              verbose =True)
     nviz.visualize_neuron(
@@ -9613,15 +9613,16 @@ import neuron #package where can use the Branches class to help do branch skelet
 from python_tools import module_utils as modu
 from python_tools import general_utils as gu
 
-import allen_utils as alu
-import human_utils as hu
+
 
 
 global_parameters_dict_default = dict(
     skeletal_length_max_n_spines = 3000,
 )
+
+import microns_volume_utils as mvu
 attributes_dict_default = dict(
-    data_voxel_adjustment = alu.voxel_to_nm_scaling
+    data_voxel_adjustment = mvu.voxel_to_nm_scaling
 )    
 
 
@@ -9634,8 +9635,10 @@ attributes_dict_microns = {}
 global_parameters_dict_h01 = dict(
     skeletal_length_max_n_spines = 6_000
 )
+
+import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
-    data_voxel_adjustment = hu.voxel_to_nm_scaling
+    data_voxel_adjustment = hvu.voxel_to_nm_scaling
 )
 
 data_type = "default"

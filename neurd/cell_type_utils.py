@@ -1,7 +1,9 @@
-import datajoint_utils as du
+
 import numpy as np
 from python_tools import system_utils as su
+from python_tools import pathlib_utils as plu
 from pathlib import Path
+from machine_learning_tools import machine_learning_utils as mlu
 
 """
 Interesting website for cell types: 
@@ -12,16 +14,16 @@ http://celltypes.brain-map.org/experiment/morphology/474626527
 e_i_model = None
 e_i_model_features_default = ["syn_density_shaft","spine_density"]
 #e_i_model_features_default = ["syn_density_post","spine_density"]
-module_path = str(Path(__file__).absolute())
+module_path = str(plu.parent_directory(Path(__file__)).absolute())
 
 # use the 
-manual_df_path = str(module_path / Path("man_proof_stats_df_for_e_i.pbz2)")#/meshAfterParty/meshAfterParty/man_proof_stats_df_for_e_i.pbz2"
+manual_df_path = str(module_path / Path("man_proof_stats_df_for_e_i.csv"))#/meshAfterParty/meshAfterParty/man_proof_stats_df_for_e_i.pbz2"
 manual_df_path_backup = "/neurd_packages/meshAfterParty/meshAfterParty/man_proof_stats_df_for_e_i.pbz2"
 manual_exc_df = None
 manual_inh_df = None
 
 #border_df_path  = "/meshAfterParty/meshAfterParty/border_df_for_e_i_improved.pbz2"
-border_df_path = str(module_path / Path("border_df_for_e_i_improved.pbz2)")
+border_df_path = str(module_path / Path("border_df_for_e_i_improved.csv"))
 border_df_path_backup = "/neurd_packages/meshAfterParty/meshAfterParty/border_df_for_e_i_improved.pbz2"
 border_exc_df = None
 border_inh_df = None
@@ -158,7 +160,7 @@ cell_type_fine_to_cell_type_coarse_map = allen_cell_type_fine_classifier_to_e_i_
 allen_cell_type_coarse_classifier_labels = ["excitatory","inhibitory"]
 
 publishable_names_map = dict_map={
-            "5P-PT":"5P-ET",
+    "5P-PT":"5P-ET",
     "5P_PT":"5P_ET"
 }
 
@@ -547,16 +549,14 @@ ManualCellTypesAllen() & "table_name != 'allen_v1_column_types_slanted'"
 
 """
 
-def cell_type_fine_table():
-    return du.minnie.ManualCellTypesAllen() & "table_name != 'allen_v1_column_types_slanted'"
+
 #--------parameters ----------
 
 
 from python_tools import general_utils as gu
 cell_type_fine_names = gu.merge_dicts([cell_type_fine_names_excitatory,
                cell_type_fine_name_inhibitory])
-
-import machine_learning_utils as mlu
+    
 def plot_e_i_model_classifier_map(
     data_to_plot = None,
     **kwargs):
@@ -565,98 +565,6 @@ def plot_e_i_model_classifier_map(
                            feature_2_name=e_i_model_features_default[1],
                            data_to_plot = data_to_plot,
                            **kwargs)
-
-def allen_nuclei_classification_info_from_nucleus_id(
-    nucleus_id,
-    verbose = False,
-    add_allen_prefix_to_all_keys = True,
-    add_database_prefix_to_all_keys = True):
-    """
-    Purpose: to return the allen
-    cell type classifciation from the nucleus
-
-    Pseudocode: 
-    for the classifications requested
-    1) restrict the datajoint table by the nuclei
-    2) if table length is 0, store None
-    2b) if length 1, pull down and store
-    2c) if length 2 then error pull down the max version
-    
-    Ex: 
-    allen_nuclei_classification_info_from_nucleus_id(81966)
-    allen_nuclei_classification_info_from_nucleus_id(12)
-    """
-
-    nucl_rest = dict(nucleus_id=nucleus_id)
-
-    #1) --- e_i classification --- 
-    e_i_restriction = du.allen_e_i_type_table() & nucl_rest
-
-    if verbose:
-        print(f"# of e_i restriction = {len(e_i_restriction)}")
-
-    if len(e_i_restriction) == 0:
-        e_i = None
-        e_i_n_nuc = None
-    else:
-        vers,cell_types,n_nucs = e_i_restriction.fetch("ver","cell_type","n_nuc")
-        idx = np.argmax(vers)
-        e_i = cell_types[idx]
-        e_i_n_nuc = n_nucs[idx]
-
-    if verbose:
-        print(f"e_i = {e_i}")
-        print(f"e_i_n_nuc = {e_i_n_nuc}")
-
-
-    #1) --- cell type classification --- 
-    cell_restriction = du.allen_cell_type_table() & nucl_rest
-
-    if verbose:
-        print(f"# of cell_restriction = {len(cell_restriction)}")
-
-    if len(cell_restriction) == 0:
-        cell_type = None
-        cell_type_e_i = None
-        cell_type_n_nuc = None
-    else:
-        vers,cell_types,n_nucs,classification_systems = cell_restriction.fetch("ver","cell_type","n_nuc","classification_system")
-        idx = np.argmax(vers)
-        cell_type = cell_types[idx]
-        cell_type_n_nuc = n_nucs[idx]
-        cell_type_e_i = classification_systems[idx]
-        if "excitatory" in cell_type_e_i:
-            cell_type_e_i = "excitatory"
-        elif "inhibitory" in cell_type_e_i:
-            cell_type_e_i = "inhibitory"
-        else:
-            raise Exception(f"Unknown classification_system = {cell_type_e_i}")
-
-    if verbose:
-        print(f"cell_type = {cell_type}")
-        print(f"cell_type_n_nuc = {cell_type_n_nuc}")
-        print(f"cell_type_e_i = {cell_type_e_i}")
-
-    nucleus_class = dict(e_i = e_i,
-                        e_i_n_nuc=e_i_n_nuc,
-                        cell_type=cell_type,
-                        cell_type_n_nuc=cell_type_n_nuc,
-                        cell_type_e_i=cell_type_e_i)
-    
-    if add_database_prefix_to_all_keys:
-        local_mapping = dict(
-            e_i="external_cell_type",
-            e_i_n_nuc= "external_cell_type_n_nuc",
-            cell_type="external_cell_type_fine",
-            cell_type_n_nuc="external_cell_type_fine_n_nuc",
-            cell_type_e_i="external_cell_type_fine_e_i"
-            
-            )
-        nucleus_class = {local_mapping[k]:v for k,v in nucleus_class.items()}
-    elif add_allen_prefix_to_all_keys:
-        nucleus_class = dict([(f"allen_{k}",v) for k,v in nucleus_class.items()])
-
-    return nucleus_class
 
 
 import neuron_searching as ns
@@ -921,9 +829,9 @@ def spine_density_near_soma(neuron_obj,
 
 def load_manual_exc_inh_df(path=manual_df_path):
     try:
-        manual_df = su.decompress_pickle(manual_df_path)
+        manual_df = pu.csv_to_df(manual_df_path)
     except: 
-        manual_df = su.decompress_pickle(manual_df_path_backup)
+        manual_df = pu.csv_to_df(manual_df_path_backup)
     
     global manual_exc_df
     global manual_inh_df
@@ -933,7 +841,7 @@ def load_manual_exc_inh_df(path=manual_df_path):
     manual_inh_df["cell_type_manual"] = "inhibitory"
     manual_exc_df["cell_type_manual"] = "excitatory"
 
-import machine_learning_utils as mlu
+
 def set_e_i_model_as_kNN(X,
                          y,
                          n_neighbors = 5,
@@ -1373,47 +1281,18 @@ def soma_stats_for_cell_type(neuron_obj):
     return soma_dict
 
 # ===================== 10/11: improved E/I Classification ================
-import neuron_catalog_v6 as nc
 import numpy as np
-import proofread_verification as pv
 from python_tools import pandas_utils as pu
-import datajoint_utils as du
 
-def create_border_df_for_e_i_improved(save_df = False):
-    """
-    Purpose: To store the data so that it can be incoporated in the model
 
-    """
-    features_to_download = np.array(list(ctu.manual_inh_df.columns) )
-    features_to_download = features_to_download[features_to_download != "cell_type_manual"]
 
-    features_to_download = np.array(list(ctu.manual_inh_df.columns) )
-    features_to_download = features_to_download[features_to_download != "cell_type_manual"]
-
-    exc_train_table = du.minnie.DecompositionCellType() & pv.restriction_list_by_node_names(nc.low_syn_sp_density_excitatory)
-    inh_train_table = du.minnie.DecompositionCellType() & pv.restriction_list_by_node_names(nc.low_syn_sp_density_inhibitory)
-
-    manual_bc_exc_df = du.df_from_table(exc_train_table.proj(*features_to_download))[features_to_download]
-    manual_bc_exc_df["cell_type_manual"] = "excitatory"
-
-    manual_bc_inh_df = du.df_from_table(inh_train_table.proj(*features_to_download))[features_to_download]
-    manual_bc_inh_df["cell_type_manual"] = "inhibitory"
-    
-    
-    border_df_for_e_i_improved = pu.concat([manual_bc_inh_df,manual_bc_exc_df])
-    border_df_for_e_i_improved
-    
-    if save_df:
-        from python_tools import system_utils as su
-        su.compressed_pickle(border_df_for_e_i_improved,"./border_df_for_e_i_improved")
-    return border_df_for_e_i_improved
 
 def load_border_exc_inh_df(path=border_df_path,
                           path_backup = border_df_path_backup):
     try:
-        manual_df = su.decompress_pickle(path)
+        manual_df = pu.csv_to_df(path)
     except: 
-        manual_df = su.decompress_pickle(path_backup)
+        manual_df = pu.csv_to_df(path_backup)
     
     global border_exc_df
     global border_inh_df
@@ -1527,39 +1406,6 @@ def all_training_df(plot = False):
     return train_df
 
 import pandas as pd
-def cell_type_df_bcm(
-    plot_training = False
-    ):
-    """
-    Purpose: Gather all of the cell type data
-    from the datajoint baylor databases
-
-    """
-    df_baylor= ctu.all_training_df(plot = plot_training)
-
-    df_baylor["table_of_origin"] = "celii_training_e_i"
-
-    df_stelios = pd.DataFrame(du.minnie.ManualCellType().fetch())
-    df_stelios["table_of_origin"] = "minnie.ManualCellType"
-
-    df_baylor_combined = pu.concat([df_stelios,df_baylor]) 
-    df_baylor_combined["cell_type_fine"] = None
-    df_baylor_combined["pt_position"] = None
-
-    df_bcm = pu.rename_columns(
-        df_baylor_combined,
-        {"segment_id":"pt_root_id",
-        "cell_type":"cell_type_coarse"}
-    )[['pt_root_id',
-     'cell_type_fine',
-     'cell_type_coarse',
-     'table_of_origin',
-     'nucleus_id',
-     'pt_position']]
-    
-    return df_bcm
-
-import allen_utils as alu
 
 cell_type_fine_redundant_mapping = {
         "Unsure I":"Unsure",
@@ -1600,36 +1446,6 @@ def clean_cell_type_fine(df):
 
 
 
-
-def cell_type_df_allen_bcm(
-    verbose = True,
-    clean_cell_type_fine_names = True,
-    return_cell_type_fine = False):
-    
-    alu.initialize_client()
-    alu.set_version_to_latest()
-    
-    cell_type_allen = alu.cell_type_df_from_database(verbose = verbose)
-    cell_type_bcm= ctu.cell_type_df_bcm()
-    
-    if verbose:
-        print(f"len(cell_type_allen) = {len(cell_type_allen)}")
-        print(f"len(cell_type_bcm) = {len(cell_type_bcm)}")
-    
-    cell_type_df = pu.concat([cell_type_allen,cell_type_bcm])
-    cell_type_df = ctu.filter_cell_type_df_for_most_complete_duplicates(cell_type_df)
-    if verbose:
-        print(f"len(cell_type_df) before filtering = {len(cell_type_df)}")
-        print(f"len(cell_type_df) after filtering = {len(cell_type_df)}")
-        
-    if clean_cell_type_fine_names:
-        cell_type_df = ctu.clean_cell_type_fine(cell_type_df)
-        
-    if return_cell_type_fine:
-        cell_type_df = ctu.df_cell_type_fine(cell_type_df)
-    
-    
-    return cell_type_df
     
 def df_cell_type_fine(df):
     df_fine = df.query("cell_type_fine == cell_type_fine")

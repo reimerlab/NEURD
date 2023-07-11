@@ -760,14 +760,11 @@ def plot_prox_func_vs_attribute_from_edge_df(
 # ------------- Setting up parameters -----------
 from python_tools import module_utils as modu 
 
-# data_fetcher = None
-# voxel_to_nm_scaling = None
-
 # -- default
-import dataInterfaceMinnie65
+import microns_volume_utils as mvu
 attributes_dict_default = dict(
-    voxel_to_nm_scaling = dataInterfaceMinnie65.voxel_to_nm_scaling,
-    hdju = dataInterfaceMinnie65.data_interface
+    voxel_to_nm_scaling = mvu.voxel_to_nm_scaling,
+    hdju = mvu.data_interface
 )    
 global_parameters_dict_default = dict(
     #max_ais_distance_from_soma = 50_000
@@ -778,10 +775,10 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-import dataInterfaceH01
+import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
-    voxel_to_nm_scaling = dataInterfaceH01.voxel_to_nm_scaling,
-    hdju = dataInterfaceH01.data_interface
+    voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
+    hdju = hvu.data_interface
 )
 global_parameters_dict_h01 = dict()
     

@@ -7,7 +7,7 @@ from python_tools import networkx_utils as xu
 import time
 from importlib import reload
 import matplotlib.pyplot as plt
-import datajoint_utils as du
+
 
 
 def plot_soma_limb_concept_network(neuron_obj,

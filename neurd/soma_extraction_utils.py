@@ -12,7 +12,7 @@ from pathlib import Path
 from pykdtree.kdtree import KDTree
 
 from mesh_tools import trimesh_utils as tu
-from trimesh_utils import split_significant_pieces,split
+#from mesh_tools.trimesh_utils import split_significant_pieces,split
 #from python_tools import numpy_utils as np
 
 save_mesh_intermediates = False
@@ -1932,10 +1932,6 @@ def remove_nuclei_and_glia_meshes(
 from python_tools import module_utils as modu 
 from python_tools import general_utils as gu
 from python_tools import data_struct_utils as dsu
-
-
-# data_fetcher = None
-# voxel_to_nm_scaling = None
 
 # -- default
 attributes_dict_default = dict(
