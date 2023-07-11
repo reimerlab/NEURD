@@ -1,0 +1,11 @@
+.container {
+    width: 75% !important;
+}
+
+div.cell.selected {
+    border-left-width: 1px !important;
+}
+
+div.output_scroll {
+    resize: vertical !important;
+}
