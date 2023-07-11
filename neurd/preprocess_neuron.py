@@ -4,7 +4,7 @@ import soma_extraction_utils as sm
 from mesh_tools import trimesh_utils as tu
 import trimesh
 from python_tools import numpy_utils as nu
-import numpy as np
+from python_tools import numpy_dep as np
 from importlib import reload
 import networkx as nx
 import time
@@ -444,7 +444,7 @@ from python_tools import system_utils as su
 from mesh_tools import skeleton_utils as sk
 from pykdtree.kdtree import KDTree
 from mesh_tools import trimesh_utils as tu
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import networkx_utils as xu
 from mesh_tools import compartment_utils as cu
 import networkx as nx

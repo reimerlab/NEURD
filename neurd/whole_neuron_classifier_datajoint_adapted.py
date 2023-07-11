@@ -1,5 +1,5 @@
 import datajoint as dj
-import numpy as np
+from python_tools import numpy_dep as np
 import time
 import pymeshfix
 import os

@@ -5,7 +5,7 @@ for compartments like axon, apical, basal...
 """
 
 import neuron_utils as nru
-import numpy as np
+from python_tools import numpy_dep as np
 import neuron_statistics as nst
 import neuron_visualizations as nviz
 
@@ -2003,7 +2003,7 @@ def spine_level_classifier(neuron_obj,
     else:
         return final_label
         
-import numpy as np
+from python_tools import numpy_dep as np
 def inhibitory_excitatory_classifier(neuron_obj,
                                      verbose=False,
                                      return_spine_classification=False,

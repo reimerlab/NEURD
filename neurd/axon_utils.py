@@ -9,7 +9,7 @@ axon_ais_threshold = 180
 
 # excitatory_axon_soma_angle_threshold = 70
 
-import numpy as np
+from python_tools import numpy_dep as np
 import copy
 
 
@@ -915,7 +915,7 @@ def calculate_axon_webbing(neuron_obj,
         
     return neuron_obj
 
-import numpy as np
+from python_tools import numpy_dep as np
 def axon_branching_attributes(neuron_obj,
                         limb_idx,
                         branch_idx,

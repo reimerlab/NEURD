@@ -1,10 +1,10 @@
 import datajoint as dj
 from neuron_morphology_tools import neuron_nx_utils as nxu
 from mesh_tools import skeleton_utils as sk
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import ipyvolume_utils as ipvu
 from python_tools import numpy_utils as nu
-import numpy as np
+from python_tools import numpy_dep as np
 import neuron_visualizations as nviz
 from python_tools import networkx_utils as xu
 

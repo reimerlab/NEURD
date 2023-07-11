@@ -131,7 +131,7 @@ def valid_query():
     return query
     
 
-import numpy as np
+from python_tools import numpy_dep as np
 import spine_utils as spu
 
 
@@ -1876,7 +1876,7 @@ def query_synapses(neuron_obj,
 
 # ---------- 6:11 For creating datajoint entries ----------
 import time
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import general_utils as gu
 def synapses_dj_export_dict_valid(synapse,
                                  output_spine_str=True,):
@@ -1929,7 +1929,7 @@ def synapses_to_dj_keys_old(
     return the list
     
     Ex: 
-    import numpy as np
+    from python_tools import numpy_dep as np
     dj_keys = syu.synapses_to_dj_keys(neuron_obj,
                            verbose = True,
                            nucleus_id=12345,

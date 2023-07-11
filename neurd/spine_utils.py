@@ -5,7 +5,7 @@ except:
     pass
 from pathlib import Path
 from mesh_tools import trimesh_utils as tu
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 from mesh_tools import skeleton_utils as sk
 import copy
@@ -1441,7 +1441,7 @@ def split_mesh_into_spines_shaft_old(current_mesh,
         return spine_meshes,spine_meshes_idx,shaft_meshes,shaft_meshes_idx
     
     
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import system_utils as su
 def get_spine_meshes_unfiltered_from_mesh(
     current_mesh,
@@ -1828,7 +1828,7 @@ def filter_out_soma_touching_spines(
         return final_spines
 
 
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 import neuron_visualizations as nviz
 def spine_head_neck(
@@ -2080,7 +2080,7 @@ def spine_head_neck(
 
 import spine_utils as spu
 from mesh_tools import trimesh_utils as tu
-import numpy as np
+from python_tools import numpy_dep as np
 
 def bouton_non_bouton_idx_from_branch(branch_obj,
                                      plot_branch_boutons=False,
@@ -2893,7 +2893,7 @@ def complete_spine_processing(
 # -------------- for other properties per spine obj -------------
 from python_tools import numpy_utils as nu
 from mesh_tools import skeleton_utils as sk
-import numpy as np
+from python_tools import numpy_dep as np
 
 def calculate_spine_obj_mesh_skeleton_coordinates_for_branch(branch_obj):
     if branch_obj.spines_obj is None:

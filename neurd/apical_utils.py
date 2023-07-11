@@ -102,7 +102,7 @@ import neuron_searching as ns
 import neuron_statistics as nst
 import microns_volume_utils as mcu
 import neuron_visualizations as nviz
-import numpy as np
+from python_tools import numpy_dep as np
 
 
 

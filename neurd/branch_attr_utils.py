@@ -10,7 +10,7 @@ import branch_utils as bu
 import neuron_statistics as nst
 import neuron_utils as nru
 from mesh_tools import skeleton_utils as sk
-import numpy as np
+from python_tools import numpy_dep as np
 
 
 def calculate_endpoints_dist(

@@ -1,5 +1,5 @@
 
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import system_utils as su
 from python_tools import pathlib_utils as plu
 from pathlib import Path
@@ -1281,7 +1281,7 @@ def soma_stats_for_cell_type(neuron_obj):
     return soma_dict
 
 # ===================== 10/11: improved E/I Classification ================
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import pandas_utils as pu
 
 

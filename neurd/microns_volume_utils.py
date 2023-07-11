@@ -310,7 +310,7 @@ AL_bounds = [
     (375347, 322718, 22722)
 ]
 
-import numpy as np
+from python_tools import numpy_dep as np
 volume_bound_coordinates = np.vstack([V1_bounds,RL_bounds1,RL_bounds2,AL_bounds])
 
 layer_axis = 1 #the lower the number the higher the cell is in the volume
@@ -330,7 +330,7 @@ def coordinates_to_layer_height(coordinates,turn_negative=True):
     return new_coords
     
 from scipy.spatial import Delaunay
-import numpy as np
+from python_tools import numpy_dep as np
 import matplotlib.pyplot as plt
 def plot_visual_area_xz_projection(
                                   region_names = ["V1","RL","AL"],
@@ -423,7 +423,7 @@ layer_by_max_height_voxel = {
 
 layer_by_max_height_nm = {k:v*4 for k,v in layer_by_max_height_voxel.items()}
 
-import numpy as np
+from python_tools import numpy_dep as np
 def EM_coordinates_to_layer(coordinates):
     """
     Purpose: To convert the y value of the EM coordinate(s)
@@ -501,7 +501,7 @@ def add_node_attributes_to_proofread_graph(
 def neuron_soma_layer_height(neuron_obj,soma_name="S0"):
     return mru.coordinates_to_layer_height(neuron_obj["S0"].mesh_center)
 
-import numpy as np
+from python_tools import numpy_dep as np
 voxel_to_nm_scaling = np.array([4,4,40])
 def em_voxels_to_nm(data):
     return np.array(data)*voxel_to_nm_scaling
@@ -520,7 +520,7 @@ def layer_from_em_centroid_xyz(row):
     layer_labels = mru.EM_coordinates_to_layer(soma_points)[0]
     return layer_labels
 
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 
 microns_volume_coordinates = np.array(V1_bounds + 

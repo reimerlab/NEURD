@@ -7,7 +7,7 @@ import error_detection as ed
 import concept_network_utils as cnu
 import axon_utils as au
 
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import networkx_utils as xu
 import networkx as nx
 import matplotlib.pyplot as plt

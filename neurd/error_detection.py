@@ -1097,7 +1097,7 @@ from mesh_tools import skeleton_utils as sk
 from python_tools import numpy_utils as nu
 import copy
 from mesh_tools import trimesh_utils as tu
-import numpy as np
+from python_tools import numpy_dep as np
 import axon_utils as au
 import neuron_utils as nru
 import neuron_visualizations as nviz
@@ -1567,7 +1567,7 @@ def axon_fork_divergence_errors_limb_branch_dict(neuron_obj,
     return fork_div_limb_branch
 
 '''
-import numpy as np
+from python_tools import numpy_dep as np
 def attempt_width_matching_for_fork_divergence(neuron_obj,
                                               fork_div_limb_branch,
                                               width_match_threshold = 10,
@@ -2050,7 +2050,7 @@ def matched_branches_by_angle_at_coordinate(limb_obj,
     
     
 from python_tools import networkx_utils as xu
-import numpy as np
+from python_tools import numpy_dep as np
 import error_detection as ed
 import networkx as nx
 import matplotlib.pyplot as plt

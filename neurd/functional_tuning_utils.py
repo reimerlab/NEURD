@@ -1,4 +1,4 @@
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 
 def cdiff(alpha, beta, period=np.pi,rad = True):    

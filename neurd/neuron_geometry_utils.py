@@ -4,7 +4,7 @@ angles of different compartments of neurons
 
 """
 from python_tools import numpy_utils as nu
-import numpy as np
+from python_tools import numpy_dep as np
 
 def add_xz_angles_to_df(
     df,
@@ -91,7 +91,7 @@ def vec_df_from_compartment(
     return ngu.add_xz_angles_to_df(curr_df,compartments=[compartment])
 
 from python_tools import ipyvolume_utils as ipvu
-import numpy as np
+from python_tools import numpy_dep as np
 import matplotlib.pyplot as plt
 from python_tools import numpy_utils as nu
 from python_tools import pandas_utils as pu

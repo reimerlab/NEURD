@@ -163,7 +163,7 @@ def attr_value_soma(df,attr):
     return attr_value_by_node(df,soma_name,attr)
 
 
-import numpy as np
+from python_tools import numpy_dep as np
 def mesh_center_xyz(center):
     return dict(x=center[0],y=center[1],z=center[2])
 
@@ -383,7 +383,7 @@ def stats_df_from_G(
     return df
 
 
-import numpy as np
+from python_tools import numpy_dep as np
 window_default = dict(
         x=[-np.inf,np.inf],
         y=[-np.inf,np.inf],
@@ -572,7 +572,7 @@ def array_shape_from_radius(radius):
     array_shape = (edge_length,edge_length,edge_length)
     return array_shape
 
-import numpy as np
+from python_tools import numpy_dep as np
 def axes_limits_coordinates(axes_limits,array_shape=None,radius = None):
     if array_shape is None:
         array_shape = ctcu.array_shape_from_radius(radius)

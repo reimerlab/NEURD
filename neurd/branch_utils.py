@@ -41,7 +41,7 @@ optional_features_recalculate = [
 ]
 
 import copy
-import numpy as np
+from python_tools import numpy_dep as np
 import synapse_utils as syu
 import spine_utils as spu
 import branch_attr_utils as bau
@@ -584,7 +584,7 @@ def skeleton_vector_downstream(
     )
 
 
-import numpy as np
+from python_tools import numpy_dep as np
 def width_endpoint(
     branch_obj,
     endpoint, # if None then will select most upstream endpoint of branch
@@ -719,7 +719,7 @@ def min_dist_synapses_post_downstream(
 
 
 from pykdtree.kdtree import KDTree
-import numpy as np
+from python_tools import numpy_dep as np
 def closest_mesh_skeleton_dist(
     obj,
     verbose = False):
@@ -768,7 +768,7 @@ def mesh_shaft_idx(obj,
     plot = False,):
     return mesh_shaft(obj,plot=plot,return_mesh=False)
 
-import numpy as np
+from python_tools import numpy_dep as np
 def is_skeleton_upstream_to_downstream(branch_obj,verbose = False):
     upstream_endpoint = branch_obj.endpoint_upstream
     if verbose:

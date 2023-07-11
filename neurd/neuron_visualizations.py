@@ -1,6 +1,6 @@
 import ipyvolume as ipv
 from mesh_tools import skeleton_utils as sk
-import numpy as np
+from python_tools import numpy_dep as np
 import networkx as nx
 import neuron_utils as nru
 from python_tools import networkx_utils as xu
@@ -691,7 +691,7 @@ from python_tools import numpy_utils as nu
 from mesh_tools import trimesh_utils as tu
 import copy
 import itertools
-import numpy as np
+from python_tools import numpy_dep as np
 
 import sys
 current_module = sys.modules[__name__]
@@ -2100,7 +2100,7 @@ def plot_branch_spines(curr_branch,plot_skeletons=True,**kwargs):
                      **kwargs)
     
     
-import numpy as np
+from python_tools import numpy_dep as np
 import copy
 import proofreading_utils as pru
 def plot_split_suggestions_per_limb(neuron_obj,

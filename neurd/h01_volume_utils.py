@@ -1,4 +1,4 @@
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import linalg_utils as lu
 
 voxel_to_nm_scaling = np.array([8,8,33])
@@ -502,7 +502,7 @@ def align_neuron_obj(
         nviz.visualize_neuron(neuron_obj,limb_branch_dict = "all")
     return neuron_obj
 
-import numpy as np
+from python_tools import numpy_dep as np
 def unalign_neuron_obj(neuron_obj,
                        align_attribute = "align_matrix",
                        verbose = False,

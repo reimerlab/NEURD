@@ -1,5 +1,5 @@
 import re
-import numpy as np
+from python_tools import numpy_dep as np
 
 """
 To help analyze the motifs found using the dotmotif package 
@@ -32,7 +32,7 @@ def edges_from_str(
         
     return edges
 
-import numpy as np
+from python_tools import numpy_dep as np
 def nodes_from_str(string):
     edges_str = mfu.edges_from_str(string,return_edge_str = False)
     return list(np.unique(np.hstack(edges_str)))
@@ -966,7 +966,7 @@ def unique_motif_reduction(
 
 
 from python_tools import pandas_utils as pu
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools.tqdm_utils import tqdm
 import motif_utils as mfu
 import pandas as pd

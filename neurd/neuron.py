@@ -1,5 +1,5 @@
 import networkx as nx
-import numpy as np
+from python_tools import numpy_dep as np
 
 #neuron module specific imports
 from mesh_tools import compartment_utils as cu
@@ -1104,7 +1104,7 @@ class Limb:
         
         Example on how it was developed: 
         
-        import numpy as np
+        from python_tools import numpy_dep as np
         from python_tools import networkx_utils as xu
         xu = reload(xu)
         import matplotlib.pyplot as plt
@@ -2908,7 +2908,7 @@ class Neuron:
         non_soma_touching_meshes #same order
         
         Testing: 
-        import numpy as np
+        from python_tools import numpy_dep as np
         nru = reload(nru)
         neuron = reload(neuron)
         xu = reload(xu)

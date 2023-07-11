@@ -3,7 +3,7 @@ import soma_extraction_utils as sm
 from mesh_tools import trimesh_utils as tu
 import trimesh
 from python_tools import numpy_utils as nu
-import numpy as np
+from python_tools import numpy_dep as np
 from importlib import reload
 import networkx as nx
 import time

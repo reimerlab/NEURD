@@ -2,7 +2,7 @@ non_branching_upstream = False
 
 import neuron_statistics as nst
 import neuron_utils as nru
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import networkx_utils as xu
 import networkx as nx
 import neuron_visualizations as nviz
@@ -146,7 +146,7 @@ def branches_with_parent_non_branching(limb_obj):
 
 
 
-import numpy as np
+from python_tools import numpy_dep as np
 import networkx as nx
 def subgraph_around_branch(limb_obj,
                            branch_idx,
@@ -330,7 +330,7 @@ def upstream_nodes_without_branching(limb_obj,
 
 
 # ------ 6/25: Helps find attributes that are downstream or upstream -------
-import numpy as np
+from python_tools import numpy_dep as np
 from mesh_tools import skeleton_utils as sk
 
 '''def downstream_attribute(limb_obj,
@@ -1712,7 +1712,7 @@ def all_downstream_nodes(limb_obj,branch_idx):
     return xu.all_downstream_nodes(limb_obj.concept_network_directional,
                                    branch_idx)
 
-import numpy as np
+from python_tools import numpy_dep as np
 def upstream_branches_in_branches_list(limb_obj,
                                        branches):
     """

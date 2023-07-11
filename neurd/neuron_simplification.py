@@ -5,7 +5,7 @@ For functions that operate over the whole neuron object
 """
 
 import branch_utils as bu
-import numpy as np
+from python_tools import numpy_dep as np
 import neuron_utils as nru
 import copy 
 import time

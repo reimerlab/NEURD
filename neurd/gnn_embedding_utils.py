@@ -1,4 +1,4 @@
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import pandas_utils as pu
 import pandas as pd
 
@@ -9,7 +9,7 @@ import time
 from python_tools import system_utils as su
 from python_tools import pandas_utils as pu
 import pandas as pd
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 from python_tools import networkx_utils as xu
 from python_tools.tqdm_utils import tqdm

@@ -1,4 +1,4 @@
-import numpy as np
+from python_tools import numpy_dep as np
 
 def ais_count_bins_dict(
     ais_distance_min = 0,

@@ -1,7 +1,7 @@
 from mesh_tools import compartment_utils as cu
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
-import numpy as np
+from python_tools import numpy_dep as np
 import neuron_utils as nru
 from python_tools import networkx_utils as xu
 from python_tools import numpy_utils as nu

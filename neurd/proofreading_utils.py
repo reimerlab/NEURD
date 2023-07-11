@@ -1,5 +1,5 @@
 from mesh_tools import skeleton_utils as sk
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import networkx_utils as xu
 import error_detection as ed
 import neuron_utils as nru
@@ -1400,7 +1400,7 @@ def split_suggestions_to_concept_networks_old(neuron_obj,limb_results,
 
 # --------------- Functions that do the actual limb and Neuron Splitting --------- #
 
-import numpy as np
+from python_tools import numpy_dep as np
 import preprocessing_vp2 as pre
 from python_tools import networkx_utils as xu
 from mesh_tools import trimesh_utils as tu
@@ -4742,7 +4742,7 @@ import neuron_utils as nru
 import time
 from mesh_tools import trimesh_utils as tu
 
-import numpy as np
+from python_tools import numpy_dep as np
 
 import synapse_utils as syu
 def proofreading_table_processing(key,

@@ -4,7 +4,7 @@ except:
     pass
 import time
 import trimesh
-import numpy as np
+from python_tools import numpy_dep as np
 import datajoint as dj
 import os
 from mesh_tools import meshlab
@@ -715,7 +715,7 @@ def original_mesh_soma_old(
     return soma_meshes_new
     
 from python_tools import system_utils as su
-import numpy as np
+from python_tools import numpy_dep as np
 def extract_soma_center(
     segment_id,
     current_mesh_verts=None,

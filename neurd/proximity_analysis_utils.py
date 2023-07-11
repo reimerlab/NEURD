@@ -1,6 +1,6 @@
 from python_tools import pandas_utils as pu
 import pandas as pd
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 import seaborn as sns
 
@@ -208,7 +208,7 @@ from neuron_morphology_tools import neuron_nx_utils as nxu
 # ------------ Postsyn side ----------------------
 from python_tools import pandas_utils as pu
 from python_tools import networkx_utils as xu
-import numpy as np
+from python_tools import numpy_dep as np
 from pykdtree.kdtree import KDTree
 from neuron_morphology_tools import neuron_nx_utils as nxu
 

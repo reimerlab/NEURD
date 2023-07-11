@@ -8,7 +8,7 @@ def all_paths_to_leaf_nodes(
             verbose = verbose,
         )
 # ---------- statistics ----------------
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 import neuron_utils as nru
 
@@ -213,7 +213,7 @@ def children_skeletal_angle_min(
 
 
 import neuron_utils as nru
-import numpy as np
+from python_tools import numpy_dep as np
 import neuron_visualizations as nviz
 def most_usptream_endpoints_of_branches_on_limb(
     limb_obj,

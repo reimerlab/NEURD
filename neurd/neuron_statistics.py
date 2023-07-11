@@ -1,4 +1,4 @@
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 from mesh_tools import trimesh_utils as tu
 import error_detection as ed
@@ -172,7 +172,7 @@ def neuron_path_analysis(neuron_obj,
         return neuron_path_inserts_by_limb
     
     
-import numpy as np
+from python_tools import numpy_dep as np
 from mesh_tools import trimesh_utils as tu
 def soma_starting_vector(limb_obj=None,
                         neuron_obj=None,
@@ -569,7 +569,7 @@ def children_skeletal_lengths(limb_obj,
     else:
         return list(vals.values())
 
-import numpy as np
+from python_tools import numpy_dep as np
 def children_skeletal_lengths_min(limb_obj,
                                         branch_idx,
                                         verbose = False):
@@ -637,7 +637,7 @@ def children_axon_width_max(limb_obj,
     
     
 import axon_utils as au
-import numpy as np
+from python_tools import numpy_dep as np
 def upstream_axon_width(limb_obj,
                        branch_idx,
                         default = np.inf,
@@ -704,7 +704,7 @@ def width_new(branch,width_new_name="no_spine_mean_mesh_center",
         return branch.width_new[width_new_name_backup]
 
 
-import numpy as np
+from python_tools import numpy_dep as np
 def width_diff_basic(limb_obj,
                  branch_1_idx,
                  branch_2_idx,
@@ -718,7 +718,7 @@ def width_diff_basic(limb_obj,
 
 
 import concept_network_utils as cnu
-import numpy as np
+from python_tools import numpy_dep as np
 def width_diff(limb_obj,
                  branch_1_idx,
                  branch_2_idx,
@@ -1905,7 +1905,7 @@ def n_synapses_pre_downstream_within_dist(limb_obj,
 
 
 from python_tools import networkx_utils as xu
-import numpy as np
+from python_tools import numpy_dep as np
 
 def fork_divergence(limb_obj,
     branch_idx,
@@ -3204,7 +3204,7 @@ def features_from_skeleton_and_soma_center(
 
 from mesh_tools import skeleton_utils as sk
 from python_tools import networkx_utils as xu
-import numpy as np
+from python_tools import numpy_dep as np
 
 
 

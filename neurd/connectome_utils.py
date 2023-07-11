@@ -4,7 +4,7 @@ grpah
 
 """
 
-import numpy as np
+from python_tools import numpy_dep as np
 import time
 
 return_nm_default = False
@@ -113,7 +113,7 @@ def pre_post_node_names_from_synapse_id(
     return list(pre_post_pairs)
 
 from python_tools import numpy_utils as nu
-import numpy as np
+from python_tools import numpy_dep as np
 def segment_ids_from_synapse_ids(
     G,
     synapse_ids,
@@ -1087,7 +1087,7 @@ def soma_centers_from_node_df(node_df,return_nm = True):
         ]].to_numpy()    
 
 
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import matplotlib_utils as mu
 import matplotlib.pyplot as plt
 from python_tools import statistics_visualizations as sviz

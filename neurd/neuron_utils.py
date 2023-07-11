@@ -14,7 +14,7 @@ from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 import trimesh
 from python_tools import numpy_utils as nu
-import numpy as np
+from python_tools import numpy_dep as np
 from importlib import reload
 import networkx as nx
 import time
@@ -2847,7 +2847,7 @@ def spine_volume_per_branch_eligible(neuron_obj):
 # -------------- 11 / 26 To help with erroring------------------------------#
 
 import copy
-import numpy as np
+from python_tools import numpy_dep as np
 
 def align_and_restrict_branch(base_branch,
                               common_endpoint=None,
@@ -4531,7 +4531,7 @@ def limb_true_false_dict_to_limb_branch_dict(neuron_obj,
         
     return limb_branch_dict
 
-import numpy as np
+from python_tools import numpy_dep as np
 def limb_branch_dict_to_limb_true_false_dict(neuron_obj,
                                             limb_branch_dict):
     """

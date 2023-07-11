@@ -10,7 +10,7 @@ branch idx to a
 
 import neuron_utils as nru
 from mesh_tools import skeleton_utils as sk
-import numpy as np
+from python_tools import numpy_dep as np
 import pandas as pd
 from python_tools import numpy_utils as nu
 from python_tools import pandas_utils as pu

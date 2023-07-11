@@ -112,7 +112,7 @@ def restrict_edge_df_by_types_compartment(
     
 import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
+from python_tools import numpy_dep as np
 from python_tools import networkx_utils as xu
 from python_tools import matplotlib_utils as mu
 from python_tools import pandas_utils as pu
@@ -409,7 +409,7 @@ def plot_histogram_discrete_labels(
     return ax
         
         
-import numpy as np
+from python_tools import numpy_dep as np
 import matplotlib.pyplot as plt
 from python_tools import matplotlib_utils as mu
 def plot_cell_type_edge_stat(
