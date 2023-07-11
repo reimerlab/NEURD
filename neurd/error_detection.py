@@ -1,3 +1,11 @@
+
+import copy
+import itertools
+import matplotlib.pyplot as plt
+import networkx as nx
+from pykdtree.kdtree import KDTree
+import time
+
 double_back_threshold_axon_thick = 120
 double_back_threshold_axon_thin = 127
 
@@ -10,14 +18,6 @@ double_back_threshold_axon_thin_inh = 140
 # min_distance_from_soma_for_proof_global = 10000
 
 
-import time
-import copy
-import neuron
-import neuron_utils as nru
-from python_tools.tqdm_utils import tqdm
-import itertools
-from python_tools import numpy_utils as nu
-import graph_filters as gf
 
 
 def calculate_skip_distance_poly(
@@ -197,9 +197,6 @@ def width_jump_edges_path(limb, #assuming the concept network is already set
 
 
 
-from mesh_tools import skeleton_utils as sk
-from python_tools import numpy_utils as nu
-from python_tools import system_utils as su
 def double_back_edges(
     limb,
     double_back_threshold = 130,
@@ -370,7 +367,6 @@ def double_back_edges_path(
 
 
 # ----------- 1/31: This will only compare doubling back and width transitions for big nodes
-import neuron_statistics as nst
 def width_jump_double_back_edges_path(limb_obj, #assuming the concept network is already set
     path,
     starting_coordinate=None,
@@ -698,11 +694,6 @@ def width_jump_double_back_edges_path(limb_obj, #assuming the concept network is
         
         
     
-import neuron_utils as nru
-from python_tools import numpy_utils as nu
-import networkx as nx
-import matplotlib.pyplot as plt
-import neuron_statistics as nst
 def resolving_crossovers(limb_obj,
                         coordinate,
                         match_threshold = 65,
@@ -1091,16 +1082,6 @@ def resolving_crossovers(limb_obj,
 
 # ------------ part that will error all floating axon pieces ----------- #
 
-import networkx as nx
-from python_tools import networkx_utils as xu
-from mesh_tools import skeleton_utils as sk
-from python_tools import numpy_utils as nu
-import copy
-from mesh_tools import trimesh_utils as tu
-from python_tools import numpy_dep as np
-import axon_utils as au
-import neuron_utils as nru
-import neuron_visualizations as nviz
 
 def error_branches_by_axons(neuron_obj,verbose=False,visualize_errors_at_end=False,
                         min_skeletal_path_threshold = 15000,
@@ -1513,13 +1494,11 @@ def error_faces_by_axons(neuron_obj,verbose=False,visualize_errors_at_end=False,
 '''
 
 
-from pykdtree.kdtree import KDTree
 
 
     
 # ---- 4/22 v4 Error Detection Rules ----------
 
-import neuron_searching as ns
 '''
 def axon_fork_divergence_errors_limb_branch_dict(neuron_obj,
                                            divergence_threshold_mean = 160,
@@ -1567,7 +1546,6 @@ def axon_fork_divergence_errors_limb_branch_dict(neuron_obj,
     return fork_div_limb_branch
 
 '''
-from python_tools import numpy_dep as np
 def attempt_width_matching_for_fork_divergence(neuron_obj,
                                               fork_div_limb_branch,
                                               width_match_threshold = 10,
@@ -1939,7 +1917,6 @@ def matched_branches_by_angle(limb_obj,
     coordinate_branches = branches,
     **kwargs)
 
-from python_tools import matplotlib_utils as mu
 def matched_branches_by_angle_at_coordinate(limb_obj,
     coordinate,
     coordinate_branches = None,
@@ -1957,7 +1934,7 @@ def matched_branches_by_angle_at_coordinate(limb_obj,
     b) apply a threshold on the angle between to only keep those below/above
     
     Ex: 
-    import error_detection as ed
+    from neurd_packages import error_detection as ed
     ed.matched_branches_by_angle_at_coordinate(limb_obj,
                                             coordinate,
                                             offset=1500,
@@ -2049,12 +2026,6 @@ def matched_branches_by_angle_at_coordinate(limb_obj,
         return match_branches,match_branches_angle
     
     
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-import error_detection as ed
-import networkx as nx
-import matplotlib.pyplot as plt
-import axon_utils as au
 
 '''
 def high_degree_upstream_match_old(
@@ -2435,13 +2406,7 @@ def high_degree_upstream_match_old(
 
 '''
 
-from python_tools import networkx_utils as xu
-import neuron_statistics as nst
-import networkx as nx
-import matplotlib.pyplot as plt
 
-import concept_network_utils as cnu
-import axon_utils as au
 
     
 '''
@@ -2742,7 +2707,7 @@ def width_jump_from_upstream_min(limb_obj,
     3) Subtract and Return
     
     Ex: 
-    import error_detection as ed
+    from neurd_packages import error_detection as ed
     ed.width_jump_from_upstream_min(limb_obj=neuron_obj[0],
     branch_idx=318,
     skeletal_length_min = 2000,
@@ -2842,7 +2807,7 @@ def width_jump_up_axon(
     1) Find all of the axon branches
     2) Run the width jump check
     """
-    import limb_utils as lu
+    from neurd_packages import limb_utils as lu
     if upstream_skeletal_length_min is None:
         upstream_skeletal_length_min = upstream_skeletal_length_min_width_j_axon_global
     if branch_skeletal_length_min is None:
@@ -2897,7 +2862,7 @@ def dendrite_branch_restriction(neuron_obj,
                                 plot = False,
                                 verbose= False
                                ):
-    import limb_utils as lu
+    from neurd_packages import limb_utils as lu
     
     if width_max is None:
         width_max = width_max_dendr_restr_global
@@ -3098,7 +3063,6 @@ def double_back_dendrite(neuron_obj,
     
     return double_back_errors
 
-import axon_utils as au
 
 def double_back_axon_thin(neuron_obj,
                           axon_width_threshold = au.axon_thick_threshold,
@@ -3946,9 +3910,6 @@ def high_low_degree_upstream_match_preprocessing(
     
 #     return winning_node,error_branches
 
-import neuron_statistics as nst
-from python_tools import numpy_utils as nu
-import branch_utils as bu
 def high_degree_false_positive_low_sibling_filter(
     limb_obj,
     branch_idx,
@@ -4462,7 +4423,6 @@ def high_degree_branch_errors_limb_branch_dict(neuron_obj,
 
 
 
-import neuron_searching as ns
 def high_degree_branch_errors_dendrite_limb_branch_dict(
     neuron_obj,
 
@@ -4831,7 +4791,7 @@ def low_degree_branch_errors_limb_branch_dict(neuron_obj,
     return the limb branch dict
     
     Ex: 
-    import error_detection as ed
+    from neurd_packages import error_detection as ed
     ed.low_degree_branch_errors_limb_branch_dict(filt_neuron,
                                                  verbose = True,
                                                 low_degree_order_verbose=True,
@@ -4992,9 +4952,6 @@ def debug_branches_high_degree(neuron_obj,debug_branches=None):
 
 
 # ------------- parameters for stats ---------------
-from python_tools import module_utils as modu
-from python_tools import data_struct_utils as dsu
-from python_tools import general_utils as gu
 
 global_parameters_dict_default_auto_proof = dsu.DictType(
 
@@ -5265,4 +5222,32 @@ def output_global_parameters_and_attributes_from_current_data_type(
 #     skip_distance_poly = calculate_skip_distance_poly()
 
 
-import error_detection as ed
+
+
+#--- from neurd_packages ---
+from . import axon_utils as au
+from . import branch_utils as bu
+from . import concept_network_utils as cnu
+from . import graph_filters as gf
+from . import neuron
+from . import neuron_searching as ns
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import data_struct_utils as dsu
+from python_tools import general_utils as gu
+from python_tools import matplotlib_utils as mu
+from python_tools import module_utils as modu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import system_utils as su
+from python_tools.tqdm_utils import tqdm
+
+from . import error_detection as ed

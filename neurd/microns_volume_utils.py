@@ -1,8 +1,15 @@
+'''
 
-"""
+
 How this list was easily generated
 
-"""
+
+
+'''
+import datajoint as dj
+import matplotlib.pyplot as plt
+import networkx as nx
+from scipy.spatial import Delaunay
 
 neuron_attributes = [
  'multiplicity',
@@ -310,7 +317,6 @@ AL_bounds = [
     (375347, 322718, 22722)
 ]
 
-from python_tools import numpy_dep as np
 volume_bound_coordinates = np.vstack([V1_bounds,RL_bounds1,RL_bounds2,AL_bounds])
 
 layer_axis = 1 #the lower the number the higher the cell is in the volume
@@ -329,9 +335,6 @@ def coordinates_to_layer_height(coordinates,turn_negative=True):
         new_coords = -1*new_coords
     return new_coords
     
-from scipy.spatial import Delaunay
-from python_tools import numpy_dep as np
-import matplotlib.pyplot as plt
 def plot_visual_area_xz_projection(
                                   region_names = ["V1","RL","AL"],
                                   region_colors =  ["Blues","Greens","Reds"],
@@ -423,7 +426,6 @@ layer_by_max_height_voxel = {
 
 layer_by_max_height_nm = {k:v*4 for k,v in layer_by_max_height_voxel.items()}
 
-from python_tools import numpy_dep as np
 def EM_coordinates_to_layer(coordinates):
     """
     Purpose: To convert the y value of the EM coordinate(s)
@@ -437,7 +439,6 @@ def EM_coordinates_to_layer(coordinates):
     return layer_names[np.digitize(coordinates[:,1],bins)]    
 
 
-import networkx as nx
 def add_node_attributes_to_proofread_graph(
     G,
     neuron_data_df,
@@ -501,7 +502,6 @@ def add_node_attributes_to_proofread_graph(
 def neuron_soma_layer_height(neuron_obj,soma_name="S0"):
     return mru.coordinates_to_layer_height(neuron_obj["S0"].mesh_center)
 
-from python_tools import numpy_dep as np
 voxel_to_nm_scaling = np.array([4,4,40])
 def em_voxels_to_nm(data):
     return np.array(data)*voxel_to_nm_scaling
@@ -520,8 +520,6 @@ def layer_from_em_centroid_xyz(row):
     layer_labels = mru.EM_coordinates_to_layer(soma_points)[0]
     return layer_labels
 
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
 
 microns_volume_coordinates = np.array(V1_bounds + 
                      RL_bounds1 + 
@@ -568,7 +566,6 @@ def soma_distances_from_microns_volume_bbox_midpoint(neuron_obj,
     else:
         return list(soma_distances.values())
     
-import datajoint as dj
 def em_alignment_data_raw(
     return_dict = True,
     ):
@@ -641,7 +638,6 @@ def unalign_neuron_obj(neuron_obj,**kwargs):
     return neuron_obj
 
 
-import volume_utils
 class DataInterface(volume_utils.DataInterface):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
@@ -666,4 +662,12 @@ data_interface = DataInterface(
     voxel_to_nm_scaling = voxel_to_nm_scaling
 )
 
-import microns_volume_utils as mru
+
+#--- from neurd_packages ---
+from . import volume_utils
+
+#--- from python_tools ---
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+
+from . import microns_volume_utils as mru

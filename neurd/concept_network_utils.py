@@ -1,12 +1,8 @@
+
+import networkx as nx
+
 non_branching_upstream = False
 
-import neuron_statistics as nst
-import neuron_utils as nru
-from python_tools import numpy_dep as np
-from python_tools import networkx_utils as xu
-import networkx as nx
-import neuron_visualizations as nviz
-from mesh_tools import trimesh_utils as tu
 def distance_between_nodes_di(limb_obj,
                       start_idx,
                       destination_idx,
@@ -146,8 +142,6 @@ def branches_with_parent_non_branching(limb_obj):
 
 
 
-from python_tools import numpy_dep as np
-import networkx as nx
 def subgraph_around_branch(limb_obj,
                            branch_idx,
                            upstream_distance=0,
@@ -330,8 +324,6 @@ def upstream_nodes_without_branching(limb_obj,
 
 
 # ------ 6/25: Helps find attributes that are downstream or upstream -------
-from python_tools import numpy_dep as np
-from mesh_tools import skeleton_utils as sk
 
 '''def downstream_attribute(limb_obj,
                                  branch_idx,
@@ -857,8 +849,6 @@ def synapses_upstream(limb_obj,
                        )
     
 
-import axon_utils as au   
-from python_tools import numpy_utils as nu
 def weighted_attribute_upstream_downstream(limb_obj,
                                           branch_idx,
                                            direction,
@@ -1178,8 +1168,6 @@ def skeletal_length_downstream(limb_obj,
 
 
 # ------------ synapse density ---------- #
-import axon_utils as au   
-from python_tools import numpy_utils as nu
 
 
 
@@ -1372,7 +1360,6 @@ def skeleton_downstream_restricted(limb_obj,
 
     return restr_sk
 
-import width_utils as wu
 
 def width_downstream_restricted(limb_obj,
                                branch_idx,
@@ -1389,7 +1376,7 @@ def width_downstream_restricted(limb_obj,
     
     Ex: 
     
-    import concept_network_utils as cnu
+    from neurd_packages import concept_network_utils as cnu
     
     cnu.width_downstream_restricted(
     limb_obj = neuron_obj_exc_syn_sp[0],
@@ -1459,7 +1446,6 @@ def width_downstream_restricted(limb_obj,
 
     return new_width
 
-from python_tools import networkx_utils as xu
 def G_weighted_from_limb(limb_obj,
                                       weight_name = "weight",
                                     upstream_attribute_for_weight = "skeletal_length",
@@ -1502,7 +1488,6 @@ def G_weighted_from_limb(limb_obj,
 
                 G.nodes[n][curr_name] = nst.get_stat(limb_obj[n],n_prop)
     return G
-from python_tools import numpy_utils as nu
 def all_downstream_branches_from_branches(limb_obj,
                                          branches,
                                          include_original_branches=False,
@@ -1607,7 +1592,6 @@ def feature_over_branches(
     else:
         return branches_val
     
-from python_tools import numpy_utils as nu
 def weighted_feature_over_branches(
     limb_obj,
     branches,
@@ -1712,7 +1696,6 @@ def all_downstream_nodes(limb_obj,branch_idx):
     return xu.all_downstream_nodes(limb_obj.concept_network_directional,
                                    branch_idx)
 
-from python_tools import numpy_dep as np
 def upstream_branches_in_branches_list(limb_obj,
                                        branches):
     """
@@ -1739,4 +1722,22 @@ def upstream_branches_in_branches_list(limb_obj,
     return upstream_nodes
     
 
-import concept_network_utils as cnu
+
+
+#--- from neurd_packages ---
+from . import axon_utils as au   
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import width_utils as wunon_branching_upstream 
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+
+from . import concept_network_utils as cnu

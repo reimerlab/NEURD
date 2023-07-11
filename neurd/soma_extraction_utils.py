@@ -1,17 +1,19 @@
+
+from copy import deepcopy
+import datajoint as dj
+import os
+from pathlib import Path
+from pykdtree.kdtree import KDTree
+import random
+import time
+import trimeshtry
+import trimesh
+
 try:
     import cgal_Segmentation_Module as csm
 except:
     pass
-import time
-import trimesh
-from python_tools import numpy_dep as np
-import datajoint as dj
-import os
-from mesh_tools import meshlab
-from pathlib import Path
-from pykdtree.kdtree import KDTree
 
-from mesh_tools import trimesh_utils as tu
 #from mesh_tools.trimesh_utils import split_significant_pieces,split
 #from python_tools import numpy_utils as np
 
@@ -63,7 +65,6 @@ def side_length_check(current_mesh,side_length_ratio_threshold=3):
     else:
         return True
 
-import random
 
 def largest_mesh_piece(msh):
     mesh_splits_inner = msh.split(only_watertight=False)
@@ -71,7 +72,6 @@ def largest_mesh_piece(msh):
     ordered_mesh_splits_inner = mesh_splits_inner[np.flip(np.argsort(total_mesh_split_lengths_inner))]
     return ordered_mesh_splits_inner[0]
 
-from python_tools import system_utils as su
 def soma_volume_ratio(current_mesh,
                      #watertight_method="fill_holes,
                      watertight_method="poisson",
@@ -142,10 +142,6 @@ def soma_volume_check(current_mesh,multiplier=8,verbose = True):
 
 
 # -------------- Function that will extract the soma ------- #
-from mesh_tools import meshlab
-from copy import deepcopy
-from python_tools import system_utils as su
-from python_tools import numpy_utils as nu
 
 
 def filter_away_inside_soma_pieces(
@@ -352,7 +348,6 @@ def subtract_soma(current_soma_list,main_mesh,
     
     return mesh_pieces
 
-from python_tools import numpy_utils as nu
 def find_soma_centroids(soma_mesh_list):
     """
     Will return a list of soma centers if given one mesh or list of meshes
@@ -439,8 +434,6 @@ def grouping_containing_mesh_indices(containing_mesh_indices):
 
 """ ---------- 9/23: Addition to help filter away false somas"""
 
-import soma_extraction_utils as sm
-import time
 
 def original_mesh_soma(
     mesh,
@@ -714,8 +707,6 @@ def original_mesh_soma_old(
         
     return soma_meshes_new
     
-from python_tools import system_utils as su
-from python_tools import numpy_dep as np
 def extract_soma_center(
     segment_id,
     current_mesh_verts=None,
@@ -1929,9 +1920,6 @@ def remove_nuclei_and_glia_meshes(
     
 # ------------------------- Parameters ---------------------
 # ------------- Setting up parameters -----------
-from python_tools import module_utils as modu 
-from python_tools import general_utils as gu
-from python_tools import data_struct_utils as dsu
 
 # -- default
 attributes_dict_default = dict(
@@ -2106,4 +2094,18 @@ def output_global_parameters_soma(**kwargs):
 
     
     
-import soma_extraction_utils as sm
+
+
+#--- from mesh_tools ---
+from mesh_tools import meshlab
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import data_struct_utils as dsu
+from python_tools import general_utils as gu
+from python_tools import module_utils as modu 
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import system_utils as su
+
+from . import soma_extraction_utils as sm

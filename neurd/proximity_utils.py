@@ -1,14 +1,6 @@
-import datajoint as dj
-from neuron_morphology_tools import neuron_nx_utils as nxu
-from mesh_tools import skeleton_utils as sk
-from python_tools import numpy_dep as np
-from python_tools import ipyvolume_utils as ipvu
-from python_tools import numpy_utils as nu
-from python_tools import numpy_dep as np
-import neuron_visualizations as nviz
-from python_tools import networkx_utils as xu
+'''
 
-"""
+
 Notes on proximities: 
 - There are some undercounting of n_synapses in the proximity counting if a lot of synapses
 because the cancellation distance 5000, but the search for synapses is only 3000 so could have missed some
@@ -17,7 +9,15 @@ in that cancellation range and search range
 --> but the 
 
 
-"""
+
+
+'''
+import datajoint as dj
+import h
+import pandas as pd
+from pykdtree.kdtree import KDTree
+import time
+
 
 def synapse_coordinates_from_df(df):
     return df[
@@ -71,7 +71,6 @@ def proximity_search_neurons_from_database(
         return_node_names = True
     )
 
-import time
 def presyn_proximity_data(
     segment_id,
     split_index,
@@ -330,9 +329,6 @@ def postsyn_proximity_data(
     
     return return_dict
 
-import neuron_visualizations as nviz
-import pandas as pd
-from pykdtree.kdtree import KDTree
 def proximity_pre_post(
     segment_id_pre,
     segment_id_post,
@@ -770,12 +766,9 @@ def example_proximity(
         return_df = return_df
     )
 
-import proximity_utils as pxu
 # ------------- Setting up parameters -----------
-from python_tools import module_utils as modu 
 
 # -- default
-import microns_volume_utils as mvu
 attributes_dict_default = dict(
     voxel_to_nm_scaling = mvu.voxel_to_nm_scaling,
     hdju = mvu.data_interface
@@ -789,7 +782,7 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-import h01_volume_utils as hvu
+from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -840,3 +833,25 @@ def output_global_parameters_and_attributes_from_current_data_type(
         algorithms_only = algorithms_only,
         **kwargs,
         )
+
+
+#--- from neuron_morphology_tools ---
+
+
+#--- from neurd_packages ---
+from . import h
+from . import microns_volume_utils as mvu
+from . import neuron_nx_utils as nxu
+from . import neuron_visualizations as nviz
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+
+#--- from python_tools ---
+from python_tools import ipyvolume_utils as ipvu
+from python_tools import module_utils as modu 
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+
+from . import proximity_utils as pxu

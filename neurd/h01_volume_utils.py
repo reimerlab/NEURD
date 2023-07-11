@@ -1,10 +1,10 @@
-from python_tools import numpy_dep as np
-from python_tools import linalg_utils as lu
+
+import copy
+import h
 
 voxel_to_nm_scaling = np.array([8,8,33])
 source = "h01"
 current_nucleus_version = 0
-import copy
 # -------------- Functions for finding the rotation matrix needed -------
 top_radius =700_000 #when magn = 1
 bottom_radius = 350_000 #when magn = 0
@@ -16,8 +16,6 @@ align_vector = np.array([ 0.85082648, -0.52544676,  0.        ])
 upward_vector_top_left = np.array([])
 
 
-import microns_volume_utils as mvu
-from python_tools import numpy_utils as nu
 
 def aligning_matrix_3D(upward_vector=align_vector,#upward_vector_middle,
                 target_vector = mvu.top_of_layer_vector,
@@ -37,7 +35,6 @@ def aligning_matrix_3D(upward_vector=align_vector,#upward_vector_middle,
             print(f"upward_vector AFTER = {upward_vector}")
     return nu.aligning_matrix_3D(upward_vector,target_vector)
 
-from mesh_tools import trimesh_utils as tu
 def align_mesh_from_rotation(mesh,align_mat = None,upward_vector = None,
                rotation= None,
                              verbose = False,
@@ -332,10 +329,6 @@ def align_skeleton(
     **kwargs
     )
 
-from mesh_tools import trimesh_utils as tu
-import copy
-import neuron_visualizations as nviz
-import synapse_utils as syu
 
 def align_attribute(obj,attribute_name,
                     soma_center=None,
@@ -502,7 +495,6 @@ def align_neuron_obj(
         nviz.visualize_neuron(neuron_obj,limb_branch_dict = "all")
     return neuron_obj
 
-from python_tools import numpy_dep as np
 def unalign_neuron_obj(neuron_obj,
                        align_attribute = "align_matrix",
                        verbose = False,
@@ -534,7 +526,6 @@ def unalign_neuron_obj(neuron_obj,
     
     return curr_neuron
 
-import volume_utils
 class DataInterface(volume_utils.DataInterface):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
@@ -559,4 +550,20 @@ data_interface = DataInterface(
     voxel_to_nm_scaling = voxel_to_nm_scaling
 )
 
-import h01_volume_utils as hvu
+from . import h01_volume_utils as hvu
+
+
+#--- from neurd_packages ---
+from . import h
+from . import microns_volume_utils as mvu
+from . import neuron_visualizations as nviz
+from . import synapse_utils as syu
+from . import volume_utils
+
+#--- from mesh_tools ---
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import linalg_utils as lu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu

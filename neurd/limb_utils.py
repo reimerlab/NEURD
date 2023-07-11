@@ -1,4 +1,4 @@
-from python_tools import networkx_utils as xu
+
 
 def all_paths_to_leaf_nodes(
     limb_obj,
@@ -8,9 +8,6 @@ def all_paths_to_leaf_nodes(
             verbose = verbose,
         )
 # ---------- statistics ----------------
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-import neuron_utils as nru
 
 default_relation_value = -1
 
@@ -30,7 +27,7 @@ def parent_skeletal_angle(
     3) Get the angle between the two
     
     Ex: 
-    import limb_utils as lu
+    from neurd_packages import limb_utils as lu
     lu.parent_skeletal_angle(
     branch_idx = 2,
     limb_obj = neuron_obj[1],
@@ -54,7 +51,6 @@ def parent_skeletal_angle(
         branch_obj_2.skeleton_vector_upstream),2
     )
 
-import branch_utils as bu
 def relation_skeletal_angle(
     limb_obj,
     branch_idx,
@@ -212,9 +208,6 @@ def children_skeletal_angle_min(
     )
 
 
-import neuron_utils as nru
-from python_tools import numpy_dep as np
-import neuron_visualizations as nviz
 def most_usptream_endpoints_of_branches_on_limb(
     limb_obj,
     branches_idx,
@@ -358,7 +351,7 @@ def width_upstream(
     2) Get the parent width
     
     Ex: 
-    import limb_utils as lu
+    from neurd_packages import limb_utils as lu
     lu.width_upstream(neuron_obj[1],5,verbose = True)
     """
     parent_node = nru.parent_node(limb_obj,branch_idx)
@@ -387,11 +380,8 @@ def width_upstream(
     
 
 # ------------ automatically create limb functions out of existing functions ------
-import limb_utils as lu
-import neuron_searching as ns
 ns.set_limb_functions_for_search(lu,verbose = False)
 
-import neuron_statistics as nst
 def skeletal_angles_df(neuron_obj,
     functions_list=(lu.parent_skeletal_angle_limb_ns,
                     lu.siblings_skeletal_angle_max_limb_ns,
@@ -401,3 +391,18 @@ def skeletal_angles_df(neuron_obj,
         
     return angles_df
 
+
+
+#--- from neurd_packages ---
+from . import branch_utils as bu
+from . import neuron_searching as ns
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+
+#--- from python_tools ---
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+
+from . import limb_utils as lu

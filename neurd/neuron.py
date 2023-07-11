@@ -1,38 +1,21 @@
-import networkx as nx
-from python_tools import numpy_dep as np
-
-#neuron module specific imports
-from mesh_tools import compartment_utils as cu
-from python_tools import matplotlib_utils as mu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_utils as nu
-from mesh_tools import skeleton_utils as sk
-from mesh_tools import trimesh_utils as tu
-import time
-import soma_extraction_utils as sm
-from python_tools import system_utils as su
-
-import neuron_visualizations as nviz
-import neuron_utils as nru
-from pathlib import Path
-from python_tools import algorithms_utils as agu
-import axon_utils as au
-import neuron_searching as ns
-from pykdtree.kdtree import KDTree #to be used for the soma_vertex nullification
-
-import width_utils as wu
-from mesh_tools import meshlab
 
 import copy 
-
+from copy import deepcopy as dc
+import networkx as nx
+from pathlib import Path
+from pykdtree.kdtree import KDTree
+from pykdtree.kdtree import KDTree 
 import sys
+import time
+
+#neuron module specific imports
+#to be used for the soma_vertex nullification
+
+
+
 current_module = sys.modules[__name__]
 
 
-import spine_utils as spu
-import classification_utils as clu
-import apical_utils as apu
-import neuron_statistics as nst
 
 
 branch_mesh_attributes = ["spines","boutons"]
@@ -41,7 +24,6 @@ computed_attribute_list = ["width_array","width_array_skeletal_lengths","width_n
                                                   "boutons_volume",
                                                   "labels","boutons_cdfs","web_cdf","web","head_neck_shaft_idx"] + branch_mesh_attributes + object_attributes
 
-import synapse_utils as syu
 object_name_to_class = dict(synapses=syu.Synapse,
                            spines_obj = spu.Spine)
 
@@ -88,7 +70,6 @@ def convert_soma_to_piece_connectivity_to_graph(soma_to_piece_connectivity):
     return concept_network 
 
     
-from copy import deepcopy as dc
 
 
 def dc_check(current_object,attribute,default_value = None):
@@ -122,7 +103,6 @@ def copy_concept_network(curr_network):
         
     return copy_network
 
-import branch_utils as bu
 class Branch:
     """
     Class that will hold one continus skeleton
@@ -1108,7 +1088,7 @@ class Limb:
         from python_tools import networkx_utils as xu
         xu = reload(xu)
         import matplotlib.pyplot as plt
-        import neuron_utils as nru
+        from neurd_packages import neuron_utils as nru
         
         curr_limb_idx = 0
         no_cycles = True
@@ -1195,7 +1175,7 @@ class Limb:
         
         Example: 
         
-        import neuron_visualizations as nviz
+        from neurd_packages import neuron_visualizations as nviz
 
         curr_limb_obj = recovered_neuron.concept_network.nodes["L1"]["data"]
         print(xu.get_starting_node(curr_limb_obj.concept_network_directional))
@@ -2100,8 +2080,7 @@ class Soma:
     
 
 
-#import preprocess_neuron as pn
-import preprocessing_vp2 as pre
+#from neurd_packages import preprocess_neuron as pn
 
 class Neuron:
     """
@@ -2152,7 +2131,7 @@ class Neuron:
     # description = "double_soma_meshafterparty"
 
     # # --------------------- Processing the Neuron ----------------- #
-    # import soma_extraction_utils as sm
+    # from neurd_packages import soma_extraction_utils as sm
 
     # somas = sm.extract_soma_center(segment_id,
     #                              current_neuron_mesh.vertices,
@@ -2164,7 +2143,7 @@ class Neuron:
     # cu = reload(cu)
 
     # from mesh_tools import meshparty_skeletonize as m_sk
-    # import preprocess_neuron as pn
+    # from neurd_packages import preprocess_neuron as pn
     # pn = reload(pn)
     # m_sk = reload(m_sk)
 
@@ -2916,7 +2895,7 @@ class Neuron:
         nu= reload(nu)
         tu = reload(tu)
 
-        import soma_extraction_utils as sm
+        from neurd_packages import soma_extraction_utils as sm
         sm = reload(sm)
 
         obj1 = neuron.Neuron(double_soma_obj,suppress_output=False)
@@ -4029,5 +4008,35 @@ class Neuron:
         return len(self.synapses_total)
     
 
-from pykdtree.kdtree import KDTree
     
+
+
+#--- from neurd_packages ---
+from . import apical_utils as apu
+from . import axon_utils as au
+from . import branch_utils as bu
+from . import classification_utils as clu
+from . import preprocessing_vp2 as pre
+from . import soma_extraction_utils as sm
+from . import spine_utils as spu
+from . import synapse_utils as syu
+from . import width_utils as wu
+
+#--- from mesh_tools ---
+from mesh_tools import compartment_utils as cu
+from mesh_tools import meshlab
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import algorithms_utils as agu
+from python_tools import matplotlib_utils as mu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import system_utils as su
+
+from . import neuron_searching as ns
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz

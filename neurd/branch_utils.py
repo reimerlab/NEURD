@@ -1,3 +1,8 @@
+
+import copy
+from pykdtree.kdtree import KDTree
+import time
+
 non_optional_features = [
     "mesh",
     "mesh_face_idx",
@@ -40,14 +45,7 @@ optional_features_recalculate = [
     "_skeleton_graph",
 ]
 
-import copy
-from python_tools import numpy_dep as np
-import synapse_utils as syu
-import spine_utils as spu
-import branch_attr_utils as bau
-from python_tools import ipyvolume_utils as ipvu
 
-from mesh_tools import skeleton_utils as sk
 def skeleton_adjust(
     branch_obj,
     skeleton = None,
@@ -78,7 +76,6 @@ def skeleton_adjust(
     
     return branch_obj
 
-from mesh_tools import skeleton_utils as sk
 def add_jitter_to_endpoint(
     branch_obj,
     endpoint,
@@ -135,11 +132,6 @@ def combine_attr_lists(list_1,list_2,verbose = False):
                 print(f"both arrays")
             return np.concatenate([list_1,list_2])
 
-from mesh_tools import trimesh_utils as tu
-import copy
-from python_tools import numpy_utils as nu
-from mesh_tools import skeleton_utils as sk
-import time
 def combine_branches(
     branch_upstream,
     branch_downstream,
@@ -155,7 +147,7 @@ def combine_branches(
     
     
     Ex: 
-    import branch_utils as bu
+    from neurd_packages import branch_utils as bu
 
     branch_upstream = copy.deepcopy(neuron_obj[0][upstream_branch])
     branch_downstream= copy.deepcopy(neuron_obj[0][downstream_branch])
@@ -422,7 +414,6 @@ def combine_branches(
         return b_obj
     
 # --------------- setting branch attributes --------------
-import neuron_utils as nru
 def set_branch_attr_on_limb(
     limb_obj,
     func,
@@ -585,7 +576,6 @@ def skeleton_vector_downstream(
     )
 
 
-from python_tools import numpy_dep as np
 def width_endpoint(
     branch_obj,
     endpoint, # if None then will select most upstream endpoint of branch
@@ -719,8 +709,6 @@ def min_dist_synapses_post_downstream(
     )
 
 
-from pykdtree.kdtree import KDTree
-from python_tools import numpy_dep as np
 def closest_mesh_skeleton_dist(
     obj,
     verbose = False):
@@ -738,7 +726,6 @@ def closest_mesh_skeleton_dist(
         
     return min_dist
 
-import neuron_visualizations as nviz
 def mesh_shaft(
     obj,
     plot = False,
@@ -769,7 +756,6 @@ def mesh_shaft_idx(obj,
     plot = False,):
     return mesh_shaft(obj,plot=plot,return_mesh=False)
 
-from python_tools import numpy_dep as np
 def is_skeleton_upstream_to_downstream(branch_obj,verbose = False):
     upstream_endpoint = branch_obj.endpoint_upstream
     if verbose:
@@ -808,7 +794,6 @@ def width_array_skeletal_lengths_upstream_to_downstream(branch_obj,verbose = Fal
         return np.flip(branch_obj.width_array_skeletal_lengths)
     
     
-import width_utils as wu
 def skeletal_coordinates_upstream_to_downstream(
     branch_obj,
     verbose = False,
@@ -923,7 +908,6 @@ spine_dynamics_attrs = [
     #"soma_distance"
 ]
 
-import spine_utils as spu
 def width_array_upstream_to_dowstream_with_skeletal_points(
     branch_obj,
     width_name = "no_spine_median_mesh_center",
@@ -1020,7 +1004,7 @@ def refine_width_array_to_match_skeletal_coordinates(
     def skeletal_coordinates_upstream_to_downstream_length(branch_obj,**kwargs):
         return len(branch_obj.skeletal_coordinates_upstream_to_downstream)
 
-    import neuron_searching as ns
+    from neurd_packages import neuron_searching as ns
     lb = ns.query_neuron(
         neuron_obj,
         functions_list=[
@@ -1040,7 +1024,6 @@ def refine_width_array_to_match_skeletal_coordinates(
     
     return neuron_obj
 
-from mesh_tools import skeleton_utils as sk
 def endpoint_type_with_offset(
     branch_obj,
     endpoint_type="upstream",
@@ -1106,11 +1089,8 @@ def endpoint_downstream_with_offset(
         verbose= verbose,
         )
 
-import branch_utils as bu
 # -------------------------------------------------------
 
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
 
 global_parameters_dict_default = dict(
     offset_skeleton_vector = 500,
@@ -1173,3 +1153,26 @@ def output_global_parameters_and_attributes_from_current_data_type(
         algorithms_only = algorithms_only,
         **kwargs,
         )
+
+
+
+#--- from neurd_packages ---
+from . import branch_attr_utils as bau
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import spine_utils as spu
+from . import synapse_utils as syu
+from . import width_utils as wunon_optional_features 
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import general_utils as gu
+from python_tools import ipyvolume_utils as ipvu
+from python_tools import module_utils as modu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+
+from . import branch_utils as bu

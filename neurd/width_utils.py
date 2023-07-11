@@ -1,10 +1,5 @@
-from mesh_tools import compartment_utils as cu
-from mesh_tools import skeleton_utils as sk
-from mesh_tools import trimesh_utils as tu
-from python_tools import numpy_dep as np
-import neuron_utils as nru
-from python_tools import networkx_utils as xu
-from python_tools import numpy_utils as nu
+
+import time
 
 
 default_skeleton_segment_size = 1000
@@ -514,7 +509,6 @@ def calculate_new_width_for_neuron_obj(neuron_obj,
                 curr_branch_obj.width_array_skeletal_lengths = None
                     
                     
-import time
 
 def neuron_width_calculation_standard(
     neuron_obj,
@@ -539,4 +533,19 @@ def neuron_width_calculation_standard(
     return neuron_obj
 
 
-import width_utils as wu
+
+
+#--- from neurd_packages ---
+from . import neuron_utils as nru
+
+#--- from mesh_tools ---
+from mesh_tools import compartment_utils as cu
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+
+from . import width_utils as wu

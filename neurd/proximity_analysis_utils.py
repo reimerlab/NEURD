@@ -1,8 +1,11 @@
-from python_tools import pandas_utils as pu
+
+import datajoint as dj
+import h
+import matplotlib.pyplot as plt
 import pandas as pd
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
+from pykdtree.kdtree import KDTree
 import seaborn as sns
+import time
 
 def conversion_rate_by_attribute_and_cell_type_pairs(
     df,
@@ -142,7 +145,6 @@ def example_basal_conversion_rate(df=None,**kwargs):
         **kwargs
     )
     
-import time
 def conversion_df_from_proximity_df(
     df,
     in_place = False,
@@ -195,33 +197,21 @@ def conversion_df_from_proximity_df(
         
     return df_conv
     
-import proximity_analysis_utils as pxa
 
 
 
 # -------------- For the functional proximity analysis ---------
-import time
 
 #------ data fetching --------
-from neuron_morphology_tools import neuron_nx_utils as nxu
 
 # ------------ Postsyn side ----------------------
-from python_tools import pandas_utils as pu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from pykdtree.kdtree import KDTree
-from neuron_morphology_tools import neuron_nx_utils as nxu
 
 # ---- presyn side ----
-import pandas as pd
 
 # --- pairwise analysis 
-from python_tools.tqdm_utils import tqdm
-import datajoint as dj
 
 
 
-import pandas as pd
 def pairwise_presyn_proximity_onto_postsyn(
     segment_id,
     split_index=0,
@@ -624,10 +614,6 @@ def add_euclidean_dist_to_prox_df(
 
     return df_with_centr
 
-import nature_paper_plotting as npp
-from python_tools import pandas_utils as pu
-import matplotlib.pyplot as plt
-from python_tools import matplotlib_utils as mu
 
 def conversion_rate(df):
     if len(df) == 0:
@@ -758,10 +744,8 @@ def plot_prox_func_vs_attribute_from_edge_df(
     return ax
 
 # ------------- Setting up parameters -----------
-from python_tools import module_utils as modu 
 
 # -- default
-import microns_volume_utils as mvu
 attributes_dict_default = dict(
     voxel_to_nm_scaling = mvu.voxel_to_nm_scaling,
     hdju = mvu.data_interface
@@ -775,7 +759,7 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-import h01_volume_utils as hvu
+from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -826,3 +810,23 @@ def output_global_parameters_and_attributes_from_current_data_type(
         algorithms_only = algorithms_only,
         **kwargs,
         )
+
+#--- from neuron_morphology_tools ---
+
+
+#--- from neurd_packages ---
+from . import h
+from . import microns_volume_utils as mvu
+from . import nature_paper_plotting as npp
+from . import neuron_nx_utils as nxu
+
+#--- from python_tools ---
+from python_tools import matplotlib_utils as mu
+from python_tools import module_utils as modu 
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import pandas_utils as pu
+from python_tools.tqdm_utils import tqdm
+
+from . import proximity_analysis_utils as pxa

@@ -1,16 +1,20 @@
-"""
+'''
+
+
 Good neuron to show off for classification
 
 old_seg_id  = 864691135099943968
 neuron_obj = du.decomposition_with_spine_recalculation(old_seg_id,0)
-import apical_utils as apu
+from . import apical_utils as apu
 apu.apical_classification(neuron_obj,
                           plot_labels=True,
                           verbose = True
                          )
-"""
 
-from python_tools import ipyvolume_utils as ipvu
+
+'''
+import h
+
 
 compartment_colors = dict(
 apical = "blue",
@@ -98,12 +102,6 @@ def compartment_labels_for_synapses_stats():
 def compartment_labels_for_externals():
     return [k for k in coarse_fine_compartment_map.keys() if k not in ["no_label","soma"]]
 
-import neuron_utils as nru
-import neuron_searching as ns
-import neuron_statistics as nst
-import microns_volume_utils as mcu
-import neuron_visualizations as nviz
-from python_tools import numpy_dep as np
 
 
 
@@ -125,7 +123,6 @@ def compartment_label_to_all_labels(label):
     else:
         return [label]
     
-import spine_utils as spu
 def spine_labels_from_compartment(label):
     if label == "axon":
         return ["bouton","non_bouton"]
@@ -234,7 +231,7 @@ def apical_shaft_classification_old(
     4) Pick the largest candidate as winner
     
     Ex: 
-    import apical_utils as apu
+    from neurd_packages import apical_utils as apu
     apu.apical_shaft_classification(neuron_obj,
                                candidate=apical_candidates[0],
                                verbose = True,
@@ -332,7 +329,6 @@ def apical_shaft_classification_old(
         else:
             return winning_limb_branch_dict[k[0]]
     
-from python_tools import filtering_utils as flu
 def filter_apical_candidates(neuron_obj,
                              candidates,
                              min_skeletal_length = None,#10_000,#30000,#50000,
@@ -531,10 +527,6 @@ def apical_shaft_direct_downstream(neuron_obj,
     return apical_starters
 
     
-import neuron_searching as ns
-import neuron_statistics as nst
-import neuron_utils as nru
-import apical_utils as apu
 
 def apical_classification(
     neuron_obj,
@@ -1023,8 +1015,6 @@ def oblique_classification(
         
     return oblique_limb_branch
 
-import concept_network_utils as cnu
-from python_tools import numpy_utils as nu
 def apical_classification_high_soma_center(
     neuron_obj,
     
@@ -1161,7 +1151,6 @@ verbose = True)
 
     return curr_label
 
-import synapse_utils as syu
 def set_neuron_synapses_compartment(neuron_obj,**kwargs):
     """
     Purpose: Will set the compartment labels of all synapses
@@ -1212,7 +1201,6 @@ def compartment_classification_by_cell_type(neuron_obj,
     return neuron_obj
 
 
-import neuron_statistics as nst
 def compartments_stats(neuron_obj,
                      compartment_labels = None,
                      verbose = False):
@@ -1610,7 +1598,7 @@ def compartment_from_face_overlap_with_comp_faces_dict(
     greater than current max then set as compartment
     
     Ex: 
-    import neuron_utils as nru
+    from neurd_packages import neuron_utils as nru
     neuron_obj = hdju.neuron_objs_from_cell_type_stage(segment_id)
 
     decimated_mesh = hdju.fetch_segment_id_mesh(segment_id)
@@ -1674,11 +1662,8 @@ def max_height_for_multi_soma():
     return -1*multi_apical_height_global
 multi_soma_y = max_height_for_multi_soma
 
-import apical_utils as apu
 
 # ------------- parameters for stats ---------------
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
 
 global_parameters_dict_default_apical = dict(
     #apical parameters
@@ -1753,7 +1738,7 @@ global_parameters_dict_h01 = gu.merge_dicts([
         global_parameters_dict_h01_apical
 ])
 
-import h01_volume_utils as hvu
+from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     rotation_function_axon_alignment = hvu.data_interface.align_neuron_obj,
     unrotation_function_axon_alignment =  hvu.data_interface.unalign_neuron_obj,
@@ -1781,3 +1766,24 @@ set_global_parameters_and_attributes_by_data_type(
 
 
     
+
+#--- from neurd_packages ---
+from . import concept_network_utils as cnu
+from . import h
+from . import microns_volume_utils as mcu
+from . import neuron_searching as ns
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import spine_utils as spu
+from . import synapse_utils as syu
+
+#--- from python_tools ---
+from python_tools import filtering_utils as flu
+from python_tools import general_utils as gu
+from python_tools import ipyvolume_utils as ipvu
+from python_tools import module_utils as modu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+
+from . import apical_utils as apu

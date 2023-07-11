@@ -1,12 +1,11 @@
-from mesh_tools import skeleton_utils as sk
-from python_tools import numpy_dep as np
-from python_tools import networkx_utils as xu
-import error_detection as ed
-import neuron_utils as nru
 
+import copy
+import h
 import itertools
 import networkx as nx
-import copy
+from pykdtree.kdtree import KDTree
+import time
+
 
 current_proof_version = 6 #has the inhibitory rules and safer overall axon rules
 current_proof_version = 7 #has the inhibitory rules and safer overall axon rules
@@ -53,7 +52,6 @@ proofreading_rule_color_dict = {
  'double_back_dendrite': 'grey'   
 }
 
-from mesh_tools import skeleton_utils as sk
 def get_best_cut_edge(curr_limb,
                       cut_path,
                       
@@ -1400,14 +1398,6 @@ def split_suggestions_to_concept_networks_old(neuron_obj,limb_results,
 
 # --------------- Functions that do the actual limb and Neuron Splitting --------- #
 
-from python_tools import numpy_dep as np
-import preprocessing_vp2 as pre
-from python_tools import networkx_utils as xu
-from mesh_tools import trimesh_utils as tu
-import neuron_utils as nru
-import neuron
-import copy
-import networkx as nx
 
 def split_neuron_limb_by_seperated_network(neuron_obj,
                      curr_limb_idx,
@@ -1682,12 +1672,6 @@ def split_neuron_limb_by_seperated_network(neuron_obj,
 
 # ----------------12/27: Whole Neuron Splitting ------------------------ #
 
-import networkx as nx
-from python_tools import networkx_utils as xu
-from mesh_tools import trimesh_utils as tu
-import preprocessing_vp2 as pre
-import neuron_visualizations as nviz
-from python_tools import system_utils as su
 
 
 
@@ -2219,8 +2203,6 @@ def split_neuron(neuron_obj,
         return neuron_list
 
 
-from python_tools import numpy_utils as nu
-import time
 '''
 def collapse_branches_on_limb_old(limb_obj,branch_list,
                              plot_new_limb=False,
@@ -2634,8 +2616,6 @@ def collapse_branches_on_limb(limb_obj,branch_list,
 
 # ----------------- 1/26: Final Proofreading Rules splitting ------------#
 
-import copy
-import networkx as nx
 
 
 def delete_branches_from_limb(neuron_obj,
@@ -2746,7 +2726,6 @@ def delete_branches_from_neuron(neuron_obj,
     
     
 # ----------- 1/28 Proofreading Rules that will help filter a neuron object --------------- #
-import classification_utils as clu
 
 def filter_away_limb_branch_dict(neuron_obj,
                                  limb_branch_dict=None,
@@ -2826,9 +2805,7 @@ def filter_away_limb_branch_dict(neuron_obj,
         return new_neuron
     
     
-import copy
 
-import neuron_searching as ns
 def filter_away_axon_on_dendrite_merges_old(
     neuron_obj,
     perform_deepcopy = True,
@@ -2930,8 +2907,6 @@ def filter_away_axon_on_dendrite_merges_old(
 
 #---------- Rule 2: Removing Dendritic Merges on Axon ------------- #
 
-import copy
-import neuron_searching as ns
 def filter_away_dendrite_on_axon_merges_old(
     neuron_obj,
     perform_deepcopy=True,
@@ -3173,8 +3148,6 @@ def filter_away_low_branch_length_clusters(neuron_obj,
     
 # ---------- Rule 4: Width and doubling back rules ---------------- #
 
-import networkx as nx
-from python_tools import networkx_utils as xu
 
 def edges_to_cut_by_doubling_back_and_width_change(
     limb_obj,
@@ -3378,7 +3351,6 @@ def filter_away_large_double_back_or_width_changes(neuron_obj,
     
 # ------------- Rule 5: Resolving Crossing Traintracks --------------------- #
 
-import error_detection as ed
 
 def edges_to_create_and_delete_crossover(
                                         limb_obj,
@@ -3517,7 +3489,6 @@ def filter_away_crossovers(neuron_obj,
 
 # ------------- Rule 6: Filtering Away High Degree Edges --------------------- #
 
-from python_tools import numpy_utils as nu
 def edges_to_create_and_delete_high_degree_coordinates(limb_obj,
                                                      min_degree_to_find = 5,
                                                        axon_dependent = True,
@@ -3613,8 +3584,6 @@ def make_filter_dict(filter_name,
                filter_kwargs=filter_kwargs,
                catch_error=catch_error)
 
-from python_tools import general_utils as gu
-import neuron_simplification as nsimp 
 
 def apply_proofreading_filters_to_neuron(
     input_neuron,
@@ -3749,7 +3718,7 @@ def apply_proofreading_filters_to_neuron(
                                                             plot_all_blue_red_groups = False,
                                                              verbose = False)
             if return_split_locations:
-                import limb_utils as lu
+                from neurd_packages import limb_utils as lu
                 split_locations_before_filter = lu.most_upstream_endpoints_of_limb_branch(
                     input_neuron,
                     limb_branch_dict = limb_branch_dict_to_cancel_before_filt,
@@ -4005,7 +3974,6 @@ def get_exc_filters_high_fidelity_axon_postprocessing_old():
     return exc_filters
 
 
-import neuron_searching as ns
 def proofread_neuron(
     
     input_neuron,
@@ -4210,7 +4178,7 @@ def proofread_neuron(
             if verbose or verbose_outline:
                 print(f"Skipping Axon Classification")
             axon_limb_branch_dict=neuron_obj.axon_limb_branch_dict
-            import axon_utils as au
+            from neurd_packages import axon_utils as au
             axon_angles = au.axon_angles(neuron_obj)
 
 
@@ -4354,7 +4322,6 @@ def proofread_neuron(
 
 # --------------- Proofreading The Synapses ------------------------- #
 
-from pykdtree.kdtree import KDTree
 def synapse_filtering(neuron_obj,
                 split_index,
                 nucleus_id,
@@ -4649,7 +4616,6 @@ def synapse_filtering(neuron_obj,
     return return_value
 
 
-from python_tools import numpy_utils as nu
 
 def calculate_error_rate(total_error_synapse_ids_list,
                         synapse_stats_list,
@@ -4735,16 +4701,8 @@ def calculate_error_rate(total_error_synapse_ids_list,
     return return_dict
 
 
-import classification_utils as clu
-from pykdtree.kdtree import KDTree
-import proofreading_utils as pru
-import neuron_utils as nru
-import time
-from mesh_tools import trimesh_utils as tu
 
-from python_tools import numpy_dep as np
 
-import synapse_utils as syu
 def proofreading_table_processing(key,
                                   proof_version,
                                   axon_version,
@@ -5142,9 +5100,6 @@ def proofreading_table_processing(key,
     
     
     
-import copy
-import preprocessing_vp2 as pre
-import neuron_visualizations as nviz
 
 def refine_axon_for_high_fidelity_skeleton(neuron_obj,
     plot_new_axon_limb_correspondence = False,
@@ -5347,7 +5302,6 @@ def refine_axon_for_high_fidelity_skeleton(neuron_obj,
     
     return neuron_obj_revised
 
-import neuron_simplification as nsimp
 def proofread_neuron_class_predetermined(neuron_obj,
     inh_exc_class,
     perform_axon_classification=False,
@@ -5553,8 +5507,6 @@ def plot_limb_to_red_blue_groups(neuron_obj,
                          scatter_size=scatter_size,)
     
 
-import concept_network_utils as cnu
-import neuron_statistics as nst
 def limb_errors_to_cancel_to_red_blue_group(
     limb_obj,
     error_branches,
@@ -6940,7 +6892,6 @@ def v6_exc_filters():
     
 
 # ----------------- 7/22 New Axon Preprocessing Filters ----------- #
-import axon_utils as au
 def filter_away_axon_on_dendrite_merges(neuron_obj,
                                            return_error_info=False,
                                            plot_limb_branch_filter_with_disconnect_effect=False,
@@ -6995,7 +6946,6 @@ inh_high_degree_branching_filter_v6 = pru.make_filter_dict("high_degree_branchin
 
 # corresponding to the function ed.low_degree_branch_errors_limb_branch_dict
 # which calls on function ed.low_degree_upstream_match
-import graph_filters as gf
 # inh_low_degree_branching_filter_v6 = pru.make_filter_dict("low_degree_branching",
 #                                                      pru.filter_away_low_degree_branching,
 #                                                       dict(
@@ -7029,11 +6979,6 @@ def v6_inh_filters():
     
     return inh_filters
 
-import axon_utils as au
-import synapse_utils as syu
-import spine_utils as spu
-import apical_utils as apu
-import time
 
 def proofread_neuron_full(
     neuron_obj,
@@ -7271,9 +7216,6 @@ def proofread_neuron_full(
 
 
 
-from mesh_tools import trimesh_utils as tu
-import apical_utils as apu
-import neuron_utils as nru
 def save_off_meshes_skeletons(
     neuron_obj,
     save_off_compartments=True,
@@ -7400,7 +7342,7 @@ def low_branch_length_large_clusters(
     was converted to axon or glia pieces
     
     Ex: 
-    import proofreading_utils as pru
+    from neurd_packages import proofreading_utils as pru
     _ = pru.low_branch_length_large_clusters_dendrite(neuron_obj,plot = True,
                                                       max_skeletal_length = 9000,
                                                  min_n_nodes_in_cluster = 20)
@@ -7510,7 +7452,6 @@ low_branch_length_clusters_dendrite_filter = pru.make_filter_dict("low_branch_le
 
 
 # -------------- version 7 filters ---------------------------------
-from python_tools import general_utils as gu
 def exc_axon_on_dendrite_merges_filter(
     **kwargs,
     ):
@@ -7767,8 +7708,6 @@ def v7_inh_filters(dendrite_branching_filters = None):
 
 
 # ------------- parameters for stats ---------------
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
 
 global_parameters_dict_default_split = dict(
     # ------------- parameters for the splitting ----------------
@@ -7890,7 +7829,6 @@ global_parameters_dict_default = gu.merge_dicts([
 
 
 
-import microns_volume_utils as mvu
 attributes_dict_default = dict(
     data_mod = mvu.data_interface
 )    
@@ -7940,7 +7878,7 @@ global_parameters_dict_h01 = gu.merge_dicts([
     global_parameters_dict_h01_auto_proof
 ])
 
-import h01_volume_utils as hvu
+from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     data_mod = hvu.data_interface
 )
@@ -7991,5 +7929,39 @@ def output_global_parameters_and_attributes_from_current_data_type(
         **kwargs,
         )
 
-import proofreading_utils as pru
     
+
+
+#--- from neurd_packages ---
+from . import apical_utils as apu
+from . import axon_utils as au
+from . import classification_utils as clu
+from . import concept_network_utils as cnu
+from . import error_detection as ed
+from . import graph_filters as gf
+from . import h
+from . import microns_volume_utils as mvu
+from . import neuron
+from . import neuron_searching as ns
+from . import neuron_simplification as nsimp
+from . import neuron_simplification as nsimp 
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import preprocessing_vp2 as pre
+from . import spine_utils as spu
+from . import synapse_utils as syu
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import general_utils as gu
+from python_tools import module_utils as modu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import system_utils as su
+
+from . import proofreading_utils as pru

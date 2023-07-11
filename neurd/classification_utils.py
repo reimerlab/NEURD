@@ -1,20 +1,19 @@
-"""
+'''
+
+
 Utils for helping with the classification of a neuron
 for compartments like axon, apical, basal...
 
-"""
 
-import neuron_utils as nru
-from python_tools import numpy_dep as np
-import neuron_statistics as nst
-import neuron_visualizations as nviz
 
-from python_tools import networkx_utils as xu
+'''
+import copy
 import networkx as nx
-from python_tools import matplotlib_utils as mu
+from pykdtree.kdtree import KDTree
+import time
 
-import neuron_searching as ns
-from python_tools import ipyvolume_utils as ipvu
+
+
 
 top_volume_vector = np.array([0,-1,0])
 
@@ -279,8 +278,6 @@ def axon_candidates(neuron_obj,
     return all_candidates
 
 
-from mesh_tools import skeleton_utils as sk
-from python_tools import numpy_utils as nu
 def candidate_starting_skeletal_angle(limb_obj,candidate_nodes,
                                       offset = 10000,#20000,
                                     axon_sk_direction_comparison_distance = 10000,#5000,
@@ -481,9 +478,6 @@ def candidate_starting_skeletal_angle(limb_obj,candidate_nodes,
         return sk_angles
     
     
-import neuron_searching as ns
-import neuron_statistics as nst
-from python_tools import system_utils as su
 
 def filter_axon_candiates_old(neuron_obj,
     axon_subgraph_candidates,
@@ -1050,7 +1044,6 @@ def axon_width_like_segments(current_neuron,
 
 
     
-import copy
 def axon_like_limb_branch_dict(neuron_obj,
                               downstream_face_threshold=3000,
                                 width_match_threshold=50,
@@ -1476,8 +1469,6 @@ def axon_classification(neuron_obj,
         
 # ----------- 2/15: Visualizing the Axon Classification --------- #
 
-from pykdtree.kdtree import KDTree
-from mesh_tools import trimesh_utils as tu
 
 def axon_limb_branch_dict(neuron_obj):
     axon_limb_branch_dict = ns.query_neuron_by_labels(neuron_obj,
@@ -1571,10 +1562,6 @@ def axon_faces_from_labels_on_original_mesh(neuron_obj,
         
 # ----------- 1/22: Apical Classification (The beginning parts): ----------------- #
 
-from python_tools import networkx_utils as xu
-from mesh_tools import skeleton_utils as sk
-import networkx as nx
-from python_tools import numpy_utils as nu
 
 def apical_branch_candidates_on_limb(limb_obj,
                                      
@@ -1777,8 +1764,6 @@ def apical_branch_candidates_on_limb(limb_obj,
     
     return np.unique(apical_branches)
             
-import proofreading_utils as pru
-import time
 
 def apical_classification(neuron_obj,
                           
@@ -2004,7 +1989,6 @@ def spine_level_classifier(neuron_obj,
     else:
         return final_label
         
-from python_tools import numpy_dep as np
 def inhibitory_excitatory_classifier(neuron_obj,
                                      verbose=False,
                                      return_spine_classification=False,
@@ -2144,7 +2128,6 @@ def inhibitory_excitatory_classifier(neuron_obj,
     return return_value
     
     
-from python_tools import networkx_utils as xu
 
 def axon_starting_branch(neuron_obj,
                         axon_limb_name = None,
@@ -2258,10 +2241,6 @@ def axon_starting_coordinate(neuron_obj,
 
 
 # ----------------- 1/24/22: Rewrote the filtering function to be cleaner and have better picking from candidates -----
-import neuron_statistics as nst
-from python_tools import filtering_utils as flu
-from python_tools import networkx_utils as xu
-import networkx as nx
 
 def filter_axon_candiates(
     neuron_obj,
@@ -2634,9 +2613,6 @@ def filter_axon_candiates(
 
 
 # ----------------- Parameters ------------------------
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
-import classification_utils as clu
 
 global_parameters_dict_default = dict(
     
@@ -2714,3 +2690,29 @@ def output_global_parameters_and_attributes_from_current_data_type(
 
     
         
+
+
+
+#--- from neurd_packages ---
+from . import neuron_searching as ns
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import proofreading_utils as pru
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import filtering_utils as flu
+from python_tools import general_utils as gu
+from python_tools import ipyvolume_utils as ipvu
+from python_tools import matplotlib_utils as mu
+from python_tools import module_utils as modu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import system_utils as su
+
+from . import classification_utils as clu

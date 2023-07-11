@@ -1,12 +1,14 @@
+
+import copy
+from copy import deepcopy
 import ipyvolume as ipv
-from mesh_tools import skeleton_utils as sk
-from python_tools import numpy_dep as np
-import networkx as nx
-import neuron_utils as nru
-from python_tools import networkx_utils as xu
-import time
+import itertools
 from importlib import reload
 import matplotlib.pyplot as plt
+import networkx as nx
+import sys
+import time
+import trimesh
 
 
 
@@ -53,9 +55,6 @@ def plot_soma_limb_concept_network(neuron_obj,
            font_color=font_color,node_size=node_size)
     plt.show()
     
-from copy import deepcopy
-import neuron
-import matplotlib.pyplot as plt
 def plot_limb_concept_network_2D(neuron_obj,
                                  node_colors=dict(),
                                  limb_name=None,
@@ -282,7 +281,7 @@ def plot_concept_network(curr_concept_network,
                               
                               
     Another example wen testing: 
-    import neuron_visualizations as nviz
+    from neurd_packages import neuron_visualizations as nviz
     nviz = reload(nviz)
     nru = reload(nru)
     sk = reload(sk)
@@ -373,7 +372,6 @@ def plot_concept_network(curr_concept_network,
     if show_at_end:
         ipv.show()
         
-from copy import deepcopy
 def visualize_concept_map(curr_concept_network,
                             node_color="red",
                             #node_color="black",
@@ -593,7 +591,6 @@ def plot_branch_pieces(neuron_network,
 #     whole_neuron_alpha=default_alpha,
     
     
-import ipyvolume as ipv
 
 def plot_ipv_mesh(elephant_mesh_sub,color=[1.,0.,0.,0.2],
                  flip_y=True):
@@ -638,7 +635,6 @@ def plot_ipv_mesh(elephant_mesh_sub,color=[1.,0.,0.,0.2],
         mesh4.color = color
         mesh4.material.transparent = True
         
-from mesh_tools import skeleton_utils as sk
 def plot_ipv_skeleton(edge_coordinates,color=[0,0.,1,1],
                      flip_y=True):
     if len(edge_coordinates) == 0:
@@ -686,18 +682,9 @@ def plot_ipv_scatter(scatter_points,scatter_color=[1.,0.,0.,0.5],
             marker="sphere")
     mesh_5.material.transparent = True    
 
-from python_tools import matplotlib_utils as mu
-from python_tools import numpy_utils as nu
-from mesh_tools import trimesh_utils as tu
-import copy
-import itertools
-from python_tools import numpy_dep as np
 
-import sys
 current_module = sys.modules[__name__]
-from importlib import reload
 
-import synapse_utils as syu
 
 def visualize_neuron(
     #the neuron we want to visualize
@@ -948,7 +935,7 @@ def visualize_neuron(
         limb_branch_dict=dict(L0=[])
     
     
-    import neuron_visualizations as nviz
+    from neurd_packages import neuron_visualizations as nviz
     nviz = reload(nviz)
     
     total_time = time.time()
@@ -1933,9 +1920,7 @@ other_scatter --> scatters
 *if other inputs aren't list then make them list
                            
 """
-from mesh_tools import skeleton_utils as sk
 
-from python_tools import numpy_utils as nu
 def plot_objects(main_mesh=None,
                  main_skeleton=None,
                  main_mesh_color = [0.,1.,0.,0.2],
@@ -1968,7 +1953,7 @@ def plot_objects(main_mesh=None,
                 zoom_radius = None,
                 zoom_radius_xyz = None,
                 adaptive_min_max_limits = True):
-    #import neuron_visualizations as nviz
+    #from neurd_packages import neuron_visualizations as nviz
     #nviz = reload(nviz)
     
     if (main_mesh is None 
@@ -2100,9 +2085,6 @@ def plot_branch_spines(curr_branch,plot_skeletons=True,**kwargs):
                      **kwargs)
     
     
-from python_tools import numpy_dep as np
-import copy
-import proofreading_utils as pru
 def plot_split_suggestions_per_limb(neuron_obj,
                                     limb_results,
                                    scatter_color = "red",
@@ -2238,7 +2220,6 @@ def limb_correspondence_plottable(limb_correspondence,
         
     return meshes,skeletons
 
-from python_tools import general_utils as gu
 def plot_limb_correspondence(limb_correspondence,
                             meshes_colors="random",
                             skeleton_colors="random",
@@ -2281,7 +2262,6 @@ def plot_limb_path(limb_obj,path,**kwargs):
     
     
 # ----------- For plotting classifications ------------------ #
-import neuron_searching as ns
 def plot_labeled_limb_branch_dicts(neuron_obj,
                            labels,
                            colors="red",
@@ -2356,8 +2336,6 @@ def plot_axon_merge_errors(neuron_obj):
                          mesh_whole_neuron=True)
     
     
-from python_tools import numpy_utils as nu
-from mesh_tools import trimesh_utils as tu
 
 
 def plot_branch_with_boutons_old(branch_obj,
@@ -2723,7 +2701,6 @@ def visualize_neuron_specific_limb(neuron_obj,
     nviz.plot_limb_concept_network_2D(neuron_obj,
                                      ret_col)
     
-import trimesh
 
 def plot_valid_error_synapses(neuron_obj,
                               synapse_dict,
@@ -2981,7 +2958,6 @@ def visualize_neuron_axon_dendrite(
                           **kwargs
                          )    
     
-import neuron_searching as ns
 def visualize_neuron_axon_merge_errors(
     neuron_obj,
     visualize_type=["mesh"],
@@ -3219,7 +3195,6 @@ def plot_web_intersection(neuron_obj,
                      )
 
     
-import ipyvolume as ipv
 def set_zoom(center_coordinate,
                        radius=None,
                        radius_xyz = None,
@@ -3323,9 +3298,6 @@ def plot_limb_branch_dict_multiple(neuron_obj,
                          **kwargs)
     
         
-from python_tools import networkx_utils as xu
-import neuron_utils as nru
-import axon_utils as au
 
 def visualize_branch_at_downstream_split(neuron_obj,
                                          limb_idx,
@@ -3427,7 +3399,6 @@ def add_scatter_to_current_plot(scatters,
                  #zoom_radius=3000
                  )
     
-from mesh_tools import trimesh_utils as tu
 def plot_original_vs_proofread(original,
     proofread,
     original_color = "red",
@@ -3517,7 +3488,6 @@ def plot_intermediates(limb_obj,
                      skeletons=[limb_obj[k].skeleton for k in branches],
                      skeletons_colors=curr_colors)
     
-from python_tools import matplotlib_utils as mu
 def plot_branch_groupings(limb_obj,
 groupings,
 verbose = False,
@@ -3587,7 +3557,6 @@ plot_skeletons = True,
                       skeletons_colors= color_list,)
 
     
-from python_tools import numpy_utils as nu
 def plottable_from_branches(limb_obj,branch_list,attributes):
     if not nu.is_array_like(branch_list):
         branch_list = [branch_list]
@@ -3749,7 +3718,6 @@ def plot_compartments(neuron_obj,
     print(f"Unlabeled: transparent green")
     
     
-from mesh_tools import trimesh_utils as tu
 def plot_mesh_face_idx(mesh,face_idx,meshes_colors = "random",**kwargs):
     """
     To plot a mesh divided up by a face_mesh_idx
@@ -3764,7 +3732,6 @@ def plot_mesh_face_idx(mesh,face_idx,meshes_colors = "random",**kwargs):
                           meshes_colors=meshes_colors,
                      **kwargs)
     
-from python_tools import matplotlib_utils as mu
 def plot_soma_meshes(neuron_obj,
                      meshes_colors = None,
                      verbose = False,
@@ -3792,5 +3759,27 @@ def plot_meshes_skeletons(meshes,skeletons,**kwargs):
         **kwargs
     )
     
-import neuron_visualizations as nviz
 
+
+
+
+#--- from neurd_packages ---
+from . import axon_utils as au
+from . import neuron
+from . import neuron_searching as ns
+from . import neuron_utils as nru
+from . import proofreading_utils as pru
+from . import synapse_utils as syu
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import general_utils as gu
+from python_tools import matplotlib_utils as mu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+
+from . import neuron_visualizations as nviz

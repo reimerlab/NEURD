@@ -1,9 +1,10 @@
-"""
+'''
+
+
 To help query the graph object and do visualizations
-"""
-from python_tools import system_utils as su
-from python_tools import networkx_utils as xu
-from python_tools import pandas_utils as pu
+
+
+'''
 
 default_node_df_path = "/platinum_graph/Data/G_query_v6_filtered_node_df.csv"
 default_edge_df_path = "/platinum_graph/Data/G_query_v6_filtered_edge_and_node_df.gzip"
@@ -141,4 +142,10 @@ def n_excitatory_n_inhibitory_nodes(G=None,
     return n_excitatory,n_inhibitory
 
 
-import microns_graph_query_utils as mqu
+
+#--- from python_tools ---
+from python_tools import networkx_utils as xu
+from python_tools import pandas_utils as pu
+from python_tools import system_utils as su
+
+from . import microns_graph_query_utils as mqu

@@ -1,4 +1,6 @@
-"""
+'''
+
+
 Purpose: Module provides tools for helping to find the interesting branches
 and limbs according to the query and functions that you define
 
@@ -6,18 +8,16 @@ and limbs according to the query and functions that you define
 Have it return either one singular value or a dictionary mapping the 
 branch idx to a 
 
-"""
 
-import neuron_utils as nru
-from mesh_tools import skeleton_utils as sk
-from python_tools import numpy_dep as np
+
+'''
+import copy
+from copy import deepcopy
+import networkx as nx
 import pandas as pd
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
-from python_tools import networkx_utils as xu
-import axon_utils as au
-import synapse_utils as syu
-import classification_utils as clu
+import re
+import sys
+
 
 comparison_distance_global = 1000
 limb_function_append_name = "limb_ns"
@@ -71,7 +71,6 @@ Want to have functions that just operate off of branch characteristics or limb c
 """
 
 #Branch Functions
-from mesh_tools import skeleton_utils as sk
 
 @run_options(run_type="Branch")
 def n_faces_branch(curr_branch,name=None,branch_name=None,**kwargs):
@@ -139,7 +138,6 @@ def n_boutons(branch,limb_name=None,branch_name=None,**kwargs):
     return nru.n_boutons(branch)
 
 
-from mesh_tools import trimesh_utils as tu
 @run_options(run_type="Branch")
 def n_boutons_above_thresholds(branch,limb_name=None,branch_name=None,**kwargs):
     return len(nru.boutons_above_thresholds(branch,
@@ -341,9 +339,6 @@ def average_branch_length(curr_limb,limb_name=None,**kwargs):
 def test_limb(curr_limb,limb_name=None,**kwargs):
     return 5
 
-from copy import deepcopy
-import networkx as nx
-from mesh_tools import skeleton_utils as sk
 
 @run_options(run_type="Limb")
 @run_options(run_type="Limb")
@@ -385,11 +380,8 @@ def skeletal_distance_from_soma(curr_limb,
                     **kwargs)
 
 
-from copy import deepcopy
-from python_tools import networkx_utils as xu
 
 
-import axon_utils as au
 axon_width_like_requirement = clu.axon_width_like_requirement
 ais_axon_width_like_requirement = clu.ais_axon_width_like_requirement
 
@@ -468,7 +460,6 @@ axon_width_like_segments = clu.axon_width_like_segments
 
 
 
-import neuron_visualizations as nviz
 def axon_segments_after_checks(neuron_obj,
                                include_ais=True,
                                downstream_face_threshold=3000,
@@ -708,7 +699,6 @@ def axon_segment_downstream_dendrites(curr_limb,limb_branch_dict,limb_name=None,
 
 # ------- 2/3: Will help flip dendrites back to axons (to help with axon identification) --------------- #
 
-import copy
 @run_options(run_type="Limb")
 def flip_dendrite_to_axon(curr_limb,limb_branch_dict,limb_name=None,
     max_skeletal_length_can_flip_dendrite = 70000,
@@ -746,7 +736,7 @@ def flip_dendrite_to_axon(curr_limb,limb_branch_dict,limb_name=None,
     3) Generate a new limb branch dict
     
     Ex: 
-    import neuron_searching as ns  
+    from neurd_packages import neuron_searching as ns  
     curr_limb_idx = 3
     curr_limb = test_neuron[curr_limb_idx]
     limb_name = f"L{curr_limb_idx}"
@@ -906,7 +896,6 @@ def flip_dendrite_to_axon(curr_limb,limb_branch_dict,limb_name=None,
     return return_dict
     
 
-import width_utils as wu
 @run_options(run_type="Limb")
 def axon_segment_clean_false_positives(curr_limb,
                                        limb_branch_dict,
@@ -1062,7 +1051,6 @@ def axon_segment_clean_false_positives(curr_limb,
             
     
 # --------- 1/15: Additions to help find axon -----------------#
-import neuron_statistics as nst
 
 @run_options(run_type="Limb")
 def soma_starting_angle(curr_limb,limb_name=None,**kwargs):
@@ -1085,7 +1073,6 @@ def soma_starting_angle(curr_limb,limb_name=None,**kwargs):
 
 
 #------------------------------- Creating the Data tables from the neuron and functions------------------------------
-from python_tools import function_utils as fcu
 def get_run_type(f):
     """
     Purpose: To decide whether a function is a limb or branch
@@ -1221,7 +1208,6 @@ def map_new_limb_node_value(current_df,mapping_dict,value_name):
         current_df[value_name] = current_df.apply(lambda x: mapping_dict[x["limb"]][x["node"]], axis=1)
     return current_df
 
-from python_tools import system_utils as su
 def generate_neuron_dataframe(current_neuron,
                               functions_list,
                               check_nans=True,
@@ -1302,11 +1288,9 @@ def generate_neuron_dataframe(current_neuron,
 # -------------------- Function that does full querying of neuron -------------------------- #
 
 
-import sys
 current_module = sys.modules[__name__]
 
 
-import re
 def functions_list_from_query(
     query,
     verbose = False):
@@ -1380,9 +1364,9 @@ def query_neuron(
     
     compressed_neuron_path = Path("../test_neurons/test_objects/12345_2_soma_practice_decompress")
 
-    import neuron_utils as nru
+    from neurd_packages import neuron_utils as nru
     nru = reload(nru)
-    import neuron
+    from neurd_packages import neuron
     neuron=reload(neuron)
 
     from python_tools import system_utils as su
@@ -1560,7 +1544,6 @@ def query_neuron(
             return np.array([]).reshape(-1,2)
         
         
-from python_tools import networkx_utils as xu
 
 @run_options(run_type="Limb")
 def n_downstream_nodes(curr_limb,limb_name=None,nodes_to_exclude=None,**kwargs):
@@ -1573,7 +1556,6 @@ def n_downstream_nodes(curr_limb,limb_name=None,nodes_to_exclude=None,**kwargs):
         
     return output_dict
 
-import concept_network_utils as cnu
 @run_options(run_type="Limb")
 def n_downstream_nodes_with_skip(curr_limb,limb_name=None,
                                  **kwargs):
@@ -1643,7 +1625,7 @@ def parent_angle(curr_limb,limb_name=None,
     """
     Will return the angle between the current node and the parent
     """
-    import limb_utils as lu
+    from neurd_packages import limb_utils as lu
     output_dict = dict()
     for b in curr_limb.get_branch_names():
         try:
@@ -1695,7 +1677,6 @@ def sibling_angle_max(curr_limb,limb_name=None,
         output_dict[b] = min_sib_angle
     return output_dict
 
-from python_tools import networkx_utils as xu
 # @run_options(run_type="Limb")
 # def n_downstream_nodes(curr_limb,limb_name=None,
 #                **kwargs):
@@ -1857,7 +1838,6 @@ def total_upstream_skeletal_length(curr_limb,limb_name=None,
                             )
 
 # ------------- 5/26: For Width and Double Back Errors ----------
-import error_detection as ed
 
 @run_options(run_type="Limb")
 def width_jump_from_upstream_min(curr_limb,limb_name=None,
@@ -1917,7 +1897,6 @@ def restrict_by_branch_and_upstream_skeletal_length(neuron_obj,
 
 
 # ---------- 6/9: Synapse Features --------------#
-import synapse_utils
 
 @run_options(run_type="Branch")
 def n_synapses(curr_branch,name=None,branch_name=None,**kwargs):
@@ -1945,7 +1924,6 @@ def synapse_density_post(curr_branch,name=None,branch_name=None,**kwargs):
 
 
 # ----------- 6/21: v6 statistics -----------
-import concept_network_utils as cnu
 @run_options(run_type="Limb")
 def downstream_nodes_mesh_connected(curr_limb,limb_name=None,
                     limb_branch_dict_restriction=None,
@@ -2234,7 +2212,6 @@ def is_branch_mesh_connected_to_neighborhood(curr_limb,limb_name=None,
                              limb_branch_dict_restriction=limb_branch_dict_restriction,
                              **kwargs
                             )
-import branch_utils as bu
 @run_options(run_type="Branch")
 def closest_mesh_skeleton_dist(curr_branch,name=None,branch_name=None,**kwargs):
     return bu.closest_mesh_skeleton_dist(curr_branch)
@@ -2255,7 +2232,6 @@ def is_branch_mesh_connected_to_neighborhood(curr_limb,limb_name=None,
                              **kwargs
                             )
 
-from python_tools import function_utils as fcu
 
 def set_limb_functions_for_search(
     module,
@@ -2310,4 +2286,31 @@ def set_limb_functions_for_search(
 
 
 
-import neuron_searching as ns
+
+
+#--- from neurd_packages ---
+from . import axon_utils as au
+from . import branch_utils as bu
+from . import classification_utils as clu
+from . import concept_network_utils as cnu
+from . import error_detection as ed
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import synapse_utils
+from . import synapse_utils as syu
+from . import width_utils as wu
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import function_utils as fcu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import pandas_utils as pu
+from python_tools import system_utils as su
+
+from . import neuron_searching as ns

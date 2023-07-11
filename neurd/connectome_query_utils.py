@@ -1,9 +1,11 @@
-"""
+'''
+
+
 To help query the graph object and do visualizations
-"""
-from python_tools import system_utils as su
-from python_tools import networkx_utils as xu
-from python_tools import pandas_utils as pu
+
+
+'''
+import h
 
 
 # default_node_df_path = "/platinum_graph/Data/G_query_v6_filtered_node_df.csv"
@@ -142,14 +144,11 @@ def n_excitatory_n_inhibitory_nodes(G=None,
     return n_excitatory,n_inhibitory
 
 
-import connectome_query_utils as conq
 
 
 # ----------------- Helper functions for 3D analysis ------------- #
-from python_tools import module_utils as modu 
 
 # -- default
-import microns_volume_utils as mvu
 attributes_dict_default = dict(
     #voxel_to_nm_scaling = microns_volume_utils.voxel_to_nm_scaling,
     hdju = mvu.data_interface
@@ -163,7 +162,7 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-import h01_volume_utils as hvu
+from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     #voxel_to_nm_scaling = h01_volume_utils.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -215,3 +214,16 @@ def output_global_parameters_and_attributes_from_current_data_type(
         **kwargs,
         )
 
+
+
+#--- from neurd_packages ---
+from . import h
+from . import microns_volume_utils as mvu
+
+#--- from python_tools ---
+from python_tools import module_utils as modu 
+from python_tools import networkx_utils as xu
+from python_tools import pandas_utils as pu
+from python_tools import system_utils as su
+
+from . import connectome_query_utils as conq

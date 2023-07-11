@@ -1,19 +1,14 @@
-"""
+'''
 
 
-"""
-from python_tools import dotmotif_utils as dmu
-import error_detection as ed
-import concept_network_utils as cnu
-import axon_utils as au
 
-from python_tools import numpy_dep as np
-from python_tools import networkx_utils as xu
-import networkx as nx
+
+
+
+'''
 import matplotlib.pyplot as plt
-import neuron_statistics as nst
-import neuron_utils as nru
-import neuron_visualizations as nviz
+import networkx as nx
+
 
 def upstream_pair_singular(limb_obj,
                           G=None,
@@ -431,7 +426,7 @@ def axon_webbing_filter(G,
     4) If Invalid webbing return the error branches 
     
     Ex: 
-    import graph_filters as gf
+    from neurd_packages import graph_filters as gf
     gf.axon_webbing_filter(G,
                                limb_obj,
                                verbose = True,
@@ -1087,11 +1082,8 @@ def axon_double_back_inh_filter(G,
 
 
     
-import graph_filters as gf
 
 # ------------- parameters for stats ---------------
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
 
 global_parameters_dict_default = dict(
     #--- axon web filters ---
@@ -1250,3 +1242,21 @@ def output_global_parameters_and_attributes_from_current_data_type(
         **kwargs,
         )
 
+
+
+#--- from neurd_packages ---
+from . import axon_utils as au
+from . import concept_network_utils as cnu
+from . import error_detection as ed
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+
+#--- from python_tools ---
+from python_tools import dotmotif_utils as dmu
+from python_tools import general_utils as gu
+from python_tools import module_utils as modu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+
+from . import graph_filters as gf

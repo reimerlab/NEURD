@@ -1,37 +1,27 @@
-from python_tools import numpy_dep as np
-from python_tools import pandas_utils as pu
-import pandas as pd
 
+import pandas as pd
 from pathlib import Path
 import time
-
-#python_tools modules
-from python_tools import system_utils as su
-from python_tools import pandas_utils as pu
-import pandas as pd
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import networkx_utils as xu
-from python_tools.tqdm_utils import tqdm
-
-#neuron_morphology_tools modules
-from neuron_morphology_tools import neuron_nx_io as nxio
-
-#pytorch and pytorch geometric modeuls
 import torch
-import torch_geometric.transforms as T
-from torch_geometric.nn import GCNConv
-from torch_geometric.utils import train_test_split_edges
 from torch_geometric.data import Data
-from torch_geometric import transforms
-
-# for the dataset object
+from torch_geometric.data import DenseDataLoader
 from torch_geometric.data import InMemoryDataset, download_url
 from torch_geometric.loader import DataLoader
-from torch_geometric.data import DenseDataLoader
+from torch_geometric.nn import GCNConv
+from torch_geometric import transforms
+import torch_geometric.transforms as T
+from torch_geometric.utils import train_test_split_edges
+
+
+#python_tools modules
+
+#neuron_morphology_tools modules
+
+#pytorch and pytorch geometric modeuls
+
+# for the dataset object
 
 #pytorch_tools modules
-from pytorch_tools import preprocessing_utils as pret
 
 
 def normalization_df(
@@ -430,4 +420,22 @@ def load_data(
     else:
         return dataset
 
-import gnn_embedding_utils as gnneu
+#--- from neuron_morphology_tools ---
+
+
+
+#--- from neurd_packages ---
+from . import neuron_nx_io as nxio
+
+#--- from python_tools ---
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import pandas_utils as pu
+from python_tools import system_utils as su
+from python_tools.tqdm_utils import tqdm
+
+#--- from pytorch_tools ---
+from pytorch_tools import preprocessing_utils as pret
+
+from . import gnn_embedding_utils as gnneu

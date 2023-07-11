@@ -1,10 +1,15 @@
+
+from collections import Counter
+import contextlib
+import csv
 import datajoint as dj
-from python_tools import numpy_dep as np
-import time
-import pymeshfix
+import networkx as nx
 import os
-import trimesh
+import pathlib
 from pathlib import Path
+import pymeshfix
+import time
+import trimesh
 
 try:
     import cgal_Segmentation_Module as csm
@@ -12,16 +17,11 @@ except:
     pass
 
 #for supressing the output
-import contextlib
 
 #for fixing the space issue with the CGAL:readoff
-import csv
 
-from collections import Counter
 
-import networkx as nx
 
-import pathlib
 def write_Whole_Neuron_Off_file(neuron_ID,vertices=[], triangles=[]):
     #primary_key = dict(segmentation=1, segment_id=segment_id, decimation_ratio=0.35)
     #vertices, triangles = (mesh_Table_35 & primary_key).fetch1('vertices', 'triangles')
@@ -1400,3 +1400,6 @@ self.file_name = file_name
 """
     
     
+
+#--- from python_tools ---
+from python_tools import numpy_dep as np

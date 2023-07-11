@@ -1,4 +1,6 @@
-"""
+'''
+
+
 
 How to adjust the features on synapses
 based on the closest skeleton point
@@ -12,7 +14,14 @@ syu.calculate_upstream_downstream_dist_from_down_idx(syn,down_idx)
 
 
 
-"""
+
+
+'''
+import copy
+import h
+import operator
+import pandas as pd
+import time
 
 
 class Synapse:
@@ -93,7 +102,6 @@ synapse_types = dict(soma="synapses_somas",
                      distance_errored="distance_errored_synapses")
 
 
-import branch_attr_utils as bau
 
 
 
@@ -112,7 +120,6 @@ def set_presyns_on_dendrite_as_errors(value):
     print(f"set_presyns_on_dendrite_as_errors to {value}")
     presyns_on_dendrite_as_errors = value
 
-import apical_utils as apu
 presyns_on_dendrite_query = ("(label=='limb_branch') and ((compartment=='dendrite') or "
                             f" (compartment in {apu.dendrite_compartment_labels()})) and (syn_type=='presyn')")
 
@@ -131,8 +138,6 @@ def valid_query():
     return query
     
 
-from python_tools import numpy_dep as np
-import spine_utils as spu
 
 
 
@@ -143,8 +148,6 @@ import spine_utils as spu
 
 
 
-from mesh_tools import trimesh_utils as tu
-import neuron_visualizations as nviz
 
 def plot_valid_error_synpases(neuron_obj = None,
                              synapse_dict=None,
@@ -541,7 +544,6 @@ def export(synapse_obj):
                     
     
        
-from python_tools import numpy_utils as nu
  
 def combine_synapse_dict_into_presyn_postsyn_valid_error_dict(synapse_dict,
                                                              verbose = False):
@@ -615,7 +617,6 @@ def synapse_dict_mesh_labels_to_synapse_volume_dict(synapse_mesh_labels_dict,
 
 
             
-from mesh_tools import trimesh_utils as tu
 
 
 
@@ -851,8 +852,6 @@ def synapse_spine_perc(neuron_obj):
 
 # --------- End of head neck shaft --------------
 
-import operator
-from python_tools import numpy_utils as nu
 def synapses_with_feature(synapses,
                          feature_name,
                           comparison_value,
@@ -924,8 +923,6 @@ def exports_to_synapses(exports):
 def synapses_to_exports(synapses):
     return [k.export() for k in synapses]
 
-import neuron_statistics as nst
-import neuron_utils as nru
 def calculate_limb_synapse_soma_distances(
     limb_obj,
     calculate_endpoints_dist_if_empty=False,
@@ -986,7 +983,6 @@ def calculate_upstream_downstream_dist_from_up_idx(
     syn,up_idx):
     bau.calculate_upstream_downstream_dist_from_up_idx(syn,up_idx)
     
-import time
 def calculate_neuron_soma_distance(neuron_obj,
                                   verbose  =False,
                                   store_soma_placeholder = True,
@@ -1037,8 +1033,6 @@ def calculate_neuron_soma_distance(neuron_obj,
 
         
 # -------------- 6/9 For Applying the synapses ------------ #
-import time
-from mesh_tools import skeleton_utils as sk
 
 def add_valid_soma_synapses_to_neuron_obj(neuron_obj,
                                           verbose=False,
@@ -1708,7 +1702,6 @@ def synapses_total(neuron_obj):
     return total_synapses
 
 
-from python_tools import pandas_utils as pu
 def synapses_to_synapses_df(synapses,
                           label="no_label"):
     synapse_dicts = [dict(k.export(),
@@ -1797,7 +1790,6 @@ def synapses_df(neuron_obj,
 
 synapse_df = synapses_df
 
-from python_tools import numpy_utils as nu
 
 def restrict_synapses_df_by_limb_branch_dict(
     df,
@@ -1875,9 +1867,6 @@ def query_synapses(neuron_obj,
 
 
 # ---------- 6:11 For creating datajoint entries ----------
-import time
-from python_tools import numpy_dep as np
-from python_tools import general_utils as gu
 def synapses_dj_export_dict_valid(synapse,
                                  output_spine_str=True,):
     syn=synapse
@@ -1989,7 +1978,6 @@ def synapses_to_dj_keys_old(
     
     return syn_keys
 
-import pandas as pd
 
 
 def presyn_on_dendrite_synapses(
@@ -2282,7 +2270,7 @@ def synapse_endpoint_dist_upstream_downstream(limb_obj,
     3) Return the list
     
     Ex: 
-    import synapse_utils as syu
+    from neurd_packages import synapse_utils as syu
     syu.synapse_endpoint_dist_upstream_downstream(limb_obj,
                                              branch_idx = 16,
                                              direction="downstream",
@@ -2338,7 +2326,6 @@ def synapse_endpoint_dist_upstream(limb_obj,
                                              synapse_type = synapse_type,
                                              verbose = verbose)
 
-import neuron_utils as nru
 def plot_synapses_objs(neuron_obj,
                      synapses,
                       plot_with_spines = False,
@@ -2419,7 +2406,6 @@ def plot_head_neck_shaft_synapses(neuron_obj,
     
 
 
-import neuron_utils as nru
 def synapses_over_limb_branch_dict(neuron_obj,
                                    limb_branch_dict,
                                   synapse_type = "synapses",
@@ -2491,7 +2477,6 @@ def synapse_density_over_limb_branch(neuron_obj,
         return density
     
 # ----------------- 7/20: helping with axon and dendrite merge errors ---------- #
-import concept_network_utils as cnu
 def synapse_pre_perc_downstream(limb_obj,
                                branch_idx,
                                verbose = False):
@@ -2612,7 +2597,6 @@ def n_synapses_pre_downstream(limb_obj,
                                branch_idx,
                                verbose))
 # --------------- 7/26: Help with axon identification -------------
-import synapse_utils as syu
 def synapses_within_distance_of_endpoint_upstream_downstream(branch_obj,
                                       direction,
                                       distance,
@@ -2934,7 +2918,6 @@ def plot_synapses_on_limb(neuron_obj,
                           limb_branch_synapse_type=limb_branch_synapse_type,
                          **kwargs)
     
-import neuron_searching as ns
 def limb_branch_with_synapses(neuron_obj,
                              min_n_synapses = 1,
                              synapse_type = "synapses"):
@@ -2978,7 +2961,6 @@ def set_branch_synapses_attribute(branch_obj,
     for s in branch_obj.synapses:
         setattr(s,synapse_attribute,branch_val)
         
-import apical_utils as apu
 def set_branch_synapses_compartment(branch_obj,
                                           catch_errors = False,
                                          default_value=None,
@@ -3051,7 +3033,6 @@ def set_limb_branch_idx_to_synapses(neuron_obj):
             s.branch_idx = soma_value
             
             
-from python_tools import numpy_utils as nu
 def get_synapses_compartment(neuron_obj,
                             compartments,
                             verbose = False):
@@ -3184,7 +3165,6 @@ def synapse_compartment_spine_type_title(
         
     return title
 
-import copy
 def synapses_by_compartment_spine_type(
     neuron_obj,
     compartment_label = None,
@@ -3338,7 +3318,6 @@ def n_synapses_by_compartment_spine_type(
 
     
         
-import spine_utils as spu
 def n_synapses_all_compartment_spine_type(neuron_obj,
                                      compartment_labels = None,
                                      spine_labels = None,
@@ -3480,7 +3459,6 @@ def n_synapses_all_valid_error(neuron_obj):
         
     )
 
-from python_tools import general_utils as gu
 def complete_n_synapses_analysis(neuron_obj,
                                 include_axon_ais_syn = True):
     syn_valid_error_dict = syu.n_synapses_all_valid_error(neuron_obj)
@@ -3524,8 +3502,6 @@ def n_synapses_analysis_axon_dendrite(
     return syn_dict
 
 
-import spine_utils as spu
-from python_tools import general_utils as gu
 
 synapse_attribute_to_dj_key_map = dict(
 syn_type="synapse_type",
@@ -3761,7 +3737,6 @@ def calculate_neuron_soma_distance_euclidean(neuron_obj,
         
         
 # -------- attempting to get ais synapses -------
-import axon_utils as au
 def axon_ais_synapses(
     neuron_obj,
     max_ais_distance_from_soma = None,
@@ -3809,7 +3784,6 @@ def n_axon_ais_synapses(
 
 
 
-import copy
 def adjust_obj_with_face_offset(
     synapse_obj,
     face_offset,
@@ -3901,7 +3875,6 @@ def downstream_dist_max_over_syn(
 def synapse_coordinates_from_synapse_df(df):
     return np.vstack(df["coordinate"].to_numpy()).reshape(-1,3)
 
-import proofreading_utils as pru
 def axon_on_dendrite_synapses(
     neuron_obj,
     plot_limb_branch = False,
@@ -3949,10 +3922,8 @@ def presyn_on_dendrite_synapses_after_axon_on_dendrite_filter_away(
 
 
 # ------------- Setting up parameters -----------
-from python_tools import module_utils as modu 
 
 # -- default
-import microns_volume_utils as mvu
 attributes_dict_default = dict(
     voxel_to_nm_scaling = mvu.voxel_to_nm_scaling,
 )    
@@ -3965,7 +3936,7 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-import h01_volume_utils as hvu
+from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
 )
@@ -4016,9 +3987,36 @@ def output_global_parameters_and_attributes_from_current_data_type(
         **kwargs,
         )
 
-import neuron_utils as nru
 
-import synapse_utils as syu
 
                     
                     
+
+
+
+#--- from neurd_packages ---
+from . import apical_utils as apu
+from . import axon_utils as au
+from . import branch_attr_utils as bau
+from . import concept_network_utils as cnu
+from . import h
+from . import microns_volume_utils as mvu
+from . import neuron_searching as ns
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import proofreading_utils as pru
+from . import spine_utils as spu
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import general_utils as gu
+from python_tools import module_utils as modu 
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import pandas_utils as pu
+
+from . import synapse_utils as syu

@@ -1,11 +1,18 @@
-"""
+'''
+
+
 Purpose: To provide helpful functions for analyzing the microns 
 grpah
 
-"""
 
-from python_tools import numpy_dep as np
+
+'''
+import copy
+import h
+import matplotlib.pyplot as plt
+import pandas as pd
 import time
+
 
 return_nm_default = False
 
@@ -78,8 +85,6 @@ def synapse_ids_and_coord_from_segment_ids_edge(G,segment_id_1,segment_id_2,
         print(f"synapse_coordinates = {synapse_coordinates}\n")
     return synapse_ids,synapse_coordinates
 
-from python_tools import numpy_utils as nu
-from python_tools import networkx_utils as xu
 def pre_post_node_names_from_synapse_id(
     G,
     synapse_id,
@@ -112,8 +117,6 @@ def pre_post_node_names_from_synapse_id(
 
     return list(pre_post_pairs)
 
-from python_tools import numpy_utils as nu
-from python_tools import numpy_dep as np
 def segment_ids_from_synapse_ids(
     G,
     synapse_ids,
@@ -270,7 +273,6 @@ def soma_centers_from_segment_ids(G,
 def segment_id_from_seg_split_id(seg_split_id):
     return int(seg_split_id.split("_")[0])
 
-from python_tools import matplotlib_utils as mu
 
 
 '''
@@ -353,7 +355,6 @@ def visualize_graph_connections_neuroglancer(G,
 
 '''
 
-from python_tools import string_utils as stru
 def visualize_graph_connections_by_method(
     G,
     segment_ids=None,
@@ -404,7 +405,7 @@ def visualize_graph_connections_by_method(
     4) Get the regular int names for segment_ids (if plotting in neuroglancer)
     
     Ex: 
-    import connectome_utils as conu
+    from neurd_packages import connectome_utils as conu
     conu.visualize_graph_connections_by_method(
         G,
         ["864691136023767609_0","864691135617737103_0"],
@@ -618,9 +619,6 @@ def visualize_graph_connections_by_method(
     return return_value
         
 
-from mesh_tools import skeleton_utils as sk
-import neuron_visualizations as nviz
-import copy
 def presyn_postsyn_skeletal_path_from_synapse_id(
     G,
     synapse_id,
@@ -854,7 +852,6 @@ def presyn_postsyn_skeletal_path_from_synapse_id(
 
 
 # ----- for computing edge functions over the connectome ----------
-from python_tools.tqdm_utils import tqdm
 def compute_edge_statistic(
     G,
     edge_func,
@@ -1087,12 +1084,6 @@ def soma_centers_from_node_df(node_df,return_nm = True):
         ]].to_numpy()    
 
 
-from python_tools import numpy_dep as np
-from python_tools import matplotlib_utils as mu
-import matplotlib.pyplot as plt
-from python_tools import statistics_visualizations as sviz
-from python_tools import matplotlib_utils as mu
-import cell_type_utils as ctu
 
 def plot_3D_distribution_attribute(
     attribute,
@@ -1228,7 +1219,7 @@ def plot_3D_distribution_attribute(
             soma_centers.append(conu.soma_centers_from_node_df(curr_df).reshape(-1,3))
             colors.append(c)
 
-        import neuron_visualizations as nviz
+        from neurd_packages import neuron_visualizations as nviz
         nviz.plot_objects(
             scatters=soma_centers,
             scatters_colors=colors,
@@ -1312,7 +1303,7 @@ def plot_3d_attribute(
             soma_centers.append(conu.soma_centers_from_node_df(curr_df).reshape(-1,3))
             colors.append(c)
 
-        import neuron_visualizations as nviz
+        from neurd_packages import neuron_visualizations as nviz
         nviz.plot_objects(
             scatters=soma_centers,
             scatters_colors=colors,
@@ -1322,7 +1313,6 @@ def plot_3d_attribute(
             meshes_colors=meshes_colors,
         )
         
-from python_tools import pandas_utils as pu
 def exc_to_exc_edge_df(
     G,
     min_skeletal_length = 100_000,
@@ -1543,11 +1533,6 @@ def radius_cell_type_sampling(
 
 
 
-from python_tools import numpy_utils as nu
-from machine_learning_tools import seaborn_ml as sml
-import matplotlib.pyplot as plt
-from python_tools import matplotlib_utils as mu
-from python_tools import pandas_utils as pu
 
 def plot_soma_dist_distr(df):
     x = "presyn_soma_postsyn_soma_euclid_dist"
@@ -2039,9 +2024,6 @@ def plot_functional_connection_from_df(
 
 
 
-import matplotlib.pyplot as plt
-from python_tools import numpy_utils as nu
-import functional_tuning_utils as ftu
 def plot_cell_type_pre_post_attribute_hist(
     df,
     cell_type_pairs,
@@ -2141,7 +2123,6 @@ def plot_cell_type_pre_post_attribute_hist(
     if return_dfs:
         return dfs_to_return
         
-import functional_tuning_utils as ftu 
 def add_delta_ori_edge_features(
     edge_df,
     ):
@@ -2171,7 +2152,6 @@ def add_delta_ori_edge_features(
 
     return sampled_edge_df
 
-import pandas as pd
 def neuroglancer_df_from_edge_df(
     G,
     df,
@@ -2434,7 +2414,6 @@ def basic_connectivity_axon_dendrite_stats_from_G(
 
     return graph_dict
 
-import apical_utils as apu
 def add_compartment_syn_flag_columns_to_edge_df(
     df,
     return_columns = False,
@@ -2521,13 +2500,10 @@ def n_spine_syn_from_edge_df(
 
         
 
-import connectome_utils as conu
 
 # ----------------- Helper functions for 3D analysis ------------- #
-from python_tools import module_utils as modu 
 
 # -- default
-import microns_volume_utils as mvu
 attributes_dict_default = dict(
     #voxel_to_nm_scaling = microns_volume_utils.voxel_to_nm_scaling,
     hdju = mvu.data_interface
@@ -2541,7 +2517,7 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-import h01_volume_utils as hvu
+from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     #voxel_to_nm_scaling = h01_volume_utils.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -2594,3 +2570,34 @@ def output_global_parameters_and_attributes_from_current_data_type(
         )
 
 
+
+
+
+
+#--- from neurd_packages ---
+from . import apical_utils as apu
+from . import cell_type_utils as ctu
+from . import functional_tuning_utils as ftu
+from . import functional_tuning_utils as ftu 
+from . import h
+from . import microns_volume_utils as mvu
+from . import neuron_visualizations as nviz
+
+#--- from machine_learning_tools ---
+from machine_learning_tools import seaborn_ml as sml
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+
+#--- from python_tools ---
+from python_tools import matplotlib_utils as mu
+from python_tools import module_utils as modu 
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import pandas_utils as pu
+from python_tools import statistics_visualizations as sviz
+from python_tools import string_utils as stru
+from python_tools.tqdm_utils import tqdm
+
+from . import connectome_utils as conu

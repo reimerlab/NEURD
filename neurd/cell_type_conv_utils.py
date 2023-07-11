@@ -1,10 +1,28 @@
-"""
+'''
+
+
 Purpose: funtionality for converting a neuron object to 
 a graph representation that can be converted to a 2D/3D ativation maps
 
 
 
-"""
+
+
+
+Ex 1: HOw to change between ravel and index
+
+from python_tools import numpy_utils as nu
+curr_act_map[nu.ravel_index([5,4,9],array_size)]
+
+
+
+
+
+'''
+import matplotlib.pyplot as plt
+import networkx as nx
+import pandas as pd
+from pathlib import Path
 
 branch_attrs_for_G = [
 'area', #surface area of branch
@@ -104,25 +122,10 @@ neuorn_obj_attributes = [
     "split_index",
 ]
 
-"""
-Ex 1: HOw to change between ravel and index
-
-from python_tools import numpy_utils as nu
-curr_act_map[nu.ravel_index([5,4,9],array_size)]
 
 
-
-"""
-import branch_utils as bu
-import neuron_searching as ns
-import limb_utils as lu
-from python_tools import ipyvolume_utils as ipvu
-
-
-from pathlib import Path
 graph_path = Path("/mnt/dj-stor01/platinum/minnie65/02/graphs")
 
-from python_tools import system_utils as su
 def save_G_with_attrs(G,segment_id,
                       split_index = 0,
                       file_append="",
@@ -164,7 +167,6 @@ def attr_value_soma(df,attr):
     return attr_value_by_node(df,soma_name,attr)
 
 
-from python_tools import numpy_dep as np
 def mesh_center_xyz(center):
     return dict(x=center[0],y=center[1],z=center[2])
 
@@ -193,13 +195,6 @@ special_params = dict(
     width_new=width_new_extract,
 )
 
-import neuron_utils as nru
-from python_tools import networkx_utils as xu
-import networkx as nx
-import neuron_statistics as nst
-import matplotlib.pyplot as plt
-import spine_utils as spu
-import synapse_utils as syu
 def G_with_attrs_from_neuron_obj(
     neuron_obj,
     verbose = False,
@@ -296,8 +291,6 @@ def G_with_attrs_from_neuron_obj(
 
 
 
-import pandas as pd
-from python_tools import pandas_utils as pu
 
 def soma_center_from_df(df,col_suffix = ""):
     return df.query(f"node == '{soma_name}'")[[f"x{col_suffix}",
@@ -384,7 +377,6 @@ def stats_df_from_G(
     return df
 
 
-from python_tools import numpy_dep as np
 window_default = dict(
         x=[-np.inf,np.inf],
         y=[-np.inf,np.inf],
@@ -408,7 +400,6 @@ def symmetric_window(size=None,x=None,y=None,z=None):
         curr_dict[ax] = [-ax_val,ax_val]
     return curr_dict
 
-import neuron_visualizations as nviz
 def plot_df_xyz(df,branch_size = 1,soma_size = 4,
                soma_color = "blue",branch_color = "red",
                col_suffix = "",
@@ -573,7 +564,6 @@ def array_shape_from_radius(radius):
     array_shape = (edge_length,edge_length,edge_length)
     return array_shape
 
-from python_tools import numpy_dep as np
 def axes_limits_coordinates(axes_limits,array_shape=None,radius = None):
     if array_shape is None:
         array_shape = ctcu.array_shape_from_radius(radius)
@@ -736,7 +726,6 @@ def idx_xyz_to_df(
         
     return df
 
-import pandas as pd
 
 def closest_node_idx_to_sample_idx(
     df,
@@ -921,4 +910,23 @@ def no_spatial_df_from_df_filtered(df):
 
 
 
-import cell_type_conv_utils as ctcu
+
+
+#--- from neurd_packages ---
+from . import branch_utils as bu
+from . import limb_utils as lu
+from . import neuron_searching as ns
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import spine_utils as spu
+from . import synapse_utils as syu
+
+#--- from python_tools ---
+from python_tools import ipyvolume_utils as ipvu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import pandas_utils as pu
+from python_tools import system_utils as su
+
+from . import cell_type_conv_utils as ctcu

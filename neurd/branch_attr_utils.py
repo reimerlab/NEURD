@@ -1,16 +1,16 @@
-"""
+'''
+
+
 Purpose: For help with manipulating and 
 calculating qualities of objects stored on branches
 - spines
 - synapses
 
-"""
-import branch_utils as bu
 
-import neuron_statistics as nst
-import neuron_utils as nru
-from mesh_tools import skeleton_utils as sk
-from python_tools import numpy_dep as np
+
+'''
+import time
+
 
 
 def calculate_endpoints_dist(
@@ -99,7 +99,6 @@ def calculate_branch_attr_soma_distances_on_limb(
                 attr_obj.soma_distance = attr_obj.upstream_dist + upstream_dist
     return limb_obj
             
-import time
 def calculate_neuron_soma_distance(
     neuron_obj,
     branch_attr,
@@ -168,4 +167,17 @@ def set_limb_branch_idx_to_attr(
                     s.limb_idx = limb_idx
                     s.branch_idx = branch_idx
             
-import branch_attr_utils as bau
+
+
+#--- from neurd_packages ---
+from . import branch_utils as bu
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+
+#--- from python_tools ---
+from python_tools import numpy_dep as np
+
+from . import branch_attr_utils as bau

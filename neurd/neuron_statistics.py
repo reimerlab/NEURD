@@ -1,11 +1,7 @@
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from mesh_tools import trimesh_utils as tu
-import error_detection as ed
+
+import copy
+import h
 import networkx as nx
-from python_tools import networkx_utils as xu
-import neuron_utils as nru
-import neuron_visualizations as nviz
 
 def neuron_path_analysis(neuron_obj,
                         N = 3,
@@ -172,8 +168,6 @@ def neuron_path_analysis(neuron_obj,
         return neuron_path_inserts_by_limb
     
     
-from python_tools import numpy_dep as np
-from mesh_tools import trimesh_utils as tu
 def soma_starting_vector(limb_obj=None,
                         neuron_obj=None,
                         limb_idx=None,
@@ -226,7 +220,6 @@ def soma_starting_angle(limb_obj=None,
     
     return angle_from_top
 
-from mesh_tools import skeleton_utils as sk
 def fork_divergence_from_skeletons(upstream_skeleton,
                     downstream_skeletons,
                     downstream_starting_endpoint = None,
@@ -250,7 +243,7 @@ def fork_divergence_from_skeletons(upstream_skeleton,
 
 
     Ex:
-    import neuron_statistics as nst
+    from neurd_packages import neuron_statistics as nst
     nst.fork_divergence(upstream_skeleton = upstream_sk,
                         downstream_skeletons = downstream_sk,
                         comparison_distance = 500,
@@ -323,7 +316,6 @@ def fork_divergence_from_skeletons(upstream_skeleton,
     
     return return_value
 
-from python_tools import networkx_utils as xu
 
 def fork_divergence_from_branch(limb_obj,
                                 branch_idx,
@@ -441,8 +433,6 @@ def fork_divergence_from_branch(limb_obj,
     return return_value
 
 
-from python_tools import networkx_utils as xu
-import axon_utils as au
 def n_small_children(limb_obj,
     branch_idx,
     width_maximum = 80,
@@ -457,7 +447,7 @@ def n_small_children(limb_obj,
     3) Count how many are below the threshold
     
     Ex:
-    import neuron_statistics as nst
+    from neurd_packages import neuron_statistics as nst
     nst.n_small_children(limb_obj = neuron_obj[6],
         branch_idx = 5,
         width_maximum = 80,
@@ -544,7 +534,6 @@ def angle_from_top(vector,
     return angle_from_top
 
 
-from python_tools import networkx_utils as xu
 def children_skeletal_lengths(limb_obj,
                                         branch_idx,
                                         verbose = False,
@@ -569,7 +558,6 @@ def children_skeletal_lengths(limb_obj,
     else:
         return list(vals.values())
 
-from python_tools import numpy_dep as np
 def children_skeletal_lengths_min(limb_obj,
                                         branch_idx,
                                         verbose = False):
@@ -605,7 +593,6 @@ def children_feature(limb_obj,
     else:
         return list(vals.values())
     
-import axon_utils as au
 def children_axon_width(limb_obj,
                        branch_idx,
                        verbose = False,
@@ -636,8 +623,6 @@ def children_axon_width_max(limb_obj,
     return np.max(children_widths)
     
     
-import axon_utils as au
-from python_tools import numpy_dep as np
 def upstream_axon_width(limb_obj,
                        branch_idx,
                         default = np.inf,
@@ -704,21 +689,18 @@ def width_new(branch,width_new_name="no_spine_mean_mesh_center",
         return branch.width_new[width_new_name_backup]
 
 
-from python_tools import numpy_dep as np
 def width_diff_basic(limb_obj,
                  branch_1_idx,
                  branch_2_idx,
                  width_func = width_new,):
     """
     Ex: 
-    import neuron_statistics as nst
+    from neurd_packages import neuron_statistics as nst
     nst.width_diff_percentage_basic(n_obj_syn[0],1,2)
     """
     return np.abs(width_func(limb_obj[branch_1_idx]) - width_func(limb_obj[branch_2_idx]))
 
 
-import concept_network_utils as cnu
-from python_tools import numpy_dep as np
 def width_diff(limb_obj,
                  branch_1_idx,
                  branch_2_idx,
@@ -764,7 +746,7 @@ def width_diff_percentage_basic(limb_obj,
                          verbose = False):
     """
     Ex: 
-    import neuron_statistics as nst
+    from neurd_packages import neuron_statistics as nst
     nst.width_diff_percentage_basic(n_obj_syn[0],1,2)
     """
     w_diff = width_diff(limb_obj,
@@ -976,7 +958,6 @@ def synapse_density_diff(limb_obj,
     return np.abs(n_syn_branch_1 - n_syn_branch_2)
 
 
-import copy
 def compute_edge_attributes_locally(G,
                                           limb_obj,
                                          nodes_to_compute,
@@ -1524,7 +1505,6 @@ def find_parent_child_skeleton_angle_upstream_downstream(limb_obj,
     return curr_angle
 
     
-from mesh_tools import trimesh_utils as tu
 def ray_trace_perc(branch_obj,percentile=85):
     return tu.mesh_size(branch_obj.mesh,'ray_trace_percentile',percentile)
 
@@ -1537,8 +1517,6 @@ def parent_width(limb_obj,branch_idx,width_func=None,verbose = False,**kwargs):
     
     return width_func(limb_obj[upstream_node])
 
-import concept_network_utils as cnu
-import synapse_utils as syu
 def min_synapse_dist_to_branch_point(limb_obj,
     branch_idx,
     downstream_branches= None,
@@ -1562,7 +1540,7 @@ def min_synapse_dist_to_branch_point(limb_obj,
     7) Find the minimum distance (if none then make inf)
     
     Ex: 
-    import neuron_statistics as nst
+    from neurd_packages import neuron_statistics as nst
     nst.min_synapse_dist_to_branch_point(limb_obj,
         branch_idx = 16,
         downstream_distance = 0,
@@ -1796,8 +1774,6 @@ def n_synapses_downstream_total(limb_obj,
                                        **kwargs))
 
 
-import concept_network_utils as cnu
-import synapse_utils as syu
 def synapses_downstream_within_dist(limb_obj,
                             branch_idx,
                             synapse_type="synapses",
@@ -1904,8 +1880,6 @@ def n_synapses_pre_downstream_within_dist(limb_obj,
                             **kwargs,))
 
 
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
 
 def fork_divergence(limb_obj,
     branch_idx,
@@ -2008,7 +1982,6 @@ def fork_divergence(limb_obj,
         
     return return_value
 
-from python_tools import numpy_utils as nu
 def compute_node_attributes(G,
                             limb_obj,
                             node_functions,
@@ -2100,7 +2073,6 @@ def node_functions_default(upstream_branch,
     
     ]
 
-from python_tools import general_utils as gu
 def compute_node_attributes_upstream_downstream(G,
                                                 limb_obj,
                                                upstream_branch,
@@ -2244,7 +2216,7 @@ def fork_min_skeletal_distance(limb_obj,
     3) compute the fork skeleton min distance
 
     Ex: 
-    import neuron_statistics as nst
+    from neurd_packages import neuron_statistics as nst
 
     upstream_branch = 68
     downstream_branches = [55,64]
@@ -2423,7 +2395,7 @@ def width_basic(branch_obj):
                             
     
 def farthest_dendrite_branch_from_soma(neuron_obj):
-    import neuron_searching as ns
+    from neurd_packages import neuron_searching as ns
     dist_from_soma_df = ns.query_neuron(neuron_obj,
                     functions_list=[ns.distance_from_soma],
                    query="distance_from_soma > -1",
@@ -2613,7 +2585,6 @@ def n_synapses_pre_offset_endpoint_upstream(branch_obj,
 
 
 # ------------- 7/28: for apical -----------------
-import neuron_searching as ns
 def filter_limbs_by_soma_starting_angle(neuron_obj,
                                        soma_angle,
                                         angle_less_than = True,
@@ -2650,7 +2621,6 @@ def filter_limbs_by_soma_starting_angle(neuron_obj,
     return possible_apical_limbs
 
 
-from mesh_tools import skeleton_utils as sk
 
 def skeleton_perc_dist_match_ref_vector(limb_obj,
     branch_idx,
@@ -2787,7 +2757,6 @@ def width_over_candidate(
         branches = candidate['branches'],
         **kwargs)
 
-import microns_volume_utils as mcu
 def max_layer_height_over_candidate(neuron_obj,candidate,**kwargs):
     """
     Purpose: To determine the maximum height in the
@@ -3015,7 +2984,7 @@ def stats_dict_over_limb_branch(
     3) volume
     
     Ex: 
-    import neuron_statistics as nst
+    from neurd_packages import neuron_statistics as nst
     nst.stats_dict_over_limb_branch(
         neuron_obj = neuron_obj_proof,
         limb_branch_dict = apu.apical_limb_branch_dict(neuron_obj_proof))
@@ -3202,9 +3171,6 @@ def features_from_skeleton_and_soma_center(
 
 
 
-from mesh_tools import skeleton_utils as sk
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
 
 
 
@@ -3506,7 +3472,6 @@ def coordinates_function_list(
         [f"{k}_{x}" for x in ["x","y","z"]] for k in coordinates
     ])
 
-import branch_utils as bu
 def coordinates_stats_df(
     neuron_obj,
     coordinates = None,
@@ -3547,7 +3512,7 @@ def stats_df(
     that is used by the neuron searching to filter down
     
     Ex: 
-    import neuron_statistics as nst
+    from neurd_packages import neuron_statistics as nst
 
     limb_obj = neuron_obj[6]
 
@@ -3681,7 +3646,6 @@ def neuron_stats(
 
     return stats_dict
 
-from python_tools import pandas_utils as pu
 def branch_stats_dict_from_df(df,limb_name,branch_idx):
     """
     Ex: limb_df = nst.stats_df(neuron_obj,
@@ -3695,8 +3659,6 @@ def branch_stats_dict_from_df(df,limb_name,branch_idx):
     limb_name = nru.get_limb_string_name(limb_name)
     return pu.df_to_dicts(pu.delete_columns(df.query(f"(limb=='{limb_name}') and (node == {branch_idx})"),["limb","node"]))[0]
 
-import branch_utils as bu
-from mesh_tools import trimesh_utils as tu
 def euclidean_distance_from_soma_limb_branch(
     neuron_obj,
     less_than = False,
@@ -3778,16 +3740,12 @@ def euclidean_distance_farther_than_soma_limb_branch(
     plot = plot,
     )
 
-import neuron_statistics as nst
 # ----------------- Parameters ------------------------
 
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
 
 global_parameters_dict_default = dict(
 )
 
-import microns_volume_utils as mvu
 attributes_dict_default = dict(
     voxel_to_nm_scaling = mvu.voxel_to_nm_scaling
 )    
@@ -3798,7 +3756,7 @@ attributes_dict_microns = {}
 global_parameters_dict_h01 = {}
 
 
-import h01_volume_utils as hvu 
+from . import h01_volume_utils as hvu 
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling
 )
@@ -3856,3 +3814,32 @@ def output_global_parameters_and_attributes_from_current_data_type(
     
 
     
+
+
+
+#--- from neurd_packages ---
+from . import axon_utils as au
+from . import branch_utils as bu
+from . import concept_network_utils as cnu
+from . import error_detection as ed
+from . import h
+from . import microns_volume_utils as mcu
+from . import microns_volume_utils as mvu
+from . import neuron_searching as ns
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import synapse_utils as syu
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import general_utils as gu
+from python_tools import module_utils as modu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import pandas_utils as pu
+
+from . import neuron_statistics as nst

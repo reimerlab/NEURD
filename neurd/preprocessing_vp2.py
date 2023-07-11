@@ -1,32 +1,23 @@
-from mesh_tools import skeleton_utils as sk
-import soma_extraction_utils as sm
-from mesh_tools import trimesh_utils as tu
-import trimesh
-from python_tools import numpy_utils as nu
-from python_tools import numpy_dep as np
+
+import copy
+from copy import deepcopy
+import itertools
 from importlib import reload
+import matplotlib.pyplot as plt
+from meshparty import trimesh_io
 import networkx as nx
+from pykdtree.kdtree import KDTree
 import time
-from mesh_tools import compartment_utils as cu
-from python_tools import networkx_utils as xu
-from python_tools import matplotlib_utils as mu
+import trimesh
 
 #importing at the bottom so don't get any conflicts
-import itertools
-from python_tools.tqdm_utils import tqdm
 
 #for meshparty preprocessing
-from mesh_tools import meshparty_skeletonize as m_sk
-from python_tools import general_utils as gu
-from mesh_tools import compartment_utils as cu
-from meshparty import trimesh_io
-from copy import deepcopy
 
 
 process_version = 10 #no skeleton jumping hopefully
 
 #from neuron_utils import *
-import neuron
 
 
 
@@ -92,7 +83,6 @@ def plot_correspondence(
             buffer = 0,
         )
         
-from python_tools import matplotlib_utils as mu
 
 def plot_correspondence_on_single_mesh(
     mesh,
@@ -479,8 +469,6 @@ def find_if_stitch_point_on_end_or_branch(matched_branches_skeletons,
 
 
 
-from python_tools import system_utils as su
-from pykdtree.kdtree import KDTree
 
 def closest_dist_from_floating_mesh_to_skeleton(
     skeleton,
@@ -1040,7 +1028,6 @@ def calculate_limb_concept_networks(limb_correspondence,
     return limb_to_soma_concept_networks                    
 
 
-from python_tools import general_utils as gu
 
 def filter_limb_correspondence_for_end_nodes(limb_correspondence,
                                              mesh,
@@ -1193,8 +1180,6 @@ def filter_limb_correspondence_for_end_nodes(limb_correspondence,
 
 
 
-import neuron_utils as nru
-from python_tools import system_utils as su
 
 def preprocess_limb(mesh,
                    soma_touching_vertices_dict = None,
@@ -3522,7 +3507,6 @@ def preprocess_neuron(
 
 
 
-import copy
 
 def preprocess_neuron(
     mesh=None,
@@ -4358,9 +4342,6 @@ def preprocess_neuron(
     return preprocessed_data    
     
     
-import preprocessing_vp2 as pre
-from python_tools import numpy_utils as nu
-import neuron_visualizations as nviz
 '''
 def high_fidelity_axon_decomposition_old(neuron_obj,
                                      plot_new_axon_limb_correspondence=False,
@@ -4901,10 +4882,6 @@ def high_fidelity_axon_decomposition(neuron_obj,
     
     
 # ----- 12/29: Helps with the human data --------------
-from mesh_tools import trimesh_utils as tu
-import networkx as nx
-import matplotlib.pyplot as plt
-from python_tools import matplotlib_utils as mu
 
 floating_piece_face_threshold_expansion = 500
 def limb_meshes_expansion(
@@ -5157,9 +5134,6 @@ def limb_meshes_expansion(
     
     
 # ------------- parameters for stats ---------------
-from python_tools import module_utils as modu
-from python_tools import data_struct_utils as dsu
-from python_tools import general_utils as gu
 
 global_parameters_dict_default_decomp = dict(
         width_threshold_MAP = 500,
@@ -5237,8 +5211,6 @@ global_parameters_dict_h01 = gu.merge_dicts([
     global_parameters_dict_h01_axon_decomp
 ])
 
-import spine_utils as spu
-import neuron_statistics as nst
 data_type = "default"
 algorithms = None
 
@@ -5317,5 +5289,33 @@ preprocessing_args = dict(
 
     
     
-import preprocessing_vp2 as pre
 
+
+
+
+#--- from neurd_packages ---
+from . import neuron
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import soma_extraction_utils as sm
+from . import spine_utils as spu
+
+#--- from mesh_tools ---
+from mesh_tools import compartment_utils as cu
+from mesh_tools import meshparty_skeletonize as m_sk
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import data_struct_utils as dsu
+from python_tools import general_utils as gu
+from python_tools import matplotlib_utils as mu
+from python_tools import module_utils as modu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import system_utils as su
+from python_tools.tqdm_utils import tqdm
+
+from . import preprocessing_vp2 as pre

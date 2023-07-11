@@ -1,27 +1,19 @@
 
-from mesh_tools import skeleton_utils as sk
-import soma_extraction_utils as sm
-from mesh_tools import trimesh_utils as tu
-import trimesh
-from python_tools import numpy_utils as nu
-from python_tools import numpy_dep as np
+import copy
+from copy import deepcopy
+import itertools
 from importlib import reload
+from meshparty import trimesh_io
 import networkx as nx
+import os
+from pathlib import Path
+from pykdtree.kdtree import KDTree
 import time
-from mesh_tools import compartment_utils as cu
-from python_tools import networkx_utils as xu
-from python_tools import matplotlib_utils as mu
+import trimesh
 
 #importing at the bottom so don't get any conflicts
-import itertools
-from python_tools.tqdm_utils import tqdm
 
 #for meshparty preprocessing
-from mesh_tools import meshparty_skeletonize as m_sk
-from python_tools import general_utils as gu
-from mesh_tools import compartment_utils as cu
-from meshparty import trimesh_io
-from copy import deepcopy
 
 #from neuron_utils import *
 
@@ -432,26 +424,7 @@ def further_mesh_correspondence_processing_from_skeleton(soma_touching_mesh_data
 
 
 # ===================== For helping to split limbs at base ===================== #
-from importlib import reload
-import os
-from pathlib import Path
 
-import neuron_utils as nru
-import neuron
-import neuron_visualizations as nviz
-import time
-from python_tools import system_utils as su
-from mesh_tools import skeleton_utils as sk
-from pykdtree.kdtree import KDTree
-from mesh_tools import trimesh_utils as tu
-from python_tools import numpy_dep as np
-from python_tools import networkx_utils as xu
-from mesh_tools import compartment_utils as cu
-import networkx as nx
-from python_tools import numpy_utils as nu
-import copy
-from python_tools import general_utils as gu
-from python_tools import system_utils as su
 
 def check_if_branch_needs_splitting(curr_limb,soma_idx,curr_soma_mesh,
                                     significant_skeleton_threshold=30000,
@@ -955,7 +928,6 @@ def recursive_limb_splitting(curr_limb,soma_meshes,current_neuron_mesh,significa
 
 nru = reload(nru)
 
-from copy import deepcopy
 def limb_split(limbs,soma_meshes,current_neuron_mesh,print_flag=False):
     """
     Purpose: Will end up giving new limb correspondence
@@ -2623,3 +2595,25 @@ def preprocess_neuron_OLD(mesh=None,
 '''
     
     
+
+
+#--- from neurd_packages ---
+from . import neuron
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import soma_extraction_utils as sm
+
+#--- from mesh_tools ---
+from mesh_tools import compartment_utils as cu
+from mesh_tools import meshparty_skeletonize as m_sk
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import general_utils as gu
+from python_tools import matplotlib_utils as mu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import system_utils as su
+from python_tools.tqdm_utils import tqdm

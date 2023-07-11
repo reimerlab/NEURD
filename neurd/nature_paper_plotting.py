@@ -1,4 +1,6 @@
-from python_tools import matplotlib_utils as mu
+
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 exc_inh_combination_palette = {
     'Exc Onto Exc':mu.seaborn_blue,
@@ -13,9 +15,6 @@ exc_inh_palette = {
 }
 
 
-import seaborn as sns
-from python_tools import matplotlib_utils as mu
-import matplotlib.pyplot as plt
 def plot_edit_labels_subset(
     edits_df,
     edit_labels,
@@ -61,10 +60,6 @@ def plot_edit_labels_subset(
     
     return ax
 
-import cell_type_utils as ctu
-import seaborn as sns
-import matplotlib.pyplot as plt
-from python_tools import matplotlib_utils as mu
 def example_kde_plot(spine_df):
     figsize = (10,10)
 
@@ -129,10 +124,6 @@ def example_kde_plot(spine_df):
     mu.move_legend_location_seaborn(ax, "upper left",)
     
 
-import seaborn as sns
-import cell_type_utils as ctu
-from python_tools import pandas_utils as pu
-import matplotlib.pyplot as plt
 def example_histogram_nice(spine_df):
     
 
@@ -190,4 +181,12 @@ def example_histogram_nice(spine_df):
     mu.set_axes_tick_font_size(ax,20)
     mu.set_legend_fontsizes(ax,fontsize = 15)
     
-import nature_paper_plotting as npp
+
+#--- from neurd_packages ---
+from . import cell_type_utils as ctu
+
+#--- from python_tools ---
+from python_tools import matplotlib_utils as mu
+from python_tools import pandas_utils as pu
+
+from . import nature_paper_plotting as npp

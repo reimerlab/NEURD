@@ -1,10 +1,15 @@
-"""
+'''
+
+
 Purpose: To look at the angles and projection
 angles of different compartments of neurons
 
-"""
-from python_tools import numpy_utils as nu
-from python_tools import numpy_dep as np
+
+
+'''
+import h
+import matplotlib.pyplot as plt
+import pandas as pd
 
 def add_xz_angles_to_df(
     df,
@@ -90,12 +95,6 @@ def vec_df_from_compartment(
         
     return ngu.add_xz_angles_to_df(curr_df,compartments=[compartment])
 
-from python_tools import ipyvolume_utils as ipvu
-from python_tools import numpy_dep as np
-import matplotlib.pyplot as plt
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
-import pandas as pd
 
 def plot_compartment_vector_distribution(
     df,
@@ -176,14 +175,11 @@ def plot_compartment_vector_distribution(
     return df_vec_curr
 
 
-import neuron_geometry_utils as ngu
 
 
 # ------------- Setting up parameters -----------
-from python_tools import module_utils as modu 
 
 # -- default 
-import microns_volume_utils as mvu
 attributes_dict_default = dict(
     voxel_to_nm_scaling = mvu.voxel_to_nm_scaling,
     hdju = mvu.data_interface
@@ -197,7 +193,7 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-import h01_volume_utils as hvu
+from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -248,3 +244,17 @@ def output_global_parameters_and_attributes_from_current_data_type(
         algorithms_only = algorithms_only,
         **kwargs,
         )
+
+
+#--- from neurd_packages ---
+from . import h
+from . import microns_volume_utils as mvu
+
+#--- from python_tools ---
+from python_tools import ipyvolume_utils as ipvu
+from python_tools import module_utils as modu 
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import pandas_utils as pu
+
+from . import neuron_geometry_utils as ngu

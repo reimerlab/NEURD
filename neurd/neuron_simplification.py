@@ -1,14 +1,15 @@
-"""
+'''
+
+
 For functions that operate over the whole neuron object
 
 
-"""
 
-import branch_utils as bu
-from python_tools import numpy_dep as np
-import neuron_utils as nru
+
+'''
 import copy 
 import time
+
 
 
 
@@ -23,7 +24,7 @@ def branch_idx_map_from_branches_to_delete_on_limb(
     from nodes to delete
     
     Ex: 
-    import neuron_simplification as nsimp
+    from neurd_packages import neuron_simplification as nsimp
     nsimp.branch_idx_map_from_branches_to_delete_on_limb(
         limb_obj,
         branches_to_delete = [0,1,5],
@@ -73,8 +74,6 @@ def all_concept_network_data_updated(limb_obj):
 
     return all_concept_network_data_revised
 
-from python_tools import networkx_utils as xu
-import time
 def delete_branches_from_limb(
     neuron_obj,
     limb_idx,
@@ -374,8 +373,6 @@ def combine_path_branches_on_limb(
         return limb_obj
     
     
-import neuron_searching as ns
-import proofreading_utils as pru
 
 def combine_path_branches(
     neuron_obj,
@@ -437,7 +434,6 @@ def combine_path_branches(
     return new_neuron_obj
 
 
-import neuron_searching as ns
 def floating_end_nodes_limb_branch(
     neuron_obj,
     limb_branch_dict_restriction = "dendrite",
@@ -585,8 +581,6 @@ def merge_floating_end_nodes_to_parent(
     return new_neuron_obj
 
 
-import neuron_simplification as nsimp
-import branch_utils as bu
 def branching_simplification(
     neuron_obj,
     return_copy = True,
@@ -678,4 +672,15 @@ def branching_simplification(
 
 
 
-import neuron_simplification as nsimp
+
+#--- from neurd_packages ---
+from . import branch_utils as bu
+from . import neuron_searching as ns
+from . import neuron_utils as nru
+from . import proofreading_utils as pru
+
+#--- from python_tools ---
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+
+from . import neuron_simplification as nsimp

@@ -1,3 +1,8 @@
+
+import copy
+import networkx as nx
+import time
+
 axon_version = 7 #version that finds the axon using bare synapse branches
 axon_version = 8 #improved synapse filtering for axon
 axon_version = 9 #Using Baylor cell types for axon finding
@@ -9,9 +14,6 @@ axon_ais_threshold = 180
 
 # excitatory_axon_soma_angle_threshold = 70
 
-from python_tools import numpy_dep as np
-from python_tools import ipyvolume_utils as ipvu
-import copy
 
 
 
@@ -42,12 +44,6 @@ def axon_width(branch_obj,
             width_jump = curr_branch.width_new[width_name_backup_2] 
     return width_jump
 
-import neuron_searching as ns
-import neuron_visualizations as nviz
-from python_tools import networkx_utils as xu
-from mesh_tools import skeleton_utils as sk
-from mesh_tools import trimesh_utils as tu
-import apical_utils as apu
 
 
 
@@ -141,8 +137,6 @@ def axon_like_segments(neuron_obj,include_ais=False,filter_away_end_false_positi
 
 
 
-import width_utils as wu
-from python_tools.tqdm_utils import tqdm
 
 def bouton_meshes(mesh,
                  clusters=5,#4,
@@ -199,7 +193,7 @@ def bouton_meshes(mesh,
     ** Note: Tried using side_length_ratios and volume_ratios as other features
     to filter on but did not seem immediately useful **
     """
-    import neuron
+    from neurd_packages import neuron
     
     if type(mesh) == neuron.Branch:
         if skeleton is None:
@@ -516,9 +510,6 @@ def calculate_boutons_over_limb_branch_dict(neuron_obj,
         
     return neuron_obj
     
-import width_utils as wu
-from mesh_tools import trimesh_utils as tu
-from python_tools.tqdm_utils import tqdm
 
 def calculate_boutons(neuron_obj,
                      max_bouton_width_to_check = None,
@@ -616,9 +607,6 @@ def calculate_boutons(neuron_obj,
         
     return neuron_obj
         
-import neuron_searching as ns
-from mesh_tools import skeleton_utils as sk
-import neuron_utils as nru
 
 def calculate_axon_webbing_on_branch(neuron_obj,
                                  limb_idx,
@@ -916,7 +904,6 @@ def calculate_axon_webbing(neuron_obj,
         
     return neuron_obj
 
-from python_tools import numpy_dep as np
 def axon_branching_attributes(neuron_obj,
                         limb_idx,
                         branch_idx,
@@ -1102,8 +1089,6 @@ def axon_branching_attributes(neuron_obj,
     return attr_dict
 
 
-import proofreading_utils as pru
-import classification_utils as clu
 def complete_axon_processing_old(neuron_obj,
                              perform_axon_classification = True,
                             plot_high_fidelity_axon=False,
@@ -1440,8 +1425,6 @@ def short_thick_branches_limb_branch_dict(neuron_obj,
     return leftover_branches'''
     
 
-import classification_utils as clu
-import networkx as nx
 def axon_angles(neuron_obj,
                verbose = False):
     """
@@ -1612,7 +1595,7 @@ def axon_spines_limb_branch_dict(
     85% ray trace: above 270 (ray_trace_perc)
     
     Ex: 
-    import axon_utils as au
+    from neurd_packages import axon_utils as au
     au.axon_spines_limb_branch_dict(neuron_obj,
         ray_trace_min = 270,
         ray_trace_max = 1200,
@@ -1716,9 +1699,6 @@ def axon_spines_limb_branch_dict(
     return axon_dict
 
 # ------------ 7/17: New axon classification ------------ #
-import concept_network_utils as cnu
-import synapse_utils as syu
-import neuron_statistics as nst
 def axon_classification_using_synapses(
     neuron_obj,
     axon_soma_angle_threshold = None,#70, # for excitatory
@@ -1826,7 +1806,7 @@ def axon_classification_using_synapses(
     
     
     Ex: 
-    import axon_utils as au
+    from neurd_packages import axon_utils as au
     axon_limb_branch_dict,axon_angles_dict = au.axon_classification_using_synapses(neuron_obj_exc_syn_sp,
                                           plot_filt_branches_without_postsyn_req = False,
                                           plot_low_postsyn_branches = False,
@@ -3046,9 +3026,6 @@ def axon_angles_from_neuron(neuron_obj,
         
         return return_axon_info
     
-import time
-import spine_utils as spu
-import neuron_simplification as nsimp
 def complete_axon_processing(neuron_obj,
                              #arguments for synapses and head neck spine
                              cell_type = None,
@@ -3160,7 +3137,7 @@ def complete_axon_processing(neuron_obj,
         
 
     if return_G_axon_labeled:
-        import cell_type_conv_utils as ctcu
+        from neurd_packages import cell_type_conv_utils as ctcu
         if verbose:
             print(f"Computing the axon labeled graph")
         G_axon_labeled = ctcu.G_with_attrs_from_neuron_obj(neuron_obj,plot_G=False)
@@ -3304,7 +3281,6 @@ def complete_axon_processing(neuron_obj,
     return return_value
 
 
-import classification_utils as clu
 def axon_classification_without_synapses(
     neuron_obj,
     plot_axon_like_segments = False,
@@ -3415,7 +3391,7 @@ def filter_candidates_away_with_downstream_high_postsyn_branches_NOT_USED(
     """
 
 
-    import neuron_searching as ns
+    from neurd_packages import neuron_searching as ns
     restr_limb_b = ns.query_neuron(
         neuron_obj,
         query = (f"(distance_from_soma > {au.max_ais_distance_from_soma})"
@@ -3462,7 +3438,6 @@ def filter_candidates_away_with_downstream_high_postsyn_branches_NOT_USED(
             
     return candidates_remaining
 
-import neuron_searching as ns
 def filter_candidate_branches_by_downstream_postsyn(
     neuron_obj,
     candidates,
@@ -3585,7 +3560,6 @@ def filter_candidate_branches_by_downstream_postsyn(
     return final_candidates
 
 
-import neuron_statistics as nst
 def axon_start_distance_from_soma(
     neuron_obj,
     default_value = None,
@@ -3630,9 +3604,6 @@ def axon_start_distance_from_soma(
 
 
 # ---------- Setting of parameters ---------- 
-from python_tools import module_utils as modu 
-from python_tools import general_utils as gu
-from python_tools import data_struct_utils as dsu
 
 attributes_dict_default = dict(
     rotation_function_axon_alignment = None,
@@ -3831,7 +3802,7 @@ global_parameters_dict_microns = {}
 global_parameters_dict_microns_auto_proof = {}
 attributes_dict_microns = {}
 
-from h01_volume_utils import data_interface as hvu
+from .h01_volume_utils import data_interface as hvu
 attributes_dict_h01 = dict(
     rotation_function_axon_alignment = hvu.align_neuron_obj,
     unrotation_function_axon_alignment = hvu.unalign_neuron_obj,
@@ -3909,10 +3880,6 @@ global_parameters_dict_h01 = gu.merge_dicts([
     global_parameters_dict_h01_axon_on_dendrite
 ])
 
-import axon_utils as au
-import preprocessing_vp2 as pre
-import neuron_statistics as nst
-import proofreading_utils as pru
 
 data_type = "default"
 algorithms = None
@@ -3959,3 +3926,35 @@ def output_global_parameters_and_attributes_from_current_data_type(
         )
 
 
+
+
+
+#--- from neurd_packages ---
+from . import apical_utils as apu
+from . import classification_utils as clu
+from . import concept_network_utils as cnu
+from . import neuron_searching as ns
+from . import neuron_simplification as nsimp
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import preprocessing_vp2 as pre
+from . import proofreading_utils as pru
+from . import spine_utils as spu
+from . import synapse_utils as syu
+from . import width_utils as wu
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import data_struct_utils as dsu
+from python_tools import general_utils as gu
+from python_tools import ipyvolume_utils as ipvu
+from python_tools import module_utils as modu 
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools.tqdm_utils import tqdm
+
+from . import axon_utils as au

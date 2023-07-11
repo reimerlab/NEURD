@@ -1,15 +1,19 @@
+'''
 
-from python_tools import numpy_dep as np
-from python_tools import system_utils as su
-from python_tools import pathlib_utils as plu
-from pathlib import Path
-from machine_learning_tools import machine_learning_utils as mlu
 
-"""
 Interesting website for cell types: 
 http://celltypes.brain-map.org/experiment/morphology/474626527
 
-"""
+
+
+'''
+import copy
+import matplotlib.pyplot as plt
+import pandas as pd
+from pathlib import Path
+from sklearn import linear_model
+import time
+
 
 e_i_model = None
 e_i_model_features_default = ["syn_density_shaft","spine_density"]
@@ -58,7 +62,6 @@ cell_type_fine_name_inhibitory = {
  'NGC':"neurogliaform"
 }
 
-from python_tools import general_utils as gu
 e_i_from_type_dict = gu.merge_dicts([{
 'IT_short': "excitatory",
 'bc': "inhibitory",
@@ -164,7 +167,6 @@ publishable_names_map = dict_map={
     "5P_PT":"5P_ET"
 }
 
-from python_tools import pandas_utils as pu
 def cell_type_fine_mapping_publishable(
     df,
     column="gnn_cell_type_fine",
@@ -436,7 +438,6 @@ cell_type_fine_allen_color_map = {
 
 cell_type_fine_color_map = cell_type_fine_color_map_bcm
 
-from python_tools import string_utils as stru
 def e_i_label_from_cell_type_fine(
     cell_type,
     verbose = False,
@@ -553,7 +554,6 @@ ManualCellTypesAllen() & "table_name != 'allen_v1_column_types_slanted'"
 #--------parameters ----------
 
 
-from python_tools import general_utils as gu
 cell_type_fine_names = gu.merge_dicts([cell_type_fine_names_excitatory,
                cell_type_fine_name_inhibitory])
     
@@ -567,9 +567,6 @@ def plot_e_i_model_classifier_map(
                            **kwargs)
 
 
-import neuron_searching as ns
-import neuron_visualizations as nviz
-import axon_utils as au
 def postsyn_branches_near_soma(neuron_obj,
     perform_axon_classification = False,
     #for the synapses filter
@@ -655,13 +652,13 @@ def postsyn_branches_near_soma_for_syn_post_density(neuron_obj,
     for postsynaptic density
     
     Ex: 
-    import cell_type_utils as ctu
+    from neurd_packages import cell_type_utils as ctu
 
     output_limb_branch = ctu.postsyn_branches_near_soma_for_syn_post_density(
                             neuron_obj = neuron_obj_exc_syn_sp,
                            verbose = True)
                            
-    import neuron_visualizations as nviz
+    from neurd_packages import neuron_visualizations as nviz
     nviz.plot_limb_branch_dict(neuron_obj_exc_syn_sp,
                               output_limb_branch)
     """
@@ -699,8 +696,6 @@ def postsyn_branches_near_soma_for_syn_post_density(neuron_obj,
     
 
 
-import neuron_utils as nru
-import synapse_utils as syu
 def synapse_density_near_soma(neuron_obj,
                               limb_branch_dict = None,
                               synapse_type = "synapses",
@@ -774,7 +769,6 @@ def synapse_density_stats(neuron_obj,
 
 
 
-import spine_utils as spu
 def spine_density_near_soma(neuron_obj,
                             limb_branch_dict=None,
                            verbose = True,
@@ -860,7 +854,6 @@ def set_e_i_model_as_kNN(X,
                   )
     return clf
 
-from python_tools import pandas_utils as pu
 def set_e_i_model(features= e_i_model_features_default,
                   label = "cell_type",
                   add_features_to_model_obj=True,
@@ -918,7 +911,6 @@ def set_e_i_model(features= e_i_model_features_default,
         return clf
         
     
-import copy
 def e_i_classification_single(data,
                               features=None,
                               model = None,
@@ -975,7 +967,6 @@ def e_i_classification_single(data,
     else:
         return pred_class
 
-import time
 def e_i_classification_from_neuron_obj_old(neuron_obj,
                                       features = e_i_model_features_default,
                                       verbose = False,
@@ -1203,8 +1194,6 @@ def e_i_classification_from_neuron_obj(neuron_obj,
     
     
     
-import cell_type_utils as ctu
-import neuron_statistics as nst
 def dendrite_branch_stats_near_soma(
     neuron_obj,
     limb_branch_dict = None,
@@ -1255,7 +1244,6 @@ def dendrite_branch_stats_near_soma(
     return dendr_branches_dict
 
 
-from mesh_tools import trimesh_utils as tu
 def soma_stats_for_cell_type(neuron_obj):
     """
     Stats we want to include about the soma
@@ -1281,8 +1269,6 @@ def soma_stats_for_cell_type(neuron_obj):
     return soma_dict
 
 # ===================== 10/11: improved E/I Classification ================
-from python_tools import numpy_dep as np
-from python_tools import pandas_utils as pu
 
 
 
@@ -1300,7 +1286,6 @@ def load_border_exc_inh_df(path=border_df_path,
     border_exc_df = manual_df.query("cell_type_manual=='excitatory'")
     border_inh_df = manual_df.query("cell_type_manual=='inhibitory'")
     
-from sklearn import linear_model
 try:
     from machine_learning_tools import visualizations_ml as vml
 except:
@@ -1405,7 +1390,6 @@ def all_training_df(plot = False):
         
     return train_df
 
-import pandas as pd
 
 cell_type_fine_redundant_mapping = {
         "Unsure I":"Unsure",
@@ -1453,7 +1437,6 @@ def df_cell_type_fine(df):
     df_fine = df_fine.query("cell_type_fine != 'Unsure E'")
     return df_fine
 
-from python_tools import pandas_utils as pu
 #feature_df = pu.csv_to_df("/neuron_mesh_tools/Auto_Proofreading/Cell_Type_Classifier/microns_autoproofread_features_v2.csv")
 
 try:
@@ -1606,10 +1589,6 @@ def rename_cell_type_fine_column(
 
 
 
-import cell_type_utils as ctu
-import matplotlib.pyplot as plt
-from python_tools import matplotlib_utils as mu
-from machine_learning_tools import visualizations_ml as vml
 
 
 def plot_cell_type_gnn_embedding(
@@ -1766,7 +1745,6 @@ def excitatory_high_probability_df_from_df(
     )
 
 # ---------- Setting of parameters ---------- 
-from python_tools import module_utils as modu 
 
 attributes_dict_default = dict(
 )    
@@ -1841,5 +1819,34 @@ def output_global_parameters_and_attributes_from_current_data_type(
         **kwargs,
         )
     
-import cell_type_utils as ctu
 set_e_i_model()
+
+
+
+#--- from neurd_packages ---
+from . import axon_utils as au
+from . import neuron_searching as ns
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import spine_utils as spu
+from . import synapse_utils as syu
+
+#--- from machine_learning_tools ---
+from machine_learning_tools import machine_learning_utils as mlu
+from machine_learning_tools import visualizations_ml as vml
+
+#--- from mesh_tools ---
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import general_utils as gu
+from python_tools import matplotlib_utils as mu
+from python_tools import module_utils as modu 
+from python_tools import numpy_dep as np
+from python_tools import pandas_utils as pu
+from python_tools import pathlib_utils as plu
+from python_tools import string_utils as stru
+from python_tools import system_utils as su
+
+from . import cell_type_utils as ctu

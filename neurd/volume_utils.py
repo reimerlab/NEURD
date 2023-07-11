@@ -1,9 +1,6 @@
 from abc import (
   ABC,
-  abstractmethod,
-)
-
-
+  abstractmethod,)
 class DataInterface(ABC):
   def __init__(
         self, 

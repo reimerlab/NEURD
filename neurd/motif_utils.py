@@ -1,10 +1,17 @@
-import re
-from python_tools import numpy_dep as np
+'''
 
-"""
+
 To help analyze the motifs found using the dotmotif package 
 from a connectome dataset
-"""
+
+
+'''
+import h
+import networkx as nx
+import pandas as pd
+import re
+import time
+
 
 motif_key = "motif"
 identifier_name_global = "identifier"
@@ -32,7 +39,6 @@ def edges_from_str(
         
     return edges
 
-from python_tools import numpy_dep as np
 def nodes_from_str(string):
     edges_str = mfu.edges_from_str(string,return_edge_str = False)
     return list(np.unique(np.hstack(edges_str)))
@@ -213,8 +219,6 @@ def edges_from_motif_dict(
         return return_value
     
     
-from python_tools import networkx_utils as xu
-import networkx as nx
 
 def subgraph_from_motif_dict(
     G,
@@ -247,9 +251,7 @@ def subgraph_from_motif_dict(
         
     return sub_G
 
-import time
 
-import pandas as pd
 def motif_segment_df_from_motifs(
     motifs,
     return_df = True,
@@ -764,10 +766,6 @@ def node_attributes_strs(
 #edges_str = xu.get_graph_attr(curr_G,"motif")
 
 
-from python_tools import pandas_utils as pu
-from python_tools import dotmotif_utils as dmu
-import time
-from python_tools.tqdm_utils import tqdm
 
 def motif_column_mapping(
     df,
@@ -965,12 +963,6 @@ def unique_motif_reduction(
     return motif_cell_type_df
 
 
-from python_tools import pandas_utils as pu
-from python_tools import numpy_dep as np
-from python_tools.tqdm_utils import tqdm
-import motif_utils as mfu
-import pandas as pd
-import time
 
 def motif_dicts_from_motif_from_database(
     motif,
@@ -982,7 +974,6 @@ def motif_dicts_from_motif_from_database(
     
     return motif_dicts
 
-from python_tools import numpy_utils as nu
 def annotated_motif_df(
     G,
     motif,
@@ -1011,7 +1002,7 @@ def annotated_motif_df(
     Purpose: To add all of the features to the motifs
     
     Ex: 
-    import motif_utils as mfu
+    from neurd_packages import motif_utils as mfu
 
     G = hdju.G_auto_DiGraph
 
@@ -1125,8 +1116,6 @@ def annotated_motif_df(
     return unique_df
 
 
-from python_tools import regex_utils as reu
-from python_tools import pandas_utils as pu
 
 def query_with_edge_col(
     df,
@@ -1158,7 +1147,6 @@ def query_with_edge_col(
     return df_filt
 
 
-from python_tools import regex_utils as reu
 def filter_motif_df(
     df,
     node_filters = None,
@@ -1173,7 +1161,7 @@ def filter_motif_df(
     and edge requirements
     
     Ex: 
-    import motif_utils as mfu
+    from neurd_packages import motif_utils as mfu
 
     G = hdju.G_auto_DiGraph
 
@@ -1328,7 +1316,7 @@ def visualize_graph_connections(
     if verbose:
         print(f"synapse_ids= {synapse_ids}")
 
-    import connectome_utils as conu
+    from neurd_packages import connectome_utils as conu
     return conu.visualize_graph_connections_by_method(
         G,
         segment_ids=node_names,
@@ -1340,13 +1328,10 @@ def visualize_graph_connections(
 motif_Gs_for_n_nodes = xu.motif_Gs_for_n_nodes
 
 
-import motif_utils as mfu
 
 # ----------------- Helper functions for 3D analysis ------------- #
-from python_tools import module_utils as modu 
 
 # -- default
-import microns_volume_utils as mvu
 attributes_dict_default = dict(
     #voxel_to_nm_scaling = microns_volume_utils.voxel_to_nm_scaling,
     hdju = mvu.data_interface
@@ -1360,7 +1345,7 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-import h01_volume_utils as hvu
+from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     #voxel_to_nm_scaling = h01_volume_utils.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -1413,3 +1398,20 @@ def output_global_parameters_and_attributes_from_current_data_type(
         )
 
 
+
+
+#--- from neurd_packages ---
+from . import h
+from . import microns_volume_utils as mvu
+
+#--- from python_tools ---
+from python_tools import module_utils as modu 
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import pandas_utils as pu
+from python_tools import regex_utils as reu
+from python_tools.tqdm_utils import tqdm
+
+from . import motif_utils as mfu
+from python_tools import dotmotif_utils as dmu

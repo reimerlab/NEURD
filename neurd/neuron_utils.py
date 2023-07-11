@@ -1,36 +1,35 @@
+'''
 
 
-"""
 Purpose of this file: To help the development of the neuron object
 1) Concept graph methods
 2) Preprocessing pipeline for creating the neuron object from a meshs
 
-"""
+
+
+'''
+import copy
+from copy import deepcopy
+import h
+import itertools
+from importlib import reload
+import matplotlib.pyplot as plt
+from meshparty import trimesh_io
+import networkx as nx
+from pathlib import Path
+from pykdtree.kdtree import KDTree
+from pykdtree.kdtree import KDTree 
+import time
+import trimesh
+from trimesh.ray import ray_pyembree
+
 
 soma_face_offset = 2
 
-import soma_extraction_utils as sm
-from mesh_tools import skeleton_utils as sk
-from mesh_tools import trimesh_utils as tu
-import trimesh
-from python_tools import numpy_utils as nu
-from python_tools import numpy_dep as np
-from importlib import reload
-import networkx as nx
-import time
-from mesh_tools import compartment_utils as cu
-from python_tools import networkx_utils as xu
-from python_tools import matplotlib_utils as mu
 
 #importing at the bottom so don't get any conflicts
-import itertools
-from python_tools.tqdm_utils import tqdm
 
 #for meshparty preprocessing
-from mesh_tools import meshparty_skeletonize as m_sk
-from python_tools import general_utils as gu
-from mesh_tools import compartment_utils as cu
-from meshparty import trimesh_io
 
 # tools for restricting 
 
@@ -74,8 +73,6 @@ def classify_endpoint_error_branches_from_limb_concept_network(curr_concept_netw
 
 # -------------- tools for the concept networks ------------------ #
 
-import copy
-import networkx as nx
 
 def whole_neuron_branch_concept_network_old(input_neuron,
                                   directional=True,
@@ -1005,8 +1002,7 @@ def check_concept_network(curr_limb_concept_network,closest_endpoint,
     if return_touching_piece:
         return recovered_touching_piece
             
-
-from pykdtree.kdtree import KDTree #for finding the closest endpoint
+#for finding the closest endpoint
 def generate_limb_concept_networks_from_global_connectivity(
         limb_correspondence,
         soma_meshes,
@@ -1053,7 +1049,7 @@ def generate_limb_concept_networks_from_global_connectivity(
 
     Example of Use: 
     
-    import neuron
+    from neurd_packages import neuron
     neuron = reload(neuron)
 
     #getting mesh and skeleton dictionaries
@@ -1372,7 +1368,6 @@ def find_face_idx_and_check_recovery(original_mesh,submesh_list,print_flag=False
     return submesh_list_face_idx
     
 
-import copy
 
 
 
@@ -1559,8 +1554,6 @@ def smaller_preprocessed_data(neuron_object,print_flag=False):
     
     return compressed_dict
 
-from pathlib import Path
-from python_tools import system_utils as su
 
 def save_compressed_neuron(neuron_object,output_folder,file_name="",
                            file_name_append = None,return_file_path=False,export_mesh=False):
@@ -1592,8 +1585,6 @@ def save_compressed_neuron(neuron_object,output_folder,file_name="",
     
 
 #For decompressing the neuron
-import time
-import preprocessing_vp2 as pre
 def decompress_neuron(filepath,original_mesh,
                      suppress_output=True,
                      debug_time = False,
@@ -2116,10 +2107,8 @@ def branch_mesh_no_spines(branch):
 
 #xu.endpoint_connectivity(end_1,end_2)
 
-import width_utils as wu
 
 # ---------------------- 8/31: For querying and axon searching --------------------------- #
-from copy import deepcopy
 def branch_skeletal_distance_from_soma(curr_limb,
                                        branch_idx,
                                     somas = None,
@@ -2202,10 +2191,7 @@ def branch_skeletal_distance_from_soma(curr_limb,
     
 
 # ------------------------------ 9/1 To help with mesh correspondence -----------------------------------------------------#
-import itertools
-from python_tools import general_utils as gu
 
-from trimesh.ray import ray_pyembree
 
 def apply_adaptive_mesh_correspondence_to_neuron(current_neuron,
                                                 apply_sdf_filter=False,
@@ -2307,7 +2293,6 @@ def apply_adaptive_mesh_correspondence_to_neuron(current_neuron,
             
 
 # --- 9/2: Mesh correspondence that helps deal with the meshparty data  ----
-from mesh_tools import trimesh_utils as tu
 def sdf_filter(curr_branch,curr_limb,size_threshold=20,
                return_sdf_mean=False,
                ray_inter=None,
@@ -2361,8 +2346,6 @@ def sdf_filter(curr_branch,curr_limb,size_threshold=20,
     
     
 # --------- 9/9 Helps with splitting the mesh limbs ------------ #
-import time
-from mesh_tools import trimesh_utils as tu
 def get_limb_to_soma_border_vertices(current_neuron,print_flag=False):
     """
     Purpose: To create a lookup dictionary indexed by 
@@ -2846,8 +2829,6 @@ def spine_volume_per_branch_eligible(neuron_obj):
     
 # -------------- 11 / 26 To help with erroring------------------------------#
 
-import copy
-from python_tools import numpy_dep as np
 
 def align_and_restrict_branch(base_branch,
                               common_endpoint=None,
@@ -2936,7 +2917,6 @@ def align_and_restrict_branch(base_branch,
     
     return base_final_skeleton,base_final_widths,base_final_seg_lengths
 
-import copy
 def branch_boundary_transition_old(curr_limb,
                               edge,
                               width_name= "no_spine_median_mesh_center",
@@ -3677,7 +3657,6 @@ def get_soma_int_name(soma_name):
         
 
 
-import neuron_visualizations as nviz
 def filter_limbs_below_soma_percentile(neuron_obj,
                                         above_percentile = 70,
                                          return_string_names=True,
@@ -3848,7 +3827,6 @@ def all_soma_connnecting_endpionts_from_starting_info(starting_info):
     return all_endpoints
     
     
-import copy
 
 def skeleton_points_along_path(limb_obj,branch_path,
                                skeletal_distance_per_coordinate=2000,
@@ -3904,7 +3882,6 @@ def get_matching_concept_network_data(limb_obj,soma_idx=None,soma_group_idx=None
     
     
 # ----------- 1/15: For Automatic Axon and Apical Classification ---------------#
-from python_tools import numpy_utils as nu
 def add_branch_label(neuron_obj,limb_branch_dict,
                     labels):
     """
@@ -3950,7 +3927,6 @@ def clear_certain_branch_labels(neuron_obj,labels_to_clear,limb_branch_dict=None
                                    labels_to_clear=labels_to_clear,
                                    limb_branch_dict=limb_branch_dict)
             
-import neuron_statistics as nst
 def viable_axon_limbs_by_starting_angle_old(neuron_obj,
                                        axon_soma_angle_threshold=70,
                                        return_starting_angles=False):
@@ -3973,7 +3949,6 @@ def viable_axon_limbs_by_starting_angle_old(neuron_obj,
     else:
         return possible_axon_limbs
     
-import neuron_searching as ns
 def viable_axon_limbs_by_starting_angle(neuron_obj,
                                        soma_angle_threshold,
                                         above_threshold=False,
@@ -4531,7 +4506,6 @@ def limb_true_false_dict_to_limb_branch_dict(neuron_obj,
         
     return limb_branch_dict
 
-from python_tools import numpy_dep as np
 def limb_branch_dict_to_limb_true_false_dict(neuron_obj,
                                             limb_branch_dict):
     """
@@ -4746,7 +4720,6 @@ def limb_branch_after_limb_branch_removal(neuron_obj,
         return limb_branch_dict_kept
     
 # ------ 2/1: Utils for a lot of the edge functions ----------- #
-import proofreading_utils as pru
 def limb_edge_dict_with_function(neuron_obj,
                                 edge_function,
                                 verbose=False,
@@ -4925,7 +4898,6 @@ def limb_branch_from_edge_function(neuron_obj,
     return limb_branch_dict
     
 
-import networkx as nx
 def branches_within_skeletal_distance(limb_obj,
                                     start_branch,
                                     max_distance_from_start,
@@ -5026,7 +4998,6 @@ def branches_within_skeletal_distance(limb_obj,
 
     return viable_downstream_nodes
 
-import classification_utils as clu
 def low_branch_length_clusters(neuron_obj,
                               max_skeletal_length = 8000,
                                 min_n_nodes_in_cluster = 4,
@@ -5679,8 +5650,6 @@ def pair_neuron_obj_to_nuclei(neuron_obj,
     
 
 # ---- 2/15: For helping with backtracking synapses back to the somas -------- #
-import time
-from pykdtree.kdtree import KDTree
 
 def original_mesh_face_to_limb_branch(neuron_obj,
                                       original_mesh=None,
@@ -5764,8 +5733,6 @@ def original_mesh_face_to_limb_branch(neuron_obj,
         
     
     
-from mesh_tools import skeleton_utils as sk
-from python_tools import networkx_utils as xu
 
 def distance_to_soma_from_coordinate_close_to_branch(neuron_obj,
                                                      coordinate,
@@ -5910,7 +5877,6 @@ def synapse_skeletal_distances_to_soma(neuron_obj,
         
     return np.array(synapse_to_soma_distance)
 
-import classification_utils as clu
 def axon_length(neuron_obj,
                 units="um"):
     
@@ -5938,7 +5904,6 @@ def axon_area(neuron_obj,
     return axon_mesh_area
 
 
-from mesh_tools import trimesh_utils as tu
 def axon_mesh(neuron_obj):
     axon_limb_branch_dict = clu.axon_limb_branch_dict(neuron_obj)
     axon_meshes = nru.feature_over_limb_branch_dict(neuron_obj,axon_limb_branch_dict,
@@ -6092,7 +6057,6 @@ def mesh_without_boutons(obj):
                                       mesh_attribute="boutons")
 
 
-from pykdtree.kdtree import KDTree
 def coordinates_to_closest_limb_branch(neuron_obj,
                                      coordinates,
                                       original_mesh = None,
@@ -6189,7 +6153,6 @@ def limb_branch_list_to_limb_branch_dict(limb_branch_list,
         limb_branch_dict_final[k] = np.array(limb_branch_dict[k])
     return limb_branch_dict_final
 
-from python_tools import numpy_utils as nu
 def filter_limb_branch_dict_by_limb(limb_branch_dict,
                                     limb_names,
                                    verbose=False):
@@ -6551,7 +6514,6 @@ def is_branch_obj(obj):
     """
     return str(type(obj)) == str(neuron.Branch)
 
-from mesh_tools import trimesh_utils as tu
 def branches_combined_mesh(limb_obj,branches,
                           plot_mesh=False):
     """
@@ -6568,7 +6530,6 @@ def branches_combined_mesh(limb_obj,branches,
         nviz.plot_objects(mesh_inter)
     return mesh_inter
 
-from mesh_tools import skeleton_utils as sk
 def coordinate_to_offset_skeletons(limb_obj,
                                   coordinate,
                                    branches= None,
@@ -6842,8 +6803,6 @@ def width(branch_obj,
     return branch_obj.width
     
     
-import networkx as nx
-from python_tools import networkx_utils as xu
 def branch_path_to_node(limb_obj,
                              start_idx,
                             destination_idx,
@@ -7000,11 +6959,6 @@ def min_width_upstream(limb_obj,
 
     return min_path_width
 
-import networkx as nx
-import matplotlib.pyplot as plt
-from python_tools import networkx_utils as xu
-from python_tools import numpy_utils as nu
-import error_detection as ed
 def pair_branch_connected_components(limb_obj,
         branches = None,
         conn_comp = None,
@@ -7465,7 +7419,6 @@ def pair_branch_connected_components(limb_obj,
     else:
         return upstream_final_skeleton'''
     
-import concept_network_utils as cnu
 def restrict_skeleton_from_start_plus_offset_upstream(
     limb_obj,
     branch_idx,
@@ -7618,8 +7571,6 @@ def copy_neuron(neuron_obj):
     return neuron.Neuron(neuron_obj)
 
 # --------- 7/28: For the apical classification ------------
-from python_tools import networkx_utils as xu
-import concept_network_utils as cnu
 def candidate_groups_from_limb_branch(
     neuron_obj,
     limb_branch_dict,
@@ -7816,8 +7767,6 @@ def candidates_from_limb_branch_candidates(
     return all_candidates
     
 
-from mesh_tools import skeleton_utils as sk
-import neuron_visualizations as nviz
 def skeleton_over_limb_branch_dict(neuron_obj,
                                    limb_branch_dict,
                                    stack_skeletons = True,
@@ -8329,8 +8278,6 @@ def n_branches_over_limb_branch_dict(neuron_obj,
                                                 limb_branch_dict,
                                                 feature = "n_branches")
 
-import itertools
-from python_tools import numpy_utils as nu
 def all_soma_soma_connections_from_limb(limb_obj,
                                         only_multi_soma_paths=False,
                                        verbose = False):
@@ -8405,7 +8352,6 @@ def starting_node_from_soma(limb_obj,
                                           soma_name = soma_name,
                                   data_name="starting_node")
 
-import microns_volume_utils as mru
 def starting_node_combinations_of_limb_sorted_by_microns_midpoint(neuron_obj,
                                                         limb_idx,
                                                         only_multi_soma_paths = False,
@@ -8622,7 +8568,6 @@ def all_downstream_branches_from_multiple_branhes(
     return downstream_nodes
 
 
-import branch_utils as bu
 def branch_attr_dict_from_node(
     obj,
     node_name = None,
@@ -8714,8 +8659,6 @@ def branch_neighbors_mesh(limb_obj,
         **kwargs))
 
 
-from mesh_tools import skeleton_utils as sk
-from python_tools import numpy_utils as nu
 def width_average_from_limb_correspondence(
     limb_correspondence,
     verbose = False):
@@ -8736,13 +8679,7 @@ def width_average_from_limb_correspondence(
 
 
 # ------- 12/27: 
-from copy import deepcopy
 
-from mesh_tools import trimesh_utils as tu
-from python_tools import numpy_utils as nu
-from python_tools import networkx_utils as xu
-import networkx as nx
-import neuron
 
 def combined_somas_neuron_obj(
     neuron_obj,
@@ -8782,8 +8719,8 @@ def combined_somas_neuron_obj(
     
     
     Ex: 
-    import neuron_utils as nru
-    import neuron_utils as nru
+    from neurd_packages import neuron_utils as nru
+    from neurd_packages import neuron_utils as nru
     neuron_obj = nru.decompress_neuron("./3502576426_somas_seperate.pbz2",original_mesh="./3502576426_0_25.off")
 
     neuron_obj_comb = nru.combined_somas_neuron_obj(neuron_obj,
@@ -9342,8 +9279,6 @@ def set_preprocessed_data_from_limb_no_mesh_change(
     
     return neuron_obj
 
-from mesh_tools import trimesh_utils as tu
-import synapse_utils as syu
 def translate_neuron_obj(
     neuron_obj,
     translation = None,
@@ -9604,14 +9539,9 @@ def limb_branch_face_idx_dict_from_neuron_obj_overlap_with_face_idx_on_reference
         output_dict = {k:list(v.keys()) for k,v in output_dict}
 
     return output_dict
-    
-import synapse_utils as syu
-import neuron_utils as nru
-import neuron #package where can use the Branches class to help do branch skeleton analysis
+    #package where can use the Branches class to help do branch skeleton analysis
 
 # ------------- parameters for stats ---------------
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
 
 
 
@@ -9620,7 +9550,6 @@ global_parameters_dict_default = dict(
     skeletal_length_max_n_spines = 3000,
 )
 
-import microns_volume_utils as mvu
 attributes_dict_default = dict(
     data_voxel_adjustment = mvu.voxel_to_nm_scaling
 )    
@@ -9636,7 +9565,7 @@ global_parameters_dict_h01 = dict(
     skeletal_length_max_n_spines = 6_000
 )
 
-import h01_volume_utils as hvu
+from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     data_voxel_adjustment = hvu.voxel_to_nm_scaling
 )
@@ -9657,3 +9586,42 @@ set_global_parameters_and_attributes_by_data_type(data_type=data_type,
 output_global_parameters_and_attributes_from_current_data_type = modsetter.output_global_parameters_and_attributes_from_current_data_type
 
 
+
+
+
+#--- from neurd_packages ---
+from . import branch_utils as bu
+from . import classification_utils as clu
+from . import concept_network_utils as cnu
+from . import error_detection as ed
+from . import h
+from . import microns_volume_utils as mru
+from . import microns_volume_utils as mvu
+from . import neuron 
+from . import neuron
+from . import neuron_searching as ns
+from . import neuron_statistics as nst
+from . import neuron_visualizations as nviz
+from . import preprocessing_vp2 as pre
+from . import proofreading_utils as pru
+from . import soma_extraction_utils as sm
+from . import synapse_utils as syu
+from . import width_utils as wu
+
+#--- from mesh_tools ---
+from mesh_tools import compartment_utils as cu
+from mesh_tools import meshparty_skeletonize as m_sk
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import general_utils as gu
+from python_tools import matplotlib_utils as mu
+from python_tools import module_utils as modu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import system_utils as su
+from python_tools.tqdm_utils import tqdm
+
+from . import neuron_utils as nru

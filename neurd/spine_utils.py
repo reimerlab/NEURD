@@ -1,21 +1,25 @@
+'''
+
+
+To Do: Want to add how close a spine is to upstream and downstream endpoint
+
+
+'''
+import copy
+import matplotlib.pyplot as plt
 import networkx as nx
+import pandas as pd
+from pathlib import Path
+from pykdtree.kdtree import KDTree
+import seaborn as sns
+import time
+import time 
 try:
     import cgal_Segmentation_Module as csm
 except:
     pass
-from pathlib import Path
-from mesh_tools import trimesh_utils as tu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from mesh_tools import skeleton_utils as sk
-import copy
 
-from python_tools import networkx_utils as xu
-import time
 
-"""
-To Do: Want to add how close a spine is to upstream and downstream endpoint
-"""
 volume_divisor = 1000_000_000
 
 spine_attributes = ["mesh_face_idx",
@@ -77,7 +81,6 @@ def spine_labels(include_no_label = False):
 
     
 
-from python_tools import general_utils as gu
 head_neck_shaft_dict_inverted = gu.invert_mapping(head_neck_shaft_dict,one_to_one=True)
 
 neck_color_default = "gold"#"yellow"#,"pink"#,"yellow"# "aqua"
@@ -135,7 +138,6 @@ spine_synapse_rename_dict  =dict(
             syn_spine_width_ray_80_perc = "spine_width_ray_80_perc"
         )
 
-from python_tools import dj_utils as dju
 def false_positive_queries(
     table_type = "pandas",
     invert = False,
@@ -714,7 +716,6 @@ def calculate_soma_distance_skeletal(spine_obj,upstream_skeletal_length=None):
     
     
 
-import branch_utils as bu
 def calculate_branch_width_at_base(spine_obj,branch_obj):
     spine_obj.branch_width_at_base = bu.width_array_value_closest_to_coordinate(
                 branch_obj,
@@ -912,7 +913,6 @@ def plot_head_neck(spine_obj,
                      meshes_colors=[neck_color,head_color,no_head_color])
     
     
-from mesh_tools import trimesh_utils as tu
 def mesh_from_name_or_idx(
     spine_obj,
     name=None,
@@ -1013,7 +1013,6 @@ def export(
 
 
 
-from python_tools import tqdm_utils as tqu
 def set_branch_spines_obj(branch_obj,
                                calculate_mesh_face_idx = True,
                                 verbose = False):
@@ -1091,7 +1090,6 @@ def set_neuron_head_neck_shaft_idx(neuron_obj,
                                func = spu.set_branch_head_neck_shaft_idx,
                               verbose=verbose)
     
-import synapse_utils as syu
 def set_branch_synapses_head_neck_shaft(branch_obj,
                                         verbose = False
                                        ):
@@ -1124,7 +1122,6 @@ def set_neuron_synapses_head_neck_shaft(neuron_obj,
                                func = spu.set_branch_synapses_head_neck_shaft,
                               verbose=verbose)
 
-import time 
 def add_head_neck_shaft_spine_objs(neuron_obj,
                                    add_synapse_labels=True,
                                    filter_spines_for_size = True,
@@ -1441,8 +1438,6 @@ def split_mesh_into_spines_shaft_old(current_mesh,
         return spine_meshes,spine_meshes_idx,shaft_meshes,shaft_meshes_idx
     
     
-from python_tools import numpy_dep as np
-from python_tools import system_utils as su
 def get_spine_meshes_unfiltered_from_mesh(
     current_mesh,
     segment_name=None,
@@ -1761,7 +1756,6 @@ def filter_spine_meshes(spine_meshes,
 
 
 #------------ 9/23 Addition -------------- #
-from mesh_tools import trimesh_utils as tu
 def filter_out_border_spines(mesh,spine_submeshes,
                             border_percentage_threshold=None,                                                    
                              check_spine_border_perc=None,
@@ -1779,7 +1773,6 @@ def filter_out_border_spines(mesh,spine_submeshes,
                                                              return_meshes = not return_idx,
                                                             )
 
-from pykdtree.kdtree import KDTree
 def filter_out_soma_touching_spines(
     spine_submeshes,
     soma_vertices=None,
@@ -1828,9 +1821,6 @@ def filter_out_soma_touching_spines(
         return final_spines
 
 
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-import neuron_visualizations as nviz
 def spine_head_neck(
     mesh,
     cluster_options = (2,3,4),
@@ -2078,9 +2068,6 @@ def spine_head_neck(
     return return_value
 
 
-import spine_utils as spu
-from mesh_tools import trimesh_utils as tu
-from python_tools import numpy_dep as np
 
 def bouton_non_bouton_idx_from_branch(branch_obj,
                                      plot_branch_boutons=False,
@@ -2256,9 +2243,6 @@ def set_soma_synapses_spine_label(neuron_obj,
 
 
 # -------------- 12/6: Doing the spine calculation ----------------
-from mesh_tools import trimesh_utils as tu
-from pykdtree.kdtree import KDTree
-from mesh_tools import skeleton_utils as sk
 def calculate_spines_on_branch(
     branch,
     
@@ -2538,7 +2522,6 @@ def calculate_spines_on_branch(
     else:
         return spine_submesh_split_filtered
     
-import neuron_searching as ns
 def calculate_spines_on_neuron(
     neuron_obj,
     limb_branch_dict=None,
@@ -2745,7 +2728,6 @@ def filter_spines_by_size_branch(
         
     return return_value
     
-import time
 def filter_spines_by_size(
     neuron_obj,
     spine_n_face_threshold=None,
@@ -2766,7 +2748,6 @@ def filter_spines_by_size(
 
 
 # ------------- 2/7 adjustments -----------------
-import copy
 def adjust_obj_with_face_offset(
     spine_obj,
     face_offset,
@@ -2805,7 +2786,6 @@ def adjust_obj_with_face_offset(
         
     return new_obj
 
-from mesh_tools import skeleton_utils as sk
 def spine_length(
     spine_mesh,
     verbose = False,
@@ -2828,7 +2808,6 @@ def spine_length(
         nviz.plot_objects(spine_mesh,curr_sk)
     return curr_sk_length
 
-import time
 def complete_spine_processing(
     neuron_obj,
     compute_initial_spines = True,
@@ -2866,7 +2845,7 @@ def complete_spine_processing(
             print(f"Time for compute_initial_spines = {time.time() - st}")
             
     if compute_no_spine_width: 
-        import width_utils as wu
+        from neurd_packages import width_utils as wu
         st = time.time()
         widths_to_calculate=["no_spine_median_mesh_center"]
         
@@ -2891,9 +2870,6 @@ def complete_spine_processing(
     return neuron_obj
 
 # -------------- for other properties per spine obj -------------
-from python_tools import numpy_utils as nu
-from mesh_tools import skeleton_utils as sk
-from python_tools import numpy_dep as np
 
 def calculate_spine_obj_mesh_skeleton_coordinates_for_branch(branch_obj):
     if branch_obj.spines_obj is None:
@@ -3078,8 +3054,6 @@ def calculate_spine_obj_mesh_skeleton_coordinates(
         
     return spine_obj
 
-import branch_attr_utils as bau
-import branch_utils as bu
 def id_from_idx(
     limb_idx,
     branch_idx,
@@ -3376,9 +3350,6 @@ def spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_mesh(
         **kwargs
         )
 
-import pandas as pd
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
 
 def df_from_spine_objs(
     spine_objs,
@@ -3506,7 +3477,6 @@ def filter_spine_objs_from_restrictions(
 query_spine_objs = filter_spine_objs_from_restrictions
 
 
-from python_tools import mesh_utils as meshu
 def example_comparing_mesh_segmentation_vs_spine_head_segmentation(
     spine_mesh,
     ):
@@ -4218,8 +4188,6 @@ def plot_spine_objs_and_syn_from_syn_df(
         scatters=[syu.synapse_coordinates_from_synapse_df(syn_df_restr)]
     )
     
-import synapse_utils as syu
-from python_tools import numpy_utils as nu
 
 def synapse_df_with_spine_match(
     branch_obj,
@@ -4286,14 +4254,11 @@ def synapse_df_with_spine_match(
     
     return syn_df
 
-import seaborn as sns
 def example_syn_df_spine_correlations(syn_df):
     sns.jointplot(data = syn_df,x = "spine_compartment",y = "volume")
     sns.jointplot(data = syn_df.query(f"spine_compartment >= 0"),x = "volume",y = "spine_volume")
     sns.jointplot(data = syn_df.query(f"spine_compartment >= 0"),x = "volume",y = "width_ray_80_perc")
     
-import neuron_statistics as nst
-from python_tools import tqdm_utils as tqu
 
 
                         
@@ -4406,9 +4371,6 @@ def spine_id_range_from_limb_branch_idx(
 def spine_id_add_from_limb_branch_idx(limb_idx,branch_idx):
     return spine_id_from_limb_branch_spine_idx(limb_idx,branch_idx)
 
-import branch_utils as bu
-import time
-from pykdtree.kdtree import KDTree
 
 def spine_objs_and_synapse_df_computed_from_neuron_obj(
     neuron_obj,
@@ -4668,7 +4630,6 @@ def spine_compartments_face_idx_for_neuron_mesh(
 
     return comp_face_idx_dict_final
 
-from python_tools import pandas_utils as pu
 def spine_objs_and_synapse_df_total_from_limb_branch_spine_dict(
     limb_branch_spine_dict,
     verbose = False,
@@ -4794,7 +4755,6 @@ def examle_plot_spines_from_spine_df_query(
     )
     
 # ---- function ofr extracting new spine_objs from neuron_obj ---
-import neuron_searching as ns
 def limb_branch_dict_to_search_for_spines(
     neuron_obj,
     query = None,
@@ -4873,7 +4833,7 @@ def spine_and_syn_df_computed_from_neuron_obj(
         if add_neuron_compartments:
             if compartment_faces_dict is None:
                 raise Exception("compartment_faces_dict is None and requested compartments")
-            import apical_utils as apu
+            from neurd_packages import apical_utils as apu
             limb_branch_compartment_dict = apu.limb_branch_compartment_dict_from_limb_branch_face_and_compartment_faces_dict(
                 limb_branch_face_dict,
                 compartment_faces_dict=compartment_faces_dict,
@@ -5381,10 +5341,6 @@ def synapse_ids_from_synapse_df(
         return np.hstack(list(return_d.values())).astype('int')
     
     
-from python_tools import matplotlib_utils as mu
-from python_tools import numpy_utils as nu
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 def plot_spine_embeddings_kde(
     df,
@@ -5440,7 +5396,6 @@ def plot_spine_embeddings_kde(
     return mu.set_axes_outside_seaborn(ax)
 
 
-from python_tools import numpy_utils as nu
 def spine_compartment_synapses(df,compartment):
     compartment= nu.to_list(compartment)
     return df.query(f"spine_compartment in {list(compartment)}")
@@ -5496,8 +5451,6 @@ def set_shaft_synapses_from_spine_query(
 
 
 # --------- exporting the stats --------------
-from python_tools import pandas_utils as pu
-import pandas as pd
 
 def spine_synapse_stats_from_synapse_df(
     df,
@@ -5699,7 +5652,6 @@ def spine_stats_from_spine_df(
 
     return df_stats
 
-import apical_utils as apu
 def add_spine_densities_to_spine_stats_df(
     df,
     head_types = ["no_head","head"],
@@ -5813,9 +5765,6 @@ def add_synapse_densities_to_spine_synapse_stats_df(
         return df,features_generated
     return df
 
-from python_tools import matplotlib_utils as mu
-import matplotlib.pyplot as plt
-import cell_type_utils as ctu
 
 def plot_feature_histograms_with_ct_overlay(
     df,
@@ -5904,10 +5853,6 @@ def feature_summed_over_compartments(
         return val
 
     
-import matplotlib.pyplot as plt
-from python_tools import matplotlib_utils as mu
-import seaborn as sns
-from python_tools import statistics_utils as stu
 
 def plot_spine_feature_hist(
     df,
@@ -6132,7 +6077,7 @@ def plot_connetion_type_head_vs_spine_size_by_conn_type_kde(
         fig,ax = plt.subplots(1,1,figsize = figsize)
         
     if palette is None:
-        import nature_paper_plotting as npp
+        from neurd_packages import nature_paper_plotting as npp
         palette = npp.exc_inh_combination_palette
     
     if hue_options is not None:
@@ -6278,8 +6223,6 @@ def plot_spine_attribute_vs_category_from_spine_df_samples(
     
     return ax
 # ----------------- Parameters ------------------------
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
 
 global_parameters_dict_default_spine_identification = dict(
     query="median_mesh_center > 115 and n_faces_branch>100",#previous used median_mesh_center > 140
@@ -6412,8 +6355,39 @@ def output_global_parameters_and_attributes_from_current_data_type(
 
 
 
-import neuron_utils as nru
-import width_utils as wu
     
             
-import spine_utils as spu
+
+
+
+#--- from neurd_packages ---
+from . import apical_utils as apu
+from . import branch_attr_utils as bau
+from . import branch_utils as bu
+from . import cell_type_utils as ctu
+from . import neuron_searching as ns
+from . import neuron_statistics as nst
+from . import neuron_utils as nru
+from . import neuron_visualizations as nviz
+from . import synapse_utils as syu
+from . import width_utils as wu
+
+#--- from mesh_tools ---
+from mesh_tools import skeleton_utils as sk
+from mesh_tools import trimesh_utils as tu
+
+#--- from python_tools ---
+from python_tools import dj_utils as dju
+from python_tools import general_utils as gu
+from python_tools import matplotlib_utils as mu
+from python_tools import mesh_utils as meshu
+from python_tools import module_utils as modu
+from python_tools import networkx_utils as xu
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import pandas_utils as pu
+from python_tools import statistics_utils as stu
+from python_tools import system_utils as su
+from python_tools import tqdm_utils as tqu
+
+from . import spine_utils as spu
