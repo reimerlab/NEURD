@@ -45,6 +45,7 @@ from python_tools import numpy_dep as np
 import synapse_utils as syu
 import spine_utils as spu
 import branch_attr_utils as bau
+from python_tools import ipyvolume_utils as ipvu
 
 from mesh_tools import skeleton_utils as sk
 def skeleton_adjust(

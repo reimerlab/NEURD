@@ -14,6 +14,7 @@ import networkx as nx
 from python_tools import matplotlib_utils as mu
 
 import neuron_searching as ns
+from python_tools import ipyvolume_utils as ipvu
 
 top_volume_vector = np.array([0,-1,0])
 

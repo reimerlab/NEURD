@@ -10,6 +10,7 @@ apu.apical_classification(neuron_obj,
                          )
 """
 
+from python_tools import ipyvolume_utils as ipvu
 
 compartment_colors = dict(
 apical = "blue",

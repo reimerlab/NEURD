@@ -10,6 +10,7 @@ axon_ais_threshold = 180
 # excitatory_axon_soma_angle_threshold = 70
 
 from python_tools import numpy_dep as np
+from python_tools import ipyvolume_utils as ipvu
 import copy
 
 
