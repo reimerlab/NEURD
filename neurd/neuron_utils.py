@@ -9570,20 +9570,20 @@ attributes_dict_h01 = dict(
     data_voxel_adjustment = hvu.voxel_to_nm_scaling
 )
 
-data_type = "default"
-algorithms = None
-modules_to_set = [nru]
+# data_type = "default"
+# algorithms = None
+# modules_to_set = [nru]
 
-modsetter = modu.ModuleDataTypeSetter(
-    module = modules_to_set,
-    algorithms = algorithms
-)
+# modsetter = modu.ModuleDataTypeSetter(
+#     module = modules_to_set,
+#     algorithms = algorithms
+# )
 
-set_global_parameters_and_attributes_by_data_type = modsetter.set_global_parameters_and_attributes_by_data_type
-set_global_parameters_and_attributes_by_data_type(data_type=data_type,
-                                                   algorithms=algorithms)
+# set_global_parameters_and_attributes_by_data_type = modsetter.set_global_parameters_and_attributes_by_data_type
+# set_global_parameters_and_attributes_by_data_type(data_type=data_type,
+#                                                    algorithms=algorithms)
 
-output_global_parameters_and_attributes_from_current_data_type = modsetter.output_global_parameters_and_attributes_from_current_data_type
+# output_global_parameters_and_attributes_from_current_data_type = modsetter.output_global_parameters_and_attributes_from_current_data_type
 
 
 

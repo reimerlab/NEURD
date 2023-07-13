@@ -1,6 +1,10 @@
 '''
 
 
+
+
+
+
 Good neuron to show off for classification
 
 old_seg_id  = 864691135099943968
@@ -12,9 +16,15 @@ apu.apical_classification(neuron_obj,
                          )
 
 
-'''
-import h
 
+
+
+
+'''
+from os import sys
+from python_tools import numpy_dep as np
+from python_tools import numpy_utils as nu
+from python_tools import general_utils as gu
 
 compartment_colors = dict(
 apical = "blue",
@@ -182,7 +192,7 @@ def apical_shaft_like_limb_branch(neuron_obj,
                functions_list=[ns.skeleton_dist_match_ref_vector,
                                ns.skeleton_perc_match_ref_vector,
                               ns.width_new],
-               function_kwargs=dict(reference_vector=mcu.top_of_layer_vector,
+               function_kwargs=dict(reference_vector=hdju.top_of_layer_vector,
                                    max_angle=max_upward_angle),
                query=f"(((skeleton_dist_match_ref_vector > {min_upward_length}) and "
                 f" (skeleton_perc_match_ref_vector > {min_upward_per_match})) "
@@ -632,7 +642,7 @@ def apical_classification(
         print(f"Plotting filtered apical limbs")
         nviz.visualize_subset_neuron_limbs(neuron_obj,possible_apical_limbs)
         
-    soma_layer_height = mcu.coordinates_to_layer_height(neuron_obj["S0"].mesh_center)
+    soma_layer_height = hdju.coordinates_to_layer_height(neuron_obj["S0"].mesh_center)
     
     if verbose:
         print(f"soma_layer_height = {soma_layer_height}")
@@ -1722,6 +1732,7 @@ global_parameters_dict_default = gu.merge_dicts([
 attributes_dict_default = dict(
     rotation_function_axon_alignment = None,
     unrotation_function_axon_alignment = None,
+    hdju = mvu.data_interface,
 )    
 
 # ------- microns -----------
@@ -1738,15 +1749,21 @@ global_parameters_dict_h01 = gu.merge_dicts([
         global_parameters_dict_h01_apical
 ])
 
-from . import h01_volume_utils as hvu
+
 attributes_dict_h01 = dict(
     rotation_function_axon_alignment = hvu.data_interface.align_neuron_obj,
     unrotation_function_axon_alignment =  hvu.data_interface.unalign_neuron_obj,
+    hdju = hvu.data_interface,
 )
+
 
 # modules_to_set = [apu]
 # data_type = "default"
 # algorithms = None
+
+# modu.set_global_parameters_and_attributes_by_data_type(
+#     module=modules_to_set,
+# )
 
 # modsetter = modu.ModuleDataTypeSetter(
 #     module = modules_to_set,
@@ -1762,14 +1779,10 @@ attributes_dict_h01 = dict(
 # )
 
 
-
-
-    
-
 #--- from neurd_packages ---
 from . import concept_network_utils as cnu
-from . import h
-from . import microns_volume_utils as mcu
+from . import h01_volume_utils as hvu
+from . import microns_volume_utils as mvu
 from . import neuron_searching as ns
 from . import neuron_statistics as nst
 from . import neuron_utils as nru

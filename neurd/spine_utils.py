@@ -6307,50 +6307,50 @@ global_parameters_dict_h01 = gu.merge_dicts([
 
 attributes_dict_h01 = {}
 
-data_type = "default"
-algorithms = None
+# data_type = "default"
+# algorithms = None
 
-modules_to_set = [spu]
+# modules_to_set = [spu]
 
-def set_global_parameters_and_attributes_by_data_type(dt,
-                                                     algorithms_list = None,
-                                                      modules = None,
-                                                     set_default_first = True,
-                                                      verbose=False):
-    if modules is None:
-        modules = modules_to_set
+# def set_global_parameters_and_attributes_by_data_type(dt,
+#                                                      algorithms_list = None,
+#                                                       modules = None,
+#                                                      set_default_first = True,
+#                                                       verbose=False):
+#     if modules is None:
+#         modules = modules_to_set
     
-    modu.set_global_parameters_and_attributes_by_data_type(modules,dt,
-                                                          algorithms=algorithms_list,
-                                                          set_default_first = set_default_first,
-                                                          verbose = verbose)
+#     modu.set_global_parameters_and_attributes_by_data_type(modules,dt,
+#                                                           algorithms=algorithms_list,
+#                                                           set_default_first = set_default_first,
+#                                                           verbose = verbose)
     
-set_global_parameters_and_attributes_by_data_type(data_type,
-                                                   algorithms)
+# set_global_parameters_and_attributes_by_data_type(data_type,
+#                                                    algorithms)
 
-def output_global_parameters_and_attributes_from_current_data_type(
-    modules = None,
-    algorithms = None,
-    verbose = True,
-    lowercase = True,
-    output_types = ("global_parameters"),
-    include_default = True,
-    algorithms_only = False,
-    **kwargs):
+# def output_global_parameters_and_attributes_from_current_data_type(
+#     modules = None,
+#     algorithms = None,
+#     verbose = True,
+#     lowercase = True,
+#     output_types = ("global_parameters"),
+#     include_default = True,
+#     algorithms_only = False,
+#     **kwargs):
     
-    if modules is None:
-        modules = modules_to_set
+#     if modules is None:
+#         modules = modules_to_set
     
-    return modu.output_global_parameters_and_attributes_from_current_data_type(
-        modules,
-        algorithms = algorithms,
-        verbose = verbose,
-        lowercase = lowercase,
-        output_types = output_types,
-        include_default = include_default,
-        algorithms_only = algorithms_only,
-        **kwargs,
-        )
+#     return modu.output_global_parameters_and_attributes_from_current_data_type(
+#         modules,
+#         algorithms = algorithms,
+#         verbose = verbose,
+#         lowercase = lowercase,
+#         output_types = output_types,
+#         include_default = include_default,
+#         algorithms_only = algorithms_only,
+#         **kwargs,
+#         )
 
 
 
