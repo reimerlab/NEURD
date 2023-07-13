@@ -1,0 +1,5 @@
+To run the python addition of calcification param
+RUN pip3 install -e /src/CGAL/cgal_skeleton_param
+pip3 install -e /notebooks3/Users/celii/Documents/Complete_Pinky100_Pipeline/notebooks/Platinum/Platinum_Skeletonization_vp3/cgal_skeleton_param
+pip3 install -e /notebooks/neuron_mesh_tools/MeshAfterParty/cgal_skeleton_param
+pip3 install -e ./meshAfterParty/cgal_skeleton_param
