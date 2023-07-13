@@ -4,10 +4,8 @@ from copy import deepcopy
 import itertools
 from importlib import reload
 import matplotlib.pyplot as plt
-try:
-    from meshparty import trimesh_io
-except:
-    pass
+from meshparty import trimesh_io
+
 import networkx as nx
 from pykdtree.kdtree import KDTree
 import time

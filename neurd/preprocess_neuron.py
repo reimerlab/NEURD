@@ -3,10 +3,8 @@ import copy
 from copy import deepcopy
 import itertools
 from importlib import reload
-try:
-    from meshparty import trimesh_io
-except:
-    pass
+from meshparty import trimesh_io
+
 
 import networkx as nx
 import os
