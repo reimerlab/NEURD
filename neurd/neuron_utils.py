@@ -1,9 +1,11 @@
 '''
 
 
+
 Purpose of this file: To help the development of the neuron object
 1) Concept graph methods
 2) Preprocessing pipeline for creating the neuron object from a meshs
+
 
 
 
@@ -13,7 +15,6 @@ from copy import deepcopy
 import itertools
 from importlib import reload
 import matplotlib.pyplot as plt
-from meshparty import trimesh_io
 import networkx as nx
 from pathlib import Path
 from pykdtree.kdtree import KDTree
@@ -21,7 +22,11 @@ from pykdtree.kdtree import KDTree
 import time
 import trimesh
 from trimesh.ray import ray_pyembree
-
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
+from . import microns_volume_utils as mvu
+from . import h01_volume_utils as hvu
 
 soma_face_offset = 2
 
@@ -9564,7 +9569,6 @@ global_parameters_dict_h01 = dict(
     skeletal_length_max_n_spines = 6_000
 )
 
-from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     data_voxel_adjustment = hvu.voxel_to_nm_scaling
 )
@@ -9585,14 +9589,12 @@ attributes_dict_h01 = dict(
 # output_global_parameters_and_attributes_from_current_data_type = modsetter.output_global_parameters_and_attributes_from_current_data_type
 
 
-
-
-
 #--- from neurd_packages ---
 from . import branch_utils as bu
 from . import classification_utils as clu
 from . import concept_network_utils as cnu
 from . import error_detection as ed
+from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mru
 from . import microns_volume_utils as mvu
 from . import neuron 

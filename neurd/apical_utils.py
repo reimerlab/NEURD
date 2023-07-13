@@ -1,6 +1,7 @@
 '''
 
 
+
 Good neuron to show off for classification
 
 old_seg_id  = 864691135099943968
@@ -12,7 +13,12 @@ apu.apical_classification(neuron_obj,
                          )
 
 
+
 '''
+
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
 
 
 compartment_colors = dict(
@@ -102,16 +108,11 @@ def compartment_labels_for_externals():
     return [k for k in coarse_fine_compartment_map.keys() if k not in ["no_label","soma"]]
 
 
-
-
-
-
 def coarse_fine_compartment_from_label(label):
     if label is None:
         return (None,None)
     else:
         return coarse_fine_compartment_map[label]
-
 
 
 def compartment_label_to_all_labels(label):
@@ -1761,12 +1762,9 @@ attributes_dict_h01 = dict(
 # )
 
 
-
-
-    
-
 #--- from neurd_packages ---
 from . import concept_network_utils as cnu
+from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mcu
 from . import neuron_searching as ns
 from . import neuron_statistics as nst

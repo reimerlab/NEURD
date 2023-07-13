@@ -1,6 +1,6 @@
 
 import time
-
+from python_tools import numpy_dep as np
 
 default_skeleton_segment_size = 1000
 
@@ -531,8 +531,6 @@ def neuron_width_calculation_standard(
             print(f"Time for calculating {w}: {time.time() - st}")
             
     return neuron_obj
-
-
 
 
 #--- from neurd_packages ---

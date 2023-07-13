@@ -4,7 +4,12 @@ import itertools
 import networkx as nx
 from pykdtree.kdtree import KDTree
 import time
-
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
+from . import microns_volume_utils as mvu
+from . import h01_volume_utils as hvu
+from . import proofreading_utils as pru
 
 current_proof_version = 6 #has the inhibitory rules and safer overall axon rules
 current_proof_version = 7 #has the inhibitory rules and safer overall axon rules
@@ -7877,7 +7882,6 @@ global_parameters_dict_h01 = gu.merge_dicts([
     global_parameters_dict_h01_auto_proof
 ])
 
-from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     data_mod = hvu.data_interface
 )
@@ -7928,8 +7932,6 @@ attributes_dict_h01 = dict(
 #         **kwargs,
 #         )
 
-    
-
 
 #--- from neurd_packages ---
 from . import apical_utils as apu
@@ -7938,6 +7940,7 @@ from . import classification_utils as clu
 from . import concept_network_utils as cnu
 from . import error_detection as ed
 from . import graph_filters as gf
+from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 from . import neuron
 from . import neuron_searching as ns

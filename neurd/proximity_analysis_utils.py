@@ -5,6 +5,10 @@ import pandas as pd
 from pykdtree.kdtree import KDTree
 import seaborn as sns
 import time
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from . import microns_volume_utils as mvu
+from . import h01_volume_utils as hvu
 
 def conversion_rate_by_attribute_and_cell_type_pairs(
     df,
@@ -758,7 +762,6 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -814,6 +817,7 @@ global_parameters_dict_h01 = dict()
 
 
 #--- from neurd_packages ---
+from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 from . import nature_paper_plotting as npp
 from . import neuron_nx_utils as nxu

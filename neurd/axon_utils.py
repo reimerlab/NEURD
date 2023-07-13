@@ -2,6 +2,11 @@
 import copy
 import networkx as nx
 import time
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
+from python_tools import data_struct_utils as dsu
+from .h01_volume_utils import data_interface as hvu
 
 axon_version = 7 #version that finds the axon using bare synapse branches
 axon_version = 8 #improved synapse filtering for axon
@@ -3802,7 +3807,6 @@ global_parameters_dict_microns = {}
 global_parameters_dict_microns_auto_proof = {}
 attributes_dict_microns = {}
 
-from .h01_volume_utils import data_interface as hvu
 attributes_dict_h01 = dict(
     rotation_function_axon_alignment = hvu.align_neuron_obj,
     unrotation_function_axon_alignment = hvu.unalign_neuron_obj,
@@ -3926,13 +3930,11 @@ global_parameters_dict_h01 = gu.merge_dicts([
 #         )
 
 
-
-
-
 #--- from neurd_packages ---
 from . import apical_utils as apu
 from . import classification_utils as clu
 from . import concept_network_utils as cnu
+from .h01_volume_utils import data_interface as hvu
 from . import neuron_searching as ns
 from . import neuron_simplification as nsimp
 from . import neuron_statistics as nst

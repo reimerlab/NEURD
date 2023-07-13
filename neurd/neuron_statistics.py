@@ -1,6 +1,11 @@
 
 import copy
 import networkx as nx
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
+from . import microns_volume_utils as mvu
+from . import h01_volume_utils as hvu
 
 def neuron_path_analysis(neuron_obj,
                         N = 3,
@@ -703,13 +708,16 @@ def width_diff_basic(limb_obj,
 def width_diff(limb_obj,
                  branch_1_idx,
                  branch_2_idx,
-                 width_func = au.axon_width,
+                 width_func = None,
                    branch_1_direction = "upstream",
                    branch_2_direction = "downstream",
                   comparison_distance = 10000,
                   nodes_to_exclude=None,
                  return_individual_widths = False,
               verbose = False):
+    
+    if width_func is None:
+        width_func = au.axon_width
     
     branch_1_width = cnu.width_upstream_downstream(limb_obj,
                                                   branch_1_idx,
@@ -735,7 +743,9 @@ def width_diff(limb_obj,
 
 def width_max(limb_obj,
              branches_idxs,
-             width_func = au.axon_width):
+             width_func = None):
+    if width_func is None:
+        width_func = au.axon_width
     return np.max([width_func(limb_obj[k]) for k in branches_idxs])
 
 def width_diff_percentage_basic(limb_obj,
@@ -765,12 +775,15 @@ def width_diff_percentage_basic(limb_obj,
 def width_diff_percentage(limb_obj,
                  branch_1_idx,
                  branch_2_idx,
-                 width_func = au.axon_width,
+                 width_func = None,
                 branch_1_direction = "upstream",
                    branch_2_direction = "downstream",
                   comparison_distance = 10000,
                   nodes_to_exclude=None,
               verbose = False):
+                  
+    if width_func is None:
+        width_func = au.axon_width
     
     w_diff, b1_w, b2_w= width_diff(limb_obj,
                        branch_1_idx=branch_1_idx,
@@ -3755,7 +3768,6 @@ attributes_dict_microns = {}
 global_parameters_dict_h01 = {}
 
 
-from . import h01_volume_utils as hvu 
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling
 )
@@ -3806,21 +3818,13 @@ attributes_dict_h01 = dict(
 #         **kwargs,
 #         )
 
-            
-
-
-
-    
-
-    
-
-
 
 #--- from neurd_packages ---
 from . import axon_utils as au
 from . import branch_utils as bu
 from . import concept_network_utils as cnu
 from . import error_detection as ed
+from . import h01_volume_utils as hvu 
 from . import microns_volume_utils as mcu
 from . import microns_volume_utils as mvu
 from . import neuron_searching as ns

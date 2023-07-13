@@ -11,7 +11,7 @@ from torch_geometric.nn import GCNConv
 from torch_geometric import transforms
 import torch_geometric.transforms as T
 from torch_geometric.utils import train_test_split_edges
-
+from python_tools import numpy_dep as np
 
 #python_tools modules
 
@@ -421,7 +421,6 @@ def load_data(
         return dataset
 
 #--- from neuron_morphology_tools ---
-
 
 
 #--- from neurd_packages ---

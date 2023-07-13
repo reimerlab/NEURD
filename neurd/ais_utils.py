@@ -1,5 +1,7 @@
 
 
+from python_tools import numpy_dep as np
+
 def ais_count_bins_dict(
     ais_distance_min = 0,
     ais_distance_max = 50_000,
@@ -106,8 +108,7 @@ def n_ais_sum_from_min_max_dist(
         df[column] = value
     else:
         return value
-    
-    
+
 
 #--- from python_tools ---
 from python_tools import numpy_dep as np

@@ -1,10 +1,13 @@
 '''
 
 
+
 To help query the graph object and do visualizations
 
 
+
 '''
+
 
 default_node_df_path = "/platinum_graph/Data/G_query_v6_filtered_node_df.csv"
 default_edge_df_path = "/platinum_graph/Data/G_query_v6_filtered_edge_and_node_df.gzip"
@@ -140,7 +143,6 @@ def n_excitatory_n_inhibitory_nodes(G=None,
     if verbose:
         print(f"n_excitatory = {n_excitatory},n_inhibitory = {n_inhibitory} ")
     return n_excitatory,n_inhibitory
-
 
 
 #--- from python_tools ---

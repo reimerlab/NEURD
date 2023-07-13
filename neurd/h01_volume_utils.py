@@ -1,5 +1,7 @@
 
 import copy
+from python_tools import numpy_dep as np
+from . import microns_volume_utils as mvu
 
 voxel_to_nm_scaling = np.array([8,8,33])
 source = "h01"
@@ -525,6 +527,7 @@ def unalign_neuron_obj(neuron_obj,
     
     return curr_neuron
 
+from . import volume_utils
 class DataInterface(volume_utils.DataInterface):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
@@ -549,8 +552,6 @@ data_interface = DataInterface(
     voxel_to_nm_scaling = voxel_to_nm_scaling
 )
 
-from . import h01_volume_utils as hvu
-
 
 #--- from neurd_packages ---
 from . import microns_volume_utils as mvu
@@ -565,3 +566,5 @@ from mesh_tools import trimesh_utils as tu
 from python_tools import linalg_utils as lu
 from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
+
+from . import h01_volume_utils as hvu

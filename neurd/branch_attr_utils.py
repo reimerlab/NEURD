@@ -1,6 +1,7 @@
 '''
 
 
+
 Purpose: For help with manipulating and 
 calculating qualities of objects stored on branches
 - spines
@@ -8,10 +9,10 @@ calculating qualities of objects stored on branches
 
 
 
+
 '''
 import time
-
-
+from python_tools import numpy_dep as np
 
 def calculate_endpoints_dist(
     branch_obj,
@@ -166,7 +167,6 @@ def set_limb_branch_idx_to_attr(
                 for s in attr_list:
                     s.limb_idx = limb_idx
                     s.branch_idx = branch_idx
-            
 
 
 #--- from neurd_packages ---

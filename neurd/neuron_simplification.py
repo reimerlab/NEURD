@@ -1,7 +1,9 @@
 '''
 
 
+
 For functions that operate over the whole neuron object
+
 
 
 
@@ -9,9 +11,7 @@ For functions that operate over the whole neuron object
 '''
 import copy 
 import time
-
-
-
+from python_tools import numpy_dep as np
 
 # --------- functions that will carry out deletion ---------
 def branch_idx_map_from_branches_to_delete_on_limb(
@@ -667,10 +667,6 @@ def branching_simplification(
         print(f"\n***Total time for branch simplification = {time.time() - st}")
             
     return n_obj_ret
-    
-
-
-
 
 
 #--- from neurd_packages ---

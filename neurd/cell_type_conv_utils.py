@@ -1,6 +1,7 @@
 '''
 
 
+
 Purpose: funtionality for converting a neuron object to 
 a graph representation that can be converted to a 2D/3D ativation maps
 
@@ -18,11 +19,13 @@ curr_act_map[nu.ravel_index([5,4,9],array_size)]
 
 
 
+
 '''
 import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
 from pathlib import Path
+from python_tools import numpy_dep as np
 
 branch_attrs_for_G = [
 'area', #surface area of branch
@@ -905,11 +908,6 @@ def no_spatial_df_from_df_filtered(df):
     new_data["soma_n_synapses"] = df.loc[0,"n_synapses_post"]
     new_data["soma_synapse_density"] = df.loc[0,"n_synapses_post"]/df.loc[0,"area"]
     return pd.DataFrame.from_records([new_data])
-
-
-
-
-
 
 
 #--- from neurd_packages ---

@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from pykdtree.kdtree import KDTree
 import time
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
+from python_tools import data_struct_utils as dsu
 
 double_back_threshold_axon_thick = 120
 double_back_threshold_axon_thin = 127
@@ -3065,7 +3069,7 @@ def double_back_dendrite(neuron_obj,
 
 
 def double_back_axon_thin(neuron_obj,
-                          axon_width_threshold = au.axon_thick_threshold,
+                          axon_width_threshold = None,
                         double_back_threshold=135,
                          comparison_distance = 1000,
                          offset = 0,
@@ -3079,6 +3083,9 @@ def double_back_axon_thin(neuron_obj,
     back errors on dendrite port
 
     """
+    if axon_width_threshold is None:
+        axon_width_threshold = au.axon_thick_threshold
+        
     
     current_limb_branch_dict = ns.query_neuron_by_labels(neuron_obj,
                                                         matching_labels=["axon"])
@@ -3117,8 +3124,8 @@ def double_back_axon_thin(neuron_obj,
 
 
 def double_back_axon_thick(neuron_obj,
-                          axon_width_threshold = au.axon_thick_threshold,
-                           axon_width_threshold_max = au.axon_ais_threshold,
+                          axon_width_threshold = None,
+                           axon_width_threshold_max = None,
                         double_back_threshold=120,
                          comparison_distance = 1000,
                          offset = 0,
@@ -3132,6 +3139,12 @@ def double_back_axon_thick(neuron_obj,
     back errors on dendrite port
 
     """
+    if axon_width_threshold is None:
+        axon_width_threshold = au.axon_thick_threshold
+        
+    if axon_width_threshold_max is None:
+        axon_width_threshold_max = au.axon_ais_threshold
+        
     
     current_limb_branch_dict = ns.query_neuron_by_labels(neuron_obj,
                                                         matching_labels=["axon"])
@@ -3214,7 +3227,7 @@ def high_low_degree_upstream_match_preprocessing(
     min_degree_to_resolve = None,# 3,
     
     # helps determine the max degrees to resolve
-    width_func = au.axon_width,
+    width_func = None,
     max_degree_to_resolve_absolute = None,#1000,
     max_degree_to_resolve = None,#1000,
     max_degree_to_resolve_wide = None,#1000,
@@ -3272,6 +3285,8 @@ def high_low_degree_upstream_match_preprocessing(
         upstream_width_max = upstream_width_max_global
     if axon_dependent is None:
         axon_dependent = axon_dependent_global
+    if width_func is None:
+        width_func = au.axon_width
     
     
     
@@ -4022,7 +4037,7 @@ def high_degree_upstream_match(
     min_degree_to_resolve = None,#3,
     
     # helps determine the max degrees to resolve
-    width_func = au.axon_width,
+    width_func = None,
     max_degree_to_resolve_absolute = None,#1000,
     max_degree_to_resolve = None,#1000,
     max_degree_to_resolve_wide = None,#1000,
@@ -4104,6 +4119,8 @@ def high_degree_upstream_match(
 #     if branch_idx == 3:
 #         verbose = True
 
+    if width_func is None:
+        width_func = au.axon_width
 
     if offset is None:
         offset = offset_high_d_match_global
@@ -4567,7 +4584,7 @@ def low_degree_upstream_match(
     max_degree_to_resolve_wide = None,#2,
     
     # helps determine the max degrees to resolve
-    width_func = au.axon_width,
+    width_func = None,
     max_degree_to_resolve_absolute = None,#1000,
     max_degree_to_resolve = None,#2,
     #max_width_to_resolve = None,
@@ -4618,6 +4635,8 @@ def low_degree_upstream_match(
 #     if branch_idx == 13:
 #         verbose = True
 
+    if width_func is None:
+        width_func = au.axon_width
     if skip_distance is None:
         skip_distance = skip_distance_low_d_match_global
     if min_upstream_skeletal_distance is None:
@@ -4895,7 +4914,7 @@ def low_degree_branch_errors_limb_branch_dict(neuron_obj,
 def double_back_threshold_axon_by_width(limb_obj = None,
                                branch_idx = None,
                                 width=None,
-                                axon_thin_width_max = au.axon_thick_threshold,
+                                axon_thin_width_max = None,
                                 nodes_to_exclude=None,
                                 double_back_threshold_thin = None,
                                 double_back_threshold_thick = None,
@@ -4908,6 +4927,8 @@ def double_back_threshold_axon_by_width(limb_obj = None,
         double_back_threshold_thick = double_back_threshold_axon_thick
     if double_back_threshold_thin is None:
         double_back_threshold_thin = double_back_threshold_axon_thin
+    if axon_thin_width_max is None:
+        axon_thin_width_max = au.axon_thick_threshold
     
     if limb_obj is not None or branch_idx is not None:
         width = nst.width_upstream(limb_obj,branch_idx,
@@ -5220,8 +5241,6 @@ global_parameters_dict_h01_split = dict()
 
 # if skip_distance_poly is None:
 #     skip_distance_poly = calculate_skip_distance_poly()
-
-
 
 
 #--- from neurd_packages ---

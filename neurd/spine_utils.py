@@ -1,7 +1,9 @@
 '''
 
 
+
 To Do: Want to add how close a spine is to upstream and downstream endpoint
+
 
 
 '''
@@ -14,6 +16,11 @@ from pykdtree.kdtree import KDTree
 import seaborn as sns
 import time
 import time 
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
+from python_tools import matplotlib_utils as mu
+
 try:
     import cgal_Segmentation_Module as csm
 except:
@@ -6351,13 +6358,6 @@ attributes_dict_h01 = {}
 #         algorithms_only = algorithms_only,
 #         **kwargs,
 #         )
-
-
-
-
-    
-            
-
 
 
 #--- from neurd_packages ---

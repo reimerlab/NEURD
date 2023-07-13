@@ -2,6 +2,7 @@
 
 
 
+
 How to adjust the features on synapses
 based on the closest skeleton point
 
@@ -16,11 +17,17 @@ syu.calculate_upstream_downstream_dist_from_down_idx(syn,down_idx)
 
 
 
+
 '''
 import copy
 import operator
 import pandas as pd
 import time
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
+from . import microns_volume_utils as mvu
+from . import h01_volume_utils as hvu
 
 
 class Synapse:
@@ -119,8 +126,6 @@ def set_presyns_on_dendrite_as_errors(value):
     print(f"set_presyns_on_dendrite_as_errors to {value}")
     presyns_on_dendrite_as_errors = value
 
-presyns_on_dendrite_query = ("(label=='limb_branch') and ((compartment=='dendrite') or "
-                            f" (compartment in {apu.dendrite_compartment_labels()})) and (syn_type=='presyn')")
 
 def error_query():
     #query = f"(compartment=='error')"
@@ -3608,7 +3613,7 @@ def synapse_plot_items_by_type_or_query(
     synapses_objs,
     synapses_size = 0.15,
     synapse_plot_type = "spine_bouton",#"compartment"#  "valid_error", "soma"
-    synapse_compartments = apu.compartments_to_plot,
+    synapse_compartments = None,
     synapse_spine_bouton_labels = None,
     plot_error_synapses = True,
     valid_synapses_color = "orange",
@@ -3618,6 +3623,9 @@ def synapse_plot_items_by_type_or_query(
 
     verbose = False,
     print_spine_colors = True):
+    
+    if synapse_compartments is None:
+        synapse_compartments = apu.compartments_to_plot
     
     """
     Purpose: will  
@@ -3935,7 +3943,6 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
 )
@@ -3987,17 +3994,12 @@ global_parameters_dict_h01 = dict()
 #         )
 
 
-
-                    
-                    
-
-
-
 #--- from neurd_packages ---
 from . import apical_utils as apu
 from . import axon_utils as au
 from . import branch_attr_utils as bau
 from . import concept_network_utils as cnu
+from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 from . import neuron_searching as ns
 from . import neuron_statistics as nst
@@ -4005,6 +4007,9 @@ from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
 from . import proofreading_utils as pru
 from . import spine_utils as spu
+
+presyns_on_dendrite_query = ("(label=='limb_branch') and ((compartment=='dendrite') or "
+                            f" (compartment in {apu.dendrite_compartment_labels()})) and (syn_type=='presyn')")
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk

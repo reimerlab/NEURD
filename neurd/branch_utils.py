@@ -2,6 +2,9 @@
 import copy
 from pykdtree.kdtree import KDTree
 import time
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
 
 non_optional_features = [
     "mesh",
@@ -1153,7 +1156,6 @@ attributes_dict_h01 = dict()
 #         algorithms_only = algorithms_only,
 #         **kwargs,
 #         )
-
 
 
 #--- from neurd_packages ---

@@ -5,10 +5,14 @@
 
 
 
+
+
 '''
 import matplotlib.pyplot as plt
 import networkx as nx
-
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
 
 def upstream_pair_singular(limb_obj,
                           G=None,
@@ -838,7 +842,6 @@ def fork_min_skeletal_distance_filter(G,
                          **kwargs)
 
 
-min_double_back_threshold = ed.double_back_threshold_axon_thin
 def axon_double_back_filter(G,
                           limb_obj,
                           #arguments for the motif search
@@ -997,7 +1000,6 @@ def thick_t_filter(G,
 
 
 # ------------------ 7/26 Inhibitory Filters ----------------
-min_double_back_threshold_inh = ed.double_back_threshold_axon_thick_inh
 def axon_double_back_inh_filter(G,
                           limb_obj,
                           #arguments for the motif search
@@ -1243,7 +1245,6 @@ attributes_dict_h01 = dict(
 #         )
 
 
-
 #--- from neurd_packages ---
 from . import axon_utils as au
 from . import concept_network_utils as cnu
@@ -1251,6 +1252,9 @@ from . import error_detection as ed
 from . import neuron_statistics as nst
 from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
+
+min_double_back_threshold = ed.double_back_threshold_axon_thin
+min_double_back_threshold_inh = ed.double_back_threshold_axon_thick_inh
 
 #--- from python_tools ---
 from python_tools import dotmotif_utils as dmu

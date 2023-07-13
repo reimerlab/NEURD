@@ -1,5 +1,7 @@
 
 
+from python_tools import numpy_dep as np
+
 def all_paths_to_leaf_nodes(
     limb_obj,
     verbose = False):
@@ -390,7 +392,6 @@ def skeletal_angles_df(neuron_obj,
     angles_df = nst.stats_df(neuron_obj,functions_list)
         
     return angles_df
-
 
 
 #--- from neurd_packages ---

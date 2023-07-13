@@ -1,6 +1,7 @@
 '''
 
 
+
 Notes on proximities: 
 - There are some undercounting of n_synapses in the proximity counting if a lot of synapses
 because the cancellation distance 5000, but the search for synapses is only 3000 so could have missed some
@@ -11,12 +12,16 @@ in that cancellation range and search range
 
 
 
+
 '''
 import datajoint as dj
 import pandas as pd
 from pykdtree.kdtree import KDTree
 import time
-
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from . import microns_volume_utils as mvu
+from . import h01_volume_utils as hvu
 
 def synapse_coordinates_from_df(df):
     return df[
@@ -781,7 +786,6 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -838,6 +842,7 @@ global_parameters_dict_h01 = dict()
 
 
 #--- from neurd_packages ---
+from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 from . import neuron_nx_utils as nxu
 from . import neuron_visualizations as nviz

@@ -1,4 +1,3 @@
-
 from copy import deepcopy
 import datajoint as dj
 import os
@@ -6,8 +5,11 @@ from pathlib import Path
 from pykdtree.kdtree import KDTree
 import random
 import time
-import trimeshtry
 import trimesh
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
+from python_tools import data_struct_utils as dsu
 
 try:
     import cgal_Segmentation_Module as csm
@@ -2090,10 +2092,6 @@ attributes_dict_h01 = dict()
 #     algorithms_only = True,
 #         **kwargs
 #     )
-
-
-    
-    
 
 
 #--- from mesh_tools ---

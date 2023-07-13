@@ -1,12 +1,14 @@
 '''
 
 
+
 Purpose: Module provides tools for helping to find the interesting branches
 and limbs according to the query and functions that you define
 
 ** To create a limb function **
 Have it return either one singular value or a dictionary mapping the 
 branch idx to a 
+
 
 
 
@@ -17,7 +19,7 @@ import networkx as nx
 import pandas as pd
 import re
 import sys
-
+from python_tools import numpy_dep as np
 
 comparison_distance_global = 1000
 limb_function_append_name = "limb_ns"
@@ -382,8 +384,6 @@ def skeletal_distance_from_soma(curr_limb,
 
 
 
-axon_width_like_requirement = clu.axon_width_like_requirement
-ais_axon_width_like_requirement = clu.ais_axon_width_like_requirement
 
 def axon_width_like_query(width_to_use):
     axon_width_like_query = (
@@ -455,8 +455,6 @@ def axon_width_like_segments_old(current_neuron,
 
 # ------------- 1//22: Addition that accounts for newer higher fidelity spining --------- #
 
-axon_width_like_query_revised= clu.axon_width_like_query_revised
-axon_width_like_segments = clu.axon_width_like_segments
 
 
 
@@ -2281,11 +2279,6 @@ def set_limb_functions_for_search(
                                  **kwargs)
             return dummy_func
         setattr(module,new_name,make_func(f_func))
-        
-        
-
-
-
 
 
 #--- from neurd_packages ---
@@ -2300,6 +2293,11 @@ from . import neuron_visualizations as nviz
 from . import synapse_utils
 from . import synapse_utils as syu
 from . import width_utils as wu
+
+axon_width_like_requirement = clu.axon_width_like_requirement
+ais_axon_width_like_requirement = clu.ais_axon_width_like_requirement
+axon_width_like_query_revised= clu.axon_width_like_query_revised
+axon_width_like_segments = clu.axon_width_like_segments
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk

@@ -1,8 +1,10 @@
 '''
 
 
+
 Purpose: To provide helpful functions for analyzing the microns 
 grpah
+
 
 
 
@@ -11,7 +13,10 @@ import copy
 import matplotlib.pyplot as plt
 import pandas as pd
 import time
-
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from . import microns_volume_utils as mvu
+from . import h01_volume_utils as hvu
 
 return_nm_default = False
 
@@ -1097,7 +1102,7 @@ def plot_3D_distribution_attribute(
     n_bins_intervals = 20,
     
     hue = "gnn_cell_type_fine",
-    color_dict = ctu.cell_type_fine_color_map,
+    color_dict =None,#ctu.cell_type_fine_color_map,
     
     verbose = False,
     scatter_size = 0.4,
@@ -1131,6 +1136,8 @@ def plot_3D_distribution_attribute(
         verbose = True
     )
     """
+    if color_dict is None:
+        color_dict = ctu.cell_type_fine_color_map
 
     if df is None:
         df = xu.node_df(G)
@@ -1240,7 +1247,7 @@ def plot_3d_attribute(
     n_bins_intervals = 20,
     
     hue = "gnn_cell_type_fine",
-    color_dict = ctu.cell_type_fine_color_map,
+    color_dict = None,
     
     verbose = False,
     scatter_size = 0.4,
@@ -1249,6 +1256,9 @@ def plot_3d_attribute(
     plot_visual_area = False,
     
     ):
+    
+    if color_dict is None:
+        color_dict = ctu.cell_type_fine_color_map,
     
     if df is None:
         df = xu.node_df(G)
@@ -2516,7 +2526,6 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     #voxel_to_nm_scaling = h01_volume_utils.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -2569,15 +2578,12 @@ global_parameters_dict_h01 = dict()
 #         )
 
 
-
-
-
-
 #--- from neurd_packages ---
 from . import apical_utils as apu
 from . import cell_type_utils as ctu
 from . import functional_tuning_utils as ftu
 from . import functional_tuning_utils as ftu 
+from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 from . import neuron_visualizations as nviz
 

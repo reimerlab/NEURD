@@ -1,8 +1,10 @@
 '''
 
 
+
 Interesting website for cell types: 
 http://celltypes.brain-map.org/experiment/morphology/474626527
+
 
 
 
@@ -13,7 +15,10 @@ import pandas as pd
 from pathlib import Path
 from sklearn import linear_model
 import time
-
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
+from python_tools import pathlib_utils as plu
 
 e_i_model = None
 e_i_model_features_default = ["syn_density_shaft","spine_density"]
@@ -1293,13 +1298,16 @@ except:
 
 def e_i_model_as_logistic_reg_on_border_df(
     label="cell_type_manual",
-    features= ctu.e_i_model_features_default,
+    features= None,
     class_weight = {"excitatory":1, "inhibitory":1.5},
     plot_decision_map = False,
     plot_type ="probability",# "classes"
     use_handmade_params = True,
     **kwargs
     ):
+    
+    if features is None:
+        features = ctu.e_i_model_features_default
     
 
     ctu.load_border_exc_inh_df()
@@ -1595,7 +1603,7 @@ def plot_cell_type_gnn_embedding(
     df,
     
     column = "cell_type",
-    color_map = ctu.cell_type_fine_color_map,
+    color_map = None,
     trans_cols = ["umap0","umap1"] , 
     nucleus_ids = None,
     
@@ -1624,6 +1632,8 @@ def plot_cell_type_gnn_embedding(
     """
     Purpose: to plot certain embeddings
     """
+    if color_map is None:
+        color_map = ctu.cell_type_fine_color_map
     
     if title_append is not None:
         title = f"{title}\n{title_append}"
@@ -1818,8 +1828,6 @@ global_parameters_dict_h01 = dict(
 #         algorithms_only = algorithms_only,
 #         **kwargs,
 #         )
-    
-set_e_i_model()
 
 
 
@@ -1850,3 +1858,5 @@ from python_tools import string_utils as stru
 from python_tools import system_utils as su
 
 from . import cell_type_utils as ctu
+
+set_e_i_model()

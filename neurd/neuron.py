@@ -7,6 +7,7 @@ from pykdtree.kdtree import KDTree
 from pykdtree.kdtree import KDTree 
 import sys
 import time
+from python_tools import numpy_dep as np
 
 #neuron module specific imports
 #to be used for the soma_vertex nullification
@@ -24,8 +25,6 @@ computed_attribute_list = ["width_array","width_array_skeletal_lengths","width_n
                                                   "boutons_volume",
                                                   "labels","boutons_cdfs","web_cdf","web","head_neck_shaft_idx"] + branch_mesh_attributes + object_attributes
 
-object_name_to_class = dict(synapses=syu.Synapse,
-                           spines_obj = spu.Spine)
 
 def export_skeleton(self,subgraph_nodes=None):
     """
@@ -4006,9 +4005,6 @@ class Neuron:
     @property
     def n_synapses_total(self):
         return len(self.synapses_total)
-    
-
-    
 
 
 #--- from neurd_packages ---
@@ -4021,6 +4017,9 @@ from . import soma_extraction_utils as sm
 from . import spine_utils as spu
 from . import synapse_utils as syu
 from . import width_utils as wu
+
+object_name_to_class = dict(synapses=syu.Synapse,
+                           spines_obj = spu.Spine)
 
 #--- from mesh_tools ---
 from mesh_tools import compartment_utils as cu

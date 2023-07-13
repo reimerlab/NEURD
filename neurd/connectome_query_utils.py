@@ -1,11 +1,16 @@
 '''
 
 
+
 To help query the graph object and do visualizations
+
 
 
 '''
 
+from python_tools import module_utils as modu
+from . import microns_volume_utils as mvu
+from . import h01_volume_utils as hvu
 
 # default_node_df_path = "/platinum_graph/Data/G_query_v6_filtered_node_df.csv"
 # default_edge_df_path = "/platinum_graph/Data/G_query_v6_filtered_edge_and_node_df.gzip"
@@ -161,7 +166,6 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     #voxel_to_nm_scaling = h01_volume_utils.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -214,8 +218,8 @@ global_parameters_dict_h01 = dict()
 #         )
 
 
-
 #--- from neurd_packages ---
+from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 
 #--- from python_tools ---

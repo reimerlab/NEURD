@@ -1,7 +1,9 @@
 '''
 
 
+
 How this list was easily generated
+
 
 
 
@@ -10,6 +12,7 @@ import datajoint as dj
 import matplotlib.pyplot as plt
 import networkx as nx
 from scipy.spatial import Delaunay
+from python_tools import numpy_dep as np
 
 neuron_attributes = [
  'multiplicity',
@@ -637,7 +640,7 @@ def align_neuron_obj(neuron_obj,**kwargs):
 def unalign_neuron_obj(neuron_obj,**kwargs):
     return neuron_obj
 
-
+from . import volume_utils
 class DataInterface(volume_utils.DataInterface):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)

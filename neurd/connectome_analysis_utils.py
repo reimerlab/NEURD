@@ -1,6 +1,8 @@
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from python_tools import numpy_dep as np
+
 def restrict_edge_df_by_types_compartment(
     edge_df,
     synapse_type = "postsyn",
@@ -484,10 +486,6 @@ def plot_cell_type_edge_stat(
     ax.set_xlabel(stat_to_plot + " (um)")
     
     return fig,axes
-
-
-
-        
 
 
 #--- from neurd_packages ---

@@ -1,6 +1,7 @@
 '''
 
 
+
 Part 1:
 You have a Set table (Ex: Segment Set)
 
@@ -39,4 +40,8 @@ With a Maker class that has:
 2) Entity B
 
 
+
 '''
+
+
+

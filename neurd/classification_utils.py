@@ -1,8 +1,10 @@
 '''
 
 
+
 Utils for helping with the classification of a neuron
 for compartments like axon, apical, basal...
+
 
 
 
@@ -11,9 +13,9 @@ import copy
 import networkx as nx
 from pykdtree.kdtree import KDTree
 import time
-
-
-
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
 
 top_volume_vector = np.array([0,-1,0])
 
@@ -2687,10 +2689,6 @@ attributes_dict_h01 = {}
 #         algorithms_only = algorithms_only,
 #         **kwargs,
 #         )
-
-    
-        
-
 
 
 #--- from neurd_packages ---

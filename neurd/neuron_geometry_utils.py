@@ -1,14 +1,20 @@
 '''
 
 
+
 Purpose: To look at the angles and projection
 angles of different compartments of neurons
+
 
 
 
 '''
 import matplotlib.pyplot as plt
 import pandas as pd
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from . import microns_volume_utils as mvu
+from . import h01_volume_utils as hvu
 
 def add_xz_angles_to_df(
     df,
@@ -192,7 +198,6 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -246,6 +251,7 @@ global_parameters_dict_h01 = dict()
 
 
 #--- from neurd_packages ---
+from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 
 #--- from python_tools ---

@@ -1,8 +1,10 @@
 '''
 
 
+
 To help analyze the motifs found using the dotmotif package 
 from a connectome dataset
+
 
 
 '''
@@ -10,7 +12,10 @@ import networkx as nx
 import pandas as pd
 import re
 import time
-
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from . import microns_volume_utils as mvu
+from . import h01_volume_utils as hvu
 
 motif_key = "motif"
 identifier_name_global = "identifier"
@@ -1324,7 +1329,6 @@ def visualize_graph_connections(
     )
 
 
-motif_Gs_for_n_nodes = xu.motif_Gs_for_n_nodes
 
 
 
@@ -1344,7 +1348,6 @@ global_parameters_dict_microns = {}
 attributes_dict_microns = {}
 
 #-- h01--
-from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
     #voxel_to_nm_scaling = h01_volume_utils.voxel_to_nm_scaling,
     hdju = hvu.data_interface
@@ -1397,9 +1400,8 @@ global_parameters_dict_h01 = dict()
 #         )
 
 
-
-
 #--- from neurd_packages ---
+from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 
 #--- from python_tools ---
@@ -1410,6 +1412,8 @@ from python_tools import numpy_utils as nu
 from python_tools import pandas_utils as pu
 from python_tools import regex_utils as reu
 from python_tools.tqdm_utils import tqdm
+
+motif_Gs_for_n_nodes = xu.motif_Gs_for_n_nodes
 
 from . import motif_utils as mfu
 from python_tools import dotmotif_utils as dmu

@@ -3,13 +3,19 @@ import copy
 from copy import deepcopy
 import itertools
 from importlib import reload
-from meshparty import trimesh_io
+try:
+    from meshparty import trimesh_io
+except:
+    pass
+
 import networkx as nx
 import os
 from pathlib import Path
 from pykdtree.kdtree import KDTree
 import time
 import trimesh
+from python_tools import numpy_dep as np
+from python_tools import general_utils as gu
 
 #importing at the bottom so don't get any conflicts
 
@@ -2593,8 +2599,6 @@ def preprocess_neuron_OLD(mesh=None,
     return preprocessed_data
     
 '''
-    
-    
 
 
 #--- from neurd_packages ---

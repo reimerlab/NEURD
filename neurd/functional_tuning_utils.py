@@ -1,5 +1,7 @@
 
 
+from python_tools import numpy_dep as np
+
 def cdiff(alpha, beta, period=np.pi,rad = True):    
     return nu.cdiff(alpha=alpha,beta=beta,period=period,rad=rad)
 
@@ -24,7 +26,6 @@ def add_on_delta_to_df(
     )
     
     return df
-
 
 
 #--- from python_tools ---

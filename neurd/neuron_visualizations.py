@@ -9,8 +9,8 @@ import networkx as nx
 import sys
 import time
 import trimesh
-
-
+from python_tools import numpy_dep as np
+from python_tools import general_utils as gu
 
 def plot_soma_limb_concept_network(neuron_obj,
                                   soma_color="red",
@@ -829,7 +829,7 @@ def visualize_neuron(
     
     # --- 6/9 parameters for synapses --- #
     total_synapses = False,
-    total_synapses_size = syu.default_synapse_size,
+    total_synapses_size = None,
     
     
     limb_branch_synapses = False,
@@ -838,10 +838,10 @@ def visualize_neuron(
     mesh_errored_synapses = False,
     soma_synapses = False,
     
-    limb_branch_size = syu.default_synapse_size,
-    distance_errored_size = syu.default_synapse_size,
-    mesh_errored_size = syu.default_synapse_size,
-    soma_size = syu.default_synapse_size,
+    limb_branch_size = None,
+    distance_errored_size = None,
+    mesh_errored_size = None,
+    soma_size = None,
 
     
     
@@ -925,6 +925,18 @@ def visualize_neuron(
     
     
     """
+    if total_synapses_size is None:
+        total_synapses_size = syu.default_synapse_size
+    if limb_branch_size is None:
+        limb_branch_size = syu.default_synapse_size
+    if distance_errored_size is None:
+        distance_errored_size = syu.default_synapse_size
+    if mesh_errored_size is None:
+        mesh_errored_size = syu.default_synapse_size
+    if soma_size is None:
+        soma_size = syu.default_synapse_size
+    
+    
     if limb_branch_dict == "axon":
         ax_name = input_neuron.axon_limb_name
         if ax_name is None:
@@ -3758,9 +3770,6 @@ def plot_meshes_skeletons(meshes,skeletons,**kwargs):
         skeletons_colors=cols,
         **kwargs
     )
-    
-
-
 
 
 #--- from neurd_packages ---

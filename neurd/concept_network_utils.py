@@ -1,5 +1,6 @@
 
 import networkx as nx
+from python_tools import numpy_dep as np
 
 non_branching_upstream = False
 
@@ -910,10 +911,13 @@ def width_upstream_downstream(limb_obj,
     include_branch_in_dist = True,
     include_branch_idx = True,
     verbose = False,
-    width_func = au.axon_width,
+    width_func = None,
     width_attribute = None,
     nodes_to_exclude = None,
-                              **kwargs):
+    **kwargs):
+    
+    if width_func is None:
+        width_func = au.axon_width
     
     return cnu.weighted_attribute_upstream_downstream(limb_obj,
                                           branch_idx,
@@ -1018,7 +1022,7 @@ def width_upstream(limb_obj,
     include_branch_in_dist = True,
     include_branch_idx = True,
     verbose = False,
-    width_func = au.axon_width,
+    width_func = None,
     width_attribute = None,
     nodes_to_exclude = None,
                               **kwargs):
@@ -1035,6 +1039,9 @@ def width_upstream(limb_obj,
     return_nodes = False,
     nodes_to_exclude = None,)
     """
+    
+    if width_func is None:
+        width_func = au.axon_width
     
     return width_upstream_downstream(limb_obj,
     branch_idx,
@@ -1056,10 +1063,13 @@ def width_downstream(limb_obj,
     include_branch_in_dist = True,
     include_branch_idx = True,
     verbose = False,
-    width_func = au.axon_width,
+    width_func = None,
     width_attribute = None,
     nodes_to_exclude = None,
-                              **kwargs):
+    **kwargs):
+    
+    if width_func is None:
+        width_func = au.axon_width
     
     return width_upstream_downstream(limb_obj,
     branch_idx,
@@ -1720,8 +1730,6 @@ def upstream_branches_in_branches_list(limb_obj,
             upstream_nodes.append(b)
 
     return upstream_nodes
-    
-
 
 
 #--- from neurd_packages ---

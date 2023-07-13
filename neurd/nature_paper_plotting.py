@@ -180,7 +180,7 @@ def example_histogram_nice(spine_df):
     ax.set_ylabel("Density",fontsize = fontsize_axes)
     mu.set_axes_tick_font_size(ax,20)
     mu.set_legend_fontsizes(ax,fontsize = 15)
-    
+
 
 #--- from neurd_packages ---
 from . import cell_type_utils as ctu

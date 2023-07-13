@@ -4,11 +4,18 @@ from copy import deepcopy
 import itertools
 from importlib import reload
 import matplotlib.pyplot as plt
-from meshparty import trimesh_io
+try:
+    from meshparty import trimesh_io
+except:
+    pass
 import networkx as nx
 from pykdtree.kdtree import KDTree
 import time
 import trimesh
+from python_tools import numpy_dep as np
+from python_tools import module_utils as modu
+from python_tools import general_utils as gu
+from python_tools import data_struct_utils as dsu
 
 #importing at the bottom so don't get any conflicts
 
@@ -5283,14 +5290,6 @@ preprocessing_args = dict(
 #                     invalidation_d=invalidation_d_axon_global,
 #                     smooth_neighborhood=smooth_neighborhood_axon_global,
                          )
-
-
-
-
-    
-    
-
-
 
 
 #--- from neurd_packages ---
