@@ -10,7 +10,6 @@ Purpose of this file: To help the development of the neuron object
 '''
 import copy
 from copy import deepcopy
-import h
 import itertools
 from importlib import reload
 import matplotlib.pyplot as plt
@@ -9594,7 +9593,6 @@ from . import branch_utils as bu
 from . import classification_utils as clu
 from . import concept_network_utils as cnu
 from . import error_detection as ed
-from . import h
 from . import microns_volume_utils as mru
 from . import microns_volume_utils as mvu
 from . import neuron 

@@ -13,7 +13,6 @@ in that cancellation range and search range
 
 '''
 import datajoint as dj
-import h
 import pandas as pd
 from pykdtree.kdtree import KDTree
 import time
@@ -839,7 +838,6 @@ global_parameters_dict_h01 = dict()
 
 
 #--- from neurd_packages ---
-from . import h
 from . import microns_volume_utils as mvu
 from . import neuron_nx_utils as nxu
 from . import neuron_visualizations as nviz

@@ -1,6 +1,5 @@
 
 import copy
-import h
 import networkx as nx
 
 def neuron_path_analysis(neuron_obj,
@@ -3822,7 +3821,6 @@ from . import axon_utils as au
 from . import branch_utils as bu
 from . import concept_network_utils as cnu
 from . import error_detection as ed
-from . import h
 from . import microns_volume_utils as mcu
 from . import microns_volume_utils as mvu
 from . import neuron_searching as ns

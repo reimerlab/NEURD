@@ -5,7 +5,6 @@ To help query the graph object and do visualizations
 
 
 '''
-import h
 
 
 # default_node_df_path = "/platinum_graph/Data/G_query_v6_filtered_node_df.csv"
@@ -217,7 +216,6 @@ global_parameters_dict_h01 = dict()
 
 
 #--- from neurd_packages ---
-from . import h
 from . import microns_volume_utils as mvu
 
 #--- from python_tools ---

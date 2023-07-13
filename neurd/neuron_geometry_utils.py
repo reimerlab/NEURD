@@ -7,7 +7,6 @@ angles of different compartments of neurons
 
 
 '''
-import h
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -247,7 +246,6 @@ global_parameters_dict_h01 = dict()
 
 
 #--- from neurd_packages ---
-from . import h
 from . import microns_volume_utils as mvu
 
 #--- from python_tools ---

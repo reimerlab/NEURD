@@ -8,7 +8,6 @@ grpah
 
 '''
 import copy
-import h
 import matplotlib.pyplot as plt
 import pandas as pd
 import time
@@ -2579,7 +2578,6 @@ from . import apical_utils as apu
 from . import cell_type_utils as ctu
 from . import functional_tuning_utils as ftu
 from . import functional_tuning_utils as ftu 
-from . import h
 from . import microns_volume_utils as mvu
 from . import neuron_visualizations as nviz
 

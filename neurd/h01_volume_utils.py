@@ -1,6 +1,5 @@
 
 import copy
-import h
 
 voxel_to_nm_scaling = np.array([8,8,33])
 source = "h01"
@@ -554,7 +553,6 @@ from . import h01_volume_utils as hvu
 
 
 #--- from neurd_packages ---
-from . import h
 from . import microns_volume_utils as mvu
 from . import neuron_visualizations as nviz
 from . import synapse_utils as syu

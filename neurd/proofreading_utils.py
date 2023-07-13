@@ -1,6 +1,5 @@
 
 import copy
-import h
 import itertools
 import networkx as nx
 from pykdtree.kdtree import KDTree
@@ -7939,7 +7938,6 @@ from . import classification_utils as clu
 from . import concept_network_utils as cnu
 from . import error_detection as ed
 from . import graph_filters as gf
-from . import h
 from . import microns_volume_utils as mvu
 from . import neuron
 from . import neuron_searching as ns

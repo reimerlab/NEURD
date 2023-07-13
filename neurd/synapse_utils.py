@@ -18,7 +18,6 @@ syu.calculate_upstream_downstream_dist_from_down_idx(syn,down_idx)
 
 '''
 import copy
-import h
 import operator
 import pandas as pd
 import time
@@ -3999,7 +3998,6 @@ from . import apical_utils as apu
 from . import axon_utils as au
 from . import branch_attr_utils as bau
 from . import concept_network_utils as cnu
-from . import h
 from . import microns_volume_utils as mvu
 from . import neuron_searching as ns
 from . import neuron_statistics as nst

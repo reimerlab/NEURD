@@ -6,7 +6,6 @@ from a connectome dataset
 
 
 '''
-import h
 import networkx as nx
 import pandas as pd
 import re
@@ -1401,7 +1400,6 @@ global_parameters_dict_h01 = dict()
 
 
 #--- from neurd_packages ---
-from . import h
 from . import microns_volume_utils as mvu
 
 #--- from python_tools ---

@@ -1,6 +1,5 @@
 
 import datajoint as dj
-import h
 import matplotlib.pyplot as plt
 import pandas as pd
 from pykdtree.kdtree import KDTree
@@ -815,7 +814,6 @@ global_parameters_dict_h01 = dict()
 
 
 #--- from neurd_packages ---
-from . import h
 from . import microns_volume_utils as mvu
 from . import nature_paper_plotting as npp
 from . import neuron_nx_utils as nxu

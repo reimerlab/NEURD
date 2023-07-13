@@ -13,7 +13,6 @@ apu.apical_classification(neuron_obj,
 
 
 '''
-import h
 
 
 compartment_colors = dict(
@@ -1768,7 +1767,6 @@ attributes_dict_h01 = dict(
 
 #--- from neurd_packages ---
 from . import concept_network_utils as cnu
-from . import h
 from . import microns_volume_utils as mcu
 from . import neuron_searching as ns
 from . import neuron_statistics as nst
