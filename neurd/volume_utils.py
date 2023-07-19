@@ -11,7 +11,7 @@ class DataInterface(ABC):
         voxel_to_nm_scaling = None,
         ):
     self.source = source
-    self.voxel_to_nm_scaling = None
+    self.voxel_to_nm_scaling = voxel_to_nm_scaling
     
   @abstractmethod
   def align_array(self):

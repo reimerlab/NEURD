@@ -1559,8 +1559,13 @@ def smaller_preprocessed_data(neuron_object,print_flag=False):
     return compressed_dict
 
 
-def save_compressed_neuron(neuron_object,output_folder,file_name="",
-                           file_name_append = None,return_file_path=False,export_mesh=False):
+def save_compressed_neuron(
+    neuron_object,
+    output_folder="./",
+    file_name="",
+    file_name_append = None,
+    return_file_path=False,
+    export_mesh=False):
     output_folder = Path(output_folder)
     
     if file_name == "":
@@ -8323,6 +8328,14 @@ def all_soma_soma_connections_from_limb(limb_obj,
             
 def all_soma_names_from_limb(limb_obj):
     return list(np.unique([f'S{k["starting_soma"]}' for k in limb_obj.all_concept_network_data]))
+
+def all_soma_meshes_from_limb(neuron_obj,limb_idx,verbose = False):
+    soma_names = all_soma_names_from_limb(neuron_obj[limb_idx])
+    if verbose:
+        print(f"for limb {limb_idx}, soma_names = {soma_names}")
+        
+    return [neuron_obj[idx].mesh for idx in soma_names]
+    
 
 def soma_idx_and_group_from_name(soma_name):
     split_name = soma_name.split("_")

@@ -2101,14 +2101,17 @@ def plot_branch_spines(curr_branch,plot_skeletons=True,**kwargs):
                      **kwargs)
     
     
-def plot_split_suggestions_per_limb(neuron_obj,
-                                    limb_results,
-                                   scatter_color = "red",
-                                    scatter_alpha = 0.3,
-                                   scatter_size=0.3,
-                                    mesh_color_alpha=0.2,
-                                   add_components_colors=True,
-                                   component_colors = "random"):
+def plot_split_suggestions_per_limb(
+    neuron_obj,
+    limb_results,
+    #red_blue_splits=None,
+    scatter_color = "red",
+    scatter_alpha = 0.3,
+    scatter_size=0.3,
+    mesh_color_alpha=0.2,
+    add_components_colors=True,
+    component_colors = "random",
+    ):
 
     """
     
@@ -2173,13 +2176,15 @@ def plot_split_suggestions_per_limb(neuron_obj,
                              visualize_type=["mesh","skeleton"],
                              limb_branch_dict={f"L{curr_limb_idx}":"all"},
                              mesh_color={f"L{curr_limb_idx}":mesh_component_colors},
-                              mesh_color_alpha=mesh_color_alpha,
+                             mesh_color_alpha=mesh_color_alpha,
                              skeleton_color={f"L{curr_limb_idx}":skeleton_component_colors},
                              scatters=[curr_scatters],
                              scatters_colors=scatter_color_list,
                              scatter_size=scatter_size,
                               mesh_soma_alpha=1,
-                             )
+        )
+        
+
         
         
 def visualize_neuron_path(neuron_obj,

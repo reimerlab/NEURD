@@ -882,37 +882,34 @@ def soma_names_from_split_title(title,return_idx=False):
     return return_value
 
 
-def multi_soma_split_suggestions(neuron_obj,
-                                verbose=False,
-                                max_iterations=100,
-                                 plot_suggestions=False,
-                                 plot_intermediates=False,
-                                 plot_suggestions_scatter_size=0.4,
-                                 remove_segment_threshold = None,
-                                 plot_cut_coordinates = False,
-                                 only_multi_soma_paths = False, # to restrict to only different soma-soma paths
-                                 default_cut_edge = "first",#None,
-                                 debug = False,
-                                 
-                                 #for red blue suggestions
-                                 output_red_blue_suggestions = False,
-                                 split_red_blue_by_common_upstream = True,
-                                 
-                                one_hop_downstream_error_branches_max_distance=4_000,
-                                offset_distance_for_points=3_000,#500,
-                                n_points=1,#3,
-                                plot_final_blue_red_points = False,
+def multi_soma_split_suggestions(
+    neuron_obj,
+    verbose=False,
+    max_iterations=100,
+    plot_suggestions=False,
+    plot_intermediates=False,
+    plot_suggestions_scatter_size=0.4,
+    remove_segment_threshold = None,
+    plot_cut_coordinates = False,
+    only_multi_soma_paths = False, # to restrict to only different soma-soma paths
+    default_cut_edge = "first",#None,
+    debug = False,
 
-                                only_outermost_branches = True,
-                                include_removed_branches = False,
-                                min_error_downstream_length_total = 5_000,
-                                 
-                                 apply_valid_upstream_branches_restriction = False,
-                                 
-                                 debug_red_blue = False,
-                                 #return_split_reasons = False,
-                                 
-                                **kwargs):
+    #for red blue suggestions
+    output_red_blue_suggestions = False,
+    split_red_blue_by_common_upstream = True,
+
+    one_hop_downstream_error_branches_max_distance=4_000,
+    offset_distance_for_points=3_000,#500,
+    n_points=1,#3,
+    plot_final_blue_red_points = False,
+
+    only_outermost_branches = True,
+    include_removed_branches = False,
+    min_error_downstream_length_total = 5_000,
+    apply_valid_upstream_branches_restriction = False,
+    debug_red_blue = False,
+    **kwargs):
     """
     Purpose: To come up with suggestions for splitting a multi-soma
 
@@ -938,7 +935,11 @@ def multi_soma_split_suggestions(neuron_obj,
         print(f"multi_soma_limbs = {multi_soma_limbs}")
         print(f"multi_touch_limbs = {multi_touch_limbs}")
     
-    total_limbs_to_process = np.unique(np.concatenate([multi_soma_limbs,multi_touch_limbs]))
+    total_limbs_to_process = np.unique(
+        np.concatenate(
+            [multi_soma_limbs,multi_touch_limbs]
+        )
+    )
 
     limb_results = dict()
     red_blue_split_dict = dict()
@@ -7832,6 +7833,7 @@ global_parameters_dict_default = gu.merge_dicts([
 
 
 
+# print(f"mvu.data_interface.voxel_to_nm_scaling = {mvu.data_interface.voxel_to_nm_scaling}")
 
 attributes_dict_default = dict(
     data_mod = mvu.data_interface

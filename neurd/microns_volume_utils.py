@@ -643,7 +643,9 @@ def unalign_neuron_obj(neuron_obj,**kwargs):
 from . import volume_utils
 class DataInterface(volume_utils.DataInterface):
     def __init__(self,**kwargs):
-        super().__init__(**kwargs)
+        super().__init__(
+            **kwargs
+        )
     
     def align_array(self,*args,**kwargs):
         return align_array(*args,**kwargs)
@@ -664,7 +666,6 @@ data_interface = DataInterface(
     source = "microns",
     voxel_to_nm_scaling = voxel_to_nm_scaling
 )
-
 
 #--- from neurd_packages ---
 from . import volume_utils
