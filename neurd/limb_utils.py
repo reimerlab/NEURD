@@ -29,7 +29,7 @@ def parent_skeletal_angle(
     3) Get the angle between the two
     
     Ex: 
-    from neurd_packages import limb_utils as lu
+    from neurd import limb_utils as lu
     lu.parent_skeletal_angle(
     branch_idx = 2,
     limb_obj = neuron_obj[1],
@@ -353,7 +353,7 @@ def width_upstream(
     2) Get the parent width
     
     Ex: 
-    from neurd_packages import limb_utils as lu
+    from neurd import limb_utils as lu
     lu.width_upstream(neuron_obj[1],5,verbose = True)
     """
     parent_node = nru.parent_node(limb_obj,branch_idx)

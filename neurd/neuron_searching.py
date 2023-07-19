@@ -734,7 +734,7 @@ def flip_dendrite_to_axon(curr_limb,limb_branch_dict,limb_name=None,
     3) Generate a new limb branch dict
     
     Ex: 
-    from neurd_packages import neuron_searching as ns  
+    from neurd import neuron_searching as ns  
     curr_limb_idx = 3
     curr_limb = test_neuron[curr_limb_idx]
     limb_name = f"L{curr_limb_idx}"
@@ -1362,9 +1362,9 @@ def query_neuron(
     
     compressed_neuron_path = Path("../test_neurons/test_objects/12345_2_soma_practice_decompress")
 
-    from neurd_packages import neuron_utils as nru
+    from neurd import neuron_utils as nru
     nru = reload(nru)
-    from neurd_packages import neuron
+    from neurd import neuron
     neuron=reload(neuron)
 
     from python_tools import system_utils as su
@@ -1623,7 +1623,7 @@ def parent_angle(curr_limb,limb_name=None,
     """
     Will return the angle between the current node and the parent
     """
-    from neurd_packages import limb_utils as lu
+    from neurd import limb_utils as lu
     output_dict = dict()
     for b in curr_limb.get_branch_names():
         try:

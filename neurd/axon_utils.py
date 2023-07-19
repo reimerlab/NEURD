@@ -198,7 +198,7 @@ def bouton_meshes(mesh,
     ** Note: Tried using side_length_ratios and volume_ratios as other features
     to filter on but did not seem immediately useful **
     """
-    from neurd_packages import neuron
+    from neurd import neuron
     
     if type(mesh) == neuron.Branch:
         if skeleton is None:
@@ -1600,7 +1600,7 @@ def axon_spines_limb_branch_dict(
     85% ray trace: above 270 (ray_trace_perc)
     
     Ex: 
-    from neurd_packages import axon_utils as au
+    from neurd import axon_utils as au
     au.axon_spines_limb_branch_dict(neuron_obj,
         ray_trace_min = 270,
         ray_trace_max = 1200,
@@ -1811,7 +1811,7 @@ def axon_classification_using_synapses(
     
     
     Ex: 
-    from neurd_packages import axon_utils as au
+    from neurd import axon_utils as au
     axon_limb_branch_dict,axon_angles_dict = au.axon_classification_using_synapses(neuron_obj_exc_syn_sp,
                                           plot_filt_branches_without_postsyn_req = False,
                                           plot_low_postsyn_branches = False,
@@ -3142,7 +3142,7 @@ def complete_axon_processing(neuron_obj,
         
 
     if return_G_axon_labeled:
-        from neurd_packages import cell_type_conv_utils as ctcu
+        from neurd import cell_type_conv_utils as ctcu
         if verbose:
             print(f"Computing the axon labeled graph")
         G_axon_labeled = ctcu.G_with_attrs_from_neuron_obj(neuron_obj,plot_G=False)
@@ -3396,7 +3396,7 @@ def filter_candidates_away_with_downstream_high_postsyn_branches_NOT_USED(
     """
 
 
-    from neurd_packages import neuron_searching as ns
+    from neurd import neuron_searching as ns
     restr_limb_b = ns.query_neuron(
         neuron_obj,
         query = (f"(distance_from_soma > {au.max_ais_distance_from_soma})"

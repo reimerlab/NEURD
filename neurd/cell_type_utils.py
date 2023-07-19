@@ -657,13 +657,13 @@ def postsyn_branches_near_soma_for_syn_post_density(neuron_obj,
     for postsynaptic density
     
     Ex: 
-    from neurd_packages import cell_type_utils as ctu
+    from neurd import cell_type_utils as ctu
 
     output_limb_branch = ctu.postsyn_branches_near_soma_for_syn_post_density(
                             neuron_obj = neuron_obj_exc_syn_sp,
                            verbose = True)
                            
-    from neurd_packages import neuron_visualizations as nviz
+    from neurd import neuron_visualizations as nviz
     nviz.plot_limb_branch_dict(neuron_obj_exc_syn_sp,
                               output_limb_branch)
     """

@@ -1,6 +1,7 @@
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+from python_tools import matplotlib_utils as mu
 
 exc_inh_combination_palette = {
     'Exc Onto Exc':mu.seaborn_blue,

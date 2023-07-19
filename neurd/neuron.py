@@ -1087,7 +1087,7 @@ class Limb:
         from python_tools import networkx_utils as xu
         xu = reload(xu)
         import matplotlib.pyplot as plt
-        from neurd_packages import neuron_utils as nru
+        from neurd import neuron_utils as nru
         
         curr_limb_idx = 0
         no_cycles = True
@@ -1174,7 +1174,7 @@ class Limb:
         
         Example: 
         
-        from neurd_packages import neuron_visualizations as nviz
+        from neurd import neuron_visualizations as nviz
 
         curr_limb_obj = recovered_neuron.concept_network.nodes["L1"]["data"]
         print(xu.get_starting_node(curr_limb_obj.concept_network_directional))
@@ -2079,7 +2079,7 @@ class Soma:
     
 
 
-#from neurd_packages import preprocess_neuron as pn
+#from neurd import preprocess_neuron as pn
 
 class Neuron:
     """
@@ -2130,7 +2130,7 @@ class Neuron:
     # description = "double_soma_meshafterparty"
 
     # # --------------------- Processing the Neuron ----------------- #
-    # from neurd_packages import soma_extraction_utils as sm
+    # from neurd import soma_extraction_utils as sm
 
     # somas = sm.extract_soma_center(segment_id,
     #                              current_neuron_mesh.vertices,
@@ -2142,7 +2142,7 @@ class Neuron:
     # cu = reload(cu)
 
     # from mesh_tools import meshparty_skeletonize as m_sk
-    # from neurd_packages import preprocess_neuron as pn
+    # from neurd import preprocess_neuron as pn
     # pn = reload(pn)
     # m_sk = reload(m_sk)
 
@@ -2352,44 +2352,48 @@ class Neuron:
     
 
     
-    def __init__(self,mesh,
-                 segment_id=None,
-                 description=None,
-                 nucleus_id=None,
-                 split_index = None,
-                 preprocessed_data=None,
-                 
-                 fill_hole_size=0,# The old value for the parameter when performing 2000,
-                 decomposition_type="meshafterparty",
-                 meshparty_adaptive_correspondence_after_creation=False,
-                 
-                 calculate_spines=True,
-                 widths_to_calculate=["no_spine_median_mesh_center"],
-                
+    def __init__(
+        self,
+        mesh,
+        segment_id=None,
+        description=None,
+        nucleus_id=None,
+        split_index = None,
+        preprocessed_data=None,
+        
+        fill_hole_size=0,# The old value for the parameter when performing 2000,
+        decomposition_type="meshafterparty",
+        meshparty_adaptive_correspondence_after_creation=False,
+        
+        calculate_spines=True,
+        widths_to_calculate=["no_spine_median_mesh_center"],
+    
 
-                 suppress_preprocessing_print=True,
-                 computed_attribute_dict=None,
-                 somas = None,
-                 branch_skeleton_data=None,
-                 
-                 
-                 ignore_warnings=True,
-                 suppress_output=False,
-                 suppress_all_output=False,
-                
-                
-                 
-                 preprocessing_version=2,
-                 limb_to_branch_objects=None,
-                 
-                 glia_faces=None,
-                 nuclei_faces = None,
-                 original_mesh_idx = None,
-                 labels=[],
-                 
-                 preprocess_neuron_kwargs = dict(),
-                 spines_kwargs = dict(),
-                ):
+        suppress_preprocessing_print=True,
+        computed_attribute_dict=None,
+        somas = None,
+        branch_skeleton_data=None,
+        
+        
+        ignore_warnings=True,
+        suppress_output=False,
+        suppress_all_output=False,
+    
+    
+        
+        preprocessing_version=2,
+        limb_to_branch_objects=None,
+        
+        glia_faces=None,
+        nuclei_faces = None,
+        glia_meshes = None,
+        nuclei_meshes = None,
+        original_mesh_idx = None,
+        labels=[],
+        
+        preprocess_neuron_kwargs = dict(),
+        spines_kwargs = dict(),
+    ):
 #                  concept_network=None,
 #                  non_graph_meshes=dict(),
 #                  pre_processed_mesh = dict()
@@ -2405,6 +2409,14 @@ class Neuron:
         #print(f"type of self = {self.__class__}")
         
         neuron_creation_time = time.time()
+        
+        if glia_meshes is not None and nuclei_meshes is not None:
+            glia_faces,nuclei_faces = sm.glia_nuclei_faces_from_mesh(
+                mesh,
+                glia_meshes,
+                nuclei_meshes,
+                verbose = False
+            )
         
         if suppress_output:
             if not suppress_all_output:
@@ -2553,7 +2565,7 @@ class Neuron:
                                           decomposition_type=decomposition_type,
                                         somas=somas, #the precomputed somas
                                         glia_faces=glia_faces,
-                                         nuclei_faces = nuclei_faces,
+                                        nuclei_faces = nuclei_faces,
                                         **preprocess_neuron_kwargs)
                         
                     
@@ -2894,7 +2906,7 @@ class Neuron:
         nu= reload(nu)
         tu = reload(tu)
 
-        from neurd_packages import soma_extraction_utils as sm
+        from neurd import soma_extraction_utils as sm
         sm = reload(sm)
 
         obj1 = neuron.Neuron(double_soma_obj,suppress_output=False)

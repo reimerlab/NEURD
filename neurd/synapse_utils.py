@@ -2274,7 +2274,7 @@ def synapse_endpoint_dist_upstream_downstream(limb_obj,
     3) Return the list
     
     Ex: 
-    from neurd_packages import synapse_utils as syu
+    from neurd import synapse_utils as syu
     syu.synapse_endpoint_dist_upstream_downstream(limb_obj,
                                              branch_idx = 16,
                                              direction="downstream",

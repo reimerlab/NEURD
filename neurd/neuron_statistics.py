@@ -247,7 +247,7 @@ def fork_divergence_from_skeletons(upstream_skeleton,
 
 
     Ex:
-    from neurd_packages import neuron_statistics as nst
+    from neurd import neuron_statistics as nst
     nst.fork_divergence(upstream_skeleton = upstream_sk,
                         downstream_skeletons = downstream_sk,
                         comparison_distance = 500,
@@ -451,7 +451,7 @@ def n_small_children(limb_obj,
     3) Count how many are below the threshold
     
     Ex:
-    from neurd_packages import neuron_statistics as nst
+    from neurd import neuron_statistics as nst
     nst.n_small_children(limb_obj = neuron_obj[6],
         branch_idx = 5,
         width_maximum = 80,
@@ -699,7 +699,7 @@ def width_diff_basic(limb_obj,
                  width_func = width_new,):
     """
     Ex: 
-    from neurd_packages import neuron_statistics as nst
+    from neurd import neuron_statistics as nst
     nst.width_diff_percentage_basic(n_obj_syn[0],1,2)
     """
     return np.abs(width_func(limb_obj[branch_1_idx]) - width_func(limb_obj[branch_2_idx]))
@@ -755,7 +755,7 @@ def width_diff_percentage_basic(limb_obj,
                          verbose = False):
     """
     Ex: 
-    from neurd_packages import neuron_statistics as nst
+    from neurd import neuron_statistics as nst
     nst.width_diff_percentage_basic(n_obj_syn[0],1,2)
     """
     w_diff = width_diff(limb_obj,
@@ -1552,7 +1552,7 @@ def min_synapse_dist_to_branch_point(limb_obj,
     7) Find the minimum distance (if none then make inf)
     
     Ex: 
-    from neurd_packages import neuron_statistics as nst
+    from neurd import neuron_statistics as nst
     nst.min_synapse_dist_to_branch_point(limb_obj,
         branch_idx = 16,
         downstream_distance = 0,
@@ -2228,7 +2228,7 @@ def fork_min_skeletal_distance(limb_obj,
     3) compute the fork skeleton min distance
 
     Ex: 
-    from neurd_packages import neuron_statistics as nst
+    from neurd import neuron_statistics as nst
 
     upstream_branch = 68
     downstream_branches = [55,64]
@@ -2407,7 +2407,7 @@ def width_basic(branch_obj):
                             
     
 def farthest_dendrite_branch_from_soma(neuron_obj):
-    from neurd_packages import neuron_searching as ns
+    from neurd import neuron_searching as ns
     dist_from_soma_df = ns.query_neuron(neuron_obj,
                     functions_list=[ns.distance_from_soma],
                    query="distance_from_soma > -1",
@@ -2996,7 +2996,7 @@ def stats_dict_over_limb_branch(
     3) volume
     
     Ex: 
-    from neurd_packages import neuron_statistics as nst
+    from neurd import neuron_statistics as nst
     nst.stats_dict_over_limb_branch(
         neuron_obj = neuron_obj_proof,
         limb_branch_dict = apu.apical_limb_branch_dict(neuron_obj_proof))
@@ -3524,7 +3524,7 @@ def stats_df(
     that is used by the neuron searching to filter down
     
     Ex: 
-    from neurd_packages import neuron_statistics as nst
+    from neurd import neuron_statistics as nst
 
     limb_obj = neuron_obj[6]
 

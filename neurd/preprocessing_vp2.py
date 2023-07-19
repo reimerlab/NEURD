@@ -3705,7 +3705,7 @@ def preprocess_neuron(
     glia_faces,nuclei_faces
 
     if glia_faces is None or nuclei_faces is None:
-        main_mesh_total,glia_meshes,nuclei_meshes = tu.remove_nuclei_and_glia_meshes(current_neuron,
+        main_mesh_total,glia_meshes,nuclei_meshes = sm.remove_nuclei_and_glia_meshes(current_neuron,
                                                                        verbose=True)
         print("Using pre-computed glia and nuclei pieces")
         if len(glia_meshes) > 0 or len(nuclei_meshes) > 0:

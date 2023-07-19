@@ -420,11 +420,9 @@ def load_data(
     else:
         return dataset
 
+
 #--- from neuron_morphology_tools ---
-
-
-#--- from neurd_packages ---
-from . import neuron_nx_io as nxio
+from neuron_morphology_tools import neuron_nx_io as nxio
 
 #--- from python_tools ---
 from python_tools import networkx_utils as xu

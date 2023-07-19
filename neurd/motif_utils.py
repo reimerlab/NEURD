@@ -1006,7 +1006,7 @@ def annotated_motif_df(
     Purpose: To add all of the features to the motifs
     
     Ex: 
-    from neurd_packages import motif_utils as mfu
+    from neurd import motif_utils as mfu
 
     G = hdju.G_auto_DiGraph
 
@@ -1165,7 +1165,7 @@ def filter_motif_df(
     and edge requirements
     
     Ex: 
-    from neurd_packages import motif_utils as mfu
+    from neurd import motif_utils as mfu
 
     G = hdju.G_auto_DiGraph
 
@@ -1320,7 +1320,7 @@ def visualize_graph_connections(
     if verbose:
         print(f"synapse_ids= {synapse_ids}")
 
-    from neurd_packages import connectome_utils as conu
+    from neurd import connectome_utils as conu
     return conu.visualize_graph_connections_by_method(
         G,
         segment_ids=node_names,

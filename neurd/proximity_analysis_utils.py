@@ -820,7 +820,9 @@ global_parameters_dict_h01 = dict()
 from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 from . import nature_paper_plotting as npp
-from . import neuron_nx_utils as nxu
+
+#--- from neuron_morphology_tools ---
+from neuron_morphology_tools import neuron_nx_utils as nxu
 
 #--- from python_tools ---
 from python_tools import matplotlib_utils as mu

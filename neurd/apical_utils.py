@@ -231,7 +231,7 @@ def apical_shaft_classification_old(
     4) Pick the largest candidate as winner
     
     Ex: 
-    from neurd_packages import apical_utils as apu
+    from neurd import apical_utils as apu
     apu.apical_shaft_classification(neuron_obj,
                                candidate=apical_candidates[0],
                                verbose = True,
@@ -1598,7 +1598,7 @@ def compartment_from_face_overlap_with_comp_faces_dict(
     greater than current max then set as compartment
     
     Ex: 
-    from neurd_packages import neuron_utils as nru
+    from neurd import neuron_utils as nru
     neuron_obj = hdju.neuron_objs_from_cell_type_stage(segment_id)
 
     decimated_mesh = hdju.fetch_segment_id_mesh(segment_id)

@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+
+# Applications
+Applications/**/*.off
+Applications/**/*.mls
+Applications/**/*.cgal
+#*.pbz2
+Applications/**/*.pbz2
+

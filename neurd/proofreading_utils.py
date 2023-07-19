@@ -3722,7 +3722,7 @@ def apply_proofreading_filters_to_neuron(
                                                             plot_all_blue_red_groups = False,
                                                              verbose = False)
             if return_split_locations:
-                from neurd_packages import limb_utils as lu
+                from neurd import limb_utils as lu
                 split_locations_before_filter = lu.most_upstream_endpoints_of_limb_branch(
                     input_neuron,
                     limb_branch_dict = limb_branch_dict_to_cancel_before_filt,
@@ -4182,7 +4182,7 @@ def proofread_neuron(
             if verbose or verbose_outline:
                 print(f"Skipping Axon Classification")
             axon_limb_branch_dict=neuron_obj.axon_limb_branch_dict
-            from neurd_packages import axon_utils as au
+            from neurd import axon_utils as au
             axon_angles = au.axon_angles(neuron_obj)
 
 
@@ -7346,7 +7346,7 @@ def low_branch_length_large_clusters(
     was converted to axon or glia pieces
     
     Ex: 
-    from neurd_packages import proofreading_utils as pru
+    from neurd import proofreading_utils as pru
     _ = pru.low_branch_length_large_clusters_dendrite(neuron_obj,plot = True,
                                                       max_skeletal_length = 9000,
                                                  min_n_nodes_in_cluster = 20)

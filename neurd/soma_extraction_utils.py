@@ -710,7 +710,7 @@ def original_mesh_soma_old(
     return soma_meshes_new
     
 def extract_soma_center(
-    segment_id,
+    segment_id=12345,
     current_mesh_verts=None,
     current_mesh_faces=None,
     mesh = None,
@@ -775,7 +775,7 @@ def extract_soma_center(
     second_pass_size_threshold = None,
 
     **kwargs
-                            ):
+    ):
     
     # ------- Nuclei parameters -------------
     if nucleus_min is None:
@@ -1920,6 +1920,41 @@ def remove_nuclei_and_glia_meshes(
         return main_mesh_total
     
     
+def glia_nuclei_faces_from_mesh(
+    mesh,
+    glia_meshes,
+    nuclei_meshes,
+    return_n_faces = False,
+    verbose = False,
+    ):
+    """
+    Purpose: To map the glia and nuclei
+    meshes to the 
+    """
+
+    if len(glia_meshes)>0:
+        glia_faces = tu.original_mesh_faces_map(mesh,tu.combine_meshes(glia_meshes))
+        n_glia_faces = len(glia_faces)
+    else:
+        glia_faces = []
+        n_glia_faces = 0
+
+    if len(nuclei_meshes)>0:
+        nuclei_faces = tu.original_mesh_faces_map(mesh,tu.combine_meshes(nuclei_meshes))
+        n_nuclei_faces = len(nuclei_faces)
+    else:
+        nuclei_faces = []
+        n_nuclei_faces = 0
+
+    if verbose:
+        print(f"n_glia_faces = {n_glia_faces}, n_nuclei_faces = {n_nuclei_faces}")
+
+    if return_n_faces:
+        return glia_faces,nuclei_faces,n_glia_faces,n_nuclei_faces
+    else:
+        return glia_faces,nuclei_faces
+    
+    
 # ------------------------- Parameters ---------------------
 # ------------- Setting up parameters -----------
 
@@ -2069,16 +2104,9 @@ attributes_dict_h01 = dict()
 #         **kwargs,
 #         )
 
-# def output_global_parameters_glia(**kwargs):
-#     return sm.output_global_parameters_and_attributes_from_current_data_type(
-#     algorithms = ["glia"],
-#     include_default = True,
-#     algorithms_only = True,
-#         **kwargs
-#     )
 
 # def output_global_parameters_nuclei(**kwargs):
-#     return sm.output_global_parameters_and_attributes_from_current_data_type(
+#     return modu.output_global_parameters_and_attributes_from_current_data_type(
 #     algorithms = ["nuclei"],
 #     include_default = True,
 #     algorithms_only = True,
@@ -2086,12 +2114,13 @@ attributes_dict_h01 = dict()
 #     )
 
 # def output_global_parameters_soma(**kwargs):
-#     return sm.output_global_parameters_and_attributes_from_current_data_type(
+#     return modu.output_global_parameters_and_attributes_from_current_data_type(
 #     algorithms = ["soma"],
 #     include_default = True,
 #     algorithms_only = True,
 #         **kwargs
 #     )
+
 
 
 #--- from mesh_tools ---
@@ -2107,3 +2136,31 @@ from python_tools import numpy_utils as nu
 from python_tools import system_utils as su
 
 from . import soma_extraction_utils as sm
+
+
+def output_global_parameters_glia(**kwargs):
+    return modu.output_global_parameters_and_attributes_from_current_data_type(
+        [sm],
+        algorithms = ["glia"],
+        include_default = True,
+        algorithms_only = True,
+            **kwargs
+    )
+    
+def output_global_parameters_nuclei(**kwargs):
+    return modu.output_global_parameters_and_attributes_from_current_data_type(
+        [sm],
+        algorithms = ["nuclei"],
+        include_default = True,
+        algorithms_only = True,
+            **kwargs
+    )
+    
+def output_global_parameters_soma(**kwargs):
+    return modu.output_global_parameters_and_attributes_from_current_data_type(
+        [sm],
+        algorithms = ["soma"],
+        include_default = True,
+        algorithms_only = True,
+            **kwargs
+    )

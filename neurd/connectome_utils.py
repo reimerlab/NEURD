@@ -409,7 +409,7 @@ def visualize_graph_connections_by_method(
     4) Get the regular int names for segment_ids (if plotting in neuroglancer)
     
     Ex: 
-    from neurd_packages import connectome_utils as conu
+    from neurd import connectome_utils as conu
     conu.visualize_graph_connections_by_method(
         G,
         ["864691136023767609_0","864691135617737103_0"],
@@ -1225,7 +1225,7 @@ def plot_3D_distribution_attribute(
             soma_centers.append(conu.soma_centers_from_node_df(curr_df).reshape(-1,3))
             colors.append(c)
 
-        from neurd_packages import neuron_visualizations as nviz
+        from neurd import neuron_visualizations as nviz
         nviz.plot_objects(
             scatters=soma_centers,
             scatters_colors=colors,
@@ -1312,7 +1312,7 @@ def plot_3d_attribute(
             soma_centers.append(conu.soma_centers_from_node_df(curr_df).reshape(-1,3))
             colors.append(c)
 
-        from neurd_packages import neuron_visualizations as nviz
+        from neurd import neuron_visualizations as nviz
         nviz.plot_objects(
             scatters=soma_centers,
             scatters_colors=colors,

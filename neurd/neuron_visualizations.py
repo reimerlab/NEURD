@@ -12,6 +12,10 @@ import trimesh
 from python_tools import numpy_dep as np
 from python_tools import general_utils as gu
 
+soma_color = "red"
+glia_color = "aqua"
+nuclei_color = "black"
+
 def plot_soma_limb_concept_network(neuron_obj,
                                   soma_color="red",
                                   limb_color="aqua",
@@ -281,7 +285,7 @@ def plot_concept_network(curr_concept_network,
                               
                               
     Another example wen testing: 
-    from neurd_packages import neuron_visualizations as nviz
+    from neurd import neuron_visualizations as nviz
     nviz = reload(nviz)
     nru = reload(nru)
     sk = reload(sk)
@@ -947,7 +951,7 @@ def visualize_neuron(
         limb_branch_dict=dict(L0=[])
     
     
-    from neurd_packages import neuron_visualizations as nviz
+    from neurd import neuron_visualizations as nviz
     nviz = reload(nviz)
     
     total_time = time.time()
@@ -1965,7 +1969,7 @@ def plot_objects(main_mesh=None,
                 zoom_radius = None,
                 zoom_radius_xyz = None,
                 adaptive_min_max_limits = True):
-    #from neurd_packages import neuron_visualizations as nviz
+    #from neurd import neuron_visualizations as nviz
     #nviz = reload(nviz)
     
     if (main_mesh is None 
@@ -3770,6 +3774,42 @@ def plot_meshes_skeletons(meshes,skeletons,**kwargs):
         skeletons_colors=cols,
         **kwargs
     )
+    
+def plot_soma_extraction_meshes(
+    mesh,
+    soma_meshes,
+    glia_meshes = None,
+    nuclei_meshes = None,
+    soma_color = soma_color,
+    glia_color = glia_color,
+    nuclei_color = nuclei_color,
+    verbose = False,
+    ):
+    """
+    Purpose: To plot the dataproducts from the
+    soma extractio
+    """
+    
+    total_soma_list = nu.to_list(soma_meshes)
+    if glia_meshes is None:
+        glia_meshes = []
+    glia_pieces = nu.to_list(glia_meshes)
+    if nuclei_meshes is None:
+        nuclei_meshes = []
+    nuclei_pieces = nu.to_list(nuclei_meshes)
+
+    if verbose:
+        print(f"# of somas = {len(total_soma_list)}")
+        print(f"# of glia = {len(glia_pieces)}")
+        print(f"# of nuclei = {len(nuclei_pieces)}")
+
+    meshes = total_soma_list + glia_pieces + nuclei_pieces
+    meshes_colors = [soma_color]*len(total_soma_list) + [glia_color]*len(glia_pieces) + [nuclei_color]*len(nuclei_pieces)
+    ipvu.plot_objects(
+        mesh,
+        meshes = meshes,
+        meshes_colors=meshes_colors
+    )
 
 
 #--- from neurd_packages ---
@@ -3790,5 +3830,6 @@ from python_tools import matplotlib_utils as mu
 from python_tools import networkx_utils as xu
 from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
+from python_tools import ipyvolume_utils as ipvu
 
 from . import neuron_visualizations as nviz

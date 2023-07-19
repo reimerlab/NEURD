@@ -2852,7 +2852,7 @@ def complete_spine_processing(
             print(f"Time for compute_initial_spines = {time.time() - st}")
             
     if compute_no_spine_width: 
-        from neurd_packages import width_utils as wu
+        from neurd import width_utils as wu
         st = time.time()
         widths_to_calculate=["no_spine_median_mesh_center"]
         
@@ -4840,7 +4840,7 @@ def spine_and_syn_df_computed_from_neuron_obj(
         if add_neuron_compartments:
             if compartment_faces_dict is None:
                 raise Exception("compartment_faces_dict is None and requested compartments")
-            from neurd_packages import apical_utils as apu
+            from neurd import apical_utils as apu
             limb_branch_compartment_dict = apu.limb_branch_compartment_dict_from_limb_branch_face_and_compartment_faces_dict(
                 limb_branch_face_dict,
                 compartment_faces_dict=compartment_faces_dict,
@@ -6084,7 +6084,7 @@ def plot_connetion_type_head_vs_spine_size_by_conn_type_kde(
         fig,ax = plt.subplots(1,1,figsize = figsize)
         
     if palette is None:
-        from neurd_packages import nature_paper_plotting as npp
+        from neurd import nature_paper_plotting as npp
         palette = npp.exc_inh_combination_palette
     
     if hue_options is not None:

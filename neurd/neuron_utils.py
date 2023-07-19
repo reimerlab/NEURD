@@ -1053,7 +1053,7 @@ def generate_limb_concept_networks_from_global_connectivity(
 
     Example of Use: 
     
-    from neurd_packages import neuron
+    from neurd import neuron
     neuron = reload(neuron)
 
     #getting mesh and skeleton dictionaries
@@ -8723,8 +8723,8 @@ def combined_somas_neuron_obj(
     
     
     Ex: 
-    from neurd_packages import neuron_utils as nru
-    from neurd_packages import neuron_utils as nru
+    from neurd import neuron_utils as nru
+    from neurd import neuron_utils as nru
     neuron_obj = nru.decompress_neuron("./3502576426_somas_seperate.pbz2",original_mesh="./3502576426_0_25.off")
 
     neuron_obj_comb = nru.combined_somas_neuron_obj(neuron_obj,

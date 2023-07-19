@@ -24,7 +24,7 @@ def branch_idx_map_from_branches_to_delete_on_limb(
     from nodes to delete
     
     Ex: 
-    from neurd_packages import neuron_simplification as nsimp
+    from neurd import neuron_simplification as nsimp
     nsimp.branch_idx_map_from_branches_to_delete_on_limb(
         limb_obj,
         branches_to_delete = [0,1,5],

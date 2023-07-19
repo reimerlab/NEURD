@@ -1938,7 +1938,7 @@ def matched_branches_by_angle_at_coordinate(limb_obj,
     b) apply a threshold on the angle between to only keep those below/above
     
     Ex: 
-    from neurd_packages import error_detection as ed
+    from neurd import error_detection as ed
     ed.matched_branches_by_angle_at_coordinate(limb_obj,
                                             coordinate,
                                             offset=1500,
@@ -2711,7 +2711,7 @@ def width_jump_from_upstream_min(limb_obj,
     3) Subtract and Return
     
     Ex: 
-    from neurd_packages import error_detection as ed
+    from neurd import error_detection as ed
     ed.width_jump_from_upstream_min(limb_obj=neuron_obj[0],
     branch_idx=318,
     skeletal_length_min = 2000,
@@ -2811,7 +2811,7 @@ def width_jump_up_axon(
     1) Find all of the axon branches
     2) Run the width jump check
     """
-    from neurd_packages import limb_utils as lu
+    from neurd import limb_utils as lu
     if upstream_skeletal_length_min is None:
         upstream_skeletal_length_min = upstream_skeletal_length_min_width_j_axon_global
     if branch_skeletal_length_min is None:
@@ -2866,7 +2866,7 @@ def dendrite_branch_restriction(neuron_obj,
                                 plot = False,
                                 verbose= False
                                ):
-    from neurd_packages import limb_utils as lu
+    from neurd import limb_utils as lu
     
     if width_max is None:
         width_max = width_max_dendr_restr_global
@@ -4810,7 +4810,7 @@ def low_degree_branch_errors_limb_branch_dict(neuron_obj,
     return the limb branch dict
     
     Ex: 
-    from neurd_packages import error_detection as ed
+    from neurd import error_detection as ed
     ed.low_degree_branch_errors_limb_branch_dict(filt_neuron,
                                                  verbose = True,
                                                 low_degree_order_verbose=True,

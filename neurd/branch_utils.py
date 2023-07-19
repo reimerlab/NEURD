@@ -150,7 +150,7 @@ def combine_branches(
     
     
     Ex: 
-    from neurd_packages import branch_utils as bu
+    from neurd import branch_utils as bu
 
     branch_upstream = copy.deepcopy(neuron_obj[0][upstream_branch])
     branch_downstream= copy.deepcopy(neuron_obj[0][downstream_branch])
@@ -1007,7 +1007,7 @@ def refine_width_array_to_match_skeletal_coordinates(
     def skeletal_coordinates_upstream_to_downstream_length(branch_obj,**kwargs):
         return len(branch_obj.skeletal_coordinates_upstream_to_downstream)
 
-    from neurd_packages import neuron_searching as ns
+    from neurd import neuron_searching as ns
     lb = ns.query_neuron(
         neuron_obj,
         functions_list=[

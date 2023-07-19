@@ -844,8 +844,10 @@ global_parameters_dict_h01 = dict()
 #--- from neurd_packages ---
 from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
-from . import neuron_nx_utils as nxu
 from . import neuron_visualizations as nviz
+
+#--- from neuron_morphology_tools ---
+from neuron_morphology_tools import neuron_nx_utils as nxu
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk

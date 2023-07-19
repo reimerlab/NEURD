@@ -430,7 +430,7 @@ def axon_webbing_filter(G,
     4) If Invalid webbing return the error branches 
     
     Ex: 
-    from neurd_packages import graph_filters as gf
+    from neurd import graph_filters as gf
     gf.axon_webbing_filter(G,
                                limb_obj,
                                verbose = True,

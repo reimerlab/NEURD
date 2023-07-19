@@ -1386,7 +1386,7 @@ def width_downstream_restricted(limb_obj,
     
     Ex: 
     
-    from neurd_packages import concept_network_utils as cnu
+    from neurd import concept_network_utils as cnu
     
     cnu.width_downstream_restricted(
     limb_obj = neuron_obj_exc_syn_sp[0],
