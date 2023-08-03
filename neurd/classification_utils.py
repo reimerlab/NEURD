@@ -2612,7 +2612,49 @@ def filter_axon_candiates(
     else:
         return best_axon_candidate_filtered
 
-
+def axon_faces_from_labels_on_original_mesh(
+    neuron_obj,
+    original_mesh=None,
+    original_mesh_kdtree=None,
+    plot_axon=False,
+    verbose=False,
+    **kwargs
+    ):
+    """
+    Purpose: To get the axon face indices on the original mesh
+    
+    Pseudocode:
+    1) Get the original mesh if not passed
+    2) Get the axon mesh of the neuron object
+    3) Map the axon mesh to the original mesh
+    
+    Ex: 
+    clu.axon_faces_from_labels_on_original_mesh(neuron_obj,
+                                            plot_axon=True,
+                                           verbose=True,
+                                           original_mesh=original_mesh,
+                                           original_mesh_kdtree=original_mesh_kdtree)
+    """
+    if original_mesh is None:
+        if verbose:
+            print("No original mesh found so pulling from the database")
+        original_mesh  = hdju.fetch_segment_id_mesh(neuron_obj.segment_id)
+        
+    axon_mesh = axon_mesh_from_labels(neuron_obj,
+                                     verbose=verbose,
+                                     **kwargs)
+    
+    axon_mesh_faces = tu.original_mesh_faces_map(original_mesh,
+                                                        axon_mesh,
+                                                        exact_match=True,
+                                                        original_mesh_kdtree=original_mesh_kdtree)
+    
+    if plot_axon:
+        nviz.plot_objects(original_mesh,
+                          meshes=[original_mesh.submesh([axon_mesh_faces],append=True)],
+                         meshes_colors="red")
+        
+    return axon_mesh_faces
 
 # ----------------- Parameters ------------------------
 
@@ -2627,8 +2669,14 @@ global_parameters_dict_default_axon = dict(
     max_spine_density_axon = 0.00008,
 )
 
+
+from . import microns_volume_utils as mvu
+from . import h01_volume_utils as hvu
+
 attributes_dict_default = dict(
-)    
+    hdju = mvu.data_interface
+)  
+
 
 global_parameters_dict_microns = {}
 attributes_dict_microns = {}
@@ -2643,7 +2691,10 @@ global_parameters_dict_h01 = {}
 
 
 
-attributes_dict_h01 = {}
+attributes_dict_h01 = dict(
+    hdju = hvu.data_interface
+)
+
 
 # data_type = "default"
 # algorithms = None

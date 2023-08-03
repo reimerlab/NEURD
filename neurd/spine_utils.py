@@ -1954,7 +1954,7 @@ def spine_head_neck(
         #makes sure there always has to be a neck idx
         if len(neck_obj_idx) == 0:
             neck_obj_idx = np.arange(len(meshes))
-            head_obj_idx = np.array([])
+            head_obj_idx = np.array([]).astype('int')
         elif only_allow_one_connected_component_neck:
             n_neck_components = len(tu.connected_components_from_face_idx(
                 mesh,face_idx = np.concatenate(mesh_idx[neck_obj_idx]),return_meshes = False))
@@ -1964,7 +1964,7 @@ def spine_head_neck(
                 if verbose:
                     print(f"More than one neck connected component so not valid")
                 neck_obj_idx = np.arange(len(meshes))
-                head_obj_idx = np.array([])
+                head_obj_idx = np.array([]).astype('int')
         else:
             pass
 
@@ -2064,7 +2064,7 @@ def spine_head_neck(
     if return_meshes:
         return_value= [head_mesh,neck_mesh]
     else:
-        return_value = [head_face_idx,neck_face_idx]
+        return_value = [head_face_idx.astype('int'),neck_face_idx.astype('int')]
         
     if return_sdf:
         return_value += [head_sdf,neck_sdf]
@@ -2976,7 +2976,7 @@ def calculate_spine_obj_mesh_skeleton_coordinates(
     
     if branch_obj is not None and mesh is None:
         mesh = branch_obj.mesh
-    if branch_obj is not None and mesh is None:
+    if branch_obj is not None and skeleton is None:
         skeleton = branch_obj.skeleton
     
     
@@ -3093,7 +3093,6 @@ def calculate_spine_obj_attr_for_neuron(
 
     """
     
-
     for limb_idx in neuron_obj.get_limb_names():
         if verbose:
             print(f"--- Working on Limb {limb_idx}")
@@ -3110,7 +3109,6 @@ def calculate_spine_obj_attr_for_neuron(
                     branch_obj.spine_id = spu.id_from_idx(limb_idx,branch_idx,s_idx)
 
         #2) calculate_branch_attr_soma_distances_on_limb
-        print(f"Working on calculate_branch_attr_soma_distances_on_limb")
         limb_obj = bau.calculate_branch_attr_soma_distances_on_limb(
             limb_obj,
             branch_attr="spines_obj",

@@ -3092,7 +3092,8 @@ def complete_axon_processing(neuron_obj,
                             plot_valid_error_synapses = False,
                             calculate_synapse_soma_distance = False,
                             add_valid_synapses = True,
-                              add_error_synapses=False,)
+                              add_error_synapses=False,
+                              **kwargs)
         neuron_obj = spu.add_head_neck_shaft_spine_objs(neuron_obj,
                                                            verbose = verbose
                                                           )
@@ -3247,7 +3248,8 @@ def complete_axon_processing(neuron_obj,
                         calculate_synapse_soma_distance = True,
                         add_valid_synapses = True,
                           add_error_synapses=False,
-                        limb_branch_dict_to_add_synapses=neuron_obj_with_web.axon_limb_branch_dict)
+                        limb_branch_dict_to_add_synapses=neuron_obj_with_web.axon_limb_branch_dict,
+                        **kwargs)
                 
                 if verbose:
                     print(f"After add_synapses_after_high_fidelity_axon: # of neuron_obj.synapses_somas = {len(neuron_obj.synapses_somas)}")

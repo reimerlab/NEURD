@@ -696,7 +696,7 @@ def visualize_neuron(
     
     #the categories that will be visualized
     visualize_type=["mesh","skeleton"],
-    limb_branch_dict=dict(L0=[]),
+    limb_branch_dict="all",#dict(L0=[]),
     #limb_branch_dict=dict(L0=[]),
     
     #for the mesh type:

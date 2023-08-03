@@ -50,14 +50,18 @@ def limb_red_blue_dict_from_red_blue_splits(
 def plot_red_blue_split_suggestions_per_limb(
     neuron_obj,
     red_blue_splits,
+    split_results = None,
+    plot_cut_paths = True,
     plot_red_blue_points = True,
     plot_skeleton = True,
     valid_color = "blue",
     error_color = "red",
     coordinate_color = "yellow",
+    path_color = "green",
     valid_size = 0.3,
     error_size = 0.3,
     coordinate_size = 1.0,
+    path_size = 0.3,
     verbose = True,
     plot_somas = True,
     soma_color = "orange",
@@ -77,6 +81,12 @@ def plot_red_blue_split_suggestions_per_limb(
     limb_red_blue_dict = limb_red_blue_dict_from_red_blue_splits(
         red_blue_splits
     )
+    
+    cut_paths_dict = None
+    if plot_cut_paths and split_results is not None:
+        cut_paths_dict = ssu.path_to_cut_and_coord_dict_from_split_suggestions(
+            split_results
+        )
     
     for curr_limb_idx,points_info in limb_red_blue_dict.items():
         if verbose:
@@ -105,6 +115,13 @@ def plot_red_blue_split_suggestions_per_limb(
             scatters += [valid_points,error_points]
             scatters_colors += [valid_color,error_color]
             scatter_size += [valid_size,error_size]
+            
+        if cut_paths_dict is not None:
+            scatters += [cut_paths_dict[curr_limb_idx]["paths_to_cut"]]
+            scatters_colors += [path_color]
+            scatter_size += [path_size]
+            
+        
         
         ipvu.plot_objects(
             mesh,
@@ -118,6 +135,28 @@ def plot_red_blue_split_suggestions_per_limb(
             
         )
         
+        
+def path_to_cut_and_coord_dict_from_split_suggestions(
+    split_results,
+    return_total_coordinates = True,
+    ):
+
+    limb_dict = dict()
+    for limb_idx,limb_info in split_results.items():
+        limb_dict[limb_idx] = dict(
+            paths_to_cut = [],
+            coordinates = []
+
+        )
+        for soma_soma_cut_info in limb_info:
+            limb_dict[limb_idx]["paths_to_cut"] += soma_soma_cut_info["paths_cut"]
+            limb_dict[limb_idx]["coordinates"] += soma_soma_cut_info["coordinate_suggestions"]
+
+        if return_total_coordinates:
+            limb_dict[limb_idx]["paths_to_cut"] = np.vstack(limb_dict[limb_idx]["paths_to_cut"]).reshape(-1,3)
+            limb_dict[limb_idx]["coordinates"] = np.vstack(limb_dict[limb_idx]["coordinates"]).reshape(-1,3)
+
+    return limb_dict
         
 # --- from python_tools ---
 from python_tools import ipyvolume_utils as ipvu

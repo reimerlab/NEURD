@@ -1737,7 +1737,7 @@ from . import axon_utils as au
 from . import neuron_statistics as nst
 from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
-from . import width_utils as wunon_branching_upstream 
+from . import width_utils as wu  
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk

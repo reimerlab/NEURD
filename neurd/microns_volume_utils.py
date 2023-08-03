@@ -661,6 +661,27 @@ class DataInterface(volume_utils.DataInterface):
 
     def unalign_neuron_obj(self,*args,**kwargs):
         return unalign_neuron_obj(*args,**kwargs) 
+    
+    def segment_id_to_synapse_dict(
+        self,
+        segment_id = None,
+        synapse_filepath=None,
+        **kwargs
+        ):
+        
+        return super().segment_id_to_synapse_dict(
+            synapse_filepath=synapse_filepath,
+            segment_id = segment_id,
+            **kwargs
+        )
+        
+        # if synapse_filepath is None:
+        #     raise Exception("")
+        # return syu.synapse_dict_from_synapse_csv(
+        #     synapse_filepath=synapse_filepath,
+        #     segment_id = segment_id,
+        #     **kwargs
+        # )
 
 data_interface = DataInterface(
     source = "microns",
@@ -669,6 +690,7 @@ data_interface = DataInterface(
 
 #--- from neurd_packages ---
 from . import volume_utils
+from . import synapse_utils as syu
 
 #--- from python_tools ---
 from python_tools import numpy_dep as np

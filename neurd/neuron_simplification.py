@@ -597,6 +597,7 @@ def branching_simplification(
     
     verbose_merging = False,
     verbose = False,
+    plot_after_simplification = False,
     **kwargs,
     ):
     """
@@ -665,6 +666,12 @@ def branching_simplification(
             
     if verbose:
         print(f"\n***Total time for branch simplification = {time.time() - st}")
+        
+    if plot_after_simplification:
+        nviz.visualize_neuron(
+            n_obj_ret,
+            limb_branch_dict="all"
+        )
             
     return n_obj_ret
 
@@ -674,6 +681,7 @@ from . import branch_utils as bu
 from . import neuron_searching as ns
 from . import neuron_utils as nru
 from . import proofreading_utils as pru
+from . import neuron_visualizations as nviz
 
 #--- from python_tools ---
 from python_tools import networkx_utils as xu

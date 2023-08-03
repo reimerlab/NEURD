@@ -38,9 +38,5 @@ apt-get update
 apt-get install google-cloud-cli
 
 
-Applications/*.off
-Applications/*.mls
-Applications/*.cgal
-Applications/*.pbz2
 
 

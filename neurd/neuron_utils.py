@@ -5527,16 +5527,19 @@ def check_points_inside_soma_bbox(neuron_obj,
                                          verbose=verbose)
     return inside_point_idxs
 
-def pair_neuron_obj_to_nuclei(neuron_obj,
-                             soma_name,
-                              nucleus_ids,
-                              nucleus_centers,
-                             nuclei_distance_threshold = 15000,
-                              return_matching_info = True,
-                              return_id_0_if_no_matches=True,
-                              return_nuclei_within_radius=False,
-                              return_inside_nuclei=False,
-                             verbose=False):
+def pair_neuron_obj_to_nuclei(
+    neuron_obj,
+    soma_name,
+    nucleus_ids,
+    nucleus_centers,
+    nuclei_distance_threshold = 15000,
+    return_matching_info = True,
+    return_id_0_if_no_matches=True,
+    return_nuclei_within_radius=False,
+    return_inside_nuclei=False,
+    verbose=False,
+    default_nuclei_id = None,
+    ):
 
     """
     Pseudocode: 
@@ -5548,99 +5551,117 @@ def pair_neuron_obj_to_nuclei(neuron_obj,
     box then use that one
 
     """
-
-    #1) Get the Soma Center
-    soma_center = nru.soma_centers(neuron_obj,soma_name)
-
-    if verbose:
-        print(f"soma_center = {soma_center}")
-        print(f"nucleus_centers= {nucleus_centers}")
-
-
-
-    #2) Get all Nuclei within a certain distance of the Soma Center
-
-
-    nuclei_distances = np.linalg.norm(nucleus_centers-soma_center,axis=1)
-    if verbose:
-        print(f"nuclei_distances = {nuclei_distances}")
     
-    nuclei_within_radius_idx = np.where(nuclei_distances<nuclei_distance_threshold)[0]
-    nuclei_within_radius = [nucleus_ids[k] for k in nuclei_within_radius_idx]
-    nuclei_within_radius_distance = nuclei_distances[nuclei_within_radius_idx]
-
-    if verbose:
-        print(f"nuclei_within_radius = {nuclei_within_radius}")
-        print(f"nuclei_within_radius_distance = {nuclei_within_radius_distance}")
-
-
-    n_nuclei_in_radius = len(nuclei_within_radius)
-
-    winning_nuclei = None
-    winning_nuclei_distance = None
-
-
-    #3) If any Nuclei Found, Get the closest one and the distance
-    if len(nuclei_within_radius)>0:
-
-        winning_nuclei_idx = np.argmin(nuclei_within_radius_distance)
-        winning_nuclei = nuclei_within_radius[winning_nuclei_idx]
-        winning_nuclei_distance = nuclei_within_radius_distance[winning_nuclei_idx]
-
-        if verbose:
-            print(f"\nThere were {n_nuclei_in_radius} nuclei found within the radius of {nuclei_distance_threshold} nm")
-            print(f"winning_nuclei = {winning_nuclei}")
-            print(f"winning_nuclei_distance = {winning_nuclei_distance}")
-
-
-    #4) Get the number of nuceli within the bouding box:
-    inside_nuclei_idx = nru.check_points_inside_soma_bbox(neuron_obj,
-                                 coordinates=nucleus_centers,
-                                soma_name="S0",
-                                )
-
-    inside_nuclei = [nucleus_ids[k] for k in inside_nuclei_idx]
-    inside_nuclei_distance = nuclei_distances[inside_nuclei_idx]
-
-    n_nuclei_in_bbox = len(inside_nuclei)
-
-    if verbose:
-        print("\n For Bounding Box Search:")
-        print(f"inside_nuclei = {inside_nuclei}")
-
-
-    if winning_nuclei is None and len(inside_nuclei)>0:
-        winning_nuclei_idx = np.argmin(inside_nuclei_distance)
-        winning_nuclei = inside_nuclei[winning_nuclei_idx]
-        winning_nuclei_distance = inside_nuclei_distance[winning_nuclei_idx]
-
-
-        if verbose:
-            print(f"\nUsed the Bounding Box to find the winning Nuclei")
-            print(f"winning_nuclei = {winning_nuclei}")
-            print(f"winning_nuclei_distance = {winning_nuclei_distance}")
-
-    if return_id_0_if_no_matches:
-        if winning_nuclei is None:
-            winning_nuclei = 0
-        if winning_nuclei_distance is None:
-            try:
-                winning_nuclei_distance = np.min(nuclei_distances)
-            except:
-                winning_nuclei_distance = -1
-            
-    if verbose:
-        print(f"\n\nAt End: using return_id_0_if_no_matches = {return_id_0_if_no_matches}")
+    if nucleus_ids is None:
         
-        print(f"winning_nuclei = {winning_nuclei}")
-        print(f"winning_nuclei_distance = {winning_nuclei_distance}")
-        print(f"n_nuclei_in_radius = {n_nuclei_in_radius}")
-        print(f"n_nuclei_in_bbox = {n_nuclei_in_bbox}")
-
-    matching_info = dict(nucleus_id=winning_nuclei,
-                        nuclei_distance=np.round(winning_nuclei_distance,2),
-                         n_nuclei_in_radius=n_nuclei_in_radius,
+        winning_nuclei = default_nuclei_id
+        nuclei_distance=None
+        n_nuclei_in_radius=None
+        n_nuclei_in_bbox=None
+        
+        matching_info = dict(nucleus_id=winning_nuclei,
+                        nuclei_distance=None,
+                        n_nuclei_in_radius=n_nuclei_in_radius,
                         n_nuclei_in_bbox=n_nuclei_in_bbox)
+
+        
+
+    else:
+        #1) Get the Soma Center
+        soma_center = nru.soma_centers(neuron_obj,soma_name)
+
+        if verbose:
+            print(f"soma_center = {soma_center}")
+            print(f"nucleus_centers= {nucleus_centers}")
+
+
+
+        #2) Get all Nuclei within a certain distance of the Soma Center
+
+
+        nuclei_distances = np.linalg.norm(nucleus_centers-soma_center,axis=1)
+        if verbose:
+            print(f"nuclei_distances = {nuclei_distances}")
+        
+        nuclei_within_radius_idx = np.where(nuclei_distances<nuclei_distance_threshold)[0]
+        nuclei_within_radius = [nucleus_ids[k] for k in nuclei_within_radius_idx]
+        nuclei_within_radius_distance = nuclei_distances[nuclei_within_radius_idx]
+
+        if verbose:
+            print(f"nuclei_within_radius = {nuclei_within_radius}")
+            print(f"nuclei_within_radius_distance = {nuclei_within_radius_distance}")
+
+
+        n_nuclei_in_radius = len(nuclei_within_radius)
+
+        winning_nuclei = None
+        winning_nuclei_distance = None
+
+
+        #3) If any Nuclei Found, Get the closest one and the distance
+        if len(nuclei_within_radius)>0:
+
+            winning_nuclei_idx = np.argmin(nuclei_within_radius_distance)
+            winning_nuclei = nuclei_within_radius[winning_nuclei_idx]
+            winning_nuclei_distance = nuclei_within_radius_distance[winning_nuclei_idx]
+
+            if verbose:
+                print(f"\nThere were {n_nuclei_in_radius} nuclei found within the radius of {nuclei_distance_threshold} nm")
+                print(f"winning_nuclei = {winning_nuclei}")
+                print(f"winning_nuclei_distance = {winning_nuclei_distance}")
+
+
+        #4) Get the number of nuceli within the bouding box:
+        inside_nuclei_idx = nru.check_points_inside_soma_bbox(neuron_obj,
+                                    coordinates=nucleus_centers,
+                                    soma_name="S0",
+                                    )
+
+        inside_nuclei = [nucleus_ids[k] for k in inside_nuclei_idx]
+        inside_nuclei_distance = nuclei_distances[inside_nuclei_idx]
+
+        n_nuclei_in_bbox = len(inside_nuclei)
+
+        if verbose:
+            print("\n For Bounding Box Search:")
+            print(f"inside_nuclei = {inside_nuclei}")
+
+
+        if winning_nuclei is None and len(inside_nuclei)>0:
+            winning_nuclei_idx = np.argmin(inside_nuclei_distance)
+            winning_nuclei = inside_nuclei[winning_nuclei_idx]
+            winning_nuclei_distance = inside_nuclei_distance[winning_nuclei_idx]
+
+
+            if verbose:
+                print(f"\nUsed the Bounding Box to find the winning Nuclei")
+                print(f"winning_nuclei = {winning_nuclei}")
+                print(f"winning_nuclei_distance = {winning_nuclei_distance}")
+
+        if return_id_0_if_no_matches:
+            if winning_nuclei is None:
+                winning_nuclei = 0
+            if winning_nuclei_distance is None:
+                try:
+                    winning_nuclei_distance = np.min(nuclei_distances)
+                except:
+                    winning_nuclei_distance = -1
+                
+        if verbose:
+            print(f"\n\nAt End: using return_id_0_if_no_matches = {return_id_0_if_no_matches}")
+            
+            print(f"winning_nuclei = {winning_nuclei}")
+            print(f"winning_nuclei_distance = {winning_nuclei_distance}")
+            print(f"n_nuclei_in_radius = {n_nuclei_in_radius}")
+            print(f"n_nuclei_in_bbox = {n_nuclei_in_bbox}")
+
+        matching_info = dict(nucleus_id=winning_nuclei,
+                            nuclei_distance=np.round(winning_nuclei_distance,2),
+                            n_nuclei_in_radius=n_nuclei_in_radius,
+                            n_nuclei_in_bbox=n_nuclei_in_bbox)
+        
+        
+        
     if not (return_matching_info + return_nuclei_within_radius + return_inside_nuclei):
         return winning_nuclei
     

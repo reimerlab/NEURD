@@ -697,7 +697,18 @@ def get_n_paths_not_cut(limb_results):
                 
     return n_paths_not_cut
 
-def get_n_paths_cut(limb_results):
+def split_type_from_title(title):
+    somas = title.split(" from ")
+    somas = [k.replace(" ","").split("_")[0] for k in somas]
+    if somas[0] == somas[1]:
+        return 'multi-touch'
+    else:
+        return 'multi-soma'
+    
+def get_n_paths_cut(
+    limb_results,
+    return_multi_touch_multi_soma = False,
+    verbose = False,):
     """
     Get all of the coordinates on the paths that will be cut
     
@@ -706,14 +717,30 @@ def get_n_paths_cut(limb_results):
     if len(limb_results) == 0:
         return 0
     
-    n_paths_not_cut = 0
+    n_paths_cut = 0
+    n_paths_multi_soma = 0
+    n_paths_multi_touch = 0
 
     for limb_idx, limb_data in limb_results.items():
         for path_cut_info in limb_data:
             if len(path_cut_info["paths_cut"]) > 0:
-                n_paths_not_cut += 1   
+                n_paths_cut += 1  
                 
-    return n_paths_not_cut
+                if split_type_from_title(path_cut_info['title']) == 'multi-touch':
+                    n_paths_multi_touch += 1
+                else:
+                    n_paths_multi_soma += 1
+                    
+    if verbose:
+        print(f"n_paths_multi_soma = {n_paths_multi_soma}")
+        print(f"n_paths_multi_touch = {n_paths_multi_touch}")
+        print(f"n_paths_cut = {n_paths_cut}")
+        
+        
+        
+    if return_multi_touch_multi_soma:
+        return n_paths_multi_touch,n_paths_multi_soma
+    return n_paths_cut
 
 def get_all_cut_and_not_cut_path_coordinates(limb_results,voxel_adjustment=True,
                                             ):

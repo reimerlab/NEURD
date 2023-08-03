@@ -382,16 +382,9 @@ def width_upstream(
     
 
 # ------------ automatically create limb functions out of existing functions ------
-ns.set_limb_functions_for_search(lu,verbose = False)
 
-def skeletal_angles_df(neuron_obj,
-    functions_list=(lu.parent_skeletal_angle_limb_ns,
-                    lu.siblings_skeletal_angle_max_limb_ns,
-                    lu.children_skeletal_angle_max_limb_ns)
-    ):
-    angles_df = nst.stats_df(neuron_obj,functions_list)
-        
-    return angles_df
+
+
 
 
 #--- from neurd_packages ---
@@ -407,3 +400,14 @@ from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 
 from . import limb_utils as lu
+
+ns.set_limb_functions_for_search(lu,verbose = False)
+
+def skeletal_angles_df(neuron_obj,
+    functions_list=(lu.parent_skeletal_angle_limb_ns,
+                    lu.siblings_skeletal_angle_max_limb_ns,
+                    lu.children_skeletal_angle_max_limb_ns)
+    ):
+    angles_df = nst.stats_df(neuron_obj,functions_list)
+        
+    return angles_df
