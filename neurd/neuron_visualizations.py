@@ -11,6 +11,7 @@ import time
 import trimesh
 from python_tools import numpy_dep as np
 from python_tools import general_utils as gu
+import ipyvolume as ipv
 
 soma_color = "red"
 glia_color = "aqua"
@@ -701,7 +702,7 @@ def visualize_neuron(
     
     #for the mesh type:
     mesh_configuration_dict=dict(),
-    mesh_limb_branch_dict=None,
+    mesh_limb_branch_dict="all",
     mesh_resolution="branch",
     mesh_color_grouping="branch",
     mesh_color="random",
@@ -730,7 +731,7 @@ def visualize_neuron(
     
     #for the skeleton type:
     skeleton_configuration_dict=dict(),
-    skeleton_limb_branch_dict=None,
+    skeleton_limb_branch_dict="all",
     skeleton_resolution="branch",
     skeleton_color_grouping="branch",
     skeleton_color="random",
@@ -745,7 +746,7 @@ def visualize_neuron(
     
     #for concept_network 
     network_configuration_dict=dict(),
-    network_limb_branch_dict=None,
+    network_limb_branch_dict="all",
     network_resolution="branch",
     network_color_grouping="branch",
     network_color="random",
@@ -951,12 +952,9 @@ def visualize_neuron(
         limb_branch_dict=dict(L0=[])
     
     
-    from neurd import neuron_visualizations as nviz
-    nviz = reload(nviz)
-    
     total_time = time.time()
     #print(f"print_time = {print_time}")
-    import ipyvolume as ipv
+    
     
     current_neuron = neuron.Neuron(input_neuron)
     
@@ -1077,6 +1075,7 @@ def visualize_neuron(
         #print(f"current_type = {current_type}")
         
         #handle if the limb_branch_dict is "all"
+        #print(f'configuration_dict["limb_branch_dict"] = {configuration_dict["limb_branch_dict"]}')
         if configuration_dict["limb_branch_dict"] is None:
             #print("limb_branch_dict was None")
             configuration_dict["limb_branch_dict"] = limb_branch_dict
@@ -1084,6 +1083,12 @@ def visualize_neuron(
         if configuration_dict["limb_branch_dict"] == "all":
             configuration_dict["limb_branch_dict"] = dict([(k,"all") for k in current_neuron.get_limb_node_names()])
             
+        configuration_dict["limb_branch_dict"] = {k:v for k,v in 
+            configuration_dict["limb_branch_dict"].items() 
+            if k in current_neuron.get_limb_node_names()}
+        #print(f'configuration_dict["limb_branch_dict"] = {configuration_dict["limb_branch_dict"]}')
+            
+        #print(f'configuration_dict["limb_branch_dict"] = {configuration_dict["limb_branch_dict"]}')
         
         if print_time:
             print(f"Extracting Dictionary = {time.time() - local_time}")
@@ -1937,6 +1942,7 @@ other_scatter --> scatters
                            
 """
 
+'''
 def plot_objects(main_mesh=None,
                  main_skeleton=None,
                  main_mesh_color = [0.,1.,0.,0.2],
@@ -1953,7 +1959,7 @@ def plot_objects(main_mesh=None,
                 scatters=[],
                 scatters_colors=[],
                 scatter_size = 0.3,
-                main_scatter_color=[1.,0.,0.,0.5],
+                main_scatter_color="red",#[1.,0.,0.,0.5],
                 scatter_with_widgets = True,
                  
                 buffer=0,#1000,
@@ -2075,7 +2081,7 @@ def plot_objects(main_mesh=None,
         
         
     return return_value
-
+'''
             
         
 def plot_branch_spines(curr_branch,plot_skeletons=True,**kwargs):
@@ -3816,15 +3822,6 @@ def plot_soma_extraction_meshes(
         meshes_colors=meshes_colors
     )
 
-
-#--- from neurd_packages ---
-from . import axon_utils as au
-from . import neuron
-from . import neuron_searching as ns
-from . import neuron_utils as nru
-from . import proofreading_utils as pru
-from . import synapse_utils as syu
-
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
@@ -3837,4 +3834,15 @@ from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 from python_tools import ipyvolume_utils as ipvu
 
+#--- from neurd_packages ---
+from . import axon_utils as au
+from . import neuron
+from . import neuron_searching as ns
+from . import neuron_utils as nru
+from . import proofreading_utils as pru
+from . import synapse_utils as syu
+
+
+
+plot_objects = ipvu.plot_objects
 from . import neuron_visualizations as nviz

@@ -4273,7 +4273,6 @@ attributes_dict_h01 = dict(
     hdju = hvu.data_interface
 )
 global_parameters_dict_h01 = dict()
-    
        
 # data_type = "default"
 # algorithms = None

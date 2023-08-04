@@ -20,8 +20,6 @@ axon_ais_threshold = 180
 # excitatory_axon_soma_angle_threshold = 70
 
 
-
-
 def axon_width(branch_obj,
               width_name="no_bouton_median",
                width_name_backup="no_spine_median_mesh_center",

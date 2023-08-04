@@ -20,6 +20,9 @@ from python_tools import data_struct_utils as dsu
 #for meshparty preprocessing
 
 
+
+
+
 process_version = 10 #no skeleton jumping hopefully
 
 #from neuron_utils import *
@@ -5297,6 +5300,7 @@ from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
 from . import soma_extraction_utils as sm
 from . import spine_utils as spu
+from . import axon_utils as au
 
 #--- from mesh_tools ---
 from mesh_tools import compartment_utils as cu
@@ -5314,5 +5318,6 @@ from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 from python_tools import system_utils as su
 from python_tools.tqdm_utils import tqdm
+
 
 from . import preprocessing_vp2 as pre

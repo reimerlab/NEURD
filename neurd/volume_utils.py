@@ -40,6 +40,8 @@ class DataInterface(ABC):
     def segment_id_to_synapse_dict(
         self,
         **kwargs):
+        from . import synapse_utils as syu
+        
         if kwargs.get("synapse_filepath",None) is None:
             if self.synapse_filepath is None:
                 raise Exception("No synapse filepath set")
@@ -97,4 +99,3 @@ class DataInterface(ABC):
             'external_cell_type_fine_e_i': None,
         }
     
-from . import synapse_utils as syu

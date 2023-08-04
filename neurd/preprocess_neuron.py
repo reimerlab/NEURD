@@ -930,7 +930,7 @@ def recursive_limb_splitting(curr_limb,soma_meshes,current_neuron_mesh,significa
     return [curr_limb]
 
 
-nru = reload(nru)
+#nru = reload(nru)
 
 def limb_split(limbs,soma_meshes,current_neuron_mesh,print_flag=False):
     """

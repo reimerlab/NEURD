@@ -690,7 +690,7 @@ data_interface = DataInterface(
 
 #--- from neurd_packages ---
 from . import volume_utils
-from . import synapse_utils as syu
+
 
 #--- from python_tools ---
 from python_tools import numpy_dep as np

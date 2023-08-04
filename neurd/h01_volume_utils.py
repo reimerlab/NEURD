@@ -546,6 +546,20 @@ class DataInterface(volume_utils.DataInterface):
 
     def unalign_neuron_obj(self,*args,**kwargs):
         return unalign_neuron_obj(*args,**kwargs) 
+    
+    def segment_id_to_synapse_dict(
+        self,
+        segment_id = None,
+        synapse_filepath=None,
+        **kwargs
+        ):
+        
+        return super().segment_id_to_synapse_dict(
+            synapse_filepath=synapse_filepath,
+            segment_id = segment_id,
+            **kwargs
+        )
+        
 
 data_interface = DataInterface(
     source = "h01",
