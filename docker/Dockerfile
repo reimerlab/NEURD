@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 AS BASE
+FROM ubuntu:18.04 AS base
 LABEL mantainer="Brendan Celii <brendanacelii@gmail.com>"
 # Deal with pesky Python 3 encoding issue
 ENV LANG C.UTF-8
@@ -77,7 +77,8 @@ RUN pip3 install setuptools=='59.6.0' \
 
 
 RUN python3 -m pip --no-cache-dir install \
-    jupyterlab \
+    notebook==6.5.4 \
+    jupyterlab==4.0.2 \
     jupyter_contrib_nbextensions \
     simplejson \
     jedi==0.17.2 \
@@ -105,7 +106,7 @@ RUN jupyter nbextension enable --py --sys-prefix ipyvolume \
 
 
 #-------------------------------------------------------------
-FROM BASE AS MESH_LITE
+FROM base AS mesh_lite
 
 # RUN pip3 install numpy=='1.19.5' \
 #     && pip3 install cython=='0.29.21'
@@ -121,7 +122,7 @@ RUN apt-get update && apt-get install -q -y \
 
 
 #-------------------------------------------------------------
-FROM MESH_LITE AS MESH_HEAVY
+FROM mesh_lite AS mesh_heavy
 
 # --- cgal and meshlab dependencies----
 RUN apt-get update && apt-get install -q -y \

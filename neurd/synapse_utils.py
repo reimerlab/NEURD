@@ -519,28 +519,32 @@ def append_synapses_to_plot(
     if return_plottable:
         return [scatters,scatter_size_list,scatter_size_list]
 
-def plot_synapses(neuron_obj,synapse_type = "synapses",
-                 total_synapses=False,
-                  limb_branch_size = default_synapse_size,
-                    distance_errored_size = default_synapse_size,
-                    mesh_errored_size = default_synapse_size,
-                    soma_size = default_synapse_size,
-                  **kwargs):
+def plot_synapses(
+    neuron_obj,
+    synapse_type = "synapses",
+    total_synapses=False,
+    limb_branch_size = default_synapse_size,
+    distance_errored_size = default_synapse_size,
+    mesh_errored_size = default_synapse_size,
+    soma_size = default_synapse_size,
+    **kwargs
+    ):
     """
     The synapse types
     
     """
-    nviz.visualize_neuron(neuron_obj,
-                     limb_branch_dict="all",#dict(L2="all"),
-                      limb_branch_synapses=True,
-                          limb_branch_synapse_type = synapse_type,
-                     total_synapses=total_synapses,
-                          limb_branch_size = limb_branch_size,
-                    distance_errored_size = distance_errored_size,
-                    mesh_errored_size = mesh_errored_size,
-                    soma_size = soma_size,
-                          **kwargs
-                     )
+    nviz.visualize_neuron(
+        neuron_obj,
+        limb_branch_dict="all",#dict(L2="all"),
+        limb_branch_synapses=True,
+        limb_branch_synapse_type = synapse_type,
+        total_synapses=total_synapses,
+        limb_branch_size = limb_branch_size,
+        distance_errored_size = distance_errored_size,
+        mesh_errored_size = mesh_errored_size,
+        soma_size = soma_size,
+        **kwargs
+        )
 # --------- End of Synapse Plotting -------#
                     
 def export(synapse_obj):

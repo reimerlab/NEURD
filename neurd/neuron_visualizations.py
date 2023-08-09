@@ -302,6 +302,7 @@ def plot_concept_network(curr_concept_network,
     if not append_figure:
         ipv.pylab.clear()
         ipv.figure(figsize=(15,15))
+        ipvu.hide_legend_panel()
     
     node_locations = dict([(k,curr_concept_network.nodes[k]["data"].mesh_center) for k in curr_concept_network.nodes()])
 
@@ -431,6 +432,7 @@ def visualize_concept_map(curr_concept_network,
     if not append_figure:
         ipv.pylab.clear()
         ipv.figure(figsize=(15,15))
+        ipvu.hide_legend_panel()
     
     node_locations = dict([(k,curr_concept_network.nodes[k]["data"].mesh_center) for k in curr_concept_network.nodes()])
     
@@ -697,12 +699,12 @@ def visualize_neuron(
     
     #the categories that will be visualized
     visualize_type=["mesh","skeleton"],
-    limb_branch_dict="all",#dict(L0=[]),
+    limb_branch_dict=dict(L0=[]),
     #limb_branch_dict=dict(L0=[]),
     
     #for the mesh type:
     mesh_configuration_dict=dict(),
-    mesh_limb_branch_dict="all",
+    mesh_limb_branch_dict=None,
     mesh_resolution="branch",
     mesh_color_grouping="branch",
     mesh_color="random",
@@ -731,7 +733,7 @@ def visualize_neuron(
     
     #for the skeleton type:
     skeleton_configuration_dict=dict(),
-    skeleton_limb_branch_dict="all",
+    skeleton_limb_branch_dict=None,
     skeleton_resolution="branch",
     skeleton_color_grouping="branch",
     skeleton_color="random",
@@ -746,7 +748,7 @@ def visualize_neuron(
     
     #for concept_network 
     network_configuration_dict=dict(),
-    network_limb_branch_dict="all",
+    network_limb_branch_dict=None,
     network_resolution="branch",
     network_color_grouping="branch",
     network_color="random",
@@ -930,6 +932,7 @@ def visualize_neuron(
     
     
     """
+    reload(nviz)
     if total_synapses_size is None:
         total_synapses_size = syu.default_synapse_size
     if limb_branch_size is None:
@@ -950,6 +953,8 @@ def visualize_neuron(
         
     if limb_branch_dict is None:
         limb_branch_dict=dict(L0=[])
+        
+    
     
     
     total_time = time.time()
@@ -963,6 +968,7 @@ def visualize_neuron(
     if not append_figure:
         ipv.pylab.clear()
         ipv.figure(figsize=(15,15))
+        ipvu.hide_legend_panel()
 
     if print_time:
         print(f"Time for setting up figure = {time.time() - local_time}")
@@ -1099,7 +1105,7 @@ def visualize_neuron(
         if print_flag:
             for k,v in configuration_dict.items():
                 print(k,v)
-        
+            
         #get the list of items specific
         limbs_to_plot = sorted(list(configuration_dict["limb_branch_dict"].keys()))
         plot_items = []
@@ -1138,7 +1144,7 @@ def visualize_neuron(
         if print_time:
             print(f"Creating Plot Items = {time.time() - local_time}")
             local_time = time.time()
-        
+       
         
 #         print(f"plot_items_order= {plot_items_order}")
 #         print(f"plot_items= {plot_items}")
@@ -1854,6 +1860,8 @@ def visualize_neuron(
                           radius_xyz = zoom_radius_xyz)
         
     
+    ipvu.hide_legend_panel()
+    
     if print_time:
         print(f"Total time for run = {time.time() - total_time}")
     return
@@ -2330,8 +2338,13 @@ def plot_labeled_limb_branch_dicts(neuron_obj,
             print(f"{l}:{c}")
         print(f"\n")
     
-def plot_axon(neuron_obj,skeleton=False,plot_synapses = False,
-              **kwargs):
+def plot_axon(
+    neuron_obj,
+    skeleton=False,
+    plot_synapses = False,
+    **kwargs
+    ):
+    
     axon_limb_branch_dict = ns.query_neuron_by_labels(neuron_obj,
                              matching_labels = ["axon"],
                              )

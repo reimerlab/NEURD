@@ -507,6 +507,11 @@ def proximity_pre_post(
         postsyn_idx = closest_face[closest_idx]
         proximity_postsyn = postsyn_skeleton_array[closest_face[closest_idx]]
         
+        
+        
+        
+        
+        
         if verbose_time:
             print(f"  time closest faces: {time.time() - dt}")
             dt = time.time()

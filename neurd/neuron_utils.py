@@ -1498,6 +1498,11 @@ def smaller_preprocessed_data(neuron_object,print_flag=False):
     
     soma_names = double_soma_obj.get_soma_node_names()
     
+    
+    pipeline_products = getattr(double_soma_obj,pipeline_products,None)
+    if pipeline_products is not None:
+        pipeline_products = pipeline_products.export()
+    
     compressed_dict = dict(
                           #saving the original number of faces and vertices to make sure reconstruciton doesn't happen with wrong mesh
                           original_mesh_n_faces = len(double_soma_obj.mesh.faces),
@@ -1548,9 +1553,9 @@ def smaller_preprocessed_data(neuron_object,print_flag=False):
         
                           nucleus_id = double_soma_obj.nucleus_id,
                           split_index = double_soma_obj.split_index,
-        
-        
-                         
+                          
+                          pipeline_products = pipeline_products,
+                                           
     )
     
     if print_flag:
@@ -1916,18 +1921,23 @@ def decompress_neuron(filepath,original_mesh,
         # ------ 6/11: Adding in the nucleus id 
         recovered_preprocessed_data["nucleus_id"] = loaded_compression.get("nucleus_id",None)
         recovered_preprocessed_data["split_index"] = loaded_compression.get("split_index",None)
+        
+        pipeline_products = loaded_compression.get("pipeline_products",None)
 
         # Now create the neuron from preprocessed data
-        decompressed_neuron = neuron.Neuron(mesh=original_mesh,
-                     segment_id=loaded_compression["segment_id"],
-                     description=loaded_compression["description"],
-                     decomposition_type = loaded_compression["decomposition_type"],
-                     preprocessed_data=recovered_preprocessed_data,
-                     computed_attribute_dict = computed_attribute_dict,
-                     suppress_output=suppress_output,
-                                            calculate_spines=False,
-                                           widths_to_calculate=[],
-                                           original_mesh_idx=original_mesh_idx)
+        decompressed_neuron = neuron.Neuron(
+            mesh=original_mesh,
+            segment_id=loaded_compression["segment_id"],
+            description=loaded_compression["description"],
+            decomposition_type = loaded_compression["decomposition_type"],
+            preprocessed_data=recovered_preprocessed_data,
+            computed_attribute_dict = computed_attribute_dict,
+            suppress_output=suppress_output,
+            calculate_spines=False,
+            widths_to_calculate=[],
+            original_mesh_idx=original_mesh_idx,
+            pipeline_products=pipeline_products,
+            )
         if debug_time:
             print(f"Sending to Neuron Object = {time.time() - decompr_time}")
             decompr_time = time.time()
