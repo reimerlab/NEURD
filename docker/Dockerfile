@@ -108,10 +108,9 @@ RUN jupyter nbextension enable --py --sys-prefix ipyvolume \
 #-------------------------------------------------------------
 FROM base AS mesh_lite
 
-# RUN pip3 install numpy=='1.19.5' \
-#     && pip3 install cython=='0.29.21'
-
 ADD ./python_bash_files/embree.bash /src/embree.bash
+
+RUN pip3 install cython==0.29.36
 
 RUN apt-get update && apt-get install -q -y \
     python3-rtree \
