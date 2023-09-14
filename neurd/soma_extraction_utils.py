@@ -2138,29 +2138,48 @@ from python_tools import system_utils as su
 from . import soma_extraction_utils as sm
 
 
+from . import parameter_utils as paru
 def output_global_parameters_glia(**kwargs):
-    return modu.output_global_parameters_and_attributes_from_current_data_type(
-        [sm],
-        algorithms = ["glia"],
-        include_default = True,
-        algorithms_only = True,
-            **kwargs
+    return paru.category_param_from_module(
+        module = sm,
+        category = "glia",
     )
+    
+    
+    # return modu.output_global_parameters_and_attributes_from_current_data_type(
+    #     [sm],
+    #     algorithms = ["glia"],
+    #     include_default = True,
+    #     algorithms_only = True,
+    #         **kwargs
+    # )
     
 def output_global_parameters_nuclei(**kwargs):
-    return modu.output_global_parameters_and_attributes_from_current_data_type(
-        [sm],
-        algorithms = ["nuclei"],
-        include_default = True,
-        algorithms_only = True,
-            **kwargs
+    return paru.category_param_from_module(
+        module = sm,
+        category = "nuclei",
     )
     
+    
+    # return modu.output_global_parameters_and_attributes_from_current_data_type(
+    #     [sm],
+    #     algorithms = ["nuclei"],
+    #     include_default = True,
+    #     algorithms_only = True,
+    #         **kwargs
+    # )
+    
 def output_global_parameters_soma(**kwargs):
-    return modu.output_global_parameters_and_attributes_from_current_data_type(
-        [sm],
-        algorithms = ["soma"],
-        include_default = True,
-        algorithms_only = True,
-            **kwargs
+    return paru.category_param_from_module(
+        module = sm,
+        category = "soma",
     )
+    
+    
+    # return modu.output_global_parameters_and_attributes_from_current_data_type(
+    #     [sm],
+    #     algorithms = ["soma"],
+    #     include_default = True,
+    #     algorithms_only = True,
+    #         **kwargs
+    # )

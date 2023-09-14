@@ -4035,4 +4035,4 @@ from . import neuron_searching as ns
 from . import neuron_statistics as nst
 from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
-from . import pipeline as pl
+from python_tools import pipeline as pl

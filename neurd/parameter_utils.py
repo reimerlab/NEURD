@@ -16,7 +16,9 @@ suffixes_to_ignore_default = (
     "_global",
 )
 
-# ---- code used to read in legacy parameters stored inside module into their own json file ----
+
+
+#---- code used to read in legacy parameters stored inside module into their own json file ----
 
 
 def injest_nested_dict(
@@ -162,7 +164,10 @@ class PackageParameters:
         
         self.filepath = filepath
         if data is None:
-            data = jsu.json_to_dict(filepath)
+            if filepath is None:
+                data = {}
+            else:
+                data = jsu.json_to_dict(filepath)
             
         self._data = {mod_name:Parameters(data)
                       for mod_name,data in data.items()}
@@ -235,7 +240,6 @@ class PackageParameters:
     def __getattr__(self,k):
         return getattr(self._data,k)
             
-        
 
 def parameter_list_from_module(
     module,
@@ -275,83 +279,7 @@ def parameter_list_from_module(
         for k in params_to_request:
             print(f"{k}")
             
-    return params_to_request
-    
-'''
-class ModuleParameters:
-    """
-    Purpose: To store the global parameters
-    and attributes for a certain module
-    """
-    def __init__(
-        self,
-        data = None,
-        global_parameters = None,
-        attributes = None):
-        if data is None:
-            data = {}
-        
-        if global_parameters is None:
-            global_parameters ={}
-            
-        if attributes is None:
-            attributes = {}
-        
-        self._data = dict()
-        for p_type in att_types_default:
-            self._data[p_type] = {k:Parameters(data = v)
-                    for k,v in data.get(p_type,{default_category:eval(p_type)}).items()
-            }
-            
-    def get_paramater_type(self,param_type):
-         return gu.merge_dicts([v.dict for v in self._data[param_type].values()])       
-    
-    @property
-    def global_parameters(self):
-        return self.get_paramater_type("global_parameters")
-    
-    @property
-    def attributes(self):
-        return self.get_paramater_type("attributes")
-    
-    @property
-    def global_parameters_with_suffix(self):
-        return {f"{k}{global_param_suffix}":v for k,v in self.global_parameters.items()}
-    
-    def __str__(self):
-        curr_str = ""
-        curr_str+=(f" -> global parameters\n")
-        curr_str+=str(jsu.dict_to_json(self.global_parameters_with_suffix))
-        curr_str+=(f"\n")
-        
-        curr_str+=(f" -> attributes\n")
-        curr_str+=str(jsu.dict_to_json(self.attributes))
-        curr_str+=(f"\n")
-        return curr_str
-        
-    def __getattr__(self,k):
-        if k in self._data.keys():
-            return self._data[k]
-        else:
-            raise Exception("")
-    
-    
-    def __getitem__(self,k):
-        for ptype,p_dict in self._data.items():
-            for cat,cat_dict in p_dict.items():
-                if k in cat_dict:
-                    return cat_dict[k]
-        raise Exception(f"No value {k}")
-    
-    def set_parameter(
-        k,
-        v,
-        param_type = "global",
-        category = "default_category"):
-        
-        self._data[param_type][category][k] = v
-        
-'''
+    return params_to_request   
         
 
 def jsonable_dict(data):
@@ -368,6 +296,11 @@ def clean_modules_dict(data):
                         
     return data
 
+def add_global_name_to_dict(mydict):
+    return {f"{k}_global":v for k,v in 
+        mydict.items() 
+    }
+    
 def modes_global_param_and_attributes_dict_from_module(
     module,
     verbose = False,
@@ -400,10 +333,7 @@ def modes_global_param_and_attributes_dict_from_module(
 
     mode_jsons = {}
     
-    def add_global_name_to_dict(mydict):
-        return {f"{k}_global":v for k,v in 
-            mydict.items() 
-        }
+    
 
     for mode in modes:
         mode_dict = {mod_name:dict()}
@@ -422,13 +352,37 @@ def modes_global_param_and_attributes_dict_from_module(
                 if verbose:
                     print(f"No {att_type} dicts found in {mod_name}")
             if len(att_dicts) > 1:
+                """
+                Addition: extracted 
+                """
+
                 att_dicts.remove(att_param_name)
                 for ad in att_dicts:
                     cat_name = ad.replace(f"{att_param_name}_","")
-                    if add_global_suffix and att_type == 'global_parameters':
-                        local_dict[cat_name] = add_global_name_to_dict(getattr(module,ad))
-                    else:
-                        local_dict[cat_name] = getattr(module,ad)
+                    local_dict[cat_name] = getattr(module,ad)
+                    
+                        
+                # adding back parameters from original
+                combined_dict = gu.merge_dicts(list(local_dict.values()))
+                
+                #print(f"combined_dict = {combined_dict}")
+                
+                leftover_dict = {k:v for k,v 
+                                 in getattr(module,att_param_name).items()
+                                 if k not in combined_dict}
+                
+                if len(leftover_dict) > 0:
+                    local_dict[default_name] = leftover_dict
+                    
+                #print(f"\n\nlocal_dict[default_name] = {local_dict}")
+                
+                
+                if add_global_suffix and att_type == 'global_parameters':
+                    for cat_name in local_dict:
+                        local_dict[cat_name] = add_global_name_to_dict(local_dict[cat_name])
+                        
+                #print(f"\n\nlocal_dict[default_name] AFTER= {local_dict}")
+                
             elif len(att_dicts) == 1:
                 cat_name = default_name
                 local_dict[cat_name] = getattr(module,att_dicts[0])
@@ -554,7 +508,7 @@ def parameter_config_folder(return_str = True):
 
 
 def parameters_from_filepath(
-    filename = None,#"default_parameters_config.py",
+    filename = None,#"parameters_config_default.py",
     dict_name = "parameters",
     directory = None,
     filepath = None,
@@ -565,13 +519,14 @@ def parameters_from_filepath(
     Purpose: To import the parameter dictionary
     from a python file
     """
-    module_name = filename.replace(".py","")
+    
 
     if filepath is not None:
         filepath = Path(filepath)
         filename = filepath.stem
         directory = str(plu.parent_directory(filepath).absolute())
         
+    module_name = filename.replace(".py","")
     
     if directory is None:
         directory = parameter_config_folder()
@@ -595,7 +550,7 @@ def parameter_dict_from_module_and_obj(
     obj,
     parameters_obj_name = "parameters_obj",
     plus_unused = False,
-    error_on_no_attr = False,
+    error_on_no_attr = True,
     verbose = True,
     ):
     """
@@ -614,7 +569,6 @@ def parameter_dict_from_module_and_obj(
     """
 
     params_to_set = paru.parameter_list_from_module(module)
-    params_to_set += ['vdi']
 
     par_obj = getattr(obj,parameters_obj_name,None)
 
@@ -659,10 +613,18 @@ def parameter_dict_from_module_and_obj(
 def this_directory():
     return str(Path(__file__).parents[0].absolute())
 
+config_directory_name = "parameter_configs"
+def config_directory():
+    return str((
+        Path(__file__).parents[0] / 
+        config_directory_name
+        ).absolute())
+    
+
 def set_parameters_for_directory_modules_from_obj(
     obj,
     directory = None,
-    verbose_loop = True,
+    verbose_loop = False,
     from_package = "neurd",
     # -- for setting the parameters ---
     parameters_obj_name = "parameters_obj",
@@ -686,7 +648,7 @@ def set_parameters_for_directory_modules_from_obj(
     """
     
     if directory is None:
-        directory = this_directory
+        directory = this_directory()
 
     if modules is None:
         p = Path(directory)
@@ -731,6 +693,8 @@ def export_package_param_dict_to_file(
     mode = "default",
     clean_dict = False,
     export_filepath = None,
+    export_folder = None,
+    export_filename = None,
     return_dict = False,
     ):
     """
@@ -746,7 +710,15 @@ def export_package_param_dict_to_file(
         )[mode]
 
     if export_filepath is None:
-        export_filepath = f"./{mode}_parameters_config.py"
+        if export_folder is None:
+            export_folder = Path("./")
+        if export_filename is None:
+            export_filename = Path(f"parameters_config_{mode}.py")
+            
+        export_filepath = str((Path(export_folder) / Path(export_filename)).absolute())
+        
+        
+    export_filepath = str(Path(export_filepath).absolute())
         
     gu.print_nested_dict(
         nest_dict,
@@ -758,13 +730,51 @@ def export_package_param_dict_to_file(
         return nest_dict
 
 
-# --- from python-tools
+def category_param_from_module(
+    module,
+    category = "no_category",
+    verbose = False,
+    ):
+    """
+    Purpose: Want to export parameters belonging 
+    to a specific category in a module
+
+    Psuedocode:
+    1) 
+    """
+    return_dict = modes_global_param_and_attributes_dict_from_module(
+        module,
+        clean_dict=False,
+        modes="default"
+    )["default"][modu.module_name_no_prefix(module)]
+
+    output_dict = dict()
+    for k,v in return_dict.items():
+        if category in v:
+            curr_dict = v[category]
+            if k == "global_parameters":
+                curr_dict = add_global_name_to_dict(
+                    curr_dict
+                )
+            output_dict.update(curr_dict)
+            
+    output_dict = {
+        k:getattr(module,k) for k in output_dict.keys()
+    }
+
+    return output_dict
+
+
+
+#--- from python-tools
 from python_tools import package_utils as pku
 from python_tools import module_utils as modu
 from python_tools import data_struct_utils as dsu
 from python_tools import json_utils as jsu
 from python_tools import numpy_utils as nu
 from python_tools import general_utils as gu
+from python_tools import pathlib_utils as plu
+
 
 
 from . import parameter_utils as paru
