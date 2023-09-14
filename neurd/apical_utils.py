@@ -601,9 +601,9 @@ def apical_classification(
     if multi_apical_height is None:
         multi_apical_height = multi_apical_height_global
     if rotation_function is None:
-        rotation_function = rotation_function_axon_alignment
+        rotation_function = align_neuron_obj
     if unrotation_function is None:
-        unrotation_function = unrotation_function_axon_alignment
+        unrotation_function = unalign_neuron_obj
         
     if candidate_connected_component_radius is None:
         candidate_connected_component_radius = candidate_connected_component_radius_apical_global
@@ -1520,7 +1520,7 @@ def limb_features_from_compartment(
 
     """
     if rotation_function is None:
-        rotation_function = rotation_function_axon_alignment
+        rotation_function = align_neuron_obj
     
     if rotation_function is not None and apply_rotation:
         neuron_obj = rotation_function(neuron_obj)
@@ -1553,7 +1553,7 @@ def limb_features_from_compartment_over_neuron(
     Purpose: To run limb features for overview compartments
     """
     if rotation_function is None:
-        rotation_function = rotation_function_axon_alignment
+        rotation_function = align_neuron_obj
     
     if rotation_function is not None:
         neuron_obj = rotation_function(neuron_obj)
@@ -1599,10 +1599,10 @@ def compartment_from_face_overlap_with_comp_faces_dict(
     
     Ex: 
     from neurd import neuron_utils as nru
-    neuron_obj = hdju.neuron_objs_from_cell_type_stage(segment_id)
+    neuron_obj = vdi.neuron_objs_from_cell_type_stage(segment_id)
 
-    decimated_mesh = hdju.fetch_segment_id_mesh(segment_id)
-    proofread_faces = hdju.fetch_proofread_neuron_faces(segment_id,split_index = split_index)
+    decimated_mesh = vdi.fetch_segment_id_mesh(segment_id)
+    proofread_faces = vdi.fetch_proofread_neuron_faces(segment_id,split_index = split_index)
     limb_branch_dict = None
 
     limb_branch_face_dict = nru.limb_branch_face_idx_dict_from_neuron_obj_overlap_with_face_idx_on_reference_mesh(
@@ -1613,7 +1613,7 @@ def compartment_from_face_overlap_with_comp_faces_dict(
         verbose = False
     )
 
-    comp_faces_dict = hdju.compartment_faces_dict(segment_id,verbose=False)
+    comp_faces_dict = vdi.compartment_faces_dict(segment_id,verbose=False)
 
     apu.compartment_from_face_overlap_with_comp_faces_dict(
         mesh_face_idx = limb_branch_face_dict["L0"][2],
@@ -1720,8 +1720,8 @@ global_parameters_dict_default = gu.merge_dicts([
 
 
 attributes_dict_default = dict(
-    rotation_function_axon_alignment = None,
-    unrotation_function_axon_alignment = None,
+    align_neuron_obj = None,
+    unalign_neuron_obj = None,
 )    
 
 # ------- microns -----------
@@ -1740,8 +1740,8 @@ global_parameters_dict_h01 = gu.merge_dicts([
 
 from . import h01_volume_utils as hvu
 attributes_dict_h01 = dict(
-    rotation_function_axon_alignment = hvu.data_interface.align_neuron_obj,
-    unrotation_function_axon_alignment =  hvu.data_interface.unalign_neuron_obj,
+    align_neuron_obj = hvu.data_interface.align_neuron_obj,
+    unalign_neuron_obj =  hvu.data_interface.unalign_neuron_obj,
 )
 
 # modules_to_set = [apu]

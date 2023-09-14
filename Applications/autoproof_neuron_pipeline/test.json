@@ -1,0 +1,77 @@
+{
+    "default": {
+        "spine_utils": {
+            "global_parameters": {
+                "head_neck_shaft": {
+                    "head_smoothness": 0.09,
+                    "head_ray_trace_min": 240,
+                    "head_face_min": 10,
+                    "only_allow_one_connected_component_neck": false
+                },
+                "spine_identification": {
+                    "query": "median_mesh_center > 115 and n_faces_branch>100",
+                    "calculate_spine_volume": true,
+                    "clusters_threshold": 5,
+                    "smoothness_threshold": 0.08,
+                    "shaft_close_hole_area_top_2_mean_max": 110000,
+                    "shaft_mesh_volume_max": 300000000.0,
+                    "shaft_mesh_n_faces_min": 10,
+                    "shaft_threshold": 300,
+                    "spine_n_face_threshold_bare_min": 6,
+                    "spine_sk_length_threshold_bare_min": 306.6,
+                    "filter_by_volume_threshold_bare_min": 900496.186,
+                    "bbox_oriented_side_max_min_bare_min": 300,
+                    "spine_volume_to_spine_area_min_bare_min": 0.008,
+                    "sdf_mean_min_bare_min": 0,
+                    "spine_n_face_threshold": 25,
+                    "spine_sk_length_threshold": 1000,
+                    "filter_by_bounding_box_longest_side_length": true,
+                    "side_length_threshold": 5000,
+                    "filter_out_border_spines": false,
+                    "skeleton_endpoint_nullification": true,
+                    "skeleton_endpoint_nullification_distance": 2000,
+                    "soma_vertex_nullification": true,
+                    "border_percentage_threshold": 0.3,
+                    "check_spine_border_perc": 0.4,
+                    "filter_by_volume": true,
+                    "filter_by_volume_threshold": 19835293
+                }
+            },
+            "attributes": {
+                "no_category": {}
+            }
+        }
+    },
+    "h01": {
+        "spine_utils": {
+            "global_parameters": {
+                "head_neck_shaft": {},
+                "spine_identification": {
+                    "spine_n_face_threshold": 15,
+                    "spine_sk_length_threshold": 1000,
+                    "filter_by_volume_threshold": 50000000,
+                    "clusters_threshold": 5,
+                    "smoothness_threshold": 0.08,
+                    "shaft_close_hole_area_top_2_mean_max": 260000,
+                    "shaft_mesh_volume_max": 600000000.0,
+                    "shaft_mesh_n_faces_min": 10,
+                    "spine_volume_to_spine_area_min_bare_min": 0.01,
+                    "spine_n_face_threshold_bare_min": 10
+                }
+            },
+            "attributes": {
+                "no_category": {}
+            }
+        }
+    },
+    "microns": {
+        "spine_utils": {
+            "global_parameters": {
+                "no_category": {}
+            },
+            "attributes": {
+                "no_category": {}
+            }
+        }
+    }
+}

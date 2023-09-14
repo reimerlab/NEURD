@@ -1,0 +1,164 @@
+{
+    "apical_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "axon_utils": {
+        "global_parameters": {
+            "auto_proof": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "branch_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "cell_type_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "classification_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "connectome_query_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "connectome_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "error_detection": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "graph_filters": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "motif_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "neuron_geometry_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "neuron_statistics": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "neuron_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "preprocessing_vp2": {
+        "global_parameters": {
+            "axon_decomp": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "proofreading_utils": {
+        "global_parameters": {
+            "auto_proof": {},
+            "low_branch_clusters": {},
+            "split": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "proximity_analysis_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "proximity_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "soma_extraction_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "spine_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    },
+    "synapse_utils": {
+        "global_parameters": {
+            "no_category": {}
+        },
+        "attributes": {
+            "no_category": {}
+        }
+    }
+}

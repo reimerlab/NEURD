@@ -53,7 +53,7 @@ def synapse_coordinate_from_seg_split_syn_id(G,
     syn_coord = np.array(syn_coord[0])
     
     if return_nm:
-        return syn_coord*hdju.voxel_to_nm_scaling
+        return syn_coord*vdi.voxel_to_nm_scaling
     else:
         return syn_coord
 
@@ -81,7 +81,7 @@ def synapse_ids_and_coord_from_segment_ids_edge(G,segment_id_1,segment_id_2,
     synapse_coordinates = np.array(synapse_coordinates).reshape(-1,3)
     
     if return_nm: 
-        synapse_coordinates = synapse_coordinates*hdju.voxel_to_nm_scaling
+        synapse_coordinates = synapse_coordinates*vdi.voxel_to_nm_scaling
         
     if verbose:
         print(f"\nFor {segment_id_1} --> {segment_id_2}:")
@@ -264,7 +264,7 @@ def soma_center_from_segment_id(
         soma_center = np.array([node_dict[f"centroid_{x}_nm"] for x in ["x","y","z"]])
     else:
         soma_center = np.array([node_dict[f"centroid_{x}"] for x in ["x","y","z"]])
-        #soma_center = soma_center * hdju.voxel_to_nm_scaling
+        #soma_center = soma_center * vdi.voxel_to_nm_scaling
 
     return soma_center
 
@@ -537,7 +537,7 @@ def visualize_graph_connections_by_method(
 
             
     if plot_gnn and not return_nm:
-        hdju.plot_gnn_embedding(
+        vdi.plot_gnn_embedding(
             node_name = segment_ids,
             df = gnn_embedding_df,
         )
@@ -589,7 +589,7 @@ def visualize_graph_connections_by_method(
         else:
             compartments = []
 
-        hdju.plot_multiple_proofread_neuron(
+        vdi.plot_multiple_proofread_neuron(
             segment_ids = segment_ids,
             plot_proofread_skeleton = plot_proofread_skeleton,
             proofread_mesh_color = segment_ids_colors,
@@ -614,8 +614,8 @@ def visualize_graph_connections_by_method(
         
     if verbose_cell_type:
         for s in segment_ids:
-            print(f'{s}:{dict([(k,v) for k,v in hdju.cell_info_from_name(s).items() if k in ["cell_type","external_cell_type_fine","external_cell_type"]])}')
-            gnn_str = hdju.gnn_cell_type_info(
+            print(f'{s}:{dict([(k,v) for k,v in vdi.cell_info_from_name(s).items() if k in ["cell_type","external_cell_type_fine","external_cell_type"]])}')
+            gnn_str = vdi.gnn_cell_type_info(
                 segment_id = s,
                 return_str=True)
             print(f"   ->{gnn_str}")
@@ -720,7 +720,7 @@ def presyn_postsyn_skeletal_path_from_synapse_id(
 
 
     #2) Get the proofread skeletons associated with the segment_ids
-    seg_sks = [hdju.fetch_proofread_skeleton(*hdju.segment_id_and_split_index(k))
+    seg_sks = [vdi.fetch_proofread_skeleton(*vdi.segment_id_and_split_index(k))
                for k in segment_ids]
     
     if debug_time: 
@@ -836,7 +836,7 @@ def presyn_postsyn_skeletal_path_from_synapse_id(
         meshes_colors = [mesh_presyn_color,mesh_postsyn_color,]
 
         if plot_meshes:
-            meshes = [hdju.fetch_proofread_mesh(k) for k in segment_ids]
+            meshes = [vdi.fetch_proofread_mesh(k) for k in segment_ids]
 
         nviz.plot_objects(meshes=meshes,
                           meshes_colors=meshes_colors,
@@ -846,7 +846,7 @@ def presyn_postsyn_skeletal_path_from_synapse_id(
                          scatter_size=scatter_size,
                          scatters_colors=scatters_colors)
     if not return_nm:
-        skeletal_coord_paths = [k/hdju.voxel_to_nm_scaling
+        skeletal_coord_paths = [k/vdi.voxel_to_nm_scaling
                                 if len(k) > 0 else k for k in skeletal_coord_paths]
     
     return skeletal_coord_paths
@@ -943,10 +943,10 @@ def postsyn_skeletal_distance_to_soma_from_edge_dict(edge_dict):
     
 def syn_coordinate_from_edge_dict(edge_dict):
     try:
-        return  np.array([edge_dict[f"synapse_{k}"] for k in ["x","y","z"]])*hdju.voxel_to_nm_scaling
+        return  np.array([edge_dict[f"synapse_{k}"] for k in ["x","y","z"]])*vdi.voxel_to_nm_scaling
     except:
         edge_dict = dict(edge_dict)
-        return  np.array([[e_dict[f"synapse_{k}"] for k in ["x","y","z"]] for e_idx,e_dict in edge_dict.items()]).reshape(-1,3)*hdju.voxel_to_nm_scaling
+        return  np.array([[e_dict[f"synapse_{k}"] for k in ["x","y","z"]] for e_idx,e_dict in edge_dict.items()]).reshape(-1,3)*vdi.voxel_to_nm_scaling
 
 def compute_presyn_postsyn_walk_euclidean_skeletal_dist(
     G,
@@ -982,7 +982,7 @@ def presyn_postsyn_soma_relative_synapse_coordinate(
         for syn_type,center in zip(
             ["presyn","postsyn"],
             [pre_center,post_center]):
-            relative_coord = (syn_coord - center)/hdju.voxel_to_nm_scaling
+            relative_coord = (syn_coord - center)/vdi.voxel_to_nm_scaling
             for c,v in zip(["x","y","z"],relative_coord):
                 xu.set_edge_attribute(
                     G,segment_id_1,segment_id_2,
@@ -1000,7 +1000,7 @@ def add_presyn_postsyn_syn_dist_signed_to_edge_df(
     for syn_type in ["presyn","postsyn"]:
         for j,ax in enumerate(["x","y","z"]):
             df[f"{syn_type}_syn_to_soma_euclid_dist_{ax}_nm_signed"] = (
-                df[f"synapse_{ax}"]*hdju.voxel_to_nm_scaling[j] - df[f"{syn_type}_{centroid_name}_{ax}_nm"]
+                df[f"synapse_{ax}"]*vdi.voxel_to_nm_scaling[j] - df[f"{syn_type}_{centroid_name}_{ax}_nm"]
             )
             
     return df
@@ -1270,7 +1270,7 @@ def plot_3d_attribute(
         discrete = True
     
     if plot_visual_area:
-        meshes,meshes_colors = hdju.visual_area_boundaries_plotting()
+        meshes,meshes_colors = vdi.visual_area_boundaries_plotting()
     else:
         meshes,meshes_colors = [],[]
     
@@ -1334,7 +1334,7 @@ def exc_to_exc_edge_df(
     Purpose: Produce a filtered edge df
     for excitatory to excitatory connections
     """
-    man_proofread_nodes = hdju.manual_proofread_segment_ids_in_auto_proof_nodes
+    man_proofread_nodes = vdi.manual_proofread_segment_ids_in_auto_proof_nodes
     
     e_labels = list(ctu.allen_cell_type_fine_classifier_labels_exc)
 
@@ -1379,7 +1379,7 @@ def presyns_with_soma_postsyns(
     
     if keep_manual_proofread_nodes:
         if man_proofread_nodes is None:
-            man_proofread_nodes = hdju.manual_proofread_segment_ids_in_auto_proof_nodes
+            man_proofread_nodes = vdi.manual_proofread_segment_ids_in_auto_proof_nodes
             
         soma_presyns = list(np.setdiff1d(soma_presyns,man_proofread_nodes))
         
@@ -1423,7 +1423,7 @@ def add_synapse_xyz_to_edge_df(
         append_type = "prefix",
     )
 
-    edge_df_with_centroids[["synapse_x_nm","synapse_y_nm","synapse_z_nm"]] = edge_df_with_centroids[["synapse_x","synapse_y","synapse_z"]]*hdju.voxel_to_nm_scaling
+    edge_df_with_centroids[["synapse_x_nm","synapse_y_nm","synapse_z_nm"]] = edge_df_with_centroids[["synapse_x","synapse_y","synapse_z"]]*vdi.voxel_to_nm_scaling
     return edge_df_with_centroids
 
 
@@ -1468,7 +1468,7 @@ def add_axes_subset_soma_to_syn_euclidean_dist_to_edge_df(
     syn_type = nu.convert_to_array_like(syn_type,include_tuple=True)
     axes = nu.convert_to_array_like(axes,include_tuple=True)
     
-    edge_df[["synapse_x_nm","synapse_y_nm","synapse_z_nm"]] = edge_df[["synapse_x","synapse_y","synapse_z"]]*hdju.voxel_to_nm_scaling
+    edge_df[["synapse_x_nm","synapse_y_nm","synapse_z_nm"]] = edge_df[["synapse_x","synapse_y","synapse_z"]]*vdi.voxel_to_nm_scaling
 
     for s in syn_type:
         for axes_comb in axes:
@@ -1507,8 +1507,8 @@ def radius_cell_type_sampling(
 
     """
     if df is None:
-        df = hdju.seg_split_centroid(
-            table = hdju.proofreading_neurons_with_gnn_cell_type_fine,
+        df = vdi.seg_split_centroid(
+            table = vdi.proofreading_neurons_with_gnn_cell_type_fine,
             features = [
                 "gnn_cell_type_coarse",
                 "gnn_cell_type_fine",
@@ -2155,7 +2155,7 @@ def add_delta_ori_edge_features(
         if k not in sampled_edge_df.columns:
             sampled_edge_df[k] = v
 
-    sampled_edge_df = hdju.add_proofreading_method_labels_to_df(
+    sampled_edge_df = vdi.add_proofreading_method_labels_to_df(
         sampled_edge_df
     )
 
@@ -2220,8 +2220,8 @@ def neuroglancer_df_from_edge_df(
             else:
                 raise Exception("")
         curr_dict["neuroglancer"] = ng_link
-        curr_dict["presyn_segment_id"] = hdju.segment_id_and_split_index(curr_dict["source"])[0]
-        curr_dict["postsyn_segment_id"] = hdju.segment_id_and_split_index(curr_dict["target"])[0]
+        curr_dict["presyn_segment_id"] = vdi.segment_id_and_split_index(curr_dict["source"])[0]
+        curr_dict["postsyn_segment_id"] = vdi.segment_id_and_split_index(curr_dict["target"])[0]
 
     new_df = pd.DataFrame.from_records(df_dicts)
 
@@ -2515,7 +2515,7 @@ def n_spine_syn_from_edge_df(
 # -- default
 attributes_dict_default = dict(
     #voxel_to_nm_scaling = microns_volume_utils.voxel_to_nm_scaling,
-    hdju = mvu.data_interface
+    vdi = mvu.data_interface
 )    
 global_parameters_dict_default = dict(
     #max_ais_distance_from_soma = 50_000
@@ -2528,7 +2528,7 @@ attributes_dict_microns = {}
 #-- h01--
 attributes_dict_h01 = dict(
     #voxel_to_nm_scaling = h01_volume_utils.voxel_to_nm_scaling,
-    hdju = hvu.data_interface
+    vdi = hvu.data_interface
 )
 global_parameters_dict_h01 = dict()
     

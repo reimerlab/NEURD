@@ -3075,9 +3075,9 @@ def complete_axon_processing(neuron_obj,
     
     """
     if rotation_function is None:
-        rotation_function = rotation_function_axon_alignment
+        rotation_function = align_neuron_obj
     if unrotation_function is None:
-        unrotation_function = unrotation_function_axon_alignment
+        unrotation_function = unalign_neuron_obj
     
     if add_synapses_and_head_neck_shaft_spines:
         st = time.time()
@@ -3611,8 +3611,8 @@ def axon_start_distance_from_soma(
 # ---------- Setting of parameters ---------- 
 
 attributes_dict_default = dict(
-    rotation_function_axon_alignment = None,
-    unrotation_function_axon_alignment = None,
+    align_neuron_obj = None,
+    unalign_neuron_obj = None,
     max_ais_distance_from_soma = 50_000,
 )    
 
@@ -3808,8 +3808,8 @@ global_parameters_dict_microns_auto_proof = {}
 attributes_dict_microns = {}
 
 attributes_dict_h01 = dict(
-    rotation_function_axon_alignment = hvu.align_neuron_obj,
-    unrotation_function_axon_alignment = hvu.unalign_neuron_obj,
+    align_neuron_obj = hvu.align_neuron_obj,
+    unalign_neuron_obj = hvu.unalign_neuron_obj,
     
     max_ais_distance_from_soma = 50_000,
 )

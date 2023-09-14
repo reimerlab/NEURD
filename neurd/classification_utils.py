@@ -2638,7 +2638,7 @@ def axon_faces_from_labels_on_original_mesh(
     if original_mesh is None:
         if verbose:
             print("No original mesh found so pulling from the database")
-        original_mesh  = hdju.fetch_segment_id_mesh(neuron_obj.segment_id)
+        original_mesh  = vdi.fetch_segment_id_mesh(neuron_obj.segment_id)
         
     axon_mesh = axon_mesh_from_labels(neuron_obj,
                                      verbose=verbose,
@@ -2674,7 +2674,7 @@ from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 
 attributes_dict_default = dict(
-    hdju = mvu.data_interface
+    vdi = mvu.data_interface
 )  
 
 
@@ -2692,7 +2692,7 @@ global_parameters_dict_h01 = {}
 
 
 attributes_dict_h01 = dict(
-    hdju = hvu.data_interface
+    vdi = hvu.data_interface
 )
 
 

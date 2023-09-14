@@ -1156,7 +1156,7 @@ global_parameters_dict_default = dict(
 
 )
 attributes_dict_default = dict(
-    default_graph_filters = [
+    default_low_degree_graph_filters = [
      axon_webbing_filter,
      thick_t_filter,
      axon_double_back_filter,
@@ -1187,7 +1187,7 @@ global_parameters_dict_h01.update(global_parameters_dict_h01_update)
 
 
 attributes_dict_h01 = dict(
-    default_graph_filters = [
+    default_low_degree_graph_filters = [
      axon_webbing_filter,
      thick_t_filter,
      axon_double_back_filter,

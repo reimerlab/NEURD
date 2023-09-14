@@ -107,21 +107,21 @@ class PipelineInfo:
             
         return default_value
     
-class PipelineProducts(PipelineInfo):
+# class PipelineProducts(PipelineInfo):
+#     pass
     
-    
-class Pipeline():
-    def __init__(
-        self,
-        mesh = None,
-        **kwargs):
+# class Pipeline():
+#     def __init__(
+#         self,
+#         mesh = None,
+#         **kwargs):
         
-        self._mesh = None
-        self._mesh_file = None
+#         self._mesh = None
+#         self._mesh_file = None
         
         
-    @property
+#     @property
     
     
-    def load    
+#     def load    
  

@@ -1071,7 +1071,7 @@ def add_valid_synapses_to_neuron_obj(neuron_obj,
     
     # ----- Phase 0: Getting the Synapse Info ------ #
     if synapse_dict is None:
-        synapse_dict = hdju.segment_id_to_synapse_dict(neuron_obj.segment_id,
+        synapse_dict = vdi.segment_id_to_synapse_dict(neuron_obj.segment_id,
                                                  validation=validation,
                                                  verbose=verbose)
         
@@ -1326,7 +1326,7 @@ def add_error_synapses_to_neuron_obj(
     
     # ----- Phase 0: Getting the Synapse Info ------ #
     if synapse_dict is None:
-        synapse_dict = hdju.segment_id_to_synapse_dict(neuron_obj.segment_id,
+        synapse_dict = vdi.segment_id_to_synapse_dict(neuron_obj.segment_id,
                                                  validation=validation,
                                                  verbose=verbose)
         
@@ -1412,7 +1412,7 @@ def add_synapses_to_neuron_obj(
         
     if segment_id is None:
         segment_id = neuron_obj.segment_id
-    synapse_dict = hdju.segment_id_to_synapse_dict(
+    synapse_dict = vdi.segment_id_to_synapse_dict(
         segment_id = segment_id,
         validation=validation,
         verbose=verbose,
@@ -4175,7 +4175,7 @@ def fetch_synapse_dict_by_mesh_labels(
         """
 
         if synapse_dict is None:
-            synapse_dict = hdju.segment_id_to_synapse_dict(
+            synapse_dict = vdi.segment_id_to_synapse_dict(
                 segment_id,
                 validation=validation,
                 verbose=verbose,
@@ -4261,7 +4261,7 @@ def fetch_synapse_dict_by_mesh_labels(
 # -- default
 attributes_dict_default = dict(
     voxel_to_nm_scaling = mvu.voxel_to_nm_scaling,
-    hdju = mvu.data_interface
+    vdi = mvu.data_interface
 )    
 global_parameters_dict_default = dict(
     #max_ais_distance_from_soma = 50_000
@@ -4274,7 +4274,7 @@ attributes_dict_microns = {}
 #-- h01--
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
-    hdju = hvu.data_interface
+    vdi = hvu.data_interface
 )
 global_parameters_dict_h01 = dict()
        

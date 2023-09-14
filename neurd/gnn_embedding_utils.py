@@ -430,7 +430,7 @@ def closest_neighbors_in_embedding_df(
         return_data_names=False,
         
         plot = False,
-        data_fetcher = None,
+        vdi = None,
         plotting_func_name = "plot_proofread_neuron",
         plotting_func = None,
         **kwargs
@@ -445,13 +445,13 @@ def closest_neighbors_in_embedding_df(
         
         
         Ex: 
-        from dataInterfaceMinnie65 import data_interface as hdju_m65
+        from dataInterfaceMinnie65 import data_interface as vdi_m65
         closest_neighbors_in_embedding_df(
             df = data_source_df,
             data_name = "864691134884769786_0",
             n_neighbors = 5,
             verbose = True,
-            data_fetcher = hdju_m65,
+            vdi = vdi_m65,
             plot = True
             )
         """
@@ -487,9 +487,9 @@ def closest_neighbors_in_embedding_df(
                 
         if plot:
             if plotting_func is None:
-                if data_fetcher is None:
+                if vdi is None:
                     raise Exception("")
-                plotting_func = getattr(data_fetcher,plotting_func_name)
+                plotting_func = getattr(vdi,plotting_func_name)
             
             
                 

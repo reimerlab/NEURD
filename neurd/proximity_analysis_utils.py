@@ -120,10 +120,10 @@ def conversion_rate_by_attribute_and_cell_type_pairs(
 
 def example_basal_conversion_rate(df=None,**kwargs):
     if df is None:
-        prox_with_ct = hdju.proximity_with_gnn_cell_type_fine
+        prox_with_ct = vdi.proximity_with_gnn_cell_type_fine
         prox_with_ct
 
-        prox_ct_table = hdju.df_from_table(
+        prox_ct_table = vdi.df_from_table(
             prox_with_ct,
             features=[
                 "e_i_predicted",
@@ -281,14 +281,14 @@ def pairwise_presyn_proximity_onto_postsyn(
     segment_id_post = segment_id
     split_index_post = split_index
     
-    G = hdju.graph_obj_from_proof_stage(
+    G = vdi.graph_obj_from_proof_stage(
         segment_id_post,
         split_index_post
     )
 
     if plot_postsyn:
         #nxu.plot(G)
-        hdju.plot_proofread_neuron(
+        vdi.plot_proofread_neuron(
             segment_id_post,
             split_index_post,
             )
@@ -363,7 +363,7 @@ def pairwise_presyn_proximity_onto_postsyn(
     """
 
     #1) Get table of all proximities onto table
-    prox_postsyn_table = hdju.proximity_table & dict(segment_id_post=segment_id_post,
+    prox_postsyn_table = vdi.proximity_table & dict(segment_id_post=segment_id_post,
                                                     split_index_post = split_index_post)
     if verbose:
         print(f"# of proximities = {len(prox_postsyn_table)}")
@@ -376,7 +376,7 @@ def pairwise_presyn_proximity_onto_postsyn(
         print(f"After presyn segment id restrictions, # of proximities = {len(prox_postsyn_table)}")
 
     #3) Filter the table by any other restrictions (like no soma synapses)
-    prox_postsyn_table = hdju.restrict_table_from_list(
+    prox_postsyn_table = vdi.restrict_table_from_list(
         prox_postsyn_table,
         proximity_restrictions,
     )
@@ -391,7 +391,7 @@ def pairwise_presyn_proximity_onto_postsyn(
             print(f"No Proximities")
         return empty_df
 
-    prox_df = hdju.df_from_table(
+    prox_df = vdi.df_from_table(
         prox_postsyn_table,
         features=[
             "segment_id",
@@ -404,7 +404,7 @@ def pairwise_presyn_proximity_onto_postsyn(
             "n_synapses"]
     )
 
-    prox_df_coords = hdju.coordinates_from_df(
+    prox_df_coords = vdi.coordinates_from_df(
         prox_df,
         name="postsyn_proximity"
     )
@@ -521,8 +521,8 @@ def pairwise_presyn_proximity_onto_postsyn(
     return pairwise_dfs
 
 def example_pairwise_postsyn_analysis():
-    seg_df = hdju.df_from_table(
-        (hdju.proofreading_neurons_table & "dendrite_skeletal_length > 100000"),
+    seg_df = vdi.df_from_table(
+        (vdi.proofreading_neurons_table & "dendrite_skeletal_length > 100000"),
         features=["segment_id","split_index","cell_type"],
     )
 
@@ -544,7 +544,7 @@ def example_pairwise_postsyn_analysis():
             subgraph_type = "node",
 
             # --- for the presyn side ---
-            presyn_table_restriction = hdju.functional_tuning_table_raw,
+            presyn_table_restriction = vdi.functional_tuning_table_raw,
         )
         
 def add_euclidean_dist_to_prox_df(
@@ -575,7 +575,7 @@ def add_euclidean_dist_to_prox_df(
         df_with_centr = df
         
     if add_depth_dist:
-        df_with_centr = hdju.add_depth_to_df(
+        df_with_centr = vdi.add_depth_to_df(
             df_with_centr,
             coordinate_base_name = [
                 "presyn_centroid",
@@ -751,7 +751,7 @@ def plot_prox_func_vs_attribute_from_edge_df(
 # -- default
 attributes_dict_default = dict(
     voxel_to_nm_scaling = mvu.voxel_to_nm_scaling,
-    hdju = mvu.data_interface
+    vdi = mvu.data_interface
 )    
 global_parameters_dict_default = dict(
     #max_ais_distance_from_soma = 50_000
@@ -764,7 +764,7 @@ attributes_dict_microns = {}
 #-- h01--
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
-    hdju = hvu.data_interface
+    vdi = hvu.data_interface
 )
 global_parameters_dict_h01 = dict()
     

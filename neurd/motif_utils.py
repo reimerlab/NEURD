@@ -171,7 +171,7 @@ def edges_from_motif_dict(
     from python_tools import networkx_utils as xu
     import networkx as nx
 
-    G = hdju.G_auto_DiGraph
+    G = vdi.G_auto_DiGraph
     motif_info = motif_dicts[20000]
 
     edges = mfu.edges_from_motif_dict(
@@ -277,7 +277,7 @@ def motif_segment_df_from_motifs(
         local_keys = {}
         for k,v in m.items():
 
-            segment_id,split_index = hdju.segment_id_and_split_index(v)
+            segment_id,split_index = vdi.segment_id_and_split_index(v)
             local_keys.update({f"{k.lower()}_segment_id":segment_id})
             local_keys.update({f"{k.lower()}_split_index":split_index})
         
@@ -513,16 +513,19 @@ def motif_G(
 def node_attributes_from_G(
     G,
     features = None,
-    features_to_ignore = (
-        xu.upstream_name,
-        identifier_name_global
-    ),
+    features_to_ignore = None,
     features_order = (
      "gnn_cell_type_fine",
      "external_layer",
      "external_visual_area",
     ),
     ):
+    
+    if features_to_ignore is None:
+        features_to_ignore = (
+        xu.upstream_name,
+        identifier_name_global
+        )
     
     if features_order is None:
         features_order = []
@@ -972,8 +975,8 @@ def motif_dicts_from_motif_from_database(
     motif,
     ):
 
-    motif_table = hdju.motif_table_from_motif(motif)
-    motif_table_df = hdju.df_from_table(motif_table)
+    motif_table = vdi.motif_table_from_motif(motif)
+    motif_table_df = vdi.df_from_table(motif_table)
     motif_dicts = pu.df_to_dicts(motif_table_df)
     
     return motif_dicts
@@ -1008,11 +1011,11 @@ def annotated_motif_df(
     Ex: 
     from neurd import motif_utils as mfu
 
-    G = hdju.G_auto_DiGraph
+    G = vdi.G_auto_DiGraph
 
     mfu.annotated_motif_df(
         motif = "A->B;B->A",
-        G = hdju.G_auto_DiGraph,
+        G = vdi.G_auto_DiGraph,
         n_samples = None,
         verbose = False
     )
@@ -1032,8 +1035,8 @@ def annotated_motif_df(
         
     if motif_dicts is None:
         motif_dicts = motif_dicts_from_motif_from_database(motif)
-#         motif_table = hdju.motif_table_from_motif(motif)
-#         motif_table_df = hdju.df_from_table(motif_table)
+#         motif_table = vdi.motif_table_from_motif(motif)
+#         motif_table_df = vdi.df_from_table(motif_table)
 #         motif_dicts = pu.df_to_dicts(motif_table_df)
         
 
@@ -1167,11 +1170,11 @@ def filter_motif_df(
     Ex: 
     from neurd import motif_utils as mfu
 
-    G = hdju.G_auto_DiGraph
+    G = vdi.G_auto_DiGraph
 
     unique_df = mfu.annotated_motif_df(
         motif = "A->B;B->A",
-        G = hdju.G_auto_DiGraph,
+        G = vdi.G_auto_DiGraph,
         n_samples = None,
         verbose = False
     )
@@ -1337,7 +1340,7 @@ def visualize_graph_connections(
 # -- default
 attributes_dict_default = dict(
     #voxel_to_nm_scaling = microns_volume_utils.voxel_to_nm_scaling,
-    hdju = mvu.data_interface
+    vdi = mvu.data_interface
 )    
 global_parameters_dict_default = dict(
     #max_ais_distance_from_soma = 50_000
@@ -1350,7 +1353,7 @@ attributes_dict_microns = {}
 #-- h01--
 attributes_dict_h01 = dict(
     #voxel_to_nm_scaling = h01_volume_utils.voxel_to_nm_scaling,
-    hdju = hvu.data_interface
+    vdi = hvu.data_interface
 )
 global_parameters_dict_h01 = dict()
     

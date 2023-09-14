@@ -68,7 +68,6 @@ def radius_for_rotation_from_proj_magn(magn):
     
 
 
-
 def rotation_from_proj_error_and_radius(
     proj_error,
     radius_for_rotation,
@@ -348,58 +347,11 @@ def rotate_mesh_from_matrix(mesh,matrix):
     return new_mesh
 
     
-
-def align_neuron_obj(
+def align_neuron_obj_from_align_matrix(
     neuron_obj,
-    mesh_center = None,
-    rotation = None,
-    align_matrix = None,
-    in_place = False,
-    verbose = False,
-    plot_final_neuron = False,
-    align_synapses=True,
-    **kwargs):
-    """
-    Purpose: To rotate all of the meshes
-    and skeletons of a neuron object
+    align_matrix,
+    ):
     
-    Ex: 
-    neuron_obj_rot = copy.deepcopy(neuron_obj)
-    mesh_center = neuron_obj["S0"].mesh_center
-    for i in range(0,10):
-        neuron_obj_rot = align_neuron_obj(neuron_obj_rot,
-                                             mesh_center=mesh_center,
-                                             verbose =True)
-    nviz.visualize_neuron(
-        neuron_obj_rot,limb_branch_dict = "all")
-    
-    
-    """
-    if not in_place:
-        neuron_obj = copy.deepcopy(neuron_obj)
-
-    
-
-    if align_matrix is None:
-        if rotation is None:
-            if mesh_center is None:
-                soma_center = neuron_obj["S0"].mesh_center
-
-            if verbose:
-                print(f"soma_center = {soma_center}")
-
-            align_matrix = rotation_from_soma_center(soma_center,
-                                     verbose = False,)
-            
-            
-        align_matrix = align_matrix_from_rotation(rotation)
-        
-    if verbose:
-        print(f"align_matrix = {align_matrix}")
-        
-    neuron_obj.align_matrix = align_matrix
-    
-
     for j,limb_obj in enumerate(neuron_obj):
         for branch_obj in limb_obj:
             branch_obj.mesh = align_mesh(
@@ -463,15 +415,6 @@ def align_neuron_obj(
                                 align_matrix=align_matrix,
                                 verbose = False
                                 )
-#     for s in neuron_obj.get_soma_node_names():
-#         neuron_obj[s].mesh = align_mesh(
-#                                 neuron_obj[s].mesh,
-#                                 align_matrix=align_matrix,
-#                                 verbose = False
-#                                 )
-        
-#         neuron_obj[s].mesh_center = align_array(neuron_obj[s].mesh_center,
-#                                                     align_matrix=align_matrix,)
         
     #finishing soma mesh stuff
     for s_name in neuron_obj.get_soma_node_names():
@@ -489,8 +432,60 @@ def align_neuron_obj(
         #print(f"neuron_obj[s_name].mesh_center = {neuron_obj[s_name].mesh_center}")
         
         
-    #aligning the preprocessing stuff
+    return neuron_obj
+
+
+def align_neuron_obj(
+    neuron_obj,
+    mesh_center = None,
+    rotation = None,
+    align_matrix = None,
+    in_place = False,
+    verbose = False,
+    plot_final_neuron = False,
+    align_synapses=True,
+    **kwargs):
+    """
+    Purpose: To rotate all of the meshes
+    and skeletons of a neuron object
     
+    Ex: 
+    neuron_obj_rot = copy.deepcopy(neuron_obj)
+    mesh_center = neuron_obj["S0"].mesh_center
+    for i in range(0,10):
+        neuron_obj_rot = align_neuron_obj(neuron_obj_rot,
+                                             mesh_center=mesh_center,
+                                             verbose =True)
+    nviz.visualize_neuron(
+        neuron_obj_rot,limb_branch_dict = "all")
+    
+    
+    """
+    if not in_place:
+        neuron_obj = copy.deepcopy(neuron_obj)
+
+
+    if align_matrix is None:
+        if rotation is None:
+            if mesh_center is None:
+                soma_center = neuron_obj["S0"].mesh_center
+
+            if verbose:
+                print(f"soma_center = {soma_center}")
+
+            align_matrix = rotation_from_soma_center(soma_center,
+                                     verbose = False,)
+            
+            
+        align_matrix = align_matrix_from_rotation(rotation)
+        
+    if verbose:
+        print(f"align_matrix = {align_matrix}")
+        
+    return align_neuron_obj_from_align_matrix(
+        neuron_obj=neuron_obj,
+        align_matrix = align_matrix
+    )
         
     if plot_final_neuron:
         nviz.visualize_neuron(neuron_obj,limb_branch_dict = "all")

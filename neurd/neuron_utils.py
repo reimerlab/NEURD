@@ -5493,7 +5493,7 @@ def soma_centers(neuron_obj,
     Will come up with the centers predicted for each of the somas in the neuron
     """
     if voxel_adjustment_vector is None:
-        voxel_adjustment_vector = data_voxel_adjustment
+        voxel_adjustment_vector = voxel_to_nm_scaling
     
     if soma_name is None:
 #         current_soma_means = np.array([tu.mesh_center_vertex_average(neuron_obj[s_name].mesh) 
@@ -5528,7 +5528,7 @@ def check_points_inside_soma_bbox(neuron_obj,
     
     """
     if voxel_adjustment:
-        divisor = data_voxel_adjustment
+        divisor = voxel_to_nm_scaling
     else:
         divisor = [1,1,1]
     inside_point_idxs = tu.check_coordinates_inside_bounding_box(neuron_obj[soma_name].mesh,
@@ -9599,7 +9599,7 @@ global_parameters_dict_default = dict(
 )
 
 attributes_dict_default = dict(
-    data_voxel_adjustment = mvu.voxel_to_nm_scaling
+    voxel_to_nm_scaling = mvu.voxel_to_nm_scaling
 )    
 
 
@@ -9614,7 +9614,7 @@ global_parameters_dict_h01 = dict(
 )
 
 attributes_dict_h01 = dict(
-    data_voxel_adjustment = hvu.voxel_to_nm_scaling
+    voxel_to_nm_scaling = hvu.voxel_to_nm_scaling
 )
 
 # data_type = "default"

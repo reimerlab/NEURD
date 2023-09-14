@@ -38,11 +38,11 @@ def proximity_search_neurons_from_bounding_box(
     ):
     
     prox_table = (
-        hdju.proofreading_neurons_minus_volume_edge_table()
+        vdi.proofreading_neurons_minus_volume_edge_table()
         & f"dendrite_skeletal_length > {min_dendrite_skeletal_length}"
     )
     
-    nodes = hdju.bbox_intersect_neurons(
+    nodes = vdi.bbox_intersect_neurons(
             segment_id = segment_id,
             split_index = split_index,
             verbose = verbose,
@@ -69,7 +69,7 @@ def proximity_search_neurons_from_database(
         segment_id=segment_id,
         split_index = split_index
     )
-    return hdju.proximity_search_nodes_from_segment(
+    return vdi.proximity_search_nodes_from_segment(
         **key,
         verbose = True,
         return_node_names = True
@@ -87,14 +87,14 @@ def presyn_proximity_data(
     """
     st = time.time()
     #1) computes the synapse presyn side of the connectome
-    synapse_pre_df = hdju.segment_id_to_synapse_table_optimized_connectome(
+    synapse_pre_df = vdi.segment_id_to_synapse_table_optimized_connectome(
         segment_id=segment_id,
         split_index=split_index,
         syn_type = "presyn",
         coordinates_nm = True,
         return_df=True)
     
-    synapse_pre_raw_df = hdju.segment_id_to_synapse_table_optimized(
+    synapse_pre_raw_df = vdi.segment_id_to_synapse_table_optimized(
         segment_id=segment_id,
         synapse_type = "presyn",
         coordinates_nm = True,
@@ -102,7 +102,7 @@ def presyn_proximity_data(
     
     synapse_pre_raw_coords = pxu.synapse_coordinates_from_df(synapse_pre_raw_df)
     
-    synapse_pre_proof_df = hdju.segment_id_to_synapse_table_optimized_proofread(
+    synapse_pre_proof_df = vdi.segment_id_to_synapse_table_optimized_proofread(
         segment_id=segment_id,
         synapse_type = "presyn",
         coordinates_nm = True,
@@ -113,19 +113,19 @@ def presyn_proximity_data(
 
     #2) Gets the mesh for later plotting
     if plot:
-        mesh = hdju.fetch_proofread_mesh(
+        mesh = vdi.fetch_proofread_mesh(
             segment_id,
             split_index)
     else:
         mesh = None
 
     #3) Gets some coordinate for later euclidean distance calculation
-    presyn_soma_coord = hdju.soma_nm_coordinate(
+    presyn_soma_coord = vdi.soma_nm_coordinate(
         segment_id,
         split_index)
 
     #4) Fetches neuron object  for calculations
-    G_presyn = hdju.graph_obj_from_proof_stage(segment_id,split_index)
+    G_presyn = vdi.graph_obj_from_proof_stage(segment_id,split_index)
 
 
     #5) Calculating all of the width,compartments and skeletons
@@ -216,7 +216,7 @@ def postsyn_proximity_data(
     st = time.time()
     #2) Gets the mesh for later plotting
     if plot:
-        mesh_post = hdju.fetch_proofread_mesh(
+        mesh_post = vdi.fetch_proofread_mesh(
             segment_id_target,
             split_index_target
         )
@@ -224,12 +224,12 @@ def postsyn_proximity_data(
         mesh_post = None
 
     #3) Gets some coordinate for later euclidean distance calculation
-    postsyn_soma_coord = hdju.soma_nm_coordinate(
+    postsyn_soma_coord = vdi.soma_nm_coordinate(
         segment_id_target,
         split_index=split_index_target)
 
     #4) Fetches neuron object  for calculations
-    G_postsyn = hdju.graph_obj_from_proof_stage(segment_id_target,split_index_target)
+    G_postsyn = vdi.graph_obj_from_proof_stage(segment_id_target,split_index_target)
 
     #4) Calculating all the skeleton arrays, widths, compartments
     (postsyn_skeleton_array,
@@ -239,7 +239,7 @@ def postsyn_proximity_data(
         plot=False
     )
 
-    postsyn_soma_mesh = hdju.fetch_soma_mesh(
+    postsyn_soma_mesh = vdi.fetch_soma_mesh(
         segment_id_target,
         split_index_target,
         plot_soma = False)
@@ -285,7 +285,7 @@ def postsyn_proximity_data(
                 raise Exception("")
 
     #6) Postsyn and spine data
-    synapse_post_df = hdju.segment_id_to_synapse_table_optimized_proofread(
+    synapse_post_df = vdi.segment_id_to_synapse_table_optimized_proofread(
         segment_id=segment_id_target,
         split_index=split_index_target,
         syn_type = "postsyn",
@@ -442,7 +442,7 @@ def proximity_pre_post(
     st = time.time()
     
     dt = time.time()
-    synapse_pre_post_ids,synapse_pre_post_coords = hdju.pre_post_synapse_ids_coords_from_connectome(
+    synapse_pre_post_ids,synapse_pre_post_coords = vdi.pre_post_synapse_ids_coords_from_connectome(
         segment_id_pre=segment_id_pre,
         segment_id_post=segment_id_post,
         split_index_pre=split_index_pre,
@@ -706,13 +706,13 @@ def proximity_pre_post(
     
     if plot_proximities:
         if mesh is None:
-            mesh = hdju.fetch_proofread_mesh(
+            mesh = vdi.fetch_proofread_mesh(
                 segment_id,
                 split_index
             )
 
         if mesh_post is None:
-            mesh_post = hdju.fetch_proofread_mesh(
+            mesh_post = vdi.fetch_proofread_mesh(
                 segment_id_target,
                 split_index_target,
             )
@@ -774,13 +774,31 @@ def example_proximity(
         verbose = True,
         return_df = return_df
     )
+    
+    
+def A_prox_from_G_prox(G,**kwargs):
+    A_syn = xu.adjacency_matrix(
+        G,
+        **kwargs
+    )
+    A_syn[np.where(A_syn > 0)] = 1
+    return A_syn
+
+def A_syn_from_G_prox(G,**kwargs):
+    A_syn = xu.adjacency_matrix(
+        G,
+        weight = "n_synapses",
+        **kwargs
+    )
+    A_syn[np.where(A_syn > 0)] = 1
+    return A_syn
 
 # ------------- Setting up parameters -----------
 
 # -- default
 attributes_dict_default = dict(
     voxel_to_nm_scaling = mvu.voxel_to_nm_scaling,
-    hdju = mvu.data_interface
+    vdi = mvu.data_interface
 )    
 global_parameters_dict_default = dict(
     #max_ais_distance_from_soma = 50_000
@@ -793,7 +811,7 @@ attributes_dict_microns = {}
 #-- h01--
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
-    hdju = hvu.data_interface
+    vdi = hvu.data_interface
 )
 global_parameters_dict_h01 = dict()
     

@@ -4749,7 +4749,7 @@ def low_degree_upstream_match(
     #return G
     
     if filters_to_run is None:
-        filters_to_run = gf.default_graph_filters
+        filters_to_run = gf.default_low_degree_graph_filters
         
     # ------- Part that will now run the filters -------#
     error_branches = []

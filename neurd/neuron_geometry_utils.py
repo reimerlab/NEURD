@@ -78,7 +78,7 @@ def vec_df_from_compartment(
     # adjusts all of the vectors using centroid alignment
     if align_array:
         if centroid_df is None:
-            centroid_df = hdju.seg_split_centroid_df(nm=True)
+            centroid_df = vdi.seg_split_centroid_df(nm=True)
         
         centroid_names = ["centroid_x_nm","centroid_y_nm","centroid_z_nm"]
         df_with_centr = pd.merge(curr_df,centroid_df,on=["segment_id","split_index"],how="left")
@@ -90,7 +90,7 @@ def vec_df_from_compartment(
             
             new_array = []
             for curr_vec_array,centr in zip(df_with_centr[curr_names].to_numpy(),df_with_centr[centroid_names].to_numpy()):
-                curr_new_array = hdju.align_array(curr_vec_array,centr)
+                curr_new_array = vdi.align_array(curr_vec_array,centr)
                 new_array.append(curr_new_array)
                 
             curr_df[curr_names] = list(new_array)
@@ -149,7 +149,7 @@ def plot_compartment_vector_distribution(
             print(f"\n\n----Plotting {name}----\n\n")
 
         #a) Gets the vectors for that name
-        vector_coords = hdju.coordinates_from_df(
+        vector_coords = vdi.coordinates_from_df(
             df_vec_curr,
             name=name)[:,axes]
 
@@ -187,7 +187,7 @@ def plot_compartment_vector_distribution(
 # -- default 
 attributes_dict_default = dict(
     voxel_to_nm_scaling = mvu.voxel_to_nm_scaling,
-    hdju = mvu.data_interface
+    vdi = mvu.data_interface
 )    
 global_parameters_dict_default = dict(
     #max_ais_distance_from_soma = 50_000
@@ -200,7 +200,7 @@ attributes_dict_microns = {}
 #-- h01--
 attributes_dict_h01 = dict(
     voxel_to_nm_scaling = hvu.voxel_to_nm_scaling,
-    hdju = hvu.data_interface
+    vdi = hvu.data_interface
 )
 global_parameters_dict_h01 = dict()
     

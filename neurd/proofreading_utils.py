@@ -4429,16 +4429,16 @@ def synapse_filtering(neuron_obj,
     #1) Get the synapses that are presyn or postsyn to segment id (but not both)
 
     if precomputed_synapse_dict is None:
-        beginning_direct_connections = data_mod.segment_id_to_synapse_table(segment_id,
+        beginning_direct_connections = vdi.segment_id_to_synapse_table(segment_id,
                                                                          validation=validation)
 #         if not validation:
-#             beginning_direct_connections = (data_mod.m65mat.NucleusSynapse() 
+#             beginning_direct_connections = (vdi.m65mat.NucleusSynapse() 
 #                                             & f"presyn={segment_id} OR postsyn={segment_id}"
 #                                             & "presyn != postsyn"
 #                                            & "ver=88")
             
 #         else:
-#             beginning_direct_connections = data_mod.segment_id_to_synapse_table(segment_id,
+#             beginning_direct_connections = vdi.segment_id_to_synapse_table(segment_id,
 #                                                                          validation=True)
 
 
@@ -4761,7 +4761,7 @@ def proofreading_table_processing(key,
 
     print(f"\n\n------- AutoProofreadNeuron {segment_id}  ----------")
 
-    neuron_objs,neuron_split_idxs = data_mod.decomposition_with_spine_recalculation(segment_id)
+    neuron_objs,neuron_split_idxs = vdi.decomposition_with_spine_recalculation(segment_id)
 
     if verbose:
         print(f"Number of Neurons found ={len(neuron_objs)}")
@@ -4769,7 +4769,7 @@ def proofreading_table_processing(key,
 
     # 2)  ----- Pre-work ------
 
-    nucleus_ids,nucleus_centers = data_mod.segment_to_nuclei(segment_id,
+    nucleus_ids,nucleus_centers = vdi.segment_to_nuclei(segment_id,
                                                        nuclei_version=ver)
 
     if verbose:
@@ -4779,7 +4779,7 @@ def proofreading_table_processing(key,
 
 
 
-    original_mesh = data_mod.fetch_segment_id_mesh(segment_id)
+    original_mesh = vdi.fetch_segment_id_mesh(segment_id)
     original_mesh_kdtree = KDTree(original_mesh.triangles_center)
 
 
@@ -4904,7 +4904,7 @@ def proofreading_table_processing(key,
                                                     exact_match=True,
                                                     original_mesh_kdtree=original_mesh_kdtree)
 
-        original_mesh_faces_file = data_mod.save_proofread_faces(original_mesh_faces,
+        original_mesh_faces_file = vdi.save_proofread_faces(original_mesh_faces,
                                                           segment_id=segment_id,
                                                           split_index=split_index,
                                     file_name_ending=f"proofv{proof_version}_neuron")
@@ -4932,7 +4932,7 @@ def proofreading_table_processing(key,
                                                 plot_axon=False,
                                                verbose=False,)
 
-        original_mesh_faces_file_axon = data_mod.save_proofread_faces(axon_face_labels,
+        original_mesh_faces_file_axon = vdi.save_proofread_faces(axon_face_labels,
                                                           segment_id=segment_id,
                                                           split_index=split_index,
                                                     file_name_ending=f"proofv{proof_version}_axon")
@@ -5089,17 +5089,17 @@ def proofreading_table_processing(key,
         axon_mesh_list.append(original_mesh_faces_file_axon)
         
         # ---- 2/27: saving off the skeletons ------------
-        axon_skeleton_file = data_mod.save_proofread_skeleton(filtered_neuron.axon_skeleton,
+        axon_skeleton_file = vdi.save_proofread_skeleton(filtered_neuron.axon_skeleton,
                                                           segment_id=segment_id,
                                                           split_index=split_index,
                                     file_name_ending=f"proofv{proof_version}_axon_skeleton")
         
-        dendrite_skeleton_file = data_mod.save_proofread_skeleton(filtered_neuron.dendrite_skeleton,
+        dendrite_skeleton_file = vdi.save_proofread_skeleton(filtered_neuron.dendrite_skeleton,
                                                           segment_id=segment_id,
                                                           split_index=split_index,
                                     file_name_ending=f"proofv{proof_version}_dendrite_skeleton")
         
-        neuron_skeleton_file = data_mod.save_proofread_skeleton(filtered_neuron.skeleton,
+        neuron_skeleton_file = vdi.save_proofread_skeleton(filtered_neuron.skeleton,
                                                           segment_id=segment_id,
                                                           split_index=split_index,
                                     file_name_ending=f"proofv{proof_version}_neuron_skeleton")
@@ -5370,7 +5370,7 @@ def proofread_neuron_class_predetermined(neuron_obj,
     if inh_exc_class == "inhibitory":
         
         if filter_list is None:
-            curr_filters = pru.v7_inh_filters()
+            curr_filters = inh_filters_auto_proof()
         else:
             curr_filters = filter_list
 
@@ -5393,7 +5393,7 @@ def proofread_neuron_class_predetermined(neuron_obj,
             #curr_filters = pru.get_exc_filters()
             #curr_filters = pru.v4_exc_filters()
             #curr_filters = pru.v5_exc_filters()
-            curr_filters = pru.v7_exc_filters()
+            curr_filters = exc_filters_auto_proof()
         else:
             curr_filters = filter_list
 
@@ -6272,8 +6272,8 @@ def limb_errors_to_cancel_to_red_blue_group(
             final_red_points = np.concatenate(blue_red_points[1])
             
             if verbose:
-                print(f"final_blue_points = {final_blue_points}, voxels = {final_blue_points/data_mod.voxel_to_nm_scaling}")
-                print(f"final_red_points = {final_red_points}, voxels = {final_blue_points/data_mod.voxel_to_nm_scaling}")
+                print(f"final_blue_points = {final_blue_points}, voxels = {final_blue_points/vdi.voxel_to_nm_scaling}")
+                print(f"final_red_points = {final_red_points}, voxels = {final_blue_points/vdi.voxel_to_nm_scaling}")
                 print(f"")
             
             
@@ -7265,7 +7265,7 @@ def save_off_meshes_skeletons(
     
     segment_id = neuron_obj.segment_id
     
-    original_mesh = data_mod.fetch_segment_id_mesh(segment_id)
+    original_mesh = vdi.fetch_segment_id_mesh(segment_id)
     original_mesh_kdtree = tu.mesh_to_kdtree(original_mesh)
     
     
@@ -7292,7 +7292,7 @@ def save_off_meshes_skeletons(
                                                         exact_match=True,
                                                         original_mesh_kdtree=original_mesh_kdtree)
 
-            c_mesh_file = data_mod.save_proofread_faces(original_c_faces,
+            c_mesh_file = vdi.save_proofread_faces(original_c_faces,
                                                           segment_id=neuron_obj.segment_id,
                                                           split_index=split_index,
                                                 file_name_ending=f"{file_name_ending}_{comp}_mesh_faces")
@@ -7307,7 +7307,7 @@ def save_off_meshes_skeletons(
             comp = "_".join(comp.split("_")[:-1])
             if verbose:
                 print(f"  Working on {comp}")
-            c_skeleton_file = data_mod.save_proofread_skeleton(c_sk,
+            c_skeleton_file = vdi.save_proofread_skeleton(c_sk,
                                                           segment_id=neuron_obj.segment_id,
                                                           split_index=split_index,
                                                 file_name_ending=f"{file_name_ending}_{comp}_skeleton")
@@ -7323,7 +7323,7 @@ def save_off_meshes_skeletons(
                                                             exact_match=True,
                                                             original_mesh_kdtree=original_mesh_kdtree)
 
-        c_mesh_file = data_mod.save_proofread_faces(original_c_faces,
+        c_mesh_file = vdi.save_proofread_faces(original_c_faces,
                                                       segment_id=neuron_obj.segment_id,
                                                       split_index=split_index,
                                             file_name_ending=f"{file_name_ending}_{comp}_mesh_faces")
@@ -7331,7 +7331,7 @@ def save_off_meshes_skeletons(
         
         c_sk = neuron_obj.skeleton
         
-        c_skeleton_file = data_mod.save_proofread_skeleton(c_sk,
+        c_skeleton_file = vdi.save_proofread_skeleton(c_sk,
                                                       segment_id=neuron_obj.segment_id,
                                                       split_index=split_index,
                                             file_name_ending=f"{file_name_ending}_{comp}_skeleton")
@@ -7863,7 +7863,9 @@ global_parameters_dict_default = gu.merge_dicts([
 # print(f"mvu.data_interface.voxel_to_nm_scaling = {mvu.data_interface.voxel_to_nm_scaling}")
 
 attributes_dict_default = dict(
-    data_mod = mvu.data_interface
+    vdi = mvu.data_interface,
+    exc_filters_auto_proof = v7_exc_filters,
+    inh_filters_auto_proof = v7_inh_filters,
 )    
 
 
@@ -7883,9 +7885,6 @@ global_parameters_dict_h01 = gu.merge_dicts([
     global_parameters_dict_microns_auto_proof,
     global_parameters_dict_default_red_blue
 ])
-
-
-
 
 # --------- spiltting -------------
 global_parameters_dict_h01_split = dict()
@@ -7912,7 +7911,7 @@ global_parameters_dict_h01 = gu.merge_dicts([
 ])
 
 attributes_dict_h01 = dict(
-    data_mod = hvu.data_interface
+    vdi = hvu.data_interface
 )
 
 

@@ -86,7 +86,7 @@ def example_kde_plot(spine_df):
 
     new_feature = "'sp_spine_max_head_syn_size_resized'"
     spine_df_renamed[new_feature] = (
-        spine_df_renamed['sp_spine_max_head_syn_size']*hdju.syn_size_to_um_vol_scaling
+        spine_df_renamed['sp_spine_max_head_syn_size']*vdi.syn_size_to_um_vol_scaling
     )
     #fig,ax = plt.subplots(1,1,figsize)
     #ax = None
@@ -107,7 +107,7 @@ def example_kde_plot(spine_df):
     fontsize = 20
 
     ax.set_xlim([0.025,0.16])
-    ax.set_ylim([0,20_000*hdju.syn_size_to_um_vol_scaling])
+    ax.set_ylim([0,20_000*vdi.syn_size_to_um_vol_scaling])
     ax.set_ylabel(
         "Max Spine Head Syn\n Cleft Volume ($\mu m^3$)",
         fontsize = fontsize
