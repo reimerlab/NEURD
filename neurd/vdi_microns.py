@@ -29,7 +29,7 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
         
     @property
     def voxel_to_nm_scaling(self):
-        np.array([4,4,40])
+        return np.array([4,4,40])
     
         
     def align_array(self):

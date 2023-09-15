@@ -1954,6 +1954,55 @@ def glia_nuclei_faces_from_mesh(
     else:
         return glia_faces,nuclei_faces
     
+def plot_soma_products(
+    mesh,
+    soma_products,
+    verbose = True):
+    
+    nviz.plot_soma_extraction_meshes(
+            mesh = mesh,
+            soma_meshes = soma_products.soma_meshes,
+            glia_meshes = soma_products.glia_meshes,
+            nuclei_meshes = soma_products.nuclei_meshes,
+            verbose = verbose,
+    )
+
+def soma_indentification(
+    mesh_decimated,
+    verbose=False,
+    plot = False,
+    **soma_extraction_parameters
+    ):
+
+    (total_soma_list, 
+     run_time, 
+     total_soma_list_sdf,
+     glia_pieces,
+     nuclei_pieces) = sm.extract_soma_center(
+        mesh = mesh_decimated,
+        return_glia_nuclei_pieces=True,
+        verbose = verbose,
+        **soma_extraction_parameters
+    )
+
+    soma_products = pipeline.StageProducts(
+        soma_extraction_parameters = soma_extraction_parameters,
+        soma_meshes=total_soma_list,
+        soma_run_time=run_time, 
+        soma_sdfs=total_soma_list_sdf,
+        glia_meshes=glia_pieces,
+        nuclei_meshes=nuclei_pieces,
+    )
+    
+    if plot:
+        plot_soma_products(
+            mesh_decimated,
+            soma_products = soma_products,
+        )
+
+
+    return soma_products
+    
     
 # ------------------------- Parameters ---------------------
 # ------------- Setting up parameters -----------
@@ -2134,10 +2183,10 @@ from python_tools import module_utils as modu
 from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 from python_tools import system_utils as su
+from python_tools import pipeline
 
 from . import soma_extraction_utils as sm
-
-
+from . import neuron_visualizations as nviz
 from . import parameter_utils as paru
 def output_global_parameters_glia(**kwargs):
     return paru.category_param_from_module(

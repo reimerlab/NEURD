@@ -2210,8 +2210,6 @@ class Neuron:
         suppress_output=False,
         suppress_all_output=False,
     
-    
-        
         preprocessing_version=2,
         limb_to_branch_objects=None,
         
@@ -2239,6 +2237,18 @@ class Neuron:
         #covering the scenario where the data was recieved was actually another neuron class
         #print(f"type of mesh = {mesh.__class__}")
         #print(f"type of self = {self.__class__}")
+        
+        if pipeline_products is not None:
+            glia_meshes = pipeline_products.get("glia_meshes",None)
+            nuclei_meshes = pipeline_products.get("nuclei_meshes",None)
+            
+            if pipeline_products.get("soma_meshes") is not None:
+                somas = [
+                    pipeline_products.get("soma_meshes"),
+                    pipeline_products.get("soma_run_time"),
+                    pipeline_products.get("soma_sdfs"),
+                ]
+                
         
         neuron_creation_time = time.time()
         
@@ -2318,7 +2328,7 @@ class Neuron:
                 
                 
                 self.pipeline_products = pl.PipelineProducts(
-                    getattr(mesh,pipeline_products)
+                    getattr(mesh,"pipeline_products",None)
                     )   
                 
                 return 
@@ -2668,6 +2678,13 @@ class Neuron:
             print(f"Total time for neuron instance creation = {time.time() - neuron_creation_time}")
             
     
+    def calculate_decomposition_products(
+        self,
+        store_in_obj = False,):
+        return nru.calculate_decomposition_products(
+            self,
+            store_in_obj = store_in_obj,
+        )
     
     def get_total_n_branches(self):
         return np.sum([len(self.concept_network.nodes[li]["data"].concept_network.nodes()) for li in self.get_limb_node_names()])

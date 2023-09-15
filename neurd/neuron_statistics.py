@@ -3066,7 +3066,6 @@ def features_from_skeleton_and_soma_center(
     features specifically in relation to soma)
     
     """
-    verbose = True
     if len(skeleton) == 0:
         axon_dict =  dict(
 

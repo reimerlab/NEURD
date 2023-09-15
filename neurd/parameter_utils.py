@@ -58,6 +58,8 @@ class Parameters:
         return jsonable_dict(self._dict)
     
     def __getattr__(self,k):
+        if k[:2] == "__":
+            raise AttributeError(k)
         return getattr(self._dict,k)
     
     def __contains__(self, item):
@@ -238,6 +240,8 @@ class PackageParameters:
                 self._data.update({k:Parameters(other_obj[k])})
             
     def __getattr__(self,k):
+        if k[:2] == "__":
+            raise AttributeError(k)
         return getattr(self._data,k)
             
 
