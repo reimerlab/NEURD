@@ -628,7 +628,6 @@ def postsyn_branches_near_soma(neuron_obj,
     if verbose:
         print(f"query_postsyn_filter = {query_postsyn_filter}")
         
-    print(f"query_postsyn_filter = {query_postsyn_filter}")
     spines_and_sk_filt_limb_branch = ns.query_neuron(neuron_obj,
                                                 functions_list=["distance_from_soma","no_spine_median_mesh_center",
                                                                 "n_spines","spine_density","skeletal_length"],

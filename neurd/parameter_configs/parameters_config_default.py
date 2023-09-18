@@ -1,3 +1,5 @@
+import numpy as np
+
 parameters = {
   'apical_utils':
   {

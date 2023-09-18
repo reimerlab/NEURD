@@ -49,7 +49,7 @@ def limb_red_blue_dict_from_red_blue_splits(
 
 def plot_red_blue_split_suggestions_per_limb(
     neuron_obj,
-    red_blue_splits,
+    red_blue_splits=None,
     split_results = None,
     plot_cut_paths = True,
     plot_red_blue_points = True,
@@ -77,6 +77,9 @@ def plot_red_blue_split_suggestions_per_limb(
     b. use plot object to plot the limb
     
     """
+    
+    if red_blue_splits is None:
+        red_blue_splits = neuron_obj.red_blue_split_results
     
     limb_red_blue_dict = limb_red_blue_dict_from_red_blue_splits(
         red_blue_splits
@@ -157,11 +160,124 @@ def path_to_cut_and_coord_dict_from_split_suggestions(
             limb_dict[limb_idx]["coordinates"] = np.vstack(limb_dict[limb_idx]["coordinates"]).reshape(-1,3)
 
     return limb_dict
+
+
+def calculate_multi_soma_split_suggestions(
+    neuron_obj,
+    plot = False,
+    store_in_obj = True,
+    plot_intermediates = False,
+    plot_suggestions = False,
+    plot_cut_coordinates = False,
+    only_multi_soma_paths = False,
+    verbose = False,
+    **kwargs
+    ):
+    
+    (split_results,
+    red_blue_split_results) = pru.multi_soma_split_suggestions(
+        neuron_obj,
+        plot_intermediates=plot_intermediates,
+        plot_suggestions=plot_suggestions,
+        plot_cut_coordinates = plot_cut_coordinates,
+        verbose = verbose,
+        **kwargs
+    )
+    
+    n_paths_cut = pru.get_n_paths_cut(
+        split_results,
+        verbose = True)
+    
+    split_products = pipeline.StageProducts(
+        split_results=split_results,
+        red_blue_split_results=red_blue_split_results,
+        n_paths_cut=n_paths_cut,
+    )
+    
+    if store_in_obj:
+        neuron_obj.pipeline_products.set_stage_attrs(
+            split_products,
+            stage = "multi_soma_split_suggestions"
+        )
+        
+    if plot:
+        plot_red_blue_split_suggestions_per_limb(
+            neuron_obj,
+            red_blue_splits=red_blue_split_results,
+            
+        )
+        
+    return split_products
+
+from copy import deepcopy
+def multi_soma_split_execution(
+    neuron_obj,
+    split_results = None,
+    verbose = False,
+    store_in_obj = True,
+    ):
+    """
+    Purpose: to execute the multi-soma
+    split suggestions on the neuron (if
+    not already generated then generate)
+    """
+
+    if split_results is None:
+        try:
+            split_results = neuron_obj.split_results
+        except Exception as e:
+            print(e)
+            _ = ssu.calculate_multi_soma_split_suggestions(
+                neuron_obj,
+                store_in_obj = True,
+            )
+
+    (neuron_list,
+    neuron_list_errored_limbs_area,
+    neuron_list_errored_limbs_skeletal_length,
+    neuron_list_n_multi_soma_errors,
+    neuron_list_n_same_soma_errors) = pru.split_neuron(
+        neuron_obj,
+        limb_results=split_results,
+        verbose=verbose,
+        return_error_info=True,
+    )
+
+
+    stage_prods = []
+    for idx,k in enumerate(neuron_list):
+        k.pipeline_products = deepcopy(
+            neuron_obj.pipeline_products
+        )
+        
+        split_products = pipeline.StageProducts(
+            multi_soma_errored_limbs_area=neuron_list_errored_limbs_area[idx],
+            multi_soma_errored_limbs_skeletal_length=neuron_list_errored_limbs_skeletal_length[idx],
+            multi_soma_n_multi_soma_errors=neuron_list_n_multi_soma_errors[idx],
+            multi_soma_n_same_soma_errors=neuron_list_n_same_soma_errors[idx],
+            multiplicity = len(neuron_list)
+        )
+        
+        stage_prods.append(split_products)
+        
+        if store_in_obj:
+            k.pipeline_products.set_stage_attrs(
+                split_products,
+                stage = "multi_soma_split_execution"
+            )
+    
+
+    return neuron_list
+
+
+
         
 # --- from python_tools ---
 from python_tools import ipyvolume_utils as ipvu
+from python_tools import pipeline
 
 # --- from neurd ---
 from . import neuron_utils as nru
+from . import proofreading_utils as pru
 
 from . import soma_splitting_utils as ssu

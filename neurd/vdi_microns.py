@@ -10,21 +10,29 @@ config_filepath = str((
     / Path(f"parameter_configs/{parameters_config_filename}")).absolute()
 )
 
+default_kwargs = dict(
+    meshes_table = None,
+    parameters_config_filename=parameters_config_filename
+    
+)
+
 class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
     
     def __init__(
         self,
         synapse_filepath = None,
         source = "microns",
-        parameters_config_filepath = config_filepath,
+        **kwargs
         ):
+        
+        kwargs.update(default_kwargs)
         
         super().__init__(
             synapse_filepath = synapse_filepath,
             source=source,
+            **kwargs
         )
         
-        self.parameters_config_filepath = parameters_config_filepath
         self.set_parameters_obj_from_filepath()
         
     @property
@@ -32,28 +40,26 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
         return np.array([4,4,40])
     
         
-    def align_array(self):
-        pass
+    def align_array(self,array):
+        return array
 
-    def align_mesh(self):
-        pass
+    def align_mesh(self,mesh):
+        return mesh
 
-    def align_skeleton(self):
-        pass 
+    def align_skeleton(self,skeleton):
+        return skeleton 
     
-    def align_neuron_obj(self):
+    def align_neuron_obj(self,neuron_obj):
         """
         Keep the body of function as "pass" unless the neuron obj needs to be rotated so axon is pointing down
         """
-        pass
+        return neuron_obj
     
-    
-
-    def unalign_neuron_obj(self):
+    def unalign_neuron_obj(self,neuron_obj):
         """
         Keep the body of function as "pass" unless the neuron obj needs to be rotated so axon is pointing down
         """
-        pass
+        return neuron_obj
     
     def segment_id_to_synapse_dict(
         self,
@@ -64,5 +70,21 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
             **kwargs
         )
         
+    # def cell_type_from_segment_id(segment_id):
+    #     (db_table & dict(segment_id)).fetch1('cell_type')
+        
+    # def cell_type_from_segment_id(
+    #     neuron_obj
+    #     ):
+        
+    #     return neuron_obj.cell_type
+    # def fetch_segment_id_mesh(
+    #     self,segment_id,table=None):
+    #     if table is None:
+    #         table = self.meshes_table
+            
+    #     return (table & dict(segment_id=segment_id)).fetch1("mesh")
+        
+    
         
 volume_data_interface = DataInterfaceMicrons()

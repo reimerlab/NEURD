@@ -2,6 +2,7 @@ from abc import (ABC,abstractmethod,)
 from pathlib import Path
 import numpy as np
 
+# --- for parameters
 parameters_config_filename = "parameters_config_default.py"
 config_filepath = str((
     Path(__file__).parents[0]
@@ -15,7 +16,6 @@ default_locations = dict(
     # --- mesh locations ---
     meshes_folder = "./",
     meshes_folder_undecimated = "./",
-    
     
     # --- synapse locations ---
     synapse_filepath = None,
@@ -77,35 +77,35 @@ class DataInterfaceDefault(ABC):
     @property
     @abstractmethod
     def voxel_to_nm_scaling(self):
-        pass
+        return np.array([1,1,1])
     
     # --------------------------
 
     @abstractmethod
-    def align_array(self):
-        pass
+    def align_array(self,array):
+        return array
 
     @abstractmethod
-    def align_mesh(self):
-        pass
+    def align_mesh(self,mesh):
+        return mesh
 
     @abstractmethod
-    def align_skeleton(self):
-        pass
+    def align_skeleton(self,skeleton):
+        return skeleton
 
     @abstractmethod
-    def align_neuron_obj(self):
+    def align_neuron_obj(self,neuron_obj):
         """
         Keep the body of function as "pass" unless the neuron obj needs to be rotated so axon is pointing down
         """
-        pass
+        return neuron_obj
 
     @abstractmethod
-    def unalign_neuron_obj(self):
+    def unalign_neuron_obj(self,neuron_obj):
         """
         Keep the body of function as "pass" unless the neuron obj needs to be rotated so axon is pointing down
         """
-        pass
+        return neuron_obj
     
     def set_synapse_filepath(self,synapse_filepath):
         self.synapse_filepath = synapse_filepath
@@ -118,7 +118,19 @@ class DataInterfaceDefault(ABC):
         meshes_folder = None,
         plot = False,
         ext = "off"
-        ):
+        ): 
+        """
+        
+
+        Args:
+            segment_id (_type_): _description_
+            .... other attributes
+            plot (bool, optional): _description_. Defaults to False.
+            ext (str, optional): _description_. Defaults to "off".
+
+        Returns:
+            mesh obj
+        """
         
         if meshes_folder is None:
             meshes_folder = self.meshes_folder
@@ -129,7 +141,6 @@ class DataInterfaceDefault(ABC):
         mesh = tu.load_mesh_no_processing(mesh_filepath)
 
         if plot: 
-            from neurd import neuron_visualizations as nviz
             nviz.plot_objects(mesh)
             
         return mesh
@@ -157,12 +168,12 @@ class DataInterfaceDefault(ABC):
         self,
         *args,
         **kwargs):
-        
+        #raise Exception("")
         if kwargs.get("synapse_filepath",None) is None:
             if self.synapse_filepath is None:
                 raise Exception("No synapse filepath set")
             kwargs["synapse_filepath"] = self.synapse_filepath
-           
+        
         return syu.synapse_dict_from_synapse_csv(**kwargs)
 
     
@@ -243,9 +254,45 @@ class DataInterfaceDefault(ABC):
             gf.min_synapse_dist_to_branch_point_filter,
         ]
         
+    # ---------- used by autoproofreading --------------
+    def multiplicity(self,neuron_obj):
+        """
+        For those who don't store the output of each stage in the neuron obj
+        this function could be redefined to pull from a database
+        """
+        return neuron_obj.multiplicity
+        
+    def nucleus_id(self,neuron_obj):
+        return neuron_obj.nucleus_id
+    
+    def cell_type(self,neuron_obj):
+        return neuron_obj.nucleus_id
+        
+        
+        
+        
+        
+        
+        
     @property
     def vdi(self):
         return self
+    
+    
+"""
+Functions there: 
+
+segment_id_to_synapse_table
+decomposition_with_spine_recalculation
+segment_to_nuclei
+vdi.fetch_segment_id_mesh
+save_proofread_faces
+save_proofread_faces
+save_proofread_skeleton
+voxel_to_nm_scaling
+voxel_to_nm_scaling
+save_proofread_faces
+"""
 
 from mesh_tools import trimesh_utils as tu
 
@@ -253,3 +300,4 @@ from . import graph_filters as gf
 from . import proofreading_utils as pru
 from . import parameter_utils as paru
 from . import synapse_utils as syu
+from . import neuron_visualizations as nviz

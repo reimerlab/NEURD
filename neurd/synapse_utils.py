@@ -1300,7 +1300,8 @@ def add_valid_synapses_to_neuron_obj(neuron_obj,
 #     print(f"soma_synapses= {soma_synapses}")
 #     print(f"neuron_obj.syanspes_somas = {neuron_obj.synapses_somas}")
 
-    print(f"Total time for valid synapse objects = {time.time() - st}")
+    if verbose:
+        print(f"Total time for valid synapse objects = {time.time() - st}")
     
     
 def add_error_synapses_to_neuron_obj(
@@ -1578,6 +1579,8 @@ def synapses_somas(neuron_obj):
     for s in neuron_obj.get_soma_node_names():
         total_synapses += neuron_obj[s].synapses
     return total_synapses
+
+soma_synapses = synapses_somas
 
 def synapses_somas_postsyn(
     neuron_obj,

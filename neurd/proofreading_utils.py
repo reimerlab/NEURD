@@ -919,11 +919,11 @@ def multi_soma_split_suggestions(
     remove_segment_threshold = None,
     plot_cut_coordinates = False,
     only_multi_soma_paths = False, # to restrict to only different soma-soma paths
-    default_cut_edge = "first",#None,
+    default_cut_edge = "last",#None,
     debug = False,
 
     #for red blue suggestions
-    output_red_blue_suggestions = False,
+    output_red_blue_suggestions = True,
     split_red_blue_by_common_upstream = True,
 
     one_hop_downstream_error_branches_max_distance=4_000,
@@ -934,7 +934,7 @@ def multi_soma_split_suggestions(
     only_outermost_branches = True,
     include_removed_branches = False,
     min_error_downstream_length_total = 5_000,
-    apply_valid_upstream_branches_restriction = False,
+    apply_valid_upstream_branches_restriction = True,
     debug_red_blue = False,
     **kwargs):
     """
@@ -1113,11 +1113,13 @@ def multi_soma_split_suggestions(
                 
                 
                 if cut_edges is None:
-                    print("***** there was no suggested cut for this limb even though it is still connnected***")
+                    if verbose:
+                        print("***** there was no suggested cut for this limb even though it is still connnected***")
 
                     
                     if default_cut_edge is not None:
-                        print(f"--> So Setting the default_cut_edge to {default_cut_edge}")
+                        if verbose:
+                            print(f"--> So Setting the default_cut_edge to {default_cut_edge}")
                         if default_cut_edge == "first":
                             cut_edges = [[soma_to_soma_path[0],soma_to_soma_path[1]]]
                             curr_split_reason = "default_edge_first"
@@ -4431,27 +4433,13 @@ def synapse_filtering(neuron_obj,
     if precomputed_synapse_dict is None:
         beginning_direct_connections = vdi.segment_id_to_synapse_table(segment_id,
                                                                          validation=validation)
-#         if not validation:
-#             beginning_direct_connections = (vdi.m65mat.NucleusSynapse() 
-#                                             & f"presyn={segment_id} OR postsyn={segment_id}"
-#                                             & "presyn != postsyn"
-#                                            & "ver=88")
-            
-#         else:
-#             beginning_direct_connections = vdi.segment_id_to_synapse_table(segment_id,
-#                                                                          validation=True)
-
-
     #2) Build a KDTree of the mesh final
-    
-
     if not original_mesh_method:
         neuron_kd = KDTree(neuron_obj.mesh.triangles_center)
 
 
     data_to_write = []
     data_to_write_errors = []
-    
     synapse_stats = {}
     synapse_center_coordinates = {}
     total_error_synapse_ids = dict()
@@ -4817,7 +4805,6 @@ def proofreading_table_processing(key,
     #                     print(f"   ---> Pre-work: Splitting Neuron Limbs Because still error limbs exist--- ")
     #                 neuron_objs_split = pru.split_neuron(neuron_obj_pre_split,
     #                                              verbose=False)
-
     #                 if len(neuron_objs_split) > 1:
     #                     raise Exception(f"After splitting the neuron there were more than 1: {neuron_objs_split}")
 
@@ -5624,16 +5611,12 @@ def limb_errors_to_cancel_to_red_blue_group(
         avoid_one_red_or_blue = avoid_one_red_or_blue_red_blue_global
     if min_cancel_distance_absolute is None:
         min_cancel_distance_absolute = min_cancel_distance_absolute_red_blue_global
-
-    
     
     if n_red_points is None:
         n_red_points = n_points
     if n_blue_points is None:
         n_blue_points = n_points
         
-    
-    verbose = True
 
     red_blue_dict = dict()
     n_obj = neuron_obj
@@ -7021,6 +7004,7 @@ def proofread_neuron_full(
     validation = False,
 
     add_spines = False,
+    add_back_soma_synapses = True,
 
     perform_axon_processing = False,
 
@@ -7136,17 +7120,18 @@ def proofread_neuron_full(
         
     
     # ---- b) Adding Back the Soma Synapses -----
-    st = time.time()
-    if verbose:
-        print(f"\n---- b) Adding Back the Soma Synapses ")
-    syu.add_valid_soma_synapses_to_neuron_obj(neuron_obj,
-                                        verbose = True)
-    if debug_time:
-        print(f"\nb) Time for adding back soma synapses: {time.time() - st}")
+    if add_back_soma_synapses:
+        st = time.time()
+        if verbose:
+            print(f"\n---- b) Adding Back the Soma Synapses ")
+        syu.add_valid_soma_synapses_to_neuron_obj(neuron_obj,
+                                            verbose = True)
+        if debug_time:
+            print(f"\nb) Time for adding back soma synapses: {time.time() - st}")
 
-    if plot_soma_synapses:
-        syu.plot_synapses(neuron_obj,total_synapses=True)
-        
+        if plot_soma_synapses:
+            syu.plot_synapses(neuron_obj,total_synapses=True)
+            
     
     # --- c) Proofreading the Neuron
     if verbose:

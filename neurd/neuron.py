@@ -2678,6 +2678,15 @@ class Neuron:
             print(f"Total time for neuron instance creation = {time.time() - neuron_creation_time}")
             
     
+    def __getattr__(self,k):
+        if k[:2] == "__":
+            raise AttributeError(k)
+        if hasattr(self,"pipeline_products"):
+            return getattr(self.pipeline_products,k)
+        else:
+            return self.__getattribute__(k)
+    
+    
     def calculate_decomposition_products(
         self,
         store_in_obj = False,):
@@ -2685,6 +2694,25 @@ class Neuron:
             self,
             store_in_obj = store_in_obj,
         )
+        
+    def calculate_multi_soma_split_suggestions(
+        self,
+        store_in_obj = True,
+        plot = True,
+        **kwargs):
+        
+        ret_result = ssu.calculate_multi_soma_split_suggestions(
+            self,
+            store_in_obj = True,
+            plot = plot,
+            **kwargs
+        )
+        
+        
+        return ret_result
+        
+        
+        
     
     def get_total_n_branches(self):
         return np.sum([len(self.concept_network.nodes[li]["data"].concept_network.nodes()) for li in self.get_limb_node_names()])
@@ -4047,9 +4075,11 @@ from python_tools import networkx_utils as xu
 from python_tools import numpy_dep as np
 from python_tools import numpy_utils as nu
 from python_tools import system_utils as su
+from python_tools import pipeline as pl
 
 from . import neuron_searching as ns
 from . import neuron_statistics as nst
 from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
-from python_tools import pipeline as pl
+from . import soma_splitting_utils as ssu
+

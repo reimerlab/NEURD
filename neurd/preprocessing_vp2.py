@@ -555,9 +555,6 @@ def attach_floating_pieces_to_limb_correspondence(
     
         
     **kwargs):
-
-    print(f"Inside attach_floating_pieces_to_limb_correspondence")
-    verbose = True
     
     if max_stitch_distance_CGAL is None:
         max_stitch_distance_CGAL = max_stitch_distance_CGAL_global

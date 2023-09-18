@@ -138,7 +138,7 @@ def delete_branches_from_neuron(
         neuron_obj,
         limb_branch_dict,
         plot_final_neuron = False,
-        verbose = True,
+        verbose = False,
         inplace = False,
     ):
     """
@@ -305,8 +305,9 @@ def combine_path_branches_on_limb(
             )
             limb_obj[up_branch] = new_branch_obj
             
-            print(f"jitter_segment = {jitter_segment}")
-            print(f"b_d.endpoints = {limb_obj[d].endpoints}")
+            if verbose:
+                print(f"jitter_segment = {jitter_segment}")
+                print(f"b_d.endpoints = {limb_obj[d].endpoints}")
             
             if jitter_segment is not None:
                 childs = nru.children_nodes(limb_obj,d)

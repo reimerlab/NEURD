@@ -1883,8 +1883,6 @@ def axon_classification_using_synapses(
     
     #print(f"ais_syn_density_max= {ais_syn_density_max}, ais_syn_density_max_backup = {ais_syn_density_max_backup}")
     
-    verbose = True
-    
     #------------------ 0) Filter Limbs By Starting Angle  ------------------
     if not axon_classification_without_synapses:
         if axon_soma_angle_threshold is not None:

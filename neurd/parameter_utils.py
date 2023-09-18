@@ -210,7 +210,7 @@ class PackageParameters:
                 attr_list = parameter_list_from_module(
                     module
                 )
-
+                
         if module_name in self._data:
             return self._data[module_name].attr_map(
                 attr_list = attr_list,
@@ -555,7 +555,7 @@ def parameter_dict_from_module_and_obj(
     parameters_obj_name = "parameters_obj",
     plus_unused = False,
     error_on_no_attr = True,
-    verbose = True,
+    verbose = False,
     ):
     """
     Purpose: using an object 
@@ -584,9 +584,9 @@ def parameter_dict_from_module_and_obj(
         )
 
     else:
+        print(f"Warning: Parameter instance is not contained within object")
         param_dict = {}
         
-    
 
     if verbose:
         print(f"---param_dict before obj namepsace---")
@@ -687,6 +687,7 @@ def set_parameters_for_directory_modules_from_obj(
                 verbose = verbose_param,
                 error_on_no_attr=error_on_no_attr,
             )
+            
 
             for k,v in p_dict.items():
                 setattr(module,k,v)

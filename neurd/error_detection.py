@@ -777,7 +777,7 @@ def resolving_crossovers(limb_obj,
 #     print(f"offset= {offset}")
     
     
-    debug = True
+    debug = False
     if debug:
         debug_dict = dict(apply_width_filter = apply_width_filter,
         best_match_width_diff_max = best_match_width_diff_max,
@@ -1026,8 +1026,8 @@ def resolving_crossovers(limb_obj,
         
         all_start_nodes = limb_obj.all_starting_nodes
         branches_to_avoid = np.setdiff1d(all_start_nodes,branches_to_disconnect)
-        #if verbose:
-        print(f"branches_to_avoid= {branches_to_avoid}")
+        if verbose:
+            print(f"branches_to_avoid= {branches_to_avoid}")
         
         G = nx.Graph()
         G.add_nodes_from(coordinate_branches)
@@ -1042,13 +1042,17 @@ def resolving_crossovers(limb_obj,
             curr_neighbors = xu.get_neighbors_simple(G,b)
             if len(np.intersect1d(curr_neighbors
                               ,branches_to_disconnect))==0:
-                print(f"{b}: No Pair so adding back old edge")
+                if verbose:
+                    print(f"{b}: No Pair so adding back old edge")
                 old_neighbors = xu.get_neighbors_simple(limb_subgraph,b)
-                print(f"{b}: Old neighbors = {old_neighbors}")
+                
+                if verbose:
+                    print(f"{b}: Old neighbors = {old_neighbors}")
 
                 new_neighbors+= [list(np.sort([b,o])) for o in old_neighbors if o not in branches_to_avoid]
-                
-        print(f"new_neighbors = {new_neighbors}")
+           
+        if verbose:     
+            print(f"new_neighbors = {new_neighbors}")
         
         match_branches += new_neighbors
         
