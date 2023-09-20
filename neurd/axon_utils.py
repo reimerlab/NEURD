@@ -3243,7 +3243,7 @@ def complete_axon_processing(neuron_obj,
                         plot_valid_error_synapses = False,
                         calculate_synapse_soma_distance = True,
                         add_valid_synapses = True,
-                          add_error_synapses=False,
+                        add_error_synapses=False,
                         limb_branch_dict_to_add_synapses=neuron_obj_with_web.axon_limb_branch_dict,
                         **kwargs)
                 

@@ -254,7 +254,10 @@ class Spine:
         #if synapse_dict is not None:
         for k,v in kwargs.items():
             if k in spine_attributes:
-                setattr(self,k,v)
+                try:
+                    setattr(self,k,v)
+                except:
+                    setattr(self,f"_{k}",v)
                 
         if calculate_spine_attributes:
             self.calculate_spine_attributes(branch_obj=branch_obj)

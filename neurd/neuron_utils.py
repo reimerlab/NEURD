@@ -1502,6 +1502,11 @@ def smaller_preprocessed_data(neuron_object,print_flag=False):
     pipeline_products = getattr(double_soma_obj,"pipeline_products",None)
     if pipeline_products is not None:
         pipeline_products = pipeline_products.export()
+        
+        try:
+            meshu.clear_all_mesh_cache_in_nested_data_struct(pipeline_products)
+        except Exception as e:
+            print(e)
     
     compressed_dict = dict(
                           #saving the original number of faces and vertices to make sure reconstruciton doesn't happen with wrong mesh
@@ -9713,5 +9718,6 @@ from python_tools import numpy_utils as nu
 from python_tools import system_utils as su
 from python_tools.tqdm_utils import tqdm
 from python_tools import pipeline
+from python_tools import mesh_utils as meshu
 
 from . import neuron_utils as nru

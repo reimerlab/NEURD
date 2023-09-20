@@ -1,0 +1,34 @@
+"""
+Purpose: to map out the functions
+that need to be implemented for
+proximity to work
+
+"""
+
+Functions to implement in vdi
+1) segment_id_to_synapse_table_optimized_connectome
+    a. get all the synapses between 2 segments that have been proofread
+
+Has a lot of information on compartment of synapses for both pre and post
+
+
+2) segment_id_to_synapse_table_optimized: 
+gets the presyn synapse df
+
+3) segment_id_to_synapse_table_optimized_proofread
+
+gets all the presyn synapses from proofread table
+
+4) soma_nm_coordinate
+
+
+5) graph_obj_from-proof_stage:
+    a. gets the graph object
+
+6) fetch_proofread_mesh
+
+7) postsyn_soma_mesh = vdi.fetch_soma_mesh
+
+
+# --- in the proximity function
+8) pre_post_synapse_ids_coords_from_connectome

@@ -80,6 +80,7 @@ def presyn_proximity_data(
     split_index,
     plot = False,
     verbose = False,
+    neuron_obj = None,
     ):
     """
     Purpose: Get the presyn proximity information
@@ -203,7 +204,7 @@ def postsyn_proximity_data(
     plot = False,
     verbose = False,
     check_starting_coord_match_skeleton = False,
-    
+    neuron_obj = None,
     ):
 
     """

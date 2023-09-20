@@ -10,13 +10,16 @@ config_filepath = str((
 )
 
 
-default_locations = dict(
+default_settings = dict(
     parameters_config_filepath = config_filepath,
     
     # --- mesh locations ---
-    meshes_folder = "./",
-    meshes_folder_undecimated = "./",
+    meshes_directory = "./",
+    meshes_undecimated_directory = "./",
     
+    neuron_obj_directory = "./",
+    neuron_obj_auto_proof_directory = "./",
+    neuron_obj_auto_proof_suffix = "_auto_proof",
     # --- synapse locations ---
     synapse_filepath = None,
 )
@@ -29,7 +32,7 @@ class DataInterfaceDefault(ABC):
         source = "default",
         **kwargs
         ):
-        for k,v in default_locations.items():
+        for k,v in default_settings.items():
             setattr(self,k,v)
             
         for k,v in kwargs.items():
@@ -41,6 +44,7 @@ class DataInterfaceDefault(ABC):
     # @abstractmethod 
     # def parameters_config_filepath(self):
     #     return None
+
         
     def set_parameters_obj_from_filepath(self,filepath=None):
         
@@ -117,7 +121,7 @@ class DataInterfaceDefault(ABC):
     def fetch_segment_id_mesh(
         self,
         segment_id,
-        meshes_folder = None,
+        meshes_directory = None,
         plot = False,
         ext = "off"
         ): 
@@ -134,10 +138,10 @@ class DataInterfaceDefault(ABC):
             mesh obj
         """
         
-        if meshes_folder is None:
-            meshes_folder = self.meshes_folder
+        if meshes_directory is None:
+            meshes_directory = self.meshes_directory
         
-        mesh_filepath = Path(meshes_folder) / Path(
+        mesh_filepath = Path(meshes_directory) / Path(
             f"{segment_id}.{ext}")
         
         mesh = tu.load_mesh_no_processing(mesh_filepath)
@@ -150,17 +154,17 @@ class DataInterfaceDefault(ABC):
     def fetch_undecimated_segment_id_mesh(
         self,
         segment_id,
-        meshes_folder = None,
+        meshes_directory = None,
         plot = False,
         ext = "off",
         ):
         
-        if meshes_folder is None:
-            meshes_folder = self.meshes_folder_undecimated
+        if meshes_directory is None:
+            meshes_directory = self.meshes_undecimated_directory
         
         return self.fetch_segment_id_mesh(
             segment_id,
-            meshes_folder = meshes_folder,
+            meshes_directory = meshes_directory,
             plot = plot,
             ext = ext
         )
@@ -230,6 +234,63 @@ class DataInterfaceDefault(ABC):
         }
         
         
+    def save_neuron_obj(
+        self,
+        neuron_obj,
+        directory = None,
+        filename = None,
+        suffix = '',
+        verbose = False,):
+        
+        if directory is None:
+            directory = self.neuron_obj_directory
+        
+        if filename is None:
+            filename = f"{neuron_obj.segment_id}{suffix}"
+            
+        filepath = nru.save_compressed_neuron(
+            neuron_obj,
+            output_folder = directory,
+            file_name = filename,
+            return_file_path = True,
+        )
+        
+        if verbose:
+            print(f"saved neuron filepath = {filepath}")
+
+        return str(filepath) + ".pbz2"
+    
+        
+    def load_neuron_obj(
+        self,
+        segment_id,
+        mesh_decimated = None,
+        filepath = None,
+        directory = None,
+        filename = None,
+        suffix = "",
+        verbose = False,
+        **kwargs):
+        
+        if mesh_decimated is None:
+            mesh_decimated = self.fetch_segment_id_mesh(segment_id)
+        
+        if filepath is None:
+            if directory is None:
+                directory = self.neuron_obj_directory
+            
+            if filename is None:
+                filename = f"{segment_id}{suffix}"
+                
+            filepath = Path(directory) / Path(filename)
+            
+        return nru.decompress_neuron(
+            filepath = filepath,
+            original_mesh = mesh_decimated,
+            **kwargs
+        ) 
+          
+        
     # ---------- Functions that should be reviewed or overriden --
     
     # ---- the filters used for autoproofreading -- 
@@ -269,13 +330,51 @@ class DataInterfaceDefault(ABC):
     
     def cell_type(self,neuron_obj):
         return neuron_obj.nucleus_id
+    
+    
+    def save_neuron_obj_auto_proof(
+        self,
+        neuron_obj,
+        directory = None,
+        filename = None,
+        suffix = None,
+        verbose = False,):
+        if directory is None:
+            directory = self.neuron_obj_auto_proof_directory
+            
+        if suffix is None:
+            suffix = self.neuron_obj_auto_proof_suffix
+            
+        return self.save_neuron_obj(
+            neuron_obj=neuron_obj,
+            directory = directory,
+            filename = filename,
+            suffix = suffix,
+            verbose = verbose,
+        )
+        
+    def load_neuron_obj_auto_proof(
+        self,
+        segment_id,
+        mesh_decimated = None,
+        **kwargs):
         
         
+        if "directory" not in kwargs:
+            kwargs["directory"] = self.neuron_obj_auto_proof_directory
+            
+        if "suffix" not in kwargs:
+            kwargs["suffix"] = self.neuron_obj_auto_proof_suffix
+            
+        return self.load_neuron_obj(
+            segment_id,
+            mesh_decimated = mesh_decimated,
+            **kwargs
+        )
         
-        
-        
-        
-        
+    
+    
+
     @property
     def vdi(self):
         return self
@@ -303,3 +402,4 @@ from . import proofreading_utils as pru
 from . import parameter_utils as paru
 from . import synapse_utils as syu
 from . import neuron_visualizations as nviz
+from . import neuron_utils as nru

@@ -10,7 +10,7 @@ config_filepath = str((
     / Path(f"parameter_configs/{parameters_config_filename}")).absolute()
 )
 
-default_kwargs = dict(
+default_settings = dict(
     meshes_table = None,
     parameters_config_filename=parameters_config_filename
     
@@ -25,7 +25,7 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
         **kwargs
         ):
         
-        kwargs.update(default_kwargs)
+        kwargs.update(default_settings)
         
         super().__init__(
             synapse_filepath = synapse_filepath,
@@ -39,7 +39,7 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
     def voxel_to_nm_scaling(self):
         return np.array([4,4,40])
     
-        
+    
     def align_array(self,array):
         return array
 

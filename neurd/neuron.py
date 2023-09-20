@@ -2249,6 +2249,9 @@ class Neuron:
                     pipeline_products.get("soma_sdfs"),
                 ]
                 
+            if segment_id is None:
+                segment_id = pipeline_products.get("segment_id",None)
+                
         
         neuron_creation_time = time.time()
         
@@ -2348,7 +2351,6 @@ class Neuron:
             if description is None:
                 description = ""
             if segment_id is None:
-                #pick a random segment id
                 segment_id = np.random.randint(100000000)
                 print(f"picking a random 7 digit segment id: {segment_id}")
                 description += "_random_id"

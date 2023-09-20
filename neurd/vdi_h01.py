@@ -9,6 +9,10 @@ config_filepath = str((
     / Path(f"parameter_configs/{parameters_config_filename}")).absolute()
 )
 
+default_settings = dict(
+    parameters_config_filepath = config_filepath,
+)
+
 from . import h01_volume_utils as hvu
 class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
     
@@ -16,15 +20,17 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
         self,
         synapse_filepath = None,
         source = "microns",
-        parameters_config_filepath = config_filepath,
+        **kwargs
         ):
+        
+        kwargs.update(default_settings)
         
         super().__init__(
             synapse_filepath = synapse_filepath,
             source=source,
+            **kwargs
         )
         
-        self.parameters_config_filepath = parameters_config_filepath
         self.set_parameters_obj_from_filepath()
         
     @property
