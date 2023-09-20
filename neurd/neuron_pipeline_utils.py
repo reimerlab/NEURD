@@ -5,7 +5,7 @@ and compartment labeling stage
 """
 
 import time
-
+import numpy as np
 
 def cell_type_ax_dendr_stage(
     neuron_obj,
@@ -221,8 +221,6 @@ def cell_type_ax_dendr_stage(
         print(f"e_i_class = {e_i_class} with cell_type_used = {cell_type_used}")
     
     
-    
-    
     # 7) Label the axon
     (o_neuron_unalign,
     filtering_info,
@@ -241,6 +239,7 @@ def cell_type_ax_dendr_stage(
                 add_synapses_after_high_fidelity_axon = True,
                 filter_dendrite_on_axon = filter_dendrite_on_axon,
                 return_G_axon_labeled = True,
+                original_mesh = mesh_decimated,
                 verbose = verbose)
 
     if plot_axon:
@@ -335,6 +334,258 @@ def cell_type_ax_dendr_stage(
         return o_neuron_unalign,cell_type_products
     return o_neuron_unalign
 
+# -------- auto proofreading -----------
+
+def after_auto_proof_stats(
+    neuron_obj,
+    verbose = False,
+    store_in_obj = True,
+    ):
+    neuron_obj_proof = neuron_obj
+    
+    dicts_to_update = []
+
+    cell_type = vdi.cell_type(neuron_obj)
+    nucleus_id = vdi.nucleus_id(neuron_obj)
+    
+    filtering_info = neuron_obj.filtering_info
+
+    limb_branch_to_cancel = pru.extract_from_filter_info(
+        filtering_info,
+        name_to_extract="limb_branch_dict_to_cancel"
+    )
+
+    red_blue_suggestions = pru.extract_from_filter_info(
+        filtering_info,
+        name_to_extract = "red_blue_suggestions"
+    )
+
+    split_locations = pru.extract_from_filter_info(
+        filtering_info,
+        name_to_extract = "split_locations",
+        name_must_be_ending = True,)
+    split_locations_before_filter = pru.extract_from_filter_info(
+        filtering_info,
+        name_to_extract = "split_locations_before_filter",
+        name_must_be_ending = True
+    )
+
+    filter_key = {k:np.round(v,2) for k,v in filtering_info.items() if "area" in k or "length" in k}
+
+    G_after_proof = ctcu.G_with_attrs_from_neuron_obj(
+        neuron_obj_proof,
+        plot_G=False,
+        #neuron_obj_attributes_dict = hdju.neuron_graph_attributes_to_set(segment_id,split_index),
+    )
+
+    neuron_objs_dict = dict(
+            proof_version = vdi.proof_version,
+            limb_branch_to_cancel=limb_branch_to_cancel,
+            red_blue_suggestions=red_blue_suggestions,
+            split_locations = split_locations,
+            split_locations_before_filter=split_locations_before_filter,)
+
+    neuron_objs_dict.update(filter_key)
+
+    dicts_to_update.append(neuron_objs_dict)
+
+
+
+    # ---- 5) Neuron Statistcs -----
+    if verbose:
+        print(f"\n--5a) Neuron basics")
+
+
+    multiplicity = vdi.multiplicity(neuron_obj)
+    soma_x,soma_y,soma_z = nru.soma_centers(neuron_obj_proof,
+                                        soma_name="S0",
+                                        voxel_adjustment=True)
+    basic_cell_dict = dict(multiplicity=multiplicity,
+                        soma_x=soma_x,
+                        soma_y=soma_y,
+                        soma_z=soma_z,
+                        cell_type=cell_type,
+                        )
+    dicts_to_update.append(basic_cell_dict)
+
+    if verbose:
+        print(f"\n--5b) Neuron Overall Statistics")
+    neuron_stats_dict = nst.neuron_stats(neuron_obj_proof,
+                                        cell_type_mode=True)
+    dicts_to_update.append(neuron_stats_dict)
+
+
+
+    #---- 5b) Synapse Stats
+    if verbose:
+        print(f"\n--5b) Synapse Stats")
+    syn_stats = syu.complete_n_synapses_analysis(neuron_obj_proof)
+    dicts_to_update.append(syn_stats)
+
+
+
+    # ------- 6) Cell Typing AFter Proofreading --------
+    if verbose:
+        print(f"\n--6) Cell Typing Info after proofreading")
+    baylor_e_i,baylor_cell_type_info = ctu.e_i_classification_from_neuron_obj(
+        neuron_obj_proof,
+        verbose = False,
+        return_cell_type_info = True,
+        return_probability = True)
+
+    baylor_cell_type_info["baylor_cell_type"] = baylor_e_i
+    baylor_cell_type_info = {f"{k}_after_proof":v for k,v in baylor_cell_type_info.items()}
+    dicts_to_update.append(baylor_cell_type_info)
+
+
+    # -------- 7) Compartment Features
+    if verbose:
+        print(f"\n--7) Compartment Features --")
+    axon_feature_dict = au.axon_features_from_neuron_obj(
+        neuron_obj_proof,
+        features_to_exclude=("length","n_branches"))
+
+    apical_feature_dict = apu.compartment_features_from_skeleton_and_soma_center(
+        neuron_obj_proof,
+        compartment_label = "apical_total",
+        name_prefix = "apical",
+        features_to_exclude=("length","n_branches"),
+    )
+
+    basal_feature_dict = apu.compartment_features_from_skeleton_and_soma_center(
+        neuron_obj_proof,
+        compartment_label = "basal",
+        name_prefix = "basal",
+        features_to_exclude=("length","n_branches"),
+    )
+
+    dendrite_feature_dict = apu.compartment_features_from_skeleton_and_soma_center(
+        neuron_obj_proof,
+        compartment_label = "dendrite",
+        name_prefix = "dendrite",
+        features_to_exclude=("length","n_branches"),
+    )
+
+
+    dicts_to_update += [axon_feature_dict,
+                        apical_feature_dict,
+                        basal_feature_dict,
+                        dendrite_feature_dict]
+
+
+    # -------- 8) Getting the limb alignment features ----
+    limb_alignment_dict = apu.limb_features_from_compartment_over_neuron(
+        neuron_obj_proof,verbose = True)
+    dicts_to_update.append(limb_alignment_dict)
+
+
+    # -------- 9) Combining Data into One Dict
+    if verbose:
+        print(f"\n--  Combining Data into One Dict--")
+
+    neuron_proof_dict = dict()
+
+    for d_u in dicts_to_update:
+        neuron_proof_dict.update(d_u)
+        
+    if store_in_obj:
+        neuron_obj.pipeline_products.set_stage_attrs(
+            neuron_proof_dict,
+            stage = "auto_proof",
+        )
+        
+    return neuron_proof_dict
+
+
+def auto_proof_stage(
+    neuron_obj,
+    mesh_decimated = None,
+    calculate_after_proof_stats = True,
+    store_in_obj = True,
+    return_stage_products = False,
+    
+    verbose_outline = False,
+    verbose_proofread = False,
+
+    plot_head_neck_shaft_synapses = False,
+    plot_limb_branch_filter_with_disconnect_effect = False,
+    plot_compartments = False,
+    plot_valid_synapses = False,
+    plot_error_synapses = False,
+
+    debug_time = False,
+    **kwargs
+    ):
+
+    cell_type = vdi.cell_type(neuron_obj)
+    nucleus_id = vdi.nucleus_id(neuron_obj)
+        
+    st = time.time()
+    neuron_obj_proof,filtering_info = pru.proofread_neuron_full(
+        neuron_obj,
+        original_mesh = mesh_decimated,
+
+        # arguments for processing down in DecompositionCellTypeV7
+        cell_type=cell_type,
+        add_back_soma_synapses = False,
+
+        proofread_verbose = verbose_proofread,
+        verbose_outline = verbose_outline,
+        plot_limb_branch_filter_with_disconnect_effect = plot_limb_branch_filter_with_disconnect_effect,
+        plot_final_filtered_neuron = False,
+        plot_synapses_after_proofread = False,
+
+
+        plot_compartments = plot_compartments,
+
+        plot_valid_synapses = plot_valid_synapses,
+        plot_error_synapses = plot_error_synapses,
+
+        verbose = verbose_outline,
+        debug_time = debug_time,
+
+        return_red_blue_splits= True,
+        return_split_locations=True,
+        **kwargs
+    )
+    
+    neuron_obj_proof.pipeline_products = neuron_obj.pipeline_products
+    
+    # print(f"stage = {neuron_obj_proof.pipeline_products.stages}")
+    
+    # print(f"stage orig = {neuron_obj.pipeline_products.stages}")
+
+    run_time = time.time() - st
+
+    auto_proof_products = pipeline.StageProducts(
+        filtering_info=filtering_info,
+        run_time=run_time,
+    )
+    
+    neuron_obj_proof.pipeline_products.set_stage_attrs(
+            auto_proof_products,
+            stage = "auto_proof",
+    )
+    
+    if calculate_after_proof_stats:
+        after_stats = pipeline.StageProducts(**after_auto_proof_stats(neuron_obj_proof,store_in_obj=False,))
+    else:
+        after_stats = dict()
+        
+    if store_in_obj:
+        auto_proof_products.update(after_stats)
+        
+        
+    # print(f"stage = {neuron_obj_proof.pipeline_products.stages}")
+    
+    if return_stage_products:
+        return neuron_obj_proof,after_stats
+    
+    return neuron_obj_proof
+    
+
+
+
 # ----------------------
 from . import microns_volume_utils as mvu
 attributes_dict_default = dict(
@@ -355,3 +606,7 @@ from . import axon_utils as au
 from . import neuron_statistics as nst
 from . import cell_type_conv_utils as ctcu
 from . import neuron_visualizations as nviz
+
+
+from . import proofreading_utils as pru
+from . import apical_utils as apu

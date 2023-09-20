@@ -2789,7 +2789,10 @@ def adjust_obj_with_face_offset(
         if verbose:
             print(f"Adjusting {k} because face_idx and not None")
             
-        setattr(new_obj,k,v + face_offset)
+        try:
+            setattr(new_obj,k,v + face_offset)
+        except:
+            setattr(new_obj,f"_{k}",v + face_offset)
         
     return new_obj
 

@@ -2710,6 +2710,20 @@ class Neuron:
         
         
         return ret_result
+    
+    def multi_soma_split_execution(
+        self,
+        verbose=False,
+        store_in_obj=True,
+        **kwargs
+        ):
+        
+        return ssu.multi_soma_split_execution(
+            self,
+            verbose = verbose,
+            store_in_obj=store_in_obj,
+            **kwargs
+        )
         
         
         

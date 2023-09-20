@@ -22,6 +22,8 @@ default_locations = dict(
 )
 
 class DataInterfaceDefault(ABC):
+    proof_version = 7
+    
     def __init__(
         self,
         source = "default",

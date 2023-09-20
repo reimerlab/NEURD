@@ -102,10 +102,12 @@ soma_post_color = "purple"
 
 default_synapse_size = 0.3
 
-synapse_types = dict(soma="synapses_somas",
-                limb_branch="synapses",
-                mesh_errored="mesh_errored_synapses",
-                     distance_errored="distance_errored_synapses")
+synapse_types = dict(
+    soma="synapses_somas",
+    limb_branch="synapses",
+    mesh_errored="mesh_errored_synapses",
+    distance_errored="distance_errored_synapses"
+)
 
 
 
@@ -1729,10 +1731,11 @@ def synapses_to_synapses_df(synapses,
                                    for k in synapses]
     return pu.dicts_to_dataframe(synapse_dicts)
 
-def synapses_df(neuron_obj,
-                        synapse_types_to_process = None,
-                        verbose = False,
-              **kwargs):
+def synapses_df(
+    neuron_obj,
+    synapse_types_to_process = None,
+    verbose = False,
+    **kwargs):
     """
     Purpose: To create a dataframe with all of the features
     of the synapses so the synapses can be queried
@@ -4218,7 +4221,7 @@ def fetch_synapse_dict_by_mesh_labels(
                         print(f"Using original_mesh_method")
                         
                     if original_mesh is None:
-                        original_mesh = self.fetch_segment_id_mesh(segment_id)
+                        original_mesh = vdi.fetch_segment_id_mesh(segment_id)
                     distance_errored_syn_idx = tu.valid_coordiantes_mapped_to_mesh(mesh=original_mesh,
                                             coordinates=synapse_centers_scaled,
                                             mapping_threshold = mapping_threshold,

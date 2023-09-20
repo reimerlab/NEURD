@@ -258,8 +258,6 @@ def multi_soma_split_execution(
             multiplicity = len(neuron_list)
         )
         
-        stage_prods.append(split_products)
-        
         if store_in_obj:
             k.pipeline_products.set_stage_attrs(
                 split_products,

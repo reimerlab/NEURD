@@ -7033,7 +7033,8 @@ def proofread_neuron_full(
     return_split_locations = True,
     filter_list=None,
     
-    add_spine_distances = False
+    add_spine_distances = False,
+    original_mesh = None,
     ):
     """
     Purpose: To proofread the neuron after it has already been:
@@ -7050,7 +7051,7 @@ def proofread_neuron_full(
         neuron_obj = syu.add_synapses_to_neuron_obj(neuron_obj,
                             validation = validation,
                             verbose  = verbose,
-                            original_mesh = None,
+                            original_mesh = original_mesh,
                             plot_valid_error_synapses = False,
                             calculate_synapse_soma_distance = False,
                             add_valid_synapses = True,
@@ -7180,7 +7181,7 @@ def proofread_neuron_full(
                                segment_id=None,
                             validation = False,
                             verbose  = verbose,
-                            original_mesh = None,
+                            original_mesh = original_mesh,
                             plot_valid_error_synapses = False,
                             calculate_synapse_soma_distance = False,
                             add_valid_synapses = False,
@@ -7965,6 +7966,7 @@ from . import neuron_visualizations as nviz
 from . import preprocessing_vp2 as pre
 from . import spine_utils as spu
 from . import synapse_utils as syu
+from . import cell_type_utils as ctu
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk

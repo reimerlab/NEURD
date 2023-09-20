@@ -3060,7 +3060,7 @@ def complete_axon_processing(neuron_obj,
                              neuron_simplification = True,
                              
                              return_G_axon_labeled = False,
-                             
+                             original_mesh = None,
                              
                             **kwargs):
     """
@@ -3239,7 +3239,7 @@ def complete_axon_processing(neuron_obj,
                 neuron_obj_with_web = syu.add_synapses_to_neuron_obj(neuron_obj_with_web,
                         validation = validation,
                         verbose  = verbose,
-                        original_mesh = None,
+                        original_mesh = original_mesh,
                         plot_valid_error_synapses = False,
                         calculate_synapse_soma_distance = True,
                         add_valid_synapses = True,
