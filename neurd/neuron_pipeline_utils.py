@@ -383,7 +383,10 @@ def after_auto_proof_stats(
             limb_branch_to_cancel=limb_branch_to_cancel,
             red_blue_suggestions=red_blue_suggestions,
             split_locations = split_locations,
-            split_locations_before_filter=split_locations_before_filter,)
+            split_locations_before_filter=split_locations_before_filter,
+            synapse_filepath = vdi.synapse_filepath,
+            neuron_graph_after_proof = G_after_proof,
+        )
 
     neuron_objs_dict.update(filter_key)
 

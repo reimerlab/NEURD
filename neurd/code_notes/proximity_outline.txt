@@ -22,7 +22,7 @@ gets all the presyn synapses from proofread table
 4) soma_nm_coordinate
 
 
-5) graph_obj_from-proof_stage:
+5) graph_obj_from_proof_stage:
     a. gets the graph object
 
 6) fetch_proofread_mesh

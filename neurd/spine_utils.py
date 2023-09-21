@@ -90,6 +90,11 @@ def spine_labels(include_no_label = False):
 
 head_neck_shaft_dict_inverted = gu.invert_mapping(head_neck_shaft_dict,one_to_one=True)
 
+def decode_head_neck_shaft_idx(array):
+    return [head_neck_shaft_dict_inverted.get(k,"no_label")
+            for k in array
+    ]
+
 neck_color_default = "gold"#"yellow"#,"pink"#,"yellow"# "aqua"
 head_color_default = "red"
 no_head_color_default = "black"

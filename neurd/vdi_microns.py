@@ -39,10 +39,9 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
     def voxel_to_nm_scaling(self):
         return np.array([4,4,40])
     
-    
     def align_array(self,array):
         return array
-
+    
     def align_mesh(self,mesh):
         return mesh
 
@@ -69,6 +68,7 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
             *args,
             **kwargs
         )
+        
         
     # def cell_type_from_segment_id(segment_id):
     #     (db_table & dict(segment_id)).fetch1('cell_type')

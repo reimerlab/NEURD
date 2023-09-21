@@ -15,7 +15,7 @@ apu.apical_classification(neuron_obj,
 
 
 '''
-
+import pandas as pd
 from python_tools import numpy_dep as np
 from python_tools import module_utils as modu
 from python_tools import general_utils as gu
@@ -113,6 +113,27 @@ def coarse_fine_compartment_from_label(label):
         return (None,None)
     else:
         return coarse_fine_compartment_map[label]
+    
+
+def add_compartment_coarse_fine_to_df(
+    df,
+    compartment_column = "compartment"):
+    """
+    Purpose: To add compartment coarse and fine to a 
+    dataframe with a compartment column
+    """
+
+
+    arr = np.vstack([coarse_fine_compartment_from_label(k) 
+     if k in apu.coarse_fine_compartment_map else (k,None)
+     for k in df[compartment_column].to_list()])
+
+    df_new = pd.DataFrame(arr)
+    df_new.columns = ['compartment_coarse',"compartment_fine"]
+
+    df = pd.concat([df,df_new],axis = 1)
+    return df
+
 
 
 def compartment_label_to_all_labels(label):

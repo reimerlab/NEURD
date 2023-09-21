@@ -1723,25 +1723,43 @@ def synapses_total(neuron_obj):
     return total_synapses
 
 
-def synapses_to_synapses_df(synapses,
-                          label="no_label"):
+def synapses_to_synapses_df(
+    synapses,
+    label="no_label",
+    add_compartment_coarse_fine = False,
+    decode_head_neck_shaft_idx = False,):
     synapse_dicts = [dict(k.export(),
                                    label=label,
                                    )
                                    for k in synapses]
-    return pu.dicts_to_dataframe(synapse_dicts)
+    df = pu.dicts_to_dataframe(synapse_dicts)
+    
+    df = annotate_synapse_df(
+        df,
+        add_compartment_coarse_fine=add_compartment_coarse_fine,
+        decode_head_neck_shaft_idx = decode_head_neck_shaft_idx,
+    )
+    
+    return df
 
 def synapses_df(
     neuron_obj,
     synapse_types_to_process = None,
     verbose = False,
+    add_compartment_coarse_fine = False,
+    decode_head_neck_shaft_idx = False,
     **kwargs):
     """
     Purpose: To create a dataframe with all of the features
     of the synapses so the synapses can be queried
     """
+
     if type(neuron_obj) == list:
-        return syu.synapses_to_synapses_df(neuron_obj,**kwargs)
+        return syu.synapses_to_synapses_df(
+            neuron_obj,
+            add_compartment_coarse_fine=add_compartment_coarse_fine,
+            decode_head_neck_shaft_idx=decode_head_neck_shaft_idx,
+            **kwargs)
     if synapse_types_to_process is not None:
         curr_synapse_types = {k:v for k,v in 
                               syu.synapse_types.items() if k in synapse_types_to_process}
@@ -1808,6 +1826,30 @@ def synapses_df(
     df = nru.add_limb_branch_combined_name_to_df(
         df,
     )
+    
+    df = annotate_synapse_df(
+        df,
+        add_compartment_coarse_fine=add_compartment_coarse_fine,
+        decode_head_neck_shaft_idx = decode_head_neck_shaft_idx,
+        )
+    return df
+
+def annotate_synapse_df(
+    df,
+    add_compartment_coarse_fine=False,
+    decode_head_neck_shaft_idx = False,
+    ):
+    
+    if add_compartment_coarse_fine:
+        df = apu.add_compartment_coarse_fine_to_df(
+            df
+        )
+        
+    if decode_head_neck_shaft_idx:
+        df["head_neck_shaft"] = spu.decode_head_neck_shaft_idx(
+            df.head_neck_shaft
+        )
+    
     return df
 
 synapse_df = synapses_df
@@ -4087,6 +4129,7 @@ def synapse_df_from_csv(
     coordinates_nm = True,
     scaling = None,
     verbose = True,
+    **kwargs,
     ):
     """
     Purpose: to read in a csv file 
@@ -4106,7 +4149,9 @@ def synapse_df_from_csv(
             ["synapse_x_nm",'synapse_y_nm','synapse_z_nm']
         ] = df[
             ["synapse_x",'synapse_y','synapse_z']
-        ].to_numpy() ^ scaling
+        ].to_numpy() * scaling
+        
+        df["synapse_size_nm"] = df["synapse_size"]*(scaling.prod())
         
     return df
 
@@ -4134,14 +4179,6 @@ def synapse_dict_from_synapse_csv(
         d) Stores all data in dictionary for that prepost
 
     """
-
-    df = pu.csv_to_df(
-        synapse_filepath
-    )
-
-    if segment_id is not None:
-        df = df.query(f"segment_id == {segment_id}").reset_index(drop=True)
-        
         
     df = synapse_df_from_csv(
         synapse_filepath,
@@ -4152,15 +4189,15 @@ def synapse_dict_from_synapse_csv(
     )
     
     if coordinates_nm:
-        syn_coord_names = ["synapse_x_nm",'synapse_y_nm','synapse_z_nm']
+        syn_coord_names = ["synapse_x_nm",'synapse_y_nm','synapse_z_nm','synapse_size_nm']
     else:
-        syn_coord_names = ["synapse_x",'synapse_y','synapse_z']
+        syn_coord_names = ["synapse_x",'synapse_y','synapse_z',"synapse_size"]
 
     synapse_dict = dict()
     for synapse_type in ["presyn","postsyn"]:
         df_curr = df.query(f"prepost == '{synapse_type}'").reset_index(drop=True)
         synapse_ids, centroid_xs, centroid_ys, centroid_zs,synapse_sizes = df_curr[
-            ["synapse_id"] + syn_coord_names + ['synapse_size']
+            ["synapse_id"] + syn_coord_names
         ].to_numpy().T
         if len(synapse_ids) > 0:
             synapse_centers = np.vstack([centroid_xs,centroid_ys,centroid_zs]).T
@@ -4305,6 +4342,24 @@ def fetch_synapse_dict_by_mesh_labels(
                                     original_mesh = original_mesh,
                                     keyword_to_plot=plot_synapses_type)
         return mesh_label_dict
+
+def synapse_df_abridged(
+    neuron_obj,
+    ):
+
+    syn_df = syu.synapses_df(syu.synapses_valid(neuron_obj))
+    syn_df_new = syn_df[["syn_id","syn_type","coordinate","volume","compartment","limb_idx","branch_idx","soma_distance"]]
+    syn_df_new[["synapse_x_nm","synapse_y_nm","synapse_z_nm"]] = np.vstack(syn_df_new["coordinate"].to_numpy())
+    syn_df_new = pu.rename_columns(
+        syn_df_new,
+        dict(
+            syn_type = "prepost",
+            syn_id = "synapse_id",
+            volume = "synapse_size",
+        )
+    )
+
+    return syn_df_new
 
 # ------------- Setting up parameters -----------
 

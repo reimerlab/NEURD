@@ -22,6 +22,7 @@ from python_tools import numpy_dep as np
 from python_tools import module_utils as modu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
+import numpy as np
 
 def synapse_coordinates_from_df(df):
     return df[
@@ -77,7 +78,7 @@ def proximity_search_neurons_from_database(
 
 def presyn_proximity_data(
     segment_id,
-    split_index,
+    split_index=0,
     plot = False,
     verbose = False,
     neuron_obj = None,
@@ -104,7 +105,7 @@ def presyn_proximity_data(
     synapse_pre_raw_coords = pxu.synapse_coordinates_from_df(synapse_pre_raw_df)
     
     synapse_pre_proof_df = vdi.segment_id_to_synapse_table_optimized_proofread(
-        segment_id=segment_id,
+        segment_id,
         synapse_type = "presyn",
         coordinates_nm = True,
         return_df=True)
@@ -287,7 +288,7 @@ def postsyn_proximity_data(
 
     #6) Postsyn and spine data
     synapse_post_df = vdi.segment_id_to_synapse_table_optimized_proofread(
-        segment_id=segment_id_target,
+        segment_id_target,
         split_index=split_index_target,
         syn_type = "postsyn",
         coordinates_nm = True,
@@ -793,6 +794,63 @@ def A_syn_from_G_prox(G,**kwargs):
     )
     A_syn[np.where(A_syn > 0)] = 1
     return A_syn
+
+
+
+def plot_proximity(
+    prox_data,
+    mesh_presyn,
+    mesh_postsyn,
+    
+    prox_no_syn_color = "purple",
+    prox_with_syn_color = "green",
+    presyn_mesh_color = "red",
+    postsyn_mesh_color = "blue",
+    verbose = True,
+    ):
+    """
+    Purpose: to plot the proximities as syn and not syn
+
+    Pseudocode: 
+    1) Divide the proximity list into those with synapse and those without
+    2) Find coordinates for each group
+    3) plot
+    """
+
+    syn_groups = dict()
+    syn_groups["with_syn"] = [k for k in prox_data if k["n_synapses"]>0]
+    syn_groups["no_syn"] = [k for k in prox_data if k["n_synapses"]==0]
+
+    scatters = []
+    scatters_colors = []
+
+    for k,vv in syn_groups.items():
+        arrays = []
+        for v in vv:
+
+            pre_coord = np.array([v["presyn_proximity_x_nm"],
+                                  v["presyn_proximity_y_nm"],
+                                  v["presyn_proximity_z_nm"]])
+            post_coord = np.array([v["postsyn_proximity_x_nm"],
+                                   v["postsyn_proximity_y_nm"],
+                                   v["postsyn_proximity_z_nm"]])
+            coord = np.vstack([pre_coord,post_coord]).mean(axis = 0)
+            arrays.append(coord)
+        scatters.append(np.array(arrays).reshape(-1,3))
+        scatters_colors.append(eval(f"prox_{k}_color"))
+
+    if verbose:
+        print(f"prox_no_syn_color= {prox_no_syn_color}")
+        print(f"prox_with_syn_color= {prox_with_syn_color}")
+        print(f"presyn_mesh_color= {presyn_mesh_color}")
+        print(f"postsyn_mesh_color= {postsyn_mesh_color}")
+
+    ipvu.plot_objects(
+        meshes = [mesh_presyn,mesh_postsyn],
+        meshes_colors=[presyn_mesh_color,postsyn_mesh_color],
+        scatters=scatters,
+        scatters_colors=scatters_colors,
+    )
 
 # ------------- Setting up parameters -----------
 

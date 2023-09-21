@@ -251,6 +251,7 @@ def multi_soma_split_execution(
         )
         
         split_products = pipeline.StageProducts(
+            split_index = idx,
             multi_soma_errored_limbs_area=neuron_list_errored_limbs_area[idx],
             multi_soma_errored_limbs_skeletal_length=neuron_list_errored_limbs_skeletal_length[idx],
             multi_soma_n_multi_soma_errors=neuron_list_n_multi_soma_errors[idx],
