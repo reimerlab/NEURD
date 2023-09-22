@@ -1,8 +1,8 @@
-version: '2'
+version: "2"
 services:
   notebook:
-    image: mesh_tools:v1
-    build: 
+    image: celiib/mesh_tools:v3
+    build:
       context: .
     env_file: .env
     environment:
@@ -15,4 +15,3 @@ services:
       #- ../meshAfterParty:/meshAfterParty
       #- ../examples:/examples
       #- /mnt:/mnt
-

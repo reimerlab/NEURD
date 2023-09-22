@@ -352,11 +352,12 @@ def proximity_pre_post(
 
     plot = False,
     plot_attributes_under_threshold = False,
-    plot_proximities = True,
+    plot_proximities = False,
     
     verbose = True,
     verbose_time = False,
     return_df = False,
+    verbose_total_time = False,
     
     ):
 
@@ -703,7 +704,7 @@ def proximity_pre_post(
             'n_synapse_post',
             'n_spine_post',]
     
-    if verbose:
+    if verbose or verbose_total_time:
         print(f"Time for whole proximity func = {time.time() - global_time}")
     
     if plot_proximities:
@@ -802,7 +803,7 @@ def plot_proximity(
     mesh_presyn,
     mesh_postsyn,
     
-    prox_no_syn_color = "purple",
+    prox_no_syn_color = "aqua",
     prox_with_syn_color = "green",
     presyn_mesh_color = "red",
     postsyn_mesh_color = "blue",

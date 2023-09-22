@@ -12,7 +12,7 @@ config_filepath = str((
 
 default_settings = dict(
     meshes_table = None,
-    parameters_config_filename=parameters_config_filename
+    parameters_config_filepath=parameters_config_filename
     
 )
 
@@ -26,6 +26,10 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
         ):
         
         kwargs.update(default_settings)
+        parameters_config_filepath = kwargs.pop(
+            "parameters_config_filepath",
+            None,
+        )
         
         super().__init__(
             synapse_filepath = synapse_filepath,
@@ -33,7 +37,9 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
             **kwargs
         )
         
+        self.parameters_config_filepath = parameters_config_filepath
         self.set_parameters_obj_from_filepath()
+        
         
     @property
     def voxel_to_nm_scaling(self):
@@ -47,6 +53,7 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
 
     def align_skeleton(self,skeleton):
         return skeleton 
+    
     
     def align_neuron_obj(self,neuron_obj):
         """

@@ -57,6 +57,7 @@ class DataInterfaceDefault(ABC):
             setattr(self,k,v)
         
         self.set_parameters_obj_from_filepath()
+        
     
     # @property
     # @abstractmethod 
@@ -67,7 +68,10 @@ class DataInterfaceDefault(ABC):
     def vdi(self):
         return self
         
-    def set_parameters_obj_from_filepath(self,filepath=None):
+    def set_parameters_obj_from_filepath(
+        self,
+        filepath=None,
+        set_module_parameters = True):
         
         if not hasattr(self,"parameters_obj"):
             setattr(self,"parameters_obj",paru.PackageParameters())
@@ -78,13 +82,16 @@ class DataInterfaceDefault(ABC):
         if filepath is None:
             return 
         
-        self.parameters_obj_curr = paru.parameters_from_filepath(
+        parameters_obj_curr = paru.parameters_from_filepath(
             filepath = filepath
         )
         
         self.parameters_obj.update(
-            self.parameters_obj_curr
+            parameters_obj_curr
         )
+        
+        if set_module_parameters:
+            self.set_parameters_for_directory_modules()
             
     def set_parameters_for_directory_modules(
         self,

@@ -1,6 +1,7 @@
 from pathlib import Path
 import numpy as np
 from os import sys
+import time
 
 
 modes_default = (
@@ -57,11 +58,35 @@ class Parameters:
     def json_dict(self):
         return jsonable_dict(self._dict)
     
+    # def __getattr__(self,k):
+    #     if k[:2] == "__":
+    #         raise AttributeError(k)
+    #     try:
+    #         return self._dict[k]
+    #     except:
+    #         return getattr(self._dict,k)
+        
+    # def __setattr__(self,k,v):
+    #     print(f"inside setattr small param")
+    #     if k in self._dict:
+    #         self._dict[k] = v
+    #     else:
+    #         self.__dict__[k] = v
+            
     def __getattr__(self,k):
-        if k[:2] == "__":
+        if k[:2] == "__" or k == "_dict":
             raise AttributeError(k)
-        return getattr(self._dict,k)
-    
+        try:
+            return self._dict[k]
+        except:
+            return getattr(self._dict,k)
+        
+    def __setattr__(self,k,v):
+        if hasattr(self,"_dict") and k in self._dict:
+            self._dict[k] = v
+        else:
+            self.__dict__[k] = v
+        
     def __contains__(self, item):
         return item in self._dict
 
@@ -240,9 +265,18 @@ class PackageParameters:
                 self._data.update({k:Parameters(other_obj[k])})
             
     def __getattr__(self,k):
-        if k[:2] == "__":
+        if k[:2] == "__" or k == "_data":
             raise AttributeError(k)
-        return getattr(self._data,k)
+        try:
+            return self._data[k]
+        except:
+            return getattr(self._data,k)
+        
+    def __setattr__(self,k,v):
+        if hasattr(self,"_data") and k in self._data:
+            self._data[k] = v
+        else:
+            self.__dict__[k] = v
             
 
 def parameter_list_from_module(
@@ -523,7 +557,6 @@ def parameters_from_filepath(
     Purpose: To import the parameter dictionary
     from a python file
     """
-    
 
     if filepath is not None:
         filepath = Path(filepath)
@@ -687,6 +720,8 @@ def set_parameters_for_directory_modules_from_obj(
                 verbose = verbose_param,
                 error_on_no_attr=error_on_no_attr,
             )
+            
+            #print(f"{k} p_dict = {p_dict}")
             
 
             for k,v in p_dict.items():
