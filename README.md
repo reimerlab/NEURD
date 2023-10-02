@@ -39,6 +39,8 @@ pip3 install --use-deprecated=legacy-resolver -e ./NEURD/;
 
 ## Documentation
 
+Site: https://reimerlab.github.io/NEURD/
+
 ### Tutorials
 
 All of the tutorials made for showing the decomposition/autoproofreading pipeline (and other features like spine detection and proximity detection) are in .ipynb inside Applications>Tutorials.

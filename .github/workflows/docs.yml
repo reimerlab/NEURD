@@ -31,8 +31,10 @@ jobs:
 
       - name: Install dependencies
         run: |
+          python3 -m pip install git+https://git@github.com/aplbrain/grandiso-networkx.git
+          python3 -m pip install git+https://git@github.com/bacelii/dotmotif.git
+          python3 -m pip install datajoint
           python3 -m pip install --use-deprecated=legacy-resolver  -r ./requirements.txt
-          #pip3 install git+https://github.com/bacelii/python_tools.git
 
       - name: Build docs
         run: |
@@ -47,5 +49,3 @@ jobs:
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/_build/html/
-
-
