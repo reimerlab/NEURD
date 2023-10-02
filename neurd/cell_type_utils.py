@@ -915,6 +915,29 @@ def set_e_i_model(features= e_i_model_features_default,
         return clf
         
     
+def predict_class_single_datapoint(clf,
+                                  data,
+                                  verbose = False,
+                                  return_probability = False):
+    """
+    Purpose: To predict the class of a single datapoint
+    
+    Ex: 
+    data = [1,1]
+    mlu.predict_class_single_datapoint(clf,data,verbose = True)
+
+    """
+    data = np.array(data).reshape(1,-1)
+    pred_class = clf.predict(data)[0]
+    pred_prob = np.max(clf.predict_proba(data)[0])
+    if verbose:
+        print(f"Class = {pred_class} for data = {data} with prediction probability {pred_prob}")
+        
+    if return_probability:
+        return pred_class,pred_prob
+    else:
+        return pred_class
+    
 def e_i_classification_single(data,
                               features=None,
                               model = None,
@@ -945,7 +968,7 @@ def e_i_classification_single(data,
         print(f"For model: {model} ")
         print(f"with features: {model.features}")
     
-    pred_class,pred_prob = mlu.predict_class_single_datapoint(model,data,
+    pred_class,pred_prob = predict_class_single_datapoint(model,data,
                                                    return_probability = True)
     try:
         pred_class_label = model.labels[pred_class]
@@ -1840,8 +1863,12 @@ from . import spine_utils as spu
 from . import synapse_utils as syu
 
 #--- from machine_learning_tools ---
-from machine_learning_tools import machine_learning_utils as mlu
-from machine_learning_tools import visualizations_ml as vml
+try:
+    from machine_learning_tools import machine_learning_utils as mlu
+    from machine_learning_tools import visualizations_ml as vml
+except:
+    mlu = None
+    vml = None
 
 #--- from mesh_tools ---
 from mesh_tools import trimesh_utils as tu

@@ -2588,7 +2588,10 @@ from . import microns_volume_utils as mvu
 from . import neuron_visualizations as nviz
 
 #--- from machine_learning_tools ---
-from machine_learning_tools import seaborn_ml as sml
+try:
+    from machine_learning_tools import seaborn_ml as sml
+except:
+    sml = None
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk

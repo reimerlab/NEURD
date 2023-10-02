@@ -522,7 +522,4 @@ from python_tools import pandas_utils as pu
 from python_tools import system_utils as su
 from python_tools.tqdm_utils import tqdm
 
-#--- from pytorch_tools ---
-from pytorch_tools import preprocessing_utils as pret
-
 from . import gnn_embedding_utils as gnneu

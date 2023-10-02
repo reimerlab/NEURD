@@ -1,0 +1,51 @@
+name: docs
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Upgrade pip
+        run: |
+          # install pip=>20.1 to use "pip cache dir"
+          python3 -m pip install --upgrade pip
+
+      # - name: Get pip cache dir
+      #   id: pip-cache
+      #   run: echo "::set-output name=dir::$(pip cache dir)"
+
+      - name: Install requirements
+        run: |
+          pip3 install sphinx-rtd-theme
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --use-deprecated=legacy-resolver  -r ./requirements.txt
+          #pip3 install git+https://github.com/bacelii/python_tools.git
+
+      - name: Build docs
+        run: |
+          cd docs
+          make html
+
+      # https://github.com/peaceiris/actions-gh-pages
+      - name: Deploy
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/_build/html/
+
+
