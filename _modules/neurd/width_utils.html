@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.width_utils &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.width_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.width_utils</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">default_skeleton_segment_size</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<div class="viewcode-block" id="skeleton_resized_ordered"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.skeleton_resized_ordered">[docs]</a><span class="k">def</span> <span class="nf">skeleton_resized_ordered</span><span class="p">(</span>
+    <span class="n">skeleton</span><span class="p">,</span>
+    <span class="n">skeleton_segment_size</span><span class="o">=</span><span class="n">default_skeleton_segment_size</span><span class="p">,</span>
+    <span class="n">width_segment_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">return_skeletal_points</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    
+    <span class="c1">#resizes the branch to the desired width (HELPS WITH SMOOTHING OF THE SKELETON)</span>
+    <span class="n">ex_branch_skeleton_resized</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">resize_skeleton_branch</span><span class="p">(</span><span class="n">skeleton</span><span class="p">,</span><span class="n">segment_width</span> <span class="o">=</span> <span class="n">skeleton_segment_size</span><span class="p">)</span>
+
+    <span class="c1">#The size we want the widths to be calculated at</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">width_segment_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ex_branch_skeleton_resized</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">resize_skeleton_branch</span><span class="p">(</span><span class="n">ex_branch_skeleton_resized</span><span class="p">,</span><span class="n">segment_width</span> <span class="o">=</span> <span class="n">width_segment_size</span><span class="p">)</span>
+        
+    <span class="n">ex_branch_skeleton_resized</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">order_skeleton</span><span class="p">(</span><span class="n">ex_branch_skeleton_resized</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting node = </span><span class="si">{</span><span class="n">ex_branch_skeleton_resized</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of segments = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ex_branch_skeleton_resized</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">return_skeletal_points</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sk</span><span class="o">.</span><span class="n">skeleton_coordinate_path_from_start</span><span class="p">(</span><span class="n">ex_branch_skeleton_resized</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ex_branch_skeleton_resized</span></div>
+
+<div class="viewcode-block" id="calculate_new_width"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.calculate_new_width">[docs]</a><span class="k">def</span> <span class="nf">calculate_new_width</span><span class="p">(</span><span class="n">branch</span><span class="p">,</span> 
+                               <span class="n">skeleton_segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                                   <span class="n">width_segment_size</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                              <span class="n">return_average</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">distance_by_mesh_center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">no_spines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">summary_measure</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+                                <span class="n">no_boutons</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                              <span class="n">print_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">distance_threshold_as_branch_width</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="n">distance_threshold</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span>
+                               <span class="n">old_width_calculation</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To calculate the overall width </span>
+
+<span class="sd">    Ex: </span>
+<span class="sd">    curr_branch_obj = neuron_obj_exc_syn_sp[4][30]</span>
+
+<span class="sd">    skeleton_segment_size = 1000</span>
+<span class="sd">    width_segment_size=None</span>
+<span class="sd">    width_name = &quot;no_spine_average&quot;</span>
+<span class="sd">    distance_by_mesh_center= True</span>
+
+<span class="sd">    no_spines = True</span>
+<span class="sd">    summary_measure = &quot;mean&quot;</span>
+<span class="sd">    current_width_array,current_width = wu.calculate_new_width(curr_branch_obj, </span>
+<span class="sd">                                              skeleton_segment_size=skeleton_segment_size,</span>
+<span class="sd">                                              width_segment_size=width_segment_size, </span>
+<span class="sd">                                              distance_by_mesh_center=distance_by_mesh_center,</span>
+<span class="sd">                                              no_spines=no_spines,</span>
+<span class="sd">                                              summary_measure=summary_measure,</span>
+<span class="sd">                                              return_average=True,</span>
+<span class="sd">                                              print_flag=True,</span>
+<span class="sd">                                            )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">np</span><span class="p">,</span><span class="n">summary_measure</span><span class="p">)</span>
+    
+    <span class="c1">#ges branch mesh without any spines</span>
+    <span class="k">if</span> <span class="n">no_spines</span><span class="p">:</span>
+        <span class="n">ex_branch_no_spines_mesh</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">branch_mesh_no_spines</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">no_boutons</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">branch</span><span class="p">,</span><span class="s2">&quot;boutons&quot;</span><span class="p">):</span>
+            <span class="n">ex_branch_no_spines_mesh</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">mesh_without_boutons</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ex_branch_no_spines_mesh</span> <span class="o">=</span> <span class="n">branch</span><span class="o">.</span><span class="n">mesh</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ex_branch_no_spines_mesh</span> <span class="o">=</span> <span class="n">branch</span><span class="o">.</span><span class="n">mesh</span>
+        
+    <span class="k">if</span> <span class="n">distance_threshold_as_branch_width</span><span class="p">:</span>
+        <span class="n">distance_threshold</span> <span class="o">=</span> <span class="n">branch_width</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">distance_threshold</span> <span class="o">=</span> <span class="n">distance_threshold</span>
+        
+    
+    <span class="n">ex_branch_skeleton_resized</span> <span class="o">=</span> <span class="n">wu</span><span class="o">.</span><span class="n">skeleton_resized_ordered</span><span class="p">(</span>
+        <span class="n">skeleton</span><span class="o">=</span><span class="n">branch</span><span class="o">.</span><span class="n">skeleton</span><span class="p">,</span>
+        <span class="n">skeleton_segment_size</span><span class="o">=</span><span class="n">skeleton_segment_size</span><span class="p">,</span>
+        <span class="n">width_segment_size</span><span class="o">=</span><span class="n">width_segment_size</span><span class="p">)</span>
+
+    <span class="p">(</span><span class="n">total_distances</span><span class="p">,</span>
+     <span class="n">total_distances_std</span><span class="p">,</span>
+     <span class="n">new_submesh</span><span class="p">,</span>
+     <span class="n">unique_faces</span><span class="p">)</span> <span class="o">=</span> <span class="n">cu</span><span class="o">.</span><span class="n">get_skeletal_distance_no_skipping</span><span class="p">(</span><span class="n">main_mesh</span><span class="o">=</span><span class="n">ex_branch_no_spines_mesh</span><span class="p">,</span>
+                                    <span class="n">edges</span><span class="o">=</span><span class="n">ex_branch_skeleton_resized</span><span class="p">,</span>
+                                     <span class="n">buffer</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                                    <span class="n">bbox_ratio</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+                                   <span class="n">distance_threshold</span><span class="o">=</span><span class="n">distance_threshold</span><span class="p">,</span>
+                                    <span class="n">distance_by_mesh_center</span><span class="o">=</span><span class="n">distance_by_mesh_center</span><span class="p">,</span>
+                                    <span class="n">print_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                    <span class="n">edge_loop_print</span><span class="o">=</span><span class="kc">False</span>
+                                                         <span class="p">)</span>
+    
+    <span class="n">total_distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">total_distances</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">old_width_calculation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">old_width_calculation</span> <span class="o">=</span> <span class="n">branch</span><span class="o">.</span><span class="n">width</span>
+
+<span class="c1">#     if print_flag: </span>
+<span class="c1">#         print(f&quot;total_distances before replacement= {total_distances}&quot;)</span>
+        
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">total_distances</span><span class="p">[</span><span class="n">total_distances</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">total_distances</span><span class="p">[</span><span class="n">total_distances</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">total_distances</span><span class="p">[</span><span class="n">total_distances</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+        
+<span class="c1">#     if print_flag: </span>
+<span class="c1">#         print(f&quot;total_distances After replacement= {total_distances}&quot;)</span>
+        
+    
+    <span class="n">branch_width_average</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">total_distances</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">branch_width_average</span> <span class="o">&lt;</span> <span class="mf">0.0001</span><span class="p">:</span>
+        <span class="c1">#just assing the old width</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Assigning the old width calculation because no valid new widths&quot;</span><span class="p">)</span>
+        <span class="n">branch_width_average</span> <span class="o">=</span> <span class="n">old_width_calculation</span>
+        <span class="n">total_distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ex_branch_skeleton_resized</span><span class="p">))</span><span class="o">*</span><span class="n">branch_width_average</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">total_distances</span><span class="p">[</span><span class="n">total_distances</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">branch_width_average</span> <span class="c1">#IF RETURNED 0 THEN FILL with </span>
+
+        <span class="k">if</span> <span class="n">print_flag</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overall </span><span class="si">{</span><span class="n">summary_measure</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">branch_width_average</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total_distances = </span><span class="si">{</span><span class="n">total_distances</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">return_average</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">total_distances</span><span class="p">,</span><span class="n">branch_width_average</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">total_distances</span></div>
+        
+        
+<div class="viewcode-block" id="find_mesh_width_array_border"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.find_mesh_width_array_border">[docs]</a><span class="k">def</span> <span class="nf">find_mesh_width_array_border</span><span class="p">(</span><span class="n">curr_limb</span><span class="p">,</span>
+                             <span class="n">node_1</span><span class="p">,</span>
+                             <span class="n">node_2</span><span class="p">,</span>
+                            <span class="n">width_name</span> <span class="o">=</span> <span class="s2">&quot;no_spine_median_mesh_center&quot;</span><span class="p">,</span>
+                            <span class="n">segment_start</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                            <span class="n">segment_end</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+                            <span class="n">skeleton_segment_size</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">width_segment_size</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">recalculate_width_array</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="c1">#will automatically recalculate the width array</span>
+                            <span class="n">default_segment_size</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+                                 <span class="n">no_spines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                 <span class="n">summary_measure</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+                            <span class="n">print_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">kwargs</span>
+                            <span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To send back an array that </span>
+<span class="sd">    represents the widths of curent branches</span>
+<span class="sd">    at their boundary</span>
+<span class="sd">    - the widths may be calculated differently than currently</span>
+<span class="sd">      stored if specified so</span>
+
+<span class="sd">    Applications: </span>
+<span class="sd">    1) Will help with filtering out false positives</span>
+<span class="sd">    with the axon detection</span>
+<span class="sd">    2) For merge detections to help detect</span>
+<span class="sd">    large width change</span>
+
+<span class="sd">    Process: </span>
+<span class="sd">    0) make sure the two nodes are connected in the concept network</span>
+<span class="sd">    1) if the skeleton_segment_size and width_semgent is None then recalculate the width array</span>
+<span class="sd">    - send the </span>
+<span class="sd">    2) calculate the endpoints from the skeletons (to ensure they are in the right order)</span>
+<span class="sd">    3) find the connectivity of the endpoints</span>
+<span class="sd">    4) Get the subarrays of the width_arrays according to the start and end specified</span>
+<span class="sd">    5) return the subarrays</span>
+
+<span class="sd">    Example of Use: </span>
+<span class="sd">    find_mesh_width_array_border(curr_limb=curr_limb_obj,</span>
+<span class="sd">                             #node_1=56,</span>
+<span class="sd">                             #node_2=71,</span>
+<span class="sd">                             node_1 = 8,</span>
+<span class="sd">                             node_2 = 5,</span>
+<span class="sd">                            width_name = &quot;no_spine_average_mesh_center&quot;,</span>
+<span class="sd">                            segment_start = 1,</span>
+<span class="sd">                            segment_end = 4,</span>
+<span class="sd">                            skeleton_segment_size = 50,</span>
+<span class="sd">                            width_segment_size = None,</span>
+<span class="sd">                            recalculate_width_array = True, #will automatically recalculate the width array</span>
+<span class="sd">                            default_segment_size = 1000,</span>
+<span class="sd">                            print_flag=True</span>
+<span class="sd">                            )</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># 0) make sure the two nodes are connected in the concept network</span>
+    <span class="k">if</span> <span class="n">node_2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xu</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">curr_limb</span><span class="o">.</span><span class="n">concept_network</span><span class="p">,</span><span class="n">node_1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Node_1 (</span><span class="si">{</span><span class="n">node_1</span><span class="si">}</span><span class="s2">) and Node_2 (</span><span class="si">{</span><span class="n">node_2</span><span class="si">}</span><span class="s2">) are not connected in the concept network&quot;</span><span class="p">)</span>
+
+
+    <span class="c1"># 0) extract the branch objects</span>
+    <span class="n">branch_obj_1</span> <span class="o">=</span> <span class="n">curr_limb</span><span class="o">.</span><span class="n">concept_network</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node_1</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+    <span class="n">branch_obj_2</span> <span class="o">=</span> <span class="n">curr_limb</span><span class="o">.</span><span class="n">concept_network</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node_2</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+    
+    <span class="n">branch_obj_1</span><span class="o">.</span><span class="n">order_skeleton_by_smallest_endpoint</span><span class="p">()</span>
+    <span class="n">branch_obj_2</span><span class="o">.</span><span class="n">order_skeleton_by_smallest_endpoint</span><span class="p">()</span>
+    <span class="c1"># 1) if the skeleton_segment_size and width_semgent is then recalculate the width array</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">skeleton_segment_size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">recalculate_width_array</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="s2">&quot;mesh_center&quot;</span> <span class="ow">in</span> <span class="n">width_name</span><span class="p">:</span>
+            <span class="n">distance_by_mesh_center</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">distance_by_mesh_center</span> <span class="o">=</span> <span class="kc">False</span>
+            
+        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;no_spine&quot;</span> <span class="ow">in</span> <span class="n">width_name</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">no_spines</span><span class="p">):</span>
+            <span class="n">no_spines</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">print_flag</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using no spines&quot;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">print_flag</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;distance_by_mesh_center = </span><span class="si">{</span><span class="n">distance_by_mesh_center</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">skeleton_segment_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">skeleton_segment_size</span> <span class="o">=</span> <span class="n">default_segment_size</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nu</span><span class="o">.</span><span class="n">is_array_like</span><span class="p">(</span><span class="n">skeleton_segment_size</span><span class="p">):</span>
+            <span class="n">skeleton_segment_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">skeleton_segment_size</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">width_segment_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">width_segment_size</span> <span class="o">=</span> <span class="n">skeleton_segment_size</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nu</span><span class="o">.</span><span class="n">is_array_like</span><span class="p">(</span><span class="n">width_segment_size</span><span class="p">):</span>
+            <span class="n">width_segment_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">width_segment_size</span><span class="p">]</span>
+
+
+        <span class="n">current_width_array_1</span><span class="p">,</span><span class="n">current_width_1</span> <span class="o">=</span> <span class="n">calculate_new_width</span><span class="p">(</span><span class="n">branch_obj_1</span><span class="p">,</span> 
+                                          <span class="n">skeleton_segment_size</span><span class="o">=</span><span class="n">skeleton_segment_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                          <span class="n">width_segment_size</span><span class="o">=</span><span class="n">width_segment_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                          <span class="n">distance_by_mesh_center</span><span class="o">=</span><span class="n">distance_by_mesh_center</span><span class="p">,</span>
+                                          <span class="n">return_average</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                          <span class="n">print_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                        <span class="n">no_spines</span><span class="o">=</span><span class="n">no_spines</span><span class="p">,</span>
+                                                                   <span class="n">summary_measure</span><span class="o">=</span><span class="n">summary_measure</span><span class="p">)</span>
+
+        <span class="n">current_width_array_2</span><span class="p">,</span><span class="n">current_width_2</span> <span class="o">=</span> <span class="n">calculate_new_width</span><span class="p">(</span><span class="n">branch_obj_2</span><span class="p">,</span> 
+                                          <span class="n">skeleton_segment_size</span><span class="o">=</span><span class="n">skeleton_segment_size</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                          <span class="n">width_segment_size</span><span class="o">=</span><span class="n">width_segment_size</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> 
+                                          <span class="n">distance_by_mesh_center</span><span class="o">=</span><span class="n">distance_by_mesh_center</span><span class="p">,</span>
+                                            <span class="n">no_spines</span><span class="o">=</span><span class="n">no_spines</span><span class="p">,</span>
+                                          <span class="n">return_average</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                          <span class="n">print_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="n">summary_measure</span><span class="o">=</span><span class="n">summary_measure</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">print_flag</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;**Using the default width arrays already stored**&quot;</span><span class="p">)</span>
+        <span class="n">current_width_array_1</span> <span class="o">=</span> <span class="n">branch_obj_1</span><span class="o">.</span><span class="n">width_array</span><span class="p">[</span><span class="n">width_name</span><span class="p">]</span>
+        <span class="n">current_width_array_2</span> <span class="o">=</span> <span class="n">branch_obj_2</span><span class="o">.</span><span class="n">width_array</span><span class="p">[</span><span class="n">width_name</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">print_flag</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;skeleton_segment_size = </span><span class="si">{</span><span class="n">skeleton_segment_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;width_segment_size = </span><span class="si">{</span><span class="n">width_segment_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;current_width_array_1 = </span><span class="si">{</span><span class="n">current_width_array_1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;current_width_array_2 = </span><span class="si">{</span><span class="n">current_width_array_2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    
+    
+    
+    
+
+    <span class="c1">#2) calculate the endpoints from the skeletons (to ensure they are in the right order)</span>
+    <span class="n">end_1</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">find_branch_endpoints</span><span class="p">(</span><span class="n">branch_obj_1</span><span class="o">.</span><span class="n">skeleton</span><span class="p">)</span>
+    <span class="n">end_2</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">find_branch_endpoints</span><span class="p">(</span><span class="n">branch_obj_2</span><span class="o">.</span><span class="n">skeleton</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">print_flag</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;end_1 = </span><span class="si">{</span><span class="n">end_1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;end_2 = </span><span class="si">{</span><span class="n">end_2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+
+    <span class="c1">#3) find the connectivity of the endpoints</span>
+    <span class="n">node_connectivity</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">endpoint_connectivity</span><span class="p">(</span><span class="n">end_1</span><span class="p">,</span><span class="n">end_2</span><span class="p">)</span>
+
+    <span class="c1">#4) Get the subarrays of the width_arrays according to the start and end specified</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pseudocode: </span>
+
+<span class="sd">    What to do if too small? Take whole thing</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">print_flag</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;node_connectivity = </span><span class="si">{</span><span class="n">node_connectivity</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="n">return_arrays</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">width_arrays</span> <span class="o">=</span> <span class="p">[</span><span class="n">current_width_array_1</span><span class="p">,</span><span class="n">current_width_array_2</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">current_width_array</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">width_arrays</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current_width_array</span><span class="p">)</span><span class="o">&lt;</span><span class="n">segment_end</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">print_flag</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The number of segments for current_width_array_</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">current_width_array</span><span class="p">)</span><span class="si">}</span><span class="s2">) &quot;</span>
+                     <span class="s2">&quot; was smaller than the number requested, so just returning the whole width array&quot;</span><span class="p">)</span>
+
+            <span class="n">return_arrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_width_array</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node_connectivity</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">return_arrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_width_array</span><span class="p">[</span><span class="n">segment_start</span><span class="p">:</span><span class="n">segment_end</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">node_connectivity</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">return_arrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_width_array</span><span class="p">[</span><span class="o">-</span><span class="n">segment_end</span><span class="p">:</span><span class="o">-</span><span class="n">segment_start</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Node connectivity was not 0 or 1&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">return_arrays</span></div>
+
+
+<div class="viewcode-block" id="new_width_from_mesh_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.new_width_from_mesh_skeleton">[docs]</a><span class="k">def</span> <span class="nf">new_width_from_mesh_skeleton</span><span class="p">(</span><span class="n">skeleton</span><span class="p">,</span>
+                                <span class="n">mesh</span><span class="p">,</span>
+                                <span class="n">skeleton_segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                                <span class="n">width_segment_size</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                <span class="n">return_average</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                <span class="n">distance_by_mesh_center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">distance_threshold_as_branch_width</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                            <span class="n">distance_threshold</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span>
+                              <span class="n">summary_measure</span><span class="o">=</span><span class="s2">&quot;median&quot;</span><span class="p">,</span>
+                              <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">backup_width</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To calculate the new width from a</span>
+<span class="sd">    skeleton and the surounding mesh</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">print_flag</span> <span class="o">=</span> <span class="n">verbose</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">np</span><span class="p">,</span><span class="n">summary_measure</span><span class="p">)</span>
+    
+    <span class="n">ex_branch_no_spines_mesh</span> <span class="o">=</span> <span class="n">mesh</span>
+    
+    <span class="c1">#resizes the branch to the desired width (HELPS WITH SMOOTHING OF THE SKELETON)</span>
+    
+    <span class="n">ex_branch_skeleton_resized</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">resize_skeleton_with_branching</span><span class="p">(</span><span class="n">skeleton</span><span class="p">,</span><span class="n">segment_width</span> <span class="o">=</span> <span class="n">skeleton_segment_size</span><span class="p">)</span>
+
+
+    <span class="c1">#The size we want the widths to be calculated at</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">width_segment_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ex_branch_skeleton_resized</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">resize_skeleton_with_branching</span><span class="p">(</span><span class="n">ex_branch_skeleton_resized</span><span class="p">,</span><span class="n">segment_width</span> <span class="o">=</span> <span class="n">width_segment_size</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">distance_threshold_as_branch_width</span><span class="p">:</span>
+        <span class="n">distance_threshold</span> <span class="o">=</span> <span class="n">branch_width</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">distance_threshold</span> <span class="o">=</span> <span class="n">distance_threshold</span>
+    
+    <span class="p">(</span><span class="n">total_distances</span><span class="p">,</span>
+     <span class="n">total_distances_std</span><span class="p">,</span>
+     <span class="n">new_submesh</span><span class="p">,</span>
+     <span class="n">unique_faces</span><span class="p">)</span> <span class="o">=</span> <span class="n">cu</span><span class="o">.</span><span class="n">get_skeletal_distance_no_skipping</span><span class="p">(</span><span class="n">main_mesh</span><span class="o">=</span><span class="n">ex_branch_no_spines_mesh</span><span class="p">,</span>
+                                    <span class="n">edges</span><span class="o">=</span><span class="n">ex_branch_skeleton_resized</span><span class="p">,</span>
+                                     <span class="n">buffer</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                                    <span class="n">bbox_ratio</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+                                   <span class="n">distance_threshold</span><span class="o">=</span><span class="n">distance_threshold</span><span class="p">,</span>
+                                    <span class="n">distance_by_mesh_center</span><span class="o">=</span><span class="n">distance_by_mesh_center</span><span class="p">,</span>
+                                    <span class="n">print_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                    <span class="n">edge_loop_print</span><span class="o">=</span><span class="kc">False</span>
+                                                         <span class="p">)</span>
+    
+    <span class="n">total_distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">total_distances</span><span class="p">)</span>
+    <span class="c1">#print(f&quot;total_distances = {total_distances}&quot;)</span>
+    
+    <span class="n">old_width_calculation</span> <span class="o">=</span> <span class="n">backup_width</span>
+    
+    <span class="n">branch_width_average</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">total_distances</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">branch_width_average</span> <span class="o">&lt;</span> <span class="mf">0.0001</span><span class="p">:</span>
+        <span class="c1">#just assing the old width</span>
+        <span class="k">if</span> <span class="n">print_flag</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Assigning the old width calculation because no valid new widths&quot;</span><span class="p">)</span>
+        <span class="n">branch_width_average</span> <span class="o">=</span> <span class="n">old_width_calculation</span>
+        <span class="n">total_distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ex_branch_skeleton_resized</span><span class="p">))</span><span class="o">*</span><span class="n">branch_width_average</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">total_distances</span><span class="p">[</span><span class="n">total_distances</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">branch_width_average</span> <span class="c1">#IF RETURNED 0 THEN FILL with </span>
+
+        <span class="k">if</span> <span class="n">print_flag</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overall </span><span class="si">{</span><span class="n">summary_measure</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">branch_width_average</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total_distances = </span><span class="si">{</span><span class="n">total_distances</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">return_average</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">branch_width_average</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">total_distances</span></div>
+    
+    
+<div class="viewcode-block" id="calculate_new_width_for_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.calculate_new_width_for_neuron_obj">[docs]</a><span class="k">def</span> <span class="nf">calculate_new_width_for_neuron_obj</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+                          <span class="n">skeleton_segment_size</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+                           <span class="n">width_segment_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">width_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">distance_by_mesh_center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                           <span class="n">no_spines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">summary_measure</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+                            <span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                            <span class="n">skip_no_spine_width_if_no_spine</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                          <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Purpose: To calculate new width definitions based on if</span>
+<span class="sd">        1) Want to use skeleton center or mesh center</span>
+<span class="sd">        2) Want to include spines or not</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">        current_neuron.calculate_new_width(no_spines=False,</span>
+<span class="sd">                                               distance_by_mesh_center=True)</span>
+<span class="sd">                                               </span>
+<span class="sd">        current_neuron.calculate_new_width(no_spines=False,</span>
+<span class="sd">                                       distance_by_mesh_center=True,</span>
+<span class="sd">                                       summary_measure=&quot;median&quot;)</span>
+<span class="sd">                                       </span>
+<span class="sd">        current_neuron.calculate_new_width(no_spines=True,</span>
+<span class="sd">                                       distance_by_mesh_center=True,</span>
+<span class="sd">                                       summary_measure=&quot;mean&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        current_neuron.calculate_new_width(no_spines=True,</span>
+<span class="sd">                                       distance_by_mesh_center=True,</span>
+<span class="sd">                                       summary_measure=&quot;median&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;width_name BEFORE processing = </span><span class="si">{</span><span class="n">width_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        
+        <span class="k">if</span> <span class="n">width_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">width_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">summary_measure</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;mesh_center&quot;</span> <span class="ow">in</span> <span class="n">width_name</span><span class="p">:</span>
+                <span class="n">distance_by_mesh_center</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">distance_by_mesh_center</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="s2">&quot;no_spine&quot;</span> <span class="ow">in</span> <span class="n">width_name</span><span class="p">:</span>
+                <span class="n">no_spines</span><span class="o">=</span><span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">no_spines</span><span class="o">=</span><span class="kc">False</span>
+            
+            <span class="k">if</span> <span class="s2">&quot;mean&quot;</span> <span class="ow">in</span> <span class="n">width_name</span><span class="p">:</span>
+                <span class="n">summary_measure</span> <span class="o">=</span> <span class="s2">&quot;mean&quot;</span>
+            <span class="k">elif</span> <span class="s2">&quot;median&quot;</span> <span class="ow">in</span> <span class="n">width_name</span><span class="p">:</span>
+                <span class="n">summary_measure</span> <span class="o">=</span> <span class="s2">&quot;median&quot;</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No summary statistic was specified in the name&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">summary_measure</span> <span class="o">!=</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+            <span class="n">width_name</span> <span class="o">=</span> <span class="n">width_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span><span class="n">summary_measure</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">summary_measure</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">width_name</span><span class="p">:</span>
+                <span class="n">width_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">width_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">summary_measure</span><span class="si">}</span><span class="s2">&quot;</span>
+                
+        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;no_spine&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">width_name</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">no_spines</span><span class="p">):</span>
+            <span class="n">width_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;no_spine_</span><span class="si">{</span><span class="n">width_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;mesh_center&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">width_name</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">distance_by_mesh_center</span><span class="p">):</span>
+            <span class="n">width_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">width_name</span><span class="si">}</span><span class="s2">_mesh_center&quot;</span>
+        
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After processing&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;width_name = </span><span class="si">{</span><span class="n">width_name</span><span class="si">}</span><span class="s2">, distance_by_mesh_center= </span><span class="si">{</span><span class="n">distance_by_mesh_center</span><span class="si">}</span><span class="s2">, no_spines = </span><span class="si">{</span><span class="n">no_spines</span><span class="si">}</span><span class="s2">, summary_measure= </span><span class="si">{</span><span class="n">summary_measure</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">limb_idx</span> <span class="ow">in</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">get_limb_node_names</span><span class="p">():</span>
+            
+            <span class="k">if</span> <span class="n">limb_branch_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">limb_idx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">limb_branch_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">continue</span>
+                    
+            <span class="k">for</span> <span class="n">branch_idx</span> <span class="ow">in</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">get_branch_node_names</span><span class="p">(</span><span class="n">limb_idx</span><span class="p">):</span>
+                
+                <span class="k">if</span> <span class="n">limb_branch_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">branch_idx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">limb_branch_dict</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]:</span>
+                        <span class="k">continue</span>
+                
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Working on limb </span><span class="si">{</span><span class="n">limb_idx</span><span class="si">}</span><span class="s2"> branch </span><span class="si">{</span><span class="n">branch_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">curr_branch_obj</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">][</span><span class="n">branch_idx</span><span class="p">]</span>
+                
+
+                <span class="c1">#Add rule that will help skip segment if has no spines</span>
+                <span class="n">already_computed</span> <span class="o">=</span> <span class="kc">False</span>
+                
+                <span class="k">if</span> <span class="n">skip_no_spine_width_if_no_spine</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="p">((</span><span class="n">curr_branch_obj</span><span class="o">.</span><span class="n">spines</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">curr_branch_obj</span><span class="o">.</span><span class="n">spines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">no_spines</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;no_spine&quot;</span> <span class="ow">in</span> <span class="n">width_name</span><span class="p">:</span>
+
+                        <span class="c1">#see if we can skip</span>
+                        <span class="n">new_width_name</span> <span class="o">=</span> <span class="n">width_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;no_spine_&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">new_width_name</span> <span class="ow">in</span> <span class="n">curr_branch_obj</span><span class="o">.</span><span class="n">width_new</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+
+                            <span class="n">curr_branch_obj</span><span class="o">.</span><span class="n">width_new</span><span class="p">[</span><span class="n">width_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_branch_obj</span><span class="o">.</span><span class="n">width_new</span><span class="p">[</span><span class="n">new_width_name</span><span class="p">]</span>
+                            <span class="n">curr_branch_obj</span><span class="o">.</span><span class="n">width_array</span><span class="p">[</span><span class="n">width_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_branch_obj</span><span class="o">.</span><span class="n">width_array</span><span class="p">[</span><span class="n">new_width_name</span><span class="p">]</span>
+                            
+
+                            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    No spines and using precomputed width: </span><span class="si">{</span><span class="n">curr_branch_obj</span><span class="o">.</span><span class="n">width_new</span><span class="p">[</span><span class="n">new_width_name</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                            <span class="n">already_computed</span><span class="o">=</span><span class="kc">True</span>
+                
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">already_computed</span><span class="p">:</span>
+                    <span class="n">current_width_array</span><span class="p">,</span><span class="n">current_width</span> <span class="o">=</span> <span class="n">wu</span><span class="o">.</span><span class="n">calculate_new_width</span><span class="p">(</span><span class="n">curr_branch_obj</span><span class="p">,</span> 
+                                          <span class="n">skeleton_segment_size</span><span class="o">=</span><span class="n">skeleton_segment_size</span><span class="p">,</span>
+                                          <span class="n">width_segment_size</span><span class="o">=</span><span class="n">width_segment_size</span><span class="p">,</span> 
+                                          <span class="n">distance_by_mesh_center</span><span class="o">=</span><span class="n">distance_by_mesh_center</span><span class="p">,</span>
+                                          <span class="n">no_spines</span><span class="o">=</span><span class="n">no_spines</span><span class="p">,</span>
+                                          <span class="n">summary_measure</span><span class="o">=</span><span class="n">summary_measure</span><span class="p">,</span>
+                                          <span class="n">return_average</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                          <span class="n">print_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                        <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                        
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    current_width= </span><span class="si">{</span><span class="n">current_width</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                    <span class="n">curr_branch_obj</span><span class="o">.</span><span class="n">width_new</span><span class="p">[</span><span class="n">width_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_width</span>
+                    <span class="n">curr_branch_obj</span><span class="o">.</span><span class="n">width_array</span><span class="p">[</span><span class="n">width_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_width_array</span>
+                
+                <span class="n">curr_branch_obj</span><span class="o">.</span><span class="n">width_array_skeletal_lengths</span> <span class="o">=</span> <span class="kc">None</span></div>
+                    
+                    
+
+<div class="viewcode-block" id="neuron_width_calculation_standard"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.neuron_width_calculation_standard">[docs]</a><span class="k">def</span> <span class="nf">neuron_width_calculation_standard</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">widths_to_calculate</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;median_mesh_center&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;no_spine_median_mesh_center&quot;</span><span class="p">),</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">limb_branch_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">widths_to_calculate</span><span class="p">:</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">----Working on width: </span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">-----&quot;</span><span class="p">)</span>
+        <span class="n">wu</span><span class="o">.</span><span class="n">calculate_new_width_for_neuron_obj</span><span class="p">(</span>
+            <span class="n">neuron_obj</span><span class="p">,</span>
+            <span class="n">width_name</span><span class="o">=</span><span class="n">w</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+            <span class="n">limb_branch_dict</span><span class="o">=</span><span class="n">limb_branch_dict</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time for calculating </span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+    <span class="k">return</span> <span class="n">neuron_obj</span></div>
+
+
+<span class="c1">#--- from neurd_packages ---</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+
+<span class="c1">#--- from mesh_tools ---</span>
+<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">compartment_utils</span> <span class="k">as</span> <span class="n">cu</span>
+<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
+<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+
+<span class="c1">#--- from python_tools ---</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">width_utils</span> <span class="k">as</span> <span class="n">wu</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

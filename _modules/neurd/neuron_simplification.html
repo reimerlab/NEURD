@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.neuron_simplification &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.neuron_simplification</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.neuron_simplification</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+
+
+
+<span class="sd">For functions that operate over the whole neuron object</span>
+
+
+
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">copy</span> 
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="c1"># --------- functions that will carry out deletion ---------</span>
+<div class="viewcode-block" id="branch_idx_map_from_branches_to_delete_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.branch_idx_map_from_branches_to_delete_on_limb">[docs]</a><span class="k">def</span> <span class="nf">branch_idx_map_from_branches_to_delete_on_limb</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branches_to_delete</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To generate a mapping dictionary </span>
+<span class="sd">    from nodes to delete</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    from neurd import neuron_simplification as nsimp</span>
+<span class="sd">    nsimp.branch_idx_map_from_branches_to_delete_on_limb(</span>
+<span class="sd">        limb_obj,</span>
+<span class="sd">        branches_to_delete = [0,1,5],</span>
+<span class="sd">        verbose = True</span>
+
+<span class="sd">    )</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new_node_name_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="n">valid_counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">delete_counter</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">limb_obj</span><span class="o">.</span><span class="n">get_branch_names</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">branches_to_delete</span><span class="p">:</span>
+            <span class="n">new_node_name_dict</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">delete_counter</span>
+            <span class="n">delete_counter</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_node_name_dict</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">valid_counter</span>
+            <span class="n">valid_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;new_node_name_dict = </span><span class="si">{</span><span class="n">new_node_name_dict</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">new_node_name_dict</span></div>
+
+<div class="viewcode-block" id="reset_concept_network_branch_endpoints"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.reset_concept_network_branch_endpoints">[docs]</a><span class="k">def</span> <span class="nf">reset_concept_network_branch_endpoints</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To recalculate endpoints of branches on concept network</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">branch_idx</span> <span class="ow">in</span> <span class="n">limb_obj</span><span class="o">.</span><span class="n">get_branch_names</span><span class="p">():</span>
+        <span class="n">branch_obj</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">branch_idx</span><span class="p">]</span>
+        <span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">branch_idx</span><span class="p">][</span><span class="s2">&quot;endpoints&quot;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoints</span></div>
+        
+<div class="viewcode-block" id="all_concept_network_data_updated"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.all_concept_network_data_updated">[docs]</a><span class="k">def</span> <span class="nf">all_concept_network_data_updated</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To revise the all concept network data</span>
+<span class="sd">    for a limb object, assuming after the concept network has been reset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nsimp</span><span class="o">.</span><span class="n">reset_concept_network_branch_endpoints</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">)</span>
+    <span class="n">starting_node</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">get_starting_node_from_limb_concept_network</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">)</span>
+    <span class="n">all_concept_network_data_revised</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="o">.</span><span class="n">all_concept_network_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">all_concept_network_data_revised</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;starting_node&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">starting_node</span>
+    <span class="n">all_concept_network_data_revised</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;starting_endpoints&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">starting_node</span><span class="p">]</span><span class="o">.</span><span class="n">endpoints</span>
+    <span class="n">all_concept_network_data_revised</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;concept_network&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network</span>
+
+    <span class="k">return</span> <span class="n">all_concept_network_data_revised</span></div>
+
+<div class="viewcode-block" id="delete_branches_from_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.delete_branches_from_limb">[docs]</a><span class="k">def</span> <span class="nf">delete_branches_from_limb</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">limb_idx</span><span class="p">,</span>
+    <span class="n">branches_to_delete</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To adjust a whole limb object</span>
+<span class="sd">    after floating branch pieces or path branches</span>
+<span class="sd">    combines (so there is not change to the whole limb mesh)</span>
+
+<span class="sd">    Pseudocode:</span>
+<span class="sd">    1) Find a mapping of old node names to new node names</span>
+<span class="sd">    2) Renmae the nodes in the concept network</span>
+<span class="sd">    3) Delete the nodes from the concept network</span>
+<span class="sd">    4) Fix all of the starting network info using the name map</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">limb_obj</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span>
+    
+    <span class="c1">#1) Find a mapping of old node names to new node names</span>
+    <span class="n">node_map</span> <span class="o">=</span> <span class="n">nsimp</span><span class="o">.</span><span class="n">branch_idx_map_from_branches_to_delete_on_limb</span><span class="p">(</span>
+        <span class="n">limb_obj</span><span class="p">,</span>
+        <span class="n">branches_to_delete</span> <span class="o">=</span> <span class="n">branches_to_delete</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+
+    <span class="p">)</span>
+    
+    <span class="c1">#2) Renmae the nodes in the concept network</span>
+    <span class="n">xu</span><span class="o">.</span><span class="n">relabel_node_names</span><span class="p">(</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network</span><span class="p">,</span><span class="n">mapping</span> <span class="o">=</span> <span class="n">node_map</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AFter relabeling branch names: </span><span class="si">{</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">get_branch_names</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1">#3) Delete the nodes from the concept network</span>
+    <span class="n">xu</span><span class="o">.</span><span class="n">remove_nodes_from</span><span class="p">(</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network</span><span class="p">,[</span><span class="n">node_map</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">branches_to_delete</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After branch deletion, names: </span><span class="si">{</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">get_branch_names</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1">#4) Fix all of the starting network info using the name map</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current starting node BEFORE reset: </span><span class="si">{</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">current_starting_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="n">limb_obj</span><span class="o">.</span><span class="n">all_concept_network_data</span> <span class="o">=</span> <span class="n">nsimp</span><span class="o">.</span><span class="n">all_concept_network_data_updated</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">)</span>
+    <span class="n">limb_obj</span><span class="o">.</span><span class="n">set_concept_network_directional</span><span class="p">(</span><span class="n">starting_soma</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current starting node after reset: </span><span class="si">{</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">current_starting_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># compute the new limb correspondence</span>
+    
+    <span class="c1">#seting the attributes correctly in the preprocessed data</span>
+    <span class="n">limb_idx</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">limb_idx</span><span class="p">(</span><span class="n">limb_idx</span><span class="p">)</span>
+    <span class="n">nru</span><span class="o">.</span><span class="n">set_preprocessed_data_from_limb_no_mesh_change</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">limb_idx</span><span class="o">=</span><span class="n">limb_idx</span><span class="p">,</span><span class="n">limb_obj</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time for deletion: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        
+        
+<div class="viewcode-block" id="delete_branches_from_neuron"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.delete_branches_from_neuron">[docs]</a><span class="k">def</span> <span class="nf">delete_branches_from_neuron</span><span class="p">(</span>
+        <span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">limb_branch_dict</span><span class="p">,</span>
+        <span class="n">plot_final_neuron</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">inplace</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To delete a limb_branch_dict</span>
+<span class="sd">    from a neuron object if there is no mesh loss</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">copy_neuron</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">limb_branch_dict</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">final_neuron_obj</span> <span class="o">=</span> <span class="n">neuron_obj</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">limb_name</span><span class="p">,</span><span class="n">branches_to_delete</span> <span class="ow">in</span> <span class="n">limb_branch_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---Working on limb </span><span class="si">{</span><span class="n">limb_name</span><span class="si">}</span><span class="s2">, deleting </span><span class="si">{</span><span class="n">branches_to_delete</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+            <span class="n">nsimp</span><span class="o">.</span><span class="n">delete_branches_from_limb</span><span class="p">(</span>
+                <span class="n">neuron_obj</span><span class="p">,</span>
+                <span class="n">limb_name</span><span class="p">,</span>
+                <span class="n">branches_to_delete</span><span class="o">=</span><span class="n">branches_to_delete</span><span class="p">,</span>
+                <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
+                <span class="p">)</span>
+            
+    <span class="k">if</span> <span class="n">plot_final_neuron</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plotting final neuron after deletion&quot;</span><span class="p">)</span>
+        <span class="n">nviz</span><span class="o">.</span><span class="n">visualize_neuron_lite</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">neuron_obj</span></div>
+    
+        
+<span class="c1"># ----------------------------------------</span>
+
+
+
+<div class="viewcode-block" id="combine_path_branches_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.combine_path_branches_on_limb">[docs]</a><span class="k">def</span> <span class="nf">combine_path_branches_on_limb</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">one_downstream_node_branches</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">return_branches_to_delete</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">inplace</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     Purpose: To combine all branches that are along a </span>
+<span class="sd">    non-branching path into one branch FOR JUST ONE BRANCH</span>
+
+<span class="sd">    1) Find all the nodes with only one child if not already passed</span>
+<span class="sd">    2) Get all the children of ups (for that branch) and convert into one list</span>
+<span class="sd">    3) Find the connected components</span>
+<span class="sd">    For each connected component:</span>
+<span class="sd">        a) Order the branches from most upstream to least</span>
+<span class="sd">        b) Determine the most upstream node</span>
+<span class="sd">        c) Combine each d stream node sequentially with upstream node</span>
+<span class="sd">        d) Add all downstream nodes to branches to delete</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">limb_obj</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">)</span>
+
+
+    <span class="c1">#1) Find all the nodes with only one child if not already passed</span>
+    <span class="c1">#if one_downstream_node_branches is None:</span>
+    <span class="n">one_downstream_node_branches</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">limb_obj</span><span class="o">.</span><span class="n">get_branch_names</span><span class="p">()</span>
+                                   <span class="k">if</span> <span class="n">nru</span><span class="o">.</span><span class="n">n_downstream_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;one_downstream_node_branches = </span><span class="si">{</span><span class="n">one_downstream_node_branches</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        
+    <span class="c1">#3) Find the connected components</span>
+    <span class="n">conn_comp_pre</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">connected_components_from_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                                                           <span class="n">one_downstream_node_branches</span><span class="p">,</span>
+                                                           <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                                          <span class="n">use_concept_network_directional</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;conn_comp_pre in func = </span><span class="si">{</span><span class="n">conn_comp_pre</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="n">verbose_child</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">conn_comp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">conn_comp_pre</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose_child</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Working on  comp = </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">all_children</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>
+            <span class="n">curr_children</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">children_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">curr_children</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Branch </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2"> did not have one child&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose_child</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;branch </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2"> had children </span><span class="si">{</span><span class="n">curr_children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">all_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_children</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            
+        <span class="k">if</span> <span class="n">verbose_child</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;all_children = </span><span class="si">{</span><span class="n">all_children</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">new_conn_com</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="n">all_children</span><span class="p">))</span>
+<span class="c1">#         if verbose:</span>
+<span class="c1">#             print(f&quot;for conn comp {c}: all_children = {all_children}&quot;)</span>
+<span class="c1">#             print(f&quot;new_conn_com = {new_conn_com}&quot;)</span>
+        <span class="n">conn_comp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_conn_com</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;conn_comp in func = </span><span class="si">{</span><span class="n">conn_comp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="w">        </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    #2) Get all the children of ups (for that branch) and convert into one list</span>
+<span class="sd">    all_nodes = []</span>
+<span class="sd">    for n in one_downstream_node_branches:</span>
+<span class="sd">        curr_down = nru.downstream_nodes(limb_obj,n)</span>
+<span class="sd">        if len(curr_down) != 1:</span>
+<span class="sd">            raise Exception(&quot;&quot;)</span>
+<span class="sd">        if verbose:</span>
+<span class="sd">            print(f&quot;Branch {n} downstream nodes = {curr_down}&quot;)</span>
+
+<span class="sd">        all_nodes += [n, curr_down[0]]</span>
+
+<span class="sd">    if verbose:</span>
+<span class="sd">        print(f&quot;All nodes to process = {all_nodes}&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    
+        
+    <span class="n">debug_time</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+    <span class="c1">#4) For each connected component:</span>
+    <span class="n">branches_to_delete</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conn_comp</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---working on comp </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1">#a) Order the branches from most upstream to least</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">ordered_branches</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">order_branches_by_skeletal_distance_from_soma</span><span class="p">(</span>
+        <span class="n">limb_obj</span><span class="p">,</span>
+        <span class="n">c</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">)</span>
+        <span class="c1">#b) Determine the most upstream node</span>
+        <span class="n">up_branch</span> <span class="o">=</span> <span class="n">ordered_branches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">down_branches</span> <span class="o">=</span> <span class="n">ordered_branches</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        
+        <span class="k">if</span> <span class="n">debug_time</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ordering branches = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="c1">#c) Combine each d stream node sequentially with upstream node</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">down_branches</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">-- merging downstream </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2"> with </span><span class="si">{</span><span class="n">up_branch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                
+            <span class="n">common_endpoint</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">downstream_endpoint</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">up_branch</span><span class="p">)</span>    
+            <span class="n">original_downstream_last_endpoint</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">downstream_endpoint</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">d</span><span class="p">)</span> 
+            
+            <span class="n">new_branch_obj</span><span class="p">,</span><span class="n">jitter_segment</span> <span class="o">=</span> <span class="n">bu</span><span class="o">.</span><span class="n">combine_branches</span><span class="p">(</span>
+                <span class="n">branch_upstream</span><span class="o">=</span><span class="n">limb_obj</span><span class="p">[</span><span class="n">up_branch</span><span class="p">],</span>
+                <span class="n">branch_downstream</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">d</span><span class="p">],</span>
+                <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                <span class="n">add_skeleton</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="n">add_labels</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">common_endpoint</span> <span class="o">=</span> <span class="n">common_endpoint</span><span class="p">,</span>
+                <span class="n">return_jitter_segment</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="p">)</span>
+            <span class="n">limb_obj</span><span class="p">[</span><span class="n">up_branch</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_branch_obj</span>
+            
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;jitter_segment = </span><span class="si">{</span><span class="n">jitter_segment</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;b_d.endpoints = </span><span class="si">{</span><span class="n">limb_obj</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">endpoints</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">jitter_segment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">childs</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">children_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Applyig jitter segment to </span><span class="si">{</span><span class="n">childs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">childs</span><span class="p">:</span>
+                    <span class="n">bu</span><span class="o">.</span><span class="n">skeleton_adjust</span><span class="p">(</span>
+                    <span class="n">limb_obj</span><span class="p">[</span><span class="n">c</span><span class="p">],</span>
+                    <span class="n">skeleton_append</span><span class="o">=</span><span class="n">jitter_segment</span><span class="p">,</span>
+                    <span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">debug_time</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;combining branches = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                
+        <span class="c1">#d) Add all downstream nodes to branches to delete</span>
+        <span class="n">branches_to_delete</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">down_branches</span><span class="p">)</span>
+        
+        <span class="c1">#adjust the concept network to connect to </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Purpose: To remove from the concept network the connections </span>
+<span class="sd">        for the branches that were removed (and then reconnect to original master branch)</span>
+<span class="sd">        </span>
+<span class="sd">        Pseudocode: </span>
+<span class="sd">        1) Get all of the downstream nodes for all down branches</span>
+<span class="sd">        For each downstream node: </span>
+<span class="sd">        a. delete the upstream to downstream branch</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">down_branches_down_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">nru</span><span class="o">.</span><span class="n">children_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">down_branches</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;down_branches_down_nodes = </span><span class="si">{</span><span class="n">down_branches_down_nodes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">d_idx</span><span class="p">,(</span><span class="n">d_branch</span><span class="p">,</span><span class="n">d_downs</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">down_branches</span><span class="p">,</span><span class="n">down_branches_down_nodes</span><span class="p">)):</span>
+
+            <span class="k">if</span> <span class="n">d_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">upstream_edges_add</span> <span class="o">=</span> <span class="p">[[</span><span class="n">up_branch</span><span class="p">,</span><span class="n">d_branch</span><span class="p">]]</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removing upstream edges&quot;</span><span class="p">)</span>
+
+                <span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network</span><span class="o">.</span><span class="n">remove_edges_from</span><span class="p">(</span><span class="n">upstream_edges_add</span><span class="p">)</span>
+                <span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network_directional</span><span class="o">.</span><span class="n">remove_edges_from</span><span class="p">(</span><span class="n">upstream_edges_add</span><span class="p">)</span>
+
+
+            <span class="n">delete_edges</span> <span class="o">=</span> <span class="p">[[</span><span class="n">d_branch</span><span class="p">,</span><span class="n">kkk</span><span class="p">]</span> <span class="k">for</span> <span class="n">kkk</span> <span class="ow">in</span> <span class="n">d_downs</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adjusting deleting downstream edges </span><span class="si">{</span><span class="n">delete_edges</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network</span><span class="o">.</span><span class="n">remove_edges_from</span><span class="p">(</span><span class="n">delete_edges</span><span class="p">)</span>
+            <span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network_directional</span><span class="o">.</span><span class="n">remove_edges_from</span><span class="p">(</span><span class="n">delete_edges</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">d_idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">down_branches</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">up_add_edges</span> <span class="o">=</span> <span class="p">[[</span><span class="n">up_branch</span><span class="p">,</span><span class="n">kkk</span><span class="p">]</span> <span class="k">for</span> <span class="n">kkk</span> <span class="ow">in</span> <span class="n">d_downs</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adjusting the upstream edges with </span><span class="si">{</span><span class="n">up_add_edges</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">([[</span><span class="n">up_branch</span><span class="p">,</span><span class="n">kkk</span><span class="p">]</span> <span class="k">for</span> <span class="n">kkk</span> <span class="ow">in</span> <span class="n">d_downs</span><span class="p">])</span>
+                <span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network_directional</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">([[</span><span class="n">up_branch</span><span class="p">,</span><span class="n">kkk</span><span class="p">]</span> <span class="k">for</span> <span class="n">kkk</span> <span class="ow">in</span> <span class="n">d_downs</span><span class="p">])</span>
+
+        
+        
+
+    <span class="k">if</span> <span class="n">return_branches_to_delete</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">limb_obj</span><span class="p">,</span><span class="n">branches_to_delete</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">limb_obj</span></div>
+    
+    
+
+<div class="viewcode-block" id="combine_path_branches"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.combine_path_branches">[docs]</a><span class="k">def</span> <span class="nf">combine_path_branches</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">plot_downstream_path_limb_branch</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">plot_final_neuron</span><span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To combine all branches that are along a </span>
+<span class="sd">    non-branching path into one branch in neuron object</span>
+
+<span class="sd">    1) Find all nodes with one downstream node (call ups)</span>
+<span class="sd">    2) For each limb: combine the branches and pass back the ones to delete</span>
+<span class="sd">    3) Delete all branches on limbs that need deletion and pass back neuron object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="n">downstream_path_limb_branch</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">query_neuron</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+                    <span class="n">functions_list</span><span class="o">=</span><span class="p">[</span><span class="n">ns</span><span class="o">.</span><span class="n">n_downstream_nodes</span><span class="p">],</span>
+                    <span class="n">query</span><span class="o">=</span><span class="s2">&quot;n_downstream_nodes == 1&quot;</span><span class="p">,</span>
+                    <span class="n">return_dataframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="c1">#limb_branch_dict_restriction=None,</span>
+                         <span class="n">plot_limb_branch_dict</span><span class="o">=</span><span class="n">plot_downstream_path_limb_branch</span>
+                   <span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;downstream_path_limb_branch= </span><span class="si">{</span><span class="n">downstream_path_limb_branch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">downstream_path_limb_branch</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">neuron_obj</span>
+    
+    <span class="k">if</span> <span class="n">return_copy</span><span class="p">:</span>
+        <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+
+    <span class="n">limb_branch_to_delete</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">limb_name</span><span class="p">,</span><span class="n">one_node_branches</span> <span class="ow">in</span> <span class="n">downstream_path_limb_branch</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">---Working on </span><span class="si">{</span><span class="n">limb_name</span><span class="si">}</span><span class="s2">: one_node_branches = </span><span class="si">{</span><span class="n">one_node_branches</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+        <span class="n">new_limb</span><span class="p">,</span><span class="n">branches_to_delete</span> <span class="o">=</span> <span class="n">nsimp</span><span class="o">.</span><span class="n">combine_path_branches_on_limb</span><span class="p">(</span>
+            <span class="n">limb_obj</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_name</span><span class="p">],</span>
+            <span class="n">one_downstream_node_branches</span> <span class="o">=</span> <span class="n">one_node_branches</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+            <span class="n">return_branches_to_delete</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_limb</span>
+        <span class="n">limb_branch_to_delete</span><span class="p">[</span><span class="n">limb_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">branches_to_delete</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;limb_branch_to_delete= </span><span class="si">{</span><span class="n">limb_branch_to_delete</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+    <span class="n">new_neuron_obj</span> <span class="o">=</span> <span class="n">nsimp</span><span class="o">.</span><span class="n">delete_branches_from_neuron</span><span class="p">(</span>
+        <span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="n">limb_branch_to_delete</span><span class="p">,</span>
+        <span class="n">plot_final_neuron</span> <span class="o">=</span> <span class="n">plot_final_neuron</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">new_neuron_obj</span></div>
+
+
+<div class="viewcode-block" id="floating_end_nodes_limb_branch"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.floating_end_nodes_limb_branch">[docs]</a><span class="k">def</span> <span class="nf">floating_end_nodes_limb_branch</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">limb_branch_dict_restriction</span> <span class="o">=</span> <span class="s2">&quot;dendrite&quot;</span><span class="p">,</span>
+    <span class="n">width_max</span>  <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="n">max_skeletal_length</span> <span class="o">=</span> <span class="mi">7000</span><span class="p">,</span><span class="c1">#6000,#5000,</span>
+    <span class="n">min_distance_from_soma</span> <span class="o">=</span> <span class="mi">10_000</span><span class="p">,</span>
+    <span class="c1">#min_farthest_skeletal_dist = 0,</span>
+    <span class="n">return_df</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To find a limb branch dict of pieces</span>
+<span class="sd">    that were probably stitched to the mesh but</span>
+<span class="sd">    probably dont want splitting the skeleton</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">limb_branch_dict_restriction</span> <span class="o">==</span> <span class="s2">&quot;dendrite&quot;</span><span class="p">:</span>
+        <span class="n">limb_branch_dict_restriction</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">dendrite_limb_branch_dict</span>
+    
+    <span class="n">query</span> <span class="o">=</span><span class="p">(</span><span class="s2">&quot;(n_downstream_nodes == 0) &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot; and (n_siblings &gt; 0) &quot;</span>
+          <span class="c1">#f&quot; and (distance_from_soma &gt; )&quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;and (width_new &lt; </span><span class="si">{</span><span class="n">width_max</span><span class="si">}</span><span class="s2">)&quot;</span>
+          <span class="c1">#f&quot;and (farthest_distance_from_skeleton_to_mesh &gt; {min_farthest_skeletal_dist})&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;and (is_branch_mesh_connected_to_neighborhood == False)&quot;</span>
+          <span class="sa">f</span><span class="s2">&quot; and (skeletal_length &lt; </span><span class="si">{</span><span class="n">max_skeletal_length</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;query = </span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="n">functions_list</span><span class="o">=</span><span class="p">[</span><span class="n">ns</span><span class="o">.</span><span class="n">n_downstream_nodes</span><span class="p">,</span>
+                                   <span class="n">ns</span><span class="o">.</span><span class="n">width_new</span><span class="p">,</span>
+                                    <span class="s2">&quot;skeletal_length&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;n_siblings&quot;</span><span class="p">,</span>
+                                    <span class="c1">#&quot;farthest_distance_from_skeleton_to_mesh&quot;,</span>
+                                    <span class="s2">&quot;is_branch_mesh_connected_to_neighborhood&quot;</span>
+                                   <span class="p">]</span>
+
+    <span class="n">limb_br</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">query_neuron</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+                    <span class="n">functions_list</span><span class="o">=</span><span class="n">functions_list</span><span class="p">,</span>
+                    <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+                    <span class="n">return_dataframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">limb_branch_dict_restriction</span><span class="o">=</span><span class="n">limb_branch_dict_restriction</span><span class="p">,</span>
+                         <span class="n">plot_limb_branch_dict</span><span class="o">=</span><span class="n">plot</span><span class="p">,</span>
+
+                   <span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> 
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;floating stitch limb branch: </span><span class="si">{</span><span class="n">limb_br</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">return_df</span><span class="p">:</span>
+        <span class="n">limb_br_df</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">query_neuron</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+                        <span class="n">functions_list</span><span class="o">=</span><span class="n">functions_list</span><span class="p">,</span>
+                        <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+                        <span class="n">return_dataframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">limb_branch_dict_restriction</span><span class="o">=</span><span class="n">limb_branch_dict_restriction</span><span class="p">,</span>
+                             <span class="n">plot_limb_branch_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+
+                       <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">limb_br</span><span class="p">,</span><span class="n">limb_br_df</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">limb_br</span></div>
+    
+
+<div class="viewcode-block" id="merge_floating_end_nodes_to_parent"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.merge_floating_end_nodes_to_parent">[docs]</a><span class="k">def</span> <span class="nf">merge_floating_end_nodes_to_parent</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">floating_end_nodes_limb_branch_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">plot_floating_end_nodes_limb_branch_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">add_merge_label</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">plot_final_neuron</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To combine the floating end nodes</span>
+<span class="sd">    with their parent branch</span>
+
+<span class="sd">    Psueodocode: </span>
+<span class="sd">    1) Find all the floating endnodes</span>
+
+<span class="sd">    For each limb and branch that is a floating endnode:</span>
+<span class="sd">        1) Find the parent node</span>
+<span class="sd">        2) Combine it with parent node</span>
+
+<span class="sd">    Create new limb object by deleteing all the end nodes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">return_copy</span><span class="p">:</span>
+        <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    
+
+    <span class="k">if</span> <span class="n">floating_end_nodes_limb_branch_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">floating_end_nodes_limb_branch_dict</span> <span class="o">=</span> <span class="n">nsimp</span><span class="o">.</span><span class="n">floating_end_nodes_limb_branch</span><span class="p">(</span>
+            <span class="n">neuron_obj</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+            <span class="n">plot</span> <span class="o">=</span> <span class="n">plot_floating_end_nodes_limb_branch_dict</span><span class="p">)</span>
+
+    <span class="n">branches_to_delete</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">limb_idx</span><span class="p">,</span><span class="n">branches</span> <span class="ow">in</span> <span class="n">floating_end_nodes_limb_branch_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">-- Working on limb </span><span class="si">{</span><span class="n">limb_idx</span><span class="si">}</span><span class="s2">--&quot;</span><span class="p">)</span>
+    
+        <span class="n">limb_obj</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span>
+        
+        <span class="k">for</span> <span class="n">branch_idx</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">:</span>
+            
+            <span class="n">parent_node</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">parent_node</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">parent_node</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+                
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">-- merging downstream </span><span class="si">{</span><span class="n">branch_idx</span><span class="si">}</span><span class="s2"> into parent </span><span class="si">{</span><span class="n">parent_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="n">limb_obj</span><span class="p">[</span><span class="n">parent_node</span><span class="p">]</span> <span class="o">=</span> <span class="n">bu</span><span class="o">.</span><span class="n">combine_branches</span><span class="p">(</span>
+                <span class="n">branch_upstream</span><span class="o">=</span><span class="n">limb_obj</span><span class="p">[</span><span class="n">parent_node</span><span class="p">],</span>
+                <span class="n">branch_downstream</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">branch_idx</span><span class="p">],</span>
+                <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                <span class="n">add_skeleton</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">add_labels</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">add_merge_label</span><span class="p">:</span>
+                <span class="n">limb_obj</span><span class="p">[</span><span class="n">parent_node</span><span class="p">]</span><span class="o">.</span><span class="n">labels</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;merged_</span><span class="si">{</span><span class="n">branch_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                
+            <span class="k">if</span> <span class="n">limb_idx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">branches_to_delete</span><span class="p">:</span>
+                <span class="n">branches_to_delete</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            
+            <span class="n">branches_to_delete</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">branch_idx</span><span class="p">)</span>
+            
+            
+        <span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">limb_obj</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;branches_to_delete= </span><span class="si">{</span><span class="n">branches_to_delete</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+    <span class="n">new_neuron_obj</span> <span class="o">=</span> <span class="n">nsimp</span><span class="o">.</span><span class="n">delete_branches_from_neuron</span><span class="p">(</span>
+        <span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="n">branches_to_delete</span><span class="p">,</span>
+        <span class="n">plot_final_neuron</span> <span class="o">=</span> <span class="n">plot_final_neuron</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">new_neuron_obj</span></div>
+
+
+<div class="viewcode-block" id="branching_simplification"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.branching_simplification">[docs]</a><span class="k">def</span> <span class="nf">branching_simplification</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">return_copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    
+    <span class="c1">#floating endpiece arguments</span>
+    <span class="n">plot_floating_end_nodes_limb_branch_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">plot_final_neuron_floating_endpoints</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_before_combine_path_branches</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    
+    <span class="c1"># combine path arguments</span>
+    <span class="n">plot_downstream_path_limb_branch</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">plot_final_neuron_path</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    
+    
+    <span class="n">verbose_merging</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">plot_after_simplification</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Total simplification of neuron object where</span>
+<span class="sd">    1) eliminates floating end nodes</span>
+<span class="sd">    2) simplifies path on neuron object</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">bu</span><span class="o">.</span><span class="n">set_branches_endpoints_upstream_downstream_idx</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    
+    
+    <span class="n">original_len_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N_branches on limbs before simplification&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">limb_idx</span> <span class="ow">in</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">get_limb_node_names</span><span class="p">():</span>
+            <span class="n">curr_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">limb_idx</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">curr_len</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">original_len_dict</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_len</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- STARTING merge_floating_end_nodes_to_parent----&quot;</span><span class="p">)</span>
+    <span class="n">new_neuron_obj</span> <span class="o">=</span> <span class="n">nsimp</span><span class="o">.</span><span class="n">merge_floating_end_nodes_to_parent</span><span class="p">(</span>
+        <span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose_merging</span><span class="p">,</span>
+        <span class="n">plot_floating_end_nodes_limb_branch_dict</span> <span class="o">=</span> <span class="n">plot_floating_end_nodes_limb_branch_dict</span><span class="p">,</span>
+        <span class="n">plot_final_neuron</span> <span class="o">=</span> <span class="n">plot_final_neuron_floating_endpoints</span><span class="p">,</span>
+        <span class="n">return_copy</span><span class="o">=</span><span class="n">return_copy</span>
+    <span class="p">)</span>
+    
+    <span class="n">merge_float_len_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2">---N_branches on limbs AFTER merge_floating_end_nodes_to_parent---&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">limb_idx</span> <span class="ow">in</span> <span class="n">new_neuron_obj</span><span class="o">.</span><span class="n">get_limb_node_names</span><span class="p">():</span>
+            <span class="n">curr_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_neuron_obj</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">limb_idx</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">curr_len</span><span class="si">}</span><span class="s2"> (difference of </span><span class="si">{</span><span class="n">original_len_dict</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">curr_len</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="n">merge_float_len_dict</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_len</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2">--- STARTING COMBINING BRANCHES----&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">return_before_combine_path_branches</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">new_neuron_obj</span>
+    
+    <span class="n">n_obj_ret</span> <span class="o">=</span> <span class="n">nsimp</span><span class="o">.</span><span class="n">combine_path_branches</span><span class="p">(</span>
+        <span class="n">new_neuron_obj</span><span class="p">,</span>
+        <span class="n">plot_downstream_path_limb_branch</span> <span class="o">=</span> <span class="n">plot_downstream_path_limb_branch</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose_merging</span><span class="p">,</span>
+        <span class="n">plot_final_neuron</span><span class="o">=</span> <span class="n">plot_final_neuron_path</span><span class="p">,</span>
+        <span class="n">return_copy</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="p">)</span>
+    
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2">---N_branches on limbs AFTER combine_path_branches---&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">limb_idx</span> <span class="ow">in</span> <span class="n">n_obj_ret</span><span class="o">.</span><span class="n">get_limb_node_names</span><span class="p">():</span>
+            <span class="n">curr_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">n_obj_ret</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">limb_idx</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">curr_len</span><span class="si">}</span><span class="s2"> (difference of </span><span class="si">{</span><span class="n">merge_float_len_dict</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">curr_len</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            
+            
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2">---N_branches on limbs AFTER total simplification---&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">limb_idx</span> <span class="ow">in</span> <span class="n">n_obj_ret</span><span class="o">.</span><span class="n">get_limb_node_names</span><span class="p">():</span>
+            <span class="n">curr_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">n_obj_ret</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">limb_idx</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">curr_len</span><span class="si">}</span><span class="s2"> (difference of </span><span class="si">{</span><span class="n">original_len_dict</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">curr_len</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">***Total time for branch simplification = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">plot_after_simplification</span><span class="p">:</span>
+        <span class="n">nviz</span><span class="o">.</span><span class="n">visualize_neuron</span><span class="p">(</span>
+            <span class="n">n_obj_ret</span><span class="p">,</span>
+            <span class="n">limb_branch_dict</span><span class="o">=</span><span class="s2">&quot;all&quot;</span>
+        <span class="p">)</span>
+            
+    <span class="k">return</span> <span class="n">n_obj_ret</span></div>
+
+
+<span class="c1">#--- from neurd_packages ---</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+
+<span class="c1">#--- from python_tools ---</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_simplification</span> <span class="k">as</span> <span class="n">nsimp</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

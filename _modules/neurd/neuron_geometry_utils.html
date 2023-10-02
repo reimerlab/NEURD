@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.neuron_geometry_utils &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.neuron_geometry_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.neuron_geometry_utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+
+
+
+<span class="sd">Purpose: To look at the angles and projection</span>
+<span class="sd">angles of different compartments of neurons</span>
+
+
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+
+<div class="viewcode-block" id="add_xz_angles_to_df"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_geometry_utils.add_xz_angles_to_df">[docs]</a><span class="k">def</span> <span class="nf">add_xz_angles_to_df</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">compartments</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;axon&quot;</span><span class="p">,</span><span class="s2">&quot;dendrite&quot;</span><span class="p">,</span><span class="s2">&quot;basal&quot;</span><span class="p">,</span><span class="s2">&quot;apical&quot;</span><span class="p">)):</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To append the xz degree angle for all the vectors</span>
+<span class="sd">    in all of the compartments</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    
+    <span class="n">df_vec</span> <span class="o">=</span> <span class="n">df</span>
+    <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">compartments</span><span class="p">:</span>
+        <span class="n">df_vec</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">_limb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df_vec</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">_node&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()]</span><span class="c1">#[:,0]</span>
+
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">_skeleton_vector&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">_skeleton_vector_weighted&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">_soma_vector&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">_soma_vector_weighted&quot;</span>
+        <span class="p">]</span>
+
+
+        <span class="n">curr_map</span> <span class="o">=</span> <span class="n">df_vec</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">_node == </span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="s2">_node&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="n">angle_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_xz_angle&quot;</span>
+            <span class="n">df_vec</span><span class="p">[</span><span class="n">angle_name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="n">df_vec</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">curr_map</span><span class="p">,</span><span class="n">angle_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">nu</span><span class="o">.</span><span class="n">angle_from_xy_vec</span><span class="p">(</span><span class="n">df_vec</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_x_nm&quot;</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_z_nm&quot;</span><span class="p">]][</span><span class="n">curr_map</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+
+    <span class="k">return</span> <span class="n">df_vec</span></div>
+
+<div class="viewcode-block" id="vec_df_from_compartment"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_geometry_utils.vec_df_from_compartment">[docs]</a><span class="k">def</span> <span class="nf">vec_df_from_compartment</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">compartment</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">align_array</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">centroid_df</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    To generate a smaller df that contains all of the vector information (and xz angles)</span>
+<span class="sd">    for a given compartment. Also aligns the vectors correctly for the given dataset if requested</span>
+<span class="sd">    </span>
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Filters away nan rows</span>
+<span class="sd">    2) Aligns the vectors </span>
+<span class="sd">    3) computes the xz angles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">vector_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="p">((</span><span class="s2">&quot;angle&quot;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;_nm&quot;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">))</span> <span class="ow">and</span> <span class="n">compartment</span> <span class="ow">in</span> <span class="n">k</span><span class="p">]</span>
+    <span class="c1">#print(f&quot;vector_names = {vector_names}&quot;)</span>
+    <span class="n">identifier_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">,</span><span class="s2">&quot;split_index&quot;</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compartment</span><span class="si">}</span><span class="s2">_node&quot;</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compartment</span><span class="si">}</span><span class="s2">_n_limbs&quot;</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compartment</span><span class="si">}</span><span class="s2">_width&quot;</span><span class="p">]</span>
+    
+    
+    
+    <span class="n">curr_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">identifier_names</span> <span class="o">+</span> <span class="n">vector_names</span><span class="p">]</span>
+    <span class="n">curr_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">filter_away_nan_rows</span><span class="p">(</span><span class="n">curr_df</span><span class="p">)</span>
+    
+    <span class="c1"># adjusts all of the vectors using centroid alignment</span>
+    <span class="k">if</span> <span class="n">align_array</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">centroid_df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">centroid_df</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">seg_split_centroid_df</span><span class="p">(</span><span class="n">nm</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="n">centroid_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;centroid_x_nm&quot;</span><span class="p">,</span><span class="s2">&quot;centroid_y_nm&quot;</span><span class="p">,</span><span class="s2">&quot;centroid_z_nm&quot;</span><span class="p">]</span>
+        <span class="n">df_with_centr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">curr_df</span><span class="p">,</span><span class="n">centroid_df</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">,</span><span class="s2">&quot;split_index&quot;</span><span class="p">],</span><span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+        <span class="n">vector_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="s2">&quot;_nm&quot;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">))</span> <span class="ow">and</span> <span class="n">compartment</span> <span class="ow">in</span> <span class="n">k</span><span class="p">])</span>
+        <span class="c1">#print(f&quot;vector_names = {vector_names}&quot;)</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vector_names</span><span class="p">)</span><span class="o">//</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">curr_names</span> <span class="o">=</span> <span class="n">vector_names</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">:(</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span>
+            
+            <span class="n">new_array</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">curr_vec_array</span><span class="p">,</span><span class="n">centr</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">df_with_centr</span><span class="p">[</span><span class="n">curr_names</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span><span class="n">df_with_centr</span><span class="p">[</span><span class="n">centroid_names</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()):</span>
+                <span class="n">curr_new_array</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">align_array</span><span class="p">(</span><span class="n">curr_vec_array</span><span class="p">,</span><span class="n">centr</span><span class="p">)</span>
+                <span class="n">new_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_new_array</span><span class="p">)</span>
+                
+            <span class="n">curr_df</span><span class="p">[</span><span class="n">curr_names</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">new_array</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">curr_df</span><span class="p">)</span><span class="si">}</span><span class="s2"> datapoints for </span><span class="si">{</span><span class="n">compartment</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">ngu</span><span class="o">.</span><span class="n">add_xz_angles_to_df</span><span class="p">(</span><span class="n">curr_df</span><span class="p">,</span><span class="n">compartments</span><span class="o">=</span><span class="p">[</span><span class="n">compartment</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="plot_compartment_vector_distribution"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_geometry_utils.plot_compartment_vector_distribution">[docs]</a><span class="k">def</span> <span class="nf">plot_compartment_vector_distribution</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">n_limbs_min</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">compartment</span> <span class="o">=</span> <span class="s2">&quot;basal&quot;</span><span class="p">,</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]),</span>
+    <span class="n">normalize</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    
+    <span class="c1"># -- parameters for 1D histogram distribution</span>
+    <span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;angle_360&quot;</span><span class="p">,</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    
+    <span class="n">title_suffix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To plot the 3D vectors or the </span>
+<span class="sd">    360 angle on a 1D histogram for a certain compartment</span>
+<span class="sd">    over the dataframe</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Restrict the dataframe to only those cells with a certain number </span>
+<span class="sd">    of limbs in that compartment</span>
+<span class="sd">    2) Get the compartment dataframe</span>
+<span class="sd">    For each vector type</span>
+<span class="sd">    a) Gets the vectors (restricts them to only certain axes of the vectors)</span>
+<span class="sd">    b) Normalizes the vector (because sometimes will be less than one if restricting to less than 3 axes)</span>
+<span class="sd">    c) </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df_vec_min_limb</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">compartment</span><span class="si">}</span><span class="s2">_n_limbs &gt;= </span><span class="si">{</span><span class="n">n_limbs_min</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="n">df_vec_curr</span> <span class="o">=</span> <span class="n">ngu</span><span class="o">.</span><span class="n">vec_df_from_compartment</span><span class="p">(</span><span class="n">df_vec_min_limb</span><span class="p">,</span><span class="n">compartment</span><span class="p">)</span>
+
+
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compartment</span><span class="si">}</span><span class="s2">_skeleton_vector&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compartment</span><span class="si">}</span><span class="s2">_skeleton_vector_weighted&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compartment</span><span class="si">}</span><span class="s2">_soma_vector&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compartment</span><span class="si">}</span><span class="s2">_soma_vector_weighted&quot;</span>
+    <span class="p">]</span>
+
+    <span class="n">axes_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s2">&quot;X&quot;</span><span class="p">,</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span><span class="s2">&quot;Z&quot;</span><span class="p">])</span>
+    <span class="n">combined_axes_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">axes_names</span><span class="p">[</span><span class="n">axes</span><span class="p">])</span>
+
+    
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">----Plotting </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">----</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1">#a) Gets the vectors for that name</span>
+        <span class="n">vector_coords</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">coordinates_from_df</span><span class="p">(</span>
+            <span class="n">df_vec_curr</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)[:,</span><span class="n">axes</span><span class="p">]</span>
+
+        <span class="c1">#b) Normalizes the vectors</span>
+        <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+            <span class="n">vector_coords</span> <span class="o">=</span> <span class="n">vector_coords</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector_coords</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">ipvu</span><span class="o">.</span><span class="n">plot_scatter</span><span class="p">(</span><span class="n">vector_coords</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plot_type</span><span class="o">==</span><span class="s2">&quot;angle_360&quot;</span><span class="p">:</span>
+                <span class="c1">#plt.hist(nu.angle_from_xy_vec(vector_coords.T),bins=bins)</span>
+                <span class="n">angle_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_xz_angle&quot;</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_vec_curr</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_xz_angle&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
+                <span class="n">xlabel</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">combined_axes_name</span><span class="si">}</span><span class="s2"> Angle (Degrees)&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sml</span><span class="o">.</span><span class="n">hist2D</span><span class="p">(</span><span class="n">vector_coords</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">vector_coords</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">xlabel</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">combined_axes_name</span><span class="si">}</span><span class="s2"> Vector&quot;</span>
+
+            <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">title_suffix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">title_suffix</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+    <span class="k">return</span> <span class="n">df_vec_curr</span></div>
+
+
+
+
+<span class="c1"># ------------- Setting up parameters -----------</span>
+
+<span class="c1"># -- default </span>
+<span class="n">attributes_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
+    <span class="n">vdi</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">data_interface</span>
+<span class="p">)</span>    
+<span class="n">global_parameters_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="c1">#max_ais_distance_from_soma = 50_000</span>
+<span class="p">)</span>
+
+<span class="c1"># -- microns</span>
+<span class="n">global_parameters_dict_microns</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">attributes_dict_microns</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1">#-- h01--</span>
+<span class="n">attributes_dict_h01</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">hvu</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
+    <span class="n">vdi</span> <span class="o">=</span> <span class="n">hvu</span><span class="o">.</span><span class="n">data_interface</span>
+<span class="p">)</span>
+<span class="n">global_parameters_dict_h01</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    
+       
+<span class="c1"># data_type = &quot;default&quot;</span>
+<span class="c1"># algorithms = None</span>
+<span class="c1"># modules_to_set = [ngu]</span>
+
+<span class="c1"># def set_global_parameters_and_attributes_by_data_type(data_type,</span>
+<span class="c1">#                                                      algorithms_list = None,</span>
+<span class="c1">#                                                       modules = None,</span>
+<span class="c1">#                                                      set_default_first = True,</span>
+<span class="c1">#                                                       verbose=False):</span>
+<span class="c1">#     if modules is None:</span>
+<span class="c1">#         modules = modules_to_set</span>
+    
+<span class="c1">#     modu.set_global_parameters_and_attributes_by_data_type(modules,data_type,</span>
+<span class="c1">#                                                           algorithms=algorithms_list,</span>
+<span class="c1">#                                                           set_default_first = set_default_first,</span>
+<span class="c1">#                                                           verbose = verbose)</span>
+    
+<span class="c1"># set_global_parameters_and_attributes_by_data_type(data_type,</span>
+<span class="c1">#                                                    algorithms)</span>
+
+<span class="c1"># def output_global_parameters_and_attributes_from_current_data_type(</span>
+<span class="c1">#     modules = None,</span>
+<span class="c1">#     algorithms = None,</span>
+<span class="c1">#     verbose = True,</span>
+<span class="c1">#     lowercase = True,</span>
+<span class="c1">#     output_types = (&quot;global_parameters&quot;),</span>
+<span class="c1">#     include_default = True,</span>
+<span class="c1">#     algorithms_only = False,</span>
+<span class="c1">#     **kwargs):</span>
+    
+<span class="c1">#     if modules is None:</span>
+<span class="c1">#         modules = modules_to_set</span>
+    
+<span class="c1">#     return modu.output_global_parameters_and_attributes_from_current_data_type(</span>
+<span class="c1">#         modules,</span>
+<span class="c1">#         algorithms = algorithms,</span>
+<span class="c1">#         verbose = verbose,</span>
+<span class="c1">#         lowercase = lowercase,</span>
+<span class="c1">#         output_types = output_types,</span>
+<span class="c1">#         include_default = include_default,</span>
+<span class="c1">#         algorithms_only = algorithms_only,</span>
+<span class="c1">#         **kwargs,</span>
+<span class="c1">#         )</span>
+
+
+<span class="c1">#--- from neurd_packages ---</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+
+<span class="c1">#--- from python_tools ---</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_geometry_utils</span> <span class="k">as</span> <span class="n">ngu</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

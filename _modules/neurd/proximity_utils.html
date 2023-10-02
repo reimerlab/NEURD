@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.proximity_utils &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.proximity_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.proximity_utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+
+
+
+<span class="sd">Notes on proximities: </span>
+<span class="sd">- There are some undercounting of n_synapses in the proximity counting if a lot of synapses</span>
+<span class="sd">because the cancellation distance 5000, but the search for synapses is only 3000 so could have missed some</span>
+<span class="sd">in that cancellation range and search range</span>
+
+<span class="sd">--&gt; but the </span>
+
+
+
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">datajoint</span> <span class="k">as</span> <span class="nn">dj</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pykdtree.kdtree</span> <span class="kn">import</span> <span class="n">KDTree</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="synapse_coordinates_from_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.synapse_coordinates_from_df">[docs]</a><span class="k">def</span> <span class="nf">synapse_coordinates_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;synapse_x_nm&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_y_nm&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_z_nm&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="proximity_search_neurons_from_bounding_box"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.proximity_search_neurons_from_bounding_box">[docs]</a><span class="k">def</span> <span class="nf">proximity_search_neurons_from_bounding_box</span><span class="p">(</span>
+    <span class="n">segment_id</span><span class="p">,</span>
+    <span class="n">split_index</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="mi">7_000</span><span class="p">,</span>
+    <span class="n">min_dendrite_skeletal_length</span> <span class="o">=</span> <span class="mi">1_000_000</span><span class="p">,</span>
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    
+    <span class="p">):</span>
+    
+    <span class="n">prox_table</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">vdi</span><span class="o">.</span><span class="n">proofreading_neurons_minus_volume_edge_table</span><span class="p">()</span>
+        <span class="o">&amp;</span> <span class="sa">f</span><span class="s2">&quot;dendrite_skeletal_length &gt; </span><span class="si">{</span><span class="n">min_dendrite_skeletal_length</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    
+    <span class="n">nodes</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">bbox_intersect_neurons</span><span class="p">(</span>
+            <span class="n">segment_id</span> <span class="o">=</span> <span class="n">segment_id</span><span class="p">,</span>
+            <span class="n">split_index</span> <span class="o">=</span> <span class="n">split_index</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+            <span class="n">return_nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">compartment_source</span><span class="o">=</span><span class="s2">&quot;axon&quot;</span><span class="p">,</span>
+            <span class="n">compartment_target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">prox_table</span><span class="p">,</span>
+            <span class="n">buffer</span> <span class="o">=</span> <span class="n">buffer</span>
+        <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">return_dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">n_targets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="n">targets_segment_id</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">targets_split_index</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">nodes</span></div>
+
+<div class="viewcode-block" id="proximity_search_neurons_from_database"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.proximity_search_neurons_from_database">[docs]</a><span class="k">def</span> <span class="nf">proximity_search_neurons_from_database</span><span class="p">(</span>
+    <span class="n">segment_id</span><span class="p">,</span>
+    <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">segment_id</span><span class="o">=</span><span class="n">segment_id</span><span class="p">,</span>
+        <span class="n">split_index</span> <span class="o">=</span> <span class="n">split_index</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">vdi</span><span class="o">.</span><span class="n">proximity_search_nodes_from_segment</span><span class="p">(</span>
+        <span class="o">**</span><span class="n">key</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_node_names</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="presyn_proximity_data"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.presyn_proximity_data">[docs]</a><span class="k">def</span> <span class="nf">presyn_proximity_data</span><span class="p">(</span>
+    <span class="n">segment_id</span><span class="p">,</span>
+    <span class="n">split_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">neuron_obj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Get the presyn proximity information</span>
+<span class="sd">    before pairwise proximities are computed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="c1">#1) computes the synapse presyn side of the connectome</span>
+    <span class="n">synapse_pre_df</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">segment_id_to_synapse_table_optimized_connectome</span><span class="p">(</span>
+        <span class="n">segment_id</span><span class="o">=</span><span class="n">segment_id</span><span class="p">,</span>
+        <span class="n">split_index</span><span class="o">=</span><span class="n">split_index</span><span class="p">,</span>
+        <span class="n">syn_type</span> <span class="o">=</span> <span class="s2">&quot;presyn&quot;</span><span class="p">,</span>
+        <span class="n">coordinates_nm</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_df</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">synapse_pre_raw_df</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">segment_id_to_synapse_table_optimized</span><span class="p">(</span>
+        <span class="n">segment_id</span><span class="o">=</span><span class="n">segment_id</span><span class="p">,</span>
+        <span class="n">synapse_type</span> <span class="o">=</span> <span class="s2">&quot;presyn&quot;</span><span class="p">,</span>
+        <span class="n">coordinates_nm</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_df</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">synapse_pre_raw_coords</span> <span class="o">=</span> <span class="n">pxu</span><span class="o">.</span><span class="n">synapse_coordinates_from_df</span><span class="p">(</span><span class="n">synapse_pre_raw_df</span><span class="p">)</span>
+    
+    <span class="n">synapse_pre_proof_df</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">segment_id_to_synapse_table_optimized_proofread</span><span class="p">(</span>
+        <span class="n">segment_id</span><span class="p">,</span>
+        <span class="n">synapse_type</span> <span class="o">=</span> <span class="s2">&quot;presyn&quot;</span><span class="p">,</span>
+        <span class="n">coordinates_nm</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_df</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">synapse_pre_proof_coords</span> <span class="o">=</span> <span class="n">pxu</span><span class="o">.</span><span class="n">synapse_coordinates_from_df</span><span class="p">(</span><span class="n">synapse_pre_proof_df</span><span class="p">)</span>
+
+
+    <span class="c1">#2) Gets the mesh for later plotting</span>
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">fetch_proofread_mesh</span><span class="p">(</span>
+            <span class="n">segment_id</span><span class="p">,</span>
+            <span class="n">split_index</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1">#3) Gets some coordinate for later euclidean distance calculation</span>
+    <span class="n">presyn_soma_coord</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">soma_nm_coordinate</span><span class="p">(</span>
+        <span class="n">segment_id</span><span class="p">,</span>
+        <span class="n">split_index</span><span class="p">)</span>
+
+    <span class="c1">#4) Fetches neuron object  for calculations</span>
+    <span class="n">G_presyn</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">graph_obj_from_proof_stage</span><span class="p">(</span><span class="n">segment_id</span><span class="p">,</span><span class="n">split_index</span><span class="p">)</span>
+
+
+    <span class="c1">#5) Calculating all of the width,compartments and skeletons</span>
+    <span class="p">(</span><span class="n">presyn_skeleton_array</span><span class="p">,</span>
+    <span class="n">presyn_width_array</span><span class="p">,</span>
+    <span class="n">presyn_comp_array</span><span class="p">)</span> <span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">skeleton_width_compartment_arrays_from_G</span><span class="p">(</span>
+        <span class="n">G_presyn</span><span class="p">,</span>
+        <span class="n">compartments</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;axon&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="c1">#5) Fetches the skeleton and starting coordinate of axon </span>
+    <span class="c1">#   to be used later for skeletal distance to soma</span>
+
+    <span class="n">presyn_starting_coordinate</span> <span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">most_upstream_node_on_axon_limb</span><span class="p">(</span>
+        <span class="n">G_presyn</span><span class="p">,</span>
+        <span class="n">return_endpoint_upstream</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plotting: Presyn axon skeleton&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">pre_sk_vert</span><span class="p">,</span>
+    <span class="n">pre_sk_edges</span><span class="p">)</span><span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">axon_skeleton</span><span class="p">(</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">G_presyn</span><span class="p">,</span>
+        <span class="n">include_path_to_soma</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">plot</span><span class="o">=</span><span class="n">plot</span><span class="p">,</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span><span class="p">,</span>
+
+    <span class="p">)</span>
+    
+    <span class="c1">#G_presyn_sk = sk.convert_skeleton_to_graph(pre_sk_vert[pre_sk_edges])</span>
+    <span class="n">G_presyn_sk</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">graph_from_non_unique_vertices_edges</span><span class="p">(</span><span class="n">pre_sk_vert</span><span class="p">,</span><span class="n">pre_sk_edges</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plotting: Presyn skeleton and starting coordinate&quot;</span><span class="p">)</span>
+        <span class="n">nviz</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span>
+            <span class="n">scatters</span><span class="o">=</span><span class="p">[</span><span class="n">pre_sk_vert</span><span class="p">,</span><span class="n">presyn_starting_coordinate</span><span class="p">],</span>
+            <span class="n">scatters_colors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">,</span><span class="s2">&quot;blue&quot;</span><span class="p">],</span>
+            <span class="n">scatter_size</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+        <span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time for presyn proximity data = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="c1"># for the synapses to be checked if in vicinity</span>
+        <span class="n">synapse_pre_df</span> <span class="o">=</span> <span class="n">synapse_pre_df</span><span class="p">,</span>
+
+        <span class="c1"># for attributes for computing proximities</span>
+        <span class="n">presyn_skeleton_array</span><span class="o">=</span><span class="n">presyn_skeleton_array</span><span class="p">,</span>
+        <span class="n">presyn_width_array</span><span class="o">=</span><span class="n">presyn_width_array</span><span class="p">,</span>
+        <span class="n">presyn_comp_array</span><span class="o">=</span><span class="n">presyn_comp_array</span><span class="p">,</span>
+
+
+        <span class="c1"># for skeletal walk distance</span>
+        <span class="n">presyn_starting_coordinate</span><span class="o">=</span><span class="n">presyn_starting_coordinate</span><span class="p">,</span>
+        <span class="n">pre_sk_vert</span><span class="o">=</span><span class="n">pre_sk_vert</span><span class="p">,</span>
+        <span class="n">pre_sk_edges</span><span class="o">=</span><span class="n">pre_sk_edges</span><span class="p">,</span>
+        <span class="n">G_presyn_sk</span><span class="o">=</span><span class="n">G_presyn_sk</span><span class="p">,</span>
+
+        <span class="c1"># for computing euclidean distance</span>
+        <span class="n">presyn_soma_coord</span> <span class="o">=</span><span class="n">presyn_soma_coord</span><span class="p">,</span>
+        
+        <span class="c1"># for more features to compute close to</span>
+        <span class="n">synapse_pre_raw_coords</span><span class="o">=</span><span class="n">synapse_pre_raw_coords</span><span class="p">,</span>
+        <span class="n">synapse_pre_proof_coords</span><span class="o">=</span><span class="n">synapse_pre_proof_coords</span><span class="p">,</span>
+        
+        <span class="c1">#for ploting </span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="postsyn_proximity_data"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.postsyn_proximity_data">[docs]</a><span class="k">def</span> <span class="nf">postsyn_proximity_data</span><span class="p">(</span>
+    <span class="n">segment_id</span><span class="p">,</span>
+    <span class="n">split_index</span><span class="p">,</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">check_starting_coord_match_skeleton</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">neuron_obj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Get the postsyn proximity information</span>
+<span class="sd">    before pairwise proximities are computed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">segment_id_target</span> <span class="o">=</span> <span class="n">segment_id</span>
+    <span class="n">split_index_target</span> <span class="o">=</span> <span class="n">split_index</span>
+
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="c1">#2) Gets the mesh for later plotting</span>
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="n">mesh_post</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">fetch_proofread_mesh</span><span class="p">(</span>
+            <span class="n">segment_id_target</span><span class="p">,</span>
+            <span class="n">split_index_target</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mesh_post</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1">#3) Gets some coordinate for later euclidean distance calculation</span>
+    <span class="n">postsyn_soma_coord</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">soma_nm_coordinate</span><span class="p">(</span>
+        <span class="n">segment_id_target</span><span class="p">,</span>
+        <span class="n">split_index</span><span class="o">=</span><span class="n">split_index_target</span><span class="p">)</span>
+
+    <span class="c1">#4) Fetches neuron object  for calculations</span>
+    <span class="n">G_postsyn</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">graph_obj_from_proof_stage</span><span class="p">(</span><span class="n">segment_id_target</span><span class="p">,</span><span class="n">split_index_target</span><span class="p">)</span>
+
+    <span class="c1">#4) Calculating all the skeleton arrays, widths, compartments</span>
+    <span class="p">(</span><span class="n">postsyn_skeleton_array</span><span class="p">,</span>
+    <span class="n">postsyn_width_array</span><span class="p">,</span>
+    <span class="n">postsyn_comp_array</span><span class="p">)</span> <span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">skeleton_width_compartment_arrays_from_G</span><span class="p">(</span>
+        <span class="n">G_postsyn</span><span class="p">,</span>
+        <span class="n">plot</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+
+    <span class="n">postsyn_soma_mesh</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">fetch_soma_mesh</span><span class="p">(</span>
+        <span class="n">segment_id_target</span><span class="p">,</span>
+        <span class="n">split_index_target</span><span class="p">,</span>
+        <span class="n">plot_soma</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">soma_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">postsyn_soma_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+    <span class="n">postsyn_skeleton_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">postsyn_skeleton_array</span><span class="p">,</span><span class="n">postsyn_soma_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">])</span>
+    <span class="n">postsyn_width_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">postsyn_width_array</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">soma_array</span><span class="p">))])</span>
+    <span class="n">postsyn_comp_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">postsyn_comp_array</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="s2">&quot;soma&quot;</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">soma_array</span><span class="p">))])</span>
+
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plotting: postsyn skeleton array&quot;</span><span class="p">)</span>
+        <span class="n">ipvu</span><span class="o">.</span><span class="n">plot_mesh_with_scatter</span><span class="p">(</span>
+            <span class="n">mesh_post</span><span class="p">,</span>
+            <span class="n">scatter</span><span class="o">=</span><span class="n">postsyn_skeleton_array</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1">#5) Fetches the skeleton and starting coordinate of axon </span>
+    <span class="c1">#   to be used later for skeletal distance to soma</span>
+
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plotting: postsyn skeleton&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">post_sk_vert</span><span class="p">,</span>
+    <span class="n">post_sk_edges</span><span class="p">)</span><span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">skeleton</span><span class="p">(</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">G_postsyn</span><span class="p">,</span>
+        <span class="n">plot</span><span class="o">=</span><span class="n">plot</span><span class="p">,</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh_post</span><span class="p">,</span>
+        <span class="p">)</span>  
+
+    <span class="n">postsyn_starting_coords</span><span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">starting_coordinates_all_limbs</span><span class="p">(</span>
+                <span class="n">G_postsyn</span><span class="p">,</span>
+                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">check_starting_coord_match_skeleton</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">postsyn_starting_coords</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">min_dist</span> <span class="o">=</span> <span class="n">nu</span><span class="o">.</span><span class="n">closest_dist_between_coordinates</span><span class="p">(</span>
+                <span class="n">post_sk_vert</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span>
+                <span class="n">k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span>
+                <span class="n">return_min</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">min_dist</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1">#6) Postsyn and spine data</span>
+    <span class="n">synapse_post_df</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">segment_id_to_synapse_table_optimized_proofread</span><span class="p">(</span>
+        <span class="n">segment_id_target</span><span class="p">,</span>
+        <span class="n">split_index</span><span class="o">=</span><span class="n">split_index_target</span><span class="p">,</span>
+        <span class="n">syn_type</span> <span class="o">=</span> <span class="s2">&quot;postsyn&quot;</span><span class="p">,</span>
+        <span class="n">coordinates_nm</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_df</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">synapse_post_coord</span> <span class="o">=</span> <span class="n">synapse_post_df</span><span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;synapse_x_nm&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_y_nm&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_z_nm&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plotting: Spine Coordinates&quot;</span><span class="p">)</span>
+    <span class="n">spine_shaft_coords</span> <span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">spine_shaft_coordinates</span><span class="p">(</span>
+        <span class="n">G_postsyn</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="n">plot</span><span class="p">,</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh_post</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time for presyn proximity data = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="c1"># for attributes for computing proximities</span>
+        <span class="n">postsyn_skeleton_array</span> <span class="o">=</span> <span class="n">postsyn_skeleton_array</span><span class="p">,</span>
+        <span class="n">postsyn_width_array</span> <span class="o">=</span> <span class="n">postsyn_width_array</span><span class="p">,</span>
+        <span class="n">postsyn_comp_array</span> <span class="o">=</span> <span class="n">postsyn_comp_array</span><span class="p">,</span>
+
+        <span class="c1"># for skeletal walk distance</span>
+        <span class="n">post_sk_vert</span><span class="o">=</span><span class="n">post_sk_vert</span><span class="p">,</span>
+        <span class="n">post_sk_edges</span><span class="o">=</span><span class="n">post_sk_edges</span><span class="p">,</span>
+        <span class="n">postsyn_starting_coords</span><span class="o">=</span><span class="n">postsyn_starting_coords</span><span class="p">,</span>
+
+        <span class="c1"># for computing euclidean distance</span>
+        <span class="n">postsyn_soma_coord</span><span class="o">=</span><span class="n">postsyn_soma_coord</span><span class="p">,</span>
+
+        <span class="c1"># attributes to be collected in the vicinity of contact</span>
+        <span class="n">synapse_post_coord</span><span class="o">=</span><span class="n">synapse_post_coord</span><span class="p">,</span>
+        <span class="n">spine_shaft_coords</span><span class="o">=</span><span class="n">spine_shaft_coords</span><span class="p">,</span>
+        
+        <span class="c1">#for ploting </span>
+        <span class="n">mesh_post</span> <span class="o">=</span> <span class="n">mesh_post</span><span class="p">,</span>
+        <span class="n">G_postsyn_sk</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">return_dict</span></div>
+
+<div class="viewcode-block" id="proximity_pre_post"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.proximity_pre_post">[docs]</a><span class="k">def</span> <span class="nf">proximity_pre_post</span><span class="p">(</span>
+    <span class="n">segment_id_pre</span><span class="p">,</span>
+    <span class="n">segment_id_post</span><span class="p">,</span>
+    <span class="n">split_index_pre</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">split_index_post</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    
+    <span class="n">presyn_prox_data</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">postsyn_prox_data</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    
+    <span class="c1"># -- proximity parameters once pre/post data</span>
+    <span class="n">max_proximity_dist</span> <span class="o">=</span> <span class="mi">5_000</span><span class="p">,</span>
+    <span class="n">presyn_coordinate_cancel_dist</span> <span class="o">=</span> <span class="mi">10_000</span><span class="p">,</span>
+    <span class="n">max_attribute_dist</span> <span class="o">=</span> <span class="mi">3_000</span><span class="p">,</span>
+    <span class="n">subtract_width_from_euclidean_dist</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+
+    <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">plot_attributes_under_threshold</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">plot_proximities</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose_time</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_df</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose_total_time</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    
+    <span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Will compute the proximity dictionaries</span>
+<span class="sd">    for a source and target pair of neurons</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Get the presyn information</span>
+<span class="sd">    2) Get the postsyn information</span>
+<span class="sd">    3) Run the contact finding loop and save off the </span>
+<span class="sd">    results</span>
+<span class="sd">    </span>
+<span class="sd">    Example: </span>
+<span class="sd">    pxu.example_proximity()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">segment_id</span> <span class="o">=</span> <span class="n">segment_id_pre</span>
+    <span class="n">split_index</span> <span class="o">=</span> <span class="n">split_index_pre</span>
+    <span class="n">segment_id_target</span> <span class="o">=</span> <span class="n">segment_id_post</span>
+    <span class="n">split_index_target</span> <span class="o">=</span> <span class="n">split_index_post</span>
+    
+    <span class="n">global_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">presyn_prox_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">presyn_prox_data</span> <span class="o">=</span> <span class="n">pxu</span><span class="o">.</span><span class="n">presyn_proximity_data</span><span class="p">(</span>
+            <span class="n">segment_id</span> <span class="o">=</span> <span class="n">segment_id</span><span class="p">,</span>
+            <span class="n">split_index</span> <span class="o">=</span> <span class="n">split_index</span><span class="p">,</span>
+            <span class="n">plot</span> <span class="o">=</span> <span class="n">plot</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">postsyn_prox_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">postsyn_prox_data</span>  <span class="o">=</span> <span class="n">pxu</span><span class="o">.</span><span class="n">postsyn_proximity_data</span><span class="p">(</span>
+        <span class="n">segment_id</span><span class="o">=</span><span class="n">segment_id_target</span><span class="p">,</span>
+        <span class="n">split_index</span><span class="o">=</span><span class="n">split_index_target</span><span class="p">,</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="n">plot</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+    <span class="c1"># --- unpacking the data --------</span>
+    <span class="c1"># presyn data</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s1">&#39;mesh&#39;</span><span class="p">]</span>
+    <span class="n">synapse_pre_df</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s1">&#39;synapse_pre_df&#39;</span><span class="p">]</span>
+    <span class="n">presyn_skeleton_array</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s1">&#39;presyn_skeleton_array&#39;</span><span class="p">]</span>
+    <span class="n">presyn_width_array</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s1">&#39;presyn_width_array&#39;</span><span class="p">]</span>
+    <span class="n">presyn_comp_array</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s1">&#39;presyn_comp_array&#39;</span><span class="p">]</span>
+    <span class="n">presyn_starting_coordinate</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s1">&#39;presyn_starting_coordinate&#39;</span><span class="p">]</span>
+    <span class="n">pre_sk_vert</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s1">&#39;pre_sk_vert&#39;</span><span class="p">]</span>
+    <span class="n">pre_sk_edges</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s1">&#39;pre_sk_edges&#39;</span><span class="p">]</span>
+    <span class="n">presyn_soma_coord</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s1">&#39;presyn_soma_coord&#39;</span><span class="p">]</span>
+    <span class="n">G_presyn_sk</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s2">&quot;G_presyn_sk&quot;</span><span class="p">]</span>
+    
+    <span class="n">synapse_pre_raw_coords</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s1">&#39;synapse_pre_raw_coords&#39;</span><span class="p">]</span>
+    <span class="n">synapse_pre_proof_coords</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">[</span><span class="s2">&quot;synapse_pre_proof_coords&quot;</span><span class="p">]</span>
+    
+
+    <span class="c1">#postsyn data</span>
+    <span class="n">mesh_post</span> <span class="o">=</span> <span class="n">postsyn_prox_data</span><span class="p">[</span><span class="s1">&#39;mesh_post&#39;</span><span class="p">]</span>
+    <span class="n">postsyn_skeleton_array</span> <span class="o">=</span> <span class="n">postsyn_prox_data</span><span class="p">[</span><span class="s1">&#39;postsyn_skeleton_array&#39;</span><span class="p">]</span>
+    <span class="n">postsyn_width_array</span> <span class="o">=</span> <span class="n">postsyn_prox_data</span><span class="p">[</span><span class="s1">&#39;postsyn_width_array&#39;</span><span class="p">]</span>
+    <span class="n">postsyn_comp_array</span> <span class="o">=</span> <span class="n">postsyn_prox_data</span><span class="p">[</span><span class="s1">&#39;postsyn_comp_array&#39;</span><span class="p">]</span>
+    <span class="n">post_sk_vert</span> <span class="o">=</span> <span class="n">postsyn_prox_data</span><span class="p">[</span><span class="s1">&#39;post_sk_vert&#39;</span><span class="p">]</span>
+    <span class="n">post_sk_edges</span> <span class="o">=</span> <span class="n">postsyn_prox_data</span><span class="p">[</span><span class="s1">&#39;post_sk_edges&#39;</span><span class="p">]</span>
+    <span class="n">postsyn_starting_coords</span> <span class="o">=</span> <span class="n">postsyn_prox_data</span><span class="p">[</span><span class="s1">&#39;postsyn_starting_coords&#39;</span><span class="p">]</span>
+    <span class="n">postsyn_soma_coord</span> <span class="o">=</span> <span class="n">postsyn_prox_data</span><span class="p">[</span><span class="s1">&#39;postsyn_soma_coord&#39;</span><span class="p">]</span>
+    <span class="n">synapse_post_coord</span> <span class="o">=</span> <span class="n">postsyn_prox_data</span><span class="p">[</span><span class="s1">&#39;synapse_post_coord&#39;</span><span class="p">]</span>
+    <span class="n">spine_shaft_coords</span> <span class="o">=</span> <span class="n">postsyn_prox_data</span><span class="p">[</span><span class="s1">&#39;spine_shaft_coords&#39;</span><span class="p">]</span>
+    <span class="n">G_postsyn_sk</span> <span class="o">=</span> <span class="n">postsyn_prox_data</span><span class="p">[</span><span class="s2">&quot;G_postsyn_sk&quot;</span><span class="p">]</span>
+    
+    
+    
+    <span class="c1"># ------- The main proximity loop</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Find the locations of the axon on dendrite contacts</span>
+
+<span class="sd">    Pseudocode:</span>
+<span class="sd">    Loop until breaks:</span>
+<span class="sd">    a) query KDTree to find closest dendrite point to axons</span>
+<span class="sd">    b) If there is one closer than threshold distance save off:</span>
+<span class="sd">    - coordinate, distance, compartment</span>
+<span class="sd">    b2) If not then break</span>
+<span class="sd">    c) Nullify axon pts within a certain distance of closest point</span>
+<span class="sd">    d) Find if any synase within certain radius of contacts</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">synapse_pre_post_ids</span><span class="p">,</span><span class="n">synapse_pre_post_coords</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">pre_post_synapse_ids_coords_from_connectome</span><span class="p">(</span>
+        <span class="n">segment_id_pre</span><span class="o">=</span><span class="n">segment_id_pre</span><span class="p">,</span>
+        <span class="n">segment_id_post</span><span class="o">=</span><span class="n">segment_id_post</span><span class="p">,</span>
+        <span class="n">split_index_pre</span><span class="o">=</span><span class="n">split_index_pre</span><span class="p">,</span>
+        <span class="n">split_index_post</span><span class="o">=</span><span class="n">split_index_post</span><span class="p">,</span>
+        <span class="n">synapse_pre_df</span><span class="o">=</span><span class="n">synapse_pre_df</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  time for pre-post coords: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        
+    
+    <span class="n">postsyn_kd</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">postsyn_skeleton_array</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  time for kd tree: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="n">presyn_skeleton_array_cp</span> <span class="o">=</span> <span class="n">presyn_skeleton_array</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">presyn_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">presyn_skeleton_array_cp</span><span class="p">))</span>
+    <span class="n">proximities</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+    <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  time for right before loop: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        
+    <span class="n">exceed_max_proximity</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">exceed_max_proximity</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-- Working on iteration </span><span class="si">{</span><span class="n">counter</span><span class="si">}</span><span class="s2"> ---&quot;</span><span class="p">)</span>
+        <span class="c1">#query KDTree to find closest dendrite point to axons</span>
+        <span class="n">dist</span><span class="p">,</span><span class="n">closest_face</span> <span class="o">=</span> <span class="n">postsyn_kd</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">presyn_skeleton_array_cp</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  time for postsyn kd query: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="c1">#         if verbose:</span>
+<span class="c1">#             print(f&quot;Before subtracting width array, proximity closest_dist = {np.min(dist)}&quot;)</span>
+            
+        <span class="k">if</span> <span class="n">subtract_width_from_euclidean_dist</span><span class="p">:</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="n">dist</span> <span class="o">-</span> <span class="n">postsyn_width_array</span><span class="p">[</span><span class="n">closest_face</span><span class="p">]</span>
+
+        <span class="n">closest_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+        <span class="n">closest_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">closest_idx</span><span class="p">]</span>
+        
+<span class="c1">#         if verbose:</span>
+<span class="c1">#             print(f&quot;proximity closest_dist = {closest_dist}&quot;)</span>
+<span class="c1">#             print(f&quot;postsyn_width_array[closest_face] = {np.max(np.abs(postsyn_width_array[closest_face]))}&quot;)</span>
+
+        <span class="k">if</span> <span class="n">closest_dist</span> <span class="o">&gt;</span> <span class="n">max_proximity_dist</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Breaking on iteration </span><span class="si">{</span><span class="n">counter</span><span class="si">}</span><span class="s2"> because closest distance = </span><span class="si">{</span><span class="n">closest_dist</span><span class="si">}</span><span class="s2"> (max </span><span class="si">{</span><span class="n">max_proximity_dist</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="n">exceed_max_proximity</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">break</span>
+
+        <span class="n">proximity_presyn</span> <span class="o">=</span> <span class="n">presyn_skeleton_array_cp</span><span class="p">[</span><span class="n">closest_idx</span><span class="p">]</span>
+
+        <span class="n">postsyn_idx</span> <span class="o">=</span> <span class="n">closest_face</span><span class="p">[</span><span class="n">closest_idx</span><span class="p">]</span>
+        <span class="n">proximity_postsyn</span> <span class="o">=</span> <span class="n">postsyn_skeleton_array</span><span class="p">[</span><span class="n">closest_face</span><span class="p">[</span><span class="n">closest_idx</span><span class="p">]]</span>
+        
+        
+        
+        
+        
+        
+        <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  time closest faces: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            
+        <span class="n">postsyn_compartment</span> <span class="o">=</span> <span class="n">postsyn_comp_array</span><span class="p">[</span><span class="n">postsyn_idx</span><span class="p">]</span>
+
+
+        <span class="c1"># calculating the skeletal walk</span>
+        <span class="k">if</span> <span class="n">G_presyn_sk</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1">#G_presyn_sk = sk.convert_skeleton_to_graph(pre_sk_vert[pre_sk_edges])</span>
+            <span class="n">G_presyn_sk</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">graph_from_non_unique_vertices_edges</span><span class="p">(</span><span class="n">pre_sk_vert</span><span class="p">,</span><span class="n">pre_sk_edges</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  time for getting graph obj presyn: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            
+        <span class="k">if</span> <span class="p">(</span><span class="n">G_postsyn_sk</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">postsyn_compartment</span> <span class="o">!=</span> <span class="s2">&quot;soma&quot;</span><span class="p">):</span>
+            <span class="c1">#G_postsyn_sk = sk.convert_skeleton_to_graph(post_sk_vert[post_sk_edges])</span>
+            <span class="n">G_postsyn_sk</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">graph_from_non_unique_vertices_edges</span><span class="p">(</span><span class="n">post_sk_vert</span><span class="p">,</span><span class="n">post_sk_edges</span><span class="p">)</span>
+            
+        
+            
+        <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  time for getting graph obj postsyn: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> 
+            
+        
+
+        <span class="n">presyn_skeletal_walk_dist</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">shortest_path_between_two_sets_of_skeleton_coordiantes</span><span class="p">(</span>
+            <span class="n">skeleton</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">G</span> <span class="o">=</span> <span class="n">G_presyn_sk</span><span class="p">,</span>
+            <span class="n">coordinates_list_1</span> <span class="o">=</span> <span class="n">proximity_presyn</span><span class="p">,</span>
+            <span class="n">coordinates_list_2</span> <span class="o">=</span> <span class="n">presyn_starting_coordinate</span><span class="p">,</span>
+            <span class="n">return_path_distance</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  time for pre skeletal_walk distance: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">postsyn_compartment</span> <span class="o">==</span> <span class="s2">&quot;soma&quot;</span><span class="p">:</span>
+            <span class="n">postsyn_skeletal_walk_dist</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">postsyn_skeletal_walk_dist</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">shortest_path_between_two_sets_of_skeleton_coordiantes</span><span class="p">(</span>
+                <span class="n">skeleton</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">G</span> <span class="o">=</span> <span class="n">G_postsyn_sk</span><span class="p">,</span>
+                <span class="n">coordinates_list_1</span> <span class="o">=</span> <span class="n">proximity_postsyn</span><span class="p">,</span>
+                <span class="n">coordinates_list_2</span> <span class="o">=</span> <span class="n">postsyn_starting_coords</span><span class="p">,</span>
+                <span class="n">return_path_distance</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  time for post skeletal walk dists: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="c1"># --- compute the number of synapses in the vicinity ----</span>
+        <span class="n">contact_coord</span> <span class="o">=</span> <span class="p">(</span><span class="n">proximity_presyn</span> <span class="o">+</span> <span class="n">proximity_postsyn</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">synapse_pre_post_coords</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">syn_pre_post_dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">synapse_pre_post_coords</span> <span class="o">-</span> <span class="n">contact_coord</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">syn_pre_post_mask</span> <span class="o">=</span> <span class="n">syn_pre_post_dists</span> <span class="o">&lt;=</span> <span class="n">max_attribute_dist</span> 
+            <span class="n">syn_pre_post_dists_under_thresh</span> <span class="o">=</span> <span class="n">syn_pre_post_dists</span><span class="p">[</span><span class="n">syn_pre_post_mask</span><span class="p">]</span>
+            <span class="n">syn_pre_post_ids_under_thresh</span> <span class="o">=</span> <span class="n">synapse_pre_post_ids</span><span class="p">[</span><span class="n">syn_pre_post_mask</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">syn_pre_post_dists_under_thresh</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ord_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">syn_pre_post_dists_under_thresh</span><span class="p">)</span>
+                <span class="n">syn_pre_post_dists_under_thresh</span> <span class="o">=</span> <span class="n">syn_pre_post_dists_under_thresh</span><span class="p">[</span><span class="n">ord_idx</span><span class="p">]</span>
+                <span class="n">syn_pre_post_ids_under_thresh</span> <span class="o">=</span> <span class="n">syn_pre_post_ids_under_thresh</span><span class="p">[</span><span class="n">ord_idx</span><span class="p">]</span>
+
+                <span class="n">synapse_id</span> <span class="o">=</span> <span class="n">syn_pre_post_ids_under_thresh</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">synapse_id_dist</span> <span class="o">=</span> <span class="n">syn_pre_post_dists_under_thresh</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">synapse_id</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">synapse_id_dist</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">syn_pre_post_ids_under_thresh</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">synapse_id</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">synapse_id_dist</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">syn_pre_post_ids_under_thresh</span> <span class="o">=</span> <span class="p">[]</span>
+            
+        <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  time for number of synapses in vicinity: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">attr_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="n">att_name</span><span class="p">,</span><span class="n">att_coords</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s2">&quot;synapse_post&quot;</span><span class="p">,</span><span class="s2">&quot;spine_post&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_pre_raw&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_pre_proof&quot;</span><span class="p">],</span>
+                                      <span class="p">[</span><span class="n">synapse_post_coord</span><span class="p">,</span><span class="n">spine_shaft_coords</span><span class="p">,</span><span class="n">synapse_pre_raw_coords</span><span class="p">,</span><span class="n">synapse_pre_proof_coords</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">att_coords</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">spine_coord_under_threshold_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">att_coords</span> <span class="o">-</span> <span class="n">contact_coord</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_attribute_dist</span>
+                <span class="n">spine_coord_under_threshold</span> <span class="o">=</span> <span class="n">att_coords</span><span class="p">[</span><span class="n">spine_coord_under_threshold_mask</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">plot_attributes_under_threshold</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">att_name</span><span class="si">}</span><span class="s2"> under the threshold (</span><span class="si">{</span><span class="n">max_attribute_dist</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">spine_coord_under_threshold</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">ipvu</span><span class="o">.</span><span class="n">plot_mesh_with_scatter</span><span class="p">(</span>
+                        <span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh_post</span> <span class="o">+</span> <span class="n">mesh</span><span class="p">,</span>
+                        <span class="n">scatter</span> <span class="o">=</span> <span class="n">spine_coord_under_threshold</span><span class="p">,</span>
+                        <span class="n">flip_y</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="p">)</span>
+
+                <span class="n">n_spines_post_under_threshold</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">spine_coord_under_threshold</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">n_spines_post_under_threshold</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="n">attr_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;n_</span><span class="si">{</span><span class="n">att_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_spines_post_under_threshold</span>
+            
+            <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  time for attribute under threhsold </span><span class="si">{</span><span class="n">att_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+
+        <span class="c1"># -- widths --</span>
+        <span class="n">width_presyn</span> <span class="o">=</span> <span class="n">presyn_width_array</span><span class="p">[</span><span class="n">presyn_index</span><span class="p">[</span><span class="n">closest_idx</span><span class="p">]]</span>
+        <span class="n">width_postsyn</span> <span class="o">=</span> <span class="n">postsyn_width_array</span><span class="p">[</span><span class="n">postsyn_idx</span><span class="p">]</span>
+        <span class="c1"># if found a proximity then compute the statistics of the proximity</span>
+        <span class="n">prox_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">prox_id</span> <span class="o">=</span> <span class="n">counter</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+            <span class="c1">#proximity distane</span>
+            <span class="n">proximity_dist</span> <span class="o">=</span> <span class="n">closest_dist</span><span class="p">,</span>
+            <span class="n">proximity_dist_non_adjusted</span> <span class="o">=</span> <span class="n">closest_dist</span> <span class="o">+</span> <span class="n">width_postsyn</span><span class="p">,</span>
+
+            <span class="c1"># the coordinates of the proximity</span>
+            <span class="n">presyn_proximity_x_nm</span> <span class="o">=</span> <span class="n">proximity_presyn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">presyn_proximity_y_nm</span> <span class="o">=</span> <span class="n">proximity_presyn</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">presyn_proximity_z_nm</span> <span class="o">=</span> <span class="n">proximity_presyn</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+
+            <span class="n">postsyn_proximity_x_nm</span> <span class="o">=</span> <span class="n">proximity_postsyn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">postsyn_proximity_y_nm</span> <span class="o">=</span> <span class="n">proximity_postsyn</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">postsyn_proximity_z_nm</span> <span class="o">=</span> <span class="n">proximity_postsyn</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+
+            <span class="c1">#compartment</span>
+            <span class="n">postsyn_compartment</span> <span class="o">=</span> <span class="n">postsyn_compartment</span><span class="p">,</span>
+
+            <span class="c1">#widths</span>
+            <span class="n">presyn_width</span> <span class="o">=</span> <span class="n">width_presyn</span><span class="p">,</span>
+            <span class="n">postsyn_width</span> <span class="o">=</span> <span class="n">width_postsyn</span><span class="p">,</span>
+
+            <span class="c1"># euclidean distance</span>
+            <span class="n">presyn_euclidean_distance_to_soma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">proximity_presyn</span><span class="o">-</span><span class="n">presyn_soma_coord</span><span class="p">),</span>
+            <span class="n">postsyn_euclidean_distance_to_soma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">proximity_postsyn</span><span class="o">-</span><span class="n">postsyn_soma_coord</span><span class="p">),</span>
+
+            <span class="c1">#skeletal distance</span>
+            <span class="n">presyn_skeletal_distance_to_soma</span> <span class="o">=</span> <span class="n">presyn_skeletal_walk_dist</span><span class="p">,</span>
+            <span class="n">postsyn_skeletal_distance_to_soma</span> <span class="o">=</span> <span class="n">postsyn_skeletal_walk_dist</span><span class="p">,</span>
+
+            <span class="c1"># n synapses in the vicinity</span>
+            <span class="n">synapse_id</span> <span class="o">=</span> <span class="n">synapse_id</span><span class="p">,</span>
+            <span class="n">synapse_id_dist</span> <span class="o">=</span> <span class="n">synapse_id_dist</span><span class="p">,</span>
+            <span class="n">n_synapses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">syn_pre_post_ids_under_thresh</span><span class="p">),</span>
+
+        <span class="p">)</span>
+
+        <span class="c1"># get the n postsyn synapes and spines in the vicinity</span>
+        <span class="n">prox_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">attr_dict</span><span class="p">)</span>
+        <span class="n">proximities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prox_dict</span><span class="p">)</span>
+
+
+        <span class="c1">#deleting the presyns from the current array</span>
+        <span class="n">dist_from_contact</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">presyn_skeleton_array_cp</span> <span class="o">-</span> <span class="n">proximity_presyn</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">keep_mask</span> <span class="o">=</span> <span class="n">dist_from_contact</span> <span class="o">&gt;=</span> <span class="n">presyn_coordinate_cancel_dist</span>
+        <span class="n">presyn_skeleton_array_cp</span> <span class="o">=</span> <span class="n">presyn_skeleton_array_cp</span><span class="p">[</span><span class="n">keep_mask</span><span class="p">]</span>
+        <span class="n">presyn_index</span> <span class="o">=</span> <span class="n">presyn_index</span><span class="p">[</span><span class="n">keep_mask</span><span class="p">]</span>
+
+        <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time for proximity loop: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;prox_id&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;proximity_dist&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;proximity_dist_non_adjusted&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;presyn_proximity_x_nm&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;presyn_proximity_y_nm&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;presyn_proximity_z_nm&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;postsyn_proximity_x_nm&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;postsyn_proximity_y_nm&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;postsyn_proximity_z_nm&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;postsyn_compartment&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;presyn_width&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;postsyn_width&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;presyn_euclidean_distance_to_soma&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;postsyn_euclidean_distance_to_soma&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;presyn_skeletal_distance_to_soma&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;postsyn_skeletal_distance_to_soma&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;synapse_id&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;synapse_id_dist&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;n_synapses&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;n_synapse_post&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;n_spine_post&#39;</span><span class="p">,]</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span> <span class="ow">or</span> <span class="n">verbose_total_time</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time for whole proximity func = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">global_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">plot_proximities</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mesh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mesh</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">fetch_proofread_mesh</span><span class="p">(</span>
+                <span class="n">segment_id</span><span class="p">,</span>
+                <span class="n">split_index</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mesh_post</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mesh_post</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">fetch_proofread_mesh</span><span class="p">(</span>
+                <span class="n">segment_id_target</span><span class="p">,</span>
+                <span class="n">split_index_target</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">proximity_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">k</span><span class="p">[</span><span class="s2">&quot;presyn_proximity_x_nm&quot;</span><span class="p">],</span><span class="n">k</span><span class="p">[</span><span class="s2">&quot;presyn_proximity_y_nm&quot;</span><span class="p">],</span><span class="n">k</span><span class="p">[</span><span class="s2">&quot;presyn_proximity_z_nm&quot;</span><span class="p">]])</span>
+                                           <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">proximities</span><span class="p">])</span>
+        <span class="n">nviz</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span>
+            <span class="n">meshes</span><span class="o">=</span><span class="p">[</span><span class="n">mesh</span><span class="p">,</span><span class="n">mesh_post</span><span class="p">],</span>
+            <span class="n">meshes_colors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">,</span><span class="s2">&quot;blue&quot;</span><span class="p">],</span>
+            <span class="n">scatters</span><span class="o">=</span><span class="p">[</span><span class="n">proximity_coords</span><span class="p">],</span>
+            <span class="n">scatter_size</span><span class="o">=</span><span class="mf">0.3</span>
+        <span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Plotting proximities: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        
+    <span class="k">if</span> <span class="n">return_df</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">proximities</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+            <span class="c1">#df.columns = columns</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">proximities</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">df</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">proximities</span></div>
+    
+<div class="viewcode-block" id="example_proximity"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.example_proximity">[docs]</a><span class="k">def</span> <span class="nf">example_proximity</span><span class="p">(</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">return_df</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="n">segment_id_pre</span> <span class="o">=</span> <span class="mi">864691136723442173</span>
+    <span class="n">split_index_pre</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">segment_id_post</span> <span class="o">=</span> <span class="mi">864691136422863407</span>
+    <span class="n">split_index_post</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    
+
+    <span class="n">presyn_prox_data</span> <span class="o">=</span> <span class="n">pxu</span><span class="o">.</span><span class="n">presyn_proximity_data</span><span class="p">(</span>
+        <span class="n">segment_id</span> <span class="o">=</span> <span class="n">segment_id_pre</span><span class="p">,</span>
+        <span class="n">split_index</span> <span class="o">=</span> <span class="n">split_index_pre</span><span class="p">,</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="n">plot</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pxu</span><span class="o">.</span><span class="n">proximity_pre_post</span><span class="p">(</span>
+        <span class="n">segment_id_pre</span> <span class="o">=</span> <span class="n">segment_id_pre</span><span class="p">,</span>
+        <span class="n">split_index_pre</span> <span class="o">=</span> <span class="n">split_index_pre</span><span class="p">,</span>
+
+        <span class="n">segment_id_post</span> <span class="o">=</span> <span class="n">segment_id_post</span><span class="p">,</span>
+        <span class="n">split_index_post</span> <span class="o">=</span> <span class="n">split_index_post</span><span class="p">,</span>
+
+        <span class="n">presyn_prox_data</span> <span class="o">=</span> <span class="n">presyn_prox_data</span><span class="p">,</span>
+        <span class="n">postsyn_prox_data</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+
+        <span class="n">plot_proximities</span> <span class="o">=</span> <span class="n">plot</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_df</span> <span class="o">=</span> <span class="n">return_df</span>
+    <span class="p">)</span></div>
+    
+    
+<div class="viewcode-block" id="A_prox_from_G_prox"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.A_prox_from_G_prox">[docs]</a><span class="k">def</span> <span class="nf">A_prox_from_G_prox</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">A_syn</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+    <span class="n">A_syn</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">A_syn</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">A_syn</span></div>
+
+<div class="viewcode-block" id="A_syn_from_G_prox"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.A_syn_from_G_prox">[docs]</a><span class="k">def</span> <span class="nf">A_syn_from_G_prox</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">A_syn</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="s2">&quot;n_synapses&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+    <span class="n">A_syn</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">A_syn</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">A_syn</span></div>
+
+
+
+<div class="viewcode-block" id="plot_proximity"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.plot_proximity">[docs]</a><span class="k">def</span> <span class="nf">plot_proximity</span><span class="p">(</span>
+    <span class="n">prox_data</span><span class="p">,</span>
+    <span class="n">mesh_presyn</span><span class="p">,</span>
+    <span class="n">mesh_postsyn</span><span class="p">,</span>
+    
+    <span class="n">prox_no_syn_color</span> <span class="o">=</span> <span class="s2">&quot;aqua&quot;</span><span class="p">,</span>
+    <span class="n">prox_with_syn_color</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span>
+    <span class="n">presyn_mesh_color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
+    <span class="n">postsyn_mesh_color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: to plot the proximities as syn and not syn</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Divide the proximity list into those with synapse and those without</span>
+<span class="sd">    2) Find coordinates for each group</span>
+<span class="sd">    3) plot</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">syn_groups</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">syn_groups</span><span class="p">[</span><span class="s2">&quot;with_syn&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">prox_data</span> <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="s2">&quot;n_synapses&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">syn_groups</span><span class="p">[</span><span class="s2">&quot;no_syn&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">prox_data</span> <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="s2">&quot;n_synapses&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">scatters</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">scatters_colors</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">vv</span> <span class="ow">in</span> <span class="n">syn_groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">arrays</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vv</span><span class="p">:</span>
+
+            <span class="n">pre_coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;presyn_proximity_x_nm&quot;</span><span class="p">],</span>
+                                  <span class="n">v</span><span class="p">[</span><span class="s2">&quot;presyn_proximity_y_nm&quot;</span><span class="p">],</span>
+                                  <span class="n">v</span><span class="p">[</span><span class="s2">&quot;presyn_proximity_z_nm&quot;</span><span class="p">]])</span>
+            <span class="n">post_coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;postsyn_proximity_x_nm&quot;</span><span class="p">],</span>
+                                   <span class="n">v</span><span class="p">[</span><span class="s2">&quot;postsyn_proximity_y_nm&quot;</span><span class="p">],</span>
+                                   <span class="n">v</span><span class="p">[</span><span class="s2">&quot;postsyn_proximity_z_nm&quot;</span><span class="p">]])</span>
+            <span class="n">coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">pre_coord</span><span class="p">,</span><span class="n">post_coord</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">arrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+        <span class="n">scatters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arrays</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+        <span class="n">scatters_colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prox_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">_color&quot;</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prox_no_syn_color= </span><span class="si">{</span><span class="n">prox_no_syn_color</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prox_with_syn_color= </span><span class="si">{</span><span class="n">prox_with_syn_color</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;presyn_mesh_color= </span><span class="si">{</span><span class="n">presyn_mesh_color</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;postsyn_mesh_color= </span><span class="si">{</span><span class="n">postsyn_mesh_color</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">ipvu</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span>
+        <span class="n">meshes</span> <span class="o">=</span> <span class="p">[</span><span class="n">mesh_presyn</span><span class="p">,</span><span class="n">mesh_postsyn</span><span class="p">],</span>
+        <span class="n">meshes_colors</span><span class="o">=</span><span class="p">[</span><span class="n">presyn_mesh_color</span><span class="p">,</span><span class="n">postsyn_mesh_color</span><span class="p">],</span>
+        <span class="n">scatters</span><span class="o">=</span><span class="n">scatters</span><span class="p">,</span>
+        <span class="n">scatters_colors</span><span class="o">=</span><span class="n">scatters_colors</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+<span class="c1"># ------------- Setting up parameters -----------</span>
+
+<span class="c1"># -- default</span>
+<span class="n">attributes_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
+    <span class="n">vdi</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">data_interface</span>
+<span class="p">)</span>    
+<span class="n">global_parameters_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="c1">#max_ais_distance_from_soma = 50_000</span>
+<span class="p">)</span>
+
+<span class="c1"># -- microns</span>
+<span class="n">global_parameters_dict_microns</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">attributes_dict_microns</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1">#-- h01--</span>
+<span class="n">attributes_dict_h01</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">hvu</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
+    <span class="n">vdi</span> <span class="o">=</span> <span class="n">hvu</span><span class="o">.</span><span class="n">data_interface</span>
+<span class="p">)</span>
+<span class="n">global_parameters_dict_h01</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    
+       
+<span class="c1"># data_type = &quot;default&quot;</span>
+<span class="c1"># algorithms = None</span>
+<span class="c1"># modules_to_set = [pxu]</span>
+
+<span class="c1"># def set_global_parameters_and_attributes_by_data_type(data_type,</span>
+<span class="c1">#                                                      algorithms_list = None,</span>
+<span class="c1">#                                                       modules = None,</span>
+<span class="c1">#                                                      set_default_first = True,</span>
+<span class="c1">#                                                       verbose=False):</span>
+<span class="c1">#     if modules is None:</span>
+<span class="c1">#         modules = modules_to_set</span>
+    
+<span class="c1">#     modu.set_global_parameters_and_attributes_by_data_type(modules,data_type,</span>
+<span class="c1">#                                                           algorithms=algorithms_list,</span>
+<span class="c1">#                                                           set_default_first = set_default_first,</span>
+<span class="c1">#                                                           verbose = verbose)</span>
+    
+<span class="c1"># set_global_parameters_and_attributes_by_data_type(data_type,</span>
+<span class="c1">#                                                    algorithms)</span>
+
+<span class="c1"># def output_global_parameters_and_attributes_from_current_data_type(</span>
+<span class="c1">#     modules = None,</span>
+<span class="c1">#     algorithms = None,</span>
+<span class="c1">#     verbose = True,</span>
+<span class="c1">#     lowercase = True,</span>
+<span class="c1">#     output_types = (&quot;global_parameters&quot;),</span>
+<span class="c1">#     include_default = True,</span>
+<span class="c1">#     algorithms_only = False,</span>
+<span class="c1">#     **kwargs):</span>
+    
+<span class="c1">#     if modules is None:</span>
+<span class="c1">#         modules = modules_to_set</span>
+    
+<span class="c1">#     return modu.output_global_parameters_and_attributes_from_current_data_type(</span>
+<span class="c1">#         modules,</span>
+<span class="c1">#         algorithms = algorithms,</span>
+<span class="c1">#         verbose = verbose,</span>
+<span class="c1">#         lowercase = lowercase,</span>
+<span class="c1">#         output_types = output_types,</span>
+<span class="c1">#         include_default = include_default,</span>
+<span class="c1">#         algorithms_only = algorithms_only,</span>
+<span class="c1">#         **kwargs,</span>
+<span class="c1">#         )</span>
+
+
+<span class="c1">#--- from neuron_morphology_tools ---</span>
+
+
+<span class="c1">#--- from neurd_packages ---</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+
+<span class="c1">#--- from neuron_morphology_tools ---</span>
+<span class="kn">from</span> <span class="nn">neuron_morphology_tools</span> <span class="kn">import</span> <span class="n">neuron_nx_utils</span> <span class="k">as</span> <span class="n">nxu</span>
+
+<span class="c1">#--- from mesh_tools ---</span>
+<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
+
+<span class="c1">#--- from python_tools ---</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proximity_utils</span> <span class="k">as</span> <span class="n">pxu</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

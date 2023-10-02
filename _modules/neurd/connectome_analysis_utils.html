@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.connectome_analysis_utils &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.connectome_analysis_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.connectome_analysis_utils</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+
+<div class="viewcode-block" id="restrict_edge_df_by_types_compartment"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.restrict_edge_df_by_types_compartment">[docs]</a><span class="k">def</span> <span class="nf">restrict_edge_df_by_types_compartment</span><span class="p">(</span>
+    <span class="n">edge_df</span><span class="p">,</span>
+    <span class="n">synapse_type</span> <span class="o">=</span> <span class="s2">&quot;postsyn&quot;</span><span class="p">,</span>
+    <span class="n">cell_type</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">cell_type_attribute</span> <span class="o">=</span> <span class="s2">&quot;gnn_cell_type&quot;</span><span class="p">,</span>
+    <span class="n">cell_type_fine</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">cell_type_fine_attribute</span> <span class="o">=</span> <span class="s2">&quot;gnn_cell_type_fine&quot;</span><span class="p">,</span>
+    <span class="n">compartment</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">restriction_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    
+    <span class="c1">#for the max skeletal length</span>
+    <span class="n">presyn_skeletal_distance_to_soma_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">presyn_skeletal_distance_to_soma_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    
+    <span class="n">postsyn_skeletal_distance_to_soma_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">postsyn_skeletal_distance_to_soma_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    
+    <span class="c1">#for the min/max euclidean length</span>
+    <span class="n">presyn_soma_euclid_dist_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">presyn_soma_euclid_dist_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    
+    <span class="n">postsyn_soma_euclid_dist_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">postsyn_soma_euclid_dist_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    
+    <span class="n">return_name</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">add_number_of_cells_to_name</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">restriction_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">restriction_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        
+        
+    <span class="n">restriction_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+        <span class="n">cell_type_attribute</span><span class="p">:</span><span class="n">cell_type</span><span class="p">,</span>
+        <span class="n">cell_type_fine_attribute</span><span class="p">:</span><span class="n">cell_type_fine</span><span class="p">,</span>
+        <span class="s2">&quot;compartment&quot;</span><span class="p">:</span><span class="n">compartment</span><span class="p">,</span>
+    <span class="p">})</span>
+    
+    <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">synapse_type</span><span class="si">}</span><span class="s2">&quot;</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;restriction_dict = </span><span class="si">{</span><span class="n">restriction_dict</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="n">edge_df_restr</span> <span class="o">=</span> <span class="n">edge_df</span>
+        
+    <span class="k">for</span> <span class="n">att_name</span><span class="p">,</span><span class="n">att_value</span> <span class="ow">in</span> <span class="n">restriction_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">att_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before </span><span class="si">{</span><span class="n">att_name</span><span class="si">}</span><span class="s2"> restrition: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edge_df_restr</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">att_name</span> <span class="o">==</span> <span class="s2">&quot;compartment&quot;</span><span class="p">:</span>
+                <span class="n">edge_df_restr</span> <span class="o">=</span> <span class="n">edge_df_restr</span><span class="p">[</span><span class="n">edge_df_restr</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">synapse_type</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">att_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">att_value</span><span class="p">)]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">edge_df_restr</span> <span class="o">=</span> <span class="n">edge_df_restr</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">synapse_type</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">att_name</span><span class="si">}</span><span class="s2"> == &#39;</span><span class="si">{</span><span class="n">att_value</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">att_value</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After </span><span class="si">{</span><span class="n">att_name</span><span class="si">}</span><span class="s2"> restrition: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edge_df_restr</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                
+        
+    <span class="n">dist_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">presyn_skeletal_distance_to_soma_max</span> <span class="o">=</span> <span class="n">presyn_skeletal_distance_to_soma_max</span><span class="p">,</span>
+        <span class="n">presyn_skeletal_distance_to_soma_min</span> <span class="o">=</span> <span class="n">presyn_skeletal_distance_to_soma_min</span><span class="p">,</span>
+
+        <span class="n">postsyn_skeletal_distance_to_soma_max</span> <span class="o">=</span> <span class="n">postsyn_skeletal_distance_to_soma_max</span><span class="p">,</span>
+        <span class="n">postsyn_skeletal_distance_to_soma_min</span> <span class="o">=</span> <span class="n">postsyn_skeletal_distance_to_soma_min</span><span class="p">,</span>
+
+        <span class="c1">#for the min/max euclidean length</span>
+        <span class="n">presyn_soma_euclid_dist_max</span> <span class="o">=</span> <span class="n">presyn_soma_euclid_dist_max</span><span class="p">,</span>
+        <span class="n">presyn_soma_euclid_dist_min</span> <span class="o">=</span> <span class="n">presyn_soma_euclid_dist_min</span><span class="p">,</span>
+
+        <span class="n">postsyn_soma_euclid_dist_max</span> <span class="o">=</span> <span class="n">postsyn_soma_euclid_dist_max</span><span class="p">,</span>
+        <span class="n">postsyn_soma_euclid_dist_min</span> <span class="o">=</span> <span class="n">postsyn_soma_euclid_dist_min</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">att_name</span><span class="p">,</span><span class="n">att_value</span> <span class="ow">in</span> <span class="n">dist_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">att_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;max&quot;</span> <span class="ow">in</span> <span class="n">att_name</span><span class="p">:</span>
+                <span class="n">comparison_str</span> <span class="o">=</span> <span class="s2">&quot;&lt;=&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">comparison_str</span> <span class="o">=</span> <span class="s2">&quot;&gt;=&quot;</span>
+                
+            <span class="n">col_name</span> <span class="o">=</span> <span class="n">att_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+                
+            <span class="n">name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, </span><span class="si">{</span><span class="n">col_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">comparison_str</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">att_value</span><span class="si">}</span><span class="s2">&quot;</span>
+            
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before </span><span class="si">{</span><span class="n">col_name</span><span class="si">}</span><span class="s2"> restrition: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edge_df_restr</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">edge_df_restr</span> <span class="o">=</span> <span class="n">edge_df_restr</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">comparison_str</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">att_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After </span><span class="si">{</span><span class="n">col_name</span><span class="si">}</span><span class="s2"> restrition: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edge_df_restr</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+    <span class="k">if</span> <span class="n">add_number_of_cells_to_name</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Number of Presyn Cells = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edge_df_restr</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Number of Postsyn Cells = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edge_df_restr</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Number of Presyn Cells = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edge_df_restr</span><span class="p">[</span><span class="s1">&#39;presyn&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Number of Postsyn Cells = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edge_df_restr</span><span class="p">[</span><span class="s1">&#39;postsyn&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+            
+            
+    <span class="k">if</span> <span class="n">return_name</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">edge_df_restr</span><span class="p">,</span><span class="n">name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">edge_df_restr</span></div>
+    
+    
+
+<span class="n">cell_type_fine_labels_global</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;23P&#39;</span><span class="p">,</span> <span class="s1">&#39;4P&#39;</span><span class="p">,</span> <span class="s1">&#39;5P-IT&#39;</span><span class="p">,</span> <span class="s1">&#39;5P-NP&#39;</span><span class="p">,</span> <span class="s1">&#39;5P-PT&#39;</span><span class="p">,</span><span class="s1">&#39;6P-CT&#39;</span><span class="p">,</span><span class="s1">&#39;6P-IT&#39;</span><span class="p">,</span><span class="s1">&#39;BC&#39;</span><span class="p">,</span><span class="s2">&quot;BPC&quot;</span><span class="p">,</span><span class="s2">&quot;MC&quot;</span><span class="p">,</span><span class="s2">&quot;NGC&quot;</span><span class="p">,</span><span class="s2">&quot;Pvalb&quot;</span><span class="p">,</span><span class="s2">&quot;SST&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="cell_count"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.cell_count">[docs]</a><span class="k">def</span> <span class="nf">cell_count</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">synapse_type</span><span class="p">,</span><span class="n">return_str</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,):</span>
+    <span class="k">if</span> <span class="n">synapse_type</span> <span class="o">==</span> <span class="s2">&quot;presyn&quot;</span><span class="p">:</span>
+        <span class="n">id_name</span> <span class="o">=</span> <span class="s2">&quot;source&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">id_name</span> <span class="o">=</span> <span class="s2">&quot;target&quot;</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">synapse_type</span><span class="si">}</span><span class="s2">_gnn_cell_type_fine==&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)[</span><span class="n">id_name</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cell_type_fine_labels_global</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">return_str</span><span class="p">:</span>
+        <span class="n">ret_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">synapse_type</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">s:&quot;</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">ret_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">), &quot;</span> 
+            <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="o">%</span><span class="mi">4</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">ret_str</span><span class="o">+=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">ret_str</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">counts</span></div>
+
+<span class="c1"># def plot_histogram_discrete_labels_old(</span>
+<span class="c1">#     edge_df,</span>
+<span class="c1">#     restrictions_dicts= None,</span>
+<span class="c1">#     compartment_labels = cell_type_fine_labels_global,#[&quot;apical&quot;]</span>
+<span class="c1">#     cell_type_fine_labels = None,</span>
+<span class="c1">#     synapse_type = &quot;postsyn&quot;,</span>
+<span class="c1">#     histogram_attribute = &quot;presyn_skeletal_distance_to_soma&quot;,</span>
+<span class="c1">#     twin_color = &quot;blue&quot;,</span>
+<span class="c1">#     normalize=True,</span>
+<span class="c1">#     cumulative=True,</span>
+<span class="c1">#     verbose = True,</span>
+<span class="c1">#     labels = None,</span>
+<span class="c1">#     y_label = None,</span>
+<span class="c1">#     x_label = None,</span>
+<span class="c1">#     title = None,</span>
+<span class="c1">#     add_cell_counts_to_title = True,</span>
+<span class="c1">#     fontsize_title = None,</span>
+<span class="c1">#     fontsize_axes = 16,</span>
+<span class="c1">#     nbins = 100,</span>
+<span class="c1">#     legend = False,</span>
+<span class="c1">#     **kwargs</span>
+<span class="c1">#     ):</span>
+
+    
+<span class="c1">#     if labels is None:</span>
+<span class="c1">#         labels = cell_type_fine_labels_global</span>
+
+<span class="c1">#     if synapse_type == &quot;postsyn&quot;:</span>
+<span class="c1">#         discrete_label = &quot;presyn_gnn_cell_type_fine&quot;</span>
+<span class="c1">#         opposite_synapse_type = &quot;presyn&quot;</span>
+<span class="c1">#     else:</span>
+<span class="c1">#         discrete_label = &quot;postsyn_gnn_cell_type_fine&quot;</span>
+<span class="c1">#         opposite_synapse_type = &quot;postsyn&quot;</span>
+        
+    
+
+<span class="c1">#     if restrictions_dicts is None:</span>
+<span class="c1">#     #for the discrete histogramming</span>
+<span class="c1">#         restrictions_dicts = []</span>
+<span class="c1">#         if cell_type_fine_labels is not None:</span>
+<span class="c1">#             restrictions_dicts = [dict(cell_type_fine=k) for k in cell_type_fine_labels]</span>
+
+<span class="c1">#         if compartment_labels is not None:</span>
+<span class="c1">#             if len(restrictions_dicts) == 0:</span>
+<span class="c1">#                 restrictions_dicts = [dict(compartment=k) for k in compartment_labels]</span>
+<span class="c1">#             else:</span>
+<span class="c1">#                 for d in restrictions_dicts:</span>
+<span class="c1">#                     for k in compartment_labels:</span>
+<span class="c1">#                         d[&quot;compartment&quot;] = k</span>
+        
+                
+
+<span class="c1">#     for rd in restrictions_dicts:</span>
+<span class="c1">#         restr_df,name = cona.restrict_edge_df_by_types_compartment(</span>
+<span class="c1">#             edge_df,</span>
+<span class="c1">#             verbose = False,</span>
+<span class="c1">#             synapse_type = synapse_type,</span>
+<span class="c1">#             return_name=True,</span>
+<span class="c1">#             **rd,</span>
+<span class="c1">#             **kwargs</span>
+<span class="c1">#         )</span>
+
+<span class="c1">#         if verbose:</span>
+<span class="c1">#             print(f&quot;\n\n\n--- Working on {name}: # of edges = {len(restr_df)} ---&quot;)</span>
+
+<span class="c1">#         if len(restr_df) == 0:</span>
+<span class="c1">#             continue</span>
+
+<span class="c1">#         df_counts = pu.histogram_of_discrete_labels(</span>
+<span class="c1">#             restr_df,</span>
+<span class="c1">#             y=discrete_label,</span>
+<span class="c1">#             normalize=normalize,</span>
+<span class="c1">#             cumulative=cumulative,</span>
+<span class="c1">#             x = histogram_attribute,</span>
+<span class="c1">#             #x_steps = np.linspace(0,1000,100),</span>
+<span class="c1">#             plot = False,</span>
+<span class="c1">#             nbins=nbins,</span>
+<span class="c1">#             )</span>
+
+
+<span class="c1">#         #print(f&quot;df_counts = {len(df_counts)}&quot;)</span>
+
+<span class="c1">#         ax,ax2 = mu.stacked_bar_graph(</span>
+<span class="c1">#             df_counts,</span>
+<span class="c1">#             color_dict = ctu.cell_type_fine_color_map,</span>
+<span class="c1">#             set_legend_outside_plot = True,</span>
+<span class="c1">#             plot_twin_counts = True,</span>
+<span class="c1">#             twin_color=twin_color,</span>
+<span class="c1">#             labels = labels,</span>
+<span class="c1">#             fontsize_axes = fontsize_axes,</span>
+<span class="c1">#             x_multiplier = 1000,</span>
+<span class="c1">#         )</span>
+
+        
+<span class="c1">#         if y_label is None:</span>
+<span class="c1">#             if synapse_type == &quot;presyn&quot;:</span>
+<span class="c1">#                 y_label = &quot;Targets Cell Type&quot;</span>
+<span class="c1">#             elif synapse_type == &quot;postsyn&quot;:</span>
+<span class="c1">#                 y_label = &quot;Source Cell Type&quot;</span>
+<span class="c1">#             else:</span>
+<span class="c1">#                 y_label = f&quot;Cumulative Percentage of \n{discrete_label.replace(&#39;_&#39;,&#39; &#39;).title()} Connections&quot;</span>
+            
+<span class="c1">#             print(f&quot;y_label = {y_label}&quot;)</span>
+        
+<span class="c1">#         ax.set_ylabel(y_label,color = twin_color,fontsize=fontsize_axes)</span>
+            
+<span class="c1">#         if x_label is None:</span>
+<span class="c1">#             if histogram_attribute == &quot;presyn_skeletal_distance_to_soma&quot;:</span>
+<span class="c1">#                 x_label = &quot;Skeletal Length of Source Axon (um)&quot;</span>
+<span class="c1">#             elif histogram_attribute == &quot;presyn_skeletal_distance_to_soma&quot;:</span>
+<span class="c1">#                 x_label = &quot;Skeletal Length of Target Dendrite (um)&quot;</span>
+<span class="c1">#             else:</span>
+<span class="c1">#                 x_label = f&quot;{histogram_attribute.replace(&#39;_&#39;,&#39; &#39;).title()}&quot;</span>
+<span class="c1">#         ax.set_xlabel(x_label,fontsize=fontsize_axes)</span>
+<span class="c1">#         ax2.set_xlabel(x_label,fontsize=fontsize_axes)</span>
+            
+<span class="c1">#         if title is None:</span>
+<span class="c1">#             if synapse_type == &quot;presyn&quot;:</span>
+<span class="c1">#                 title_start = &quot;Targets of&quot;</span>
+<span class="c1">#             else:</span>
+<span class="c1">#                 title_start = &quot;Sources of Input to&quot;</span>
+<span class="c1">#             title = f&quot;{title_start} {name.replace(&#39;_&#39;,&#39;s:  &#39;).capitalize()}&quot;</span>
+            
+<span class="c1">#         if add_cell_counts_to_title:</span>
+<span class="c1">#             title += f&quot;{cell_count(restr_df,synapse_type=opposite_synapse_type)}&quot;</span>
+            
+<span class="c1">#         ax.set_title(f&quot;{title}&quot;,fontsize=fontsize_title)</span>
+<span class="c1">#         return ax,ax2</span>
+<span class="c1">#         plt.show()</span>
+        
+        
+<div class="viewcode-block" id="plot_histogram_discrete_labels"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.plot_histogram_discrete_labels">[docs]</a><span class="k">def</span> <span class="nf">plot_histogram_discrete_labels</span><span class="p">(</span>
+    <span class="n">edge_df</span><span class="p">,</span>
+    <span class="n">restrictions_dicts</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">compartment_labels</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1"># cell_type_fine_labels_global,#[&quot;apical&quot;]</span>
+    <span class="n">cell_type_fine_labels</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">synapse_type</span> <span class="o">=</span> <span class="s2">&quot;postsyn&quot;</span><span class="p">,</span>
+    <span class="n">histogram_attribute</span> <span class="o">=</span> <span class="s2">&quot;presyn_skeletal_distance_to_soma&quot;</span><span class="p">,</span>
+    <span class="n">twin_color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">cumulative</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">y_label</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">x_label</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">add_cell_counts_to_title</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    
+    <span class="c1">#--- sizes of plots ---</span>
+    <span class="n">fontsize_title</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
+    <span class="n">fontsize_axes</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="n">fontsize_tick</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="n">nbins</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">legend</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    
+    
+    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">cona</span><span class="o">.</span><span class="n">cell_type_fine_labels_global</span>
+
+    <span class="k">if</span> <span class="n">synapse_type</span> <span class="o">==</span> <span class="s2">&quot;postsyn&quot;</span><span class="p">:</span>
+        <span class="n">discrete_label</span> <span class="o">=</span> <span class="s2">&quot;presyn_gnn_cell_type_fine&quot;</span>
+        <span class="n">opposite_synapse_type</span> <span class="o">=</span> <span class="s2">&quot;presyn&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">discrete_label</span> <span class="o">=</span> <span class="s2">&quot;postsyn_gnn_cell_type_fine&quot;</span>
+        <span class="n">opposite_synapse_type</span> <span class="o">=</span> <span class="s2">&quot;postsyn&quot;</span>
+
+    <span class="k">if</span> <span class="n">restrictions_dicts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1">#for the discrete histogramming</span>
+        <span class="n">restrictions_dicts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">cell_type_fine_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">restrictions_dicts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">cell_type_fine</span><span class="o">=</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cell_type_fine_labels</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">compartment_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">restrictions_dicts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">restrictions_dicts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">compartment</span><span class="o">=</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">compartment_labels</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">restrictions_dicts</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">compartment_labels</span><span class="p">:</span>
+                        <span class="n">d</span><span class="p">[</span><span class="s2">&quot;compartment&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span>
+                        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">restrictions_dicts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">restrictions_dicts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;restrictions_dicts = </span><span class="si">{</span><span class="n">restrictions_dicts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">rd</span> <span class="ow">in</span> <span class="n">restrictions_dicts</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">restr_df</span><span class="p">,</span><span class="n">name</span> <span class="o">=</span> <span class="n">cona</span><span class="o">.</span><span class="n">restrict_edge_df_by_types_compartment</span><span class="p">(</span>
+                <span class="n">edge_df</span><span class="p">,</span>
+                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">synapse_type</span> <span class="o">=</span> <span class="n">synapse_type</span><span class="p">,</span>
+                <span class="n">return_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">rd</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">restr_df</span> <span class="o">=</span> <span class="n">edge_df</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;No restrictions&quot;</span>
+            
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2">--- Working on </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: # of edges = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">restr_df</span><span class="p">)</span><span class="si">}</span><span class="s2"> ---&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">restr_df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">df_counts</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">histogram_of_discrete_labels</span><span class="p">(</span>
+            <span class="n">restr_df</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">discrete_label</span><span class="p">,</span>
+            <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+            <span class="n">cumulative</span><span class="o">=</span><span class="n">cumulative</span><span class="p">,</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">histogram_attribute</span><span class="p">,</span>
+            <span class="c1">#x_steps = np.linspace(0,1000,100),</span>
+            <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">nbins</span><span class="o">=</span><span class="n">nbins</span><span class="p">,</span>
+            <span class="p">)</span>
+
+
+        <span class="c1">#print(f&quot;df_counts = {len(df_counts)}&quot;)</span>
+
+        <span class="n">ax</span><span class="p">,</span><span class="n">ax2</span> <span class="o">=</span> <span class="n">mu</span><span class="o">.</span><span class="n">stacked_bar_graph</span><span class="p">(</span>
+            <span class="n">df_counts</span><span class="p">,</span>
+            <span class="n">color_dict</span> <span class="o">=</span> <span class="n">ctu</span><span class="o">.</span><span class="n">cell_type_fine_color_map</span><span class="p">,</span>
+            <span class="n">set_legend_outside_plot</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">plot_twin_counts</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">twin_color</span><span class="o">=</span><span class="n">twin_color</span><span class="p">,</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">,</span>
+            <span class="n">fontsize_axes</span> <span class="o">=</span> <span class="n">fontsize_axes</span><span class="p">,</span>
+            <span class="n">x_multiplier</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="p">,</span>
+            <span class="n">legend</span> <span class="o">=</span> <span class="n">legend</span>
+        <span class="p">)</span>
+
+
+        <span class="k">if</span> <span class="n">y_label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">synapse_type</span> <span class="o">==</span> <span class="s2">&quot;presyn&quot;</span><span class="p">:</span>
+                <span class="n">y_label</span> <span class="o">=</span> <span class="s2">&quot;Targets Cell Type&quot;</span>
+            <span class="k">elif</span> <span class="n">synapse_type</span> <span class="o">==</span> <span class="s2">&quot;postsyn&quot;</span><span class="p">:</span>
+                <span class="n">y_label</span> <span class="o">=</span> <span class="s2">&quot;Source Cell Type&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">y_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Cumulative Percentage of </span><span class="se">\n</span><span class="si">{</span><span class="n">discrete_label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> Connections&quot;</span>
+            
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span>
+            <span class="n">y_label</span><span class="p">,</span>
+            <span class="c1">#color = twin_color,</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize_axes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">x_label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">histogram_attribute</span> <span class="o">==</span> <span class="s2">&quot;presyn_skeletal_distance_to_soma&quot;</span><span class="p">:</span>
+                <span class="n">x_label</span> <span class="o">=</span> <span class="s2">&quot;Skeletal Length of Source Axon (um)&quot;</span>
+            <span class="k">elif</span> <span class="n">histogram_attribute</span> <span class="o">==</span> <span class="s2">&quot;presyn_skeletal_distance_to_soma&quot;</span><span class="p">:</span>
+                <span class="n">x_label</span> <span class="o">=</span> <span class="s2">&quot;Skeletal Length of Target Dendrite (um)&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">x_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">histogram_attribute</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">x_label</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize_axes</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">x_label</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize_axes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">synapse_type</span> <span class="o">==</span> <span class="s2">&quot;presyn&quot;</span><span class="p">:</span>
+                <span class="n">title_start</span> <span class="o">=</span> <span class="s2">&quot;Targets of&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">title_start</span> <span class="o">=</span> <span class="s2">&quot;Sources of Input to&quot;</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title_start</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="s1">&#39;s:  &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">add_cell_counts_to_title</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">conu</span><span class="o">.</span><span class="n">cell_count</span><span class="p">(</span><span class="n">restr_df</span><span class="p">,</span><span class="n">synapse_type</span><span class="o">=</span><span class="n">opposite_synapse_type</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize_title</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+        
+        
+<div class="viewcode-block" id="plot_cell_type_edge_stat"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.plot_cell_type_edge_stat">[docs]</a><span class="k">def</span> <span class="nf">plot_cell_type_edge_stat</span><span class="p">(</span>
+    <span class="n">edge_df</span><span class="p">,</span>
+    <span class="n">cell_type_feature</span> <span class="o">=</span> <span class="s2">&quot;cell_type&quot;</span><span class="p">,</span>
+    <span class="n">presyn_cell_type_feature</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">postsyn_cell_type_feature</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">add_presyn_postsyn_to_name</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">stat_to_plot</span> <span class="o">=</span> <span class="s2">&quot;postsyn_skeletal_distance_to_soma&quot;</span><span class="p">,</span>
+    <span class="n">density</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">filter_away_0</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">maximum_percentile</span> <span class="o">=</span> <span class="mi">98</span><span class="p">,</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">figsize</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">axes_height</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">axes_width</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="n">title_suffix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">):</span>
+    
+    <span class="k">if</span> <span class="n">presyn_cell_type_feature</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">presyn_cell_type_feature</span> <span class="o">=</span> <span class="n">cell_type_feature</span>
+        <span class="k">if</span> <span class="n">add_presyn_postsyn_to_name</span><span class="p">:</span>
+            <span class="n">presyn_cell_type_feature</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;presyn_</span><span class="si">{</span><span class="n">presyn_cell_type_feature</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="n">postsyn_cell_type_feature</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">postsyn_cell_type_feature</span> <span class="o">=</span> <span class="n">cell_type_feature</span>
+        <span class="k">if</span> <span class="n">add_presyn_postsyn_to_name</span><span class="p">:</span>
+            <span class="n">postsyn_cell_type_feature</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;postsyn_</span><span class="si">{</span><span class="n">postsyn_cell_type_feature</span><span class="si">}</span><span class="s2">&quot;</span>
+            
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;postsyn_cell_type_feature = </span><span class="si">{</span><span class="n">postsyn_cell_type_feature</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;presyn_cell_type_feature= </span><span class="si">{</span><span class="n">presyn_cell_type_feature</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">edge_df</span><span class="p">[</span><span class="s2">&quot;connection_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">edge_df</span><span class="p">[</span><span class="n">presyn_cell_type_feature</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_onto_&quot;</span> <span class="o">+</span> 
+                                  <span class="n">edge_df</span><span class="p">[</span><span class="n">postsyn_cell_type_feature</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">))</span>
+
+
+    <span class="n">unique_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">edge_df</span><span class="p">[</span><span class="s2">&quot;connection_type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">mu</span><span class="o">.</span><span class="n">generate_non_randon_named_color_list</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">unique_labels</span><span class="p">))</span>
+    
+    <span class="k">if</span> <span class="n">figsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">axes_width</span><span class="p">,</span><span class="n">axes_height</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">unique_labels</span><span class="p">))</span>
+
+    <span class="n">fig</span><span class="p">,</span><span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">unique_labels</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span><span class="p">,</span>
+        <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">j</span><span class="p">,(</span><span class="n">ax</span><span class="p">,</span><span class="n">ct_conn</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span><span class="n">unique_labels</span><span class="p">)):</span>
+        <span class="c1">#if j == 0:</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Working on </span><span class="si">{</span><span class="n">ct_conn</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">query_str</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(connection_type == &#39;</span><span class="si">{</span><span class="n">ct_conn</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+        <span class="n">df_rest</span> <span class="o">=</span> <span class="n">edge_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query_str</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">df_rest</span><span class="p">[</span><span class="n">stat_to_plot</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">/</span><span class="mi">1000</span>
+
+        <span class="k">if</span> <span class="n">filter_away_0</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">maximum_percentile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">maximum_percentile</span><span class="p">)]</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">ct_conn</span><span class="p">,</span>
+                <span class="n">density</span><span class="o">=</span><span class="n">density</span><span class="p">,</span>
+               <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span>
+                <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">,)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ct_conn</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> datapoints) (mean = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">:</span><span class="s2">3f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">density</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Count&quot;</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">k</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">stat_to_plot</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)])</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">For Different Cell Type Connections</span><span class="se">\n</span><span class="si">{</span><span class="n">title_suffix</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">stat_to_plot</span> <span class="o">+</span> <span class="s2">&quot; (um)&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span><span class="n">axes</span></div>
+
+
+<span class="c1">#--- from neurd_packages ---</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">cell_type_utils</span> <span class="k">as</span> <span class="n">ctu</span>
+
+<span class="c1">#--- from python_tools ---</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">connectome_analysis_utils</span> <span class="k">as</span> <span class="n">cona</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

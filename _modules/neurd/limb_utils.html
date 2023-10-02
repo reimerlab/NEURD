@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.limb_utils &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.limb_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.limb_utils</h1><div class="highlight"><pre>
+<span></span>
+
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+
+<div class="viewcode-block" id="all_paths_to_leaf_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.all_paths_to_leaf_nodes">[docs]</a><span class="k">def</span> <span class="nf">all_paths_to_leaf_nodes</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">xu</span><span class="o">.</span><span class="n">all_paths_to_leaf_nodes</span><span class="p">(</span>
+            <span class="n">G</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network_directional</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+        <span class="p">)</span></div>
+<span class="c1"># ---------- statistics ----------------</span>
+
+<span class="n">default_relation_value</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+<div class="viewcode-block" id="parent_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.parent_skeletal_angle">[docs]</a><span class="k">def</span> <span class="nf">parent_skeletal_angle</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">default_value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: to get the branching angle with parent</span>
+<span class="sd">    from the skeleton vectors</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Get parent branch</span>
+<span class="sd">    2) Get parent and child vector</span>
+<span class="sd">    3) Get the angle between the two</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    from neurd import limb_utils as lu</span>
+<span class="sd">    lu.parent_skeletal_angle(</span>
+<span class="sd">    branch_idx = 2,</span>
+<span class="sd">    limb_obj = neuron_obj[1],</span>
+<span class="sd">    verbose = True,</span>
+<span class="sd">    )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">branch_idx</span><span class="p">]</span><span class="o">.</span><span class="n">endpoints_upstream_downstream_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bu</span><span class="o">.</span><span class="n">set_branches_endpoints_upstream_downstream_idx_on_limb</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">)</span>
+    
+    
+    <span class="n">parent_idx</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">parent_node</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parent_idx = </span><span class="si">{</span><span class="n">parent_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span>  <span class="n">parent_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">default_value</span>
+    
+    <span class="n">branch_obj</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">parent_idx</span><span class="p">]</span>
+    <span class="n">branch_obj_2</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">branch_idx</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">nu</span><span class="o">.</span><span class="n">angle_between_vectors</span><span class="p">(</span>
+        <span class="n">branch_obj</span><span class="o">.</span><span class="n">skeleton_vector_downstream</span><span class="p">,</span>
+        <span class="n">branch_obj_2</span><span class="o">.</span><span class="n">skeleton_vector_upstream</span><span class="p">),</span><span class="mi">2</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="relation_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.relation_skeletal_angle">[docs]</a><span class="k">def</span> <span class="nf">relation_skeletal_angle</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="n">relation</span><span class="p">,</span>
+    <span class="n">nodes_idx</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">default_value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">extrema_value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To find the sibling angles with all siblings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#print(f&quot;nodes_idx = {nodes_idx}&quot;)</span>
+    
+    <span class="k">if</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">branch_idx</span><span class="p">]</span><span class="o">.</span><span class="n">endpoints_upstream_downstream_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bu</span><span class="o">.</span><span class="n">set_branches_endpoints_upstream_downstream_idx_on_limb</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">default_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">default_value</span> <span class="o">=</span> <span class="n">default_relation_value</span>
+    
+    <span class="n">singular_flag</span> <span class="o">=</span> <span class="kc">False</span>
+    
+    <span class="k">if</span> <span class="n">relation</span> <span class="o">==</span> <span class="s2">&quot;children&quot;</span><span class="p">:</span>
+        <span class="n">node_func</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">children_nodes</span>
+        <span class="n">branch_vec_func</span> <span class="o">=</span> <span class="s2">&quot;skeleton_vector_downstream&quot;</span>
+    <span class="k">elif</span> <span class="n">relation</span> <span class="o">==</span> <span class="s2">&quot;siblings&quot;</span><span class="p">:</span>
+        <span class="n">node_func</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">sibling_nodes</span>
+        <span class="n">branch_vec_func</span> <span class="o">=</span> <span class="s2">&quot;skeleton_vector_upstream&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">nodes_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">nodes_idx</span> <span class="o">=</span> <span class="n">node_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">nu</span><span class="o">.</span><span class="n">is_array_like</span><span class="p">(</span><span class="n">nodes_idx</span><span class="p">):</span>
+        <span class="n">singular_flag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">nodes_idx</span> <span class="o">=</span> <span class="n">nu</span><span class="o">.</span><span class="n">convert_to_array_like</span><span class="p">(</span><span class="n">nodes_idx</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+    
+    <span class="k">if</span> <span class="n">nodes_idx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes_idx</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">default_value</span> 
+
+    <span class="n">sibling_idx</span> <span class="o">=</span> <span class="n">nu</span><span class="o">.</span><span class="n">convert_to_array_like</span><span class="p">(</span><span class="n">nodes_idx</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">relation</span><span class="si">}</span><span class="s2">_idx= </span><span class="si">{</span><span class="n">sibling_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="n">branch_obj</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">branch_idx</span><span class="p">]</span>
+    <span class="n">sibling_angles</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sibling_idx</span><span class="p">:</span>
+        <span class="n">branch_obj_2</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+        <span class="n">curr_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">nu</span><span class="o">.</span><span class="n">angle_between_vectors</span><span class="p">(</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">branch_vec_func</span><span class="p">),</span>
+            <span class="n">branch_obj_2</span><span class="o">.</span><span class="n">skeleton_vector_upstream</span><span class="p">),</span><span class="mi">2</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">branch_idx</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> angle: </span><span class="si">{</span><span class="n">curr_angle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">sibling_angles</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_angle</span>
+        
+    <span class="k">if</span> <span class="n">singular_flag</span> <span class="ow">and</span> <span class="n">return_dict</span><span class="p">:</span>
+        <span class="n">sibling_angles</span> <span class="o">=</span> <span class="n">sibling_angles</span><span class="p">[</span><span class="n">sibling_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            
+    <span class="k">if</span> <span class="n">extrema_value</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">np</span><span class="p">,</span><span class="n">extrema_value</span><span class="p">)(</span><span class="nb">list</span><span class="p">(</span><span class="n">sibling_angles</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        
+    <span class="k">if</span> <span class="n">return_dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sibling_angles</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">sibling_angles</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="siblings_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.siblings_skeletal_angle">[docs]</a><span class="k">def</span> <span class="nf">siblings_skeletal_angle</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="n">sibling_idx</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">default_value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    
+    <span class="k">return</span> <span class="n">lu</span><span class="o">.</span><span class="n">relation_skeletal_angle</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="n">relation</span><span class="o">=</span><span class="s2">&quot;siblings&quot;</span><span class="p">,</span>
+    <span class="n">nodes_idx</span> <span class="o">=</span> <span class="n">sibling_idx</span><span class="p">,</span>
+    <span class="n">default_value</span> <span class="o">=</span> <span class="n">default_value</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="children_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.children_skeletal_angle">[docs]</a><span class="k">def</span> <span class="nf">children_skeletal_angle</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="n">nodes_idx</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">default_value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    
+    <span class="k">return</span> <span class="n">lu</span><span class="o">.</span><span class="n">relation_skeletal_angle</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="n">relation</span><span class="o">=</span><span class="s2">&quot;children&quot;</span><span class="p">,</span>
+    <span class="n">nodes_idx</span> <span class="o">=</span> <span class="n">nodes_idx</span><span class="p">,</span>
+    <span class="n">default_value</span> <span class="o">=</span> <span class="n">default_value</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="siblings_skeletal_angle_max"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.siblings_skeletal_angle_max">[docs]</a><span class="k">def</span> <span class="nf">siblings_skeletal_angle_max</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    
+    <span class="k">return</span> <span class="n">lu</span><span class="o">.</span><span class="n">siblings_skeletal_angle</span><span class="p">(</span>
+        <span class="n">limb_obj</span><span class="p">,</span>
+        <span class="n">branch_idx</span><span class="p">,</span>
+        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="siblings_skeletal_angle_min"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.siblings_skeletal_angle_min">[docs]</a><span class="k">def</span> <span class="nf">siblings_skeletal_angle_min</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    
+    <span class="k">return</span> <span class="n">lu</span><span class="o">.</span><span class="n">siblings_skeletal_angle</span><span class="p">(</span>
+        <span class="n">limb_obj</span><span class="p">,</span>
+        <span class="n">branch_idx</span><span class="p">,</span>
+        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="children_skeletal_angle_max"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.children_skeletal_angle_max">[docs]</a><span class="k">def</span> <span class="nf">children_skeletal_angle_max</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    
+    <span class="k">return</span> <span class="n">lu</span><span class="o">.</span><span class="n">children_skeletal_angle</span><span class="p">(</span>
+        <span class="n">limb_obj</span><span class="p">,</span>
+        <span class="n">branch_idx</span><span class="p">,</span>
+        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="children_skeletal_angle_min"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.children_skeletal_angle_min">[docs]</a><span class="k">def</span> <span class="nf">children_skeletal_angle_min</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    
+    <span class="k">return</span> <span class="n">lu</span><span class="o">.</span><span class="n">children_skeletal_angle</span><span class="p">(</span>
+        <span class="n">limb_obj</span><span class="p">,</span>
+        <span class="n">branch_idx</span><span class="p">,</span>
+        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="most_usptream_endpoints_of_branches_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.most_usptream_endpoints_of_branches_on_limb">[docs]</a><span class="k">def</span> <span class="nf">most_usptream_endpoints_of_branches_on_limb</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branches_idx</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">scatter_size</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">group_by_conn_comp</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">include_downstream_endpoint</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To get all of the upstream endpoints of the</span>
+<span class="sd">    connected components of a list of branches</span>
+<span class="sd">    </span>
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Get the connected components of the branches</span>
+<span class="sd">    2) For each connected component find</span>
+<span class="sd">        i) the most upstream branch</span>
+<span class="sd">        ii) the upstream coordinate for that branch</span>
+<span class="sd">            (could be a little offset of the upstream branch to prevent overal)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">branches_idx</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="n">group_by_conn_comp</span><span class="p">:</span>
+        <span class="n">conn_comp</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">connected_components_from_branches</span><span class="p">(</span>
+            <span class="n">limb_obj</span><span class="p">,</span>
+            <span class="n">branches</span><span class="o">=</span><span class="n">branches_idx</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">conn_comp</span> <span class="o">=</span> <span class="p">[[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">branches_idx</span><span class="p">)]</span>
+    
+    <span class="n">coordinates</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">cc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conn_comp</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--Working on conn comp </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: # of branches</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cc</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1">#i) the most upstream branch</span>
+        <span class="n">upstream_branch</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">most_upstream_branch</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">cc</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;upstream_branch = </span><span class="si">{</span><span class="n">upstream_branch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+        <span class="c1">#ii) the upstream coordinate for that branch</span>
+        <span class="c1">#    (could be a little offset of the upstream branch to prevent overal)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">branch_obj</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">upstream_branch</span><span class="p">]</span>
+            <span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoint_upstream</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">bu</span><span class="o">.</span><span class="n">set_branches_endpoints_upstream_downstream_idx_on_limb</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">)</span>
+            <span class="n">branch_obj</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">upstream_branch</span><span class="p">]</span>
+        
+        <span class="c1">#coord = branch_obj.endpoint_upstream_with_offset</span>
+        <span class="n">sk_coords</span> <span class="o">=</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">skeletal_coordinates_upstream_to_downstream</span>
+        <span class="k">if</span> <span class="n">include_downstream_endpoint</span><span class="p">:</span>
+            <span class="n">coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sk_coords</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sk_coords</span><span class="p">[[</span><span class="mi">1</span><span class="p">]])</span>
+        
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;coord = </span><span class="si">{</span><span class="n">coord</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+    
+    <span class="c1">#coordinates = np.vstack(coordinates).reshape(-1,3)</span>
+    
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="n">nviz</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span>
+            <span class="n">limb_obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span>
+            <span class="n">meshes</span> <span class="o">=</span> <span class="p">[</span><span class="n">limb_obj</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">mesh</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">branches_idx</span><span class="p">],</span>
+            <span class="n">meshes_colors</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+            <span class="n">scatters</span><span class="o">=</span><span class="n">coordinates</span><span class="p">,</span>
+            <span class="n">scatters_colors</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+            <span class="n">scatter_size</span><span class="o">=</span><span class="n">scatter_size</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">coordinates</span></div>
+
+<div class="viewcode-block" id="most_upstream_endpoints_of_limb_branch"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.most_upstream_endpoints_of_limb_branch">[docs]</a><span class="k">def</span> <span class="nf">most_upstream_endpoints_of_limb_branch</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">limb_branch_dict</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose_most_upstream</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_array</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">group_by_conn_comp</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">include_downstream_endpoint</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pseudocode:</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    lu.most_upstream_endpoints_of_limb_branch_conn_comp(</span>
+<span class="sd">        neuron_obj,</span>
+<span class="sd">        limb_branch_dict=dict(L1=[1,2],L2=[19,16]),</span>
+<span class="sd">        verbose = False,</span>
+<span class="sd">        verbose_most_upstream=False,</span>
+<span class="sd">        plot = False,</span>
+<span class="sd">        return_array = True,</span>
+<span class="sd">        )</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">return_limb_coords</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">limb_branch_dict</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">limb_name</span><span class="p">,</span><span class="n">branches</span> <span class="ow">in</span> <span class="n">limb_branch_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---Working on limb </span><span class="si">{</span><span class="n">limb_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">branches</span><span class="si">}</span><span class="s2">-----&quot;</span><span class="p">)</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="n">lu</span><span class="o">.</span><span class="n">most_usptream_endpoints_of_branches_on_limb</span><span class="p">(</span>
+                <span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_name</span><span class="p">],</span>
+                <span class="n">branches_idx</span><span class="o">=</span><span class="n">branches</span><span class="p">,</span>
+                <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose_most_upstream</span><span class="p">,</span>
+                <span class="n">plot</span> <span class="o">=</span> <span class="n">plot</span><span class="p">,</span>
+                <span class="n">group_by_conn_comp</span> <span class="o">=</span> <span class="n">group_by_conn_comp</span><span class="p">,</span>
+                <span class="n">include_downstream_endpoint</span> <span class="o">=</span> <span class="n">include_downstream_endpoint</span><span class="p">,)</span>
+            <span class="n">return_limb_coords</span><span class="p">[</span><span class="n">limb_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">coords</span>
+    
+    <span class="k">if</span> <span class="n">return_array</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">return_limb_coords</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">return_limb_coords</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">return_limb_coords</span></div>
+    
+<div class="viewcode-block" id="width_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.width_upstream">[docs]</a><span class="k">def</span> <span class="nf">width_upstream</span><span class="p">(</span>
+    <span class="n">limb_obj</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">min_skeletal_length</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="n">skip_low_skeletal_length_upstream</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">default_value</span> <span class="o">=</span> <span class="mi">10000000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpoose: To get the width of the upstream segement</span>
+<span class="sd">    </span>
+<span class="sd">    Pseudocode:</span>
+<span class="sd">    1) Get the parent node</span>
+<span class="sd">    2) Get the parent width</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    from neurd import limb_utils as lu</span>
+<span class="sd">    lu.width_upstream(neuron_obj[1],5,verbose = True)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parent_node</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">parent_node</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">min_skeletal_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_skeletal_length</span> <span class="o">=</span> <span class="mi">0</span>
+        
+    <span class="n">parent_sk_length</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">default_value</span>
+    
+    <span class="k">while</span> <span class="n">parent_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parent_sk_length</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">parent_node</span><span class="p">]</span><span class="o">.</span><span class="n">skeletal_length</span>
+        <span class="k">if</span> <span class="n">parent_sk_length</span> <span class="o">&lt;</span> <span class="n">min_skeletal_length</span><span class="p">:</span>
+            <span class="n">parent_node</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">parent_node</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">parent_node</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">parent_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">width</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">[</span><span class="n">parent_node</span><span class="p">])</span>
+        <span class="n">parent_sk_length</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">parent_node</span><span class="p">]</span><span class="o">.</span><span class="n">skeletal_length</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parent_node = </span><span class="si">{</span><span class="n">parent_node</span><span class="si">}</span><span class="s2"> (width = </span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">, parent_sk_length = </span><span class="si">{</span><span class="n">parent_sk_length</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">width</span></div>
+    
+
+<span class="c1"># ------------ automatically create limb functions out of existing functions ------</span>
+
+
+
+
+
+<span class="c1">#--- from neurd_packages ---</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+
+<span class="c1">#--- from python_tools ---</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">limb_utils</span> <span class="k">as</span> <span class="n">lu</span>
+
+<span class="n">ns</span><span class="o">.</span><span class="n">set_limb_functions_for_search</span><span class="p">(</span><span class="n">lu</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+<div class="viewcode-block" id="skeletal_angles_df"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.skeletal_angles_df">[docs]</a><span class="k">def</span> <span class="nf">skeletal_angles_df</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">functions_list</span><span class="o">=</span><span class="p">(</span><span class="n">lu</span><span class="o">.</span><span class="n">parent_skeletal_angle_limb_ns</span><span class="p">,</span>
+                    <span class="n">lu</span><span class="o">.</span><span class="n">siblings_skeletal_angle_max_limb_ns</span><span class="p">,</span>
+                    <span class="n">lu</span><span class="o">.</span><span class="n">children_skeletal_angle_max_limb_ns</span><span class="p">)</span>
+    <span class="p">):</span>
+    <span class="n">angles_df</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">stats_df</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">functions_list</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">angles_df</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

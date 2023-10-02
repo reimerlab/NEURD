@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.proximity_analysis_utils &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.proximity_analysis_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.proximity_analysis_utils</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">datajoint</span> <span class="k">as</span> <span class="nn">dj</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pykdtree.kdtree</span> <span class="kn">import</span> <span class="n">KDTree</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+
+<div class="viewcode-block" id="conversion_rate_by_attribute_and_cell_type_pairs"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_rate_by_attribute_and_cell_type_pairs">[docs]</a><span class="k">def</span> <span class="nf">conversion_rate_by_attribute_and_cell_type_pairs</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">hue</span> <span class="o">=</span> <span class="s2">&quot;e_i_predicted&quot;</span><span class="p">,</span>
+    <span class="n">hue_pre</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">hue_post</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">hue_pre_array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">hue_post_array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">attribute</span> <span class="o">=</span> <span class="s2">&quot;proximity_dist&quot;</span><span class="p">,</span>
+    <span class="n">attribute_n_intervals</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">attribute_intervals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">restrictions</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">presyn_width_max</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    
+    <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To get the different conversion</span>
+<span class="sd">    ratios for different cell types</span>
+<span class="sd">    based on the contacts table</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">restrictions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">restrictions</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">presyn_width_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">restrictions</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;presyn_width &lt; </span><span class="si">{</span><span class="n">presyn_width_max</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="p">]</span>
+    
+    <span class="n">restrictions_str</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">)&quot;</span> 
+                                     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">restrictions</span><span class="p">])</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;restrictions_str = </span><span class="si">{</span><span class="n">restrictions_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">attribute_intervals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">attribute_intervals</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">df</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+                                        <span class="n">attribute_n_intervals</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">attribute_intervals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">attribute_intervals</span> <span class="o">=</span> <span class="n">attribute_intervals</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="k">if</span> <span class="n">hue_pre</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">hue_pre</span> <span class="o">=</span> <span class="n">hue</span>
+    <span class="k">if</span> <span class="n">hue_post</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">hue_post</span> <span class="o">=</span> <span class="n">hue</span>
+    <span class="k">if</span> <span class="n">hue_post</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">or</span> <span class="n">hue_post</span> <span class="o">==</span> <span class="n">hue_pre</span><span class="p">:</span>
+            <span class="n">hue_post</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">hue_post</span><span class="si">}</span><span class="s2">_post&quot;</span>
+        
+    <span class="k">if</span> <span class="n">hue_pre_array</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">hue_pre_array</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">hue_pre</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+        
+    <span class="k">if</span> <span class="n">hue_post_array</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">hue_post_array</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">hue_post</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hue_post_array</span> <span class="o">=</span> <span class="n">hue_post</span>
+        
+    <span class="n">syn_query</span> <span class="o">=</span> <span class="s2">&quot;NOT (synapse_id is NULL)&quot;</span>
+
+    <span class="n">results_df</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">mdist</span> <span class="ow">in</span> <span class="n">attribute_intervals</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Working on </span><span class="si">{</span><span class="n">attribute</span><span class="si">}</span><span class="s2"> &lt; </span><span class="si">{</span><span class="n">mdist</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">c1</span> <span class="ow">in</span> <span class="n">hue_pre_array</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">hue_post_array</span><span class="p">:</span>
+                <span class="n">curr_restr</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">hue_pre</span><span class="si">}</span><span class="s2">==&#39;</span><span class="si">{</span><span class="n">c1</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; and (</span><span class="si">{</span><span class="n">hue_post</span><span class="si">}</span><span class="s2">==&#39;</span><span class="si">{</span><span class="n">c2</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; and (</span><span class="si">{</span><span class="n">attribute</span><span class="si">}</span><span class="s2"> &lt; </span><span class="si">{</span><span class="n">mdist</span><span class="si">}</span><span class="s2">)&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">restrictions_str</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="n">curr_restr</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;and </span><span class="si">{</span><span class="n">restrictions_str</span><span class="si">}</span><span class="s2">&quot;</span>
+                    
+                <span class="n">curr_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">curr_restr</span><span class="p">)</span>
+                <span class="n">prox</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">curr_df</span><span class="p">)</span>
+                <span class="n">syn</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">curr_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;n_synapses &gt; 0&quot;</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">prox</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">conversion</span> <span class="o">=</span> <span class="n">syn</span><span class="o">/</span><span class="n">prox</span><span class="o">*</span><span class="mi">100</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">conversion</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">curr_dict</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">attribute</span><span class="p">:</span> <span class="n">mdist</span><span class="p">,</span>
+                    <span class="n">hue_pre</span><span class="p">:</span><span class="n">c1</span><span class="p">,</span>
+                    <span class="n">hue_post</span><span class="p">:</span><span class="n">c2</span><span class="p">,</span>
+                    <span class="s2">&quot;n_prox&quot;</span><span class="p">:</span> <span class="n">prox</span><span class="p">,</span>
+                    <span class="s2">&quot;n_syn&quot;</span><span class="p">:</span><span class="n">syn</span><span class="p">,</span>
+                    <span class="s2">&quot;conversion&quot;</span><span class="p">:</span><span class="n">conversion</span>
+                <span class="p">}</span>
+                <span class="n">results_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_dict</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">c1</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">c2</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">conversion</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> % (</span><span class="si">{</span><span class="n">syn</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">prox</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">results_df</span><span class="p">)</span>
+
+    <span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;category&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">[</span><span class="n">hue_pre</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_to_&quot;</span> <span class="o">+</span> <span class="n">results_df</span><span class="p">[</span><span class="n">hue_post</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span> 
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">,</span><span class="c1">#ex_df,#.query(f&quot;category == &#39;{k}&#39;&quot;),</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">attribute</span><span class="p">,</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;conversion&quot;</span><span class="p">,</span>
+            <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;category&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">results_df</span></div>
+
+
+<div class="viewcode-block" id="example_basal_conversion_rate"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.example_basal_conversion_rate">[docs]</a><span class="k">def</span> <span class="nf">example_basal_conversion_rate</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">prox_with_ct</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">proximity_with_gnn_cell_type_fine</span>
+        <span class="n">prox_with_ct</span>
+
+        <span class="n">prox_ct_table</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">df_from_table</span><span class="p">(</span>
+            <span class="n">prox_with_ct</span><span class="p">,</span>
+            <span class="n">features</span><span class="o">=</span><span class="p">[</span>
+                <span class="s2">&quot;e_i_predicted&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;e_i_predicted_post&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;n_synapses&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;proximity_dist&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;presyn_width&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;postsyn_width&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;postsyn_compartment&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">prox_ct_table</span> <span class="o">=</span> <span class="n">df</span>
+
+    <span class="n">apical_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;apical_shaft&quot;</span><span class="p">,</span><span class="s2">&quot;apical_tuft&quot;</span><span class="p">,</span><span class="s2">&quot;apical&quot;</span><span class="p">,</span><span class="s2">&quot;oblique&quot;</span><span class="p">,</span><span class="s2">&quot;axon&quot;</span><span class="p">]</span>
+
+    
+    <span class="n">pxa</span><span class="o">.</span><span class="n">conversion_rate_by_attribute_and_cell_type_pairs</span><span class="p">(</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">prox_ct_table</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;postsyn_compartment not in </span><span class="si">{</span><span class="n">apical_labels</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="n">attribute_n_intervals</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span></div>
+    
+<div class="viewcode-block" id="conversion_df_from_proximity_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_df_from_proximity_df">[docs]</a><span class="k">def</span> <span class="nf">conversion_df_from_proximity_df</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">in_place</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">sum_aggregation</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: to turn a table with individual</span>
+<span class="sd">    proximity entries into a table with the </span>
+<span class="sd">    source and target and the number of synapses</span>
+<span class="sd">    and number of proximities</span>
+
+<span class="sd">    Psuedocode: </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> 
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">in_place</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;n_proximity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">replace_None_with_default</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">replace_nan_with_default</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;n_synapses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;n_synapses&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+    
+    <span class="n">agg_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;n_synapses&quot;</span><span class="p">:</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_proximity&quot;</span><span class="p">:</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;proximity_dist&quot;</span><span class="p">:</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;presyn_width&quot;</span><span class="p">:</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;postsyn_compartment&quot;</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+        <span class="s2">&quot;e_i_predicted&quot;</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+        <span class="s2">&quot;e_i_predicted_post&quot;</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+        <span class="s2">&quot;cell_type_predicted&quot;</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+        <span class="s2">&quot;cell_type_predicted_post&quot;</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">mode</span><span class="p">}</span>
+    
+    <span class="k">if</span> <span class="n">sum_aggregation</span><span class="p">:</span>
+        <span class="n">df_conv</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">,</span><span class="s2">&quot;split_index&quot;</span><span class="p">,</span><span class="s2">&quot;segment_id_post&quot;</span><span class="p">,</span><span class="s2">&quot;split_index_post&quot;</span><span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">agg_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">agg_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">}</span>
+        <span class="n">df_conv</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">,</span><span class="s2">&quot;split_index&quot;</span><span class="p">,</span><span class="s2">&quot;segment_id_post&quot;</span><span class="p">,</span><span class="s2">&quot;split_index_post&quot;</span><span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">agg_dict</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    
+    
+
+    <span class="n">df_conv</span><span class="p">[</span><span class="s2">&quot;conversion&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_conv</span><span class="p">[</span><span class="s2">&quot;n_synapses&quot;</span><span class="p">]</span><span class="o">/</span><span class="n">df_conv</span><span class="p">[</span><span class="s2">&quot;n_proximity&quot;</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of pairs = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_conv</span><span class="p">)</span><span class="si">}</span><span class="s2"> (time = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">df_conv</span></div>
+    
+
+
+
+<span class="c1"># -------------- For the functional proximity analysis ---------</span>
+
+<span class="c1">#------ data fetching --------</span>
+
+<span class="c1"># ------------ Postsyn side ----------------------</span>
+
+<span class="c1"># ---- presyn side ----</span>
+
+<span class="c1"># --- pairwise analysis </span>
+
+
+
+<div class="viewcode-block" id="pairwise_presyn_proximity_onto_postsyn"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.pairwise_presyn_proximity_onto_postsyn">[docs]</a><span class="k">def</span> <span class="nf">pairwise_presyn_proximity_onto_postsyn</span><span class="p">(</span>
+    <span class="n">segment_id</span><span class="p">,</span>
+    <span class="n">split_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">plot_postsyn</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+
+    <span class="c1"># --- for the postsyn side ---</span>
+    <span class="n">subgraph_type</span> <span class="o">=</span> <span class="s2">&quot;node&quot;</span><span class="p">,</span>
+    
+    <span class="c1"># --- for the presyn side ---</span>
+    <span class="n">presyn_table_restriction</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">proximity_restrictions</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;postsyn_compartment != &#39;soma&#39;&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To end up with a table that has the following</span>
+
+<span class="sd">    For every pairwise proximitiy located on the same graph</span>
+<span class="sd">    1) Skeletal/Euclidean Distance</span>
+<span class="sd">    2) Pre 1 seg/split/prox_id, Pre 2 seg/split/prox id(Can use later to match the functional)</span>
+<span class="sd">    3) Pre 1 n_synapses, Pre 2 n_synapses</span>
+<span class="sd">    4) Can find anything else you want about the proximity using prox id</span>
+
+<span class="sd">    Pseudocode: </span>
+
+<span class="sd">    -- getting the postsyn side --</span>
+<span class="sd">    1) Download the postsyn graph object</span>
+<span class="sd">    3) Create the graphs for all subgraphs and iterate through the graphs creating arrays of:</span>
+<span class="sd">        a) generate the graph</span>
+<span class="sd">        b) export the coordinates</span>
+<span class="sd">        c) add to the graph idx vector and node idx vector</span>
+<span class="sd">    4) Build a KD tree of all the coordinates</span>
+<span class="sd">    -- Have the data we will match to </span>
+
+<span class="sd">    -- getting the presyn side --</span>
+<span class="sd">    1) Get table of all proximities onto table</span>
+<span class="sd">    2) Filter the table for only certain presyns (like functional matches)</span>
+<span class="sd">    3) Filter the table by any other restrictions (like no soma synapses)</span>
+<span class="sd">    3) Get segment_id,split_index,prox_id and postsyn_x_nm for all proximities</span>
+<span class="sd">    4) Run the KDTree on all of the postsyn_x_nm of the proximities to find the nearest postsyn point</span>
+<span class="sd">    5) Use closest point vector to index to create new vectors for each proximity of </span>
+<span class="sd">        i) graph_idx vector and node_idx vector,coordinate</span>
+<span class="sd">        (put these in table)</span>
+
+<span class="sd">    # -- To find pairwise only want to do inside the same graph ---</span>
+<span class="sd">    For each unique graph (that made it in the graph_idx):</span>
+<span class="sd">    1) Filter the whole df to only that graph (if 1 or less then return)</span>
+<span class="sd">    2) For each node, find the graph distance between between all other node idxs not on row</span>
+<span class="sd">    2b) Find the euclidean distance between node coordinate an all other node coordinates</span>
+<span class="sd">    3) Store the result in the table as:</span>
+<span class="sd">    - pre 1 seg/split/prox_id, pre 2 seg/split/prox_id, graph distance, euclidean dist</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    
+    <span class="n">empty_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">empty_df</span><span class="p">(</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pre_1_segment_id&#39;</span><span class="p">,</span> <span class="s1">&#39;pre_1_split_index&#39;</span><span class="p">,</span> <span class="s1">&#39;pre_1_prox_id&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;pre_1_n_synapses&#39;</span><span class="p">,</span> <span class="s1">&#39;pre_2_segment_id&#39;</span><span class="p">,</span> <span class="s1">&#39;pre_2_split_index&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;pre_2_prox_id&#39;</span><span class="p">,</span> <span class="s1">&#39;pre_2_n_synapses&#39;</span><span class="p">,</span> <span class="s1">&#39;skeletal_distance&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;euclidean_distance&#39;</span><span class="p">,</span> <span class="s1">&#39;segment_id&#39;</span><span class="p">,</span> <span class="s1">&#39;split_index&#39;</span><span class="p">],</span>
+        <span class="p">)</span>
+    
+    <span class="n">segment_id_post</span> <span class="o">=</span> <span class="n">segment_id</span>
+    <span class="n">split_index_post</span> <span class="o">=</span> <span class="n">split_index</span>
+    
+    <span class="n">G</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">graph_obj_from_proof_stage</span><span class="p">(</span>
+        <span class="n">segment_id_post</span><span class="p">,</span>
+        <span class="n">split_index_post</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot_postsyn</span><span class="p">:</span>
+        <span class="c1">#nxu.plot(G)</span>
+        <span class="n">vdi</span><span class="o">.</span><span class="n">plot_proofread_neuron</span><span class="p">(</span>
+            <span class="n">segment_id_post</span><span class="p">,</span>
+            <span class="n">split_index_post</span><span class="p">,</span>
+            <span class="p">)</span>
+        
+    <span class="c1"># ----- postsyn side of data ---------</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    3) Create the graphs for all subgraphs and iterate through the graphs creating arrays of:</span>
+<span class="sd">        a) generate the skeleton graph</span>
+<span class="sd">        b) export the coordinates</span>
+<span class="sd">        c) add to the graph idx vector and node idx vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">subgraph_type</span> <span class="o">==</span> <span class="s2">&quot;limb&quot;</span><span class="p">:</span>
+        <span class="n">G_subs</span> <span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">all_limb_graphs_off_soma</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">subgraph_type</span> <span class="o">==</span> <span class="s2">&quot;node&quot;</span><span class="p">:</span>
+        <span class="n">G_subs</span> <span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">all_node_graphs</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown subgraph type = </span><span class="si">{</span><span class="n">subgraph_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of subgraphs = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">G_subs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">G_subs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No node graphs&quot;</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">empty_df</span>
+        
+        
+    <span class="n">skeleton_graphs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">df_graphs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">g_idx</span><span class="p">,</span><span class="n">gsub</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G_subs</span><span class="p">):</span>
+        <span class="n">gsub</span> <span class="o">=</span> <span class="n">G_subs</span><span class="p">[</span><span class="n">g_idx</span><span class="p">]</span>
+
+        <span class="c1">#1) Generate the skeleton graph</span>
+        <span class="n">g_sk</span> <span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">skeleton_graph</span><span class="p">(</span><span class="n">gsub</span><span class="p">)</span>
+        <span class="n">skeleton_graphs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g_sk</span><span class="p">)</span>
+
+        <span class="c1">#nx.draw(g_sk,with_labels = True)</span>
+        <span class="n">curr_df</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">node_df</span><span class="p">(</span><span class="n">g_sk</span><span class="p">,</span><span class="n">node_id</span> <span class="o">=</span> <span class="s2">&quot;node_idx&quot;</span><span class="p">)</span>
+        <span class="n">curr_df</span><span class="p">[</span><span class="s2">&quot;graph_idx&quot;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">g_idx</span>
+        <span class="n">df_graphs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_df</span><span class="p">)</span>
+
+    <span class="n">df_graphs</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_graphs</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">postsyn_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">df_graphs</span><span class="p">[</span><span class="s2">&quot;coordinates&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="n">post_kd</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">postsyn_coords</span><span class="p">)</span>
+    
+    <span class="c1"># ---------------- Presyn/Proximity Preprocessing -------------------</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    -- getting the presyn side --</span>
+<span class="sd">    1) Get table of all proximities onto table</span>
+<span class="sd">    2) Filter the table for only certain presyns (like functional matches)</span>
+<span class="sd">    3) Filter the table by any other restrictions (like no soma synapses)</span>
+<span class="sd">    3) Get segment_id,split_index,prox_id and postsyn_x_nm for all proximities</span>
+<span class="sd">    4) Run the KDTree on all of the postsyn_x_nm of the proximities to find the nearest postsyn point</span>
+<span class="sd">    5) Use closest point vector to index to create new vectors for each proximity of </span>
+<span class="sd">        i) graph_idx vector and node_idx vector,coordinate</span>
+<span class="sd">        (put these in table)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># ---------------- Presyn/Proximity Preprocessing -------------------</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    -- getting the presyn side --</span>
+<span class="sd">    1) Get table of all proximities onto table</span>
+<span class="sd">    2) Filter the table for only certain presyns (like functional matches)</span>
+<span class="sd">    3) Filter the table by any other restrictions (like no soma synapses)</span>
+<span class="sd">    3) Get segment_id,split_index,prox_id and postsyn_x_nm for all proximities</span>
+<span class="sd">    4) Run the KDTree on all of the postsyn_x_nm of the proximities to find the nearest postsyn point</span>
+<span class="sd">    5) Use closest point vector to index to create new vectors for each proximity of </span>
+<span class="sd">        i) graph_idx vector and node_idx vector,coordinate</span>
+<span class="sd">        (put these in table)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#1) Get table of all proximities onto table</span>
+    <span class="n">prox_postsyn_table</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">proximity_table</span> <span class="o">&amp;</span> <span class="nb">dict</span><span class="p">(</span><span class="n">segment_id_post</span><span class="o">=</span><span class="n">segment_id_post</span><span class="p">,</span>
+                                                    <span class="n">split_index_post</span> <span class="o">=</span> <span class="n">split_index_post</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of proximities = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">prox_postsyn_table</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1">#2) Filter the table for only certain presyns (like functional matches)</span>
+    <span class="k">if</span> <span class="n">presyn_table_restriction</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">prox_postsyn_table</span> <span class="o">=</span> <span class="n">prox_postsyn_table</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dj</span><span class="o">.</span><span class="n">U</span><span class="p">(</span><span class="s1">&#39;segment_id&#39;</span><span class="p">,</span><span class="s1">&#39;split_index&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">presyn_table_restriction</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After presyn segment id restrictions, # of proximities = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">prox_postsyn_table</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1">#3) Filter the table by any other restrictions (like no soma synapses)</span>
+    <span class="n">prox_postsyn_table</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">restrict_table_from_list</span><span class="p">(</span>
+        <span class="n">prox_postsyn_table</span><span class="p">,</span>
+        <span class="n">proximity_restrictions</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After restrictions, # of proximities = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">prox_postsyn_table</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    
+    <span class="c1"># ***** add in loop where checks </span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">prox_postsyn_table</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No Proximities&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">empty_df</span>
+
+    <span class="n">prox_df</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">df_from_table</span><span class="p">(</span>
+        <span class="n">prox_postsyn_table</span><span class="p">,</span>
+        <span class="n">features</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">&quot;segment_id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;split_index&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;prox_id&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;postsyn_proximity_x_nm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;postsyn_proximity_y_nm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;postsyn_proximity_z_nm&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;postsyn_compartment&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;n_synapses&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">prox_df_coords</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">coordinates_from_df</span><span class="p">(</span>
+        <span class="n">prox_df</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;postsyn_proximity&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">dist</span><span class="p">,</span><span class="n">clos_idx</span> <span class="o">=</span> <span class="n">post_kd</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+        <span class="n">prox_df_coords</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    5) Use closest point vector to index to create new vectors for each proximity of </span>
+<span class="sd">        i) graph_idx vector and node_idx vector,coordinate</span>
+<span class="sd">        (put these in table)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df_pre_prox</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_graphs</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">clos_idx</span><span class="p">,:]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span><span class="n">prox_df</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+
+    <span class="c1"># ----------------- Doing Pairwise Analysis ------------------------------</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    # -- To find pairwise only want to do inside the same graph ---</span>
+<span class="sd">    For each unique graph (that made it in the graph_idx):</span>
+<span class="sd">    1) Filter the whole df to only that graph (if 1 or less then return)</span>
+<span class="sd">    2) For each node, find the graph distance between between all other node idxs not on row</span>
+<span class="sd">    2b) Find the euclidean distance between node coordinate an all other node coordinates</span>
+<span class="sd">    3) Store the result in the table as:</span>
+<span class="sd">    - pre 1 seg/split/prox_id, pre 2 seg/split/prox_id, graph distance, euclidean dist</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">unique_graph_idx</span> <span class="o">=</span> <span class="n">df_pre_prox</span><span class="p">[</span><span class="s2">&quot;graph_idx&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+
+    <span class="n">pairwise_dfs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">graph_idx</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">unique_graph_idx</span><span class="p">):</span>
+        <span class="n">curr_graph_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">sort_df_by_column</span><span class="p">(</span><span class="n">df_pre_prox</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;graph_idx == </span><span class="si">{</span><span class="n">graph_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;segment_id&quot;</span><span class="p">,</span><span class="s2">&quot;split_index&quot;</span><span class="p">,</span><span class="s2">&quot;prox_id&quot;</span>
+        <span class="p">],</span><span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">curr_graph_df</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">sk_graph</span> <span class="o">=</span> <span class="n">skeleton_graphs</span><span class="p">[</span><span class="n">graph_idx</span><span class="p">]</span>
+
+        <span class="c1">#2) For each node, find the graph distance between between all other node idxs not on row</span>
+        <span class="n">node_dicts</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">df_to_dicts</span><span class="p">(</span><span class="n">curr_graph_df</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">curr_dict</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_dicts</span><span class="p">):</span>
+
+            <span class="c1"># get pre_1 info</span>
+            <span class="n">curr_node</span> <span class="o">=</span> <span class="n">curr_dict</span><span class="p">[</span><span class="s2">&quot;node_idx&quot;</span><span class="p">]</span>
+            <span class="n">curr_coord</span> <span class="o">=</span> <span class="n">curr_dict</span><span class="p">[</span><span class="s2">&quot;coordinates&quot;</span><span class="p">]</span>
+            <span class="n">pre_1_segment_id</span> <span class="o">=</span> <span class="n">curr_dict</span><span class="p">[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">]</span>
+            <span class="n">pre_1_split_index</span> <span class="o">=</span> <span class="n">curr_dict</span><span class="p">[</span><span class="s2">&quot;split_index&quot;</span><span class="p">]</span>
+            <span class="n">pre_1_prox_id</span> <span class="o">=</span> <span class="n">curr_dict</span><span class="p">[</span><span class="s2">&quot;prox_id&quot;</span><span class="p">]</span>
+            <span class="n">pre_1_n_synapses</span> <span class="o">=</span> <span class="n">curr_dict</span><span class="p">[</span><span class="s2">&quot;n_synapses&quot;</span><span class="p">]</span>
+
+            <span class="c1"># getting all pre_2 info</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">curr_graph_df</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
+            <span class="n">mask</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">other_df</span> <span class="o">=</span> <span class="n">curr_graph_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">mask</span><span class="p">,:]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="n">graph_distances</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">euclidean_distances</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">other_dict</span> <span class="ow">in</span> <span class="n">pu</span><span class="o">.</span><span class="n">df_to_dicts</span><span class="p">(</span><span class="n">other_df</span><span class="p">):</span>
+                <span class="n">graph_distances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xu</span><span class="o">.</span><span class="n">shortest_path_length</span><span class="p">(</span>
+                    <span class="n">sk_graph</span><span class="p">,</span>
+                    <span class="n">curr_node</span><span class="p">,</span>
+                    <span class="n">other_dict</span><span class="p">[</span><span class="s2">&quot;node_idx&quot;</span><span class="p">],</span>
+                    <span class="n">weight</span> <span class="o">=</span> <span class="s2">&quot;weight&quot;</span>
+                <span class="p">))</span>
+
+                <span class="n">euclidean_distances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">curr_coord</span><span class="o">-</span><span class="n">other_dict</span><span class="p">[</span><span class="s2">&quot;coordinates&quot;</span><span class="p">]))</span>
+
+            <span class="c1"># assemble the dataframe to save off the pairwise computation</span>
+            <span class="n">pre_2_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span>
+                <span class="n">other_df</span><span class="p">[[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">,</span><span class="s2">&quot;split_index&quot;</span><span class="p">,</span><span class="s2">&quot;prox_id&quot;</span><span class="p">,</span><span class="s2">&quot;n_synapses&quot;</span><span class="p">]],</span>
+                <span class="nb">dict</span><span class="p">(</span><span class="n">segment_id</span><span class="o">=</span><span class="s2">&quot;pre_2_segment_id&quot;</span><span class="p">,</span>
+                    <span class="n">split_index</span> <span class="o">=</span> <span class="s2">&quot;pre_2_split_index&quot;</span><span class="p">,</span>
+                    <span class="n">prox_id</span> <span class="o">=</span> <span class="s2">&quot;pre_2_prox_id&quot;</span><span class="p">,</span>
+                    <span class="n">n_synapses</span><span class="o">=</span><span class="s2">&quot;pre_2_n_synapses&quot;</span><span class="p">))</span>
+            <span class="n">pre_2_df</span><span class="p">[</span><span class="s2">&quot;pre_1_segment_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_1_segment_id</span>
+            <span class="n">pre_2_df</span><span class="p">[</span><span class="s2">&quot;pre_1_split_index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_1_split_index</span>
+            <span class="n">pre_2_df</span><span class="p">[</span><span class="s2">&quot;pre_1_prox_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_1_prox_id</span>
+            <span class="n">pre_2_df</span><span class="p">[</span><span class="s2">&quot;pre_1_n_synapses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pre_1_n_synapses</span>
+
+            <span class="n">pre_2_df</span> <span class="o">=</span> <span class="n">pre_2_df</span><span class="p">[[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">pre_2_df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="s2">&quot;_1_&quot;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span>
+                                <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">pre_2_df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="s2">&quot;_2_&quot;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">]]</span>
+
+            <span class="c1"># adding on the distances computed</span>
+            <span class="n">pre_2_df</span><span class="p">[</span><span class="s2">&quot;skeletal_distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph_distances</span>
+            <span class="n">pre_2_df</span><span class="p">[</span><span class="s2">&quot;euclidean_distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">euclidean_distances</span>
+
+            <span class="n">pairwise_dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pre_2_df</span><span class="p">)</span>
+
+
+    <span class="n">pairwise_dfs</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">pairwise_dfs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After pairwise analysis (before same node filtering) = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pairwise_dfs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># getting rid of the same segment_ids</span>
+    <span class="n">pairwise_dfs</span> <span class="o">=</span> <span class="n">pairwise_dfs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;not ((pre_1_segment_id == pre_2_segment_id) and (pre_1_split_index == pre_2_split_index))&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After pairwise analysis (AFTER same node filtering) = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pairwise_dfs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairwise_dfs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(pre_1_segment_id == pre_2_segment_id) and (pre_1_split_index == pre_2_split_index) and (pre_1_prox_id == pre_2_prox_id) &quot;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Repeat proximity&quot;</span><span class="p">)</span>
+
+    <span class="n">pairwise_dfs</span><span class="p">[[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">,</span><span class="s2">&quot;split_index&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">segment_id_post</span><span class="p">,</span><span class="n">split_index_post</span>
+    
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2"> ------------ Total Time for Run: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pairwise_dfs</span></div>
+
+<div class="viewcode-block" id="example_pairwise_postsyn_analysis"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.example_pairwise_postsyn_analysis">[docs]</a><span class="k">def</span> <span class="nf">example_pairwise_postsyn_analysis</span><span class="p">():</span>
+    <span class="n">seg_df</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">df_from_table</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">vdi</span><span class="o">.</span><span class="n">proofreading_neurons_table</span> <span class="o">&amp;</span> <span class="s2">&quot;dendrite_skeletal_length &gt; 100000&quot;</span><span class="p">),</span>
+        <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">,</span><span class="s2">&quot;split_index&quot;</span><span class="p">,</span><span class="s2">&quot;cell_type&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="n">curr_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">randomly_sample_df</span><span class="p">(</span>
+        <span class="n">seg_df</span><span class="p">,</span>
+        <span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">segment_id</span><span class="p">,</span><span class="n">split_index</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">curr_df</span><span class="p">[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                                     <span class="n">curr_df</span><span class="p">[</span><span class="s2">&quot;split_index&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2">----- Working on </span><span class="si">{</span><span class="n">segment_id</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">split_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">pxa</span><span class="o">.</span><span class="n">pairwis_df</span> <span class="o">=</span> <span class="n">pairwise_presyn_proximity_onto_postsyn</span><span class="p">(</span>
+            <span class="n">segment_id</span><span class="p">,</span>
+            <span class="n">split_index</span><span class="p">,</span>
+            <span class="n">plot_postsyn</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+
+            <span class="c1"># --- for the postsyn side ---</span>
+            <span class="n">subgraph_type</span> <span class="o">=</span> <span class="s2">&quot;node&quot;</span><span class="p">,</span>
+
+            <span class="c1"># --- for the presyn side ---</span>
+            <span class="n">presyn_table_restriction</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">functional_tuning_table_raw</span><span class="p">,</span>
+        <span class="p">)</span></div>
+        
+<div class="viewcode-block" id="add_euclidean_dist_to_prox_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.add_euclidean_dist_to_prox_df">[docs]</a><span class="k">def</span> <span class="nf">add_euclidean_dist_to_prox_df</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">centroid_df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">in_place</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">add_signed_single_axes_dists</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">add_depth_dist</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To add the pre and post euclidean</span>
+<span class="sd">    distances to an edge dataframe with the proximities</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">centroid_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">df_with_centr</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">append_df_to_source_target</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span>
+            <span class="n">centroid_df</span><span class="p">,</span>
+            <span class="n">source_name</span><span class="o">=</span><span class="s2">&quot;presyn&quot;</span><span class="p">,</span>
+            <span class="n">target_name</span><span class="o">=</span><span class="s2">&quot;postsyn&quot;</span><span class="p">,</span>
+            <span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;node&#39;</span><span class="p">,</span>
+            <span class="n">in_place</span><span class="o">=</span><span class="n">in_place</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">in_place</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        
+        <span class="n">df_with_centr</span> <span class="o">=</span> <span class="n">df</span>
+        
+    <span class="k">if</span> <span class="n">add_depth_dist</span><span class="p">:</span>
+        <span class="n">df_with_centr</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">add_depth_to_df</span><span class="p">(</span>
+            <span class="n">df_with_centr</span><span class="p">,</span>
+            <span class="n">coordinate_base_name</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;presyn_centroid&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;postsyn_centroid&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;presyn_proximity&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;postsyn_proximity&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s2">&quot;z&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;presyn&#39;</span><span class="p">,</span><span class="s1">&#39;postsyn&#39;</span><span class="p">]:</span>
+        <span class="n">df_with_centr</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">_euclidean_distance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">distance_between_coordinates</span><span class="p">(</span>
+            <span class="n">df_with_centr</span><span class="p">,</span>
+            <span class="n">coordinate_column_1</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">_centroid&quot;</span><span class="p">,</span>
+            <span class="n">coordinate_column_2</span><span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">_proximity&quot;</span><span class="p">,</span>
+            <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">axes_opt</span> <span class="ow">in</span> <span class="n">nu</span><span class="o">.</span><span class="n">choose_k_combinations</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span><span class="mi">2</span><span class="p">):</span>
+            <span class="n">name_suffix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">axes_opt</span><span class="p">)</span>
+            <span class="n">df_with_centr</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">_euclidean_distance_</span><span class="si">{</span><span class="n">name_suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">distance_between_coordinates</span><span class="p">(</span>
+                <span class="n">df_with_centr</span><span class="p">,</span>
+                <span class="n">coordinate_column_1</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">_centroid&quot;</span><span class="p">,</span>
+                <span class="n">coordinate_column_2</span><span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">_proximity&quot;</span><span class="p">,</span>
+                <span class="n">axes</span> <span class="o">=</span> <span class="n">axes_opt</span><span class="p">,</span>
+            <span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">add_signed_single_axes_dists</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">add_depth_dist</span><span class="p">:</span>
+                <span class="n">curr_axes</span> <span class="o">=</span> <span class="n">axes</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">curr_axes</span> <span class="o">=</span> <span class="n">axes</span>
+            <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">curr_axes</span><span class="p">:</span>
+                <span class="n">df_with_centr</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">_distance_</span><span class="si">{</span><span class="n">ax</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">df_with_centr</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">_proximity_</span><span class="si">{</span><span class="n">ax</span><span class="si">}</span><span class="s2">_nm&quot;</span><span class="p">]</span> <span class="o">-</span> 
+                    <span class="n">df_with_centr</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">_centroid_</span><span class="si">{</span><span class="n">ax</span><span class="si">}</span><span class="s2">_nm&quot;</span><span class="p">]</span> 
+                <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df_with_centr</span></div>
+
+
+<div class="viewcode-block" id="conversion_rate"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_rate">[docs]</a><span class="k">def</span> <span class="nf">conversion_rate</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_synapses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> </div>
+
+<div class="viewcode-block" id="plot_prox_func_vs_attribute_from_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.plot_prox_func_vs_attribute_from_edge_df">[docs]</a><span class="k">def</span> <span class="nf">plot_prox_func_vs_attribute_from_edge_df</span><span class="p">(</span>
+    <span class="n">edge_df</span><span class="p">,</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;Exc&quot;</span><span class="p">,</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Exc&quot;</span><span class="p">,</span><span class="s2">&quot;Inh&quot;</span><span class="p">],</span>
+
+    <span class="n">column</span> <span class="o">=</span> <span class="s2">&quot;presyn_skeletal_distance_to_soma&quot;</span><span class="p">,</span>
+
+    <span class="n">divisor</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">hue</span> <span class="o">=</span> <span class="s2">&quot;connection_type&quot;</span><span class="p">,</span>
+
+    <span class="n">percentile_upper</span> <span class="o">=</span> <span class="mi">99</span><span class="p">,</span>
+    <span class="n">percentile_lower</span><span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">func</span> <span class="o">=</span> <span class="n">conversion_rate</span><span class="p">,</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">n_bins</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">equal_depth_bins</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+
+    <span class="c1"># ploting parameters</span>
+    <span class="n">data_source</span> <span class="o">=</span> <span class="s2">&quot;H01&quot;</span><span class="p">,</span>
+    <span class="n">axes_fontsize</span> <span class="o">=</span> <span class="mi">35</span><span class="p">,</span>
+    <span class="n">title_fontsize</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
+    <span class="n">tick_fontsize</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="n">legend_fontsize</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span>
+    <span class="n">title_pad</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
+    <span class="n">legend_title</span> <span class="o">=</span> <span class="s2">&quot;Connection Type&quot;</span><span class="p">,</span>
+    <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;Axon Distance to Soma ($\mu m$)&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Mean Conversion Rate&quot;</span><span class="p">,</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Conversion Rate vs. Axon</span><span class="se">\n</span><span class="s2"> Distance to Soma&quot;</span><span class="p">,</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span>
+    <span class="n">add_scatter</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">scatter_size</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose_bin_df</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">legend_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    
+    <span class="n">bins_mid_type</span> <span class="o">=</span> <span class="s2">&quot;weighted&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To plot the a function of the proximity </span>
+<span class="sd">    df as a function of an attribute of the proximities</span>
+<span class="sd">    (like presyn distance)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">nu</span><span class="o">.</span><span class="n">to_list</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">data_source</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span><span class="p">)</span>
+
+    <span class="n">edge_df_filt</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">filter_df_by_column_percentile</span><span class="p">(</span>
+        <span class="n">edge_df</span><span class="p">,</span>
+        <span class="n">columns</span><span class="o">=</span><span class="n">column</span><span class="p">,</span>
+        <span class="n">percentile_lower</span><span class="o">=</span><span class="n">percentile_lower</span><span class="p">,</span>
+        <span class="n">percentile_upper</span><span class="o">=</span><span class="n">percentile_upper</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">edge_df_filt</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_df_filt</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">/</span><span class="n">divisor</span>
+
+    <span class="n">source_list</span> <span class="o">=</span> <span class="n">nu</span><span class="o">.</span><span class="n">to_list</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">source_list</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s1"> Onto </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="n">df_to_plot</span> <span class="o">=</span> <span class="n">edge_df_filt</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">hue</span><span class="si">}</span><span class="s2"> == &#39;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+
+            <span class="n">exc_post_stats</span><span class="p">,</span><span class="n">exc_post_bins</span><span class="p">,</span><span class="n">exc_post_len</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">bin_df_by_column_stat</span><span class="p">(</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df_to_plot</span><span class="p">,</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">func</span><span class="p">,</span>
+                <span class="n">column</span> <span class="o">=</span> <span class="n">column</span><span class="p">,</span>
+                <span class="n">return_bins_mid</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="n">bins_mid_type</span><span class="o">=</span> <span class="n">bins_mid_type</span><span class="p">,</span>
+                <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
+                <span class="n">equal_depth_bins</span><span class="o">=</span><span class="n">equal_depth_bins</span><span class="p">,</span>
+                <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span>   
+                <span class="n">return_df_len</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="n">return_std</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">verbose_bins</span> <span class="o">=</span> <span class="n">verbose_bin_df</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;For </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    bins mid = </span><span class="si">{</span><span class="n">exc_post_bins</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    bins length = </span><span class="si">{</span><span class="n">exc_post_len</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1">#print(f&quot;bin len = {exc_post_len}&quot;)</span>
+
+            <span class="k">if</span> <span class="n">legend_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">legend_label</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="n">color</span> <span class="o">=</span>  <span class="n">npp</span><span class="o">.</span><span class="n">exc_inh_combination_palette</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                <span class="n">exc_post_bins</span><span class="p">,</span>
+                <span class="n">exc_post_stats</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span>
+                <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">add_scatter</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                    <span class="n">exc_post_bins</span><span class="p">,</span>
+                    <span class="n">exc_post_stats</span><span class="p">,</span>
+                    <span class="c1">#label=label,</span>
+                    <span class="n">c</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">scatter_size</span>
+                <span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="n">axes_fontsize</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">,</span><span class="n">fontsize</span> <span class="o">=</span> <span class="n">axes_fontsize</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+        <span class="n">title</span><span class="p">,</span>
+        <span class="n">fontsize</span> <span class="o">=</span> <span class="n">title_fontsize</span><span class="p">,</span>
+        <span class="n">pad</span> <span class="o">=</span> <span class="n">title_pad</span>
+    <span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="c1">#mu.set_axes_outside_seaborn(ax)</span>
+    <span class="n">mu</span><span class="o">.</span><span class="n">set_legend_title</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">legend_title</span><span class="p">)</span>
+    <span class="n">mu</span><span class="o">.</span><span class="n">set_legend_fontsizes</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">legend_fontsize</span><span class="p">)</span>
+    <span class="n">mu</span><span class="o">.</span><span class="n">set_axes_tick_font_size</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">tick_fontsize</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+<span class="c1"># ------------- Setting up parameters -----------</span>
+
+<span class="c1"># -- default</span>
+<span class="n">attributes_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
+    <span class="n">vdi</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">data_interface</span>
+<span class="p">)</span>    
+<span class="n">global_parameters_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="c1">#max_ais_distance_from_soma = 50_000</span>
+<span class="p">)</span>
+
+<span class="c1"># -- microns</span>
+<span class="n">global_parameters_dict_microns</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">attributes_dict_microns</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1">#-- h01--</span>
+<span class="n">attributes_dict_h01</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">hvu</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
+    <span class="n">vdi</span> <span class="o">=</span> <span class="n">hvu</span><span class="o">.</span><span class="n">data_interface</span>
+<span class="p">)</span>
+<span class="n">global_parameters_dict_h01</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    
+       
+<span class="c1"># data_type = &quot;default&quot;</span>
+<span class="c1"># algorithms = None</span>
+<span class="c1"># modules_to_set = [pxa]</span>
+
+<span class="c1"># def set_global_parameters_and_attributes_by_data_type(data_type,</span>
+<span class="c1">#                                                      algorithms_list = None,</span>
+<span class="c1">#                                                       modules = None,</span>
+<span class="c1">#                                                      set_default_first = True,</span>
+<span class="c1">#                                                       verbose=False):</span>
+<span class="c1">#     if modules is None:</span>
+<span class="c1">#         modules = modules_to_set</span>
+    
+<span class="c1">#     modu.set_global_parameters_and_attributes_by_data_type(modules,data_type,</span>
+<span class="c1">#                                                           algorithms=algorithms_list,</span>
+<span class="c1">#                                                           set_default_first = set_default_first,</span>
+<span class="c1">#                                                           verbose = verbose)</span>
+    
+<span class="c1"># set_global_parameters_and_attributes_by_data_type(data_type,</span>
+<span class="c1">#                                                    algorithms)</span>
+
+<span class="c1"># def output_global_parameters_and_attributes_from_current_data_type(</span>
+<span class="c1">#     modules = None,</span>
+<span class="c1">#     algorithms = None,</span>
+<span class="c1">#     verbose = True,</span>
+<span class="c1">#     lowercase = True,</span>
+<span class="c1">#     output_types = (&quot;global_parameters&quot;),</span>
+<span class="c1">#     include_default = True,</span>
+<span class="c1">#     algorithms_only = False,</span>
+<span class="c1">#     **kwargs):</span>
+    
+<span class="c1">#     if modules is None:</span>
+<span class="c1">#         modules = modules_to_set</span>
+    
+<span class="c1">#     return modu.output_global_parameters_and_attributes_from_current_data_type(</span>
+<span class="c1">#         modules,</span>
+<span class="c1">#         algorithms = algorithms,</span>
+<span class="c1">#         verbose = verbose,</span>
+<span class="c1">#         lowercase = lowercase,</span>
+<span class="c1">#         output_types = output_types,</span>
+<span class="c1">#         include_default = include_default,</span>
+<span class="c1">#         algorithms_only = algorithms_only,</span>
+<span class="c1">#         **kwargs,</span>
+<span class="c1">#         )</span>
+
+<span class="c1">#--- from neuron_morphology_tools ---</span>
+
+
+<span class="c1">#--- from neurd_packages ---</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">nature_paper_plotting</span> <span class="k">as</span> <span class="n">npp</span>
+
+<span class="c1">#--- from neuron_morphology_tools ---</span>
+<span class="kn">from</span> <span class="nn">neuron_morphology_tools</span> <span class="kn">import</span> <span class="n">neuron_nx_utils</span> <span class="k">as</span> <span class="n">nxu</span>
+
+<span class="c1">#--- from python_tools ---</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span> <span class="nn">python_tools.tqdm_utils</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proximity_analysis_utils</span> <span class="k">as</span> <span class="n">pxa</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

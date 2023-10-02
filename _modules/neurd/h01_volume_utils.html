@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.h01_volume_utils &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.h01_volume_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.h01_volume_utils</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+
+<span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">33</span><span class="p">])</span>
+<span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;h01&quot;</span>
+<span class="n">current_nucleus_version</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># -------------- Functions for finding the rotation matrix needed -------</span>
+<span class="n">top_radius</span> <span class="o">=</span><span class="mi">700_000</span> <span class="c1">#when magn = 1</span>
+<span class="n">bottom_radius</span> <span class="o">=</span> <span class="mi">350_000</span> <span class="c1">#when magn = 0</span>
+<span class="n">max_rotation_global</span> <span class="o">=</span> <span class="o">-</span><span class="mi">30</span>
+<span class="n">upward_vector_middle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mf">0.94034618</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.34021915</span><span class="p">,</span>  <span class="mf">0.</span>        <span class="p">])</span>
+<span class="n">upward_vector_middle_non_scaled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1808188.88892619</span><span class="p">,</span> <span class="o">-</span><span class="mf">654206.39541785</span><span class="p">,</span>       <span class="mf">0.</span>        <span class="p">])</span>
+<span class="n">upward_vector_start_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1041738.17659344</span><span class="p">,</span> <span class="mf">1785911.29763922</span><span class="p">,</span>  <span class="mf">125032.57443884</span><span class="p">])</span>
+<span class="n">align_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mf">0.85082648</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.52544676</span><span class="p">,</span>  <span class="mf">0.</span>        <span class="p">])</span>
+<span class="n">upward_vector_top_left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+
+
+<div class="viewcode-block" id="aligning_matrix_3D"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.aligning_matrix_3D">[docs]</a><span class="k">def</span> <span class="nf">aligning_matrix_3D</span><span class="p">(</span><span class="n">upward_vector</span><span class="o">=</span><span class="n">align_vector</span><span class="p">,</span><span class="c1">#upward_vector_middle,</span>
+                <span class="n">target_vector</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">top_of_layer_vector</span><span class="p">,</span>
+                       <span class="n">rotation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Will come up with an alignment matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">upward_vector</span> <span class="o">=</span> <span class="n">upward_vector</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;upward_vector before = </span><span class="si">{</span><span class="n">upward_vector</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">upward_vector</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">lu</span><span class="o">.</span><span class="n">rotation_matrix_2D</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span> <span class="o">@</span> <span class="n">upward_vector</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;upward_vector AFTER = </span><span class="si">{</span><span class="n">upward_vector</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nu</span><span class="o">.</span><span class="n">aligning_matrix_3D</span><span class="p">(</span><span class="n">upward_vector</span><span class="p">,</span><span class="n">target_vector</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="align_mesh_from_rotation"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_mesh_from_rotation">[docs]</a><span class="k">def</span> <span class="nf">align_mesh_from_rotation</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_mat</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">upward_vector</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+               <span class="n">rotation</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                             <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+               <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Need a better version of rotation </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#verbose = True,</span>
+    <span class="c1">#print(f&quot;Inside align mesh&quot;)</span>
+    <span class="k">if</span> <span class="n">upward_vector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;upward_vector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">upward_vector</span>
+    <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rotation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rotation</span>
+
+    
+    <span class="k">if</span> <span class="n">align_mat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">align_mat</span> <span class="o">=</span> <span class="n">aligning_matrix_3D</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;align_mat = </span><span class="si">{</span><span class="n">align_mat</span><span class="si">}</span><span class="s2">  &quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">rotate_mesh_from_matrix</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_mat</span><span class="p">)</span></div>
+
+
+    
+
+<div class="viewcode-block" id="radius_for_rotation_from_proj_magn"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.radius_for_rotation_from_proj_magn">[docs]</a><span class="k">def</span> <span class="nf">radius_for_rotation_from_proj_magn</span><span class="p">(</span><span class="n">magn</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">top_radius</span><span class="o">-</span><span class="n">bottom_radius</span><span class="p">)</span><span class="o">*</span><span class="n">magn</span> <span class="o">+</span> <span class="n">bottom_radius</span></div>
+    
+
+
+<div class="viewcode-block" id="rotation_from_proj_error_and_radius"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotation_from_proj_error_and_radius">[docs]</a><span class="k">def</span> <span class="nf">rotation_from_proj_error_and_radius</span><span class="p">(</span>
+    <span class="n">proj_error</span><span class="p">,</span>
+    <span class="n">radius_for_rotation</span><span class="p">,</span>
+    <span class="n">max_rotation</span> <span class="o">=</span> <span class="n">max_rotation_global</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To calculate the amount of rotation necessary </span>
+<span class="sd">    based on the current radius of rotation and error</span>
+<span class="sd">    magnitude of the projection</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">magn_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">proj_error</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;magn_err = </span><span class="si">{</span><span class="n">magn_err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="n">rotation</span> <span class="o">=</span> <span class="n">max_rotation</span><span class="o">*</span><span class="p">(</span><span class="n">magn_err</span><span class="o">/</span><span class="n">radius_for_rotation</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rotation = </span><span class="si">{</span><span class="n">rotation</span><span class="si">}</span><span class="s2"> (max_rotation = </span><span class="si">{</span><span class="n">max_rotation</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">rotation</span></div>
+
+
+
+<div class="viewcode-block" id="rotation_signed_from_middle_vector"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotation_signed_from_middle_vector">[docs]</a><span class="k">def</span> <span class="nf">rotation_signed_from_middle_vector</span><span class="p">(</span>
+    <span class="n">coordinate</span><span class="p">,</span>
+    <span class="n">origin_coordinate</span><span class="o">=</span><span class="n">upward_vector_start_point</span><span class="p">,</span>
+    <span class="n">middle_vector</span> <span class="o">=</span> <span class="n">upward_vector_middle_non_scaled</span><span class="p">,</span>
+    <span class="n">zero_out_z_coord</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Determine the direction</span>
+<span class="sd">    and amount of rotation needed for a </span>
+<span class="sd">    neuron based on the location of the soma</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Compute the new relative vector to starting vector</span>
+<span class="sd">    2) Find the magnitude of projection of new point onto upward middle vector non scaled</span>
+<span class="sd">    3) Use the magnitude of the projection to find the slope of the rotation function</span>
+<span class="sd">    4) Find the error distance between point and projection distance</span>
+<span class="sd">    5) Determine the amount of rotation needed based on radius and error projection magnitude</span>
+<span class="sd">    6) Determine the sign of the rotation</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    rotation_signed_from_middle_vector(</span>
+<span class="sd">    coordinate = orienting_coords[&quot;bottom_far_right&quot;],</span>
+<span class="sd">        verbose = True</span>
+<span class="sd">    )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#print(f&quot;verbose rotation_signed_from_middle_vector = {verbose}&quot;)</span>
+    <span class="c1">#1) Compute the new relative vector to starting vector</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">coordinate</span> <span class="o">-</span> <span class="n">origin_coordinate</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">middle_vector</span>
+
+    
+    <span class="k">if</span> <span class="n">zero_out_z_coord</span><span class="p">:</span>
+        <span class="n">idx_for_projection</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">idx_for_projection</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;new vector = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1">#2) Find the magnitude of projection of new point onto upward middle vector non scaled</span>
+    <span class="n">proj_v</span><span class="p">,</span><span class="n">magn</span> <span class="o">=</span> <span class="n">lu</span><span class="o">.</span><span class="n">projection</span><span class="p">(</span>
+        <span class="n">vector_to_project</span><span class="o">=</span><span class="n">v</span><span class="p">,</span>
+        <span class="n">line_of_projection</span><span class="o">=</span><span class="n">m</span><span class="p">,</span>
+        <span class="n">idx_for_projection</span><span class="o">=</span><span class="n">idx_for_projection</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+        <span class="n">return_magnitude</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="c1">#3) Use the magnitude of the projection to find the slope of the rotation function</span>
+    <span class="n">radius_rot</span> <span class="o">=</span> <span class="n">radius_for_rotation_from_proj_magn</span><span class="p">(</span><span class="n">magn</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;radius_rot= </span><span class="si">{</span><span class="n">radius_rot</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1">#4) Find the error distance between point and projection distance</span>
+    <span class="n">proj_er</span> <span class="o">=</span> <span class="n">lu</span><span class="o">.</span><span class="n">error_from_projection</span><span class="p">(</span>
+        <span class="n">vector_to_project</span><span class="o">=</span><span class="n">v</span><span class="p">,</span>
+        <span class="n">line_of_projection</span><span class="o">=</span><span class="n">m</span><span class="p">,</span>
+        <span class="n">idx_for_projection</span><span class="o">=</span><span class="n">idx_for_projection</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+
+    <span class="c1">#5) Determine the amount of rotation needed based on radius and error projection magnitude</span>
+    <span class="n">curr_rotation</span> <span class="o">=</span> <span class="n">rotation_from_proj_error_and_radius</span><span class="p">(</span>
+        <span class="n">proj_error</span> <span class="o">=</span> <span class="n">proj_er</span><span class="p">,</span>
+        <span class="n">radius_for_rotation</span> <span class="o">=</span> <span class="n">radius_rot</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span>
+
+    <span class="c1">#6) Determine the sign of the rotation</span>
+    <span class="k">if</span> <span class="n">zero_out_z_coord</span><span class="p">:</span>
+        <span class="n">m_perp</span> <span class="o">=</span> <span class="n">lu</span><span class="o">.</span><span class="n">perpendicular_vec_2D</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="n">idx_for_projection</span><span class="p">])</span>
+        <span class="n">rotation_sign</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">m_perp</span> <span class="o">@</span> <span class="n">proj_er</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rotation_sign</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rotation_sign = </span><span class="si">{</span><span class="n">rotation_sign</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;curr_rotation = </span><span class="si">{</span><span class="n">curr_rotation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">curr_rotation</span><span class="o">*</span><span class="n">rotation_sign</span></div>
+
+<div class="viewcode-block" id="rotation_from_soma_center"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotation_from_soma_center">[docs]</a><span class="k">def</span> <span class="nf">rotation_from_soma_center</span><span class="p">(</span><span class="n">soma_center</span><span class="p">,</span>
+                             <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                             <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To get the amout r tation necessary from soma</span>
+<span class="sd">    center of neuron</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">soma_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">soma_center</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation_signed_from_middle_vector</span><span class="p">(</span><span class="n">soma_center</span><span class="p">,</span>
+                                                     <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                                                     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rotation = </span><span class="si">{</span><span class="n">rotation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rotation</span></div>
+    
+
+<div class="viewcode-block" id="align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_mesh">[docs]</a><span class="k">def</span> <span class="nf">align_mesh</span><span class="p">(</span>
+    <span class="n">mesh</span><span class="p">,</span>
+    <span class="n">soma_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">rotation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To align a mesh by a soma coordinate</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    # rotating the mesh</span>
+<span class="sd">    nviz.plot_objects(align_mesh_from_soma_coordinate(mesh,</span>
+<span class="sd">                                                         soma_center=soma_mesh_center</span>
+<span class="sd">                                                        ))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#print(f&quot;verbose align_mesh_from_soma_coordinate = {verbose}&quot;)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">faces</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mesh</span>
+    <span class="k">if</span> <span class="n">align_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">soma_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">soma_center</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation_signed_from_middle_vector</span><span class="p">(</span><span class="n">soma_center</span><span class="p">,</span>
+                                                             <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                                                             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rotation = </span><span class="si">{</span><span class="n">rotation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">align_mesh_from_rotation</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using matrix align_matrix = </span><span class="si">{</span><span class="n">align_matrix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rotate_mesh_from_matrix</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_matrix</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="align_matrix_from_rotation"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_matrix_from_rotation">[docs]</a><span class="k">def</span> <span class="nf">align_matrix_from_rotation</span><span class="p">(</span><span class="n">upward_vector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                              <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                              <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">upward_vector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;upward_vector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">upward_vector</span>
+    <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rotation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rotation</span>
+    <span class="k">return</span> <span class="n">aligning_matrix_3D</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="align_matrix_from_soma_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_matrix_from_soma_coordinate">[docs]</a><span class="k">def</span> <span class="nf">align_matrix_from_soma_coordinate</span><span class="p">(</span>
+    <span class="n">soma_center</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    <span class="c1">#print(f&quot;verbose = {verbose}&quot;)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To align a mesh by a soma coordinate</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    # rotating the mesh</span>
+<span class="sd">    nviz.plot_objects(align_mesh_from_soma_coordinate(mesh,</span>
+<span class="sd">                                                         soma_center=soma_mesh_center</span>
+<span class="sd">                                                        ))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#print(f&quot;verbose align_matrix_from_soma_coordinate = {verbose}&quot;)</span>
+    <span class="n">soma_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">soma_center</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation_signed_from_middle_vector</span><span class="p">(</span><span class="n">soma_center</span><span class="p">,</span>
+                                                     <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+                                                     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rotation = </span><span class="si">{</span><span class="n">rotation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">align_matrix_from_rotation</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="align_array"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_array">[docs]</a><span class="k">def</span> <span class="nf">align_array</span><span class="p">(</span>
+    <span class="n">array</span><span class="p">,</span>
+    <span class="n">soma_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">rotation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    <span class="c1">#print(f&quot;verbose align_array_from_soma_coordinate = {verbose}&quot;)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Will align a coordinate or skeleton</span>
+<span class="sd">    (or any array) with the rotation matrix</span>
+<span class="sd">    determined from the soam center</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">array</span>
+    
+    
+    <span class="n">curr_shape</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">shape</span>
+    <span class="c1">#verbose = True</span>
+    
+    <span class="k">if</span> <span class="n">align_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation_from_soma_center</span><span class="p">(</span><span class="n">soma_center</span><span class="p">,</span>
+                                     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rotation = </span><span class="si">{</span><span class="n">rotation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    
+        <span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix_from_rotation</span><span class="p">(</span>
+            <span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;align_matrix = </span><span class="si">{</span><span class="n">align_matrix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">new_coords</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">@</span> <span class="n">align_matrix</span>
+    <span class="n">new_array</span> <span class="o">=</span> <span class="n">new_coords</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">curr_shape</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">new_array</span></div>
+
+<div class="viewcode-block" id="align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_skeleton">[docs]</a><span class="k">def</span> <span class="nf">align_skeleton</span><span class="p">(</span>
+    <span class="n">array</span><span class="p">,</span>
+    <span class="n">soma_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    <span class="c1">#print(f&quot;verbose align_skeleton_from_soma_coordinate = {verbose}&quot;)</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">array</span>
+    
+    <span class="k">return</span> <span class="n">align_array</span><span class="p">(</span>
+    <span class="n">array</span><span class="p">,</span>
+    <span class="n">soma_center</span><span class="o">=</span><span class="n">soma_center</span><span class="p">,</span>
+    <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
+    <span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="align_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_attribute">[docs]</a><span class="k">def</span> <span class="nf">align_attribute</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">attribute_name</span><span class="p">,</span>
+                    <span class="n">soma_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,):</span>
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attribute_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">align_array</span><span class="p">(</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attribute_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="n">soma_center</span><span class="o">=</span><span class="n">soma_center</span><span class="p">,</span>
+        <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
+        <span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix</span><span class="p">))</span></div>
+    
+
+<div class="viewcode-block" id="rotate_mesh_from_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotate_mesh_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">rotate_mesh_from_matrix</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">matrix</span><span class="p">):</span>
+    <span class="n">new_mesh</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">new_mesh</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">new_mesh</span><span class="o">.</span><span class="n">vertices</span> <span class="o">@</span> <span class="n">matrix</span>
+    <span class="k">return</span> <span class="n">new_mesh</span></div>
+
+    
+<div class="viewcode-block" id="align_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_neuron_obj_from_align_matrix">[docs]</a><span class="k">def</span> <span class="nf">align_neuron_obj_from_align_matrix</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">align_matrix</span><span class="p">,</span>
+    <span class="p">):</span>
+    
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">limb_obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">branch_obj</span> <span class="ow">in</span> <span class="n">limb_obj</span><span class="p">:</span>
+            <span class="n">branch_obj</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">align_mesh</span><span class="p">(</span>
+                                <span class="n">branch_obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span>
+                                <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span>
+                                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="p">)</span>
+
+            <span class="n">branch_obj</span><span class="o">.</span><span class="n">mesh_center</span> <span class="o">=</span> <span class="n">tu</span><span class="o">.</span><span class="n">mesh_center_vertex_average</span><span class="p">(</span><span class="n">branch_obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">)</span>
+
+            <span class="n">branch_obj</span><span class="o">.</span><span class="n">skeleton</span> <span class="o">=</span> <span class="n">align_skeleton</span><span class="p">(</span>
+                                <span class="n">branch_obj</span><span class="o">.</span><span class="n">skeleton</span><span class="p">,</span>
+                                <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span>
+                                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="p">)</span>
+            <span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoints</span> <span class="o">=</span> <span class="n">align_array</span><span class="p">(</span><span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoints</span><span class="p">,</span>
+                                                    <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,)</span>
+            
+            
+            
+            <span class="k">if</span> <span class="n">align_synapses</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">syn</span> <span class="ow">in</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">synapses</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_coordinate_system_dependent_attributes</span><span class="p">:</span>
+                        <span class="n">align_attribute</span><span class="p">(</span><span class="n">syn</span><span class="p">,</span><span class="n">att</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,)</span>
+                        
+            <span class="c1">#doing the spine alignment</span>
+            <span class="k">if</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">spines</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">branch_obj</span><span class="o">.</span><span class="n">spines</span> <span class="o">=</span> <span class="p">[</span><span class="n">align_mesh</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">spines</span><span class="p">]</span>
+            
+            <span class="k">if</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">spines_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">s_obj</span> <span class="ow">in</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">spines_obj</span><span class="p">:</span>
+                    <span class="n">s_obj</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">align_mesh</span><span class="p">(</span><span class="n">s_obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">)</span>
+                
+                        
+            
+        
+        <span class="c1">#changing the concept network</span>
+        <span class="n">all_concept_network_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">att_to_change</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;starting_endpoints&quot;</span><span class="p">,</span><span class="s2">&quot;starting_coordinate&quot;</span><span class="p">,</span><span class="s2">&quot;touching_soma_vertices&quot;</span><span class="p">]</span>
+        
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">limb_obj</span><span class="o">.</span><span class="n">all_concept_network_data</span><span class="p">:</span>
+            <span class="n">new_data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">att_to_change</span><span class="p">:</span>
+                <span class="n">new_data</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="o">=</span> <span class="n">align_array</span><span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="n">att</span><span class="p">],</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,)</span>
+            <span class="n">all_concept_network_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_data</span><span class="p">)</span>
+            
+        <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">att_to_change</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;current_</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">align_array</span><span class="p">(</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;current_</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,))</span>
+
+        <span class="n">limb_obj</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">align_mesh</span><span class="p">(</span>
+                                <span class="n">limb_obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span>
+                                <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span>
+                                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="p">)</span>
+        <span class="n">limb_obj</span><span class="o">.</span><span class="n">all_concept_network_data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">all_concept_network_data</span><span class="p">)</span>
+        <span class="n">limb_obj</span><span class="o">.</span><span class="n">set_concept_network_directional</span><span class="p">()</span>
+        
+    <span class="n">neuron_obj</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">align_mesh</span><span class="p">(</span>
+                                <span class="n">neuron_obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span>
+                                <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span>
+                                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+                                <span class="p">)</span>
+        
+    <span class="c1">#finishing soma mesh stuff</span>
+    <span class="k">for</span> <span class="n">s_name</span> <span class="ow">in</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">get_soma_node_names</span><span class="p">():</span>
+        <span class="n">neuron_obj</span><span class="p">[</span><span class="n">s_name</span><span class="p">]</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">align_mesh</span><span class="p">(</span>
+            <span class="n">neuron_obj</span><span class="p">[</span><span class="n">s_name</span><span class="p">]</span><span class="o">.</span><span class="n">mesh</span> <span class="p">,</span>
+            <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">align_synapses</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">syn</span> <span class="ow">in</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="n">s_name</span><span class="p">]</span><span class="o">.</span><span class="n">synapses</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_coordinate_system_dependent_attributes</span><span class="p">:</span>
+                    <span class="n">align_attribute</span><span class="p">(</span><span class="n">syn</span><span class="p">,</span><span class="n">att</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,)</span>
+
+        <span class="n">neuron_obj</span><span class="p">[</span><span class="n">s_name</span><span class="p">]</span><span class="o">.</span><span class="n">mesh_center</span> <span class="o">=</span> <span class="n">tu</span><span class="o">.</span><span class="n">mesh_center_vertex_average</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">[</span><span class="n">s_name</span><span class="p">]</span><span class="o">.</span><span class="n">mesh</span><span class="p">)</span>
+        <span class="c1">#print(f&quot;neuron_obj[s_name].mesh_center = {neuron_obj[s_name].mesh_center}&quot;)</span>
+        
+        
+    <span class="k">return</span> <span class="n">neuron_obj</span></div>
+
+
+<div class="viewcode-block" id="align_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_neuron_obj">[docs]</a><span class="k">def</span> <span class="nf">align_neuron_obj</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">mesh_center</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">rotation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">in_place</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">plot_final_neuron</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">align_synapses</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To rotate all of the meshes</span>
+<span class="sd">    and skeletons of a neuron object</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    neuron_obj_rot = copy.deepcopy(neuron_obj)</span>
+<span class="sd">    mesh_center = neuron_obj[&quot;S0&quot;].mesh_center</span>
+<span class="sd">    for i in range(0,10):</span>
+<span class="sd">        neuron_obj_rot = align_neuron_obj(neuron_obj_rot,</span>
+<span class="sd">                                             mesh_center=mesh_center,</span>
+<span class="sd">                                             verbose =True)</span>
+<span class="sd">    nviz.visualize_neuron(</span>
+<span class="sd">        neuron_obj_rot,limb_branch_dict = &quot;all&quot;)</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">in_place</span><span class="p">:</span>
+        <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">align_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">mesh_center</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">soma_center</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="s2">&quot;S0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mesh_center</span>
+
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;soma_center = </span><span class="si">{</span><span class="n">soma_center</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">align_matrix</span> <span class="o">=</span> <span class="n">rotation_from_soma_center</span><span class="p">(</span><span class="n">soma_center</span><span class="p">,</span>
+                                     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,)</span>
+            
+            
+        <span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix_from_rotation</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;align_matrix = </span><span class="si">{</span><span class="n">align_matrix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">align_neuron_obj_from_align_matrix</span><span class="p">(</span>
+        <span class="n">neuron_obj</span><span class="o">=</span><span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix</span>
+    <span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">plot_final_neuron</span><span class="p">:</span>
+        <span class="n">nviz</span><span class="o">.</span><span class="n">visualize_neuron</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">neuron_obj</span></div>
+
+<div class="viewcode-block" id="unalign_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.unalign_neuron_obj">[docs]</a><span class="k">def</span> <span class="nf">unalign_neuron_obj</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+                       <span class="n">align_attribute</span> <span class="o">=</span> <span class="s2">&quot;align_matrix&quot;</span><span class="p">,</span>
+                       <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="n">plot_final_neuron</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">align_matrix</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_attribute</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">align_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No </span><span class="si">{</span><span class="n">align_attribute</span><span class="si">}</span><span class="s2"> found in neuron object&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">align_attribute</span> <span class="o">==</span> <span class="s2">&quot;rotation&quot;</span><span class="p">:</span>
+        <span class="n">align_matrix</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">align_matrix</span>
+    <span class="k">elif</span> <span class="n">align_attribute</span> <span class="o">==</span> <span class="s2">&quot;align_matrix&quot;</span><span class="p">:</span>
+        <span class="n">align_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">align_matrix</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unimplemented align_attribute: </span><span class="si">{</span><span class="n">align_attribute</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;new </span><span class="si">{</span><span class="n">align_attribute</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">align_matrix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="n">kwargs</span><span class="p">[</span><span class="n">align_attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">align_matrix</span>
+        
+    <span class="n">curr_neuron</span> <span class="o">=</span> <span class="n">align_neuron_obj</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+                               <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                               <span class="n">plot_final_neuron</span><span class="o">=</span><span class="n">plot_final_neuron</span><span class="p">,</span>
+                              <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">curr_neuron</span><span class="p">,</span><span class="n">align_attribute</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">curr_neuron</span></div>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">volume_utils</span>
+<div class="viewcode-block" id="DataInterface"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface">[docs]</a><span class="k">class</span> <span class="nc">DataInterface</span><span class="p">(</span><span class="n">volume_utils</span><span class="o">.</span><span class="n">DataInterface</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterface.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="DataInterface.align_array"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_array">[docs]</a>    <span class="k">def</span> <span class="nf">align_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">align_array</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="DataInterface.align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">align_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">align_mesh</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="DataInterface.align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_skeleton">[docs]</a>    <span class="k">def</span> <span class="nf">align_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">align_skeleton</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="DataInterface.align_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">align_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">align_neuron_obj</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataInterface.unalign_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.unalign_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">unalign_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">unalign_neuron_obj</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> </div>
+    
+<div class="viewcode-block" id="DataInterface.segment_id_to_synapse_dict"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.segment_id_to_synapse_dict">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_dict</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">segment_id</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">synapse_filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">):</span>
+        
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">segment_id_to_synapse_dict</span><span class="p">(</span>
+            <span class="n">synapse_filepath</span><span class="o">=</span><span class="n">synapse_filepath</span><span class="p">,</span>
+            <span class="n">segment_id</span> <span class="o">=</span> <span class="n">segment_id</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div></div>
+        
+
+<span class="n">data_interface</span> <span class="o">=</span> <span class="n">DataInterface</span><span class="p">(</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;h01&quot;</span><span class="p">,</span>
+    <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">voxel_to_nm_scaling</span>
+<span class="p">)</span>
+
+
+<span class="c1">#--- from neurd_packages ---</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">volume_utils</span>
+
+<span class="c1">#--- from mesh_tools ---</span>
+<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+
+<span class="c1">#--- from python_tools ---</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">linalg_utils</span> <span class="k">as</span> <span class="n">lu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
