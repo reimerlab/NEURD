@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.graph_filters &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.graph_filters</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.graph_filters</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+
+
+
+
+
+
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+
+<div class="viewcode-block" id="upstream_pair_singular"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.upstream_pair_singular">[docs]</a><span class="k">def</span> <span class="nf">upstream_pair_singular</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                          <span class="n">G</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">upstream_branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">downstream_branches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">plot_starting_branches</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="n">offset</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="c1">#1500,</span>
+                        <span class="n">comparison_distance</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
+                        <span class="n">plot_extracted_skeletons</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+
+
+                        <span class="n">worst_case_sk_angle_match_threshold</span> <span class="o">=</span> <span class="mi">65</span><span class="p">,</span>
+
+                        <span class="n">width_diff_max</span> <span class="o">=</span> <span class="mi">75</span><span class="p">,</span><span class="c1">#np.inf,100,</span>
+                        <span class="n">width_diff_perc</span> <span class="o">=</span> <span class="mf">0.60</span><span class="p">,</span>
+
+                        <span class="n">perform_synapse_filter</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">synapse_density_diff_threshold</span> <span class="o">=</span> <span class="mf">0.00015</span><span class="p">,</span> <span class="c1">#was 0.00021</span>
+                        <span class="n">n_synapses_diff_threshold</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+
+                        <span class="n">plot_G_local_edge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+
+                        <span class="c1"># ----- Phase B.3: parameters for global attributes ---</span>
+                        <span class="c1">#args for definite pairs</span>
+                        <span class="n">perform_global_edge_filter</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">sk_angle_match_threshold</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span>
+                        <span class="n">sk_angle_buffer</span> <span class="o">=</span> <span class="mi">27</span><span class="p">,</span>
+
+                        <span class="n">width_diff_perc_threshold</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+                        <span class="n">width_diff_perc_buffer</span> <span class="o">=</span> <span class="mf">0.30</span><span class="p">,</span>
+
+                        <span class="c1"># ----- Phase B.4 paraeters for global query ---</span>
+                        <span class="n">plot_G_global_edge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+
+
+                        <span class="c1"># ------- For Node Query ----#</span>
+                        <span class="n">perform_node_filter</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="n">use_exclusive_partner</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">plot_G_node_edge</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                           
+                        <span class="n">kiss_check</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="n">kiss_check_bbox_longest_side_threshold</span> <span class="o">=</span> <span class="mi">450</span><span class="p">,</span>
+
+                        <span class="c1"># ---- Phase D: Picking the final winner -----</span>
+                        <span class="n">plot_final_branch_matches</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="n">match_method</span> <span class="o">=</span> <span class="s2">&quot;all_error_if_not_one_match&quot;</span><span class="p">,</span><span class="c1"># &quot;best_match&quot;, #other option is &quot;best_match&quot;</span>
+
+                        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                          <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To pair the upstream branch</span>
+<span class="sd">    with a possible match with a downstream branch</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Use local edge filters </span>
+<span class="sd">    2) Use global edge filters</span>
+<span class="sd">    3) Perform node filters if requested</span>
+<span class="sd">    4) If the upstream and downstream node</span>
+<span class="sd">    are alone in same component then has pairing</span>
+<span class="sd">    --&gt; if not return no pairing</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    from python_tools import networkx_utils as xu</span>
+<span class="sd">    import matplotlib.pyplot as plt</span>
+<span class="sd">    import networkx as nx</span>
+
+
+<span class="sd">    ed.upstream_pair_singular(G = G_saved,</span>
+<span class="sd">    limb_obj = filt_neuron.axon_limb,</span>
+<span class="sd">    upstream_branch = 65,</span>
+<span class="sd">    downstream_branches =[30,47],</span>
+<span class="sd">                          )</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plot_G_local_edge</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">plot_G_global_edge</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">plot_G_node_edge</span><span class="o">=</span> <span class="kc">True</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># find the upstream and downstream branches if None</span>
+    <span class="k">if</span> <span class="n">upstream_branch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">upstream_branch</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">upstream_node_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">downstream_branches</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">downstream_branches</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">downstream_nodes_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="n">downstream_branches</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">downstream_branches</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">G</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">G_e_2</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">compute_edge_attributes_locally_upstream_downstream</span><span class="p">(</span>
+                <span class="n">limb_obj</span><span class="p">,</span>
+                <span class="n">upstream_branch</span> <span class="o">=</span> <span class="n">upstream_branch</span><span class="p">,</span>
+                <span class="n">downstream_branches</span> <span class="o">=</span> <span class="n">downstream_branches</span><span class="p">,</span>
+                <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
+                <span class="n">comparison_distance</span><span class="o">=</span><span class="n">comparison_distance</span><span class="p">,</span>
+                <span class="n">plot_extracted_skeletons</span><span class="o">=</span><span class="n">plot_extracted_skeletons</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">G_e_2</span> <span class="o">=</span> <span class="n">G</span>
+
+    <span class="k">if</span> <span class="n">plot_starting_branches</span><span class="p">:</span>
+        <span class="n">nviz</span><span class="o">.</span><span class="n">plot_branch_groupings</span><span class="p">(</span><span class="n">limb_obj</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">,</span>
+        <span class="n">groupings</span> <span class="o">=</span> <span class="p">[[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">G_e_2</span><span class="o">.</span><span class="n">nodes</span><span class="p">],</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">plot_meshes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">plot_skeletons</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,)</span>
+
+
+    <span class="c1">#2) Filter the edges by local properties</span>
+    <span class="n">synapse_query</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;((synapse_density_diff&lt;</span><span class="si">{</span><span class="n">synapse_density_diff_threshold</span><span class="si">}</span><span class="s2">) or&quot;</span> 
+                        <span class="sa">f</span><span class="s2">&quot; (n_synapses_diff &lt; </span><span class="si">{</span><span class="n">n_synapses_diff_threshold</span><span class="si">}</span><span class="s2">))&quot;</span><span class="p">)</span>
+
+    <span class="n">branch_match_query</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(((width_diff &lt; </span><span class="si">{</span><span class="n">width_diff_max</span><span class="si">}</span><span class="s2">) or (width_diff_percentage &lt; </span><span class="si">{</span><span class="n">width_diff_perc</span><span class="si">}</span><span class="s2">))&quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot; and (sk_angle &lt; </span><span class="si">{</span><span class="n">worst_case_sk_angle_match_threshold</span><span class="si">}</span><span class="s2">))&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">perform_synapse_filter</span><span class="p">:</span>
+        <span class="n">branch_match_query</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;and </span><span class="si">{</span><span class="n">synapse_query</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;branch_match_query = :</span><span class="se">\n</span><span class="si">{</span><span class="n">branch_match_query</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">G_edge_filt</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">query_to_subgraph</span><span class="p">(</span><span class="n">G_e_2</span><span class="p">,</span>
+                                      <span class="n">edge_query</span><span class="o">=</span><span class="n">branch_match_query</span><span class="p">,</span>
+                                      <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plot_G_local_edge</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Before Local Query ---&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">xu</span><span class="o">.</span><span class="n">edge_df</span><span class="p">(</span><span class="n">G_e_2</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Afer Local query: &quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">xu</span><span class="o">.</span><span class="n">edge_df</span><span class="p">(</span><span class="n">G_edge_filt</span><span class="p">))</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G_edge_filt</span><span class="p">,</span><span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+    <span class="n">G</span> <span class="o">=</span> <span class="n">G_edge_filt</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">G_edge_filt</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">perform_global_edge_filter</span><span class="p">:</span>
+        <span class="c1"># ------------- Phase B.2: Looking at global features for query ------- #</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Performing global features query&quot;</span><span class="p">)</span>
+
+        <span class="c1"># 3) computes the global fetures</span>
+        <span class="n">edge_functions_global</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">definite_partner_sk_delete</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">nst</span><span class="o">.</span><span class="n">edges_to_delete_from_threshold_and_buffer</span><span class="p">,</span>
+                                                              <span class="n">arguments</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">sk_angle_match_threshold</span><span class="p">,</span>
+                                                                                  <span class="n">buffer</span><span class="o">=</span> <span class="n">sk_angle_buffer</span><span class="p">,</span>
+                                                                           <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                                                            <span class="n">edge_attribute</span> <span class="o">=</span> <span class="s2">&quot;sk_angle&quot;</span><span class="p">)),</span>
+                                <span class="n">definite_partner_width_delete</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">nst</span><span class="o">.</span><span class="n">edges_to_delete_from_threshold_and_buffer</span><span class="p">,</span>
+                                                              <span class="n">arguments</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">width_diff_perc_threshold</span><span class="p">,</span>
+                                                                                  <span class="n">buffer</span><span class="o">=</span> <span class="n">width_diff_perc_buffer</span><span class="p">,</span>
+                                                                           <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                                                            <span class="n">edge_attribute</span> <span class="o">=</span> <span class="s2">&quot;width_diff_percentage&quot;</span><span class="p">))</span>
+
+                         <span class="p">)</span>
+
+        <span class="c1"># 4) Filtering Graph by global properties (applying the definite filter pair)</span>
+        <span class="n">G_edge_filt_with_att</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">compute_edge_attributes_globally</span><span class="p">(</span><span class="n">G_edge_filt</span><span class="p">,</span>
+                                             <span class="n">edge_functions_global</span><span class="p">)</span>
+        <span class="n">G_global_1</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">query_to_subgraph</span><span class="p">(</span><span class="n">G_edge_filt_with_att</span><span class="p">,</span>
+                                          <span class="n">edge_query</span><span class="o">=</span><span class="s2">&quot;(definite_partner_sk_delete == False) or ((definite_partner_sk_delete != True) and (definite_partner_width_delete != True))&quot;</span><span class="p">,</span>
+                                          <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">plot_G_global_edge</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Before Global Query ---&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">xu</span><span class="o">.</span><span class="n">edge_df</span><span class="p">(</span><span class="n">G_edge_filt_with_att</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Afer Global query: &quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">xu</span><span class="o">.</span><span class="n">edge_df</span><span class="p">(</span><span class="n">G_global_1</span><span class="p">))</span>
+            <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G_global_1</span><span class="p">,</span><span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            
+
+        <span class="n">G</span> <span class="o">=</span> <span class="n">G_global_1</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">G_global_1</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">perform_node_filter</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Performing node features query&quot;</span><span class="p">)</span>
+
+            <span class="c1"># 5) Computing NOde features (for sfiltering on the upstream node edges)</span>
+            <span class="n">edge_functions_node_global</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">above_threshold_delete</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                                        <span class="n">function</span><span class="o">=</span><span class="n">nst</span><span class="o">.</span><span class="n">edges_to_delete_on_node_above_threshold_if_one_below</span><span class="p">,</span>
+                                        <span class="n">arguments</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">sk_angle_match_threshold</span><span class="p">,</span>
+                                           <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+                                        <span class="p">)</span>
+                             <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">use_exclusive_partner</span><span class="p">:</span>
+                <span class="n">nodes_to_compute</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">G_global_1</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nodes_to_compute</span> <span class="o">=</span> <span class="n">branch_idx</span>
+
+            <span class="n">G_edge_filt_with_node_att</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">compute_edge_attributes_around_node</span><span class="p">(</span><span class="n">G_global_1</span><span class="p">,</span>
+                                             <span class="n">edge_functions_node_global</span><span class="p">,</span>
+                                                <span class="n">nodes_to_compute</span><span class="o">=</span><span class="n">nodes_to_compute</span><span class="p">,</span>
+                                             <span class="p">)</span>
+
+            <span class="c1"># 6) Filtering graph based on node features</span>
+            <span class="n">G_global_2</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">query_to_subgraph</span><span class="p">(</span><span class="n">G_edge_filt_with_node_att</span><span class="p">,</span>
+                                          <span class="n">edge_query</span><span class="o">=</span><span class="s2">&quot;above_threshold_delete != True&quot;</span><span class="p">,</span>
+                                          <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">plot_G_node_edge</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Before Node Query ---&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">xu</span><span class="o">.</span><span class="n">edge_df</span><span class="p">(</span><span class="n">G_edge_filt_with_node_att</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Afer Node query: &quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">xu</span><span class="o">.</span><span class="n">edge_df</span><span class="p">(</span><span class="n">G_global_2</span><span class="p">))</span>
+                <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G_global_2</span><span class="p">,</span><span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+                <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+            <span class="n">G</span> <span class="o">=</span> <span class="n">G_global_2</span>
+
+            
+    <span class="c1"># ------- Phase C: Optional Kiss Filter ------</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ---------- 4/29 Addition: Kiss Filter -----------</span>
+
+<span class="sd">    Pseudocode:</span>
+<span class="sd">    0) Get the offset skeleton coordinates for all nodes in graph</span>
+<span class="sd">    1) find all the possible partitions of the remaining nodes</span>
+
+<span class="sd">    &quot;&quot;&quot;</span> 
+    <span class="k">if</span> <span class="n">kiss_check</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Attempting to perform Kiss check&quot;</span><span class="p">)</span>
+        <span class="n">coordinate</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">downstream_endpoint</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">upstream_branch</span><span class="p">)</span>
+        <span class="n">upstream_matches</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">upstream_branch</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">upstream_matches</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Working on Kissing check because possible upstream matches greater than 1: </span><span class="si">{</span><span class="n">upstream_matches</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">G</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">cut_kissing_graph_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">limb_obj</span><span class="p">,</span>
+                <span class="n">kiss_check_bbox_longest_side_threshold</span> <span class="o">=</span> <span class="n">kiss_check_bbox_longest_side_threshold</span><span class="p">,</span>
+                <span class="n">coordinate</span> <span class="o">=</span> <span class="n">coordinate</span><span class="p">,</span>
+                <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
+                <span class="n">comparison_distance</span> <span class="o">=</span> <span class="n">comparison_distance</span><span class="p">,</span>
+                <span class="n">plot_offset_skeletons</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">plot_source_sink_vertices</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">plot_cut_vertices</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">plot_cut_bbox</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+                            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Step 5b: Removing kissing edges&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Remaining Edges = </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Not doing kiss check because upstream_matches = </span><span class="si">{</span><span class="n">upstream_matches</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Now check if any partners</span>
+
+    <span class="n">upstream_subgraph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">G</span><span class="p">)</span> 
+                                      <span class="k">if</span> <span class="n">upstream_branch</span> <span class="ow">in</span> <span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">upstream_subgraph</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">winning_node</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">error_branches</span> <span class="o">=</span> <span class="n">downstream_branches</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">match_method</span> <span class="o">==</span> <span class="s2">&quot;best_match&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using best match method&quot;</span><span class="p">)</span>
+            <span class="n">winning_node</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">get_neighbor_min_weighted_edge</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">upstream_branch</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">match_method</span> <span class="o">==</span> <span class="s2">&quot;lowest_angle_sum&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using lowest_angle_sum method&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;hasn&#39;t been fixed to make sure the upstream node is guaranteed to be in the output graph&quot;</span><span class="p">)</span>
+            <span class="n">G_final</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">graph_to_lowest_weighted_sum_singular_matches</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+            <span class="n">return_graph</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+
+            <span class="n">winning_node</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">G_final</span><span class="p">,</span><span class="n">upstream_branch</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">winning_node</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Not just one winning node: </span><span class="si">{</span><span class="n">winning_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">winning_node</span> <span class="o">=</span> <span class="n">winning_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">match_method</span> <span class="o">==</span> <span class="s2">&quot;all_error_if_not_one_match&quot;</span><span class="p">:</span>
+            <span class="n">error_branches</span> <span class="o">=</span> <span class="n">downstream_branches</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">upstream_subgraph</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">winning_node</span> <span class="o">=</span> <span class="n">upstream_subgraph</span><span class="p">[</span><span class="n">upstream_subgraph</span><span class="o">!=</span><span class="n">upstream_branch</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">winning_node</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unimplemented match_method : </span><span class="si">{</span><span class="n">match_method</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+
+
+        <span class="n">error_branches</span> <span class="o">=</span> <span class="n">downstream_branches</span><span class="p">[</span><span class="n">downstream_branches</span><span class="o">!=</span> <span class="n">winning_node</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;for upstream node </span><span class="si">{</span><span class="n">upstream_branch</span><span class="si">}</span><span class="s2">, winning_node = </span><span class="si">{</span><span class="n">winning_node</span><span class="si">}</span><span class="s2">, error_branches = </span><span class="si">{</span><span class="n">error_branches</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot_final_branch_matches</span><span class="p">:</span>
+        <span class="n">nviz</span><span class="o">.</span><span class="n">plot_branch_groupings</span><span class="p">(</span><span class="n">limb_obj</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">,</span>
+        <span class="n">groupings</span> <span class="o">=</span> <span class="n">G</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">plot_meshes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">plot_skeletons</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,)</span>
+        
+    <span class="k">return</span> <span class="n">winning_node</span><span class="p">,</span><span class="n">error_branches</span></div>
+
+
+<div class="viewcode-block" id="graph_filter_adapter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.graph_filter_adapter">[docs]</a><span class="k">def</span> <span class="nf">graph_filter_adapter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                        <span class="n">limb_obj</span><span class="p">,</span>
+                         <span class="n">motif</span><span class="p">,</span>
+                         <span class="n">graph_filter_func</span><span class="p">,</span>
+                         <span class="n">attempt_upstream_pair_singular</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                         <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Purpose: To apply a graph filter to a specific local</span>
+<span class="sd">    graph by </span>
+<span class="sd">    1) Determining if the graph filter should be run on this local graph</span>
+<span class="sd">    2) If it should be applied, run the graph filter</span>
+<span class="sd">    and determine if there are any branches that should be errored out</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    Pseudocode:  </span>
+<span class="sd">    1) Takes motif</span>
+<span class="sd">    2) Runs motif on the graph</span>
+<span class="sd">    3) Sends the graph and the limb to </span>
+<span class="sd">    the function to get a true false</span>
+<span class="sd">    4) If it is yes, then maybe run the upstream pair singular</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="n">motif_matches</span> <span class="o">=</span> <span class="n">dmu</span><span class="o">.</span><span class="n">graph_matches</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">motif</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">motif_matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Motif not found so returning no errors&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;motif_matches = </span><span class="si">{</span><span class="n">motif_matches</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+    <span class="n">d_nodes</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">downstream_nodes_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="n">upstream_branch</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">upstream_node_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    
+    <span class="n">error_check</span> <span class="o">=</span> <span class="n">graph_filter_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="o">=</span><span class="n">limb_obj</span><span class="p">,</span>
+                                    <span class="n">upstream_branch</span><span class="o">=</span><span class="n">upstream_branch</span><span class="p">,</span>
+                                   <span class="n">downstream_branches</span><span class="o">=</span><span class="n">d_nodes</span><span class="p">,</span>
+                                    <span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="p">,</span>
+                                   <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                                   <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;error_check = </span><span class="si">{</span><span class="n">error_check</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">error_check</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">attempt_upstream_pair_singular</span><span class="p">:</span>
+            <span class="n">winning_node</span><span class="p">,</span><span class="n">error_branches</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">upstream_pair_singular</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">G</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;In attempt_upstream_pair_singular&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;winning_node = </span><span class="si">{</span><span class="n">winning_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">error_branches</span> <span class="o">=</span> <span class="n">d_nodes</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">error_branches</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;error_branches = </span><span class="si">{</span><span class="n">error_branches</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">error_branches</span></div>
+    
+    
+
+
+<div class="viewcode-block" id="wide_angle_t_motif"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.wide_angle_t_motif">[docs]</a><span class="k">def</span> <span class="nf">wide_angle_t_motif</span><span class="p">(</span><span class="n">child_width_maximum</span> <span class="o">=</span> <span class="mi">100000</span><span class="p">,</span>
+                       <span class="n">child_width_minimum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                        <span class="n">parent_width_maximum</span> <span class="o">=</span> <span class="mi">75</span><span class="p">,</span>
+                        <span class="n">child_skeletal_threshold</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
+                       <span class="n">child_skeletal_threshold_total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                        <span class="n">child_angle_max</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,):</span>
+    <span class="n">motif</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    u -&gt; d1</span>
+<span class="s2">    u -&gt; d2</span>
+<span class="s2">    d1 -&gt; d2 [sk_angle &lt;= </span><span class="si">{</span><span class="n">child_angle_max</span><span class="si">}</span><span class="s2">]</span>
+<span class="s2">    </span>
+<span class="s2">    u.node_type = &quot;upstream&quot;</span>
+<span class="s2">    u.width_upstream &lt; </span><span class="si">{</span><span class="n">parent_width_maximum</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.width_downstream &lt; </span><span class="si">{</span><span class="n">child_width_maximum</span><span class="si">}</span>
+<span class="s2">    d1.width_downstream &gt; </span><span class="si">{</span><span class="n">child_width_minimum</span><span class="si">}</span>
+<span class="s2">    d1.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold</span><span class="si">}</span>
+<span class="s2">    d2.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">skeletal_length_downstream</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold_total</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">motif</span></div>
+
+<div class="viewcode-block" id="axon_webbing_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_webbing_filter">[docs]</a><span class="k">def</span> <span class="nf">axon_webbing_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                         <span class="n">limb_obj</span><span class="p">,</span>
+                                
+                        <span class="c1">#arguments for the motif finding</span>
+                        <span class="n">child_width_maximum</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#75,</span>
+                        <span class="n">parent_width_maximum</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#75,</span>
+                        <span class="n">child_skeletal_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#3000,#10000</span>
+                        <span class="n">child_skeletal_threshold_total</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#10000,</span>
+                        <span class="n">child_angle_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#40,</span>
+                                
+                        <span class="c1">#arguments for checking there is a valid webbing</span>
+                        <span class="n">web_size_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="c1">#120,</span>
+                        <span class="n">web_size_type</span><span class="o">=</span><span class="s2">&quot;ray_trace_median&quot;</span><span class="p">,</span>
+                        <span class="n">web_above_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#True,</span>
+                        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="n">attempt_upstream_pair_singular</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#False,</span>
+                        <span class="n">error_on_web_none</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To find the error branches from the </span>
+<span class="sd">    axon webbing filter (no valid webbing if children branches </span>
+<span class="sd">    are wide angle t and the parent width is low</span>
+<span class="sd">    </span>
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Motif checking</span>
+<span class="sd">    2) Check that downstream branches are connected</span>
+<span class="sd">    3) Checking the webbing</span>
+<span class="sd">    4) If Invalid webbing return the error branches </span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    from neurd import graph_filters as gf</span>
+<span class="sd">    gf.axon_webbing_filter(G,</span>
+<span class="sd">                               limb_obj,</span>
+<span class="sd">                               verbose = True,</span>
+<span class="sd">                               child_angle_max=40,</span>
+<span class="sd">                               child_width_maximum=90,</span>
+<span class="sd">                                  web_size_threshold = 300)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">child_width_maximum</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">child_width_maximum</span> <span class="o">=</span> <span class="n">child_width_maximum_ax_web_ax_web_global</span>
+    <span class="k">if</span> <span class="n">parent_width_maximum</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parent_width_maximum</span> <span class="o">=</span> <span class="n">parent_width_maximum_ax_web_global</span>
+    <span class="k">if</span> <span class="n">child_skeletal_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">child_skeletal_threshold</span> <span class="o">=</span> <span class="n">child_skeletal_threshold_ax_web_global</span>
+    <span class="k">if</span> <span class="n">child_skeletal_threshold_total</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">child_skeletal_threshold_total</span> <span class="o">=</span> <span class="n">child_skeletal_threshold_total_ax_web_global</span>
+    <span class="k">if</span> <span class="n">child_angle_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">child_angle_max</span> <span class="o">=</span> <span class="n">child_angle_max_ax_web_global</span>
+    <span class="k">if</span> <span class="n">web_size_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">web_size_threshold</span> <span class="o">=</span> <span class="n">web_size_threshold_ax_web_global</span>
+    <span class="k">if</span> <span class="n">web_size_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">web_size_type</span> <span class="o">=</span> <span class="n">web_size_type_ax_web_global</span>
+    <span class="k">if</span> <span class="n">web_above_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">web_above_threshold</span> <span class="o">=</span> <span class="n">web_above_threshold_ax_web_global</span>
+    
+    <span class="c1"># ----- 1) Motif checking --------</span>
+<span class="c1">#     motif = gf.wide_angle_t_motif(child_width_maximum = child_width_maximum,</span>
+<span class="c1">#                         parent_width_maximum = parent_width_maximum,</span>
+<span class="c1">#                         child_skeletal_threshold = child_skeletal_threshold,</span>
+<span class="c1">#                         child_angle_max = child_angle_max,)</span>
+
+    <span class="n">motif</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    u -&gt; d1</span>
+<span class="s2">    u -&gt; d2</span>
+<span class="s2">    d1 -&gt; d2 [sk_angle &lt;= </span><span class="si">{</span><span class="n">child_angle_max</span><span class="si">}</span><span class="s2">]</span>
+<span class="s2">    </span>
+<span class="s2">    u.node_type = &quot;upstream&quot;</span>
+<span class="s2">    u.width_upstream &lt; </span><span class="si">{</span><span class="n">parent_width_maximum</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.width_downstream &lt; </span><span class="si">{</span><span class="n">child_width_maximum</span><span class="si">}</span>
+<span class="s2">    d2.width_downstream &lt; </span><span class="si">{</span><span class="n">child_width_maximum</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold</span><span class="si">}</span>
+<span class="s2">    d2.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold_total</span><span class="si">}</span>
+<span class="s2">    d2.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold_total</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">axon_web_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                     <span class="n">upstream_branch</span><span class="p">,</span>
+                     <span class="n">downstream_branches</span><span class="p">,</span>
+                      <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">mesh_connection</span> <span class="o">=</span> <span class="n">cnu</span><span class="o">.</span><span class="n">downstream_nodes_mesh_connected</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                                   <span class="n">upstream_branch</span><span class="p">,</span>
+                                    <span class="n">downstream_branches</span><span class="o">=</span><span class="n">downstream_branches</span><span class="p">,</span>
+                                   <span class="n">n_points_of_contact</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mesh_connection = </span><span class="si">{</span><span class="n">mesh_connection</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">mesh_connection</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downstream nodes were not mesh connected so returning no errors&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+            <span class="c1"># ----- 3) Checking the webbing --------- </span>
+        <span class="n">curr_web</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">upstream_branch</span><span class="p">]</span><span class="o">.</span><span class="n">web</span>
+
+        <span class="k">if</span> <span class="n">curr_web</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">valid_web_result</span> <span class="o">=</span> <span class="n">au</span><span class="o">.</span><span class="n">valid_web_for_t</span><span class="p">(</span><span class="n">curr_web</span><span class="p">,</span>
+                               <span class="n">size_threshold</span> <span class="o">=</span> <span class="n">web_size_threshold</span><span class="p">,</span>
+                               <span class="n">size_type</span> <span class="o">=</span> <span class="n">web_size_type</span><span class="p">,</span>
+                               <span class="n">above_threshold</span> <span class="o">=</span> <span class="n">web_above_threshold</span><span class="p">,</span>
+                                   <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">error_on_web_none</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No webbing computed&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">valid_web_result</span> <span class="o">=</span> <span class="kc">True</span>
+            
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">valid_web_result</span>
+    
+    <span class="k">return</span> <span class="n">gf</span><span class="o">.</span><span class="n">graph_filter_adapter</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span>
+                         <span class="n">limb_obj</span><span class="o">=</span><span class="n">limb_obj</span><span class="p">,</span>
+                         <span class="n">motif</span><span class="o">=</span><span class="n">motif</span><span class="p">,</span>
+                         <span class="n">graph_filter_func</span><span class="o">=</span><span class="n">axon_web_func</span><span class="p">,</span>
+                         <span class="n">attempt_upstream_pair_singular</span><span class="o">=</span><span class="n">attempt_upstream_pair_singular</span><span class="p">,</span>
+                         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="axon_spine_at_intersection_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_spine_at_intersection_filter">[docs]</a><span class="k">def</span> <span class="nf">axon_spine_at_intersection_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                                      <span class="n">limb_obj</span><span class="p">,</span>
+                                    <span class="n">attempt_upstream_pair_singular</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                      <span class="n">upstream_width_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#110,</span>
+                                            <span class="n">downstream_width_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#150,</span>
+                                      <span class="n">child_skeletal_threshold_total</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#10000,</span>
+                                    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                   <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Find error branches if there </span>
+<span class="sd">    is an axon spine that is downstream of the upstrea branch</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Get all downstsream nodes of the upstream branch</span>
+<span class="sd">    2) Find the intersection with the limb axon spines</span>
+<span class="sd">    3) if axon spine is detected</span>
+<span class="sd">        If attempt_upstream_pair_singular:</span>
+<span class="sd">            Run upstream_pair_singular and return error branches</span>
+<span class="sd">        else:</span>
+<span class="sd">            Return all downstream nodes as errors</span>
+
+<span class="sd">    Ex: </span>
+<span class="sd">    gf.axon_spine_at_intersection_filter(G,</span>
+<span class="sd">                                      limb_obj = filt_neuron.axon_limb,</span>
+<span class="sd">                                    attempt_upstream_pair_singular = True,</span>
+<span class="sd">                                    verbose = True,</span>
+<span class="sd">                                   **dict())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">upstream_width_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">upstream_width_threshold</span> <span class="o">=</span> <span class="n">upstream_width_threshold_ax_spine_at_inters_global</span>
+    <span class="k">if</span> <span class="n">downstream_width_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">downstream_width_threshold</span> <span class="o">=</span> <span class="n">downstream_width_threshold_ax_spine_at_inters_global</span>
+    <span class="k">if</span> <span class="n">child_skeletal_threshold_total</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">child_skeletal_threshold_total</span> <span class="o">=</span> <span class="n">child_skeletal_threshold_total_ax_spine_at_inters_global</span>
+
+    <span class="c1"># ----- 1) Motif checking --------</span>
+    <span class="n">motif</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    u -&gt; d1</span>
+<span class="s2">    u -&gt; d2</span>
+<span class="s2">    u.node_type = &quot;upstream&quot;</span>
+<span class="s2">    u.width_upstream &lt; </span><span class="si">{</span><span class="n">upstream_width_threshold</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold_total</span><span class="si">}</span>
+<span class="s2">    d2.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold_total</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.width_downstream &lt; </span><span class="si">{</span><span class="n">downstream_width_threshold</span><span class="si">}</span>
+<span class="s2">    d2.width_downstream &lt; </span><span class="si">{</span><span class="n">downstream_width_threshold</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">axon_spine_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                     <span class="n">upstream_branch</span><span class="p">,</span>
+                     <span class="n">downstream_branches</span><span class="p">,</span>
+                      <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">axon_spines_on_intersection</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">intersect1d</span><span class="p">(</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">axon_spines</span><span class="p">,</span>
+                                                 <span class="n">nru</span><span class="o">.</span><span class="n">downstream_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">upstream_branch</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current # of axon spines = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">axon_spines</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;axon_spines_on_intersection = </span><span class="si">{</span><span class="n">axon_spines_on_intersection</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">axon_spines_on_intersection</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    
+    <span class="k">return</span> <span class="n">gf</span><span class="o">.</span><span class="n">graph_filter_adapter</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span>
+                         <span class="n">limb_obj</span><span class="o">=</span><span class="n">limb_obj</span><span class="p">,</span>
+                         <span class="n">motif</span><span class="o">=</span><span class="n">motif</span><span class="p">,</span>
+                         <span class="n">graph_filter_func</span><span class="o">=</span><span class="n">axon_spine_func</span><span class="p">,</span>
+                         <span class="n">attempt_upstream_pair_singular</span><span class="o">=</span><span class="n">attempt_upstream_pair_singular</span><span class="p">,</span>
+                         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="min_synapse_dist_to_branch_point_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.min_synapse_dist_to_branch_point_filter">[docs]</a><span class="k">def</span> <span class="nf">min_synapse_dist_to_branch_point_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                                      <span class="n">limb_obj</span><span class="p">,</span>
+                                    <span class="n">attempt_upstream_pair_singular</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                      <span class="n">upstream_width_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#110,</span>
+                                            <span class="n">downstream_width_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#150,</span>
+                                            <span class="n">min_synape_dist</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#1300,</span>
+                                    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                   <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Find error branches if there </span>
+<span class="sd">    is a synapse at the intersection</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Find the min distance of a synapse to the branching point</span>
+<span class="sd">    3) if min distance of synapse is less than thresshold</span>
+<span class="sd">        If attempt_upstream_pair_singular:</span>
+<span class="sd">            Run upstream_pair_singular and return error branches</span>
+<span class="sd">        else:</span>
+<span class="sd">            Return all downstream nodes as errors</span>
+
+<span class="sd">    Ex: </span>
+<span class="sd">    gf.min_synapse_dist_to_branch_point_filter(G,</span>
+<span class="sd">                                       limb_obj,</span>
+<span class="sd">                                       verbose=True)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">upstream_width_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">upstream_width_threshold</span> <span class="o">=</span> <span class="n">upstream_width_threshold_min_syn_dist_global</span>
+    <span class="k">if</span> <span class="n">downstream_width_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">downstream_width_threshold</span> <span class="o">=</span> <span class="n">downstream_width_threshold_min_syn_dist_global</span>
+    <span class="k">if</span> <span class="n">min_synape_dist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_synape_dist</span> <span class="o">=</span> <span class="n">min_synape_dist_min_syn_dist_global</span>
+
+    <span class="c1"># ----- 1) Motif checking --------</span>
+    <span class="n">motif</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    u -&gt; d1</span>
+<span class="s2">    u -&gt; d2</span>
+<span class="s2">    u.node_type = &quot;upstream&quot;</span>
+<span class="s2">    u.width_upstream &lt; </span><span class="si">{</span><span class="n">upstream_width_threshold</span><span class="si">}</span>
+<span class="s2">    d1.width_downstream &lt; </span><span class="si">{</span><span class="n">downstream_width_threshold</span><span class="si">}</span>
+<span class="s2">    d2.width_downstream &lt; </span><span class="si">{</span><span class="n">downstream_width_threshold</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">min_synapse_dist_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                     <span class="n">upstream_branch</span><span class="p">,</span>
+                     <span class="n">downstream_branches</span><span class="p">,</span>
+                      <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">min_distance</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">min_synapse_dist_to_branch_point</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                                                        <span class="n">downstream_branches</span><span class="o">=</span><span class="n">downstream_branches</span><span class="p">,</span>
+                                                    <span class="n">branch_idx</span> <span class="o">=</span> <span class="n">upstream_branch</span><span class="p">,</span>
+                                                    <span class="n">plot_closest_synapse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                            <span class="n">synapse_type</span> <span class="o">=</span> <span class="s2">&quot;synapses_pre&quot;</span><span class="p">,</span>
+                                                    <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;min_distance = </span><span class="si">{</span><span class="n">min_distance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">min_distance</span> <span class="o">&lt;</span> <span class="n">min_synape_dist</span>
+    
+    <span class="k">return</span> <span class="n">gf</span><span class="o">.</span><span class="n">graph_filter_adapter</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span>
+                         <span class="n">limb_obj</span><span class="o">=</span><span class="n">limb_obj</span><span class="p">,</span>
+                         <span class="n">motif</span><span class="o">=</span><span class="n">motif</span><span class="p">,</span>
+                         <span class="n">graph_filter_func</span><span class="o">=</span><span class="n">min_synapse_dist_func</span><span class="p">,</span>
+                         <span class="n">attempt_upstream_pair_singular</span><span class="o">=</span><span class="n">attempt_upstream_pair_singular</span><span class="p">,</span>
+                         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="fork_divergence_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.fork_divergence_filter">[docs]</a><span class="k">def</span> <span class="nf">fork_divergence_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                          <span class="n">limb_obj</span><span class="p">,</span>
+                          <span class="c1">#arguments for the motif search</span>
+                        <span class="n">downstream_width_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#90,</span>
+                        <span class="n">upstream_width_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#90,# 145,#90,</span>
+                           
+                          <span class="n">total_downstream_skeleton_length_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#4000,#8000,</span>
+                    <span class="n">individual_branch_length_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#3000,</span>
+
+                          <span class="c1">#for the fork divergence</span>
+                          <span class="n">divergence_threshold_mean</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#160,</span>
+                           <span class="n">attempt_upstream_pair_singular</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                           <span class="n">comparison_distance</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Find error branches if there </span>
+<span class="sd">    is a forking that is too close to each other</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Get all downstsream nodes of the upstream branch</span>
+<span class="sd">    3) if axon spine is detected</span>
+<span class="sd">        If attempt_upstream_pair_singular:</span>
+<span class="sd">            Run upstream_pair_singular and return error branches</span>
+<span class="sd">        else:</span>
+<span class="sd">            Return all downstream nodes as errors</span>
+
+<span class="sd">    Ex: </span>
+<span class="sd">    gf.axon_spine_at_intersection_filter(G,</span>
+<span class="sd">                                      limb_obj = filt_neuron.axon_limb,</span>
+<span class="sd">                                    attempt_upstream_pair_singular = True,</span>
+<span class="sd">                                    verbose = True,</span>
+<span class="sd">                                   **dict())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">downstream_width_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">downstream_width_max</span> <span class="o">=</span> <span class="n">downstream_width_max_fork_div_global</span>
+    <span class="k">if</span> <span class="n">upstream_width_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">upstream_width_max</span> <span class="o">=</span> <span class="n">upstream_width_max_fork_div_global</span>
+    <span class="k">if</span> <span class="n">total_downstream_skeleton_length_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">total_downstream_skeleton_length_threshold</span> <span class="o">=</span> <span class="n">total_downstream_skeleton_length_threshold_fork_div_global</span>
+    <span class="k">if</span> <span class="n">individual_branch_length_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">individual_branch_length_threshold</span> <span class="o">=</span> <span class="n">individual_branch_length_threshold_fork_div_global</span>
+    <span class="k">if</span> <span class="n">divergence_threshold_mean</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">divergence_threshold_mean</span> <span class="o">=</span> <span class="n">divergence_threshold_mean_fork_div_global</span>
+    <span class="k">if</span> <span class="n">comparison_distance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">comparison_distance</span> <span class="o">=</span> <span class="n">comparison_distance_fork_div_global</span>
+
+    <span class="c1"># ----- 1) Motif checking --------</span>
+    <span class="n">motif</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    u -&gt; d1</span>
+<span class="s2">    u -&gt; d2</span>
+<span class="s2">    u.node_type = &quot;upstream&quot;</span>
+<span class="s2">    u.width_upstream &lt; </span><span class="si">{</span><span class="n">upstream_width_max</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.width_downstream &lt; </span><span class="si">{</span><span class="n">downstream_width_max</span><span class="si">}</span>
+<span class="s2">    d2.width_downstream &lt; </span><span class="si">{</span><span class="n">downstream_width_max</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">individual_branch_length_threshold</span><span class="si">}</span>
+<span class="s2">    d2.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">individual_branch_length_threshold</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">total_downstream_skeleton_length_threshold</span><span class="si">}</span>
+<span class="s2">    d2.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">total_downstream_skeleton_length_threshold</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">fork_div_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                     <span class="n">upstream_branch</span><span class="p">,</span>
+                     <span class="n">downstream_branches</span><span class="p">,</span>
+                      <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">div</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">fork_divergence</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">upstream_branch</span><span class="p">,</span>
+                                  <span class="n">downstream_idxs</span> <span class="o">=</span> <span class="n">downstream_branches</span><span class="p">,</span>
+                              <span class="n">total_downstream_skeleton_length_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                              <span class="n">individual_branch_length_threshold</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                  <span class="n">comparison_distance</span><span class="o">=</span><span class="n">comparison_distance</span><span class="p">,</span>
+                                  <span class="n">plot_restrictions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;div = </span><span class="si">{</span><span class="n">div</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">div</span> <span class="o">&lt;</span>  <span class="n">divergence_threshold_mean</span>
+    
+    <span class="k">return</span> <span class="n">gf</span><span class="o">.</span><span class="n">graph_filter_adapter</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span>
+                         <span class="n">limb_obj</span><span class="o">=</span><span class="n">limb_obj</span><span class="p">,</span>
+                         <span class="n">motif</span><span class="o">=</span><span class="n">motif</span><span class="p">,</span>
+                         <span class="n">graph_filter_func</span><span class="o">=</span><span class="n">fork_div_func</span><span class="p">,</span>
+                         <span class="n">attempt_upstream_pair_singular</span><span class="o">=</span><span class="n">attempt_upstream_pair_singular</span><span class="p">,</span>
+                         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="fork_min_skeletal_distance_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.fork_min_skeletal_distance_filter">[docs]</a><span class="k">def</span> <span class="nf">fork_min_skeletal_distance_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                          <span class="n">limb_obj</span><span class="p">,</span>
+                          <span class="c1">#arguments for the motif search</span>
+                        <span class="n">downstream_width_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#90,</span>
+                        <span class="n">upstream_width_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#145,#90,</span>
+                           
+                          <span class="n">total_downstream_skeleton_length_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#4000,</span>
+                    <span class="n">individual_branch_length_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#4000,</span>
+
+                          <span class="c1">#for the fork divergence</span>
+                          <span class="n">min_distance_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#550,#600,#1150,</span>
+                           <span class="n">attempt_upstream_pair_singular</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Find error branches if there </span>
+<span class="sd">    is a forking that is too close to each other</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Get all downstsream nodes of the upstream branch</span>
+<span class="sd">    3) if axon spine is detected</span>
+<span class="sd">        If attempt_upstream_pair_singular:</span>
+<span class="sd">            Run upstream_pair_singular and return error branches</span>
+<span class="sd">        else:</span>
+<span class="sd">            Return all downstream nodes as errors</span>
+
+<span class="sd">    Ex: </span>
+<span class="sd">    gf.axon_spine_at_intersection_filter(G,</span>
+<span class="sd">                                      limb_obj = filt_neuron.axon_limb,</span>
+<span class="sd">                                    attempt_upstream_pair_singular = True,</span>
+<span class="sd">                                    verbose = True,</span>
+<span class="sd">                                   **dict())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">downstream_width_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">downstream_width_max</span> <span class="o">=</span> <span class="n">downstream_width_max_fork_min_dist_global</span>
+    <span class="k">if</span> <span class="n">upstream_width_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">upstream_width_max</span> <span class="o">=</span> <span class="n">upstream_width_max_fork_min_dist_global</span>
+    <span class="k">if</span> <span class="n">total_downstream_skeleton_length_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">total_downstream_skeleton_length_threshold</span> <span class="o">=</span> <span class="n">total_downstream_skeleton_length_threshold_fork_min_dist_global</span>
+    <span class="k">if</span> <span class="n">individual_branch_length_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">individual_branch_length_threshold</span> <span class="o">=</span> <span class="n">individual_branch_length_threshold_fork_min_dist_global</span>
+    <span class="k">if</span> <span class="n">min_distance_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_distance_threshold</span> <span class="o">=</span> <span class="n">min_distance_threshold_fork_min_dist_global</span>
+
+    <span class="c1"># ----- 1) Motif checking --------</span>
+    <span class="n">motif</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    u -&gt; d1</span>
+<span class="s2">    u -&gt; d2</span>
+<span class="s2">    u.node_type = &quot;upstream&quot;</span>
+<span class="s2">    u.width_upstream &lt; </span><span class="si">{</span><span class="n">upstream_width_max</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.width_downstream &lt; </span><span class="si">{</span><span class="n">downstream_width_max</span><span class="si">}</span>
+<span class="s2">    d2.width_downstream &lt; </span><span class="si">{</span><span class="n">downstream_width_max</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">individual_branch_length_threshold</span><span class="si">}</span>
+<span class="s2">    d2.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">individual_branch_length_threshold</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">total_downstream_skeleton_length_threshold</span><span class="si">}</span>
+<span class="s2">    d2.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">total_downstream_skeleton_length_threshold</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">fork_min_skeletal_distance_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                     <span class="n">upstream_branch</span><span class="p">,</span>
+                     <span class="n">downstream_branches</span><span class="p">,</span>
+                      <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">div</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">fork_min_skeletal_distance</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">upstream_branch</span><span class="p">,</span>
+                                  <span class="n">downstream_idxs</span> <span class="o">=</span> <span class="n">downstream_branches</span><span class="p">,</span>
+                              <span class="n">total_downstream_skeleton_length_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                              <span class="n">individual_branch_length_threshold</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                             <span class="n">plot_skeleton_restriction</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                             <span class="n">plot_min_pair</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;div = </span><span class="si">{</span><span class="n">div</span><span class="si">}</span><span class="s2"> with threshold set to </span><span class="si">{</span><span class="n">min_distance_threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">div</span> <span class="o">&lt;</span>  <span class="n">min_distance_threshold</span>
+    
+    <span class="k">return</span> <span class="n">gf</span><span class="o">.</span><span class="n">graph_filter_adapter</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span>
+                         <span class="n">limb_obj</span><span class="o">=</span><span class="n">limb_obj</span><span class="p">,</span>
+                         <span class="n">motif</span><span class="o">=</span><span class="n">motif</span><span class="p">,</span>
+                         <span class="n">graph_filter_func</span><span class="o">=</span><span class="n">fork_min_skeletal_distance_func</span><span class="p">,</span>
+                         <span class="n">attempt_upstream_pair_singular</span><span class="o">=</span><span class="n">attempt_upstream_pair_singular</span><span class="p">,</span>
+                         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="axon_double_back_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_double_back_filter">[docs]</a><span class="k">def</span> <span class="nf">axon_double_back_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                          <span class="n">limb_obj</span><span class="p">,</span>
+                          <span class="c1">#arguments for the motif search</span>
+                            <span class="n">branch_skeletal_length_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#2000,#4000,</span>
+                            <span class="n">total_downstream_skeleton_length_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#2000,#10000,</span>
+                            <span class="n">upstream_skeletal_length_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#5000,</span>
+                            <span class="n">axon_width_threshold_thin</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#180,#au.axon_ais_threshold</span>
+                            <span class="n">axon_width_threshold_thick</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#180,#au.axon_ais_threshold</span>
+                           <span class="n">attempt_upstream_pair_singular</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Find errors if branches double back by too much</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">branch_skeletal_length_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">branch_skeletal_length_min</span> <span class="o">=</span> <span class="n">branch_skeletal_length_min_ax_double_b_global</span>
+    <span class="k">if</span> <span class="n">total_downstream_skeleton_length_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">total_downstream_skeleton_length_threshold</span> <span class="o">=</span> <span class="n">total_downstream_skeleton_length_threshold_ax_double_b_global</span>
+    <span class="k">if</span> <span class="n">upstream_skeletal_length_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">upstream_skeletal_length_min</span> <span class="o">=</span> <span class="n">upstream_skeletal_length_min_ax_double_b_global</span>
+    <span class="k">if</span> <span class="n">axon_width_threshold_thin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">axon_width_threshold_thin</span> <span class="o">=</span> <span class="n">axon_width_threshold_thin_ax_double_b_global</span>
+    <span class="k">if</span> <span class="n">axon_width_threshold_thick</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">axon_width_threshold_thick</span> <span class="o">=</span> <span class="n">axon_width_threshold_thick_ax_double_b_global</span>
+
+    <span class="c1"># ----- 1) Motif checking --------</span>
+    <span class="n">motif</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    u -&gt; d1 [sk_angle &gt;= </span><span class="si">{</span><span class="n">min_double_back_threshold</span><span class="si">}</span><span class="s2">]</span>
+<span class="s2">    u -&gt; d2 </span>
+<span class="s2">    u.node_type = &quot;upstream&quot;</span>
+<span class="s2">    u.width_upstream &lt; </span><span class="si">{</span><span class="n">axon_width_threshold_thick</span><span class="si">}</span>
+<span class="s2">    u.skeletal_length_upstream_total &gt; </span><span class="si">{</span><span class="n">upstream_skeletal_length_min</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">branch_skeletal_length_min</span><span class="si">}</span>
+<span class="s2">    d1.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">total_downstream_skeleton_length_threshold</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">double_back_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                     <span class="n">upstream_branch</span><span class="p">,</span>
+                     <span class="n">downstream_branches</span><span class="p">,</span>
+                         <span class="n">G</span><span class="p">,</span>
+                      <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1">#determine the double back threshold</span>
+        <span class="n">downstream_branches</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">downstream_branches</span><span class="p">)</span>
+        
+        <span class="n">double_back_threshold</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">double_back_threshold_axon_by_width</span><span class="p">(</span>
+                        <span class="n">width</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">upstream_branch</span><span class="p">][</span><span class="s2">&quot;width_upstream&quot;</span><span class="p">],</span>
+                       <span class="n">double_back_threshold_thin</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">double_back_threshold_axon_thin</span><span class="p">,</span>
+                        <span class="n">double_back_threshold_thick</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">double_back_threshold_axon_thick</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+            
+        <span class="n">sk_angle_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">G</span><span class="p">[</span><span class="n">upstream_branch</span><span class="p">][</span><span class="n">d</span><span class="p">][</span><span class="s2">&quot;sk_angle&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">downstream_branches</span><span class="p">])</span>
+        <span class="n">double_back_branches</span> <span class="o">=</span> <span class="n">downstream_branches</span><span class="p">[</span><span class="n">sk_angle_edges</span> <span class="o">&gt;</span> <span class="n">double_back_threshold</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;double_back_threshold = </span><span class="si">{</span><span class="n">double_back_threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sk_angle_edges = </span><span class="si">{</span><span class="n">sk_angle_edges</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Double back branches: </span><span class="si">{</span><span class="n">double_back_branches</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">double_back_branches</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    
+    <span class="k">return</span> <span class="n">gf</span><span class="o">.</span><span class="n">graph_filter_adapter</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span>
+                         <span class="n">limb_obj</span><span class="o">=</span><span class="n">limb_obj</span><span class="p">,</span>
+                         <span class="n">motif</span><span class="o">=</span><span class="n">motif</span><span class="p">,</span>
+                         <span class="n">graph_filter_func</span><span class="o">=</span><span class="n">double_back_func</span><span class="p">,</span>
+                         <span class="n">attempt_upstream_pair_singular</span><span class="o">=</span><span class="n">attempt_upstream_pair_singular</span><span class="p">,</span>
+                         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="thick_t_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.thick_t_filter">[docs]</a><span class="k">def</span> <span class="nf">thick_t_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                    <span class="n">limb_obj</span><span class="p">,</span>
+                    <span class="n">parent_width_maximum</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#70,</span>
+                   <span class="n">min_child_width_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#78,#85,</span>
+                   <span class="n">child_skeletal_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#3000,#7000,</span>
+                   <span class="n">child_skeletal_threshold_total</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#10000,</span>
+                   <span class="n">child_angle_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#40,</span>
+                   <span class="n">attempt_upstream_pair_singular</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                   <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To find the error branches from the </span>
+<span class="sd">    axon thick t wide angle children</span>
+<span class="sd">    </span>
+<span class="sd">    Example:</span>
+<span class="sd">    gf.thick_t_filter(G,limb_obj,verbose = True,</span>
+<span class="sd">               parent_width_maximum = 110,</span>
+<span class="sd">              child_angle_max=150,</span>
+<span class="sd">              )</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">parent_width_maximum</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parent_width_maximum</span> <span class="o">=</span> <span class="n">parent_width_maximum_thick_t_global</span>
+    <span class="k">if</span> <span class="n">min_child_width_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_child_width_max</span> <span class="o">=</span> <span class="n">min_child_width_max_thick_t_global</span>
+    <span class="k">if</span> <span class="n">child_skeletal_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">child_skeletal_threshold</span> <span class="o">=</span> <span class="n">child_skeletal_threshold_thick_t_global</span>
+    <span class="k">if</span> <span class="n">child_skeletal_threshold_total</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">child_skeletal_threshold_total</span> <span class="o">=</span> <span class="n">child_skeletal_threshold_total_thick_t_global</span>
+    <span class="k">if</span> <span class="n">child_angle_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">child_angle_max</span> <span class="o">=</span> <span class="n">child_angle_max_thick_t_global</span>
+    
+    <span class="c1"># ----- 1) Motif checking --------</span>
+<span class="c1">#     motif = gf.wide_angle_t_motif(child_width_minimum = min_child_width_max,</span>
+<span class="c1">#                         parent_width_maximum = parent_width_maximum,</span>
+<span class="c1">#                         child_skeletal_threshold = child_skeletal_threshold,</span>
+<span class="c1">#                         child_angle_max = child_angle_max,)</span>
+
+    <span class="n">motif</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    u -&gt; d1</span>
+<span class="s2">    u -&gt; d2</span>
+<span class="s2">    d1 -&gt; d2 [sk_angle &lt;= </span><span class="si">{</span><span class="n">child_angle_max</span><span class="si">}</span><span class="s2">]</span>
+<span class="s2">    </span>
+<span class="s2">    u.node_type = &quot;upstream&quot;</span>
+<span class="s2">    u.width_upstream &lt; </span><span class="si">{</span><span class="n">parent_width_maximum</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.width_downstream &gt; </span><span class="si">{</span><span class="n">min_child_width_max</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold</span><span class="si">}</span>
+<span class="s2">    d2.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold_total</span><span class="si">}</span>
+<span class="s2">    d2.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold_total</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">thick_t_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                     <span class="n">upstream_branch</span><span class="p">,</span>
+                     <span class="n">downstream_branches</span><span class="p">,</span>
+                     <span class="n">G</span><span class="p">,</span>
+                      <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downstream angle = </span><span class="si">{</span><span class="n">G</span><span class="p">[</span><span class="n">downstream_branches</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">downstream_branches</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="s1">&#39;sk_angle&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downstream 1 widths = </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">downstream_branches</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s1">&#39;width_downstream&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downstream 2 widths = </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">downstream_branches</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="s1">&#39;width_downstream&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parent width = </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">upstream_branch</span><span class="p">][</span><span class="s1">&#39;width_upstream&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    
+    <span class="k">return</span> <span class="n">gf</span><span class="o">.</span><span class="n">graph_filter_adapter</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span>
+                         <span class="n">limb_obj</span><span class="o">=</span><span class="n">limb_obj</span><span class="p">,</span>
+                         <span class="n">motif</span><span class="o">=</span><span class="n">motif</span><span class="p">,</span>
+                         <span class="n">graph_filter_func</span><span class="o">=</span><span class="n">thick_t_func</span><span class="p">,</span>
+                         <span class="n">attempt_upstream_pair_singular</span><span class="o">=</span><span class="n">attempt_upstream_pair_singular</span><span class="p">,</span>
+                         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+
+<span class="c1"># ------------------ 7/26 Inhibitory Filters ----------------</span>
+<div class="viewcode-block" id="axon_double_back_inh_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_double_back_inh_filter">[docs]</a><span class="k">def</span> <span class="nf">axon_double_back_inh_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                          <span class="n">limb_obj</span><span class="p">,</span>
+                          <span class="c1">#arguments for the motif search</span>
+                            <span class="n">branch_skeletal_length_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#2000,#4000,</span>
+                            <span class="n">total_downstream_skeleton_length_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#2000,#10000,</span>
+                            <span class="n">upstream_skeletal_length_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#5000,</span>
+                            <span class="n">axon_width_threshold_thin</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#au.axon_ais_threshold,</span>
+                            <span class="n">axon_width_threshold_thick</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#au.axon_ais_threshold,</span>
+                           <span class="n">attempt_upstream_pair_singular</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="c1"># True,</span>
+                        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Find errors if branches double back by too much</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">branch_skeletal_length_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">branch_skeletal_length_min</span> <span class="o">=</span> <span class="n">branch_skeletal_length_min_double_b_axon_inh_global</span>
+    <span class="k">if</span> <span class="n">total_downstream_skeleton_length_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">total_downstream_skeleton_length_threshold</span> <span class="o">=</span> <span class="n">total_downstream_skeleton_length_threshold_double_b_axon_inh_global</span>
+    <span class="k">if</span> <span class="n">upstream_skeletal_length_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">upstream_skeletal_length_min</span> <span class="o">=</span> <span class="n">upstream_skeletal_length_min_double_b_axon_inh_global</span>
+    <span class="k">if</span> <span class="n">axon_width_threshold_thin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">axon_width_threshold_thin</span> <span class="o">=</span> <span class="n">axon_width_threshold_thin_double_b_axon_inh_global</span>
+    <span class="k">if</span> <span class="n">axon_width_threshold_thick</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">axon_width_threshold_thick</span> <span class="o">=</span> <span class="n">axon_width_threshold_thick_double_b_axon_inh_global</span>
+    <span class="k">if</span> <span class="n">attempt_upstream_pair_singular</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">attempt_upstream_pair_singular</span> <span class="o">=</span> <span class="n">attempt_upstream_pair_singular_double_b_axon_inh_global</span>
+
+    <span class="c1"># ----- 1) Motif checking --------</span>
+    <span class="n">motif</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    u -&gt; d1 [sk_angle &gt;= </span><span class="si">{</span><span class="n">min_double_back_threshold_inh</span><span class="si">}</span><span class="s2">]</span>
+<span class="s2">    u -&gt; d2 </span>
+<span class="s2">    u.node_type = &quot;upstream&quot;</span>
+<span class="s2">    u.width_upstream &lt; </span><span class="si">{</span><span class="n">axon_width_threshold_thick</span><span class="si">}</span>
+<span class="s2">    u.skeletal_length_upstream_total &gt; </span><span class="si">{</span><span class="n">upstream_skeletal_length_min</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    d1.skeletal_length_downstream &gt; </span><span class="si">{</span><span class="n">branch_skeletal_length_min</span><span class="si">}</span>
+<span class="s2">    d1.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">total_downstream_skeleton_length_threshold</span><span class="si">}</span>
+<span class="s2">    </span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">double_back_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+                     <span class="n">upstream_branch</span><span class="p">,</span>
+                     <span class="n">downstream_branches</span><span class="p">,</span>
+                         <span class="n">G</span><span class="p">,</span>
+                      <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1">#determine the double back threshold</span>
+        <span class="n">downstream_branches</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">downstream_branches</span><span class="p">)</span>
+        
+        <span class="n">double_back_threshold</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">double_back_threshold_axon_by_width</span><span class="p">(</span>
+                        <span class="n">width</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">upstream_branch</span><span class="p">][</span><span class="s2">&quot;width_upstream&quot;</span><span class="p">],</span>
+                       <span class="n">double_back_threshold_thin</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">double_back_threshold_axon_thin_inh</span><span class="p">,</span>
+                        <span class="n">double_back_threshold_thick</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">double_back_threshold_axon_thick_inh</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+            
+        <span class="n">sk_angle_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">G</span><span class="p">[</span><span class="n">upstream_branch</span><span class="p">][</span><span class="n">d</span><span class="p">][</span><span class="s2">&quot;sk_angle&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">downstream_branches</span><span class="p">])</span>
+        <span class="n">double_back_branches</span> <span class="o">=</span> <span class="n">downstream_branches</span><span class="p">[</span><span class="n">sk_angle_edges</span> <span class="o">&gt;</span> <span class="n">double_back_threshold</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;double_back_threshold = </span><span class="si">{</span><span class="n">double_back_threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sk_angle_edges = </span><span class="si">{</span><span class="n">sk_angle_edges</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Double back branches: </span><span class="si">{</span><span class="n">double_back_branches</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1">#         if len(double_back_branches) &gt; 0:</span>
+<span class="c1">#             print(f&quot;\n{upstream_branch}: sk_angle_edges = {sk_angle_edges[sk_angle_edges &gt; double_back_threshold]}&quot;)</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">double_back_branches</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    
+    <span class="k">return</span> <span class="n">gf</span><span class="o">.</span><span class="n">graph_filter_adapter</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span>
+                         <span class="n">limb_obj</span><span class="o">=</span><span class="n">limb_obj</span><span class="p">,</span>
+                         <span class="n">motif</span><span class="o">=</span><span class="n">motif</span><span class="p">,</span>
+                         <span class="n">graph_filter_func</span><span class="o">=</span><span class="n">double_back_func</span><span class="p">,</span>
+                         <span class="n">attempt_upstream_pair_singular</span><span class="o">=</span><span class="n">attempt_upstream_pair_singular</span><span class="p">,</span>
+                         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+    
+
+<span class="c1"># ------------- parameters for stats ---------------</span>
+
+<span class="n">global_parameters_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="c1">#--- axon web filters ---</span>
+    <span class="n">child_width_maximum_ax_web_ax_web</span> <span class="o">=</span> <span class="mi">75</span><span class="p">,</span>
+    <span class="n">parent_width_maximum_ax_web</span> <span class="o">=</span> <span class="mi">75</span><span class="p">,</span>
+    <span class="n">child_skeletal_threshold_ax_web</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span>
+    <span class="n">child_skeletal_threshold_total_ax_web</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
+    <span class="n">child_angle_max_ax_web</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
+
+    <span class="c1">#arguments for checking there is a valid webbing</span>
+    <span class="n">web_size_threshold_ax_web</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span>
+    <span class="n">web_size_type_ax_web</span> <span class="o">=</span> <span class="s2">&quot;ray_trace_median&quot;</span><span class="p">,</span>
+    <span class="n">web_above_threshold_ax_web</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    
+    
+    <span class="c1">#-- thick_t_filter --</span>
+    <span class="n">parent_width_maximum_thick_t</span> <span class="o">=</span> <span class="mi">70</span><span class="p">,</span>
+    <span class="n">min_child_width_max_thick_t</span> <span class="o">=</span> <span class="mi">78</span><span class="p">,</span><span class="c1">#85,</span>
+    <span class="n">child_skeletal_threshold_thick_t</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span><span class="c1">#7000,</span>
+    <span class="n">child_skeletal_threshold_total_thick_t</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
+    <span class="n">child_angle_max_thick_t</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
+    
+    <span class="c1"># -- axon_double_back_filter-- </span>
+    <span class="n">branch_skeletal_length_min_ax_double_b</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span><span class="c1">#4000,</span>
+    <span class="n">total_downstream_skeleton_length_threshold_ax_double_b</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span><span class="c1">#10000,</span>
+    <span class="n">upstream_skeletal_length_min_ax_double_b</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="n">axon_width_threshold_thin_ax_double_b</span> <span class="o">=</span> <span class="mi">180</span><span class="p">,</span><span class="c1">#au.axon_ais_threshold</span>
+    <span class="n">axon_width_threshold_thick_ax_double_b</span> <span class="o">=</span> <span class="mi">180</span><span class="p">,</span><span class="c1">#au.axon_ais_threshold</span>
+    
+    
+    <span class="c1"># -- fork_divergence_filter --</span>
+    <span class="n">downstream_width_max_fork_div</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span>
+    <span class="n">upstream_width_max_fork_div</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span><span class="c1"># 145,#90,</span>
+    <span class="n">total_downstream_skeleton_length_threshold_fork_div</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">,</span><span class="c1">#8000,</span>
+    <span class="n">individual_branch_length_threshold_fork_div</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span>
+    <span class="c1">#for the fork divergence</span>
+    <span class="n">divergence_threshold_mean_fork_div</span> <span class="o">=</span> <span class="mi">160</span><span class="p">,</span>
+    <span class="n">comparison_distance_fork_div</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
+    
+    
+    <span class="c1"># --- fork_min_skeletal_distance_filter -- </span>
+    <span class="n">downstream_width_max_fork_min_dist</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span>
+    <span class="n">upstream_width_max_fork_min_dist</span> <span class="o">=</span> <span class="mi">145</span><span class="p">,</span><span class="c1">#90,</span>
+    <span class="n">total_downstream_skeleton_length_threshold_fork_min_dist</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">,</span>
+    <span class="n">individual_branch_length_threshold_fork_min_dist</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">,</span>
+    <span class="c1">#for the fork divergence</span>
+    <span class="n">min_distance_threshold_fork_min_dist</span> <span class="o">=</span> <span class="mi">550</span><span class="p">,</span><span class="c1">#600,#1150,</span>
+    
+    
+    <span class="c1">#--axon_spine_at_intersection_filter--</span>
+    <span class="n">upstream_width_threshold_ax_spine_at_inters</span> <span class="o">=</span> <span class="mi">110</span><span class="p">,</span>
+    <span class="n">downstream_width_threshold_ax_spine_at_inters</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span>
+    <span class="n">child_skeletal_threshold_total_ax_spine_at_inters</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
+
+    <span class="c1"># -- min_synapse_dist_to_branch_point_filter --</span>
+    <span class="n">upstream_width_threshold_min_syn_dist</span> <span class="o">=</span> <span class="mi">110</span><span class="p">,</span>
+    <span class="n">downstream_width_threshold_min_syn_dist</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span>
+    <span class="n">min_synape_dist_min_syn_dist</span> <span class="o">=</span> <span class="mi">1300</span><span class="p">,</span>
+    
+    <span class="c1">#  -- axon_double_back_inh_filter ---</span>
+    <span class="n">branch_skeletal_length_min_double_b_axon_inh</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span><span class="c1">#4000,</span>
+    <span class="n">total_downstream_skeleton_length_threshold_double_b_axon_inh</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span><span class="c1">#10000,</span>
+    <span class="n">upstream_skeletal_length_min_double_b_axon_inh</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">,</span>
+    <span class="n">axon_width_threshold_thin_double_b_axon_inh</span> <span class="o">=</span> <span class="mi">180</span><span class="p">,</span>
+    <span class="n">axon_width_threshold_thick_double_b_axon_inh</span> <span class="o">=</span> <span class="mi">180</span><span class="p">,</span>
+    <span class="n">attempt_upstream_pair_singular_double_b_axon_inh</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+
+
+<span class="p">)</span>
+<span class="n">attributes_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">default_low_degree_graph_filters</span> <span class="o">=</span> <span class="p">[</span>
+     <span class="n">axon_webbing_filter</span><span class="p">,</span>
+     <span class="n">thick_t_filter</span><span class="p">,</span>
+     <span class="n">axon_double_back_filter</span><span class="p">,</span>
+     <span class="n">fork_divergence_filter</span><span class="p">,</span>
+     <span class="n">fork_min_skeletal_distance_filter</span><span class="p">,</span>
+     <span class="n">axon_spine_at_intersection_filter</span><span class="p">,</span>
+     <span class="n">min_synapse_dist_to_branch_point_filter</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>    
+
+
+<span class="c1"># ------- microns -----------</span>
+<span class="n">global_parameters_dict_microns</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">attributes_dict_microns</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="c1"># --------- h01 -------------</span>
+<span class="n">global_parameters_dict_h01</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">k</span><span class="p">,</span><span class="mf">1.15</span><span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="k">if</span> <span class="s2">&quot;width&quot;</span> <span class="ow">in</span> <span class="n">k</span> <span class="k">else</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">global_parameters_dict_default</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+
+<span class="n">global_parameters_dict_h01_update</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">branch_skeletal_length_min_ax_double_b</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">,</span>
+    <span class="n">branch_skeletal_length_min_double_b_axon_inh</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">,</span>
+    
+    <span class="n">comparison_distance_fork_div</span> <span class="o">=</span> <span class="mi">800</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">global_parameters_dict_h01</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">global_parameters_dict_h01_update</span><span class="p">)</span>
+
+
+<span class="n">attributes_dict_h01</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">default_low_degree_graph_filters</span> <span class="o">=</span> <span class="p">[</span>
+     <span class="n">axon_webbing_filter</span><span class="p">,</span>
+     <span class="n">thick_t_filter</span><span class="p">,</span>
+     <span class="n">axon_double_back_filter</span><span class="p">,</span>
+     <span class="n">fork_divergence_filter</span><span class="p">,</span>
+     <span class="n">fork_min_skeletal_distance_filter</span><span class="p">,</span>
+     <span class="c1">#axon_spine_at_intersection_filter,</span>
+     <span class="c1">#min_synapse_dist_to_branch_point_filter,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+
+
+<span class="c1"># data_type = &quot;default&quot;</span>
+<span class="c1"># algorithms = None</span>
+<span class="c1"># modules_to_set = [gf]</span>
+
+<span class="c1"># def set_global_parameters_and_attributes_by_data_type(dt,</span>
+<span class="c1">#                                                      algorithms_list = None,</span>
+<span class="c1">#                                                       modules = None,</span>
+<span class="c1">#                                                      set_default_first = True,</span>
+<span class="c1">#                                                       verbose=False):</span>
+<span class="c1">#     if modules is None:</span>
+<span class="c1">#         modules = modules_to_set</span>
+    
+<span class="c1">#     modu.set_global_parameters_and_attributes_by_data_type(modules,dt,</span>
+<span class="c1">#                                                           algorithms=algorithms_list,</span>
+<span class="c1">#                                                           set_default_first = set_default_first,</span>
+<span class="c1">#                                                           verbose = verbose)</span>
+    
+<span class="c1"># set_global_parameters_and_attributes_by_data_type(data_type,</span>
+<span class="c1">#                                                    algorithms)</span>
+
+<span class="c1"># def output_global_parameters_and_attributes_from_current_data_type(</span>
+<span class="c1">#     modules = None,</span>
+<span class="c1">#     algorithms = None,</span>
+<span class="c1">#     verbose = True,</span>
+<span class="c1">#     lowercase = True,</span>
+<span class="c1">#     output_types = (&quot;global_parameters&quot;),</span>
+<span class="c1">#     include_default = True,</span>
+<span class="c1">#     algorithms_only = False,</span>
+<span class="c1">#     **kwargs):</span>
+    
+<span class="c1">#     if modules is None:</span>
+<span class="c1">#         modules = modules_to_set</span>
+    
+<span class="c1">#     return modu.output_global_parameters_and_attributes_from_current_data_type(</span>
+<span class="c1">#         modules,</span>
+<span class="c1">#         algorithms = algorithms,</span>
+<span class="c1">#         verbose = verbose,</span>
+<span class="c1">#         lowercase = lowercase,</span>
+<span class="c1">#         output_types = output_types,</span>
+<span class="c1">#         include_default = include_default,</span>
+<span class="c1">#         algorithms_only = algorithms_only,</span>
+<span class="c1">#         **kwargs,</span>
+<span class="c1">#         )</span>
+
+
+<span class="c1">#--- from neurd_packages ---</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">concept_network_utils</span> <span class="k">as</span> <span class="n">cnu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">error_detection</span> <span class="k">as</span> <span class="n">ed</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+
+<span class="n">min_double_back_threshold</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">double_back_threshold_axon_thin</span>
+<span class="n">min_double_back_threshold_inh</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">double_back_threshold_axon_thick_inh</span>
+
+<span class="c1">#--- from python_tools ---</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">dotmotif_utils</span> <span class="k">as</span> <span class="n">dmu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">graph_filters</span> <span class="k">as</span> <span class="n">gf</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

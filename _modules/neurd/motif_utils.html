@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.motif_utils &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.motif_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.motif_utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+
+
+
+<span class="sd">To help analyze the motifs found using the dotmotif package </span>
+<span class="sd">from a connectome dataset</span>
+
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+
+<span class="n">motif_key</span> <span class="o">=</span> <span class="s2">&quot;motif&quot;</span>
+<span class="n">identifier_name_global</span> <span class="o">=</span> <span class="s2">&quot;identifier&quot;</span>
+<span class="n">edge_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;([A-Z])[ ]*-&gt;[ ]*([A-Z])&quot;</span>
+
+<span class="n">min_gnn_probability_global</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">cell_type_fine_exclude_global</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SST&#39;</span><span class="p">,</span><span class="s1">&#39;NGC&#39;</span><span class="p">,]</span>
+
+<div class="viewcode-block" id="edges_from_str"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.edges_from_str">[docs]</a><span class="k">def</span> <span class="nf">edges_from_str</span><span class="p">(</span>
+    <span class="n">string</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_edge_str</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">edge_pattern</span><span class="p">)</span>
+    <span class="n">s_find</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">string</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">return_edge_str</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">regex_utils</span> <span class="k">as</span> <span class="n">reu</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">reu</span><span class="o">.</span><span class="n">substr_from_match_obj</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">s_find</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">g</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+              <span class="n">g</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">s_find</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="n">pritn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;edges = </span><span class="si">{</span><span class="n">edges</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">edges</span></div>
+
+<div class="viewcode-block" id="nodes_from_str"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.nodes_from_str">[docs]</a><span class="k">def</span> <span class="nf">nodes_from_str</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="n">edges_str</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">edges_from_str</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">return_edge_str</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">edges_str</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="motif_nodes_from_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_nodes_from_motif">[docs]</a><span class="k">def</span> <span class="nf">motif_nodes_from_motif</span><span class="p">(</span>
+    <span class="n">motif</span><span class="p">,</span>
+    <span class="n">only_upper</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_n_nodes</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Determine the number of nodes (and what their names are )</span>
+<span class="sd">    from a motif string</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Look for all upper case letters where there is other</span>
+<span class="sd">    words before or after</span>
+<span class="sd">    2) Order the pairs found</span>
+<span class="sd">    3) Can return the length of the dictionary or just the number</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">motif</span>
+    <span class="k">if</span> <span class="n">only_upper</span><span class="p">:</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\W*([A-Z])\W*&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\W*([A-Za-z])\W*&quot;</span><span class="p">)</span>
+
+    <span class="n">s_find</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">s_find</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">s_find</span><span class="p">]</span>
+    <span class="n">found_letters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">s_find</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;found_letters = </span><span class="si">{</span><span class="n">found_letters</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">return_n_nodes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">found_letters</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">found_letters</span><span class="p">)}</span></div>
+    
+<div class="viewcode-block" id="n_nodes_from_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.n_nodes_from_motif">[docs]</a><span class="k">def</span> <span class="nf">n_nodes_from_motif</span><span class="p">(</span>
+    <span class="n">motif</span><span class="p">,</span>
+    <span class="n">only_upper</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+    
+    <span class="k">return</span> <span class="n">mfu</span><span class="o">.</span><span class="n">motif_nodes_from_motif</span><span class="p">(</span>
+    <span class="n">motif</span><span class="p">,</span>
+    <span class="n">only_upper</span> <span class="o">=</span> <span class="n">only_upper</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+    <span class="n">return_n_nodes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="nodes_mapping_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.nodes_mapping_from_G">[docs]</a><span class="k">def</span> <span class="nf">nodes_mapping_from_G</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Get the node mapping</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">identifiers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+        <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">identifiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">identifier_name_global</span><span class="p">])</span>
+        
+    <span class="n">arg_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">identifiers</span><span class="p">)</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">identifiers</span><span class="p">[</span><span class="n">k</span><span class="p">],</span>
+                    <span class="n">names</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">arg_idx</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">mapping</span></div>
+    
+    
+<div class="viewcode-block" id="nodes_from_motif_dict"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.nodes_from_motif_dict">[docs]</a><span class="k">def</span> <span class="nf">nodes_from_motif_dict</span><span class="p">(</span>
+    <span class="n">motif_dict</span><span class="p">,</span>
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To extract the node names</span>
+<span class="sd">    from the motif dict</span>
+<span class="sd">    </span>
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) get all of the keys with segment id in them</span>
+<span class="sd">    2) sort them</span>
+<span class="sd">    3) iterate and get the segment id and split index and put into dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">seg_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">motif_dict</span> <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="s2">&quot;segment_id&quot;</span><span class="p">]</span>
+    <span class="n">r_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seg_names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="c1">#     if verbose:</span>
+<span class="c1">#         print(f&quot;segment_id names = {seg_names}&quot;)</span>
+        
+        <span class="k">for</span> <span class="n">s_id</span> <span class="ow">in</span> <span class="n">seg_names</span><span class="p">:</span>
+            <span class="n">letter</span> <span class="o">=</span> <span class="n">s_id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">node_name</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">motif_dict</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">letter</span><span class="si">}</span><span class="s1">_segment_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_&quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">motif_dict</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">letter</span><span class="si">}</span><span class="s1">_split_index&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+            <span class="n">r_dict</span><span class="p">[</span><span class="n">letter</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span> <span class="o">=</span> <span class="n">node_name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">seg_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">motif_dict</span> <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">s_id</span> <span class="ow">in</span> <span class="n">seg_names</span><span class="p">:</span>
+            <span class="n">letter</span> <span class="o">=</span> <span class="n">s_id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">node_name</span> <span class="o">=</span> <span class="n">motif_dict</span><span class="p">[</span><span class="n">s_id</span><span class="p">]</span>
+            <span class="n">r_dict</span><span class="p">[</span><span class="n">letter</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span> <span class="o">=</span> <span class="n">node_name</span>
+        
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Node names = </span><span class="si">{</span><span class="n">r_dict</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">return_dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">r_dict</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">r_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
+    
+<div class="viewcode-block" id="edges_from_motif_dict"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.edges_from_motif_dict">[docs]</a><span class="k">def</span> <span class="nf">edges_from_motif_dict</span><span class="p">(</span>
+    <span class="n">motif_dict</span><span class="p">,</span>
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_node_mapping</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To get a list of the edges represented by the motif</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Get a mapping of the nodes</span>
+<span class="sd">    2) Query the dotmotif for the edge definitions</span>
+<span class="sd">    3) For each of the groups found substitute in the node name</span>
+
+<span class="sd">    Ex: </span>
+<span class="sd">    from python_tools import networkx_utils as xu</span>
+<span class="sd">    import networkx as nx</span>
+
+<span class="sd">    G = vdi.G_auto_DiGraph</span>
+<span class="sd">    motif_info = motif_dicts[20000]</span>
+
+<span class="sd">    edges = mfu.edges_from_motif_dict(</span>
+<span class="sd">        motif_info,</span>
+<span class="sd">        return_dict=False,</span>
+<span class="sd">        verbose = True,)</span>
+
+<span class="sd">    sub_G = xu.subgraph_from_edges(G,edges)</span>
+<span class="sd">    nx.draw(sub_G,with_labels = True)</span>
+<span class="sd">    </span>
+<span class="sd">    motif_nodes_from_motif</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">node_mapping</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">nodes_from_motif_dict</span><span class="p">(</span><span class="n">motif_dict</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">motif_dict</span><span class="p">[</span><span class="n">motif_key</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;node_mapping = </span><span class="si">{</span><span class="n">node_mapping</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">edges_identifiers</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">edges_from_str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of edges found = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edges_identifiers</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="n">edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">node_mapping</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+              <span class="n">node_mapping</span><span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">edges_identifiers</span><span class="p">]</span>
+    
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edges = </span><span class="si">{</span><span class="n">edges</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">return_dict</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">regex_utils</span> <span class="k">as</span> <span class="n">reu</span>
+        <span class="n">s_find</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">edges_from_str</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">return_edge_str</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+<span class="c1">#         return_dict = {reu.substr_from_match_obj(k):v for k,v in</span>
+<span class="c1">#                        zip(s_find,edges)}</span>
+
+        <span class="n">return_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span>
+                       <span class="nb">zip</span><span class="p">(</span><span class="n">s_find</span><span class="p">,</span><span class="n">edges</span><span class="p">)}</span>
+        
+        <span class="n">return_value</span><span class="o">=</span> <span class="n">return_dict</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">return_value</span><span class="o">=</span> <span class="n">edges</span>
+        
+    <span class="k">if</span> <span class="n">return_node_mapping</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">return_value</span><span class="p">,</span><span class="n">node_mapping</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">return_value</span></div>
+    
+    
+
+<div class="viewcode-block" id="subgraph_from_motif_dict"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.subgraph_from_motif_dict">[docs]</a><span class="k">def</span> <span class="nf">subgraph_from_motif_dict</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">motif_dict</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">identifier_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+    
+    <span class="k">if</span> <span class="n">identifier_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">identifier_name</span> <span class="o">=</span> <span class="n">identifier_name_global</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;motif_dict = </span><span class="si">{</span><span class="n">motif_dict</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">edges</span><span class="p">,</span><span class="n">node_mapping</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">edges_from_motif_dict</span><span class="p">(</span>
+        <span class="n">motif_dict</span><span class="p">,</span>
+        <span class="n">return_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+        <span class="n">return_node_mapping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    
+
+    <span class="n">sub_G</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">subgraph_from_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">edges</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">ident</span><span class="p">,</span><span class="n">node_name</span> <span class="ow">in</span> <span class="n">node_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">sub_G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node_name</span><span class="p">][</span><span class="s2">&quot;identifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ident</span>
+    
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">sub_G</span><span class="p">,</span><span class="n">with_labels</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">sub_G</span></div>
+
+
+<div class="viewcode-block" id="motif_segment_df_from_motifs"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_segment_df_from_motifs">[docs]</a><span class="k">def</span> <span class="nf">motif_segment_df_from_motifs</span><span class="p">(</span>
+    <span class="n">motifs</span><span class="p">,</span>
+    <span class="n">return_df</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">motif</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">graph_type</span> <span class="o">=</span> <span class="s2">&quot;DiGraph&quot;</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Turn the motif results</span>
+<span class="sd">    (where motif results are in the form of</span>
+<span class="sd">    a dictionary A:&quot;segment_split&quot;,B:&quot;segment_splits&quot;)</span>
+<span class="sd">    into a dataframe or dictionaries</span>
+<span class="sd">    </span>
+<span class="sd">    and returns dictionary or dataframe we</span>
+<span class="sd">    have keys like a_segment_id,a_split_index,b_segment_id....</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">keys_to_write</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">motifs</span><span class="p">):</span>
+        <span class="n">local_keys</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="n">segment_id</span><span class="p">,</span><span class="n">split_index</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">segment_id_and_split_index</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">local_keys</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_segment_id&quot;</span><span class="p">:</span><span class="n">segment_id</span><span class="p">})</span>
+            <span class="n">local_keys</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_split_index&quot;</span><span class="p">:</span><span class="n">split_index</span><span class="p">})</span>
+        
+        <span class="k">if</span> <span class="n">motif</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">local_keys</span><span class="p">[</span><span class="s2">&quot;motif&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">motif</span>
+            
+        <span class="k">if</span> <span class="n">graph_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">local_keys</span><span class="p">[</span><span class="s2">&quot;graph_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph_type</span>
+        
+        <span class="n">keys_to_write</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">local_keys</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">return_df</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">keys_to_write</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">keys_to_write</span></div>
+
+
+<div class="viewcode-block" id="motif_data"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_data">[docs]</a><span class="k">def</span> <span class="nf">motif_data</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">motif_dict</span><span class="p">,</span>
+    
+    <span class="c1"># for edge attributes</span>
+    <span class="n">cell_type_kind</span> <span class="o">=</span> <span class="s2">&quot;gnn_cell_type_fine&quot;</span><span class="p">,</span>
+    <span class="n">include_layer</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">include_visual_area</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">include_node_identifier</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+
+    <span class="c1"># for edge attrbutes</span>
+    <span class="n">include_edges_in_name</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">include_compartment</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">edge_attributes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;presyn_soma_postsyn_soma_euclid_dist&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;presyn_soma_postsyn_soma_skeletal_dist&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;presyn_skeletal_distance_to_soma&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;presyn_soma_euclid_dist&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;postsyn_skeletal_distance_to_soma&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;postsyn_soma_euclid_dist&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;synapse_id&quot;</span><span class="p">,</span>
+                      <span class="p">),</span>
+    <span class="n">node_attributes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;skeletal_length&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;external_manual_proofread&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;gnn_cell_type_fine_prob&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;gnn_cell_type&quot;</span><span class="p">),</span>
+    
+    <span class="n">node_attributes_additional</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       
+
+    <span class="n">return_str</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Convert a graph into a string representation</span>
+<span class="sd">    to be indexed (used as an identifier)</span>
+
+<span class="sd">    2 possible representations: </span>
+<span class="sd">    1) list all cell types, then all downstream compartmnets</span>
+<span class="sd">    2) List presyn_cell_type, downstream cell type, compartment</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Get node mapping and presyns associated</span>
+<span class="sd">    2) Get all of the edges in the graph</span>
+<span class="sd">    3) Construct a list of a identifier, identifier_2, compartment</span>
+<span class="sd">    4) Make name cell type(id), cell type 2 (id2)....: id1id2(comp)....</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">#print(f&quot;node_attributes before = {node_attributes}&quot;)</span>
+    <span class="k">if</span> <span class="n">node_attributes_additional</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">node_attributes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">union1d</span><span class="p">(</span><span class="n">node_attributes</span><span class="p">,</span><span class="n">node_attributes_additional</span><span class="p">))</span>
+        
+    <span class="c1">#print(f&quot;node_attributes after = {node_attributes}&quot;)</span>
+    
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">motif_data_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">edges</span><span class="p">,</span><span class="n">node_mapping</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">edges_from_motif_dict</span><span class="p">(</span>
+        <span class="n">motif_dict</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+        <span class="n">return_dict</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_node_mapping</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1">#ct_mapping = dict()</span>
+    <span class="n">cell_type_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">j</span><span class="p">,(</span><span class="n">ident</span><span class="p">,</span><span class="n">node</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="n">node_dict</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">get_node_attribute_dict</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">ct</span> <span class="o">=</span> <span class="n">node_dict</span><span class="p">[</span><span class="n">cell_type_kind</span><span class="p">]</span>
+        <span class="n">cell_type_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s2">&quot;</span>
+        
+        <span class="n">motif_data_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ident</span><span class="si">}</span><span class="s2">_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="n">motif_data_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ident</span><span class="si">}</span><span class="s2">_gnn_cell_type_fine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_dict</span><span class="p">[</span><span class="s2">&quot;gnn_cell_type_fine&quot;</span><span class="p">]</span>
+        <span class="n">motif_data_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ident</span><span class="si">}</span><span class="s2">_cell_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_dict</span><span class="p">[</span><span class="s2">&quot;cell_type&quot;</span><span class="p">]</span>
+        <span class="n">motif_data_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ident</span><span class="si">}</span><span class="s2">_layer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_dict</span><span class="p">[</span><span class="s1">&#39;external_layer&#39;</span><span class="p">]</span>
+        <span class="n">motif_data_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ident</span><span class="si">}</span><span class="s2">_area&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_dict</span><span class="p">[</span><span class="s1">&#39;external_visual_area&#39;</span><span class="p">]</span>
+        
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">node_attributes</span><span class="p">:</span>
+            <span class="n">motif_data_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ident</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">include_layer</span><span class="p">:</span>
+            <span class="n">cell_type_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">node_dict</span><span class="p">[</span><span class="s1">&#39;external_layer&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">include_visual_area</span><span class="p">:</span>
+            <span class="n">cell_type_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">node_dict</span><span class="p">[</span><span class="s1">&#39;external_visual_area&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">include_node_identifier</span><span class="p">:</span>
+            <span class="n">cell_type_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">ident</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+        <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_mapping</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">cell_type_str</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cell_type_str = </span><span class="si">{</span><span class="n">cell_type_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">include_edges_in_name</span><span class="p">:</span>
+        <span class="n">cell_type_str</span> <span class="o">+=</span> <span class="s2">&quot; : &quot;</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,(</span><span class="n">edge_str</span><span class="p">,</span><span class="n">node_pair</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">edges</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="n">include_edges_in_name</span><span class="p">:</span>
+            <span class="n">cell_type_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">edge_str</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="n">edge_dict</span> <span class="o">=</span> <span class="n">G</span><span class="p">[</span><span class="n">node_pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">node_pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">compartment</span> <span class="o">=</span> <span class="n">edge_dict</span><span class="p">[</span><span class="s2">&quot;postsyn_compartment_fine&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">compartment</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">compartment</span> <span class="o">=</span> <span class="n">edge_dict</span><span class="p">[</span><span class="s2">&quot;postsyn_compartment_coarse&quot;</span><span class="p">]</span>
+
+        <span class="n">motif_data_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">edge_str</span><span class="si">}</span><span class="s2">_postsyn_compartment&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compartment</span>
+        
+        <span class="k">if</span> <span class="n">edge_attributes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ea</span> <span class="ow">in</span> <span class="n">edge_attributes</span><span class="p">:</span>
+                <span class="n">motif_data_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">edge_str</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">ea</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_dict</span><span class="p">[</span><span class="n">ea</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">include_edges_in_name</span> <span class="ow">and</span> <span class="n">include_compartment</span><span class="p">:</span>
+            <span class="n">cell_type_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">compartment</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+        <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">cell_type_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, &quot;</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cell_type_str (AFTER EDGES) = </span><span class="si">{</span><span class="n">cell_type_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                      
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        
+    <span class="n">motif_data_dict</span><span class="p">[</span><span class="s2">&quot;motif_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell_type_str</span>
+    
+    <span class="c1">#copying old attributes over:</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;motif&quot;</span><span class="p">,</span><span class="s2">&quot;graph_type&quot;</span><span class="p">]:</span>
+        <span class="n">motif_data_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">motif_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">return_str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cell_type_str</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">motif_data_dict</span></div>
+    
+<div class="viewcode-block" id="filter_G_attributes"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.filter_G_attributes">[docs]</a><span class="k">def</span> <span class="nf">filter_G_attributes</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">node_attributes</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;gnn_cell_type_fine&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cell_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;external_layer&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;external_visual_area&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;manual_cell_type_fine&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;identifier&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">edge_attributes</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;postsyn_compartment_coarse&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;postsyn_compartment_fine&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;presyn_skeletal_distance_to_soma&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;postsyn_skeletal_distance_to_soma&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="p">):</span>
+    
+    <span class="c1"># filter the node attributes</span>
+    <span class="n">sub_G</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">filter_down_node_attributes</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="n">attributes</span> <span class="o">=</span> <span class="n">node_attributes</span><span class="p">,</span>
+        <span class="p">)</span>
+    
+    <span class="c1"># filter the edge attributes</span>
+    <span class="n">sub_G</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">filter_down_edge_attributes</span><span class="p">(</span>
+        <span class="n">sub_G</span><span class="p">,</span>
+        <span class="n">attributes</span> <span class="o">=</span> <span class="n">edge_attributes</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">sub_G</span></div>
+    
+    
+<div class="viewcode-block" id="motif_G"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_G">[docs]</a><span class="k">def</span> <span class="nf">motif_G</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">motif_dict</span><span class="p">,</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To form a graph data structure</span>
+<span class="sd">    representing the motif</span>
+<span class="sd">    </span>
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Restrict the graph to a subgraph based on the motif</span>
+<span class="sd">    2) Filter the node attributes and edge attributes to only</span>
+<span class="sd">    those specified</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    curr_G = motif_G(</span>
+<span class="sd">    G,</span>
+<span class="sd">    motif_info,</span>
+<span class="sd">    plot = True)</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">sub_G</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">subgraph_from_motif_dict</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span><span class="n">motif_dict</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+        <span class="n">plot</span><span class="o">=</span><span class="n">plot</span><span class="p">)</span>
+    
+    <span class="n">sub_G</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">filter_G_attributes</span><span class="p">(</span>
+        <span class="n">sub_G</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting graph attributes&quot;</span><span class="p">)</span>
+    <span class="n">xu</span><span class="o">.</span><span class="n">set_graph_attr</span><span class="p">(</span>
+        <span class="n">sub_G</span><span class="p">,</span>
+        <span class="s2">&quot;motif&quot;</span><span class="p">,</span>
+        <span class="n">motif_dict</span><span class="p">[</span><span class="s2">&quot;motif&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">mfu</span><span class="o">.</span><span class="n">set_compartment_flat</span><span class="p">(</span><span class="n">sub_G</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+    
+    <span class="k">return</span> <span class="n">sub_G</span></div>
+
+<div class="viewcode-block" id="node_attributes_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.node_attributes_from_G">[docs]</a><span class="k">def</span> <span class="nf">node_attributes_from_G</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">features_to_ignore</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">features_order</span> <span class="o">=</span> <span class="p">(</span>
+     <span class="s2">&quot;gnn_cell_type_fine&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;external_layer&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;external_visual_area&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="p">):</span>
+    
+    <span class="k">if</span> <span class="n">features_to_ignore</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">features_to_ignore</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">xu</span><span class="o">.</span><span class="n">upstream_name</span><span class="p">,</span>
+        <span class="n">identifier_name_global</span>
+        <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">features_order</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">features_order</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="n">node_df</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">node_df</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="n">features_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">node_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">features_to_ignore</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> 
+        <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">features_to_ignore</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">features_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">setdiff1d</span><span class="p">(</span><span class="n">features_list</span><span class="p">,</span>
+                               <span class="n">features_to_ignore</span><span class="p">)</span>
+        
+    <span class="n">priority_features</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features_order</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features_list</span><span class="p">:</span>
+            <span class="n">priority_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            
+    <span class="n">non_priority_features</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">setdiff1d</span><span class="p">(</span>
+        <span class="n">features_list</span><span class="p">,</span>
+        <span class="n">priority_features</span><span class="p">))</span>
+    
+    <span class="n">final_features</span> <span class="o">=</span> <span class="n">priority_features</span> <span class="o">+</span> <span class="n">non_priority_features</span>
+    
+    <span class="k">if</span> <span class="n">features</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">final_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">final_features</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">features</span><span class="p">]</span>
+        
+    <span class="k">return</span> <span class="n">final_features</span></div>
+
+
+<div class="viewcode-block" id="set_compartment_flat"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.set_compartment_flat">[docs]</a><span class="k">def</span> <span class="nf">set_compartment_flat</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">comp_flat</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="s2">&quot;postsyn_compartment_fine&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;postsyn_compartment_coarse&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;postsyn_compartment_fine&quot;</span><span class="p">]</span>
+
+    <span class="n">xu</span><span class="o">.</span><span class="n">derived_edge_attribute_from_func</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="s2">&quot;postsyn_compartment&quot;</span><span class="p">,</span>
+        <span class="n">comp_flat</span> 
+        <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">G</span></div>
+
+<span class="c1"># ----------- conversions to str --------------</span>
+<div class="viewcode-block" id="str_from_G_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.str_from_G_motif">[docs]</a><span class="k">def</span> <span class="nf">str_from_G_motif</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">node_attributes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">edge_attributes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;postsyn_compartment_flat&quot;</span><span class="p">,),</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">joining_str</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+    <span class="n">include_edges_in_name</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To convert a graph to a string representation</span>
+<span class="sd">    to be used as an identifier</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Gather the node attributes for each of the </span>
+<span class="sd">    nodes (order by identifier and order the attributes)</span>
+
+<span class="sd">    2) Gather the edge attributes</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    mfu.set_compartment_flat(curr_G)</span>
+<span class="sd">    mfu.str_from_G_motif(</span>
+<span class="sd">        curr_G,</span>
+<span class="sd">        node_attributes = (&quot;gnn_cell_type_fine&quot;,),</span>
+<span class="sd">        edge_attributes=[&quot;postsyn_compartment_flat&quot;,],</span>
+<span class="sd">        )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">node_mapping</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">nodes_mapping_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">node_attributes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">node_attributes</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">node_attributes_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;node_attributes = </span><span class="si">{</span><span class="n">node_attributes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">G_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,(</span><span class="n">ident</span><span class="p">,</span><span class="n">name</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="n">attributes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">f</span><span class="p">])</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">node_attributes</span><span class="p">]</span>
+        <span class="n">attr_str</span> <span class="o">=</span> <span class="n">joining_str</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+        <span class="n">G_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attr_str</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">ident</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+        <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_mapping</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">G_str</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    want to add the edge attributes to the motif</span>
+
+<span class="sd">    1) </span>
+
+<span class="sd">    pseudocode: </span>
+<span class="sd">    1) </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">include_edges_in_name</span><span class="p">:</span>
+        <span class="n">edges_str</span> <span class="o">=</span> <span class="s2">&quot; : &quot;</span>
+        
+        <span class="k">if</span> <span class="n">edge_attributes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">edge_attributes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">curr_motif</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">get_graph_attr</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="s2">&quot;motif&quot;</span><span class="p">)</span>
+        <span class="n">curr_edges</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">edges_from_str</span><span class="p">(</span><span class="n">curr_motif</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">j</span><span class="p">,(</span><span class="n">id1</span><span class="p">,</span><span class="n">id2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">curr_edges</span><span class="p">):</span>
+            <span class="n">edges_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">id1</span><span class="si">}</span><span class="s2">-&gt;</span><span class="si">{</span><span class="n">id2</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">edge_attributes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">edges_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">node_mapping</span><span class="p">[</span><span class="n">id1</span><span class="p">]][</span><span class="n">node_mapping</span><span class="p">[</span><span class="n">id2</span><span class="p">]][</span><span class="n">f</span><span class="p">])</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">edge_attributes</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">curr_edges</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">edges_str</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;edges_str = </span><span class="si">{</span><span class="n">edges_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">G_str</span> <span class="o">+=</span> <span class="n">edges_str</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;G_str = </span><span class="si">{</span><span class="n">G_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">G_str</span></div>
+
+
+    
+<div class="viewcode-block" id="dotmotif_str_from_G_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.dotmotif_str_from_G_motif">[docs]</a><span class="k">def</span> <span class="nf">dotmotif_str_from_G_motif</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">node_attributes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">edge_attributes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;postsyn_compartment&quot;</span><span class="p">,),</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To convert a graph to a string representation</span>
+<span class="sd">    to be used as an identifier</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Gather the node attributes for each of the </span>
+<span class="sd">    nodes (order by identifier and order the attributes)</span>
+
+<span class="sd">    2) Gather the edge attributes</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    mfu.set_compartment_flat(curr_G)</span>
+<span class="sd">    mfu.str_from_G_motif(</span>
+<span class="sd">        curr_G,</span>
+<span class="sd">        node_attributes = (&quot;gnn_cell_type_fine&quot;,),</span>
+<span class="sd">        edge_attributes=[&quot;postsyn_compartment_flat&quot;,],</span>
+<span class="sd">        )</span>
+<span class="sd">        </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    dotmotif_str_from_G_motif(</span>
+<span class="sd">    curr_G,</span>
+<span class="sd">    node_attributes = (&quot;gnn_cell_type_fine&quot;,))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">G_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    
+    <span class="n">node_mapping</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">nodes_mapping_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">edge_attributes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">edge_attributes</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">curr_motif</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">get_graph_attr</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="s2">&quot;motif&quot;</span><span class="p">)</span>
+    <span class="n">curr_edges</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">edges_from_str</span><span class="p">(</span><span class="n">curr_motif</span><span class="p">)</span>
+
+    <span class="n">edges_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,(</span><span class="n">id1</span><span class="p">,</span><span class="n">id2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">curr_edges</span><span class="p">):</span>
+        <span class="n">edges_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">id1</span><span class="si">}</span><span class="s2">-&gt;</span><span class="si">{</span><span class="n">id2</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">edge_attributes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">edges_str_curr</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">G</span><span class="p">[</span><span class="n">node_mapping</span><span class="p">[</span><span class="n">id1</span><span class="p">]][</span><span class="n">node_mapping</span><span class="p">[</span><span class="n">id2</span><span class="p">]][</span><span class="n">f</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">edge_attributes</span><span class="p">])</span>
+            <span class="n">edges_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">edges_str_curr</span><span class="si">}</span><span class="s2">]&quot;</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">curr_edges</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">edges_str</span> <span class="o">+=</span> <span class="s2">&quot;;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;edges_str = </span><span class="si">{</span><span class="n">edges_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">G_str</span> <span class="o">+=</span> <span class="n">edges_str</span>
+    
+
+    <span class="k">if</span> <span class="n">node_attributes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">node_attributes</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">node_attributes_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;node_attributes for default = </span><span class="si">{</span><span class="n">node_attributes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">G_str</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,(</span><span class="n">ident</span><span class="p">,</span><span class="n">name</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">node_attributes</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">att_value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">f</span><span class="p">])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">G_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ident</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">att_value</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---Final Dotmotif str:--- </span><span class="se">\n</span><span class="si">{</span><span class="n">G_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">G_str</span></div>
+
+
+
+<div class="viewcode-block" id="node_attributes_strs"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.node_attributes_strs">[docs]</a><span class="k">def</span> <span class="nf">node_attributes_strs</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">joining_str</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+    <span class="n">node_attributes</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To get a list of strings</span>
+<span class="sd">    representing the node attributes </span>
+<span class="sd">    (that could then be used as a set for comparisons)</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Get the node attributes you want to output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+
+    <span class="k">if</span> <span class="n">node_attributes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">node_attributes</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">node_attributes_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;node_attributes = </span><span class="si">{</span><span class="n">node_attributes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">total_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
+        <span class="n">attributes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">node_attributes</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">curr_attr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">f</span><span class="p">])</span>
+                <span class="n">attributes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_attr</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="n">curr_str</span> <span class="o">=</span> <span class="n">joining_str</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Node </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">curr_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">total_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_str</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time for node attributes strs: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">total_nodes</span></div>
+
+<span class="c1">#edges_str = xu.get_graph_attr(curr_G,&quot;motif&quot;)</span>
+
+
+
+<div class="viewcode-block" id="motif_column_mapping"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_column_mapping">[docs]</a><span class="k">def</span> <span class="nf">motif_column_mapping</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">mapping</span><span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Want to rename certain columns</span>
+<span class="sd">    to different characters so everything matches</span>
+
+<span class="sd">    Columns want to rename are very constrained: </span>
+<span class="sd">    option 1:</span>
+<span class="sd">    [name]_....</span>
+<span class="sd">    [name]-&gt;[name]....</span>
+
+
+<span class="sd">    Pseudocode: </span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">column_mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;_&quot;</span> <span class="o">==</span> <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">column_mapping</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mapping</span><span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="si">}{</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">elif</span> <span class="p">((</span><span class="s2">&quot;-&gt;&quot;</span> <span class="o">==</span> <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+              <span class="ow">and</span> <span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+              <span class="ow">and</span> <span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+                  <span class="p">):</span>
+            <span class="n">column_mapping</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mapping</span><span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="si">}</span><span class="s2">-&gt;</span><span class="si">{</span><span class="n">mapping</span><span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span><span class="si">}{</span><span class="n">k</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+    
+    <span class="k">return</span> <span class="n">column_mapping</span> </div>
+
+<div class="viewcode-block" id="unique_motif_reduction"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.unique_motif_reduction">[docs]</a><span class="k">def</span> <span class="nf">unique_motif_reduction</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">column</span> <span class="o">=</span> <span class="s2">&quot;motif_str&quot;</span><span class="p">,</span>
+    <span class="n">node_attributes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">edge_attributes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="c1">#new_column = None,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">debug_time</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">relabel_columns</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Create a dictionary mapping the non-redundant str to dotmotif</span>
+<span class="sd">    2) Find all unique str options</span>
+<span class="sd">    3) For each str option: </span>
+<span class="sd">    a. Find one occurance of str</span>
+<span class="sd">    b. conert it to a graph object</span>
+
+<span class="sd">    c. Iterate through all non-reundance keys and do dot motif search</span>
+<span class="sd">        i) if not found --&gt; continue down list</span>
+<span class="sd">        ii) if found (make this the non-redundant name and add to dict)</span>
+<span class="sd">    4) Use non redundant dict to create new columns</span>
+<span class="sd">    5) Find the count of all non-redundanct and sort from greatest to least</span>
+<span class="sd">    6) plot the first x number of motifs</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#if new_column is None:</span>
+    <span class="n">new_column</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">_unique&quot;</span>
+
+    <span class="n">motif_cell_type_df</span> <span class="o">=</span> <span class="n">df</span>
+
+    
+    <span class="c1">#motif_str_unique = motif_cell_type_df[&quot;motif_str&quot;].unique()</span>
+    <span class="n">first_inst_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">filter_to_first_instance_of_unique_column</span><span class="p">(</span>
+        <span class="n">motif_cell_type_df</span><span class="p">,</span>
+        <span class="s2">&quot;motif_str&quot;</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of unique motif str (including redundancy) = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">first_inst_df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">global_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="n">unique_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">unique_dotmotif_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">m</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">pu</span><span class="o">.</span><span class="n">df_to_dicts</span><span class="p">(</span><span class="n">first_inst_df</span><span class="p">))):</span>
+        <span class="c1">#b. convert it to a graph object</span>
+        <span class="n">curr_motif_str</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;motif_str&quot;</span><span class="p">]</span>
+
+    <span class="c1">#     if verbose:</span>
+    <span class="c1">#         print(f&quot;\n\n--- Working on {j} motif: {curr_motif_str}-----&quot;)</span>
+
+        <span class="k">if</span> <span class="n">debug_time</span><span class="p">:</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">curr_motif_G</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">motif_G</span><span class="p">(</span>
+            <span class="n">G</span><span class="p">,</span>
+            <span class="n">m</span><span class="p">,</span>
+            <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+        
+        <span class="n">nodes_mapping</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">nodes_mapping_from_G</span><span class="p">(</span><span class="n">curr_motif_G</span><span class="p">)</span>
+        <span class="n">reverse_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">mfu</span><span class="o">.</span><span class="n">nodes_mapping_from_G</span><span class="p">(</span><span class="n">curr_motif_G</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="n">curr_node_strs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">mfu</span><span class="o">.</span><span class="n">node_attributes_strs</span><span class="p">(</span>
+                <span class="n">curr_motif_G</span><span class="p">,</span>
+                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">node_attributes</span> <span class="o">=</span> <span class="n">node_attributes</span><span class="p">,</span>
+        <span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">debug_time</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;motif_G generation: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">data_dict</span> <span class="ow">in</span> <span class="n">unique_dotmotif_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">node_strs</span> <span class="o">=</span> <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;node_strs&quot;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">node_strs</span> <span class="o">!=</span> <span class="n">curr_node_strs</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">dotmotif_str</span> <span class="o">=</span> <span class="n">data_dict</span><span class="p">[</span><span class="s2">&quot;dotmotif&quot;</span><span class="p">]</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="n">dmu</span><span class="o">.</span><span class="n">graph_matches</span><span class="p">(</span>
+                <span class="n">curr_motif_G</span><span class="p">,</span>
+                <span class="n">dotmotif_str</span><span class="p">,</span>
+                <span class="n">convert_characters</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">debug_time</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n_graph_matches: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">curr_motif_str</span><span class="si">}</span><span class="se">\n</span><span class="s2">    matched to </span><span class="se">\n</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">unique_map</span><span class="p">[</span><span class="n">curr_motif_str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">match</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span>
+                    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">reverse_mapping</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+                
+                <span class="k">break</span>
+
+
+        <span class="c1"># c) If no match was found in the unique str</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
+            <span class="n">dotmotif_str</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">dotmotif_str_from_G_motif</span><span class="p">(</span>
+                <span class="n">curr_motif_G</span><span class="p">,</span>
+                <span class="n">edge_attributes</span><span class="o">=</span><span class="n">edge_attributes</span><span class="p">,</span>
+                <span class="n">node_attributes</span><span class="o">=</span><span class="n">node_attributes</span><span class="p">,</span>
+
+            <span class="p">)</span>
+
+
+            <span class="k">if</span> <span class="n">debug_time</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dotmotif_str_from_G_motif: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="c1">#         if verbose:</span>
+    <span class="c1">#             print(f&quot;Adding {curr_motif_str} to non redundant list&quot;)</span>
+
+            <span class="n">unique_dotmotif_map</span><span class="p">[</span><span class="n">curr_motif_str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">dotmotif</span><span class="o">=</span><span class="n">dotmotif_str</span><span class="p">,</span>
+                <span class="n">node_strs</span> <span class="o">=</span> <span class="n">curr_node_strs</span><span class="p">)</span>
+            <span class="n">unique_map</span><span class="p">[</span><span class="n">curr_motif_str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="n">curr_motif_str</span><span class="p">,</span>
+                <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">nodes_mapping</span><span class="p">})</span>
+                
+
+            
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">relabel_columns</span><span class="p">:</span>
+        <span class="n">motif_cell_type_df</span><span class="p">[</span><span class="n">new_column</span><span class="p">]</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">new_column_from_dict_mapping</span><span class="p">(</span>
+            <span class="n">motif_cell_type_df</span><span class="p">,</span>
+            <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;match&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">unique_map</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+            <span class="n">column_name</span><span class="o">=</span><span class="n">column</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">motif_cell_type_df_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v_data</span> <span class="ow">in</span> <span class="n">unique_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            
+            <span class="n">curr_df</span> <span class="o">=</span> <span class="n">motif_cell_type_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> == &#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            
+            <span class="c1">#raise Exception(&quot;&quot;)</span>
+            <span class="n">motif_map</span> <span class="o">=</span> <span class="n">motif_column_mapping</span><span class="p">(</span><span class="n">curr_df</span><span class="p">,</span><span class="n">mapping</span> <span class="o">=</span> <span class="n">v_data</span><span class="p">[</span><span class="s2">&quot;mapping&quot;</span><span class="p">])</span>
+            <span class="n">curr_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span><span class="n">curr_df</span><span class="p">,</span><span class="n">motif_map</span><span class="p">)</span>
+            
+            <span class="n">curr_df</span><span class="p">[</span><span class="n">new_column</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_data</span><span class="p">[</span><span class="s2">&quot;match&quot;</span><span class="p">]</span>
+            <span class="n">motif_cell_type_df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_df</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">curr_df</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">pass</span>
+                <span class="c1">#break</span>
+                <span class="c1">#raise Exception(&quot;&quot;)</span>
+        
+        <span class="n">motif_cell_type_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">motif_cell_type_df_list</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time for reduction = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">global_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="n">motif_cell_type_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">delete_columns</span><span class="p">(</span><span class="n">motif_cell_type_df</span><span class="p">,</span><span class="n">column</span><span class="p">)</span>
+    <span class="n">motif_cell_type_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span><span class="n">motif_cell_type_df</span><span class="p">,{</span><span class="n">new_column</span><span class="p">:</span><span class="n">column</span><span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">motif_cell_type_df</span></div>
+
+
+
+<div class="viewcode-block" id="motif_dicts_from_motif_from_database"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_dicts_from_motif_from_database">[docs]</a><span class="k">def</span> <span class="nf">motif_dicts_from_motif_from_database</span><span class="p">(</span>
+    <span class="n">motif</span><span class="p">,</span>
+    <span class="p">):</span>
+
+    <span class="n">motif_table</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">motif_table_from_motif</span><span class="p">(</span><span class="n">motif</span><span class="p">)</span>
+    <span class="n">motif_table_df</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">df_from_table</span><span class="p">(</span><span class="n">motif_table</span><span class="p">)</span>
+    <span class="n">motif_dicts</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">df_to_dicts</span><span class="p">(</span><span class="n">motif_table_df</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">motif_dicts</span></div>
+
+<div class="viewcode-block" id="annotated_motif_df"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.annotated_motif_df">[docs]</a><span class="k">def</span> <span class="nf">annotated_motif_df</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">motif</span><span class="p">,</span>
+    <span class="n">node_attributes</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;external_layer&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;external_visual_area&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gnn_cell_type_fine&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gnn_cell_type_fine_prob&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gnn_cell_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;skeletal_length&quot;</span>
+    <span class="p">),</span>
+    
+    <span class="n">edge_attributes</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;postsyn_compartment&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">filter_df</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">motif_reduction</span>  <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">add_counts</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">motif_dicts</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">additional_node_attributes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To add all of the features to the motifs</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    from neurd import motif_utils as mfu</span>
+
+<span class="sd">    G = vdi.G_auto_DiGraph</span>
+
+<span class="sd">    mfu.annotated_motif_df(</span>
+<span class="sd">        motif = &quot;A-&gt;B;B-&gt;A&quot;,</span>
+<span class="sd">        G = vdi.G_auto_DiGraph,</span>
+<span class="sd">        n_samples = None,</span>
+<span class="sd">        verbose = False</span>
+<span class="sd">    )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">additional_node_attributes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">node_attributes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">node_attributes</span><span class="p">)</span> <span class="o">+</span> <span class="n">nu</span><span class="o">.</span><span class="n">array_like</span><span class="p">(</span><span class="n">additional_node_attributes</span><span class="p">)</span>
+        
+    
+    <span class="n">global_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">matches</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">motif_dicts</span> <span class="o">=</span> <span class="n">motif_segment_df_from_motifs</span><span class="p">(</span>
+            <span class="n">matches</span><span class="p">,</span>
+            <span class="n">motif</span><span class="o">=</span><span class="n">motif</span><span class="p">,</span>
+            <span class="n">return_df</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">motif_dicts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">motif_dicts</span> <span class="o">=</span> <span class="n">motif_dicts_from_motif_from_database</span><span class="p">(</span><span class="n">motif</span><span class="p">)</span>
+<span class="c1">#         motif_table = vdi.motif_table_from_motif(motif)</span>
+<span class="c1">#         motif_table_df = vdi.df_from_table(motif_table)</span>
+<span class="c1">#         motif_dicts = pu.df_to_dicts(motif_table_df)</span>
+        
+
+    
+    <span class="c1"># --- creating the data dicts ----</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">motif_dicts</span><span class="p">))</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    
+    <span class="n">column</span> <span class="o">=</span> <span class="s2">&quot;motif_str&quot;</span>
+    
+    <span class="k">if</span> <span class="n">n_samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">n_samples</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">n_samples</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">motif_dicts</span><span class="p">)])</span>
+
+    <span class="n">cell_type_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">idx</span><span class="p">[:</span><span class="n">n</span><span class="p">]):</span>
+        <span class="n">cell_type_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mfu</span><span class="o">.</span><span class="n">motif_data</span><span class="p">(</span>
+            <span class="n">G</span><span class="p">,</span>
+            <span class="n">motif_dict</span><span class="o">=</span><span class="n">motif_dicts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+
+            <span class="c1"># for edge attributes</span>
+            <span class="n">include_layer</span> <span class="o">=</span> <span class="s2">&quot;external_layer&quot;</span> <span class="ow">in</span> <span class="n">node_attributes</span><span class="p">,</span>
+            <span class="n">include_visual_area</span> <span class="o">=</span> <span class="s2">&quot;external_visual_area&quot;</span> <span class="ow">in</span> <span class="n">node_attributes</span><span class="p">,</span>
+            <span class="n">include_node_identifier</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+
+            <span class="c1"># for edge attrbutes</span>
+            <span class="n">include_edges_in_name</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">include_compartment</span> <span class="o">=</span> <span class="s2">&quot;postsyn_compartment&quot;</span> <span class="ow">in</span> <span class="n">edge_attributes</span><span class="p">,</span>
+
+            <span class="n">return_str</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+            <span class="n">node_attributes_additional</span> <span class="o">=</span> <span class="n">node_attributes</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="p">)</span>
+        
+    <span class="n">motif_cell_type_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">cell_type_list</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">motif_reduction</span><span class="p">:</span>
+        <span class="n">unique_df</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">unique_motif_reduction</span><span class="p">(</span>
+            <span class="n">G</span><span class="p">,</span>
+            <span class="n">motif_cell_type_df</span><span class="p">,</span>
+            <span class="n">node_attributes</span><span class="o">=</span><span class="n">node_attributes</span><span class="p">,</span>
+            <span class="n">edge_attributes</span><span class="o">=</span><span class="n">edge_attributes</span><span class="p">,</span>
+            <span class="n">column</span> <span class="o">=</span> <span class="n">column</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+            <span class="n">debug_time</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">relabel_columns</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">unique_df</span> <span class="o">=</span> <span class="n">motif_cell_type_df</span>
+        
+        
+    <span class="n">sorting_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">column</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">add_counts</span><span class="p">:</span>
+        <span class="n">count_column_name</span> <span class="o">=</span> <span class="s2">&quot;n_motifs&quot;</span>
+        <span class="n">unique_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">unique_row_counts</span><span class="p">(</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">unique_df</span><span class="p">,</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="n">column</span><span class="p">,</span>
+            <span class="n">count_column_name</span> <span class="o">=</span> <span class="n">count_column_name</span><span class="p">,</span>
+            <span class="n">add_to_df</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">sorting_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">count_column_name</span><span class="p">]</span> <span class="o">+</span> <span class="n">sorting_columns</span>
+
+    <span class="n">unique_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">sort_df_by_column</span><span class="p">(</span>
+        <span class="n">unique_df</span><span class="p">,</span>
+        <span class="n">sorting_columns</span><span class="p">,</span>
+        <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time for annotated df = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">global_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">filter_df</span><span class="p">:</span>
+        <span class="n">unique_df</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">filter_motif_df</span><span class="p">(</span>
+            <span class="n">unique_df</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">unique_df</span></div>
+
+
+
+<div class="viewcode-block" id="query_with_edge_col"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.query_with_edge_col">[docs]</a><span class="k">def</span> <span class="nf">query_with_edge_col</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">query</span><span class="p">,</span>
+    <span class="n">edge_delimiter</span> <span class="o">=</span> <span class="s2">&quot;-&gt;&quot;</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To do an edge query that will</span>
+<span class="sd">    1) Rename the column values</span>
+<span class="sd">    2) Rename the query</span>
+
+<span class="sd">    so that it is valid with pandas querying</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">edge_delimiter</span> <span class="o">=</span> <span class="s2">&quot;-&gt;&quot;</span>
+
+    <span class="n">edge_delimiter_new</span> <span class="o">=</span> <span class="s2">&quot;arrow&quot;</span>
+
+    <span class="n">replace_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">edge_delimiter</span><span class="p">:</span><span class="n">edge_delimiter_new</span><span class="p">}</span>
+
+    <span class="n">query_new</span> <span class="o">=</span> <span class="n">reu</span><span class="o">.</span><span class="n">multiple_replace</span><span class="p">(</span><span class="n">query</span><span class="p">,</span><span class="n">replace_dict</span><span class="p">)</span>
+    <span class="n">new_column_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">reu</span><span class="o">.</span><span class="n">multiple_replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">replace_dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">}</span>
+    <span class="n">new_column_dict_reverse</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">new_column_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">df_new</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">new_column_dict</span><span class="p">)</span>
+
+    <span class="n">df_filt</span> <span class="o">=</span> <span class="n">df_new</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query_new</span><span class="p">)</span>
+    <span class="n">df_filt</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span><span class="n">df_filt</span><span class="p">,</span><span class="n">new_column_dict_reverse</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df_filt</span></div>
+
+
+<div class="viewcode-block" id="filter_motif_df"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.filter_motif_df">[docs]</a><span class="k">def</span> <span class="nf">filter_motif_df</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">node_filters</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">min_gnn_probability</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="c1">#gives about a 90% on inhibitory cells</span>
+    <span class="n">edges_filters</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">single_edge_motif</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">cell_type_fine_exclude</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To restrict a motif with node</span>
+<span class="sd">    and edge requirements</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    from neurd import motif_utils as mfu</span>
+
+<span class="sd">    G = vdi.G_auto_DiGraph</span>
+
+<span class="sd">    unique_df = mfu.annotated_motif_df(</span>
+<span class="sd">        motif = &quot;A-&gt;B;B-&gt;A&quot;,</span>
+<span class="sd">        G = vdi.G_auto_DiGraph,</span>
+<span class="sd">        n_samples = None,</span>
+<span class="sd">        verbose = False</span>
+<span class="sd">    )</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    mfu.filter_motif_df(</span>
+<span class="sd">        unique_df,</span>
+<span class="sd">        min_gnn_probability = 0.5,</span>
+<span class="sd">        edges_filters = [</span>
+<span class="sd">                &quot;edge_postsyn_compartment == &#39;soma&#39;&quot;,</span>
+<span class="sd">            ]</span>
+<span class="sd">    )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">min_gnn_probability</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_gnn_probability</span> <span class="o">=</span> <span class="n">min_gnn_probability_global</span>
+        
+    <span class="k">if</span> <span class="n">cell_type_fine_exclude</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cell_type_fine_exclude</span> <span class="o">=</span> <span class="n">cell_type_fine_exclude_global</span>
+        
+    
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;***Filtering motif df***&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">node_filters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">node_filters</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;node_gnn_cell_type_fine == node_gnn_cell_type_fine&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;node_gnn_cell_type_fine != &#39;None&#39;&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;node_gnn_cell_type_fine_prob &gt; </span><span class="si">{</span><span class="n">min_gnn_probability</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;node_gnn_cell_type_fine not in </span><span class="si">{</span><span class="n">cell_type_fine_exclude</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;node_cell_type == node_gnn_cell_type&quot;</span><span class="p">,</span>
+
+        <span class="p">]</span>
+        
+<span class="c1">#         if single_edge_motif:</span>
+<span class="c1">#             node_filters = [f&quot;node_{k}&quot; for k in node_filters]</span>
+<span class="c1">#             node_filters[0] = &quot;node_gnn_cell_type_fine == node_gnn_cell_type_fine&quot;</span>
+            
+
+    <span class="k">if</span> <span class="n">edges_filters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">edges_filters</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="c1">#&quot;edge_postsyn_compartment == &#39;soma&#39;&quot;,</span>
+        <span class="p">]</span>
+
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">single_edge_motif</span><span class="p">:</span>
+        <span class="n">curr_str</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,:][</span><span class="s2">&quot;motif_str&quot;</span><span class="p">]</span>
+        <span class="n">edges_str</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">edges_from_str</span><span class="p">(</span><span class="n">curr_str</span><span class="p">,</span><span class="n">return_edge_str</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">nodes_str</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">nodes_from_str</span><span class="p">(</span><span class="n">curr_str</span><span class="p">)</span>
+        <span class="c1">#print(&#39;inside motif str&#39;)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nodes_str</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;presyn&quot;</span><span class="p">,</span><span class="s2">&quot;postsyn&quot;</span><span class="p">]</span>
+
+
+    <span class="n">query_str</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">nf</span> <span class="ow">in</span> <span class="n">node_filters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;node&quot;</span> <span class="ow">in</span> <span class="n">nf</span><span class="p">:</span>
+            <span class="n">curr_query_str</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;( </span><span class="si">{</span><span class="n">reu</span><span class="o">.</span><span class="n">multiple_replace</span><span class="p">(</span><span class="n">nf</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">k</span><span class="p">))</span><span class="si">}</span><span class="s2"> )&quot;</span> 
+                                               <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">nodes_str</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">curr_query_str</span> <span class="o">=</span> <span class="n">nf</span>
+            
+        <span class="n">curr_query_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">curr_query_str</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="n">query_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_query_str</span><span class="p">)</span>
+
+
+    
+    <span class="k">for</span> <span class="n">ef</span> <span class="ow">in</span> <span class="n">edges_filters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;edge&quot;</span> <span class="ow">in</span> <span class="n">ef</span><span class="p">:</span>
+            <span class="n">curr_query_str</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;( </span><span class="si">{</span><span class="n">reu</span><span class="o">.</span><span class="n">multiple_replace</span><span class="p">(</span><span class="n">ef</span><span class="p">,</span><span class="nb">dict</span><span class="p">(</span><span class="n">edge</span><span class="o">=</span><span class="n">k</span><span class="p">))</span><span class="si">}</span><span class="s2"> )&quot;</span> 
+                                               <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">edges_str</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">curr_query_str</span> <span class="o">=</span> <span class="n">ef</span>
+            
+        <span class="n">curr_query_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">curr_query_str</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="n">query_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_query_str</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;query_str =&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">query_str</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">total_query</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">query_str</span><span class="p">)</span>
+    <span class="n">filt_df</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">query_with_edge_col</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">total_query</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">filt_df</span></div>
+
+
+<div class="viewcode-block" id="counts_df_from_motif_df"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.counts_df_from_motif_df">[docs]</a><span class="k">def</span> <span class="nf">counts_df_from_motif_df</span><span class="p">(</span>
+    <span class="n">motif_df</span><span class="p">,</span>
+    <span class="n">motif_column</span> <span class="o">=</span> <span class="s2">&quot;motif_str&quot;</span><span class="p">):</span>
+    
+    <span class="n">motif_counts</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">filter_to_first_instance_of_unique_column</span><span class="p">(</span>
+        <span class="n">motif_df</span><span class="p">,</span>
+        <span class="n">motif_column</span>
+    <span class="p">)</span>
+
+    <span class="n">motif_counts</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">sort_df_by_column</span><span class="p">(</span>
+        <span class="n">motif_counts</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">&quot;n_motifs&quot;</span><span class="p">,</span><span class="s2">&quot;motif_str&quot;</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">motif_counts</span></div>
+
+<div class="viewcode-block" id="visualize_graph_connections"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.visualize_graph_connections">[docs]</a><span class="k">def</span> <span class="nf">visualize_graph_connections</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">key</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose_visualize</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">restrict_to_synapse_ids</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;neuroglancer&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To visualize the motif connection</span>
+<span class="sd">    from an entry in a motif dataframe</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Turn entry into dict if not</span>
+<span class="sd">    2) Get the node names for the motif</span>
+<span class="sd">    3) Get the synapse ids</span>
+<span class="sd">    4) Plot the connections</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="n">motif_str</span> <span class="o">=</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;motif_str&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;motif_str = </span><span class="si">{</span><span class="n">motif_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1">#2) Get the node names for the motif</span>
+    <span class="n">node_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">_name&#39;</span><span class="p">]</span>
+                  <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">mfu</span><span class="o">.</span><span class="n">nodes_from_str</span><span class="p">(</span><span class="n">motif_str</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;node_names= </span><span class="si">{</span><span class="n">node_names</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1">#3) Get the synapse ids</span>
+    <span class="k">if</span> <span class="n">restrict_to_synapse_ids</span><span class="p">:</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">edges_from_str</span><span class="p">(</span><span class="n">motif_str</span><span class="p">,</span><span class="n">return_edge_str</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">synapse_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">_synapse_id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">synapse_ids</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;synapse_ids= </span><span class="si">{</span><span class="n">synapse_ids</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">neurd</span> <span class="kn">import</span> <span class="n">connectome_utils</span> <span class="k">as</span> <span class="n">conu</span>
+    <span class="k">return</span> <span class="n">conu</span><span class="o">.</span><span class="n">visualize_graph_connections_by_method</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="n">segment_ids</span><span class="o">=</span><span class="n">node_names</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose_visualize</span><span class="p">,</span>  
+    <span class="p">)</span></div>
+
+
+
+
+
+<span class="c1"># ----------------- Helper functions for 3D analysis ------------- #</span>
+
+<span class="c1"># -- default</span>
+<span class="n">attributes_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="c1">#voxel_to_nm_scaling = microns_volume_utils.voxel_to_nm_scaling,</span>
+    <span class="n">vdi</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">data_interface</span>
+<span class="p">)</span>    
+<span class="n">global_parameters_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="c1">#max_ais_distance_from_soma = 50_000</span>
+<span class="p">)</span>
+
+<span class="c1"># -- microns</span>
+<span class="n">global_parameters_dict_microns</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">attributes_dict_microns</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1">#-- h01--</span>
+<span class="n">attributes_dict_h01</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="c1">#voxel_to_nm_scaling = h01_volume_utils.voxel_to_nm_scaling,</span>
+    <span class="n">vdi</span> <span class="o">=</span> <span class="n">hvu</span><span class="o">.</span><span class="n">data_interface</span>
+<span class="p">)</span>
+<span class="n">global_parameters_dict_h01</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    
+       
+<span class="c1"># data_type = &quot;default&quot;</span>
+<span class="c1"># algorithms = None</span>
+<span class="c1"># modules_to_set = [mfu]</span>
+
+<span class="c1"># def set_global_parameters_and_attributes_by_data_type(data_type,</span>
+<span class="c1">#                                                      algorithms_list = None,</span>
+<span class="c1">#                                                       modules = None,</span>
+<span class="c1">#                                                      set_default_first = True,</span>
+<span class="c1">#                                                       verbose=False):</span>
+<span class="c1">#     if modules is None:</span>
+<span class="c1">#         modules = modules_to_set</span>
+    
+<span class="c1">#     modu.set_global_parameters_and_attributes_by_data_type(modules,data_type,</span>
+<span class="c1">#                                                           algorithms=algorithms_list,</span>
+<span class="c1">#                                                           set_default_first = set_default_first,</span>
+<span class="c1">#                                                           verbose = verbose)</span>
+    
+<span class="c1"># set_global_parameters_and_attributes_by_data_type(data_type,</span>
+<span class="c1">#                                                    algorithms)</span>
+
+<span class="c1"># def output_global_parameters_and_attributes_from_current_data_type(</span>
+<span class="c1">#     modules = None,</span>
+<span class="c1">#     algorithms = None,</span>
+<span class="c1">#     verbose = True,</span>
+<span class="c1">#     lowercase = True,</span>
+<span class="c1">#     output_types = (&quot;global_parameters&quot;),</span>
+<span class="c1">#     include_default = True,</span>
+<span class="c1">#     algorithms_only = False,</span>
+<span class="c1">#     **kwargs):</span>
+    
+<span class="c1">#     if modules is None:</span>
+<span class="c1">#         modules = modules_to_set</span>
+    
+<span class="c1">#     return modu.output_global_parameters_and_attributes_from_current_data_type(</span>
+<span class="c1">#         modules,</span>
+<span class="c1">#         algorithms = algorithms,</span>
+<span class="c1">#         verbose = verbose,</span>
+<span class="c1">#         lowercase = lowercase,</span>
+<span class="c1">#         output_types = output_types,</span>
+<span class="c1">#         include_default = include_default,</span>
+<span class="c1">#         algorithms_only = algorithms_only,</span>
+<span class="c1">#         **kwargs,</span>
+<span class="c1">#         )</span>
+
+
+<span class="c1">#--- from neurd_packages ---</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+
+<span class="c1">#--- from python_tools ---</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">regex_utils</span> <span class="k">as</span> <span class="n">reu</span>
+<span class="kn">from</span> <span class="nn">python_tools.tqdm_utils</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="n">motif_Gs_for_n_nodes</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">motif_Gs_for_n_nodes</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">motif_utils</span> <span class="k">as</span> <span class="n">mfu</span>
+<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">dotmotif_utils</span> <span class="k">as</span> <span class="n">dmu</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
