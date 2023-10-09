@@ -304,7 +304,7 @@ parameters = {
       },
     },
   },
-  'preprocessing_vp2':
+  'preprocess_neuron':
   {
     'global_parameters':
     {

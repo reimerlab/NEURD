@@ -3139,7 +3139,7 @@ def complete_axon_processing(neuron_obj,
         
 
     if return_G_axon_labeled:
-        from neurd import cell_type_conv_utils as ctcu
+        from neurd import neuron_graph_lite_utils as ctcu
         if verbose:
             print(f"Computing the axon labeled graph")
         G_axon_labeled = ctcu.G_with_attrs_from_neuron_obj(neuron_obj,plot_G=False)
@@ -3938,7 +3938,7 @@ from . import neuron_simplification as nsimp
 from . import neuron_statistics as nst
 from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
-from . import preprocessing_vp2 as pre
+from . import preprocess_neuron as pre
 from . import proofreading_utils as pru
 from . import spine_utils as spu
 from . import synapse_utils as syu

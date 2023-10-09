@@ -9696,7 +9696,7 @@ from . import neuron
 from . import neuron_searching as ns
 from . import neuron_statistics as nst
 from . import neuron_visualizations as nviz
-from . import preprocessing_vp2 as pre
+from . import preprocess_neuron as pre
 from . import proofreading_utils as pru
 from . import soma_extraction_utils as sm
 from . import synapse_utils as syu

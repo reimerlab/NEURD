@@ -607,7 +607,7 @@ from . import spine_utils as spu
 from . import cell_type_utils as ctu
 from . import axon_utils as au
 from . import neuron_statistics as nst
-from . import cell_type_conv_utils as ctcu
+from . import neuron_graph_lite_utils as ctcu
 from . import neuron_visualizations as nviz
 
 

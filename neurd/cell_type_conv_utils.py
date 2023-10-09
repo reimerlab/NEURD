@@ -927,4 +927,4 @@ from python_tools import numpy_dep as np
 from python_tools import pandas_utils as pu
 from python_tools import system_utils as su
 
-from . import cell_type_conv_utils as ctcu
+from . import neuron_graph_lite_utils as ctcu

@@ -7963,7 +7963,7 @@ from . import neuron_simplification as nsimp
 from . import neuron_statistics as nst
 from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
-from . import preprocessing_vp2 as pre
+from . import preprocess_neuron as pre
 from . import spine_utils as spu
 from . import synapse_utils as syu
 from . import cell_type_utils as ctu
