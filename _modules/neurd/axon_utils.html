@@ -3211,7 +3211,7 @@
         
 
     <span class="k">if</span> <span class="n">return_G_axon_labeled</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">neurd</span> <span class="kn">import</span> <span class="n">cell_type_conv_utils</span> <span class="k">as</span> <span class="n">ctcu</span>
+        <span class="kn">from</span> <span class="nn">neurd</span> <span class="kn">import</span> <span class="n">neuron_graph_lite_utils</span> <span class="k">as</span> <span class="n">ctcu</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Computing the axon labeled graph&quot;</span><span class="p">)</span>
         <span class="n">G_axon_labeled</span> <span class="o">=</span> <span class="n">ctcu</span><span class="o">.</span><span class="n">G_with_attrs_from_neuron_obj</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">plot_G</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -4010,7 +4010,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">preprocessing_vp2</span> <span class="k">as</span> <span class="n">pre</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">preprocess_neuron</span> <span class="k">as</span> <span class="n">pre</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
