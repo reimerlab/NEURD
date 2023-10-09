@@ -6,9 +6,11 @@ from pykdtree.kdtree import KDTree
 import seaborn as sns
 import time
 from python_tools import numpy_dep as np
+
 from python_tools import module_utils as modu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
+
 
 def conversion_rate_by_attribute_and_cell_type_pairs(
     df,
@@ -745,6 +747,60 @@ def plot_prox_func_vs_attribute_from_edge_df(
     mu.set_axes_tick_font_size(ax,tick_fontsize)
     
     return ax
+
+def conversion_df(
+    proximity_df,
+    presyn_column = "presyn",
+    postsyn_column = "postsyn",
+    separate_compartments = True,
+    separate_by_neuron_pairs = False,
+    verbose = False
+    ):
+    """
+    Purpose: given a proximity table,
+    will calculate the conversion df (
+    for potentially different compartments
+    )
+    """
+    st = time.time()
+    df = proximity_df.copy()
+    
+    # --- preprocessing dataframe ---
+    df["n_proximity"] = 1
+    df = pu.replace_None_with_default(df,0)
+    df = pu.replace_nan_with_default(df,0)
+    df["n_synapses"] = df["n_synapses"].astype('int')
+    
+    
+    agg_dict = {
+        "n_synapses":"sum",
+        "n_proximity":"sum",
+        "proximity_dist":"mean",
+        "presyn_width":"mean",
+        #"postsyn_compartment":pd.Series.mode,
+    }
+    
+    agg_dict = {k:v for k,v in agg_dict.items() if k in df.columns}
+    
+    if separate_by_neuron_pairs:
+        id_columns = nu.to_list(presyn_column) + \
+                     nu.to_list(postsyn_column)
+    else:
+        id_columns = []
+    
+    if separate_compartments:
+        id_columns += ['postsyn_compartment']
+    
+    df_conv = df.groupby(
+            id_columns
+            ).agg(agg_dict).reset_index()
+    
+    df_conv["conversion"] = df_conv["n_synapses"]/df_conv["n_proximity"]
+    
+    if verbose:
+        print(f"# of pairs = {len(df_conv)} (time = {time.time() - st:.3f})")
+        
+    return df_conv
 
 # ------------- Setting up parameters -----------
 

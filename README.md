@@ -39,7 +39,7 @@ pip3 install --use-deprecated=legacy-resolver -e ./NEURD/;
 
 ## Documentation
 
-Site: https://reimerlab.github.io/NEURD/
+Documentation Site: https://reimerlab.github.io/NEURD/
 
 ### Tutorials
 
