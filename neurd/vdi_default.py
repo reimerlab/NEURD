@@ -87,6 +87,7 @@ class DataInterfaceDefault(ABC):
         filepaths += override_filepaths
         
         for f in filepaths:
+            #print(f"Setting parameters from {f}")
             self.set_parameters_obj_from_filepath(
                 filepath = f
             )
@@ -140,6 +141,9 @@ class DataInterfaceDefault(ABC):
     # --------------------------
     @abstractmethod
     def get_align_matrix(self,*args,**kwargs):
+        """
+        
+        """
         return None
 
     def align_array(self,array,align_matrix = None,**kwargs):
@@ -244,7 +248,7 @@ class DataInterfaceDefault(ABC):
         self,
         *args,
         **kwargs):
-        #raise Exception("")
+        
         if kwargs.get("synapse_filepath",None) is None:
             if self.synapse_filepath is None:
                 raise Exception("No synapse filepath set")

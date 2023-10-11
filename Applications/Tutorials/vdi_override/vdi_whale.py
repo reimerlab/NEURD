@@ -4,7 +4,7 @@ from pathlib import Path
 
 from neurd import vdi_default as vdi_def
 
-config_filepath = "./parameters_config_whale.py"
+config_filepath = str(Path("./parameters_config_whale.py").absolute())
 
 default_settings = dict(
     source = "whale",
