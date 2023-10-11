@@ -12,7 +12,7 @@ config_filepath = str((
 
 
 default_settings = dict(
-    parameters_config_filepath = config_filepath,
+    parameters_config_filepath_default = config_filepath,
     
     # --- mesh locations ---
     meshes_directory = "./",
@@ -56,17 +56,40 @@ class DataInterfaceDefault(ABC):
         for k,v in kwargs.items():
             setattr(self,k,v)
         
-        self.set_parameters_obj_from_filepath()
+        self.set_parameters_obj()
         
-    
-    # @property
-    # @abstractmethod 
-    # def parameters_config_filepath(self):
-    #     return None
 
     @property
     def vdi(self):
         return self
+        
+    def set_parameters_obj(
+        self
+        ):
+        """
+        Purpose: To set the parameters obj using the
+        """
+        
+        
+        parameters_config_filepath_default = getattr(
+            self,
+            "parameters_config_filepath_default",
+            None)
+        
+        filepaths = []
+        if parameters_config_filepath_default is not None:
+            filepaths.append(parameters_config_filepath_default)
+            
+            
+        override_filepaths = getattr(self,"parameters_config_filepaths",[])
+        override_filepaths = nu.to_list(override_filepaths)
+        
+        filepaths += override_filepaths
+        
+        for f in filepaths:
+            self.set_parameters_obj_from_filepath(
+                filepath = f
+            )
         
     def set_parameters_obj_from_filepath(
         self,
@@ -81,6 +104,7 @@ class DataInterfaceDefault(ABC):
             
         if filepath is None:
             return 
+        
         
         parameters_obj_curr = paru.parameters_from_filepath(
             filepath = filepath
@@ -114,53 +138,81 @@ class DataInterfaceDefault(ABC):
         return np.array([1,1,1])
     
     # --------------------------
-
     @abstractmethod
-    def align_array(self,array):
-        return array
+    def get_align_matrix(self,*args,**kwargs):
+        return None
 
-    @abstractmethod
-    def align_mesh(self,mesh):
-        return mesh
+    def align_array(self,array,align_matrix = None,**kwargs):
+        #print(f"inside vdi align array")
+        return nru.align_array(array,align_matrix = align_matrix)
 
-    @abstractmethod
-    def align_skeleton(self,skeleton):
-        return skeleton
+    def align_mesh(self,mesh,align_matrix = None,**kwargs):
+        #print(f"inside vdi align mesh")
+        return nru.align_mesh(mesh,align_matrix=align_matrix)
 
-    @abstractmethod
-    def align_neuron_obj(self,neuron_obj):
-        """
-        Keep the body of function as "pass" unless the neuron obj needs to be rotated so axon is pointing down
-        """
-        return neuron_obj
-
-    @abstractmethod
-    def unalign_neuron_obj(self,neuron_obj):
-        """
-        Keep the body of function as "pass" unless the neuron obj needs to be rotated so axon is pointing down
-        """
-        return neuron_obj
+    def align_skeleton(self,skeleton,align_matrix = None,**kwargs):
+        #print(f"inside vdi align skeleton")
+        return nru.align_skeleton(skeleton=skeleton,align_matrix = align_matrix)
     
-    def set_synapse_filepath(self,synapse_filepath):
-        self.synapse_filepath = synapse_filepath
-        
+    def align_neuron_obj_from_align_matrix(
+        self,
+        neuron_obj,
+        align_matrix=None,
+        **kwargs):
+        return nru.align_neuron_obj_from_align_matrix(
+            neuron_obj,
+            align_matrix=align_matrix,
+            align_array = self.align_array,
+            align_mesh=self.align_mesh,
+            align_skeleton=self.align_skeleton,
+            **kwargs)
+    
+    def unalign_neuron_obj_from_align_matrix(self,neuron_obj,align_matrix=None,**kwargs):
+        return nru.unalign_neuron_obj_from_align_matrix(neuron_obj,align_matrix=align_matrix,**kwargs)
+
+    def align_neuron_obj(self,neuron_obj,align_matrix = None,**kwargs):
+        """
+        Keep the body of function as "pass" unless the neuron obj needs to be rotated so axon is pointing down
+        """
+        if align_matrix is None:
+            align_matrix = self.get_align_matrix(neuron_obj,**kwargs)
+        return self.align_neuron_obj_from_align_matrix(
+            neuron_obj,
+            align_matrix = align_matrix,
+            **kwargs
+        )
+
+    def unalign_neuron_obj(self,neuron_obj,align_matrix = None,**kwargs):
+        """
+        Keep the body of function as "pass" unless the neuron obj needs to be rotated so axon is pointing down
+        """
+        if align_matrix is None:
+            align_matrix = self.get_align_matrix(neuron_obj,**kwargs)
+        return self.unalign_neuron_obj_from_align_matrix(
+            neuron_obj,
+            align_matrix = align_matrix,
+            **kwargs
+        )
+    
         
     # ------- Functions for fetching -----
     def fetch_segment_id_mesh(
         self,
-        segment_id,
+        segment_id=None,
         meshes_directory = None,
+        mesh_filepath = None,
         plot = False,
         ext = "off"
         ): 
         """
         """
         
-        if meshes_directory is None:
-            meshes_directory = self.meshes_directory
-        
-        mesh_filepath = Path(meshes_directory) / Path(
-            f"{segment_id}.{ext}")
+        if mesh_filepath is None:
+            if meshes_directory is None:
+                meshes_directory = self.meshes_directory
+            
+            mesh_filepath = Path(meshes_directory) / Path(
+                f"{segment_id}.{ext}")
         
         mesh = tu.load_mesh_no_processing(mesh_filepath)
 
@@ -199,9 +251,10 @@ class DataInterfaceDefault(ABC):
             kwargs["synapse_filepath"] = self.synapse_filepath
         
         return syu.synapse_dict_from_synapse_csv(**kwargs)
+    
+    def set_synapse_filepath(self,synapse_filepath):
+        self.synapse_filepath = synapse_filepath
 
-    
-    
     def nuclei_from_segment_id(
         self,
         segment_id,
@@ -281,8 +334,9 @@ class DataInterfaceDefault(ABC):
         
     def load_neuron_obj(
         self,
-        segment_id,
+        segment_id=None,
         mesh_decimated = None,
+        mesh_filepath = None,
         meshes_directory = None,
         filepath = None,
         directory = None,
@@ -294,7 +348,8 @@ class DataInterfaceDefault(ABC):
         if mesh_decimated is None:
             mesh_decimated = self.fetch_segment_id_mesh(
                 segment_id,
-                meshes_directory = meshes_directory,)
+                meshes_directory = meshes_directory,
+                mesh_filepath=mesh_filepath)
         
         if filepath is None:
             if directory is None:
@@ -660,6 +715,8 @@ class DataInterfaceDefault(ABC):
             print(f"synapse_pre_post_ids = {synapse_pre_post_ids}")
 
         return synapse_pre_post_ids,synapse_pre_post_coords
+    
+    
         
     
 """
@@ -678,6 +735,8 @@ save_proofread_faces
 """
 from python_tools import pandas_utils as pu
 from python_tools import ipyvolume_utils as ipvu
+from python_tools import numpy_utils as nu
+from python_tools import mesh_utils as meshu
 
 from mesh_tools import trimesh_utils as tu
 

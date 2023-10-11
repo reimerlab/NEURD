@@ -9639,8 +9639,160 @@ def calculate_decomposition_products(
     return decomp_products
 
 
-# ------------- parameters for stats ---------------
+# ----------- for aligning neuron ---------
+align_attr = "align_matrix"
 
+def align_attribute(obj,attribute_name,
+                    soma_center=None,
+                    rotation=None,
+                   align_matrix = None,):
+    setattr(obj,f"{attribute_name}",align_array(
+                getattr(obj,f"{attribute_name}"),
+        soma_center=soma_center,
+        rotation=rotation,
+        align_matrix = align_matrix))
+def align_array(array,align_matrix = None,**kwargs):
+    return nu.align_array(array,align_matrix = align_matrix)
+
+def align_mesh(mesh,align_matrix = None,**kwargs):
+    return meshu.align_mesh(mesh,align_matrix=align_matrix)
+
+def align_skeleton(skeleton,align_matrix = None,**kwargs):
+    return nu.align_array(array=skeleton,align_matrix = align_matrix)
+
+def align_neuron_obj_from_align_matrix(
+    neuron_obj,
+    align_matrix=None,
+    align_synapses = True,
+    verbose = False,
+    align_array = align_array,
+    align_mesh=align_mesh,
+    align_skeleton=align_skeleton,
+    in_place = False,
+    **kwargs
+    ):
+    
+    
+    if align_matrix is None:
+        align_matrix = getattr(neuron_obj,align_attr,None)
+    
+    if align_matrix is None:
+        return neuron_obj
+    
+    if not in_place:
+        neuron_obj = copy.deepcopy(neuron_obj)
+    
+    for j,limb_obj in enumerate(neuron_obj):
+        for branch_obj in limb_obj:
+            branch_obj.mesh = align_mesh(
+                                branch_obj.mesh,
+                                align_matrix=align_matrix,
+                                verbose = False
+            )
+
+            branch_obj.mesh_center = tu.mesh_center_vertex_average(branch_obj.mesh)
+
+            branch_obj.skeleton = align_skeleton(
+                                branch_obj.skeleton,
+                                align_matrix=align_matrix,
+                                verbose = False
+            )
+            branch_obj.endpoints = align_array(branch_obj.endpoints,
+                                                    align_matrix=align_matrix,)
+            
+            
+            
+            if align_synapses:
+                for syn in branch_obj.synapses:
+                    for att in syu.synapse_coordinate_system_dependent_attributes:
+                        align_attribute(syn,att,align_matrix=align_matrix,)
+                        
+            #doing the spine alignment
+            if branch_obj.spines is not None:
+                branch_obj.spines = [align_mesh(k,align_matrix=align_matrix) for k in branch_obj.spines]
+            
+            if branch_obj.spines_obj is not None:
+                for s_obj in branch_obj.spines_obj:
+                    s_obj.mesh = align_mesh(s_obj.mesh,align_matrix=align_matrix)
+                
+                        
+            
+        
+        #changing the concept network
+        all_concept_network_data = []
+        att_to_change = ["starting_endpoints","starting_coordinate","touching_soma_vertices"]
+        
+        for k in limb_obj.all_concept_network_data:
+            new_data = copy.deepcopy(k)
+            for att in att_to_change:
+                new_data[att] = align_array(k[att],align_matrix=align_matrix,)
+            all_concept_network_data.append(new_data)
+            
+        for att in att_to_change:
+            setattr(limb_obj,f"current_{att}",align_array(
+                getattr(limb_obj,f"current_{att}"),align_matrix=align_matrix,))
+
+        limb_obj.mesh = align_mesh(
+                                limb_obj.mesh,
+                                align_matrix=align_matrix,
+                                verbose = False
+            )
+        limb_obj.all_concept_network_data = copy.deepcopy(all_concept_network_data)
+        limb_obj.set_concept_network_directional()
+        
+    neuron_obj.mesh = align_mesh(
+                                neuron_obj.mesh,
+                                align_matrix=align_matrix,
+                                verbose = False
+                                )
+        
+    #finishing soma mesh stuff
+    for s_name in neuron_obj.get_soma_node_names():
+        neuron_obj[s_name].mesh = align_mesh(
+            neuron_obj[s_name].mesh ,
+            align_matrix=align_matrix,
+        )
+        
+        if align_synapses:
+            for syn in neuron_obj[s_name].synapses:
+                for att in syu.synapse_coordinate_system_dependent_attributes:
+                    align_attribute(syn,att,align_matrix=align_matrix,)
+
+        neuron_obj[s_name].mesh_center = tu.mesh_center_vertex_average(neuron_obj[s_name].mesh)
+        #print(f"neuron_obj[s_name].mesh_center = {neuron_obj[s_name].mesh_center}")
+        
+        
+    return neuron_obj
+
+
+def unalign_neuron_obj_from_align_matrix(
+    neuron_obj,
+    align_matrix=None,
+    verbose = False,
+    **kwargs
+    ):
+    
+    if align_matrix is None:
+        align_matrix = getattr(neuron_obj,align_attr,None)
+    
+    if align_matrix is None:
+        return neuron_obj
+    
+    align_matrix = np.linalg.inv(align_matrix)
+    
+    
+    curr_neuron =  align_neuron_obj_from_align_matrix(
+        neuron_obj,
+        align_matrix=align_matrix,
+        verbose = verbose,
+        **kwargs
+        )
+    
+    setattr(curr_neuron,align_attr,None)
+    return curr_neuron
+    
+
+# ------------- parameters for stats ---------------
 
 
 

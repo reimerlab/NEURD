@@ -2,24 +2,19 @@ import numpy as np
 from pathlib import Path
 
 
-from . import vdi_default as vdi_def
+from neurd import vdi_default as vdi_def
 
-parameters_config_filename = "parameters_config_microns.py"
-config_filepath = str((
-    Path(__file__).parents[0]
-    / Path(f"parameter_configs/{parameters_config_filename}")
-).absolute())
+config_filepath = "./parameters_config_whale.py"
 
 default_settings = dict(
-    source = "microns",
+    source = "whale",
     
     parameters_config_filepaths = config_filepath,
     
     synapse_filepath = None,   
 )
 
-
-class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
+class DataInterfaceWhale(vdi_def.DataInterfaceDefault):
     
     def __init__(
         self,
@@ -33,7 +28,7 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
         
     @property
     def voxel_to_nm_scaling(self):
-        return np.array([4,4,40])
+        return np.array([5,5,90])
     
     def segment_id_to_synapse_dict(
         self,
@@ -45,8 +40,12 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
         )
     
     def get_align_matrix(self,*args,**kwargs):
-        return None 
+        return np.array([
+            [0,1,0],
+            [0,0,1],
+            [1,0,0]
+        ])
     
     
     
-volume_data_interface = DataInterfaceMicrons()
+volume_data_interface = DataInterfaceWhale()

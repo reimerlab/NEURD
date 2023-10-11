@@ -484,14 +484,16 @@ def align_neuron_obj(
         
     return align_neuron_obj_from_align_matrix(
         neuron_obj=neuron_obj,
-        align_matrix = align_matrix
+        align_matrix = align_matrix,
+        align_synapses=align_synapses,
     )
         
     if plot_final_neuron:
         nviz.visualize_neuron(neuron_obj,limb_branch_dict = "all")
     return neuron_obj
 
-def unalign_neuron_obj(neuron_obj,
+def unalign_neuron_obj(
+    neuron_obj,
                        align_attribute = "align_matrix",
                        verbose = False,
                        plot_final_neuron = False,

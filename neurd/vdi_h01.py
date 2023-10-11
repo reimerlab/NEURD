@@ -6,36 +6,40 @@ from . import vdi_default as vdi_def
 parameters_config_filename = "parameters_config_h01.py"
 config_filepath = str((
     Path(__file__).parents[0]
-    / Path(f"parameter_configs/{parameters_config_filename}")).absolute()
-)
+    / Path(f"parameter_configs/{parameters_config_filename}")
+).absolute())
 
 default_settings = dict(
-    parameters_config_filepath = config_filepath,
+    source = "h01",
+    parameters_config_filepaths = config_filepath,
+    synapse_filepath = None,
 )
 
 from . import h01_volume_utils as hvu
-class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
+class DataInterfaceH01(vdi_def.DataInterfaceDefault):
     
     def __init__(
         self,
-        synapse_filepath = None,
-        source = "microns",
         **kwargs
         ):
         
         kwargs.update(default_settings)
-        
         super().__init__(
-            synapse_filepath = synapse_filepath,
-            source=source,
             **kwargs
         )
         
-        self.set_parameters_obj_from_filepath()
-        
     @property
     def voxel_to_nm_scaling(self):
-        return hvu.voxel_to_nm_scaling
+        return np.array([8,8,33])
+    
+    def segment_id_to_synapse_dict(
+        self,
+        *args,
+        **kwargs):
+        return super().segment_id_to_synapse_dict(
+            *args,
+            **kwargs
+        )
         
     @property
     def default_low_degree_graph_filters(self):
@@ -48,30 +52,39 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
             gf.fork_min_skeletal_distance_filter,
         ]
         
-    def align_array(self,*args,**kwargs):
-        return hvu.align_array(*args,**kwargs)
-    
-    def align_mesh(self,*args,**kwargs):
-        return hvu.align_mesh(*args,**kwargs)
-    
-    def align_skeleton(self,*args,**kwargs):
-        return hvu.align_skeleton(*args,**kwargs)
-    
-    def align_neuron_obj(self,*args,**kwargs):
-        return hvu.align_neuron_obj(*args,**kwargs)
-
-    def unalign_neuron_obj(self,*args,**kwargs):
-        return hvu.unalign_neuron_obj(*args,**kwargs) 
-    
-    def segment_id_to_synapse_dict(
+        
+    def get_align_matrix(
         self,
-        *args,
-        **kwargs):
-        return super().segment_id_to_synapse_dict(
-            *args,
-            **kwargs
-        )
-        
+        neuron_obj=None,
+        soma_center = None,
+        rotation = None,
+        verbose = False,
+        **kwargs
+        ):
+        """
+        Purpose: generating the alignment matrix from the
+        soma center (which shows rotation only dependent on 
+        location of cell in volume)
+        """
+    
+        if rotation is None:
+            if soma_center is None:
+                soma_center = neuron_obj["S0"].mesh_center
+            
+            if verbose:
+                print(f"soma_center = {soma_center}")
+                
+            rotation=hvu.rotation_from_soma_center(
+                soma_center = soma_center,
+                verbose = verbose,
+            )
+            
+        align_matrix = hvu.align_matrix_from_rotation(rotation = rotation)
+            
+        if verbose:
+            print(f"align_matrix = {align_matrix}")
+            
+        return align_matrix
         
     
-volume_data_interface = DataInterfaceMicrons()
+volume_data_interface = DataInterfaceH01()
