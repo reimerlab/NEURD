@@ -1,0 +1,17 @@
+"""
+Purpose: To document the process outlined on microns
+explorer with how to set up your cave client
+
+"""
+
+0) Create a google account
+
+    username: neurdtutorial@gmail.com
+    password: NeurdTutorial2023
+
+1) Register for a CAVE account
+
+Cave setup: https://github.com/AllenInstitute/MicronsBinder/blob/master/notebooks/mm3_intro/CAVEsetup.ipynb
+
+2) 
+

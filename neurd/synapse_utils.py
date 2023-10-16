@@ -4179,7 +4179,6 @@ def synapse_dict_from_synapse_csv(
         d) Stores all data in dictionary for that prepost
 
     """
-        
     df = synapse_df_from_csv(
         synapse_filepath,
         segment_id = segment_id,

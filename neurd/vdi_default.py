@@ -248,6 +248,24 @@ class DataInterfaceDefault(ABC):
         self,
         *args,
         **kwargs):
+        """
+        Return a dataframe containing all the synapses
+        of a segment_id (both pre and post ) with the 
+        following columns:
+        
+        Note: all sizes should be scaled from voxels to nm
+        formwat if that's how they originally are exported
+        
+        
+        segment_id,
+        segment_id_secondary,
+        synapse_id,
+        prepost,
+        synapse_x,
+        synapse_y,
+        synapse_z,
+        synapse_size,
+        """
         
         if kwargs.get("synapse_filepath",None) is None:
             if self.synapse_filepath is None:

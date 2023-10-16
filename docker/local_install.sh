@@ -12,3 +12,8 @@ pip3 install --use-deprecated=legacy-resolver -e ./mesh_tools/
 pip3 install --use-deprecated=legacy-resolver -e ./NEURD/
 
 python3 -m pip install --upgrade six
+
+
+# 
+pip3 install load_dotenv
+pip3 install pipreqs
