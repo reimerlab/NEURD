@@ -9,8 +9,8 @@ import networkx as nx
 import sys
 import time
 import trimesh
-from python_tools import numpy_dep as np
-from python_tools import general_utils as gu
+from datasci_tools import numpy_dep as np
+from datasci_tools import general_utils as gu
 import ipyvolume as ipv
 
 soma_color = "red"
@@ -30,7 +30,7 @@ def plot_soma_limb_concept_network(neuron_obj,
 
     How it was developed: 
 
-    from python_tools import networkx_utils as xu
+    from datasci_tools import networkx_utils as xu
     xu = reload(xu)
     node_list = xu.get_node_list(my_neuron.concept_network)
     node_list_colors = ["red" if "S" in n else "blue" for n in node_list]
@@ -3839,13 +3839,13 @@ def plot_soma_extraction_meshes(
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import general_utils as gu
-from python_tools import matplotlib_utils as mu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import ipyvolume_utils as ipvu
+#--- from datasci_tools ---
+from datasci_tools import general_utils as gu
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import ipyvolume_utils as ipvu
 
 #--- from neurd_packages ---
 from . import axon_utils as au

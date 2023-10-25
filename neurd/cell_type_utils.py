@@ -15,10 +15,10 @@ import pandas as pd
 from pathlib import Path
 from sklearn import linear_model
 import time
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
-from python_tools import pathlib_utils as plu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
+from datasci_tools import pathlib_utils as plu
 
 e_i_model = None
 e_i_model_features_default = ["syn_density_shaft","spine_density"]
@@ -1873,15 +1873,15 @@ except:
 #--- from mesh_tools ---
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import general_utils as gu
-from python_tools import matplotlib_utils as mu
-from python_tools import module_utils as modu 
-from python_tools import numpy_dep as np
-from python_tools import pandas_utils as pu
-from python_tools import pathlib_utils as plu
-from python_tools import string_utils as stru
-from python_tools import system_utils as su
+#--- from datasci_tools ---
+from datasci_tools import general_utils as gu
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import module_utils as modu 
+from datasci_tools import numpy_dep as np
+from datasci_tools import pandas_utils as pu
+from datasci_tools import pathlib_utils as plu
+from datasci_tools import string_utils as stru
+from datasci_tools import system_utils as su
 
 from . import cell_type_utils as ctu
 

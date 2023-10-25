@@ -10,10 +10,10 @@ import networkx as nx
 from pykdtree.kdtree import KDTree
 import time
 import trimesh
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
-from python_tools import data_struct_utils as dsu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
+from datasci_tools import data_struct_utils as dsu
 
 #importing at the bottom so don't get any conflicts
 
@@ -5305,16 +5305,16 @@ from mesh_tools import meshparty_skeletonize as m_sk
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import data_struct_utils as dsu
-from python_tools import general_utils as gu
-from python_tools import matplotlib_utils as mu
-from python_tools import module_utils as modu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import system_utils as su
-from python_tools.tqdm_utils import tqdm
+#--- from datasci_tools ---
+from datasci_tools import data_struct_utils as dsu
+from datasci_tools import general_utils as gu
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import module_utils as modu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import system_utils as su
+from datasci_tools.tqdm_utils import tqdm
 
 
 from . import preprocess_neuron as pre

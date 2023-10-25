@@ -755,10 +755,10 @@ voxel_to_nm_scaling
 voxel_to_nm_scaling
 save_proofread_faces
 """
-from python_tools import pandas_utils as pu
-from python_tools import ipyvolume_utils as ipvu
-from python_tools import numpy_utils as nu
-from python_tools import mesh_utils as meshu
+from datasci_tools import pandas_utils as pu
+from datasci_tools import ipyvolume_utils as ipvu
+from datasci_tools import numpy_utils as nu
+from datasci_tools import mesh_utils as meshu
 
 from mesh_tools import trimesh_utils as tu
 

@@ -12,7 +12,7 @@ calculating qualities of objects stored on branches
 
 '''
 import time
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 def calculate_endpoints_dist(
     branch_obj,
@@ -177,7 +177,7 @@ from . import neuron_utils as nru
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk
 
-#--- from python_tools ---
-from python_tools import numpy_dep as np
+#--- from datasci_tools ---
+from datasci_tools import numpy_dep as np
 
 from . import branch_attr_utils as bau

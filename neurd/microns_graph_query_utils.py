@@ -145,9 +145,9 @@ def n_excitatory_n_inhibitory_nodes(G=None,
     return n_excitatory,n_inhibitory
 
 
-#--- from python_tools ---
-from python_tools import networkx_utils as xu
-from python_tools import pandas_utils as pu
-from python_tools import system_utils as su
+#--- from datasci_tools ---
+from datasci_tools import networkx_utils as xu
+from datasci_tools import pandas_utils as pu
+from datasci_tools import system_utils as su
 
 from . import microns_graph_query_utils as mqu

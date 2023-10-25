@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from pykdtree.kdtree import KDTree
 import time
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
-from python_tools import data_struct_utils as dsu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
+from datasci_tools import data_struct_utils as dsu
 
 double_back_threshold_axon_thick = 120
 double_back_threshold_axon_thin = 127
@@ -654,7 +654,7 @@ def width_jump_double_back_edges_path(limb_obj, #assuming the concept network is
                         if verbose:
                             print(f"Appending edge to double back errors with threshold: {curr_double_back_threshold}")
                         error_edges_doubling_back.append(edge_to_error)
-#                         from python_tools import system_utils as su
+#                         from datasci_tools import system_utils as su
 #                         su.compressed_pickle(up_sk,"up_sk")
 #                         su.compressed_pickle(d_sk,"d_sk")
 #                         raise Exception("")
@@ -5262,15 +5262,15 @@ from . import neuron_visualizations as nviz
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import data_struct_utils as dsu
-from python_tools import general_utils as gu
-from python_tools import matplotlib_utils as mu
-from python_tools import module_utils as modu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import system_utils as su
-from python_tools.tqdm_utils import tqdm
+#--- from datasci_tools ---
+from datasci_tools import data_struct_utils as dsu
+from datasci_tools import general_utils as gu
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import module_utils as modu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import system_utils as su
+from datasci_tools.tqdm_utils import tqdm
 
 from . import error_detection as ed

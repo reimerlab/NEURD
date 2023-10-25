@@ -596,7 +596,7 @@ attributes_dict_default = dict(
     vdi = mvu.data_interface
 )   
     
-from python_tools import pipeline
+from datasci_tools import pipeline
 
 from . import branch_utils as bu
 from . import neuron_simplification as nsimp

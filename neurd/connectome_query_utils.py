@@ -8,7 +8,7 @@ To help query the graph object and do visualizations
 
 '''
 
-from python_tools import module_utils as modu
+from datasci_tools import module_utils as modu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 
@@ -222,10 +222,10 @@ global_parameters_dict_h01 = dict()
 from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 
-#--- from python_tools ---
-from python_tools import module_utils as modu 
-from python_tools import networkx_utils as xu
-from python_tools import pandas_utils as pu
-from python_tools import system_utils as su
+#--- from datasci_tools ---
+from datasci_tools import module_utils as modu 
+from datasci_tools import networkx_utils as xu
+from datasci_tools import pandas_utils as pu
+from datasci_tools import system_utils as su
 
 from . import connectome_query_utils as conq

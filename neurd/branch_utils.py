@@ -2,9 +2,9 @@
 import copy
 from pykdtree.kdtree import KDTree
 import time
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
 
 non_optional_features = [
     "mesh",
@@ -1172,11 +1172,11 @@ from . import width_utils as wu
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import general_utils as gu
-from python_tools import ipyvolume_utils as ipvu
-from python_tools import module_utils as modu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
+#--- from datasci_tools ---
+from datasci_tools import general_utils as gu
+from datasci_tools import ipyvolume_utils as ipvu
+from datasci_tools import module_utils as modu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
 
 from . import branch_utils as bu

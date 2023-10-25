@@ -18,7 +18,7 @@ import pandas as pd
 from dotenv import load_dotenv
 import os
 from pathlib import Path
-from python_tools import json_utils as jsu
+from datasci_tools import json_utils as jsu
 import trimesh
     
 """ tables in public release
@@ -436,8 +436,6 @@ def mesh_from_seg_id(
         
     ],
 )
-
-
 class CaveInterface():
     @default_args()
     def __init__(
@@ -506,7 +504,7 @@ class CaveInterface():
     
 
 
-from python_tools import pandas_utils as pu
+from datasci_tools import pandas_utils as pu
 
 import numpy as np
 import pandas as pd

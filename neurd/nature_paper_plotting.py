@@ -1,7 +1,7 @@
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-from python_tools import matplotlib_utils as mu
+from datasci_tools import matplotlib_utils as mu
 
 exc_inh_combination_palette = {
     'Exc Onto Exc':mu.seaborn_blue,
@@ -186,8 +186,8 @@ def example_histogram_nice(spine_df):
 #--- from neurd_packages ---
 from . import cell_type_utils as ctu
 
-#--- from python_tools ---
-from python_tools import matplotlib_utils as mu
-from python_tools import pandas_utils as pu
+#--- from datasci_tools ---
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import pandas_utils as pu
 
 from . import nature_paper_plotting as npp

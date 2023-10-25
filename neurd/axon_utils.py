@@ -2,10 +2,10 @@
 import copy
 import networkx as nx
 import time
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
-from python_tools import data_struct_utils as dsu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
+from datasci_tools import data_struct_utils as dsu
 from .h01_volume_utils import data_interface as hvu
 
 axon_version = 7 #version that finds the axon using bare synapse branches
@@ -3948,13 +3948,13 @@ from . import width_utils as wu
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import data_struct_utils as dsu
-from python_tools import general_utils as gu
-from python_tools import ipyvolume_utils as ipvu
-from python_tools import module_utils as modu 
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools.tqdm_utils import tqdm
+#--- from datasci_tools ---
+from datasci_tools import data_struct_utils as dsu
+from datasci_tools import general_utils as gu
+from datasci_tools import ipyvolume_utils as ipvu
+from datasci_tools import module_utils as modu 
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools.tqdm_utils import tqdm
 
 from . import axon_utils as au

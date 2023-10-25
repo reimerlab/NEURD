@@ -1,6 +1,6 @@
 
 
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 def ais_count_bins_dict(
     ais_distance_min = 0,
@@ -110,7 +110,7 @@ def n_ais_sum_from_min_max_dist(
         return value
 
 
-#--- from python_tools ---
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
+#--- from datasci_tools ---
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import pandas_utils as pu

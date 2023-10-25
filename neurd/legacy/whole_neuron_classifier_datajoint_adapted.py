@@ -10,7 +10,7 @@ from pathlib import Path
 import pymeshfix
 import time
 import trimesh
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 try:
     import cgal_Segmentation_Module as csm
@@ -1401,5 +1401,5 @@ self.file_name = file_name
 """
 
 
-#--- from python_tools ---
-from python_tools import numpy_dep as np
+#--- from datasci_tools ---
+from datasci_tools import numpy_dep as np

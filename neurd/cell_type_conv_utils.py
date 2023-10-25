@@ -12,7 +12,7 @@ a graph representation that can be converted to a 2D/3D ativation maps
 
 Ex 1: HOw to change between ravel and index
 
-from python_tools import numpy_utils as nu
+from datasci_tools import numpy_utils as nu
 curr_act_map[nu.ravel_index([5,4,9],array_size)]
 
 
@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
 from pathlib import Path
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 branch_attrs_for_G = [
 'area', #surface area of branch
@@ -920,11 +920,11 @@ from . import neuron_visualizations as nviz
 from . import spine_utils as spu
 from . import synapse_utils as syu
 
-#--- from python_tools ---
-from python_tools import ipyvolume_utils as ipvu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import pandas_utils as pu
-from python_tools import system_utils as su
+#--- from datasci_tools ---
+from datasci_tools import ipyvolume_utils as ipvu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import pandas_utils as pu
+from datasci_tools import system_utils as su
 
 from . import neuron_graph_lite_utils as ctcu

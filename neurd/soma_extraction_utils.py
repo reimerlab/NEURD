@@ -6,10 +6,10 @@ from pykdtree.kdtree import KDTree
 import random
 import time
 import trimesh
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
-from python_tools import data_struct_utils as dsu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
+from datasci_tools import data_struct_utils as dsu
 
 try:
     import cgal_Segmentation_Module as csm
@@ -17,7 +17,7 @@ except:
     pass
 
 #from mesh_tools.trimesh_utils import split_significant_pieces,split
-#from python_tools import numpy_utils as np
+#from datasci_tools import numpy_utils as np
 
 save_mesh_intermediates = False
 
@@ -1453,7 +1453,7 @@ def extract_soma_center(
         if save_mesh_intermediates:
             su.compressed_pickle(total_soma_list_revised,"total_soma_list_revised_1")
 
-        #     from python_tools import system_utils as su
+        #     from datasci_tools import system_utils as su
         #     su.compressed_pickle(total_soma_list_revised,"total_soma_list_revised")
         #     su.compressed_pickle(new_mesh,"original_mesh")
 
@@ -2176,14 +2176,14 @@ attributes_dict_h01 = dict()
 from mesh_tools import meshlab
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import data_struct_utils as dsu
-from python_tools import general_utils as gu
-from python_tools import module_utils as modu 
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import system_utils as su
-from python_tools import pipeline
+#--- from datasci_tools ---
+from datasci_tools import data_struct_utils as dsu
+from datasci_tools import general_utils as gu
+from datasci_tools import module_utils as modu 
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import system_utils as su
+from datasci_tools import pipeline
 
 from . import soma_extraction_utils as sm
 from . import neuron_visualizations as nviz

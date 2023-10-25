@@ -12,7 +12,7 @@ import datajoint as dj
 import matplotlib.pyplot as plt
 import networkx as nx
 from scipy.spatial import Delaunay
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 neuron_attributes = [
  'multiplicity',
@@ -692,8 +692,8 @@ data_interface = DataInterface(
 from . import volume_utils
 
 
-#--- from python_tools ---
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
+#--- from datasci_tools ---
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
 
 from . import microns_volume_utils as mru

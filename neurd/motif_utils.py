@@ -12,8 +12,8 @@ import networkx as nx
 import pandas as pd
 import re
 import time
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 
@@ -32,7 +32,7 @@ def edges_from_str(
     pattern = re.compile(edge_pattern)
     s_find = [k for k in pattern.finditer(string)]
     if return_edge_str:
-        from python_tools import regex_utils as reu
+        from datasci_tools import regex_utils as reu
         edges = [reu.substr_from_match_obj(k) for k in s_find]
     else:
         edges = [(g.groups()[0],
@@ -168,7 +168,7 @@ def edges_from_motif_dict(
     3) For each of the groups found substitute in the node name
 
     Ex: 
-    from python_tools import networkx_utils as xu
+    from datasci_tools import networkx_utils as xu
     import networkx as nx
 
     G = vdi.G_auto_DiGraph
@@ -204,7 +204,7 @@ def edges_from_motif_dict(
         print(f"Edges = {edges}")
 
     if return_dict:
-        from python_tools import regex_utils as reu
+        from datasci_tools import regex_utils as reu
         s_find = mfu.edges_from_str(s,return_edge_str=True)
         
 #         return_dict = {reu.substr_from_match_obj(k):v for k,v in
@@ -1407,16 +1407,16 @@ global_parameters_dict_h01 = dict()
 from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 
-#--- from python_tools ---
-from python_tools import module_utils as modu 
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
-from python_tools import regex_utils as reu
-from python_tools.tqdm_utils import tqdm
+#--- from datasci_tools ---
+from datasci_tools import module_utils as modu 
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import pandas_utils as pu
+from datasci_tools import regex_utils as reu
+from datasci_tools.tqdm_utils import tqdm
 
 motif_Gs_for_n_nodes = xu.motif_Gs_for_n_nodes
 
 from . import motif_utils as mfu
-from python_tools import dotmotif_utils as dmu
+from datasci_tools import dotmotif_utils as dmu

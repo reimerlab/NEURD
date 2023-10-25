@@ -10,9 +10,9 @@
 '''
 import matplotlib.pyplot as plt
 import networkx as nx
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
 
 def upstream_pair_singular(limb_obj,
                           G=None,
@@ -76,7 +76,7 @@ def upstream_pair_singular(limb_obj,
     
     
     Ex: 
-    from python_tools import networkx_utils as xu
+    from datasci_tools import networkx_utils as xu
     import matplotlib.pyplot as plt
     import networkx as nx
 
@@ -1256,11 +1256,11 @@ from . import neuron_visualizations as nviz
 min_double_back_threshold = ed.double_back_threshold_axon_thin
 min_double_back_threshold_inh = ed.double_back_threshold_axon_thick_inh
 
-#--- from python_tools ---
-from python_tools import dotmotif_utils as dmu
-from python_tools import general_utils as gu
-from python_tools import module_utils as modu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
+#--- from datasci_tools ---
+from datasci_tools import dotmotif_utils as dmu
+from datasci_tools import general_utils as gu
+from datasci_tools import module_utils as modu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
 
 from . import graph_filters as gf

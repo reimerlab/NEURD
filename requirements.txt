@@ -16,7 +16,7 @@ seaborn>=0.12.2
 trimesh>=3.22.3
 ipython
 ipython_genutils
-python_tools @ git+https://git@github.com/bacelii/python_tools.git
+datasci_tools @ git+https://git@github.com/bacelii/datasci_tools.git
 machine_learning_tools @ git+https://git@github.com/bacelii/machine_learning_tools.git
 graph_tools @ git+https://git@github.com/bacelii/graph_tools.git
 mesh_tools @ git+https://git@github.com/bacelii/mesh_tools.git

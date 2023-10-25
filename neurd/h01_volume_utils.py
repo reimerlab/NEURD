@@ -1,6 +1,6 @@
 
 import copy
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 from . import microns_volume_utils as mvu
 
 voxel_to_nm_scaling = np.array([8,8,33])
@@ -573,9 +573,9 @@ from . import volume_utils
 #--- from mesh_tools ---
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import linalg_utils as lu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
+#--- from datasci_tools ---
+from datasci_tools import linalg_utils as lu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
 
 from . import h01_volume_utils as hvu

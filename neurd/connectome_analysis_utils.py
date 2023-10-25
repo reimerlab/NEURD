@@ -1,7 +1,7 @@
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 def restrict_edge_df_by_types_compartment(
     edge_df,
@@ -491,10 +491,10 @@ def plot_cell_type_edge_stat(
 #--- from neurd_packages ---
 from . import cell_type_utils as ctu
 
-#--- from python_tools ---
-from python_tools import matplotlib_utils as mu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import pandas_utils as pu
+#--- from datasci_tools ---
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import pandas_utils as pu
 
 from . import connectome_analysis_utils as cona

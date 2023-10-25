@@ -1,6 +1,6 @@
 
 import time
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 default_skeleton_segment_size = 1000
 
@@ -541,9 +541,9 @@ from mesh_tools import compartment_utils as cu
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
+#--- from datasci_tools ---
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
 
 from . import width_utils as wu

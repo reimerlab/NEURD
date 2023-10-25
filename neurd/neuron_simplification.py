@@ -11,7 +11,7 @@ For functions that operate over the whole neuron object
 '''
 import copy 
 import time
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 # --------- functions that will carry out deletion ---------
 def branch_idx_map_from_branches_to_delete_on_limb(
@@ -684,8 +684,8 @@ from . import neuron_utils as nru
 from . import proofreading_utils as pru
 from . import neuron_visualizations as nviz
 
-#--- from python_tools ---
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
+#--- from datasci_tools ---
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
 
 from . import neuron_simplification as nsimp

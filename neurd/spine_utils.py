@@ -16,10 +16,10 @@ from pykdtree.kdtree import KDTree
 import seaborn as sns
 import time
 import time 
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
-from python_tools import matplotlib_utils as mu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
+from datasci_tools import matplotlib_utils as mu
 
 try:
     import cgal_Segmentation_Module as csm
@@ -6385,18 +6385,18 @@ from . import width_utils as wu
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import dj_utils as dju
-from python_tools import general_utils as gu
-from python_tools import matplotlib_utils as mu
-from python_tools import mesh_utils as meshu
-from python_tools import module_utils as modu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
-from python_tools import statistics_utils as stu
-from python_tools import system_utils as su
-from python_tools import tqdm_utils as tqu
+#--- from datasci_tools ---
+from datasci_tools import dj_utils as dju
+from datasci_tools import general_utils as gu
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import mesh_utils as meshu
+from datasci_tools import module_utils as modu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import pandas_utils as pu
+from datasci_tools import statistics_utils as stu
+from datasci_tools import system_utils as su
+from datasci_tools import tqdm_utils as tqu
 
 from . import spine_utils as spu

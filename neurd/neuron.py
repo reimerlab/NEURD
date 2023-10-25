@@ -7,7 +7,7 @@ from pykdtree.kdtree import KDTree
 from pykdtree.kdtree import KDTree 
 import sys
 import time
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 #neuron module specific imports
 #to be used for the soma_vertex nullification
@@ -1297,8 +1297,8 @@ class Limb:
         
         Example on how it was developed: 
         
-        from python_tools import numpy_dep as np
-        from python_tools import networkx_utils as xu
+        from datasci_tools import numpy_dep as np
+        from datasci_tools import networkx_utils as xu
         xu = reload(xu)
         import matplotlib.pyplot as plt
         from neurd import neuron_utils as nru
@@ -2943,7 +2943,7 @@ class Neuron:
         non_soma_touching_meshes #same order
         
         Testing: 
-        from python_tools import numpy_dep as np
+        from datasci_tools import numpy_dep as np
         nru = reload(nru)
         neuron = reload(neuron)
         xu = reload(xu)
@@ -3242,7 +3242,7 @@ class Neuron:
     
     
     
-    from python_tools import system_utils as su
+    from datasci_tools import system_utils as su
     def calculate_spines_old(self,
                         #query="width > 400 and n_faces_branch>100",
                          #query="median_mesh_center > 140 and n_faces_branch>100",#previous used median_mesh_center > 140
@@ -3578,7 +3578,7 @@ class Neuron:
         
         How it was developed: 
         
-        from python_tools import networkx_utils as xu
+        from datasci_tools import networkx_utils as xu
         xu = reload(xu)
         node_list = xu.get_node_list(my_neuron.concept_network)
         node_list_colors = ["red" if "S" in n else "blue" for n in node_list]
@@ -4084,14 +4084,14 @@ from mesh_tools import meshlab
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import algorithms_utils as agu
-from python_tools import matplotlib_utils as mu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import system_utils as su
-from python_tools import pipeline as pl
+#--- from datasci_tools ---
+from datasci_tools import algorithms_utils as agu
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import system_utils as su
+from datasci_tools import pipeline as pl
 
 from . import neuron_searching as ns
 from . import neuron_statistics as nst

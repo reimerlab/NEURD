@@ -12,8 +12,8 @@ from pathlib import Path
 from pykdtree.kdtree import KDTree
 import time
 import trimesh
-from python_tools import numpy_dep as np
-from python_tools import general_utils as gu
+from datasci_tools import numpy_dep as np
+from datasci_tools import general_utils as gu
 
 #importing at the bottom so don't get any conflicts
 
@@ -137,7 +137,7 @@ def further_mesh_correspondence_processing_from_skeleton(soma_touching_mesh_data
     
 #     sk_debug = True
 #     if sk_debug:
-#         from python_tools import system_utils as su
+#         from datasci_tools import system_utils as su
 #         su.compressed_pickle(deepcopy(current_mesh_data[0]["branch_skeletons_cleaned"]),
 #                             "second_branch_skeletons_cleaned")
     
@@ -171,13 +171,13 @@ def further_mesh_correspondence_processing_from_skeleton(soma_touching_mesh_data
 
     
 #     if sk_debug:
-#         from python_tools import system_utils as su
+#         from datasci_tools import system_utils as su
 #         su.compressed_pickle(deepcopy(current_mesh_data[0]["branch_skeletons_cleaned"]),
 #                             "third_combining_skeleton_nodes")
     
     save_clean_skeleton = False
     if save_clean_skeleton:
-        from python_tools import system_utils as su
+        from datasci_tools import system_utils as su
         su.compressed_pickle(current_mesh_data[0]["branch_skeletons_cleaned"],"branch_skeletons_cleaned")
 
 
@@ -298,7 +298,7 @@ def further_mesh_correspondence_processing_from_skeleton(soma_touching_mesh_data
 
 
 
-    # from python_tools import matplotlib_utils as mu
+    # from datasci_tools import matplotlib_utils as mu
 
     # sk.graph_skeleton_and_mesh(other_meshes=total_branch_meshes,
     #                           other_meshes_colors="random",
@@ -1370,7 +1370,7 @@ def preprocess_neuron(mesh=None,
                 
 #                 sk_debug = True
 #                 if sk_debug:
-#                     from python_tools import system_utils as su
+#                     from datasci_tools import system_utils as su
 #                     su.compressed_pickle(mesh_data["branch_meshes"],
 #                                         "ordered_branch_meshes")
 #                 raise Exception("Done exporting branches")
@@ -1391,12 +1391,12 @@ def preprocess_neuron(mesh=None,
 
 #                     sk_debug = True
 #                     if sk_debug:
-#                         from python_tools import system_utils as su
+#                         from datasci_tools import system_utils as su
 #                         print("**Saving the skeletons**")
 #                         su.compressed_pickle(branch,
 #                                             "curr_branch_saved")
 #                     if sk_debug:
-#                         from python_tools import system_utils as su
+#                         from datasci_tools import system_utils as su
 #                         print("**Saving the skeletons**")
 #                         su.compressed_pickle(current_skeleton,
 #                                             "current_skeleton")
@@ -1427,7 +1427,7 @@ def preprocess_neuron(mesh=None,
 
                     #                     sk_debug = True
                     #                     if sk_debug:
-                    #                         from python_tools import system_utils as su
+                    #                         from datasci_tools import system_utils as su
                     #                         print("**Saving the skeletons**")
                     #                         su.compressed_pickle(current_skeleton,
                     #                                             "current_skeleton_after_addition")
@@ -1458,7 +1458,7 @@ def preprocess_neuron(mesh=None,
                     
 #                     sk_debug = True
 #                     if sk_debug:
-#                         from python_tools import system_utils as su
+#                         from datasci_tools import system_utils as su
 #                         print("**Saving the skeletons**")
 #                         su.compressed_pickle(new_cleaned_skeleton,
 #                                             "new_cleaned_skeleton")
@@ -1482,7 +1482,7 @@ def preprocess_neuron(mesh=None,
             
 #         sk_debug = True
 #         if sk_debug:
-#             from python_tools import system_utils as su
+#             from datasci_tools import system_utils as su
 #             from copy import deepcopy
 #             print("**Saving the skeletons**")
 #             su.compressed_pickle(deepcopy(soma_touching_mesh_data[j]["branch_skeletons"]),
@@ -1664,7 +1664,7 @@ def preprocess_neuron(mesh=None,
 
                     print(f"\nbranch segment sizes = {dict([(i,b.shape) for i,b in enumerate(segment_branches)])}")
 
-                    from python_tools import system_utils as su
+                    from datasci_tools import system_utils as su
                     if output_data_flag:
                         print("******* exporting the data for debugging *************")
                         limb_mesh_mparty.export(f"limb_{limb_idx}_mesh.off")
@@ -1788,7 +1788,7 @@ def preprocess_neuron(mesh=None,
 
 #     sk_debug = True
 #     if sk_debug:
-#         from python_tools import system_utils as su
+#         from datasci_tools import system_utils as su
 #         su.compressed_pickle(limb_correspondence,
 #                             "fourth_original_limb_correspondence")
     
@@ -1834,7 +1834,7 @@ def preprocess_neuron(mesh=None,
         current_neuron_mesh = current_neuron
 
 
-    #     from python_tools import system_utils as su
+    #     from datasci_tools import system_utils as su
     #     su.compressed_pickle(new_limb_objs,
     #                         filename="new_limb_objs")
     #     su.compressed_pickle(soma_meshes,
@@ -1857,7 +1857,7 @@ def preprocess_neuron(mesh=None,
                                           current_neuron_mesh=current_neuron)
 
     #     if sk_debug:
-    #         from python_tools import system_utils as su
+    #         from datasci_tools import system_utils as su
     #         su.compressed_pickle(new_limb_correspondence,
     #                             "fifth_new_limb_correspondence")
         preprocessed_data = dict(
@@ -2390,7 +2390,7 @@ def preprocess_neuron_OLD(mesh=None,
         
         
 
-    # from python_tools import matplotlib_utils as mu
+    # from datasci_tools import matplotlib_utils as mu
 
     # sk.graph_skeleton_and_mesh(other_meshes=total_branch_meshes,
     #                           other_meshes_colors="random",
@@ -2611,11 +2611,11 @@ from mesh_tools import meshparty_skeletonize as m_sk
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import general_utils as gu
-from python_tools import matplotlib_utils as mu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import system_utils as su
-from python_tools.tqdm_utils import tqdm
+#--- from datasci_tools ---
+from datasci_tools import general_utils as gu
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import system_utils as su
+from datasci_tools.tqdm_utils import tqdm

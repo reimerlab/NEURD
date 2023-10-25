@@ -4,9 +4,9 @@ import itertools
 import networkx as nx
 from pykdtree.kdtree import KDTree
 import time
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 from . import proofreading_utils as pru
@@ -6397,7 +6397,7 @@ def limb_branch_dict_to_cancel_to_red_blue_groups(neuron_obj,
 
     import networkx as nx
     import matplotlib.pyplot as plt
-    from python_tools import networkx_utils as xu
+    from datasci_tools import networkx_utils as xu
 
 
 
@@ -7972,12 +7972,12 @@ from . import cell_type_utils as ctu
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import general_utils as gu
-from python_tools import module_utils as modu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import system_utils as su
+#--- from datasci_tools ---
+from datasci_tools import general_utils as gu
+from datasci_tools import module_utils as modu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import system_utils as su
 
 from . import proofreading_utils as pru

@@ -1,6 +1,6 @@
 
 import networkx as nx
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 non_branching_upstream = False
 
@@ -1476,7 +1476,7 @@ def G_weighted_from_limb(limb_obj,
                                 upstream_attribute_for_weight = "skeletal_length",
                                   node_properties = [nst.width_new])
 
-    from python_tools import numpy_utils as nu
+    from datasci_tools import numpy_utils as nu
     nu.turn_off_scientific_notation()
     xu.get_node_attributes(G,"width_new",24)
     xu.get_edges_with_weights(G)
@@ -1743,9 +1743,9 @@ from . import width_utils as wu
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
+#--- from datasci_tools ---
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
 
 from . import concept_network_utils as cnu

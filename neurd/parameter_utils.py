@@ -807,13 +807,13 @@ def category_param_from_module(
 
 
 #--- from python-tools
-from python_tools import package_utils as pku
-from python_tools import module_utils as modu
-from python_tools import data_struct_utils as dsu
-from python_tools import json_utils as jsu
-from python_tools import numpy_utils as nu
-from python_tools import general_utils as gu
-from python_tools import pathlib_utils as plu
+from datasci_tools import package_utils as pku
+from datasci_tools import module_utils as modu
+from datasci_tools import data_struct_utils as dsu
+from datasci_tools import json_utils as jsu
+from datasci_tools import numpy_utils as nu
+from datasci_tools import general_utils as gu
+from datasci_tools import pathlib_utils as plu
 
 
 

@@ -5,9 +5,9 @@ import pandas as pd
 from pykdtree.kdtree import KDTree
 import seaborn as sns
 import time
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
-from python_tools import module_utils as modu
+from datasci_tools import module_utils as modu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 
@@ -880,13 +880,13 @@ from . import nature_paper_plotting as npp
 #--- from neuron_morphology_tools ---
 from neuron_morphology_tools import neuron_nx_utils as nxu
 
-#--- from python_tools ---
-from python_tools import matplotlib_utils as mu
-from python_tools import module_utils as modu 
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
-from python_tools.tqdm_utils import tqdm
+#--- from datasci_tools ---
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import module_utils as modu 
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import pandas_utils as pu
+from datasci_tools.tqdm_utils import tqdm
 
 from . import proximity_analysis_utils as pxa

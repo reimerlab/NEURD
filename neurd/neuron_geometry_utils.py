@@ -11,8 +11,8 @@ angles of different compartments of neurons
 '''
 import matplotlib.pyplot as plt
 import pandas as pd
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 
@@ -254,11 +254,11 @@ global_parameters_dict_h01 = dict()
 from . import h01_volume_utils as hvu
 from . import microns_volume_utils as mvu
 
-#--- from python_tools ---
-from python_tools import ipyvolume_utils as ipvu
-from python_tools import module_utils as modu 
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
+#--- from datasci_tools ---
+from datasci_tools import ipyvolume_utils as ipvu
+from datasci_tools import module_utils as modu 
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import pandas_utils as pu
 
 from . import neuron_geometry_utils as ngu

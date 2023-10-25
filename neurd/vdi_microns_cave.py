@@ -84,6 +84,6 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
             
         return mesh
     
-from python_tools import ipyvolume_utils as ipvu    
+from datasci_tools import ipyvolume_utils as ipvu    
 
 volume_data_interface = DataInterfaceMicrons()

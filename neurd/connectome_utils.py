@@ -13,8 +13,8 @@ import copy
 import matplotlib.pyplot as plt
 import pandas as pd
 import time
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 
@@ -2596,15 +2596,15 @@ except:
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk
 
-#--- from python_tools ---
-from python_tools import matplotlib_utils as mu
-from python_tools import module_utils as modu 
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
-from python_tools import statistics_visualizations as sviz
-from python_tools import string_utils as stru
-from python_tools.tqdm_utils import tqdm
+#--- from datasci_tools ---
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import module_utils as modu 
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import pandas_utils as pu
+from datasci_tools import statistics_visualizations as sviz
+from datasci_tools import string_utils as stru
+from datasci_tools.tqdm_utils import tqdm
 
 from . import connectome_utils as conu

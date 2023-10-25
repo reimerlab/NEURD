@@ -1,6 +1,6 @@
 
 
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 def all_paths_to_leaf_nodes(
     limb_obj,
@@ -394,10 +394,10 @@ from . import neuron_statistics as nst
 from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
 
-#--- from python_tools ---
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
+#--- from datasci_tools ---
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
 
 from . import limb_utils as lu
 

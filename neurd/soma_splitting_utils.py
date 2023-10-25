@@ -271,9 +271,9 @@ def multi_soma_split_execution(
 
 
         
-# --- from python_tools ---
-from python_tools import ipyvolume_utils as ipvu
-from python_tools import pipeline
+# --- from datasci_tools ---
+from datasci_tools import ipyvolume_utils as ipvu
+from datasci_tools import pipeline
 
 # --- from neurd ---
 from . import neuron_utils as nru

@@ -22,9 +22,9 @@ from pykdtree.kdtree import KDTree
 import time
 import trimesh
 from trimesh.ray import ray_pyembree
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 
@@ -8973,7 +8973,7 @@ def filter_away_neuron_limbs(
     if verbose:
         print(f"map_idx_limbs_names= {map_idx_limbs_names}")
 
-    from python_tools import networkx_utils as xu
+    from datasci_tools import networkx_utils as xu
     neuron_obj.concept_network.remove_nodes_from([f"L{k}" for k in limb_idx_to_filter])
     xu.relabel_node_names(neuron_obj.concept_network,map_idx_limbs_names)
     if verbose:
@@ -9860,16 +9860,16 @@ from mesh_tools import meshparty_skeletonize as m_sk
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import general_utils as gu
-from python_tools import matplotlib_utils as mu
-from python_tools import module_utils as modu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import system_utils as su
-from python_tools.tqdm_utils import tqdm
-from python_tools import pipeline
-from python_tools import mesh_utils as meshu
+#--- from datasci_tools ---
+from datasci_tools import general_utils as gu
+from datasci_tools import matplotlib_utils as mu
+from datasci_tools import module_utils as modu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import system_utils as su
+from datasci_tools.tqdm_utils import tqdm
+from datasci_tools import pipeline
+from datasci_tools import mesh_utils as meshu
 
 from . import neuron_utils as nru

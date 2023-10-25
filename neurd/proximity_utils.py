@@ -18,8 +18,8 @@ import datajoint as dj
 import pandas as pd
 from pykdtree.kdtree import KDTree
 import time
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 import numpy as np
@@ -935,11 +935,11 @@ from neuron_morphology_tools import neuron_nx_utils as nxu
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk
 
-#--- from python_tools ---
-from python_tools import ipyvolume_utils as ipvu
-from python_tools import module_utils as modu 
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
+#--- from datasci_tools ---
+from datasci_tools import ipyvolume_utils as ipvu
+from datasci_tools import module_utils as modu 
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
 
 from . import proximity_utils as pxu

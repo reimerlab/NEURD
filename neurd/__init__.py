@@ -1,4 +1,4 @@
-from python_tools import module_utils as modu
+from datasci_tools import module_utils as modu
 from pathlib import Path
 
 default_data_type = "microns"
@@ -20,7 +20,7 @@ def set_volume_params(
     )
     
 import os
-from python_tools import package_utils as pku
+from datasci_tools import package_utils as pku
 
 
 # pku.load_all_modules_in_package(

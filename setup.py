@@ -17,7 +17,7 @@ def get_install_requires(filepath=None):
 
 def get_links():
     return [
-        #"python_tools @ git+https://github.com/bacelii/python_tools.git'"
+        #"datasci_tools @ git+https://github.com/bacelii/datasci_tools.git'"
     ]
 
 

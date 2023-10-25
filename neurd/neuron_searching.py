@@ -19,7 +19,7 @@ import networkx as nx
 import pandas as pd
 import re
 import sys
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 
 comparison_distance_global = 1000
 limb_function_append_name = "limb_ns"
@@ -1355,7 +1355,7 @@ def query_neuron(
     sys.path.append("../../neurd_packages/meshAfterParty/meshAfterParty/")
     from importlib import reload
     
-    from python_tools import pandas_utils as pu
+    from datasci_tools import pandas_utils as pu
     import pandas as pd
     from pathlib import Path
     
@@ -1367,7 +1367,7 @@ def query_neuron(
     from neurd import neuron
     neuron=reload(neuron)
 
-    from python_tools import system_utils as su
+    from datasci_tools import system_utils as su
 
     with su.suppress_stdout_stderr():
         recovered_neuron = nru.decompress_neuron(filepath=compressed_neuron_path,
@@ -2303,12 +2303,12 @@ axon_width_like_segments = clu.axon_width_like_segments
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import function_utils as fcu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
-from python_tools import system_utils as su
+#--- from datasci_tools ---
+from datasci_tools import function_utils as fcu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import pandas_utils as pu
+from datasci_tools import system_utils as su
 
 from . import neuron_searching as ns

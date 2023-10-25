@@ -1,9 +1,9 @@
 
 import copy
 import networkx as nx
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 
@@ -405,7 +405,7 @@ def fork_divergence_from_branch(limb_obj,
 
 
         if downstream_sk_colors is None:
-            from python_tools import matplotlib_utils as mu
+            from datasci_tools import matplotlib_utils as mu
             downstream_sk_colors = mu.generate_color_list(n_colors = len(downstream_nodes),
                                   colors_to_omit = [upstream_sk_color])
 
@@ -3835,12 +3835,12 @@ from . import synapse_utils as syu
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import general_utils as gu
-from python_tools import module_utils as modu
-from python_tools import networkx_utils as xu
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
+#--- from datasci_tools ---
+from datasci_tools import general_utils as gu
+from datasci_tools import module_utils as modu
+from datasci_tools import networkx_utils as xu
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import pandas_utils as pu
 
 from . import neuron_statistics as nst

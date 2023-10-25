@@ -23,9 +23,9 @@ import copy
 import operator
 import pandas as pd
 import time
-from python_tools import numpy_dep as np
-from python_tools import module_utils as modu
-from python_tools import general_utils as gu
+from datasci_tools import numpy_dep as np
+from datasci_tools import module_utils as modu
+from datasci_tools import general_utils as gu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 
@@ -1982,7 +1982,7 @@ def synapses_to_dj_keys_old(
     return the list
     
     Ex: 
-    from python_tools import numpy_dep as np
+    from datasci_tools import numpy_dep as np
     dj_keys = syu.synapses_to_dj_keys(neuron_obj,
                            verbose = True,
                            nucleus_id=12345,
@@ -4448,11 +4448,11 @@ presyns_on_dendrite_query = ("(label=='limb_branch') and ((compartment=='dendrit
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
 
-#--- from python_tools ---
-from python_tools import general_utils as gu
-from python_tools import module_utils as modu 
-from python_tools import numpy_dep as np
-from python_tools import numpy_utils as nu
-from python_tools import pandas_utils as pu
+#--- from datasci_tools ---
+from datasci_tools import general_utils as gu
+from datasci_tools import module_utils as modu 
+from datasci_tools import numpy_dep as np
+from datasci_tools import numpy_utils as nu
+from datasci_tools import pandas_utils as pu
 
 from . import synapse_utils as syu
