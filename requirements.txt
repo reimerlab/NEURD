@@ -16,8 +16,8 @@ seaborn>=0.12.2
 trimesh>=3.22.3
 ipython
 ipython_genutils
-datasci_tools @ git+https://git@github.com/bacelii/datasci_tools.git
-machine_learning_tools @ git+https://git@github.com/bacelii/machine_learning_tools.git
-graph_tools @ git+https://git@github.com/bacelii/graph_tools.git
-mesh_tools @ git+https://git@github.com/bacelii/mesh_tools.git
-neuron_morphology_tools @ git+https://git@github.com/bacelii/neuron_morphology_tools.git
+datasci-stdlib-tools>=1.0.0
+machine-learning-tools>=1.0.0
+graph-nx-tools>=1.0.0
+mesh_processing_tools>=1.0.0
+neuron_morphology_tools>=1.0.0
