@@ -1,7 +1,7 @@
 version: "2"
 services:
   notebook:
-    image: celiib/mesh_tools:v3
+    image: celiib/neurd:v1
     build:
       context: .
     env_file: .env
