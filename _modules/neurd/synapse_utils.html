@@ -95,9 +95,9 @@
 <span class="kn">import</span> <span class="nn">operator</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
 
@@ -2054,7 +2054,7 @@
 <span class="sd">    return the list</span>
 <span class="sd">    </span>
 <span class="sd">    Ex: </span>
-<span class="sd">    from python_tools import numpy_dep as np</span>
+<span class="sd">    from datasci_tools import numpy_dep as np</span>
 <span class="sd">    dj_keys = syu.synapses_to_dj_keys(neuron_obj,</span>
 <span class="sd">                           verbose = True,</span>
 <span class="sd">                           nucleus_id=12345,</span>
@@ -4227,6 +4227,47 @@
         
     <span class="k">return</span> <span class="n">df</span></div>
 
+<div class="viewcode-block" id="synapse_dict_from_synapse_df"><a class="viewcode-back" href="../../neurd.html#neurd.synapse_utils.synapse_dict_from_synapse_df">[docs]</a><span class="k">def</span> <span class="nf">synapse_dict_from_synapse_df</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">scaling</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">coordinates_nm</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">syn_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;presyn&quot;</span><span class="p">,</span><span class="s2">&quot;postsyn&quot;</span><span class="p">],</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    
+    <span class="k">if</span> <span class="n">coordinates_nm</span><span class="p">:</span>
+        <span class="n">syn_coord_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;synapse_x_nm&quot;</span><span class="p">,</span><span class="s1">&#39;synapse_y_nm&#39;</span><span class="p">,</span><span class="s1">&#39;synapse_z_nm&#39;</span><span class="p">,</span><span class="s1">&#39;synapse_size_nm&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">syn_coord_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;synapse_x&quot;</span><span class="p">,</span><span class="s1">&#39;synapse_y&#39;</span><span class="p">,</span><span class="s1">&#39;synapse_z&#39;</span><span class="p">,</span><span class="s2">&quot;synapse_size&quot;</span><span class="p">]</span>
+
+    <span class="n">synapse_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">synapse_type</span> <span class="ow">in</span> <span class="n">syn_types</span><span class="p">:</span>
+        <span class="n">df_curr</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prepost == &#39;</span><span class="si">{</span><span class="n">synapse_type</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">synapse_ids</span><span class="p">,</span> <span class="n">centroid_xs</span><span class="p">,</span> <span class="n">centroid_ys</span><span class="p">,</span> <span class="n">centroid_zs</span><span class="p">,</span><span class="n">synapse_sizes</span> <span class="o">=</span> <span class="n">df_curr</span><span class="p">[</span>
+            <span class="p">[</span><span class="s2">&quot;synapse_id&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">syn_coord_names</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">synapse_ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">synapse_centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">centroid_xs</span><span class="p">,</span><span class="n">centroid_ys</span><span class="p">,</span><span class="n">centroid_zs</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+            <span class="k">if</span> <span class="n">scaling</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">synapse_centers</span> <span class="o">=</span> <span class="n">synapse_centers</span><span class="o">*</span> <span class="n">scaling</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">synapse_centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+            <span class="n">synapse_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+            <span class="n">synapse_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+        <span class="n">synapse_dict</span><span class="p">[</span><span class="n">synapse_type</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">synapse_ids</span> <span class="o">=</span> <span class="n">synapse_ids</span><span class="p">,</span>
+            <span class="n">synapse_coordinates</span><span class="o">=</span> <span class="n">synapse_centers</span><span class="p">,</span>
+            <span class="n">synapse_sizes</span> <span class="o">=</span> <span class="n">synapse_sizes</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of </span><span class="si">{</span><span class="n">synapse_type</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">synapse_dict</span><span class="p">[</span><span class="n">synapse_type</span><span class="p">][</span><span class="s1">&#39;synapse_coordinates&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+    <span class="k">return</span> <span class="n">synapse_dict</span></div>
+    
+
 <div class="viewcode-block" id="synapse_dict_from_synapse_csv"><a class="viewcode-back" href="../../neurd.html#neurd.synapse_utils.synapse_dict_from_synapse_csv">[docs]</a><span class="k">def</span> <span class="nf">synapse_dict_from_synapse_csv</span><span class="p">(</span>
     <span class="n">synapse_filepath</span><span class="p">,</span>
     <span class="n">segment_id</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -4251,7 +4292,6 @@
 <span class="sd">        d) Stores all data in dictionary for that prepost</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-        
     <span class="n">df</span> <span class="o">=</span> <span class="n">synapse_df_from_csv</span><span class="p">(</span>
         <span class="n">synapse_filepath</span><span class="p">,</span>
         <span class="n">segment_id</span> <span class="o">=</span> <span class="n">segment_id</span><span class="p">,</span>
@@ -4260,36 +4300,14 @@
         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
     <span class="p">)</span>
     
-    <span class="k">if</span> <span class="n">coordinates_nm</span><span class="p">:</span>
-        <span class="n">syn_coord_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;synapse_x_nm&quot;</span><span class="p">,</span><span class="s1">&#39;synapse_y_nm&#39;</span><span class="p">,</span><span class="s1">&#39;synapse_z_nm&#39;</span><span class="p">,</span><span class="s1">&#39;synapse_size_nm&#39;</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">syn_coord_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;synapse_x&quot;</span><span class="p">,</span><span class="s1">&#39;synapse_y&#39;</span><span class="p">,</span><span class="s1">&#39;synapse_z&#39;</span><span class="p">,</span><span class="s2">&quot;synapse_size&quot;</span><span class="p">]</span>
-
-    <span class="n">synapse_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">synapse_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;presyn&quot;</span><span class="p">,</span><span class="s2">&quot;postsyn&quot;</span><span class="p">]:</span>
-        <span class="n">df_curr</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prepost == &#39;</span><span class="si">{</span><span class="n">synapse_type</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">synapse_ids</span><span class="p">,</span> <span class="n">centroid_xs</span><span class="p">,</span> <span class="n">centroid_ys</span><span class="p">,</span> <span class="n">centroid_zs</span><span class="p">,</span><span class="n">synapse_sizes</span> <span class="o">=</span> <span class="n">df_curr</span><span class="p">[</span>
-            <span class="p">[</span><span class="s2">&quot;synapse_id&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">syn_coord_names</span>
-        <span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">synapse_ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">synapse_centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">centroid_xs</span><span class="p">,</span><span class="n">centroid_ys</span><span class="p">,</span><span class="n">centroid_zs</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
-            <span class="k">if</span> <span class="n">scaling</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">synapse_centers</span> <span class="o">=</span> <span class="n">synapse_centers</span><span class="o">*</span> <span class="n">scaling</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">synapse_centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
-            <span class="n">synapse_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
-            <span class="n">synapse_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
-
-        <span class="n">synapse_dict</span><span class="p">[</span><span class="n">synapse_type</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-            <span class="n">synapse_ids</span> <span class="o">=</span> <span class="n">synapse_ids</span><span class="p">,</span>
-            <span class="n">synapse_coordinates</span><span class="o">=</span> <span class="n">synapse_centers</span><span class="p">,</span>
-            <span class="n">synapse_sizes</span> <span class="o">=</span> <span class="n">synapse_sizes</span>
-        <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of </span><span class="si">{</span><span class="n">synapse_type</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">synapse_dict</span><span class="p">[</span><span class="n">synapse_type</span><span class="p">][</span><span class="s1">&#39;synapse_coordinates&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            
-    <span class="k">return</span> <span class="n">synapse_dict</span></div>
+    <span class="k">return</span> <span class="n">synapse_dict_from_synapse_df</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">,</span>
+        <span class="n">scaling</span> <span class="o">=</span> <span class="n">scaling</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+        <span class="n">coordinates_nm</span> <span class="o">=</span> <span class="n">coordinates_nm</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
+    
 
 
 <div class="viewcode-block" id="fetch_synapse_dict_by_mesh_labels"><a class="viewcode-back" href="../../neurd.html#neurd.synapse_utils.fetch_synapse_dict_by_mesh_labels">[docs]</a><span class="k">def</span> <span class="nf">fetch_synapse_dict_by_mesh_labels</span><span class="p">(</span>
@@ -4521,12 +4539,12 @@
 <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
 <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
-<span class="c1">#--- from python_tools ---</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="c1">#--- from datasci_tools ---</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
 </pre></div>

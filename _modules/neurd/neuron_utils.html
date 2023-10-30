@@ -94,9 +94,9 @@
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">trimesh</span>
 <span class="kn">from</span> <span class="nn">trimesh.ray</span> <span class="kn">import</span> <span class="n">ray_pyembree</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
 
@@ -9045,7 +9045,7 @@
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;map_idx_limbs_names= </span><span class="si">{</span><span class="n">map_idx_limbs_names</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+    <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
     <span class="n">neuron_obj</span><span class="o">.</span><span class="n">concept_network</span><span class="o">.</span><span class="n">remove_nodes_from</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;L</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">limb_idx_to_filter</span><span class="p">])</span>
     <span class="n">xu</span><span class="o">.</span><span class="n">relabel_node_names</span><span class="p">(</span><span class="n">neuron_obj</span><span class="o">.</span><span class="n">concept_network</span><span class="p">,</span><span class="n">map_idx_limbs_names</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
@@ -9711,8 +9711,160 @@
     <span class="k">return</span> <span class="n">decomp_products</span></div>
 
 
-<span class="c1"># ------------- parameters for stats ---------------</span>
+<span class="c1"># ----------- for aligning neuron ---------</span>
+<span class="n">align_attr</span> <span class="o">=</span> <span class="s2">&quot;align_matrix&quot;</span>
 
+<div class="viewcode-block" id="align_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.align_attribute">[docs]</a><span class="k">def</span> <span class="nf">align_attribute</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">attribute_name</span><span class="p">,</span>
+                    <span class="n">soma_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,):</span>
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attribute_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">align_array</span><span class="p">(</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attribute_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="n">soma_center</span><span class="o">=</span><span class="n">soma_center</span><span class="p">,</span>
+        <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
+        <span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix</span><span class="p">))</span></div>
+<div class="viewcode-block" id="align_array"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.align_array">[docs]</a><span class="k">def</span> <span class="nf">align_array</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">nu</span><span class="o">.</span><span class="n">align_array</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.align_mesh">[docs]</a><span class="k">def</span> <span class="nf">align_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">meshu</span><span class="o">.</span><span class="n">align_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.align_skeleton">[docs]</a><span class="k">def</span> <span class="nf">align_skeleton</span><span class="p">(</span><span class="n">skeleton</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">nu</span><span class="o">.</span><span class="n">align_array</span><span class="p">(</span><span class="n">array</span><span class="o">=</span><span class="n">skeleton</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="align_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.align_neuron_obj_from_align_matrix">[docs]</a><span class="k">def</span> <span class="nf">align_neuron_obj_from_align_matrix</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">align_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">align_synapses</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">align_array</span> <span class="o">=</span> <span class="n">align_array</span><span class="p">,</span>
+    <span class="n">align_mesh</span><span class="o">=</span><span class="n">align_mesh</span><span class="p">,</span>
+    <span class="n">align_skeleton</span><span class="o">=</span><span class="n">align_skeleton</span><span class="p">,</span>
+    <span class="n">in_place</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    
+    
+    <span class="k">if</span> <span class="n">align_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">align_matrix</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_attr</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">align_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">neuron_obj</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">in_place</span><span class="p">:</span>
+        <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">limb_obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">branch_obj</span> <span class="ow">in</span> <span class="n">limb_obj</span><span class="p">:</span>
+            <span class="n">branch_obj</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">align_mesh</span><span class="p">(</span>
+                                <span class="n">branch_obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span>
+                                <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span>
+                                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="p">)</span>
+
+            <span class="n">branch_obj</span><span class="o">.</span><span class="n">mesh_center</span> <span class="o">=</span> <span class="n">tu</span><span class="o">.</span><span class="n">mesh_center_vertex_average</span><span class="p">(</span><span class="n">branch_obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">)</span>
+
+            <span class="n">branch_obj</span><span class="o">.</span><span class="n">skeleton</span> <span class="o">=</span> <span class="n">align_skeleton</span><span class="p">(</span>
+                                <span class="n">branch_obj</span><span class="o">.</span><span class="n">skeleton</span><span class="p">,</span>
+                                <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span>
+                                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="p">)</span>
+            <span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoints</span> <span class="o">=</span> <span class="n">align_array</span><span class="p">(</span><span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoints</span><span class="p">,</span>
+                                                    <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,)</span>
+            
+            
+            
+            <span class="k">if</span> <span class="n">align_synapses</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">syn</span> <span class="ow">in</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">synapses</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_coordinate_system_dependent_attributes</span><span class="p">:</span>
+                        <span class="n">align_attribute</span><span class="p">(</span><span class="n">syn</span><span class="p">,</span><span class="n">att</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,)</span>
+                        
+            <span class="c1">#doing the spine alignment</span>
+            <span class="k">if</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">spines</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">branch_obj</span><span class="o">.</span><span class="n">spines</span> <span class="o">=</span> <span class="p">[</span><span class="n">align_mesh</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">spines</span><span class="p">]</span>
+            
+            <span class="k">if</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">spines_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">s_obj</span> <span class="ow">in</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">spines_obj</span><span class="p">:</span>
+                    <span class="n">s_obj</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">align_mesh</span><span class="p">(</span><span class="n">s_obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">)</span>
+                
+                        
+            
+        
+        <span class="c1">#changing the concept network</span>
+        <span class="n">all_concept_network_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">att_to_change</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;starting_endpoints&quot;</span><span class="p">,</span><span class="s2">&quot;starting_coordinate&quot;</span><span class="p">,</span><span class="s2">&quot;touching_soma_vertices&quot;</span><span class="p">]</span>
+        
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">limb_obj</span><span class="o">.</span><span class="n">all_concept_network_data</span><span class="p">:</span>
+            <span class="n">new_data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">att_to_change</span><span class="p">:</span>
+                <span class="n">new_data</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="o">=</span> <span class="n">align_array</span><span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="n">att</span><span class="p">],</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,)</span>
+            <span class="n">all_concept_network_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_data</span><span class="p">)</span>
+            
+        <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">att_to_change</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;current_</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">align_array</span><span class="p">(</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;current_</span><span class="si">{</span><span class="n">att</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,))</span>
+
+        <span class="n">limb_obj</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">align_mesh</span><span class="p">(</span>
+                                <span class="n">limb_obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span>
+                                <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span>
+                                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="p">)</span>
+        <span class="n">limb_obj</span><span class="o">.</span><span class="n">all_concept_network_data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">all_concept_network_data</span><span class="p">)</span>
+        <span class="n">limb_obj</span><span class="o">.</span><span class="n">set_concept_network_directional</span><span class="p">()</span>
+        
+    <span class="n">neuron_obj</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">align_mesh</span><span class="p">(</span>
+                                <span class="n">neuron_obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span>
+                                <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span>
+                                <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+                                <span class="p">)</span>
+        
+    <span class="c1">#finishing soma mesh stuff</span>
+    <span class="k">for</span> <span class="n">s_name</span> <span class="ow">in</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">get_soma_node_names</span><span class="p">():</span>
+        <span class="n">neuron_obj</span><span class="p">[</span><span class="n">s_name</span><span class="p">]</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">align_mesh</span><span class="p">(</span>
+            <span class="n">neuron_obj</span><span class="p">[</span><span class="n">s_name</span><span class="p">]</span><span class="o">.</span><span class="n">mesh</span> <span class="p">,</span>
+            <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">align_synapses</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">syn</span> <span class="ow">in</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="n">s_name</span><span class="p">]</span><span class="o">.</span><span class="n">synapses</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_coordinate_system_dependent_attributes</span><span class="p">:</span>
+                    <span class="n">align_attribute</span><span class="p">(</span><span class="n">syn</span><span class="p">,</span><span class="n">att</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,)</span>
+
+        <span class="n">neuron_obj</span><span class="p">[</span><span class="n">s_name</span><span class="p">]</span><span class="o">.</span><span class="n">mesh_center</span> <span class="o">=</span> <span class="n">tu</span><span class="o">.</span><span class="n">mesh_center_vertex_average</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">[</span><span class="n">s_name</span><span class="p">]</span><span class="o">.</span><span class="n">mesh</span><span class="p">)</span>
+        <span class="c1">#print(f&quot;neuron_obj[s_name].mesh_center = {neuron_obj[s_name].mesh_center}&quot;)</span>
+        
+        
+    <span class="k">return</span> <span class="n">neuron_obj</span></div>
+
+
+<div class="viewcode-block" id="unalign_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.unalign_neuron_obj_from_align_matrix">[docs]</a><span class="k">def</span> <span class="nf">unalign_neuron_obj_from_align_matrix</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">align_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    
+    <span class="k">if</span> <span class="n">align_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">align_matrix</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_attr</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">align_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">neuron_obj</span>
+    
+    <span class="n">align_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">align_matrix</span><span class="p">)</span>
+    
+    
+    <span class="n">curr_neuron</span> <span class="o">=</span>  <span class="n">align_neuron_obj_from_align_matrix</span><span class="p">(</span>
+        <span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+    
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">curr_neuron</span><span class="p">,</span><span class="n">align_attr</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">curr_neuron</span></div>
+    
+
+<span class="c1"># ------------- parameters for stats ---------------</span>
 
 
 
@@ -9780,17 +9932,17 @@
 <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
 <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
-<span class="c1">#--- from python_tools ---</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
-<span class="kn">from</span> <span class="nn">python_tools.tqdm_utils</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">pipeline</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">mesh_utils</span> <span class="k">as</span> <span class="n">meshu</span>
+<span class="c1">#--- from datasci_tools ---</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
+<span class="kn">from</span> <span class="nn">datasci_tools.tqdm_utils</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pipeline</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">mesh_utils</span> <span class="k">as</span> <span class="n">meshu</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
 </pre></div>

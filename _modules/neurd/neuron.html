@@ -79,7 +79,7 @@
 <span class="kn">from</span> <span class="nn">pykdtree.kdtree</span> <span class="kn">import</span> <span class="n">KDTree</span> 
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
 
 <span class="c1">#neuron module specific imports</span>
 <span class="c1">#to be used for the soma_vertex nullification</span>
@@ -1369,8 +1369,8 @@
 <span class="sd">        </span>
 <span class="sd">        Example on how it was developed: </span>
 <span class="sd">        </span>
-<span class="sd">        from python_tools import numpy_dep as np</span>
-<span class="sd">        from python_tools import networkx_utils as xu</span>
+<span class="sd">        from datasci_tools import numpy_dep as np</span>
+<span class="sd">        from datasci_tools import networkx_utils as xu</span>
 <span class="sd">        xu = reload(xu)</span>
 <span class="sd">        import matplotlib.pyplot as plt</span>
 <span class="sd">        from neurd import neuron_utils as nru</span>
@@ -3015,7 +3015,7 @@
 <span class="sd">        non_soma_touching_meshes #same order</span>
 <span class="sd">        </span>
 <span class="sd">        Testing: </span>
-<span class="sd">        from python_tools import numpy_dep as np</span>
+<span class="sd">        from datasci_tools import numpy_dep as np</span>
 <span class="sd">        nru = reload(nru)</span>
 <span class="sd">        neuron = reload(neuron)</span>
 <span class="sd">        xu = reload(xu)</span>
@@ -3314,7 +3314,7 @@
     
     
     
-    <span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
+    <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
 <div class="viewcode-block" id="Neuron.calculate_spines_old"><a class="viewcode-back" href="../../neurd.html#neurd.neuron.Neuron.calculate_spines_old">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_spines_old</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                         <span class="c1">#query=&quot;width &gt; 400 and n_faces_branch&gt;100&quot;,</span>
                          <span class="c1">#query=&quot;median_mesh_center &gt; 140 and n_faces_branch&gt;100&quot;,#previous used median_mesh_center &gt; 140</span>
@@ -3650,7 +3650,7 @@
 <span class="sd">        </span>
 <span class="sd">        How it was developed: </span>
 <span class="sd">        </span>
-<span class="sd">        from python_tools import networkx_utils as xu</span>
+<span class="sd">        from datasci_tools import networkx_utils as xu</span>
 <span class="sd">        xu = reload(xu)</span>
 <span class="sd">        node_list = xu.get_node_list(my_neuron.concept_network)</span>
 <span class="sd">        node_list_colors = [&quot;red&quot; if &quot;S&quot; in n else &quot;blue&quot; for n in node_list]</span>
@@ -4156,14 +4156,14 @@
 <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
 <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
-<span class="c1">#--- from python_tools ---</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">algorithms_utils</span> <span class="k">as</span> <span class="n">agu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">pipeline</span> <span class="k">as</span> <span class="n">pl</span>
+<span class="c1">#--- from datasci_tools ---</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">algorithms_utils</span> <span class="k">as</span> <span class="n">agu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pipeline</span> <span class="k">as</span> <span class="n">pl</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>

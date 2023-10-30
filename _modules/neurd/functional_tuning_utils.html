@@ -72,7 +72,7 @@
   <h1>Source code for neurd.functional_tuning_utils</h1><div class="highlight"><pre>
 <span></span>
 
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
 
 <div class="viewcode-block" id="cdiff"><a class="viewcode-back" href="../../neurd.html#neurd.functional_tuning_utils.cdiff">[docs]</a><span class="k">def</span> <span class="nf">cdiff</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">rad</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>    
     <span class="k">return</span> <span class="n">nu</span><span class="o">.</span><span class="n">cdiff</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span><span class="n">period</span><span class="o">=</span><span class="n">period</span><span class="p">,</span><span class="n">rad</span><span class="o">=</span><span class="n">rad</span><span class="p">)</span></div>
@@ -100,9 +100,9 @@
     <span class="k">return</span> <span class="n">df</span></div>
 
 
-<span class="c1">#--- from python_tools ---</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">python_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="c1">#--- from datasci_tools ---</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">functional_tuning_utils</span> <span class="k">as</span> <span class="n">ftu</span>
 </pre></div>

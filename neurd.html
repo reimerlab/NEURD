@@ -845,7 +845,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.add_branch_label"><code class="docutils literal notranslate"><span class="pre">add_branch_label()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.add_limb_branch_combined_name_to_df"><code class="docutils literal notranslate"><span class="pre">add_limb_branch_combined_name_to_df()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.align_and_restrict_branch"><code class="docutils literal notranslate"><span class="pre">align_and_restrict_branch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.align_array"><code class="docutils literal notranslate"><span class="pre">align_array()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.align_attribute"><code class="docutils literal notranslate"><span class="pre">align_attribute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.align_mesh"><code class="docutils literal notranslate"><span class="pre">align_mesh()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.align_neuron_obj_from_align_matrix"><code class="docutils literal notranslate"><span class="pre">align_neuron_obj_from_align_matrix()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.align_neuron_objs_at_soma"><code class="docutils literal notranslate"><span class="pre">align_neuron_objs_at_soma()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.align_skeleton"><code class="docutils literal notranslate"><span class="pre">align_skeleton()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.all_concept_network_data_to_dict"><code class="docutils literal notranslate"><span class="pre">all_concept_network_data_to_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.all_concept_network_data_to_limb_network_stating_info"><code class="docutils literal notranslate"><span class="pre">all_concept_network_data_to_limb_network_stating_info()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.all_donwstream_branches_from_limb_branch"><code class="docutils literal notranslate"><span class="pre">all_donwstream_branches_from_limb_branch()</span></code></a></li>
@@ -1082,6 +1087,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.synapse_skeletal_distances_to_soma"><code class="docutils literal notranslate"><span class="pre">synapse_skeletal_distances_to_soma()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.total_spine_volume"><code class="docutils literal notranslate"><span class="pre">total_spine_volume()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.translate_neuron_obj"><code class="docutils literal notranslate"><span class="pre">translate_neuron_obj()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.unalign_neuron_obj_from_align_matrix"><code class="docutils literal notranslate"><span class="pre">unalign_neuron_obj_from_align_matrix()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.upstream_downstream_endpoint_idx"><code class="docutils literal notranslate"><span class="pre">upstream_downstream_endpoint_idx()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.upstream_endpoint"><code class="docutils literal notranslate"><span class="pre">upstream_endpoint()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.upstream_labels"><code class="docutils literal notranslate"><span class="pre">upstream_labels()</span></code></a></li>
@@ -1643,6 +1649,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.synapse_utils.synapse_df_from_csv"><code class="docutils literal notranslate"><span class="pre">synapse_df_from_csv()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.synapse_utils.synapse_df_from_synapse_dict"><code class="docutils literal notranslate"><span class="pre">synapse_df_from_synapse_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.synapse_utils.synapse_dict_from_synapse_csv"><code class="docutils literal notranslate"><span class="pre">synapse_dict_from_synapse_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.synapse_utils.synapse_dict_from_synapse_df"><code class="docutils literal notranslate"><span class="pre">synapse_dict_from_synapse_df()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.synapse_utils.synapse_dict_mesh_labels_to_synapse_attribute_dict"><code class="docutils literal notranslate"><span class="pre">synapse_dict_mesh_labels_to_synapse_attribute_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.synapse_utils.synapse_dict_mesh_labels_to_synapse_coordinate_dict"><code class="docutils literal notranslate"><span class="pre">synapse_dict_mesh_labels_to_synapse_coordinate_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.synapse_utils.synapse_dict_mesh_labels_to_synapse_volume_dict"><code class="docutils literal notranslate"><span class="pre">synapse_dict_mesh_labels_to_synapse_volume_dict()</span></code></a></li>
@@ -3619,7 +3626,7 @@ G = cnu.G_weighted_from_limb(limb_obj,</p>
 </dd>
 </dl>
 </div></blockquote>
-<p>from python_tools import numpy_utils as nu
+<p>from datasci_tools import numpy_utils as nu
 nu.turn_off_scientific_notation()
 xu.get_node_attributes(G,”width_new”,24)
 xu.get_edges_with_weights(G)</p>
@@ -5333,7 +5340,7 @@ with a possible match with a downstream branch</p>
 are alone in same component then has pairing
 –&gt; if not return no pairing</p>
 <p>Ex:
-from python_tools import networkx_utils as xu
+from datasci_tools import networkx_utils as xu
 import matplotlib.pyplot as plt
 import networkx as nx</p>
 <p>ed.upstream_pair_singular(G = G_saved,
@@ -5955,7 +5962,7 @@ node_attributes = (“gnn_cell_type_fine”,))</p>
 2) Query the dotmotif for the edge definitions
 3) For each of the groups found substitute in the node name</p>
 <p>Ex:
-from python_tools import networkx_utils as xu
+from datasci_tools import networkx_utils as xu
 import networkx as nx</p>
 <p>G = vdi.G_auto_DiGraph
 motif_info = motif_dicts[20000]</p>
@@ -6676,8 +6683,8 @@ soma_idx –&gt; soma_group_idx –&gt; dict(touching_verts,endpoint)</p>
 <dt class="sig sig-object py" id="neurd.neuron.Limb.convert_concept_network_to_directional">
 <span class="sig-name descname"><span class="pre">convert_concept_network_to_directional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">no_cycles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suppress_disconnected_errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert_concept_network_to_directional_verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron.html#Limb.convert_concept_network_to_directional"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron.Limb.convert_concept_network_to_directional" title="Permalink to this definition"></a></dt>
 <dd><p>Example on how it was developed:</p>
-<p>from python_tools import numpy_dep as np
-from python_tools import networkx_utils as xu
+<p>from datasci_tools import numpy_dep as np
+from datasci_tools import networkx_utils as xu
 xu = reload(xu)
 import matplotlib.pyplot as plt
 from neurd import neuron_utils as nru</p>
@@ -7525,7 +7532,7 @@ current_neuron.get_limbs_touching_soma(0)</p>
 <span class="sig-name descname"><span class="pre">plot_soma_limb_concept_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soma_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limb_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'aqua'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">800</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron.html#Neuron.plot_soma_limb_concept_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron.Neuron.plot_soma_limb_concept_network" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: To plot the connectivity of the soma and the meshes in the neuron</p>
 <p>How it was developed:</p>
-<p>from python_tools import networkx_utils as xu
+<p>from datasci_tools import networkx_utils as xu
 xu = reload(xu)
 node_list = xu.get_node_list(my_neuron.concept_network)
 node_list_colors = [“red” if “S” in n else “blue” for n in node_list]
@@ -7673,7 +7680,7 @@ nru.decompress_neuron(filepath=”/notebooks/test_neurons/preprocessed_neurons/m
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="neurd.neuron.Neuron.su">
-<span class="sig-name descname"><span class="pre">su</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;module</span> <span class="pre">'python_tools.system_utils'</span> <span class="pre">from</span> <span class="pre">'/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/python_tools/system_utils.py'&gt;</span></em><a class="headerlink" href="#neurd.neuron.Neuron.su" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">su</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;module</span> <span class="pre">'datasci_tools.system_utils'</span> <span class="pre">from</span> <span class="pre">'/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/datasci_tools/system_utils.py'&gt;</span></em><a class="headerlink" href="#neurd.neuron.Neuron.su" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -8426,7 +8433,7 @@ print_flag=True,</p>
 from os import sys
 sys.path.append(“../../neurd_packages/meshAfterParty/meshAfterParty/”)
 from importlib import reload</p>
-<p>from python_tools import pandas_utils as pu
+<p>from datasci_tools import pandas_utils as pu
 import pandas as pd
 from pathlib import Path</p>
 <p>compressed_neuron_path = Path(“../test_neurons/test_objects/12345_2_soma_practice_decompress”)</p>
@@ -8434,7 +8441,7 @@ from pathlib import Path</p>
 nru = reload(nru)
 from neurd import neuron
 neuron=reload(neuron)</p>
-<p>from python_tools import system_utils as su</p>
+<p>from datasci_tools import system_utils as su</p>
 <dl class="simple">
 <dt>with su.suppress_stdout_stderr():</dt><dd><dl class="simple">
 <dt>recovered_neuron = nru.decompress_neuron(filepath=compressed_neuron_path,</dt><dd><p>original_mesh=compressed_neuron_path)</p>
@@ -9980,6 +9987,26 @@ a dataframe</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="neurd.neuron_utils.align_array">
+<span class="sig-prename descclassname"><span class="pre">neurd.neuron_utils.</span></span><span class="sig-name descname"><span class="pre">align_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_utils.html#align_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_utils.align_array" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.neuron_utils.align_attribute">
+<span class="sig-prename descclassname"><span class="pre">neurd.neuron_utils.</span></span><span class="sig-name descname"><span class="pre">align_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_utils.html#align_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_utils.align_attribute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.neuron_utils.align_mesh">
+<span class="sig-prename descclassname"><span class="pre">neurd.neuron_utils.</span></span><span class="sig-name descname"><span class="pre">align_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_utils.html#align_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_utils.align_mesh" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.neuron_utils.align_neuron_obj_from_align_matrix">
+<span class="sig-prename descclassname"><span class="pre">neurd.neuron_utils.</span></span><span class="sig-name descname"><span class="pre">align_neuron_obj_from_align_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_matrix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_synapses=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_array=&lt;function</span> <span class="pre">align_array&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_mesh=&lt;function</span> <span class="pre">align_mesh&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_skeleton=&lt;function</span> <span class="pre">align_skeleton&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_utils.html#align_neuron_obj_from_align_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_utils.align_neuron_obj_from_align_matrix" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="neurd.neuron_utils.align_neuron_objs_at_soma">
 <span class="sig-prename descclassname"><span class="pre">neurd.neuron_utils.</span></span><span class="sig-name descname"><span class="pre">align_neuron_objs_at_soma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_objs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_utils.html#align_neuron_objs_at_soma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_utils.align_neuron_objs_at_soma" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: Align two neuron objects at their soma</p>
@@ -9989,6 +10016,11 @@ a dataframe</p>
 <li><p>Adjust all attributes by that amount</p></li>
 </ol>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.neuron_utils.align_skeleton">
+<span class="sig-prename descclassname"><span class="pre">neurd.neuron_utils.</span></span><span class="sig-name descname"><span class="pre">align_skeleton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_utils.html#align_skeleton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_utils.align_skeleton" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.neuron_utils.all_concept_network_data_to_dict">
@@ -12242,6 +12274,11 @@ plot_final_neuron = True)</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="neurd.neuron_utils.unalign_neuron_obj_from_align_matrix">
+<span class="sig-prename descclassname"><span class="pre">neurd.neuron_utils.</span></span><span class="sig-name descname"><span class="pre">unalign_neuron_obj_from_align_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_utils.html#unalign_neuron_obj_from_align_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_utils.unalign_neuron_obj_from_align_matrix" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="neurd.neuron_utils.upstream_downstream_endpoint_idx">
 <span class="sig-prename descclassname"><span class="pre">neurd.neuron_utils.</span></span><span class="sig-name descname"><span class="pre">upstream_downstream_endpoint_idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limb_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_utils.html#upstream_downstream_endpoint_idx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_utils.upstream_downstream_endpoint_idx" title="Permalink to this definition"></a></dt>
 <dd><p>To get the upstream and downstream endpoint idx
@@ -12722,7 +12759,7 @@ soma extractio</p>
 <span class="sig-prename descclassname"><span class="pre">neurd.neuron_visualizations.</span></span><span class="sig-name descname"><span class="pre">plot_soma_limb_concept_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limb_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'aqua'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_touch_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'brown'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_visualizations.html#plot_soma_limb_concept_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_visualizations.plot_soma_limb_concept_network" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: To plot the connectivity of the soma and the meshes in the neuron</p>
 <p>How it was developed:</p>
-<p>from python_tools import networkx_utils as xu
+<p>from datasci_tools import networkx_utils as xu
 xu = reload(xu)
 node_list = xu.get_node_list(my_neuron.concept_network)
 node_list_colors = [“red” if “S” in n else “blue” for n in node_list]
@@ -17155,6 +17192,11 @@ Iterates through pre and post (call preprost):</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="neurd.synapse_utils.synapse_dict_from_synapse_df">
+<span class="sig-prename descclassname"><span class="pre">neurd.synapse_utils.</span></span><span class="sig-name descname"><span class="pre">synapse_dict_from_synapse_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinates_nm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">syn_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['presyn',</span> <span class="pre">'postsyn']</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/synapse_utils.html#synapse_dict_from_synapse_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.synapse_utils.synapse_dict_from_synapse_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="neurd.synapse_utils.synapse_dict_mesh_labels_to_synapse_attribute_dict">
 <span class="sig-prename descclassname"><span class="pre">neurd.synapse_utils.</span></span><span class="sig-name descname"><span class="pre">synapse_dict_mesh_labels_to_synapse_attribute_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">synapse_mesh_labels_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synapse_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_presyn_postsyn_valid_error_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/synapse_utils.html#synapse_dict_mesh_labels_to_synapse_attribute_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.synapse_utils.synapse_dict_mesh_labels_to_synapse_attribute_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -17616,7 +17658,7 @@ split_index = split_index,
 skeletal_distance_to_soma=np.round(syn_dist[syn_i],2),</p>
 <p>return the list</p>
 <p>Ex:
-from python_tools import numpy_dep as np
+from datasci_tools import numpy_dep as np
 dj_keys = syu.synapses_to_dj_keys(neuron_obj,</p>
 <blockquote>
 <div><p>verbose = True,
