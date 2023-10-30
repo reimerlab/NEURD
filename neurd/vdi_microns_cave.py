@@ -61,10 +61,24 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
         segment_id,
         *args,
         **kwargs):
-        
-        return self.client.synapse_df_from_seg_id(
-            seg_id=segment_id,
-            voxel_to_nm_scaling = self.voxel_to_nm_scaling,
+
+        syn_df = self.client.synapse_df_from_seg_id(
+                seg_id=segment_id,
+                voxel_to_nm_scaling = self.voxel_to_nm_scaling,
+        )
+
+        syn_df = pu.map_column_with_dict(
+            syn_df,
+            "prepost",
+            dict_map = dict(
+                pre = "presyn",
+                post = "postsyn",
+            )
+        )
+        return syu.synapse_dict_from_synapse_df(
+            df = syn_df,
+            scaling = np.array([1,1,1]),
+            coordinates_nm = False,
         )
     
     def get_align_matrix(self,*args,**kwargs):
@@ -84,6 +98,9 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
             
         return mesh
     
-from datasci_tools import ipyvolume_utils as ipvu    
+from datasci_tools import ipyvolume_utils as ipvu
+from datasci_tools import pandas_utils as pu
+
+from . import synapse_utils as syu  
 
 volume_data_interface = DataInterfaceMicrons()

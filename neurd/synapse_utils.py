@@ -4155,6 +4155,47 @@ def synapse_df_from_csv(
         
     return df
 
+def synapse_dict_from_synapse_df(
+    df,
+    scaling = None,
+    verbose = True,
+    coordinates_nm = True,
+    syn_types = ["presyn","postsyn"],
+    **kwargs
+    ):
+    
+    if coordinates_nm:
+        syn_coord_names = ["synapse_x_nm",'synapse_y_nm','synapse_z_nm','synapse_size_nm']
+    else:
+        syn_coord_names = ["synapse_x",'synapse_y','synapse_z',"synapse_size"]
+
+    synapse_dict = dict()
+    for synapse_type in syn_types:
+        df_curr = df.query(f"prepost == '{synapse_type}'").reset_index(drop=True)
+        synapse_ids, centroid_xs, centroid_ys, centroid_zs,synapse_sizes = df_curr[
+            ["synapse_id"] + syn_coord_names
+        ].to_numpy().T
+        if len(synapse_ids) > 0:
+            synapse_centers = np.vstack([centroid_xs,centroid_ys,centroid_zs]).T
+            if scaling is not None:
+                synapse_centers = synapse_centers* scaling
+        else:
+            synapse_centers = np.array([])
+            synapse_ids = np.array([])
+            synapse_sizes = np.array([])
+
+        synapse_dict[synapse_type] = dict(
+            synapse_ids = synapse_ids,
+            synapse_coordinates= synapse_centers,
+            synapse_sizes = synapse_sizes
+        )
+
+        if verbose:
+            print(f"# of {synapse_type}: {len(synapse_dict[synapse_type]['synapse_coordinates'] )}")
+            
+    return synapse_dict
+    
+
 def synapse_dict_from_synapse_csv(
     synapse_filepath,
     segment_id = None,
@@ -4187,36 +4228,14 @@ def synapse_dict_from_synapse_csv(
         verbose = verbose,
     )
     
-    if coordinates_nm:
-        syn_coord_names = ["synapse_x_nm",'synapse_y_nm','synapse_z_nm','synapse_size_nm']
-    else:
-        syn_coord_names = ["synapse_x",'synapse_y','synapse_z',"synapse_size"]
-
-    synapse_dict = dict()
-    for synapse_type in ["presyn","postsyn"]:
-        df_curr = df.query(f"prepost == '{synapse_type}'").reset_index(drop=True)
-        synapse_ids, centroid_xs, centroid_ys, centroid_zs,synapse_sizes = df_curr[
-            ["synapse_id"] + syn_coord_names
-        ].to_numpy().T
-        if len(synapse_ids) > 0:
-            synapse_centers = np.vstack([centroid_xs,centroid_ys,centroid_zs]).T
-            if scaling is not None:
-                synapse_centers = synapse_centers* scaling
-        else:
-            synapse_centers = np.array([])
-            synapse_ids = np.array([])
-            synapse_sizes = np.array([])
-
-        synapse_dict[synapse_type] = dict(
-            synapse_ids = synapse_ids,
-            synapse_coordinates= synapse_centers,
-            synapse_sizes = synapse_sizes
+    return synapse_dict_from_synapse_df(
+        df,
+        scaling = scaling,
+        verbose = verbose,
+        coordinates_nm = coordinates_nm,
+        **kwargs
         )
-
-        if verbose:
-            print(f"# of {synapse_type}: {len(synapse_dict[synapse_type]['synapse_coordinates'] )}")
-            
-    return synapse_dict
+    
 
 
 def fetch_synapse_dict_by_mesh_labels(

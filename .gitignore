@@ -136,6 +136,9 @@ Applications/**/*.mls
 Applications/**/*.cgal
 #*.pbz2
 Applications/**/*.pbz2
+!Applications/Tutorials/Auto_Proof_Pipeline/Double_Soma/864691135510518224.off
+!Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Exc/864691134917511946.off
+!Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Inh/864691135567721964.off
 
 
 __pycache__/
