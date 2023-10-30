@@ -45,7 +45,7 @@ setup(
 	author_email='brendanacelii@gmail.com',
     packages=find_packages(),  #teslls what packages to be included for the install
     package_data = {
-        'neurd':['neurd/model_data'],
+        'neurd':['neurd/model_data/*'],
     },
     include_package_data=True,
     install_requires=get_install_requires(), #external packages as dependencies
