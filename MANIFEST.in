@@ -1,1 +1,2 @@
 include neurd/model_data/*
+include neurd/parameter_configs/*
