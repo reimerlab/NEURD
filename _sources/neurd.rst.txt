@@ -44,6 +44,22 @@ neurd.branch\_utils module
    :undoc-members:
    :show-inheritance:
 
+neurd.cave\_client\_utils module
+--------------------------------
+
+.. automodule:: neurd.cave_client_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neurd.cave\_interface module
+----------------------------
+
+.. automodule:: neurd.cave_interface
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 neurd.cell\_type\_conv\_utils module
 ------------------------------------
 
@@ -96,14 +112,6 @@ neurd.connectome\_utils module
 ------------------------------
 
 .. automodule:: neurd.connectome_utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-neurd.datajoint\_motifs module
-------------------------------
-
-.. automodule:: neurd.datajoint_motifs
    :members:
    :undoc-members:
    :show-inheritance:
@@ -168,6 +176,14 @@ neurd.microns\_volume\_utils module
 -----------------------------------
 
 .. automodule:: neurd.microns_volume_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neurd.motif\_null\_utils module
+-------------------------------
+
+.. automodule:: neurd.motif_null_utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -244,18 +260,18 @@ neurd.neuron\_visualizations module
    :undoc-members:
    :show-inheritance:
 
-neurd.preprocess\_neuron module
--------------------------------
+neurd.parameter\_utils module
+-----------------------------
 
-.. automodule:: neurd.preprocess_neuron
+.. automodule:: neurd.parameter_utils
    :members:
    :undoc-members:
    :show-inheritance:
 
-neurd.preprocessing\_vp2 module
+neurd.preprocess\_neuron module
 -------------------------------
 
-.. automodule:: neurd.preprocessing_vp2
+.. automodule:: neurd.preprocess_neuron
    :members:
    :undoc-members:
    :show-inheritance:
@@ -292,6 +308,14 @@ neurd.soma\_extraction\_utils module
    :undoc-members:
    :show-inheritance:
 
+neurd.soma\_splitting\_utils module
+-----------------------------------
+
+.. automodule:: neurd.soma_splitting_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 neurd.spine\_utils module
 -------------------------
 
@@ -308,18 +332,42 @@ neurd.synapse\_utils module
    :undoc-members:
    :show-inheritance:
 
-neurd.volume\_utils module
---------------------------
+neurd.vdi\_default module
+-------------------------
 
-.. automodule:: neurd.volume_utils
+.. automodule:: neurd.vdi_default
    :members:
    :undoc-members:
    :show-inheritance:
 
-neurd.whole\_neuron\_classifier\_datajoint\_adapted module
-----------------------------------------------------------
+neurd.vdi\_h01 module
+---------------------
 
-.. automodule:: neurd.whole_neuron_classifier_datajoint_adapted
+.. automodule:: neurd.vdi_h01
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neurd.vdi\_microns module
+-------------------------
+
+.. automodule:: neurd.vdi_microns
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neurd.vdi\_microns\_cave module
+-------------------------------
+
+.. automodule:: neurd.vdi_microns_cave
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neurd.volume\_utils module
+--------------------------
+
+.. automodule:: neurd.volume_utils
    :members:
    :undoc-members:
    :show-inheritance:
