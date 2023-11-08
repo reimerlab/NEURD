@@ -44,7 +44,6 @@ jobs:
           echo $REPO_NAME
           rm docs/$REPO_NAME.rst
           sphinx-apidoc -o docs $REPO_NAME/
-
       - name: Build docs
         run: |
           cd docs
