@@ -31,10 +31,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python3 -m pip install git+https://git@github.com/aplbrain/grandiso-networkx.git
-          python3 -m pip install git+https://git@github.com/bacelii/dotmotif.git
+          pip3 install git+https://github.com/reimerlab/tamarind.git
+          pip3 install git+https://github.com/reimerlab/dotmotif/
           python3 -m pip install datajoint
-          python3 -m pip install --use-deprecated=legacy-resolver  -r ./requirements.txt
+          python3 -m pip install  -r ./requirements.txt
 
       - name: Add any new modules
         run: |

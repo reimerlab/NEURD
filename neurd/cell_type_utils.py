@@ -23,7 +23,7 @@ from datasci_tools import pathlib_utils as plu
 e_i_model = None
 e_i_model_features_default = ["syn_density_shaft","spine_density"]
 #e_i_model_features_default = ["syn_density_post","spine_density"]
-module_path = str(plu.parent_directory(Path(__file__)).absolute())
+module_path = str((plu.parent_directory(Path(__file__)) / Path("model_data")).absolute())
 
 # use the 
 manual_df_path = str(module_path / Path("man_proof_stats_df_for_e_i.csv"))#/meshAfterParty/meshAfterParty/man_proof_stats_df_for_e_i.pbz2"

@@ -20,11 +20,10 @@ docker pull celiib/mesh_tools:v3
 
 ```bash
 mkdir notebooks
-
 docker container run -it \
     -p 8890:8888 \
     -v ./notebooks:/notebooks \
-    celiib/mesh_tools:v3
+    celiib/neurd:v1
 ```
 
 ### Installing NEURD inside Docker Container
@@ -34,7 +33,7 @@ go to http://localhost:8890/lab and open terminal
 ```bash
 cd /
 git clone https://github.com/reimerlab/NEURD.git;
-pip3 install --use-deprecated=legacy-resolver -e ./NEURD/;
+pip3 install ./NEURD/;
 ```
 
 ## Documentation

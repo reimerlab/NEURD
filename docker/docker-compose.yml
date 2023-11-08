@@ -1,7 +1,7 @@
 version: "2"
 services:
   notebook:
-    image: celiib/mesh_tools:v3
+    image: celiib/neurd:v1
     build:
       context: .
     env_file: .env
@@ -10,8 +10,8 @@ services:
       - XSOCK=/tmp/.X11-unix/X0
     ports:
       - "8890:8888"
-        #volumes:
-      #- ./notebooks:/notebooks
-      #- ../meshAfterParty:/meshAfterParty
+    volumes:
+      - ./notebooks:/notebooks
+      - ../Applications:/Applications
       #- ../examples:/examples
       #- /mnt:/mnt
