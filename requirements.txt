@@ -21,4 +21,5 @@ machine-learning-tools>=1.0.0
 graph-nx-tools>=1.0.0
 mesh_processing_tools>=1.0.0
 neuron_morphology_tools>=1.0.0
+code_structure_tools>=1.0.2 
 python-dotenv
