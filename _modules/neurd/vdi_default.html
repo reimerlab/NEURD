@@ -74,6 +74,10 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">trimesh</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span><span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">.neuron</span> <span class="kn">import</span> <span class="n">Neuron</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 
 <span class="c1"># --- for parameters</span>
 <span class="n">parameters_config_filename</span> <span class="o">=</span> <span class="s2">&quot;parameters_config_default.py&quot;</span>
@@ -265,25 +269,25 @@
         <span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
         <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        _summary_</span>
+<span class="sd">        </span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        neuron_obj : _type_</span>
-<span class="sd">            _description_</span>
+<span class="sd">            </span>
 <span class="sd">        directory : _type_, optional</span>
-<span class="sd">            _description_, by default None</span>
+<span class="sd">            by default None</span>
 <span class="sd">        filename : _type_, optional</span>
-<span class="sd">            _description_, by default None</span>
+<span class="sd">            by default None</span>
 <span class="sd">        suffix : str, optional</span>
-<span class="sd">            _description_, by default &#39;&#39;</span>
+<span class="sd">            by default &#39;&#39;</span>
 <span class="sd">        verbose : bool, optional</span>
-<span class="sd">            _description_, by default False</span>
+<span class="sd">            by default False</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        _type_</span>
-<span class="sd">            _description_</span>
+<span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_obj_directory</span>
@@ -399,6 +403,11 @@
                 <span class="k">return</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">segment_id</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">split_index</span> <span class="o">=</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">seg_ids_final</span><span class="p">,</span><span class="n">sp_idxs_final</span><span class="p">)]</span></div>
     
     
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.add_nm_to_synapse_df"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.add_nm_to_synapse_df">[docs]</a>    <span class="k">def</span> <span class="nf">add_nm_to_synapse_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">df</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">syu</span><span class="o">.</span><span class="n">add_nm_to_synapse_df</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span>
+            <span class="n">scaling</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
+        <span class="p">)</span></div>
 <div class="viewcode-block" id="DataInterfaceBoilerPlate.segment_id_to_synapse_dict"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_to_synapse_dict">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_dict</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="p">,</span>
@@ -445,10 +454,7 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         
-        <span class="n">df</span> <span class="o">=</span> <span class="n">syu</span><span class="o">.</span><span class="n">add_nm_to_synapse_df</span><span class="p">(</span>
-            <span class="n">syn_df</span><span class="p">,</span>
-            <span class="n">scaling</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_nm_to_synapse_df</span><span class="p">(</span><span class="n">syn_df</span><span class="p">)</span>
         
         <span class="n">syn_dict</span> <span class="o">=</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_dict_from_synapse_df</span><span class="p">(</span>
             <span class="n">df</span><span class="p">,</span>
@@ -469,30 +475,31 @@
         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Purpose: Given a segment id (or neuron obj)</span>
-<span class="sd">        will retrieve the synapses from a backend synapse implementation</span>
+<span class="sd">        will retrieve the synapses from a backend synapse implementation renamed in a particular manner</span>
+<span class="sd">        </span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        segment_id : int or neuron.Neuron</span>
-<span class="sd">            _description_</span>
+<span class="sd">            </span>
 <span class="sd">        synapse_type : _type_, optional</span>
-<span class="sd">            _description_, by default None</span>
+<span class="sd">            by default None</span>
 <span class="sd">        filter_away_self_synapses : bool, optional</span>
-<span class="sd">            _description_, by default True</span>
+<span class="sd">            by default True</span>
 <span class="sd">        coordinates_nm : bool, optional</span>
-<span class="sd">            _description_, by default True</span>
+<span class="sd">            by default True</span>
 <span class="sd">        synapse_filepath : _type_, optional</span>
-<span class="sd">            _description_, by default None</span>
+<span class="sd">            by default None</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        _type_</span>
-<span class="sd">            _description_</span>
+<span class="sd">            </span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        Exception</span>
-<span class="sd">            _description_</span>
+<span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">segment_id</span><span class="p">,</span><span class="n">neuron</span><span class="o">.</span><span class="n">Neuron</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -501,18 +508,26 @@
                 <span class="p">)</span>
             <span class="n">segment_id</span> <span class="o">=</span> <span class="n">segment_id</span><span class="o">.</span><span class="n">segment_id</span>
             
-        
-        <span class="k">if</span> <span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No synapse filepath set&quot;</span><span class="p">)</span>
-            <span class="n">synapse_filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span>
-        
-        <span class="n">return_df</span> <span class="o">=</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_df_from_csv</span><span class="p">(</span>
-            <span class="n">synapse_filepath</span><span class="o">=</span><span class="n">synapse_filepath</span><span class="p">,</span>
+        <span class="n">return_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_id_to_synapse_df</span><span class="p">(</span>
             <span class="n">segment_id</span><span class="o">=</span><span class="n">segment_id</span><span class="p">,</span>
+            <span class="n">synapse_filepath</span> <span class="o">=</span> <span class="n">synapse_filepath</span><span class="p">,</span>
             <span class="n">coordinates_nm</span><span class="o">=</span><span class="n">coordinates_nm</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">coordinates_nm</span><span class="p">:</span>
+            <span class="n">return_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_nm_to_synapse_df</span><span class="p">(</span><span class="n">return_df</span><span class="p">)</span>
+        
+        <span class="c1"># if synapse_filepath is None:</span>
+        <span class="c1">#     if self.synapse_filepath is None:</span>
+        <span class="c1">#         raise Exception(&quot;No synapse filepath set&quot;)</span>
+        <span class="c1">#     synapse_filepath = self.synapse_filepath</span>
+        
+        <span class="c1"># return_df = syu.synapse_df_from_csv(</span>
+        <span class="c1">#     synapse_filepath=synapse_filepath,</span>
+        <span class="c1">#     segment_id=segment_id,</span>
+        <span class="c1">#     coordinates_nm=coordinates_nm,</span>
+        <span class="c1">#     **kwargs</span>
+        <span class="c1"># )</span>
         
         <span class="n">return_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span>
             <span class="n">return_df</span><span class="p">,</span>
@@ -641,12 +656,22 @@
 <span class="sd">        </span>
 <span class="sd">        The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute)</span>
 <span class="sd">    </span>
+<span class="sd">        Paramaeters</span>
+<span class="sd">        ___________</span>
+<span class="sd">        segment_id: int</span>
+<span class="sd">        coordinates_nm: bool</span>
+<span class="sd">            Whether to scale the coordinate to nm units</span>
+<span class="sd">        scaling: np.array</span>
+<span class="sd">            The scaling factor to use</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        pd.DataFrame</span>
 <span class="sd">            dataframe with all of the relevant synapse information for one segment id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">scaling</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">scaling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span>
+            
         <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;synapse_filepath&quot;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No synapse filepath set&quot;</span><span class="p">)</span>
@@ -665,15 +690,32 @@
     <span class="c1"># ---- Data Fetching and Savinig Functions</span>
 <div class="viewcode-block" id="DataInterfaceDefault.fetch_segment_id_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.fetch_segment_id_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">fetch_segment_id_mesh</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">meshes_directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">mesh_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;off&quot;</span>
-        <span class="p">):</span>
+        <span class="n">segment_id</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">meshes_directory</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">mesh_filepath</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">plot</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">ext</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;off&quot;</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">Trimesh</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        </span>
+<span class="sd">        Purpose: retrieve a decimated segment id mesh. Current implementation assumes a local filepath storing all meshes.</span>
 
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        segment_id : int, optional</span>
+<span class="sd">            neuron segment id, by default None</span>
+<span class="sd">        meshes_directory : str, optional</span>
+<span class="sd">            location of decimated mesh files, by default None</span>
+<span class="sd">        mesh_filepath : str, optional</span>
+<span class="sd">            complete path of location and filename for neuron , by default None</span>
+<span class="sd">        plot : bool, optional</span>
+<span class="sd">            by default False</span>
+<span class="sd">        ext : str, optional</span>
+<span class="sd">            the file extension for mesh storage, by default &quot;off&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        trimesh.Trimesh</span>
+<span class="sd">            decimated mesh for segment id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="k">if</span> <span class="n">mesh_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -692,11 +734,30 @@
     
 <div class="viewcode-block" id="DataInterfaceDefault.fetch_undecimated_segment_id_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.fetch_undecimated_segment_id_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">fetch_undecimated_segment_id_mesh</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">meshes_directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;off&quot;</span><span class="p">,</span>
-        <span class="p">):</span>
+        <span class="n">segment_id</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">meshes_directory</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">plot</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">ext</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;off&quot;</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">Trimesh</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        segment_id : int</span>
+<span class="sd">            </span>
+<span class="sd">        meshes_directory : str, optional</span>
+<span class="sd">            by default None</span>
+<span class="sd">        plot : bool, optional</span>
+<span class="sd">            by default False</span>
+<span class="sd">        ext : str, optional</span>
+<span class="sd">            by default &quot;off&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        trimesh.Trimesh</span>
+<span class="sd">            undecimated mesh for segment id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="k">if</span> <span class="n">meshes_directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">meshes_directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meshes_undecimated_directory</span>
@@ -708,18 +769,45 @@
             <span class="n">ext</span> <span class="o">=</span> <span class="n">ext</span>
         <span class="p">)</span></div>
     
-<div class="viewcode-block" id="DataInterfaceDefault.set_synapse_filepath"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.set_synapse_filepath">[docs]</a>    <span class="k">def</span> <span class="nf">set_synapse_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">synapse_filepath</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceDefault.set_synapse_filepath"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.set_synapse_filepath">[docs]</a>    <span class="k">def</span> <span class="nf">set_synapse_filepath</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">synapse_filepath</span><span class="p">:</span><span class="nb">str</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        sets the location and filename of the synapse csv for the default implementation that loads synapses from a local csv file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        synapse_filepath : str</span>
+<span class="sd">            complete folder path and filename for synapse csv</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
         <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span> <span class="o">=</span> <span class="n">synapse_filepath</span></div>
 
 <div class="viewcode-block" id="DataInterfaceDefault.nuclei_from_segment_id"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.nuclei_from_segment_id">[docs]</a>    <span class="k">def</span> <span class="nf">nuclei_from_segment_id</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">return_centers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">return_nm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">):</span>
+        <span class="n">segment_id</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">return_centers</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_nm</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">-&gt;</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Purpose: To returns the nuclues</span>
-<span class="sd">        information corresponding to a segment</span>
+<span class="sd">        retrieves the nuclei id (and possibly the </span>
+<span class="sd">        nuclei centers) from an external database. No external database currently set so currently set to None returns. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        segment_id : int</span>
+<span class="sd">            </span>
+<span class="sd">        return_centers : bool, optional</span>
+<span class="sd">            whether to return the nuclei center coordinates along with the ids, by default True</span>
+<span class="sd">        return_nm : bool, optional</span>
+<span class="sd">            whether to return nuclei center coordinates in nm units, by default True</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        nuclei_ids: np.array (N,)</span>
+<span class="sd">            nuclei ids corresponding to segment_id</span>
+<span class="sd">        nuclei_centers: np.array (N,3), optional</span>
+<span class="sd">            center locations for the corresponding nuclei</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nuclues_ids</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">nucleus_centers</span> <span class="o">=</span> <span class="kc">None</span>
@@ -731,13 +819,13 @@
            
 <div class="viewcode-block" id="DataInterfaceDefault.nuclei_classification_info_from_nucleus_id"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.nuclei_classification_info_from_nucleus_id">[docs]</a>    <span class="k">def</span> <span class="nf">nuclei_classification_info_from_nucleus_id</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">nuclei</span><span class="p">,</span>
+        <span class="n">nuclei</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">):</span>
+        <span class="p">)</span><span class="o">-&gt;</span><span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Purpose: To return a dictionary of cell type</span>
-<span class="sd">        information (same structure as from the allen institute of brain science CAVE client return)</span>
+<span class="sd">        information (same structure as from the allen institute of brain science CAVE client return) from an external database. No external database currently set up so None filled dictionary returned.   </span>
 <span class="sd">    </span>
 
 <span class="sd">        Example Returns: </span>
@@ -749,7 +837,16 @@
 <span class="sd">            &#39;external_cell_type_fine_n_nuc&#39;: 1,</span>
 <span class="sd">            &#39;external_cell_type_fine_e_i&#39;: &#39;excitatory&#39;</span>
 <span class="sd">        }</span>
-<span class="sd">        </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        nuclei : int</span>
+<span class="sd">            </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            nuclei info about classification (fine and coarse)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="k">return</span> <span class="p">{</span>
@@ -763,11 +860,34 @@
         
 <div class="viewcode-block" id="DataInterfaceDefault.save_neuron_obj_auto_proof"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.save_neuron_obj_auto_proof">[docs]</a>    <span class="k">def</span> <span class="nf">save_neuron_obj_auto_proof</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">neuron_obj</span><span class="p">,</span>
-        <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">suffix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,):</span>
+        <span class="n">neuron_obj</span><span class="p">:</span><span class="n">Neuron</span><span class="p">,</span>
+        <span class="n">directory</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">suffix</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save a neuron object in the autoproofreading directory (using the default pbz2 compressed method that does not save the mesh along with it). Typical  This is the current local implementation, should be overriden if the proofreading neuron objects are to be saved in an external store </span>
+<span class="sd">        </span>
+<span class="sd">        Default filename: {segment_id}.pbz2 </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        neuron_obj : Neuron</span>
+<span class="sd">            </span>
+<span class="sd">        directory : str, optional</span>
+<span class="sd">            location for storing .pbz2 files, by default None</span>
+<span class="sd">        filename : str, optional</span>
+<span class="sd">            a custom name for compressed neuron file to replace the default name, by default None</span>
+<span class="sd">        suffix : str, optional</span>
+<span class="sd">            change filename to {segment_id}{suffix}.pbz2 , by default None</span>
+<span class="sd">        verbose : bool, optional</span>
+<span class="sd">            by default False</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            filepath of saved neuron file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_obj_auto_proof_directory</span>
             
@@ -784,10 +904,27 @@
         
 <div class="viewcode-block" id="DataInterfaceDefault.load_neuron_obj_auto_proof"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.load_neuron_obj_auto_proof">[docs]</a>    <span class="k">def</span> <span class="nf">load_neuron_obj_auto_proof</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">mesh_decimated</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">segment_id</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">mesh_decimated</span><span class="p">:</span><span class="n">trimesh</span><span class="o">.</span><span class="n">Trimesh</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">directory</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Neuron</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loading an external neuron file into a python object. Current implementation assumes the default .pbz2 method of compression that does not store the mesh information, which is why the mesh object needs to be passed as an argument</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        segment_id : str</span>
+<span class="sd">            </span>
+<span class="sd">        mesh_decimated : trimesh.Trimesh, optional</span>
+<span class="sd">            the original decimated mesh before any proofreaidng, by default None</span>
+<span class="sd">        directory : str, optional</span>
+<span class="sd">            filepath location of saved .pbz2 file, by default self.neuron_obj_auto_proof_directory</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Neuron</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         
         
         <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -807,18 +944,40 @@
         
     <span class="c1"># --------- functions for setting autoproofreading ---</span>
 <div class="viewcode-block" id="DataInterfaceDefault.exc_filters_auto_proof"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.exc_filters_auto_proof">[docs]</a>    <span class="k">def</span> <span class="nf">exc_filters_auto_proof</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        All autoproofreading filters (referenced in proofreading_utils.py) that will be used for excitatory cells</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[filter objects]</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pru</span><span class="o">.</span><span class="n">v7_exc_filters</span><span class="p">(</span>
             <span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
         
 <div class="viewcode-block" id="DataInterfaceDefault.inh_filters_auto_proof"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.inh_filters_auto_proof">[docs]</a>    <span class="k">def</span> <span class="nf">inh_filters_auto_proof</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        All autoproofreading filters (referenced in proofreading_utils.py) that will be used for inhibitory cells</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[filter functions]</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">pru</span><span class="o">.</span><span class="n">v7_inh_filters</span><span class="p">(</span>
             <span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">default_low_degree_graph_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The graph filters to be using the &#39;exc_low_degree_branching_filter&#39; for autoproofreading that inspects axon branches with exactly 2 downstream nodes and classifies as an error based on if one fo the following graph filters has a successful match. Overriding this function could be simply excluding some filters that are not applicable/work for your volume even with parameters tuned</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[graph filter functions]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">gf</span><span class="o">.</span><span class="n">axon_webbing_filter</span><span class="p">,</span>
             <span class="n">gf</span><span class="o">.</span><span class="n">thick_t_filter</span><span class="p">,</span>
@@ -834,12 +993,28 @@
 <div class="viewcode-block" id="DataInterfaceDefault.fetch_proofread_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.fetch_proofread_mesh">[docs]</a>    <span class="nd">@neuron_obj_func</span>
     <span class="k">def</span> <span class="nf">fetch_proofread_mesh</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">plot_mesh</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="n">Neuron</span><span class="p">],</span>
+        <span class="n">split_index</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">plot_mesh</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
-        
-        <span class="p">):</span>
+        <span class="p">)</span><span class="o">-&gt;</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">Trimesh</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve mesh after autoproofreading filtering. Default implementation uses a local solution of extracting the mesh from the neuron object, but the proofreading mesh could be stored in an external database with only the segment id and split index needed to retrieve. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        segment_id : Union[int,Neuron]</span>
+<span class="sd">            proofread neuron object from which the mesh can be extracted or an int representing the segment id for external database implementation where saved products indexed by unique segment_id and split index</span>
+<span class="sd">        split_index : int, optional</span>
+<span class="sd">            for external database implementation where saved products indexed by unique segment_id and split index, by default 0</span>
+<span class="sd">        plot_mesh : bool, optional</span>
+<span class="sd">            by default False</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        trimesh.Trimesh</span>
+<span class="sd">            auto proofread mesh</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">segment_id</span>
         <span class="n">mesh</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">mesh_from_branches</span>
@@ -852,12 +1027,29 @@
 <div class="viewcode-block" id="DataInterfaceDefault.fetch_soma_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.fetch_soma_mesh">[docs]</a>    <span class="nd">@neuron_obj_func</span>
     <span class="k">def</span> <span class="nf">fetch_soma_mesh</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">plot_mesh</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="n">Neuron</span><span class="p">],</span>
+        <span class="n">split_index</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">plot_mesh</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
         
         <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve soma mesh. Default implementation uses a local solution of extracting the soma mesh from the neuron object, but the soma mesh could be stored in an external database with only the segment id and split index needed to retrieve. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        segment_id : Union[int,Neuron]</span>
+<span class="sd">            neuron object from which the mesh can be extracted or an int representing the segment id for external database implementation where saved products indexed by unique segment_id and split index</span>
+<span class="sd">        split_index : int, optional</span>
+<span class="sd">            for external database implementation where saved products indexed by unique segment_id and split index, by default 0</span>
+<span class="sd">        plot_mesh : bool, optional</span>
+<span class="sd">            by default False</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        trimesh.Trimesh</span>
+<span class="sd">            auto proofread mesh</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">segment_id</span>
         <span class="n">mesh</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="s2">&quot;S0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mesh</span>
@@ -867,19 +1059,18 @@
             
         <span class="k">return</span> <span class="n">mesh</span></div>
     
-    
 <div class="viewcode-block" id="DataInterfaceDefault.segment_id_to_synapse_table_optimized_connectome"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_connectome">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_table_optimized_connectome</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">synapse_type</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">coordinates_nm</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="n">Neuron</span><span class="p">],</span>
+        <span class="n">split_index</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">synapse_type</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">coordinates_nm</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Purpose: to return a dataframe</span>
-<span class="sd">        of the valid connections in connectome with</span>
-<span class="sd">        the constraint of one segment id as a presyn or postsyn</span>
+<span class="sd">        of the connections before proofreading with</span>
+<span class="sd">        the constraint of one segment_id/split_index as a presyn or postsyn. Not implemented for local storage</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
@@ -888,11 +1079,28 @@
 <div class="viewcode-block" id="DataInterfaceDefault.segment_id_to_synapse_table_optimized_proofread"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_proofread">[docs]</a>    <span class="nd">@neuron_obj_func</span>
     <span class="k">def</span> <span class="nf">segment_id_to_synapse_table_optimized_proofread</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">synapse_type</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="n">Neuron</span><span class="p">],</span>
+        <span class="n">split_index</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">synapse_type</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Purpose: to return a dataframe</span>
+<span class="sd">        of the valid connections in the proofread segment/split. Currently only implemented for local solution of where synapse information stored in local csv and proofrad synapses are stored in neuron object. Could override to pull original or proofread synapses from an external source.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        segment_id : Union[int,Neuron]</span>
+<span class="sd">            neuron obj with proofread synapses, or just segment id if synapses stored externally</span>
+<span class="sd">        split_index : int, optional</span>
+<span class="sd">            identifier for segment if stored externally, by default 0</span>
+<span class="sd">        synapse_type : str, optional</span>
+<span class="sd">            presyn or postsyn restriction, by default None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        synapse_df : pd.DataFrame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">segment_id</span>
         
         <span class="n">orig_syn_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_id_to_synapse_table_optimized</span><span class="p">(</span>
@@ -919,6 +1127,9 @@
                 <span class="n">soma_distance</span> <span class="o">=</span> <span class="s2">&quot;skeletal_distance_to_soma&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">synapse_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">syn_df</span> <span class="o">=</span> <span class="n">syn_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prepost == &#39;</span><span class="si">{</span><span class="n">synapse_type</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
 
         <span class="n">merge_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
             <span class="n">orig_syn_df</span><span class="p">,</span>
@@ -931,10 +1142,26 @@
 <div class="viewcode-block" id="DataInterfaceDefault.soma_nm_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.soma_nm_coordinate">[docs]</a>    <span class="nd">@neuron_obj_func</span>
     <span class="k">def</span> <span class="nf">soma_nm_coordinate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">return_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">segment_id</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="n">Neuron</span><span class="p">],</span>
+        <span class="n">split_index</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">return_dict</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the soma coordinate for a segment. Implemented with local solution of accepting neuron object but could override with external store fetching.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        segment_id : Union[int,Neuron]</span>
+<span class="sd">            </span>
+<span class="sd">        split_index : int, optional</span>
+<span class="sd">            by default 0</span>
+<span class="sd">        return_dict : bool, optional</span>
+<span class="sd">            by default False</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        soma coordinate: np.array (3,)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
             
         <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">segment_id</span>
         
@@ -944,20 +1171,38 @@
             <span class="k">return</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;centroid_</span><span class="si">{</span><span class="n">ax</span><span class="si">}</span><span class="s2">_nm&quot;</span><span class="p">:</span><span class="n">val</span> <span class="k">for</span> <span class="n">ax</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s2">&quot;z&quot;</span><span class="p">],</span><span class="n">return_value</span><span class="p">)}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">return_value</span></div>
+
     
 <div class="viewcode-block" id="DataInterfaceDefault.graph_obj_from_proof_stage"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.graph_obj_from_proof_stage">[docs]</a>    <span class="nd">@neuron_obj_func</span>
     <span class="k">def</span> <span class="nf">graph_obj_from_proof_stage</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">clean</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="n">Neuron</span><span class="p">],</span>
+        <span class="n">split_index</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">clean</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">):</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Purpose: to get the neuron_obj from </span>
-<span class="sd">        decomposition cell type</span>
+<span class="sd">        </span>
+<span class="sd">        Purpose: Retrieve the lite neuron_obj (implemented). Local implementation where retrieved from pipeline products of neuron obj but could override to fetch from an external store using the segment id and split index</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        segment_id : Union[int,Neuron]</span>
+<span class="sd">            </span>
+<span class="sd">        split_index : int, optional</span>
+<span class="sd">            by default 0</span>
+<span class="sd">        clean : bool, optional</span>
+<span class="sd">            by default True</span>
+<span class="sd">        verbose : bool, optional</span>
+<span class="sd">            by default False</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        neuron_obj_lite: nx.DiGraph</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        
+        
         <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">segment_id</span>
         <span class="n">G</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">neuron_graph_after_proof</span>
             
@@ -965,24 +1210,10 @@
             <span class="n">G</span> <span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">clean_G</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             
         <span class="k">return</span> <span class="n">G</span></div></div>
-<span class="w">    </span>
-<span class="w">    </span>
-<span class="w">        </span>
-<span class="w">    </span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Functions there: </span>
+    
+    
+        
 
-<span class="sd">segment_id_to_synapse_table</span>
-<span class="sd">decomposition_with_spine_recalculation</span>
-<span class="sd">segment_to_nuclei</span>
-<span class="sd">vdi.fetch_segment_id_mesh</span>
-<span class="sd">save_proofread_faces</span>
-<span class="sd">save_proofread_faces</span>
-<span class="sd">save_proofread_skeleton</span>
-<span class="sd">voxel_to_nm_scaling</span>
-<span class="sd">voxel_to_nm_scaling</span>
-<span class="sd">save_proofread_faces</span>
-<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>

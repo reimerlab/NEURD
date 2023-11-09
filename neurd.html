@@ -15971,8 +15971,8 @@ smoothness:{smoothness}”)</p>
 <blockquote>
 <div><p>csm.cgal_segmentation(cgal_mesh_file,clusters,smoothness)</p>
 <p>#read in the csv file
-cgal_output_file = Path(cgal_mesh_file + “-<a href="#id14"><span class="problematic" id="id15">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “.csv” )
-cgal_output_file_sdf = Path(cgal_mesh_file + “-<a href="#id16"><span class="problematic" id="id17">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “_sdf.csv” )</p>
+cgal_output_file = Path(cgal_mesh_file + “-<a href="#id17"><span class="problematic" id="id18">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “.csv” )
+cgal_output_file_sdf = Path(cgal_mesh_file + “-<a href="#id19"><span class="problematic" id="id20">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “_sdf.csv” )</p>
 <p>cgal_data = np.genfromtxt(str(cgal_output_file.absolute()), delimiter=’</p>
 </div></blockquote>
 <dl class="simple">
@@ -18600,6 +18600,11 @@ synapse_type=”synapses_post”,
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceBoilerPlate.add_nm_to_synapse_df">
+<span class="sig-name descname"><span class="pre">add_nm_to_synapse_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceBoilerPlate.add_nm_to_synapse_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceBoilerPlate.add_nm_to_synapse_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceBoilerPlate.align_array">
 <span class="sig-name descname"><span class="pre">align_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceBoilerPlate.align_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceBoilerPlate.align_array" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -18660,22 +18665,18 @@ this function could be redefined to pull from a database</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceBoilerPlate.save_neuron_obj">
 <span class="sig-name descname"><span class="pre">save_neuron_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceBoilerPlate.save_neuron_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceBoilerPlate.save_neuron_obj" title="Permalink to this definition"></a></dt>
-<dd><p>_summary_</p>
-<dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>neuron_obj</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>directory</strong> (<em>_type_</em><em>, </em><em>optional</em>) – _description_, by default None</p></li>
-<li><p><strong>filename</strong> (<em>_type_</em><em>, </em><em>optional</em>) – _description_, by default None</p></li>
-<li><p><strong>suffix</strong> (<em>str</em><em>, </em><em>optional</em>) – _description_, by default ‘’</p></li>
-<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – _description_, by default False</p></li>
+<li><p><strong>neuron_obj</strong> (<em>_type_</em>) – </p></li>
+<li><p><strong>directory</strong> (<em>_type_</em><em>, </em><em>optional</em>) – by default None</p></li>
+<li><p><strong>filename</strong> (<em>_type_</em><em>, </em><em>optional</em>) – by default None</p></li>
+<li><p><strong>suffix</strong> (<em>str</em><em>, </em><em>optional</em>) – by default ‘’</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – by default False</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>_description_</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>_type_</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_</p>
 </dd>
 </dl>
 </dd></dl>
@@ -18726,25 +18727,22 @@ synapse_size, # in voxel coordinates</p>
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_to_synapse_table_optimized">
 <span class="sig-name descname"><span class="pre">segment_id_to_synapse_table_optimized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synapse_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_away_self_synapses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinates_nm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synapse_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceBoilerPlate.segment_id_to_synapse_table_optimized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_to_synapse_table_optimized" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: Given a segment id (or neuron obj)
-will retrieve the synapses from a backend synapse implementation</p>
+will retrieve the synapses from a backend synapse implementation renamed in a particular manner</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>segment_id</strong> (<em>int</em><em> or </em><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><em>neuron.Neuron</em></a>) – _description_</p></li>
-<li><p><strong>synapse_type</strong> (<em>_type_</em><em>, </em><em>optional</em>) – _description_, by default None</p></li>
-<li><p><strong>filter_away_self_synapses</strong> (<em>bool</em><em>, </em><em>optional</em>) – _description_, by default True</p></li>
-<li><p><strong>coordinates_nm</strong> (<em>bool</em><em>, </em><em>optional</em>) – _description_, by default True</p></li>
-<li><p><strong>synapse_filepath</strong> (<em>_type_</em><em>, </em><em>optional</em>) – _description_, by default None</p></li>
+<li><p><strong>segment_id</strong> (<em>int</em><em> or </em><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><em>neuron.Neuron</em></a>) – </p></li>
+<li><p><strong>synapse_type</strong> (<em>_type_</em><em>, </em><em>optional</em>) – by default None</p></li>
+<li><p><strong>filter_away_self_synapses</strong> (<em>bool</em><em>, </em><em>optional</em>) – by default True</p></li>
+<li><p><strong>coordinates_nm</strong> (<em>bool</em><em>, </em><em>optional</em>) – by default True</p></li>
+<li><p><strong>synapse_filepath</strong> (<em>_type_</em><em>, </em><em>optional</em>) – by default None</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>_description_</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>_type_</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>Exception</strong> – _description_</p>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Exception</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -18802,32 +18800,110 @@ will retrieve the synapses from a backend synapse implementation</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.default_low_degree_graph_filters">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_low_degree_graph_filters</span></span><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.default_low_degree_graph_filters" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The graph filters to be using the ‘exc_low_degree_branching_filter’ for autoproofreading that inspects axon branches with exactly 2 downstream nodes and classifies as an error based on if one fo the following graph filters has a successful match. Overriding this function could be simply excluding some filters that are not applicable/work for your volume even with parameters tuned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[graph filter functions]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.exc_filters_auto_proof">
 <span class="sig-name descname"><span class="pre">exc_filters_auto_proof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.exc_filters_auto_proof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.exc_filters_auto_proof" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>All autoproofreading filters (referenced in proofreading_utils.py) that will be used for excitatory cells</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[filter objects]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.fetch_proofread_mesh">
-<span class="sig-name descname"><span class="pre">fetch_proofread_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.fetch_proofread_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.fetch_proofread_mesh" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">fetch_proofread_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><span class="pre">Neuron</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Trimesh</span></span></span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.fetch_proofread_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.fetch_proofread_mesh" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve mesh after autoproofreading filtering. Default implementation uses a local solution of extracting the mesh from the neuron object, but the proofreading mesh could be stored in an external database with only the segment id and split index needed to retrieve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment_id</strong> (<em>Union</em><em>[</em><em>int</em><em>,</em><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><em>Neuron</em></a><em>]</em>) – proofread neuron object from which the mesh can be extracted or an int representing the segment id for external database implementation where saved products indexed by unique segment_id and split index</p></li>
+<li><p><strong>split_index</strong> (<em>int</em><em>, </em><em>optional</em>) – for external database implementation where saved products indexed by unique segment_id and split index, by default 0</p></li>
+<li><p><strong>plot_mesh</strong> (<em>bool</em><em>, </em><em>optional</em>) – by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>auto proofread mesh</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>trimesh.Trimesh</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.fetch_segment_id_mesh">
-<span class="sig-name descname"><span class="pre">fetch_segment_id_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshes_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'off'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.fetch_segment_id_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.fetch_segment_id_mesh" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">fetch_segment_id_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshes_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'off'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Trimesh</span></span></span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.fetch_segment_id_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.fetch_segment_id_mesh" title="Permalink to this definition"></a></dt>
+<dd><p>Purpose: retrieve a decimated segment id mesh. Current implementation assumes a local filepath storing all meshes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment_id</strong> (<em>int</em><em>, </em><em>optional</em>) – neuron segment id, by default None</p></li>
+<li><p><strong>meshes_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – location of decimated mesh files, by default None</p></li>
+<li><p><strong>mesh_filepath</strong> (<em>str</em><em>, </em><em>optional</em>) – complete path of location and filename for neuron , by default None</p></li>
+<li><p><strong>plot</strong> (<em>bool</em><em>, </em><em>optional</em>) – by default False</p></li>
+<li><p><strong>ext</strong> (<em>str</em><em>, </em><em>optional</em>) – the file extension for mesh storage, by default “off”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>decimated mesh for segment id</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>trimesh.Trimesh</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.fetch_soma_mesh">
-<span class="sig-name descname"><span class="pre">fetch_soma_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.fetch_soma_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.fetch_soma_mesh" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">fetch_soma_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><span class="pre">Neuron</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.fetch_soma_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.fetch_soma_mesh" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve soma mesh. Default implementation uses a local solution of extracting the soma mesh from the neuron object, but the soma mesh could be stored in an external database with only the segment id and split index needed to retrieve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment_id</strong> (<em>Union</em><em>[</em><em>int</em><em>,</em><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><em>Neuron</em></a><em>]</em>) – neuron object from which the mesh can be extracted or an int representing the segment id for external database implementation where saved products indexed by unique segment_id and split index</p></li>
+<li><p><strong>split_index</strong> (<em>int</em><em>, </em><em>optional</em>) – for external database implementation where saved products indexed by unique segment_id and split index, by default 0</p></li>
+<li><p><strong>plot_mesh</strong> (<em>bool</em><em>, </em><em>optional</em>) – by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>auto proofread mesh</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>trimesh.Trimesh</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.fetch_undecimated_segment_id_mesh">
-<span class="sig-name descname"><span class="pre">fetch_undecimated_segment_id_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshes_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'off'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.fetch_undecimated_segment_id_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.fetch_undecimated_segment_id_mesh" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">fetch_undecimated_segment_id_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshes_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'off'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Trimesh</span></span></span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.fetch_undecimated_segment_id_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.fetch_undecimated_segment_id_mesh" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment_id</strong> (<em>int</em>) – </p></li>
+<li><p><strong>meshes_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – by default None</p></li>
+<li><p><strong>plot</strong> (<em>bool</em><em>, </em><em>optional</em>) – by default False</p></li>
+<li><p><strong>ext</strong> (<em>str</em><em>, </em><em>optional</em>) – by default “off”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>undecimated mesh for segment id</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>trimesh.Trimesh</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.get_align_matrix">
@@ -18838,26 +18914,60 @@ will retrieve the synapses from a backend synapse implementation</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.graph_obj_from_proof_stage">
-<span class="sig-name descname"><span class="pre">graph_obj_from_proof_stage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.graph_obj_from_proof_stage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.graph_obj_from_proof_stage" title="Permalink to this definition"></a></dt>
-<dd><p>Purpose: to get the neuron_obj from
-decomposition cell type</p>
+<span class="sig-name descname"><span class="pre">graph_obj_from_proof_stage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><span class="pre">Neuron</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DiGraph</span></span></span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.graph_obj_from_proof_stage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.graph_obj_from_proof_stage" title="Permalink to this definition"></a></dt>
+<dd><p>Purpose: Retrieve the lite neuron_obj (implemented). Local implementation where retrieved from pipeline products of neuron obj but could override to fetch from an external store using the segment id and split index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment_id</strong> (<em>Union</em><em>[</em><em>int</em><em>,</em><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><em>Neuron</em></a><em>]</em>) – </p></li>
+<li><p><strong>split_index</strong> (<em>int</em><em>, </em><em>optional</em>) – by default 0</p></li>
+<li><p><strong>clean</strong> (<em>bool</em><em>, </em><em>optional</em>) – by default True</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>neuron_obj_lite</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nx.DiGraph</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.inh_filters_auto_proof">
 <span class="sig-name descname"><span class="pre">inh_filters_auto_proof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.inh_filters_auto_proof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.inh_filters_auto_proof" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>All autoproofreading filters (referenced in proofreading_utils.py) that will be used for inhibitory cells</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[filter functions]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.load_neuron_obj_auto_proof">
-<span class="sig-name descname"><span class="pre">load_neuron_obj_auto_proof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_decimated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.load_neuron_obj_auto_proof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.load_neuron_obj_auto_proof" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">load_neuron_obj_auto_proof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_decimated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Trimesh</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><span class="pre">Neuron</span></a></span></span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.load_neuron_obj_auto_proof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.load_neuron_obj_auto_proof" title="Permalink to this definition"></a></dt>
+<dd><p>Loading an external neuron file into a python object. Current implementation assumes the default .pbz2 method of compression that does not store the mesh information, which is why the mesh object needs to be passed as an argument</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment_id</strong> (<em>str</em>) – </p></li>
+<li><p><strong>mesh_decimated</strong> (<em>trimesh.Trimesh</em><em>, </em><em>optional</em>) – the original decimated mesh before any proofreaidng, by default None</p></li>
+<li><p><strong>directory</strong> (<em>str</em><em>, </em><em>optional</em>) – filepath location of saved .pbz2 file, by default self.neuron_obj_auto_proof_directory</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron">Neuron</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.nuclei_classification_info_from_nucleus_id">
-<span class="sig-name descname"><span class="pre">nuclei_classification_info_from_nucleus_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nuclei</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.nuclei_classification_info_from_nucleus_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.nuclei_classification_info_from_nucleus_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">nuclei_classification_info_from_nucleus_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nuclei</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.nuclei_classification_info_from_nucleus_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.nuclei_classification_info_from_nucleus_id" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: To return a dictionary of cell type
-information (same structure as from the allen institute of brain science CAVE client return)</p>
+information (same structure as from the allen institute of brain science CAVE client return) from an external database. No external database currently set up so None filled dictionary returned.</p>
 <p>Example Returns:</p>
 <dl class="simple">
 <dt>{</dt><dd><p>‘external_cell_type’: ‘excitatory’,
@@ -18868,19 +18978,65 @@ information (same structure as from the allen institute of brain science CAVE cl
 </dd>
 </dl>
 <p>}</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nuclei</strong> (<em>int</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>nuclei info about classification (fine and coarse)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.nuclei_from_segment_id">
-<span class="sig-name descname"><span class="pre">nuclei_from_segment_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_centers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_nm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.nuclei_from_segment_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.nuclei_from_segment_id" title="Permalink to this definition"></a></dt>
-<dd><p>Purpose: To returns the nuclues
-information corresponding to a segment</p>
+<span class="sig-name descname"><span class="pre">nuclei_from_segment_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_centers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_nm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.nuclei_from_segment_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.nuclei_from_segment_id" title="Permalink to this definition"></a></dt>
+<dd><p>retrieves the nuclei id (and possibly the
+nuclei centers) from an external database. No external database currently set so currently set to None returns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment_id</strong> (<em>int</em>) – </p></li>
+<li><p><strong>return_centers</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to return the nuclei center coordinates along with the ids, by default True</p></li>
+<li><p><strong>return_nm</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to return nuclei center coordinates in nm units, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>nuclei_ids</strong> (<em>np.array (N,)</em>) – nuclei ids corresponding to segment_id</p></li>
+<li><p><strong>nuclei_centers</strong> (<em>np.array (N,3), optional</em>) – center locations for the corresponding nuclei</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.save_neuron_obj_auto_proof">
-<span class="sig-name descname"><span class="pre">save_neuron_obj_auto_proof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.save_neuron_obj_auto_proof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.save_neuron_obj_auto_proof" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">save_neuron_obj_auto_proof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><span class="pre">Neuron</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.save_neuron_obj_auto_proof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.save_neuron_obj_auto_proof" title="Permalink to this definition"></a></dt>
+<dd><p>Save a neuron object in the autoproofreading directory (using the default pbz2 compressed method that does not save the mesh along with it). Typical  This is the current local implementation, should be overriden if the proofreading neuron objects are to be saved in an external store</p>
+<p>Default filename: {segment_id}.pbz2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>neuron_obj</strong> (<a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><em>Neuron</em></a>) – </p></li>
+<li><p><strong>directory</strong> (<em>str</em><em>, </em><em>optional</em>) – location for storing .pbz2 files, by default None</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – a custom name for compressed neuron file to replace the default name, by default None</p></li>
+<li><p><strong>suffix</strong> (<em>str</em><em>, </em><em>optional</em>) – change filename to {segment_id}{suffix}.pbz2 , by default None</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>filepath of saved neuron file</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_df">
@@ -18897,38 +19053,89 @@ synapse_y, # in voxel coordinates
 synapse_z, # in voxel coordinates
 synapse_size, # in voxel coordinates</p>
 <p>The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute)</p>
+<section id="paramaeters">
+<h3>Paramaeters<a class="headerlink" href="#paramaeters" title="Permalink to this heading"></a></h3>
+<p>segment_id: int
+coordinates_nm: bool</p>
+<blockquote>
+<div><p>Whether to scale the coordinate to nm units</p>
+</div></blockquote>
+<dl class="simple">
+<dt>scaling: np.array</dt><dd><p>The scaling factor to use</p>
+</dd>
+</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dataframe with all of the relevant synapse information for one segment id</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_connectome">
+<span class="sig-name descname"><span class="pre">segment_id_to_synapse_table_optimized_connectome</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><span class="pre">Neuron</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synapse_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinates_nm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.segment_id_to_synapse_table_optimized_connectome"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_connectome" title="Permalink to this definition"></a></dt>
+<dd><p>Purpose: to return a dataframe
+of the connections before proofreading with
+the constraint of one segment_id/split_index as a presyn or postsyn. Not implemented for local storage</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_proofread">
+<span class="sig-name descname"><span class="pre">segment_id_to_synapse_table_optimized_proofread</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><span class="pre">Neuron</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synapse_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.segment_id_to_synapse_table_optimized_proofread"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_proofread" title="Permalink to this definition"></a></dt>
+<dd><p>Purpose: to return a dataframe
+of the valid connections in the proofread segment/split. Currently only implemented for local solution of where synapse information stored in local csv and proofrad synapses are stored in neuron object. Could override to pull original or proofread synapses from an external source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment_id</strong> (<em>Union</em><em>[</em><em>int</em><em>,</em><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><em>Neuron</em></a><em>]</em>) – neuron obj with proofread synapses, or just segment id if synapses stored externally</p></li>
+<li><p><strong>split_index</strong> (<em>int</em><em>, </em><em>optional</em>) – identifier for segment if stored externally, by default 0</p></li>
+<li><p><strong>synapse_type</strong> (<em>str</em><em>, </em><em>optional</em>) – presyn or postsyn restriction, by default None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>synapse_df</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_connectome">
-<span class="sig-name descname"><span class="pre">segment_id_to_synapse_table_optimized_connectome</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synapse_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinates_nm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.segment_id_to_synapse_table_optimized_connectome"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_connectome" title="Permalink to this definition"></a></dt>
-<dd><p>Purpose: to return a dataframe
-of the valid connections in connectome with
-the constraint of one segment id as a presyn or postsyn</p>
+<dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.set_synapse_filepath">
+<span class="sig-name descname"><span class="pre">set_synapse_filepath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">synapse_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.set_synapse_filepath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.set_synapse_filepath" title="Permalink to this definition"></a></dt>
+<dd><p>sets the location and filename of the synapse csv for the default implementation that loads synapses from a local csv file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>synapse_filepath</strong> (<em>str</em>) – complete folder path and filename for synapse csv</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_proofread">
-<span class="sig-name descname"><span class="pre">segment_id_to_synapse_table_optimized_proofread</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synapse_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.segment_id_to_synapse_table_optimized_proofread"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_proofread" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.set_synapse_filepath">
-<span class="sig-name descname"><span class="pre">set_synapse_filepath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">synapse_filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.set_synapse_filepath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.set_synapse_filepath" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.soma_nm_coordinate">
-<span class="sig-name descname"><span class="pre">soma_nm_coordinate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.soma_nm_coordinate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.soma_nm_coordinate" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">soma_nm_coordinate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><span class="pre">Neuron</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceDefault.soma_nm_coordinate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceDefault.soma_nm_coordinate" title="Permalink to this definition"></a></dt>
+<dd><p>Return the soma coordinate for a segment. Implemented with local solution of accepting neuron object but could override with external store fetching.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment_id</strong> (<em>Union</em><em>[</em><em>int</em><em>,</em><a class="reference internal" href="#neurd.neuron.Neuron" title="neurd.neuron.Neuron"><em>Neuron</em></a><em>]</em>) – </p></li>
+<li><p><strong>split_index</strong> (<em>int</em><em>, </em><em>optional</em>) – by default 0</p></li>
+<li><p><strong>return_dict</strong> (<em>bool</em><em>, </em><em>optional</em>) – by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>soma coordinate</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array (3,)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceDefault.voxel_to_nm_scaling">
@@ -18967,7 +19174,13 @@ the constraint of one segment id as a presyn or postsyn</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.vdi_h01.DataInterfaceH01.default_low_degree_graph_filters">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_low_degree_graph_filters</span></span><a class="headerlink" href="#neurd.vdi_h01.DataInterfaceH01.default_low_degree_graph_filters" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The graph filters to be using the ‘exc_low_degree_branching_filter’ for autoproofreading that inspects axon branches with exactly 2 downstream nodes and classifies as an error based on if one fo the following graph filters has a successful match. Overriding this function could be simply excluding some filters that are not applicable/work for your volume even with parameters tuned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[graph filter functions]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_h01.DataInterfaceH01.get_align_matrix">
@@ -18992,14 +19205,26 @@ synapse_y, # in voxel coordinates
 synapse_z, # in voxel coordinates
 synapse_size, # in voxel coordinates</p>
 <p>The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute)</p>
+<section id="id14">
+<h3>Paramaeters<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
+<p>segment_id: int
+coordinates_nm: bool</p>
+<blockquote>
+<div><p>Whether to scale the coordinate to nm units</p>
+</div></blockquote>
+<dl class="simple">
+<dt>scaling: np.array</dt><dd><p>The scaling factor to use</p>
+</dd>
+</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dataframe with all of the relevant synapse information for one segment id</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <dl class="py property">
@@ -19053,14 +19278,26 @@ synapse_y, # in voxel coordinates
 synapse_z, # in voxel coordinates
 synapse_size, # in voxel coordinates</p>
 <p>The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute)</p>
+<section id="id15">
+<h3>Paramaeters<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
+<p>segment_id: int
+coordinates_nm: bool</p>
+<blockquote>
+<div><p>Whether to scale the coordinate to nm units</p>
+</div></blockquote>
+<dl class="simple">
+<dt>scaling: np.array</dt><dd><p>The scaling factor to use</p>
+</dd>
+</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dataframe with all of the relevant synapse information for one segment id</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <dl class="py property">
@@ -19119,14 +19356,26 @@ synapse_y, # in voxel coordinates
 synapse_z, # in voxel coordinates
 synapse_size, # in voxel coordinates</p>
 <p>The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute)</p>
+<section id="id16">
+<h3>Paramaeters<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
+<p>segment_id: int
+coordinates_nm: bool</p>
+<blockquote>
+<div><p>Whether to scale the coordinate to nm units</p>
+</div></blockquote>
+<dl class="simple">
+<dt>scaling: np.array</dt><dd><p>The scaling factor to use</p>
+</dd>
+</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dataframe with all of the relevant synapse information for one segment id</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
 <dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <dl class="py property">
