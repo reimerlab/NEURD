@@ -112,12 +112,11 @@
         
     <span class="k">return</span> <span class="n">new_func</span></div>
         
-    
 
-<div class="viewcode-block" id="DataInterfaceDefault"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault">[docs]</a><span class="k">class</span> <span class="nc">DataInterfaceDefault</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate">[docs]</a><span class="k">class</span> <span class="nc">DataInterfaceBoilerPlate</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
     <span class="n">proof_version</span> <span class="o">=</span> <span class="mi">7</span>
     
-<div class="viewcode-block" id="DataInterfaceDefault.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
@@ -135,7 +134,7 @@
     <span class="k">def</span> <span class="nf">vdi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span>
         
-<div class="viewcode-block" id="DataInterfaceDefault.set_parameters_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.set_parameters_obj">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_obj</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.set_parameters_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.set_parameters_obj">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_obj</span><span class="p">(</span>
         <span class="bp">self</span>
         <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -164,7 +163,7 @@
                 <span class="n">filepath</span> <span class="o">=</span> <span class="n">f</span>
             <span class="p">)</span></div>
         
-<div class="viewcode-block" id="DataInterfaceDefault.set_parameters_obj_from_filepath"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.set_parameters_obj_from_filepath">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_obj_from_filepath</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.set_parameters_obj_from_filepath"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.set_parameters_obj_from_filepath">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_obj_from_filepath</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">set_module_parameters</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
@@ -190,7 +189,7 @@
         <span class="k">if</span> <span class="n">set_module_parameters</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters_for_directory_modules</span><span class="p">()</span></div>
             
-<div class="viewcode-block" id="DataInterfaceDefault.set_parameters_for_directory_modules"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.set_parameters_for_directory_modules">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_for_directory_modules</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.set_parameters_for_directory_modules"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.set_parameters_for_directory_modules">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_for_directory_modules</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -204,33 +203,20 @@
             <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
         
-    <span class="c1"># -------- abstract properties</span>
-    <span class="nd">@property</span>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">voxel_to_nm_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-    
     <span class="c1"># --------------------------</span>
-<div class="viewcode-block" id="DataInterfaceDefault.get_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.get_align_matrix">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">get_align_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
-
-<div class="viewcode-block" id="DataInterfaceDefault.align_array"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.align_array">[docs]</a>    <span class="k">def</span> <span class="nf">align_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">array</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.align_array"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_array">[docs]</a>    <span class="k">def</span> <span class="nf">align_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">array</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1">#print(f&quot;inside vdi align array&quot;)</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">align_array</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataInterfaceDefault.align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.align_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">align_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">align_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1">#print(f&quot;inside vdi align mesh&quot;)</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">align_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataInterfaceDefault.align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.align_skeleton">[docs]</a>    <span class="k">def</span> <span class="nf">align_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">skeleton</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_skeleton">[docs]</a>    <span class="k">def</span> <span class="nf">align_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">skeleton</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1">#print(f&quot;inside vdi align skeleton&quot;)</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">align_skeleton</span><span class="p">(</span><span class="n">skeleton</span><span class="o">=</span><span class="n">skeleton</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DataInterfaceDefault.align_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.align_neuron_obj_from_align_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">align_neuron_obj_from_align_matrix</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.align_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_neuron_obj_from_align_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">align_neuron_obj_from_align_matrix</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">neuron_obj</span><span class="p">,</span>
         <span class="n">align_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -243,10 +229,10 @@
             <span class="n">align_skeleton</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">align_skeleton</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DataInterfaceDefault.unalign_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.unalign_neuron_obj_from_align_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">unalign_neuron_obj_from_align_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.unalign_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.unalign_neuron_obj_from_align_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">unalign_neuron_obj_from_align_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">unalign_neuron_obj_from_align_matrix</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataInterfaceDefault.align_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.align_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">align_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.align_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">align_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Keep the body of function as &quot;pass&quot; unless the neuron obj needs to be rotated so axon is pointing down</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -258,7 +244,7 @@
             <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataInterfaceDefault.unalign_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.unalign_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">unalign_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.unalign_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.unalign_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">unalign_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Keep the body of function as &quot;pass&quot; unless the neuron obj needs to be rotated so axon is pointing down</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -270,8 +256,413 @@
             <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
     
+    <span class="c1"># -------- save and load for neuron obj</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.save_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.save_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">save_neuron_obj</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        _summary_</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        neuron_obj : _type_</span>
+<span class="sd">            _description_</span>
+<span class="sd">        directory : _type_, optional</span>
+<span class="sd">            _description_, by default None</span>
+<span class="sd">        filename : _type_, optional</span>
+<span class="sd">            _description_, by default None</span>
+<span class="sd">        suffix : str, optional</span>
+<span class="sd">            _description_, by default &#39;&#39;</span>
+<span class="sd">        verbose : bool, optional</span>
+<span class="sd">            _description_, by default False</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        _type_</span>
+<span class="sd">            _description_</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_obj_directory</span>
         
-    <span class="c1"># ------- Functions for fetching -----</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">neuron_obj</span><span class="o">.</span><span class="n">segment_id</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
+            
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">save_compressed_neuron</span><span class="p">(</span>
+            <span class="n">neuron_obj</span><span class="p">,</span>
+            <span class="n">output_folder</span> <span class="o">=</span> <span class="n">directory</span><span class="p">,</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">filename</span><span class="p">,</span>
+            <span class="n">return_file_path</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;saved neuron filepath = </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.pbz2&quot;</span></div>
+    
+        
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.load_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.load_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">load_neuron_obj</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">mesh_decimated</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">mesh_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">meshes_directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="n">mesh_decimated</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mesh_decimated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_segment_id_mesh</span><span class="p">(</span>
+                <span class="n">segment_id</span><span class="p">,</span>
+                <span class="n">meshes_directory</span> <span class="o">=</span> <span class="n">meshes_directory</span><span class="p">,</span>
+                <span class="n">mesh_filepath</span><span class="o">=</span><span class="n">mesh_filepath</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_obj_directory</span>
+            
+            <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">segment_id</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
+                
+            <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">decompress_neuron</span><span class="p">(</span>
+            <span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span><span class="p">,</span>
+            <span class="n">original_mesh</span> <span class="o">=</span> <span class="n">mesh_decimated</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span> </div>
+        
+        
+    <span class="c1"># ---------- used by autoproofreading --------------</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.multiplicity"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.multiplicity">[docs]</a>    <span class="k">def</span> <span class="nf">multiplicity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        For those who don&#39;t store the output of each stage in the neuron obj</span>
+<span class="sd">        this function could be redefined to pull from a database</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">multiplicity</span></div>
+        
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.nucleus_id"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.nucleus_id">[docs]</a>    <span class="k">def</span> <span class="nf">nucleus_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">nucleus_id</span></div>
+    
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.cell_type"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.cell_type">[docs]</a>    <span class="k">def</span> <span class="nf">cell_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">nucleus_id</span></div>
+    
+    
+    <span class="c1"># ---- used by proximities</span>
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.segment_id_and_split_index"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_and_split_index">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_and_split_index</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="p">,</span>
+        <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">return_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        
+        
+        <span class="n">single_flag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nu</span><span class="o">.</span><span class="n">is_array_like</span><span class="p">(</span><span class="n">segment_id</span><span class="p">):</span>
+            <span class="n">segment_id</span><span class="o">=</span><span class="p">[</span><span class="n">segment_id</span><span class="p">]</span>
+            <span class="n">split_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">split_index</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">segment_id</span><span class="p">)</span>
+            <span class="n">single_flag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">nu</span><span class="o">.</span><span class="n">is_array_like</span><span class="p">(</span><span class="n">split_index</span><span class="p">):</span>
+                <span class="n">split_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">split_index</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">segment_id</span><span class="p">)</span>
+        
+        <span class="n">seg_ids_final</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sp_idxs_final</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">seg_id</span><span class="p">,</span><span class="n">sp_idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">segment_id</span><span class="p">,</span><span class="n">split_index</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">sp_idx</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sp_idx</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;_&quot;</span> <span class="ow">in</span> <span class="n">seg_id</span><span class="p">:</span>
+                    <span class="n">seg_id</span><span class="p">,</span><span class="n">sp_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_id_and_split_index_from_node_name</span><span class="p">(</span><span class="n">seg_id</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+            
+            <span class="n">seg_ids_final</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">seg_id</span><span class="p">)</span>
+            <span class="n">sp_idxs_final</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp_idx</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">single_flag</span><span class="p">:</span>
+            <span class="n">seg_ids_final</span> <span class="o">=</span> <span class="n">seg_ids_final</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">sp_idxs_final</span> <span class="o">=</span> <span class="n">sp_idxs_final</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">return_dict</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">seg_ids_final</span><span class="p">,</span><span class="n">sp_idxs_final</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">single_flag</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">segment_id</span><span class="o">=</span><span class="n">seg_ids_final</span><span class="p">,</span><span class="n">split_index</span> <span class="o">=</span> <span class="n">sp_idxs_final</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">segment_id</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">split_index</span> <span class="o">=</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">seg_ids_final</span><span class="p">,</span><span class="n">sp_idxs_final</span><span class="p">)]</span></div>
+    
+    
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.segment_id_to_synapse_dict"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_to_synapse_dict">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_dict</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        Purpose: return a dictionary containing the presyn and postsyn information for a certain segment from the backend datasource implmeneted for the data. The structure of the returned dictionary should in the following format where all coordinates and sizes ARE SCALED TO NM ALREADY</span>
+<span class="sd">        </span>
+<span class="sd">        syn_dict = dict(</span>
+<span class="sd">            presyn = dict(</span>
+<span class="sd">                synapse_ids= np.array (N),</span>
+<span class="sd">                synapse_coordinates = np.array (Nx3),</span>
+<span class="sd">                synapse_sizes = np.array (N),</span>
+<span class="sd">            ),</span>
+<span class="sd">            postsyn = dict(</span>
+<span class="sd">                synapse_ids= np.array (N),</span>
+<span class="sd">                synapse_coordinates = np.array (Nx3),</span>
+<span class="sd">                synapse_sizes = np.array (N),</span>
+<span class="sd">            )</span>
+<span class="sd">        )</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute) with the following columns</span>
+<span class="sd">        </span>
+<span class="sd">        segment_id,</span>
+<span class="sd">        segment_id_secondary,</span>
+<span class="sd">        synapse_id,</span>
+<span class="sd">        prepost, # presyn or postsyn</span>
+<span class="sd">        synapse_x, # in voxel coordinates</span>
+<span class="sd">        synapse_y, # in voxel coordinates</span>
+<span class="sd">        synapse_z, # in voxel coordinates</span>
+<span class="sd">        synapse_size, # in voxel coordinates</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Example Implementation</span>
+<span class="sd">        ----------------------</span>
+<span class="sd">        cave_client_utils.synapse_df_from_seg_id</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        
+        <span class="n">syn_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_id_to_synapse_df</span><span class="p">(</span>
+            <span class="n">segment_id</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+        <span class="n">df</span> <span class="o">=</span> <span class="n">syu</span><span class="o">.</span><span class="n">add_nm_to_synapse_df</span><span class="p">(</span>
+            <span class="n">syn_df</span><span class="p">,</span>
+            <span class="n">scaling</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+        <span class="n">syn_dict</span> <span class="o">=</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_dict_from_synapse_df</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span>
+            <span class="n">scaling</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">coordinates_nm</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">syn_dict</span></div>
+    
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.segment_id_to_synapse_table_optimized"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_to_synapse_table_optimized">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_table_optimized</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="p">,</span>
+        <span class="n">synapse_type</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">filter_away_self_synapses</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">coordinates_nm</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">synapse_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Purpose: Given a segment id (or neuron obj)</span>
+<span class="sd">        will retrieve the synapses from a backend synapse implementation</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        segment_id : int or neuron.Neuron</span>
+<span class="sd">            _description_</span>
+<span class="sd">        synapse_type : _type_, optional</span>
+<span class="sd">            _description_, by default None</span>
+<span class="sd">        filter_away_self_synapses : bool, optional</span>
+<span class="sd">            _description_, by default True</span>
+<span class="sd">        coordinates_nm : bool, optional</span>
+<span class="sd">            _description_, by default True</span>
+<span class="sd">        synapse_filepath : _type_, optional</span>
+<span class="sd">            _description_, by default None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        _type_</span>
+<span class="sd">            _description_</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        Exception</span>
+<span class="sd">            _description_</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">segment_id</span><span class="p">,</span><span class="n">neuron</span><span class="o">.</span><span class="n">Neuron</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">synapse_filepath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+                    <span class="n">segment_id</span><span class="p">,</span><span class="s2">&quot;synapse_filepath&quot;</span><span class="p">,</span><span class="kc">None</span>
+                <span class="p">)</span>
+            <span class="n">segment_id</span> <span class="o">=</span> <span class="n">segment_id</span><span class="o">.</span><span class="n">segment_id</span>
+            
+        
+        <span class="k">if</span> <span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No synapse filepath set&quot;</span><span class="p">)</span>
+            <span class="n">synapse_filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span>
+        
+        <span class="n">return_df</span> <span class="o">=</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_df_from_csv</span><span class="p">(</span>
+            <span class="n">synapse_filepath</span><span class="o">=</span><span class="n">synapse_filepath</span><span class="p">,</span>
+            <span class="n">segment_id</span><span class="o">=</span><span class="n">segment_id</span><span class="p">,</span>
+            <span class="n">coordinates_nm</span><span class="o">=</span><span class="n">coordinates_nm</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        
+        <span class="n">return_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span>
+            <span class="n">return_df</span><span class="p">,</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">segment_id</span> <span class="o">=</span> <span class="s1">&#39;primary_seg_id&#39;</span><span class="p">,</span>
+                <span class="n">segment_id_secondary</span> <span class="o">=</span> <span class="s2">&quot;secondary_seg_id&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">synapse_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">return_df</span> <span class="o">=</span> <span class="n">return_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prepost == &#39;</span><span class="si">{</span><span class="n">synapse_type</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">return_df</span></div>
+    
+<div class="viewcode-block" id="DataInterfaceBoilerPlate.pre_post_synapse_ids_coords_from_connectome"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.pre_post_synapse_ids_coords_from_connectome">[docs]</a>    <span class="nd">@neuron_obj_func</span>
+    <span class="k">def</span> <span class="nf">pre_post_synapse_ids_coords_from_connectome</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">segment_id_pre</span><span class="p">,</span>
+        <span class="n">segment_id_post</span><span class="p">,</span>
+        <span class="n">split_index_pre</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">split_index_post</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">synapse_pre_df</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">):</span>
+        
+        <span class="k">if</span> <span class="n">synapse_pre_df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">synapse_pre_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_id_to_synapse_table_optimized_proofread</span><span class="p">(</span>
+                <span class="n">segment_id_pre</span><span class="p">,</span>
+                <span class="n">split_index</span> <span class="o">=</span> <span class="n">split_index_pre</span><span class="p">,</span>
+                <span class="n">synapse_type</span><span class="o">=</span><span class="s2">&quot;presyn&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">synapse_coordinates_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;synapse_x_nm&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_y_nm&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_z_nm&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+
+        <span class="c1"># gets the pre and post synapses</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">synapse_pre_df</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">syn_ids</span> <span class="o">=</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_df</span><span class="p">(</span><span class="n">segment_id_post</span><span class="o">.</span><span class="n">synapses_valid</span><span class="p">)[</span><span class="s2">&quot;syn_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+
+            
+            <span class="n">synapse_pre_post_df</span> <span class="o">=</span> <span class="n">synapse_pre_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;(secondary_seg_id == </span><span class="si">{</span><span class="n">segment_id_post</span><span class="o">.</span><span class="n">segment_id</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            
+            <span class="n">synapse_pre_post_df</span> <span class="o">=</span> <span class="n">synapse_pre_post_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;(synapse_id in </span><span class="si">{</span><span class="n">syn_ids</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span>
+
+
+            <span class="n">synapse_pre_post_coords</span> <span class="o">=</span> <span class="n">synapse_coordinates_from_df</span><span class="p">(</span><span class="n">synapse_pre_post_df</span><span class="p">)</span>
+            <span class="n">synapse_pre_post_ids</span> <span class="o">=</span> <span class="n">synapse_pre_post_df</span><span class="p">[</span><span class="s2">&quot;synapse_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">synapse_pre_post_coords</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">synapse_pre_post_ids</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;synapse_pre_post_coords = </span><span class="si">{</span><span class="n">synapse_pre_post_coords</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;synapse_pre_post_ids = </span><span class="si">{</span><span class="n">synapse_pre_post_ids</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">synapse_pre_post_ids</span><span class="p">,</span><span class="n">synapse_pre_post_coords</span></div></div>
+    
+    
+<div class="viewcode-block" id="DataInterfaceDefault"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault">[docs]</a><span class="k">class</span> <span class="nc">DataInterfaceDefault</span><span class="p">(</span><span class="n">DataInterfaceBoilerPlate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to outline what functions to overload in implement a volume data interface that will work with NEURD. All methods exposed fall under the following categories</span>
+<span class="sd">    </span>
+<span class="sd">    1) required abstract method</span>
+<span class="sd">    2) data fetchers/setters</span>
+<span class="sd">    3) autoproofreading filter settings</span>
+<span class="sd">    </span>
+<span class="sd">    All fetchers and setters have a default implementation where data is stored locally in csv (for synapses) or locally in the neuron object. If exporting data to non-local source (ex: database) override these functions to pull from other these sources</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DataInterfaceDefault.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">):</span>
+        
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        
+    <span class="nd">@property</span>    
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">voxel_to_nm_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        ***REQUIRED OVERRIDE***</span>
+<span class="sd">        </span>
+<span class="sd">        Purpose: Provide a 1x3 numpy matrix representing the scaling of voxel units to nm units. If the data is already in nm format then just assign a ones matrix</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        scaling_vector : np.array</span>
+<span class="sd">            vector that can convert a matrix or vector of 3D voxel coordinates to 3D nm coordinates (default: np.array([1,1,1]))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    
+<div class="viewcode-block" id="DataInterfaceDefault.get_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.get_align_matrix">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_align_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        ***REQUIRED OVERRIDE***</span>
+<span class="sd">        </span>
+<span class="sd">        Purpose: a transformation matrix (call A, 3x3) that when applied to a matrix of 3D coordinates (call B, Nx3) as a matrix multiplication of C = BA will produce a new matrix of rotated coordinates (call C, Nx3) so that all coordinates or a mesh or skeleton are rotated to ensure that the apical of the neuron is generally direted in the positive z direction.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+    
+<div class="viewcode-block" id="DataInterfaceDefault.segment_id_to_synapse_df"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_df">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">segment_id_to_synapse_df</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        ***REQUIRED OVERRIDE***</span>
+<span class="sd">        </span>
+<span class="sd">        Purpose: return a dataframe with the presyn</span>
+<span class="sd">        and postsyn information for a certain segment from the backend data source. The structure of the dataframe should return the following columns</span>
+<span class="sd">        </span>
+<span class="sd">        segment_id,</span>
+<span class="sd">        segment_id_secondary,</span>
+<span class="sd">        synapse_id,</span>
+<span class="sd">        prepost, # presyn or postsyn</span>
+<span class="sd">        synapse_x, # in voxel coordinates</span>
+<span class="sd">        synapse_y, # in voxel coordinates</span>
+<span class="sd">        synapse_z, # in voxel coordinates</span>
+<span class="sd">        synapse_size, # in voxel coordinates</span>
+<span class="sd">        </span>
+<span class="sd">        The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute)</span>
+<span class="sd">    </span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            dataframe with all of the relevant synapse information for one segment id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;synapse_filepath&quot;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No synapse filepath set&quot;</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;synapse_filepath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span>
+        
+        <span class="n">df</span> <span class="o">=</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_df_from_csv</span><span class="p">(</span>
+            <span class="n">synapse_filepath</span><span class="p">,</span>
+            <span class="n">segment_id</span> <span class="o">=</span> <span class="n">segment_id</span><span class="p">,</span>
+            <span class="n">coordinates_nm</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">scaling</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">df</span></div>
+    
+    <span class="c1"># ---- Data Fetching and Savinig Functions</span>
 <div class="viewcode-block" id="DataInterfaceDefault.fetch_segment_id_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.fetch_segment_id_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">fetch_segment_id_mesh</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -279,8 +670,10 @@
         <span class="n">mesh_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;off&quot;</span>
-        <span class="p">):</span> 
+        <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="k">if</span> <span class="n">mesh_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -314,37 +707,6 @@
             <span class="n">plot</span> <span class="o">=</span> <span class="n">plot</span><span class="p">,</span>
             <span class="n">ext</span> <span class="o">=</span> <span class="n">ext</span>
         <span class="p">)</span></div>
-    
-<div class="viewcode-block" id="DataInterfaceDefault.segment_id_to_synapse_dict"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_dict">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">segment_id_to_synapse_dict</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a dataframe containing all the synapses</span>
-<span class="sd">        of a segment_id (both pre and post ) with the </span>
-<span class="sd">        following columns:</span>
-<span class="sd">        </span>
-<span class="sd">        Note: all sizes should be scaled from voxels to nm</span>
-<span class="sd">        formwat if that&#39;s how they originally are exported</span>
-<span class="sd">        </span>
-<span class="sd">        </span>
-<span class="sd">        segment_id,</span>
-<span class="sd">        segment_id_secondary,</span>
-<span class="sd">        synapse_id,</span>
-<span class="sd">        prepost,</span>
-<span class="sd">        synapse_x,</span>
-<span class="sd">        synapse_y,</span>
-<span class="sd">        synapse_z,</span>
-<span class="sd">        synapse_size,</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;synapse_filepath&quot;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No synapse filepath set&quot;</span><span class="p">)</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;synapse_filepath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span>
-        
-        <span class="k">return</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_dict_from_synapse_csv</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="DataInterfaceDefault.set_synapse_filepath"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.set_synapse_filepath">[docs]</a>    <span class="k">def</span> <span class="nf">set_synapse_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">synapse_filepath</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span> <span class="o">=</span> <span class="n">synapse_filepath</span></div>
@@ -397,111 +759,8 @@
             <span class="s1">&#39;external_cell_type_fine_n_nuc&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
             <span class="s1">&#39;external_cell_type_fine_e_i&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">}</span></div>
-        
-        
-<div class="viewcode-block" id="DataInterfaceDefault.save_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.save_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">save_neuron_obj</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">neuron_obj</span><span class="p">,</span>
-        <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,):</span>
-        
-        <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_obj_directory</span>
-        
-        <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">neuron_obj</span><span class="o">.</span><span class="n">segment_id</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
-            
-        <span class="n">filepath</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">save_compressed_neuron</span><span class="p">(</span>
-            <span class="n">neuron_obj</span><span class="p">,</span>
-            <span class="n">output_folder</span> <span class="o">=</span> <span class="n">directory</span><span class="p">,</span>
-            <span class="n">file_name</span> <span class="o">=</span> <span class="n">filename</span><span class="p">,</span>
-            <span class="n">return_file_path</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-        
-        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;saved neuron filepath = </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.pbz2&quot;</span></div>
     
         
-<div class="viewcode-block" id="DataInterfaceDefault.load_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.load_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">load_neuron_obj</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">mesh_decimated</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">mesh_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">meshes_directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">suffix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        
-        <span class="k">if</span> <span class="n">mesh_decimated</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">mesh_decimated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_segment_id_mesh</span><span class="p">(</span>
-                <span class="n">segment_id</span><span class="p">,</span>
-                <span class="n">meshes_directory</span> <span class="o">=</span> <span class="n">meshes_directory</span><span class="p">,</span>
-                <span class="n">mesh_filepath</span><span class="o">=</span><span class="n">mesh_filepath</span><span class="p">)</span>
-        
-        <span class="k">if</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_obj_directory</span>
-            
-            <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">segment_id</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
-                
-            <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-            
-        <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">decompress_neuron</span><span class="p">(</span>
-            <span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span><span class="p">,</span>
-            <span class="n">original_mesh</span> <span class="o">=</span> <span class="n">mesh_decimated</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">)</span> </div>
-          
-        
-    <span class="c1"># ---------- Functions that should be reviewed or overriden --</span>
-    
-    <span class="c1"># ---- the filters used for autoproofreading -- </span>
-<div class="viewcode-block" id="DataInterfaceDefault.exc_filters_auto_proof"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.exc_filters_auto_proof">[docs]</a>    <span class="k">def</span> <span class="nf">exc_filters_auto_proof</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">pru</span><span class="o">.</span><span class="n">v7_exc_filters</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span></div>
-        
-<div class="viewcode-block" id="DataInterfaceDefault.inh_filters_auto_proof"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.inh_filters_auto_proof">[docs]</a>    <span class="k">def</span> <span class="nf">inh_filters_auto_proof</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        
-        <span class="k">return</span> <span class="n">pru</span><span class="o">.</span><span class="n">v7_inh_filters</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">)</span></div>
-    
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">default_low_degree_graph_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="n">gf</span><span class="o">.</span><span class="n">axon_webbing_filter</span><span class="p">,</span>
-            <span class="n">gf</span><span class="o">.</span><span class="n">thick_t_filter</span><span class="p">,</span>
-            <span class="n">gf</span><span class="o">.</span><span class="n">axon_double_back_filter</span><span class="p">,</span>
-            <span class="n">gf</span><span class="o">.</span><span class="n">fork_divergence_filter</span><span class="p">,</span>
-            <span class="n">gf</span><span class="o">.</span><span class="n">fork_min_skeletal_distance_filter</span><span class="p">,</span>
-            <span class="n">gf</span><span class="o">.</span><span class="n">axon_spine_at_intersection_filter</span><span class="p">,</span>
-            <span class="n">gf</span><span class="o">.</span><span class="n">min_synapse_dist_to_branch_point_filter</span><span class="p">,</span>
-        <span class="p">]</span>
-        
-    <span class="c1"># ---------- used by autoproofreading --------------</span>
-<div class="viewcode-block" id="DataInterfaceDefault.multiplicity"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.multiplicity">[docs]</a>    <span class="k">def</span> <span class="nf">multiplicity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        For those who don&#39;t store the output of each stage in the neuron obj</span>
-<span class="sd">        this function could be redefined to pull from a database</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">multiplicity</span></div>
-        
-<div class="viewcode-block" id="DataInterfaceDefault.nucleus_id"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.nucleus_id">[docs]</a>    <span class="k">def</span> <span class="nf">nucleus_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">nucleus_id</span></div>
-    
-<div class="viewcode-block" id="DataInterfaceDefault.cell_type"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.cell_type">[docs]</a>    <span class="k">def</span> <span class="nf">cell_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">nucleus_id</span></div>
-    
-    
 <div class="viewcode-block" id="DataInterfaceDefault.save_neuron_obj_auto_proof"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.save_neuron_obj_auto_proof">[docs]</a>    <span class="k">def</span> <span class="nf">save_neuron_obj_auto_proof</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">neuron_obj</span><span class="p">,</span>
@@ -545,51 +804,70 @@
         <span class="p">)</span></div>
         
         
-    <span class="c1"># ---- used by proximities</span>
-<div class="viewcode-block" id="DataInterfaceDefault.segment_id_and_split_index"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_and_split_index">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_and_split_index</span><span class="p">(</span>
+        
+    <span class="c1"># --------- functions for setting autoproofreading ---</span>
+<div class="viewcode-block" id="DataInterfaceDefault.exc_filters_auto_proof"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.exc_filters_auto_proof">[docs]</a>    <span class="k">def</span> <span class="nf">exc_filters_auto_proof</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pru</span><span class="o">.</span><span class="n">v7_exc_filters</span><span class="p">(</span>
+            <span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span></div>
+        
+<div class="viewcode-block" id="DataInterfaceDefault.inh_filters_auto_proof"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.inh_filters_auto_proof">[docs]</a>    <span class="k">def</span> <span class="nf">inh_filters_auto_proof</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="n">pru</span><span class="o">.</span><span class="n">v7_inh_filters</span><span class="p">(</span>
+            <span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_low_degree_graph_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">gf</span><span class="o">.</span><span class="n">axon_webbing_filter</span><span class="p">,</span>
+            <span class="n">gf</span><span class="o">.</span><span class="n">thick_t_filter</span><span class="p">,</span>
+            <span class="n">gf</span><span class="o">.</span><span class="n">axon_double_back_filter</span><span class="p">,</span>
+            <span class="n">gf</span><span class="o">.</span><span class="n">fork_divergence_filter</span><span class="p">,</span>
+            <span class="n">gf</span><span class="o">.</span><span class="n">fork_min_skeletal_distance_filter</span><span class="p">,</span>
+            <span class="n">gf</span><span class="o">.</span><span class="n">axon_spine_at_intersection_filter</span><span class="p">,</span>
+            <span class="n">gf</span><span class="o">.</span><span class="n">min_synapse_dist_to_branch_point_filter</span><span class="p">,</span>
+        <span class="p">]</span>
+        
+        
+    <span class="c1"># --- Fetching functions of data (default to searching neuron obj because no default database set up)</span>
+<div class="viewcode-block" id="DataInterfaceDefault.fetch_proofread_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.fetch_proofread_mesh">[docs]</a>    <span class="nd">@neuron_obj_func</span>
+    <span class="k">def</span> <span class="nf">fetch_proofread_mesh</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="p">,</span>
         <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">return_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">plot_mesh</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
         
+        <span class="p">):</span>
         
-        <span class="n">single_flag</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">nu</span><span class="o">.</span><span class="n">is_array_like</span><span class="p">(</span><span class="n">segment_id</span><span class="p">):</span>
-            <span class="n">segment_id</span><span class="o">=</span><span class="p">[</span><span class="n">segment_id</span><span class="p">]</span>
-            <span class="n">split_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">split_index</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">segment_id</span><span class="p">)</span>
-            <span class="n">single_flag</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">nu</span><span class="o">.</span><span class="n">is_array_like</span><span class="p">(</span><span class="n">split_index</span><span class="p">):</span>
-                <span class="n">split_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">split_index</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">segment_id</span><span class="p">)</span>
+        <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">segment_id</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">mesh_from_branches</span>
         
-        <span class="n">seg_ids_final</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">sp_idxs_final</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">seg_id</span><span class="p">,</span><span class="n">sp_idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">segment_id</span><span class="p">,</span><span class="n">split_index</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">sp_idx</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">sp_idx</span> <span class="o">=</span> <span class="mi">0</span>
-
-            <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="s2">&quot;_&quot;</span> <span class="ow">in</span> <span class="n">seg_id</span><span class="p">:</span>
-                    <span class="n">seg_id</span><span class="p">,</span><span class="n">sp_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_id_and_split_index_from_node_name</span><span class="p">(</span><span class="n">seg_id</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">plot_mesh</span><span class="p">:</span>
+            <span class="n">ipvu</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
             
-            <span class="n">seg_ids_final</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">seg_id</span><span class="p">)</span>
-            <span class="n">sp_idxs_final</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp_idx</span><span class="p">)</span>
-            
-        <span class="k">if</span> <span class="n">single_flag</span><span class="p">:</span>
-            <span class="n">seg_ids_final</span> <span class="o">=</span> <span class="n">seg_ids_final</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">sp_idxs_final</span> <span class="o">=</span> <span class="n">sp_idxs_final</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">return_dict</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">seg_ids_final</span><span class="p">,</span><span class="n">sp_idxs_final</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">single_flag</span><span class="p">:</span>
-                <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">segment_id</span><span class="o">=</span><span class="n">seg_ids_final</span><span class="p">,</span><span class="n">split_index</span> <span class="o">=</span> <span class="n">sp_idxs_final</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">segment_id</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">split_index</span> <span class="o">=</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">seg_ids_final</span><span class="p">,</span><span class="n">sp_idxs_final</span><span class="p">)]</span></div>
+        <span class="k">return</span> <span class="n">mesh</span></div>
     
-
+<div class="viewcode-block" id="DataInterfaceDefault.fetch_soma_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.fetch_soma_mesh">[docs]</a>    <span class="nd">@neuron_obj_func</span>
+    <span class="k">def</span> <span class="nf">fetch_soma_mesh</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="p">,</span>
+        <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">plot_mesh</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+        
+        <span class="p">):</span>
+        
+        <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">segment_id</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="s2">&quot;S0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mesh</span>
+        
+        <span class="k">if</span> <span class="n">plot_mesh</span><span class="p">:</span>
+            <span class="n">ipvu</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">mesh</span></div>
+    
+    
 <div class="viewcode-block" id="DataInterfaceDefault.segment_id_to_synapse_table_optimized_connectome"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_connectome">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_table_optimized_connectome</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="p">,</span>
@@ -605,46 +883,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="DataInterfaceDefault.segment_id_to_synapse_table_optimized"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_table_optimized</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">synapse_type</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">filter_away_self_synapses</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">coordinates_nm</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">synapse_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">segment_id</span><span class="p">,</span><span class="n">neuron</span><span class="o">.</span><span class="n">Neuron</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">synapse_filepath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
-                    <span class="n">segment_id</span><span class="p">,</span><span class="s2">&quot;synapse_filepath&quot;</span><span class="p">,</span><span class="kc">None</span>
-                <span class="p">)</span>
-            <span class="n">segment_id</span> <span class="o">=</span> <span class="n">segment_id</span><span class="o">.</span><span class="n">segment_id</span>
-            
-        
-        <span class="k">if</span> <span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No synapse filepath set&quot;</span><span class="p">)</span>
-            <span class="n">synapse_filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span>
-        
-        <span class="n">return_df</span> <span class="o">=</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_df_from_csv</span><span class="p">(</span>
-            <span class="n">synapse_filepath</span><span class="o">=</span><span class="n">synapse_filepath</span><span class="p">,</span>
-            <span class="n">segment_id</span><span class="o">=</span><span class="n">segment_id</span><span class="p">,</span>
-            <span class="n">coordinates_nm</span><span class="o">=</span><span class="n">coordinates_nm</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">)</span>
-        
-        <span class="n">return_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span>
-            <span class="n">return_df</span><span class="p">,</span>
-            <span class="nb">dict</span><span class="p">(</span>
-                <span class="n">segment_id</span> <span class="o">=</span> <span class="s1">&#39;primary_seg_id&#39;</span><span class="p">,</span>
-                <span class="n">segment_id_secondary</span> <span class="o">=</span> <span class="s2">&quot;secondary_seg_id&quot;</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        
-        <span class="k">if</span> <span class="n">synapse_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">return_df</span> <span class="o">=</span> <span class="n">return_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;prepost == &#39;</span><span class="si">{</span><span class="n">synapse_type</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">return_df</span></div>
+    
     
 <div class="viewcode-block" id="DataInterfaceDefault.segment_id_to_synapse_table_optimized_proofread"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_proofread">[docs]</a>    <span class="nd">@neuron_obj_func</span>
     <span class="k">def</span> <span class="nf">segment_id_to_synapse_table_optimized_proofread</span><span class="p">(</span>
@@ -725,90 +964,7 @@
         <span class="k">if</span> <span class="n">clean</span><span class="p">:</span> 
             <span class="n">G</span> <span class="o">=</span> <span class="n">nxu</span><span class="o">.</span><span class="n">clean_G</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             
-        <span class="k">return</span> <span class="n">G</span></div>
-    
-<div class="viewcode-block" id="DataInterfaceDefault.fetch_proofread_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.fetch_proofread_mesh">[docs]</a>    <span class="nd">@neuron_obj_func</span>
-    <span class="k">def</span> <span class="nf">fetch_proofread_mesh</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">plot_mesh</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
-        
-        <span class="p">):</span>
-        
-        <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">segment_id</span>
-        <span class="n">mesh</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">mesh_from_branches</span>
-        
-        <span class="k">if</span> <span class="n">plot_mesh</span><span class="p">:</span>
-            <span class="n">ipvu</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
-            
-        <span class="k">return</span> <span class="n">mesh</span></div>
-    
-<div class="viewcode-block" id="DataInterfaceDefault.fetch_soma_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.fetch_soma_mesh">[docs]</a>    <span class="nd">@neuron_obj_func</span>
-    <span class="k">def</span> <span class="nf">fetch_soma_mesh</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id</span><span class="p">,</span>
-        <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">plot_mesh</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
-        
-        <span class="p">):</span>
-        
-        <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">segment_id</span>
-        <span class="n">mesh</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="s2">&quot;S0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mesh</span>
-        
-        <span class="k">if</span> <span class="n">plot_mesh</span><span class="p">:</span>
-            <span class="n">ipvu</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
-            
-        <span class="k">return</span> <span class="n">mesh</span></div>
-    
-<div class="viewcode-block" id="DataInterfaceDefault.pre_post_synapse_ids_coords_from_connectome"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.pre_post_synapse_ids_coords_from_connectome">[docs]</a>    <span class="nd">@neuron_obj_func</span>
-    <span class="k">def</span> <span class="nf">pre_post_synapse_ids_coords_from_connectome</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">segment_id_pre</span><span class="p">,</span>
-        <span class="n">segment_id_post</span><span class="p">,</span>
-        <span class="n">split_index_pre</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">split_index_post</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">synapse_pre_df</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">verbose</span><span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="p">):</span>
-        
-        <span class="k">if</span> <span class="n">synapse_pre_df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">synapse_pre_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_id_to_synapse_table_optimized_proofread</span><span class="p">(</span>
-                <span class="n">segment_id_pre</span><span class="p">,</span>
-                <span class="n">split_index</span> <span class="o">=</span> <span class="n">split_index_pre</span><span class="p">,</span>
-                <span class="n">synapse_type</span><span class="o">=</span><span class="s2">&quot;presyn&quot;</span><span class="p">,</span>
-            <span class="p">)</span>
-
-        <span class="k">def</span> <span class="nf">synapse_coordinates_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;synapse_x_nm&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_y_nm&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_z_nm&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
-
-        <span class="c1"># gets the pre and post synapses</span>
-        
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">synapse_pre_df</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">syn_ids</span> <span class="o">=</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapse_df</span><span class="p">(</span><span class="n">segment_id_post</span><span class="o">.</span><span class="n">synapses_valid</span><span class="p">)[</span><span class="s2">&quot;syn_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
-
-            
-            <span class="n">synapse_pre_post_df</span> <span class="o">=</span> <span class="n">synapse_pre_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;(secondary_seg_id == </span><span class="si">{</span><span class="n">segment_id_post</span><span class="o">.</span><span class="n">segment_id</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
-            
-            <span class="n">synapse_pre_post_df</span> <span class="o">=</span> <span class="n">synapse_pre_post_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;(synapse_id in </span><span class="si">{</span><span class="n">syn_ids</span><span class="si">}</span><span class="s2">)&quot;</span>
-            <span class="p">)</span>
-
-
-            <span class="n">synapse_pre_post_coords</span> <span class="o">=</span> <span class="n">synapse_coordinates_from_df</span><span class="p">(</span><span class="n">synapse_pre_post_df</span><span class="p">)</span>
-            <span class="n">synapse_pre_post_ids</span> <span class="o">=</span> <span class="n">synapse_pre_post_df</span><span class="p">[</span><span class="s2">&quot;synapse_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">synapse_pre_post_coords</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">synapse_pre_post_ids</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;synapse_pre_post_coords = </span><span class="si">{</span><span class="n">synapse_pre_post_coords</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;synapse_pre_post_ids = </span><span class="si">{</span><span class="n">synapse_pre_post_ids</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">synapse_pre_post_ids</span><span class="p">,</span><span class="n">synapse_pre_post_coords</span></div></div>
+        <span class="k">return</span> <span class="n">G</span></div></div>
 <span class="w">    </span>
 <span class="w">    </span>
 <span class="w">        </span>

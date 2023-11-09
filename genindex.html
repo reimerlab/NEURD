@@ -122,11 +122,9 @@
 </li>
         <li><a href="neurd.html#neurd.synapse_utils.Synapse.__init__">(neurd.synapse_utils.Synapse method)</a>
 </li>
+        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.__init__">(neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
+</li>
         <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.__init__">(neurd.vdi_default.DataInterfaceDefault method)</a>
-</li>
-        <li><a href="neurd.html#neurd.vdi_h01.DataInterfaceH01.__init__">(neurd.vdi_h01.DataInterfaceH01 method)</a>
-</li>
-        <li><a href="neurd.html#neurd.vdi_microns.DataInterfaceMicrons.__init__">(neurd.vdi_microns.DataInterfaceMicrons method)</a>
 </li>
         <li><a href="neurd.html#neurd.volume_utils.DataInterface.__init__">(neurd.volume_utils.DataInterface method)</a>
 </li>
@@ -164,6 +162,8 @@
       <li><a href="neurd.html#neurd.branch_utils.add_jitter_to_endpoint">add_jitter_to_endpoint() (in module neurd.branch_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.neuron_utils.add_limb_branch_combined_name_to_df">add_limb_branch_combined_name_to_df() (in module neurd.neuron_utils)</a>
+</li>
+      <li><a href="neurd.html#neurd.synapse_utils.add_nm_to_synapse_df">add_nm_to_synapse_df() (in module neurd.synapse_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.microns_volume_utils.add_node_attributes_to_proofread_graph">add_node_attributes_to_proofread_graph() (in module neurd.microns_volume_utils)</a>
 </li>
@@ -210,7 +210,7 @@
 </li>
         <li><a href="neurd.html#neurd.microns_volume_utils.DataInterface.align_array">(neurd.microns_volume_utils.DataInterface method)</a>
 </li>
-        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.align_array">(neurd.vdi_default.DataInterfaceDefault method)</a>
+        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_array">(neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
         <li><a href="neurd.html#neurd.volume_utils.DataInterface.align_array">(neurd.volume_utils.DataInterface method)</a>
 </li>
@@ -236,7 +236,7 @@
 </li>
         <li><a href="neurd.html#neurd.microns_volume_utils.DataInterface.align_mesh">(neurd.microns_volume_utils.DataInterface method)</a>
 </li>
-        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.align_mesh">(neurd.vdi_default.DataInterfaceDefault method)</a>
+        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_mesh">(neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
         <li><a href="neurd.html#neurd.volume_utils.DataInterface.align_mesh">(neurd.volume_utils.DataInterface method)</a>
 </li>
@@ -252,7 +252,7 @@
 </li>
         <li><a href="neurd.html#neurd.microns_volume_utils.DataInterface.align_neuron_obj">(neurd.microns_volume_utils.DataInterface method)</a>
 </li>
-        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.align_neuron_obj">(neurd.vdi_default.DataInterfaceDefault method)</a>
+        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_neuron_obj">(neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
         <li><a href="neurd.html#neurd.volume_utils.DataInterface.align_neuron_obj">(neurd.volume_utils.DataInterface method)</a>
 </li>
@@ -262,7 +262,7 @@
       <ul>
         <li><a href="neurd.html#neurd.neuron_utils.align_neuron_obj_from_align_matrix">(in module neurd.neuron_utils)</a>
 </li>
-        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.align_neuron_obj_from_align_matrix">(neurd.vdi_default.DataInterfaceDefault method)</a>
+        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_neuron_obj_from_align_matrix">(neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       </ul></li>
       <li><a href="neurd.html#neurd.neuron_utils.align_neuron_objs_at_soma">align_neuron_objs_at_soma() (in module neurd.neuron_utils)</a>
@@ -278,7 +278,7 @@
 </li>
         <li><a href="neurd.html#neurd.microns_volume_utils.DataInterface.align_skeleton">(neurd.microns_volume_utils.DataInterface method)</a>
 </li>
-        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.align_skeleton">(neurd.vdi_default.DataInterfaceDefault method)</a>
+        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_skeleton">(neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
         <li><a href="neurd.html#neurd.volume_utils.DataInterface.align_skeleton">(neurd.volume_utils.DataInterface method)</a>
 </li>
@@ -825,7 +825,7 @@
 </li>
       <li><a href="neurd.html#neurd.connectome_analysis_utils.cell_count">cell_count() (in module neurd.connectome_analysis_utils)</a>
 </li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.cell_type">cell_type() (neurd.vdi_default.DataInterfaceDefault method)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.cell_type">cell_type() (neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       <li><a href="neurd.html#neurd.cell_type_utils.cell_type_fine_classifier_map_derived">cell_type_fine_classifier_map_derived() (in module neurd.cell_type_utils)</a>
 </li>
@@ -1137,11 +1137,9 @@
         <li><a href="neurd.html#neurd.volume_utils.DataInterface">(class in neurd.volume_utils)</a>
 </li>
       </ul></li>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate">DataInterfaceBoilerPlate (class in neurd.vdi_default)</a>
+</li>
       <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault">DataInterfaceDefault (class in neurd.vdi_default)</a>
-</li>
-      <li><a href="neurd.html#neurd.vdi_h01.DataInterfaceH01">DataInterfaceH01 (class in neurd.vdi_h01)</a>
-</li>
-      <li><a href="neurd.html#neurd.vdi_microns.DataInterfaceMicrons">DataInterfaceMicrons (class in neurd.vdi_microns)</a>
 </li>
       <li><a href="neurd.html#neurd.neuron.dc_check">dc_check() (in module neurd.neuron)</a>
 </li>
@@ -1154,11 +1152,7 @@
       <li><a href="neurd.html#neurd.neuron_utils.decompress_neuron">decompress_neuron() (in module neurd.neuron_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.default_low_degree_graph_filters">default_low_degree_graph_filters (neurd.vdi_default.DataInterfaceDefault property)</a>
-
-      <ul>
-        <li><a href="neurd.html#neurd.vdi_h01.DataInterfaceH01.default_low_degree_graph_filters">(neurd.vdi_h01.DataInterfaceH01 property)</a>
 </li>
-      </ul></li>
       <li><a href="neurd.html#neurd.neuron_simplification.delete_branches_from_limb">delete_branches_from_limb() (in module neurd.neuron_simplification)</a>
 
       <ul>
@@ -1205,10 +1199,10 @@
 </li>
       <li><a href="neurd.html#neurd.concept_network_utils.distance_between_nodes_di">distance_between_nodes_di() (in module neurd.concept_network_utils)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.concept_network_utils.distance_between_nodes_di_downstream">distance_between_nodes_di_downstream() (in module neurd.concept_network_utils)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.concept_network_utils.distance_between_nodes_di_upstream">distance_between_nodes_di_upstream() (in module neurd.concept_network_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.neuron.Neuron.distance_errored_synapses_post">distance_errored_synapses_post (neurd.neuron.Neuron property)</a>
@@ -1684,13 +1678,7 @@
       <li><a href="neurd.html#neurd.neuron_searching.generate_neuron_dataframe">generate_neuron_dataframe() (in module neurd.neuron_searching)</a>
 </li>
       <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.get_align_matrix">get_align_matrix() (neurd.vdi_default.DataInterfaceDefault method)</a>
-
-      <ul>
-        <li><a href="neurd.html#neurd.vdi_h01.DataInterfaceH01.get_align_matrix">(neurd.vdi_h01.DataInterfaceH01 method)</a>
 </li>
-        <li><a href="neurd.html#neurd.vdi_microns.DataInterfaceMicrons.get_align_matrix">(neurd.vdi_microns.DataInterfaceMicrons method)</a>
-</li>
-      </ul></li>
       <li><a href="neurd.html#neurd.proofreading_utils.get_all_coordinate_suggestions">get_all_coordinate_suggestions() (in module neurd.proofreading_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.proofreading_utils.get_all_cut_and_not_cut_path_coordinates">get_all_cut_and_not_cut_path_coordinates() (in module neurd.proofreading_utils)</a>
@@ -1751,10 +1739,10 @@
 </li>
       <li><a href="neurd.html#neurd.neuron.Neuron.get_limbs_touching_soma">get_limbs_touching_soma() (neurd.neuron.Neuron method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.neuron_utils.get_matching_concept_network_data">get_matching_concept_network_data() (in module neurd.neuron_utils)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.proofreading_utils.get_n_paths_cut">get_n_paths_cut() (in module neurd.proofreading_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.proofreading_utils.get_n_paths_not_cut">get_n_paths_not_cut() (in module neurd.proofreading_utils)</a>
@@ -2117,7 +2105,7 @@
 </li>
       <li><a href="neurd.html#neurd.cell_type_utils.load_manual_exc_inh_df">load_manual_exc_inh_df() (in module neurd.cell_type_utils)</a>
 </li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.load_neuron_obj">load_neuron_obj() (neurd.vdi_default.DataInterfaceDefault method)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.load_neuron_obj">load_neuron_obj() (neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.load_neuron_obj_auto_proof">load_neuron_obj_auto_proof() (neurd.vdi_default.DataInterfaceDefault method)</a>
 </li>
@@ -2277,14 +2265,14 @@
 </li>
       <li><a href="neurd.html#neurd.branch_utils.min_dist_synapses_pre_upstream">min_dist_synapses_pre_upstream() (in module neurd.branch_utils)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.neuron_searching.min_synapse_dist_to_branch_point">min_synapse_dist_to_branch_point() (in module neurd.neuron_searching)</a>
 
       <ul>
         <li><a href="neurd.html#neurd.neuron_statistics.min_synapse_dist_to_branch_point">(in module neurd.neuron_statistics)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.graph_filters.min_synapse_dist_to_branch_point_filter">min_synapse_dist_to_branch_point_filter() (in module neurd.graph_filters)</a>
 </li>
       <li><a href="neurd.html#neurd.neuron_utils.min_width_upstream">min_width_upstream() (in module neurd.neuron_utils)</a>
@@ -2375,10 +2363,6 @@
 </li>
         <li><a href="neurd.html#module-neurd.vdi_default">neurd.vdi_default</a>
 </li>
-        <li><a href="neurd.html#module-neurd.vdi_h01">neurd.vdi_h01</a>
-</li>
-        <li><a href="neurd.html#module-neurd.vdi_microns">neurd.vdi_microns</a>
-</li>
         <li><a href="neurd.html#module-neurd.volume_utils">neurd.volume_utils</a>
 </li>
         <li><a href="neurd.html#module-neurd.width_utils">neurd.width_utils</a>
@@ -2420,7 +2404,7 @@
 </li>
       <li><a href="neurd.html#neurd.apical_utils.multi_soma_y">multi_soma_y() (in module neurd.apical_utils)</a>
 </li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.multiplicity">multiplicity() (neurd.vdi_default.DataInterfaceDefault method)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.multiplicity">multiplicity() (neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       <li><a href="neurd.html#neurd.axon_utils.myelination_limb_branch_dict">myelination_limb_branch_dict() (in module neurd.axon_utils)</a>
 </li>
@@ -2798,12 +2782,12 @@
 </li>
       <li><a href="neurd.html#neurd.synapse_utils.n_synapses_valid_pre">n_synapses_valid_pre() (in module neurd.synapse_utils)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.synapse_utils.n_synapses_within_distance_of_endpoint_downstream">n_synapses_within_distance_of_endpoint_downstream() (in module neurd.synapse_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.synapse_utils.n_synapses_within_distance_of_endpoint_upstream">n_synapses_within_distance_of_endpoint_upstream() (in module neurd.synapse_utils)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.synapse_utils.n_synapses_within_distance_of_endpoint_upstream_downstream">n_synapses_within_distance_of_endpoint_upstream_downstream() (in module neurd.synapse_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.neuron.Neuron.n_vertices">n_vertices (neurd.neuron.Neuron property)</a>
@@ -3132,20 +3116,6 @@
 </li>
       </ul></li>
       <li>
-    neurd.vdi_h01
-
-      <ul>
-        <li><a href="neurd.html#module-neurd.vdi_h01">module</a>
-</li>
-      </ul></li>
-      <li>
-    neurd.vdi_microns
-
-      <ul>
-        <li><a href="neurd.html#module-neurd.vdi_microns">module</a>
-</li>
-      </ul></li>
-      <li>
     neurd.volume_utils
 
       <ul>
@@ -3259,7 +3229,7 @@
         <li><a href="neurd.html#neurd.volume_utils.DataInterface.nuclei_from_segment_id">(neurd.volume_utils.DataInterface method)</a>
 </li>
       </ul></li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.nucleus_id">nucleus_id() (neurd.vdi_default.DataInterfaceDefault method)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.nucleus_id">nucleus_id() (neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       <li><a href="neurd.html#neurd.spine_utils.number_of_columns">number_of_columns() (in module neurd.spine_utils)</a>
 </li>
@@ -3545,7 +3515,7 @@
 </li>
       <li><a href="neurd.html#neurd.connectome_utils.pre_post_node_names_from_synapse_id">pre_post_node_names_from_synapse_id() (in module neurd.connectome_utils)</a>
 </li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.pre_post_synapse_ids_coords_from_connectome">pre_post_synapse_ids_coords_from_connectome() (neurd.vdi_default.DataInterfaceDefault method)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.pre_post_synapse_ids_coords_from_connectome">pre_post_synapse_ids_coords_from_connectome() (neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       <li><a href="neurd.html#neurd.cell_type_utils.predict_class_single_datapoint">predict_class_single_datapoint() (in module neurd.cell_type_utils)</a>
 </li>
@@ -3579,7 +3549,7 @@
 </li>
       <li><a href="neurd.html#neurd.spine_utils.print_filter_spine_thresholds">print_filter_spine_thresholds() (in module neurd.spine_utils)</a>
 </li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.proof_version">proof_version (neurd.vdi_default.DataInterfaceDefault attribute)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.proof_version">proof_version (neurd.vdi_default.DataInterfaceBoilerPlate attribute)</a>
 </li>
       <li><a href="neurd.html#neurd.proofreading_utils.proofread_neuron">proofread_neuron() (in module neurd.proofreading_utils)</a>
 </li>
@@ -3699,7 +3669,7 @@
         <li><a href="neurd.html#neurd.neuron.Neuron.save_compressed_neuron">(neurd.neuron.Neuron method)</a>
 </li>
       </ul></li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.save_neuron_obj">save_neuron_obj() (neurd.vdi_default.DataInterfaceDefault method)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.save_neuron_obj">save_neuron_obj() (neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.save_neuron_obj_auto_proof">save_neuron_obj_auto_proof() (neurd.vdi_default.DataInterfaceDefault method)</a>
 </li>
@@ -3725,25 +3695,23 @@
 </li>
       <li><a href="neurd.html#neurd.spine_utils.seg_split_spine_from_df">seg_split_spine_from_df() (in module neurd.spine_utils)</a>
 </li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_and_split_index">segment_id_and_split_index() (neurd.vdi_default.DataInterfaceDefault method)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_and_split_index">segment_id_and_split_index() (neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       <li><a href="neurd.html#neurd.connectome_utils.segment_id_from_seg_split_id">segment_id_from_seg_split_id() (in module neurd.connectome_utils)</a>
+</li>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_df">segment_id_to_synapse_df() (neurd.vdi_default.DataInterfaceDefault method)</a>
 </li>
       <li><a href="neurd.html#neurd.h01_volume_utils.DataInterface.segment_id_to_synapse_dict">segment_id_to_synapse_dict() (neurd.h01_volume_utils.DataInterface method)</a>
 
       <ul>
         <li><a href="neurd.html#neurd.microns_volume_utils.DataInterface.segment_id_to_synapse_dict">(neurd.microns_volume_utils.DataInterface method)</a>
 </li>
-        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_dict">(neurd.vdi_default.DataInterfaceDefault method)</a>
-</li>
-        <li><a href="neurd.html#neurd.vdi_h01.DataInterfaceH01.segment_id_to_synapse_dict">(neurd.vdi_h01.DataInterfaceH01 method)</a>
-</li>
-        <li><a href="neurd.html#neurd.vdi_microns.DataInterfaceMicrons.segment_id_to_synapse_dict">(neurd.vdi_microns.DataInterfaceMicrons method)</a>
+        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_to_synapse_dict">(neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
         <li><a href="neurd.html#neurd.volume_utils.DataInterface.segment_id_to_synapse_dict">(neurd.volume_utils.DataInterface method)</a>
 </li>
       </ul></li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized">segment_id_to_synapse_table_optimized() (neurd.vdi_default.DataInterfaceDefault method)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_to_synapse_table_optimized">segment_id_to_synapse_table_optimized() (neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.segment_id_to_synapse_table_optimized_connectome">segment_id_to_synapse_table_optimized_connectome() (neurd.vdi_default.DataInterfaceDefault method)</a>
 </li>
@@ -3821,13 +3789,13 @@
       </ul></li>
       <li><a href="neurd.html#neurd.spine_utils.set_neuron_synapses_head_neck_shaft">set_neuron_synapses_head_neck_shaft() (in module neurd.spine_utils)</a>
 </li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.set_parameters_for_directory_modules">set_parameters_for_directory_modules() (neurd.vdi_default.DataInterfaceDefault method)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.set_parameters_for_directory_modules">set_parameters_for_directory_modules() (neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       <li><a href="neurd.html#neurd.parameter_utils.set_parameters_for_directory_modules_from_obj">set_parameters_for_directory_modules_from_obj() (in module neurd.parameter_utils)</a>
 </li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.set_parameters_obj">set_parameters_obj() (neurd.vdi_default.DataInterfaceDefault method)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.set_parameters_obj">set_parameters_obj() (neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.set_parameters_obj_from_filepath">set_parameters_obj_from_filepath() (neurd.vdi_default.DataInterfaceDefault method)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.set_parameters_obj_from_filepath">set_parameters_obj_from_filepath() (neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       <li><a href="neurd.html#neurd.neuron_utils.set_preprocessed_data_from_limb_no_mesh_change">set_preprocessed_data_from_limb_no_mesh_change() (in module neurd.neuron_utils)</a>
 </li>
@@ -4211,10 +4179,10 @@
 </li>
       <li><a href="neurd.html#neurd.spine_utils.spine_length">spine_length() (in module neurd.spine_utils)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.classification_utils.spine_level_classifier">spine_level_classifier() (in module neurd.classification_utils)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.spine_utils.spine_mesh">spine_mesh() (in module neurd.spine_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.spine_utils.Spine.spine_n_faces">spine_n_faces (neurd.spine_utils.Spine property)</a>
@@ -4792,7 +4760,7 @@
 </li>
         <li><a href="neurd.html#neurd.microns_volume_utils.DataInterface.unalign_neuron_obj">(neurd.microns_volume_utils.DataInterface method)</a>
 </li>
-        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.unalign_neuron_obj">(neurd.vdi_default.DataInterfaceDefault method)</a>
+        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.unalign_neuron_obj">(neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
         <li><a href="neurd.html#neurd.volume_utils.DataInterface.unalign_neuron_obj">(neurd.volume_utils.DataInterface method)</a>
 </li>
@@ -4800,7 +4768,7 @@
       <li><a href="neurd.html#neurd.neuron_utils.unalign_neuron_obj_from_align_matrix">unalign_neuron_obj_from_align_matrix() (in module neurd.neuron_utils)</a>
 
       <ul>
-        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.unalign_neuron_obj_from_align_matrix">(neurd.vdi_default.DataInterfaceDefault method)</a>
+        <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.unalign_neuron_obj_from_align_matrix">(neurd.vdi_default.DataInterfaceBoilerPlate method)</a>
 </li>
       </ul></li>
       <li><a href="neurd.html#neurd.motif_utils.unique_motif_reduction">unique_motif_reduction() (in module neurd.motif_utils)</a>
@@ -4887,7 +4855,7 @@
 </li>
       <li><a href="neurd.html#neurd.axon_utils.valid_web_for_t">valid_web_for_t() (in module neurd.axon_utils)</a>
 </li>
-      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.vdi">vdi (neurd.vdi_default.DataInterfaceDefault property)</a>
+      <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.vdi">vdi (neurd.vdi_default.DataInterfaceBoilerPlate property)</a>
 </li>
       <li><a href="neurd.html#neurd.neuron_geometry_utils.vec_df_from_compartment">vec_df_from_compartment() (in module neurd.neuron_geometry_utils)</a>
 </li>
@@ -4901,10 +4869,10 @@
 </li>
       <li><a href="neurd.html#neurd.neuron_visualizations.visualize_axon_dendrite">visualize_axon_dendrite() (in module neurd.neuron_visualizations)</a>
 </li>
-      <li><a href="neurd.html#neurd.neuron_visualizations.visualize_branch_at_downstream_split">visualize_branch_at_downstream_split() (in module neurd.neuron_visualizations)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="neurd.html#neurd.neuron_visualizations.visualize_branch_at_downstream_split">visualize_branch_at_downstream_split() (in module neurd.neuron_visualizations)</a>
+</li>
       <li><a href="neurd.html#neurd.neuron_visualizations.visualize_concept_map">visualize_concept_map() (in module neurd.neuron_visualizations)</a>
 </li>
       <li><a href="neurd.html#neurd.motif_utils.visualize_graph_connections">visualize_graph_connections() (in module neurd.motif_utils)</a>
@@ -4938,13 +4906,7 @@
       <li><a href="neurd.html#neurd.neuron_utils.volume_over_limb_branch">volume_over_limb_branch() (in module neurd.neuron_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.vdi_default.DataInterfaceDefault.voxel_to_nm_scaling">voxel_to_nm_scaling (neurd.vdi_default.DataInterfaceDefault property)</a>
-
-      <ul>
-        <li><a href="neurd.html#neurd.vdi_h01.DataInterfaceH01.voxel_to_nm_scaling">(neurd.vdi_h01.DataInterfaceH01 property)</a>
 </li>
-        <li><a href="neurd.html#neurd.vdi_microns.DataInterfaceMicrons.voxel_to_nm_scaling">(neurd.vdi_microns.DataInterfaceMicrons property)</a>
-</li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
