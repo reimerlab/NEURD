@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.cave_client_utils &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.cave_client_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.cave_client_utils</h1><div class="highlight"><pre>
+<span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">cloudvolume</span>
+    <span class="kn">from</span> <span class="nn">caveclient</span> <span class="kn">import</span> <span class="n">CAVEclient</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must install cloudvolume and caveclinet&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pip3 install cloud-volume --upgrade&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pip3 install caveclient --upgrade&quot;</span><span class="p">)</span>
+    
+    
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">code_structure_tools.decorators</span> <span class="kn">import</span> <span class="n">default_args</span><span class="p">,</span><span class="n">add_func</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must install code_structure_utils&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://github.com/bacelii/code_structure_tools&quot;</span><span class="p">)</span>
+    
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">json_utils</span> <span class="k">as</span> <span class="n">jsu</span>
+<span class="kn">import</span> <span class="nn">trimesh</span>
+<span class="w">    </span>
+<span class="sd">&quot;&quot;&quot; tables in public release</span>
+<span class="sd">&#39;synapses_pni_2&#39;,</span>
+<span class="sd"> &#39;baylor_gnn_cell_type_fine_model_v2&#39;,</span>
+<span class="sd"> &#39;nucleus_alternative_points&#39;,</span>
+<span class="sd"> &#39;connectivity_groups_v507&#39;,</span>
+<span class="sd"> &#39;proofreading_status_public_release&#39;,</span>
+<span class="sd"> &#39;allen_column_mtypes_v1&#39;,</span>
+<span class="sd"> &#39;allen_v1_column_types_slanted_ref&#39;,</span>
+<span class="sd"> &#39;aibs_column_nonneuronal_ref&#39;,</span>
+<span class="sd"> &#39;nucleus_ref_neuron_svm&#39;,</span>
+<span class="sd"> &#39;aibs_soma_nuc_exc_mtype_preds_v117&#39;,</span>
+<span class="sd"> &#39;baylor_log_reg_cell_type_coarse_v1&#39;,</span>
+<span class="sd"> &#39;apl_functional_coreg_forward_v5&#39;,</span>
+<span class="sd"> &#39;nucleus_detection_v0&#39;,</span>
+<span class="sd"> &#39;aibs_soma_nuc_metamodel_preds_v117&#39;,</span>
+<span class="sd"> &#39;coregistration_manual_v3&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">40</span><span class="p">])</span>
+
+<span class="n">release_tables</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;minnie65_public_v117&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">neuron_non_neuron</span><span class="o">=</span> <span class="s1">&#39;nucleus_neuron_svm&#39;</span><span class="p">,</span>
+        <span class="n">synapse</span> <span class="o">=</span> <span class="s1">&#39;synapses_pni_2&#39;</span><span class="p">,</span>
+        <span class="n">nucleus</span> <span class="o">=</span> <span class="s2">&quot;nucleus_detection_v0&quot;</span><span class="p">,</span>
+        <span class="n">release_info</span> <span class="o">=</span> <span class="s2">&quot;proofreading_status_public_release&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;minnie65_public&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">synapse</span> <span class="o">=</span> <span class="s1">&#39;synapses_pni_2&#39;</span><span class="p">,</span>
+        <span class="n">nucleus</span> <span class="o">=</span> <span class="s2">&quot;nucleus_detection_v0&quot;</span><span class="p">,</span>
+        <span class="n">gnn_cell_type_fine</span> <span class="o">=</span> <span class="s2">&quot;baylor_gnn_cell_type_fine_model_v2&quot;</span><span class="p">,</span>
+        <span class="n">neuron_non_neuron</span><span class="o">=</span><span class="s2">&quot;nucleus_ref_neuron_svm&quot;</span><span class="p">,</span>
+        <span class="n">cell_type</span> <span class="o">=</span> <span class="s2">&quot;allen_column_mtypes_v1&quot;</span><span class="p">,</span>
+        <span class="n">release_info</span> <span class="o">=</span> <span class="s2">&quot;proofreading_status_public_release&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+<span class="p">}</span>
+
+<span class="n">env_filepath</span> <span class="o">=</span> <span class="s2">&quot;./.env&quot;</span>
+<span class="n">release_name</span> <span class="o">=</span> <span class="s2">&quot;minnie65_public&quot;</span>
+<span class="n">cloudvolume_secrets_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/root/.cloudvolume/secrets&quot;</span><span class="p">)</span>
+<span class="c1">#release_name = &quot;minnie65_public&quot;</span>
+
+<div class="viewcode-block" id="table_dict_from_release_name"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.table_dict_from_release_name">[docs]</a><span class="k">def</span> <span class="nf">table_dict_from_release_name</span><span class="p">(</span>
+    <span class="n">release_name</span><span class="p">,</span>
+    <span class="n">return_default</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,):</span>
+    <span class="n">table_dict</span> <span class="o">=</span> <span class="n">release_tables</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">release_name</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">return_default</span> <span class="ow">and</span> <span class="n">table_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">table_dict</span> <span class="o">=</span> <span class="n">release_tables</span><span class="p">[</span><span class="n">release_name</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">first_key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">release_tables</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">table_dict</span> <span class="o">=</span> <span class="n">release_tables</span><span class="p">[</span><span class="n">first_key</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">table_dict</span></div>
+
+<div class="viewcode-block" id="table_name_from_table_str"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.table_name_from_table_str">[docs]</a><span class="k">def</span> <span class="nf">table_name_from_table_str</span><span class="p">(</span><span class="n">table_str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table_str</span><span class="si">}</span><span class="s2">_table_name&quot;</span></div>
+
+<div class="viewcode-block" id="set_global_table_names"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.set_global_table_names">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">set_global_table_names</span><span class="p">(</span>
+    <span class="n">release_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+    
+    <span class="n">table_dict</span> <span class="o">=</span> <span class="n">table_dict_from_release_name</span><span class="p">(</span><span class="n">release_name</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">table_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">table_name</span> <span class="o">=</span> <span class="n">table_name_from_table_str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">exec</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;global </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">;</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">=&#39;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span><span class="nb">globals</span><span class="p">(),</span><span class="nb">locals</span><span class="p">())</span></div>
+        
+<span class="n">set_global_table_names</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="load_cave_token"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.load_cave_token">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">load_cave_token</span><span class="p">(</span><span class="n">env_filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">load_dotenv</span><span class="p">(</span><span class="n">env_filepath</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">cave_token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;CAVE_TOKEN&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cave_token</span></div>
+        
+<div class="viewcode-block" id="save_cave_token_to_cloudvolume_secrets"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.save_cave_token_to_cloudvolume_secrets">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">save_cave_token_to_cloudvolume_secrets</span><span class="p">(</span>
+    <span class="n">cave_token</span><span class="p">,</span>
+    <span class="n">cloudvolume_secrets_path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    
+    <span class="n">cloudvolume_secrets_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="n">cave_token</span><span class="p">}</span>
+    
+    <span class="n">json_file</span> <span class="o">=</span> <span class="n">jsu</span><span class="o">.</span><span class="n">dict_to_json_file</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">cloudvolume_secrets_path</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;cave-secret.json&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">json_file</span></div>
+
+<div class="viewcode-block" id="set_cave_auth"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.set_cave_auth">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">set_cave_auth</span><span class="p">(</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">cave_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">env_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">set_global_token</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+    <span class="k">if</span> <span class="n">cave_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cave_token</span> <span class="o">=</span> <span class="n">load_cave_token</span><span class="p">(</span><span class="n">env_filepath</span><span class="o">=</span><span class="n">env_filepath</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">cave_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+    
+    <span class="n">client</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">cave_token</span>
+    
+    <span class="k">if</span> <span class="n">set_global_token</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">save_token</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">cave_token</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">save_token</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">cave_token</span><span class="p">,</span><span class="n">overwrite</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+            
+    <span class="n">save_cave_token_to_cloudvolume_secrets</span><span class="p">(</span>
+        <span class="n">cave_token</span><span class="o">=</span><span class="n">cave_token</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="release_name_from_release"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.release_name_from_release">[docs]</a><span class="k">def</span> <span class="nf">release_name_from_release</span><span class="p">(</span>
+    <span class="n">release</span><span class="p">,</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;minnie65_public&quot;</span>
+    <span class="p">):</span>
+    
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">release</span><span class="si">}</span><span class="s1">&#39;</span></div>
+
+<div class="viewcode-block" id="release_from_release_name"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.release_from_release_name">[docs]</a><span class="k">def</span> <span class="nf">release_from_release_name</span><span class="p">(</span><span class="n">release_name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">release_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="init_cave_client"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.init_cave_client">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">init_cave_client</span><span class="p">(</span>
+    <span class="n">release_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">env_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">cave_token</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">release</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+    
+    <span class="k">if</span> <span class="n">release_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">release_name</span> <span class="o">=</span> <span class="n">release_name_from_release</span><span class="p">(</span><span class="n">release</span><span class="p">)</span>
+    
+    <span class="n">client</span> <span class="o">=</span> <span class="n">CAVEclient</span><span class="p">(</span><span class="n">release_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">client</span></div>
+    
+<div class="viewcode-block" id="release_name_from_client"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.release_name_from_client">[docs]</a><span class="k">def</span> <span class="nf">release_name_from_client</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">datastack_name</span></div>
+
+
+<span class="c1"># --------- functions for helping access client</span>
+
+<div class="viewcode-block" id="neuron_nucleus_df"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.neuron_nucleus_df">[docs]</a><span class="k">def</span> <span class="nf">neuron_nucleus_df</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="n">neuron_non_neuron_table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="n">nuc_df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">materialize</span><span class="o">.</span><span class="n">query_table</span><span class="p">(</span>
+        <span class="n">neuron_non_neuron_table_name</span><span class="p">,</span>
+        <span class="n">filter_equal_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span><span class="s1">&#39;neuron&#39;</span><span class="p">},</span>
+        <span class="n">filter_out_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pt_root_id&#39;</span><span class="p">:[</span><span class="mi">0</span><span class="p">]}</span>
+    <span class="p">)</span> 
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of nuclei = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">nuc_df</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="segment_ids_with_nucleus"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.segment_ids_with_nucleus">[docs]</a><span class="k">def</span> <span class="nf">segment_ids_with_nucleus</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="n">neuron_non_neuron_table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">nuc_df</span> <span class="o">=</span> <span class="n">neuron_nucleus_df</span><span class="p">(</span>
+        <span class="n">client</span><span class="p">,</span>
+        <span class="n">neuron_non_neuron_table_name</span><span class="o">=</span><span class="n">neuron_non_neuron_table_name</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">return_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">nuc_df</span><span class="p">[</span><span class="s2">&quot;pt_root_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of segments with at least one nucleus: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">return_list</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">return_list</span></div>
+
+<div class="viewcode-block" id="table_size"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.table_size">[docs]</a><span class="k">def</span> <span class="nf">table_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">client</span><span class="p">,</span><span class="n">table_name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">materialize</span><span class="o">.</span><span class="n">get_annotation_count</span><span class="p">(</span>
+        <span class="n">table_name</span>
+    <span class="p">)</span> </div>
+    
+<span class="c1"># pick a segment you selected from neuroglancer to enter here</span>
+<div class="viewcode-block" id="presyn_df_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.presyn_df_from_seg_id">[docs]</a><span class="k">def</span> <span class="nf">presyn_df_from_seg_id</span><span class="p">(</span>
+    <span class="n">seg_id</span><span class="p">,</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">materialize</span><span class="o">.</span><span class="n">synapse_query</span><span class="p">(</span><span class="n">pre_ids</span><span class="o">=</span><span class="n">seg_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of pre = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="postsyn_df_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.postsyn_df_from_seg_id">[docs]</a><span class="k">def</span> <span class="nf">postsyn_df_from_seg_id</span><span class="p">(</span>
+    <span class="n">seg_id</span><span class="p">,</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">materialize</span><span class="o">.</span><span class="n">synapse_query</span><span class="p">(</span><span class="n">post_ids</span><span class="o">=</span><span class="n">seg_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of post = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="prepost_syn_df_from_cave_syn_df"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.prepost_syn_df_from_cave_syn_df">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">prepost_syn_df_from_cave_syn_df</span><span class="p">(</span>
+    <span class="n">syn_df</span><span class="p">,</span>
+    <span class="n">seg_id</span><span class="p">,</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;segment_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;segment_id_secondary&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;synapse_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;prepost&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;synapse_x&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;synapse_y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;synapse_z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;synapse_size&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Want to reformat the synapse dataframe from the CAVE table</span>
+<span class="sd">    to the standard synapse format</span>
+
+<span class="sd">    --- old columns ---</span>
+<span class="sd">    &quot;pre_pt_root_id&quot;</span>
+<span class="sd">    &quot;post_pt_root_id&quot;</span>
+<span class="sd">    &quot;size&quot;</span>
+<span class="sd">    &quot;id&quot;</span>
+<span class="sd">    &quot;prepost&quot;</span>
+
+<span class="sd">    --- new columns ---</span>
+<span class="sd">    segment_id,</span>
+<span class="sd">    segment_id_secondary,</span>
+<span class="sd">    synapse_id,</span>
+<span class="sd">    prepost,</span>
+<span class="sd">    synapse_x,</span>
+<span class="sd">    synapse_y,</span>
+<span class="sd">    synapse_z,</span>
+<span class="sd">    synapse_size,</span>
+
+<span class="sd">    ctr_pt_position</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    For presyn/postsyn:</span>
+<span class="sd">    1) Restrict the dataframe to the current segment_id</span>
+<span class="sd">    </span>
+<span class="sd">    Example: </span>
+<span class="sd">    from neurd import cave_client_utils as ccu</span>
+<span class="sd">    ccu.prepost_syn_df_from_cave_syn_df(</span>
+<span class="sd">        syn_df,</span>
+<span class="sd">        seg_id=seg_id,</span>
+<span class="sd">    )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new_dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">syn_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pre&quot;</span><span class="p">,</span><span class="s2">&quot;post&quot;</span><span class="p">]</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+    
+    <span class="c1">#print(f&quot;Inside prepost syn voxel_to_nm_scaling = {voxel_to_nm_scaling}&quot;)</span>
+    <span class="n">size_scaling</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">voxel_to_nm_scaling</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">syn_types</span><span class="p">)):</span>
+
+        <span class="n">prepost</span> <span class="o">=</span> <span class="n">syn_types</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">syn_types</span><span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="n">prepost_col</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prepost</span><span class="si">}</span><span class="s2">_pt_root_id&quot;</span>
+        <span class="n">other_col</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">other</span><span class="si">}</span><span class="s2">_pt_root_id&quot;</span>
+
+        <span class="n">prepost_df</span> <span class="o">=</span> <span class="n">syn_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">prepost_col</span><span class="si">}</span><span class="s2"> == </span><span class="si">{</span><span class="n">seg_id</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">center_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">prepost_df</span><span class="p">[</span><span class="s2">&quot;ctr_pt_position&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+        <span class="n">prepost_df</span><span class="p">[</span><span class="s2">&quot;synapse_x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">center_positions</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">voxel_to_nm_scaling</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+        <span class="n">prepost_df</span><span class="p">[</span><span class="s2">&quot;synapse_y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">center_positions</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">voxel_to_nm_scaling</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+        <span class="n">prepost_df</span><span class="p">[</span><span class="s2">&quot;synapse_z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">center_positions</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">voxel_to_nm_scaling</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+        <span class="n">prepost_df</span><span class="p">[</span><span class="s2">&quot;synapse_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prepost_df</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span><span class="o">*</span><span class="n">size_scaling</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+
+        <span class="n">prepost_df_renamed</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span>
+            <span class="n">prepost_df</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="n">prepost_col</span><span class="p">:</span><span class="s2">&quot;segment_id&quot;</span><span class="p">,</span>
+                <span class="n">other_col</span><span class="p">:</span><span class="s1">&#39;segment_id_secondary&#39;</span><span class="p">,</span>
+                <span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="s2">&quot;synapse_id&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+        <span class="n">prepost_df_renamed</span><span class="p">[</span><span class="s2">&quot;prepost&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prepost</span>
+
+        <span class="n">prepost_df_restr</span> <span class="o">=</span> <span class="n">prepost_df_renamed</span><span class="p">[</span><span class="n">columns</span><span class="p">]</span>
+        <span class="n">new_dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prepost_df_restr</span><span class="p">)</span>
+
+    <span class="n">new_syn_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">new_dfs</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">new_syn_df</span></div>
+
+<div class="viewcode-block" id="pre_post_df_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.pre_post_df_from_seg_id">[docs]</a><span class="k">def</span> <span class="nf">pre_post_df_from_seg_id</span><span class="p">(</span>
+    <span class="n">seg_id</span><span class="p">,</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="n">concat</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Example:</span>
+<span class="sd">    seg_id = 864691137197197121</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># inputs/outputs</span>
+    <span class="n">pre_df</span> <span class="o">=</span> <span class="n">presyn_df_from_seg_id</span><span class="p">(</span>
+        <span class="n">seg_id</span><span class="o">=</span><span class="n">seg_id</span><span class="p">,</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">)</span>
+    <span class="n">post_df</span> <span class="o">=</span> <span class="n">postsyn_df_from_seg_id</span><span class="p">(</span>
+        <span class="n">seg_id</span><span class="o">=</span><span class="n">seg_id</span><span class="p">,</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of pre = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pre_df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of post = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">post_df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">concat</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pre_df</span><span class="p">,</span><span class="n">post_df</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pre_df</span><span class="p">,</span><span class="n">post_df</span></div>
+
+<div class="viewcode-block" id="synapse_df_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.synapse_df_from_seg_id">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">synapse_df_from_seg_id</span><span class="p">(</span>
+    <span class="n">seg_id</span><span class="p">,</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">voxel_to_nm_scaling</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+    
+    <span class="c1">#print(f&quot;voxel_to_nm_scaling inside synapse_df_from_seg_id = {voxel_to_nm_scaling}&quot;)</span>
+    <span class="n">new_syn_df</span> <span class="o">=</span> <span class="n">pre_post_df_from_seg_id</span><span class="p">(</span>
+        <span class="n">seg_id</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="n">new_syn_df</span><span class="o">=</span><span class="n">prepost_syn_df_from_cave_syn_df</span><span class="p">(</span>
+        <span class="n">new_syn_df</span><span class="p">,</span>
+        <span class="n">seg_id</span><span class="o">=</span><span class="n">seg_id</span><span class="p">,</span>
+        <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">new_syn_df</span></div>
+
+<div class="viewcode-block" id="get_tables"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.get_tables">[docs]</a><span class="k">def</span> <span class="nf">get_tables</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">materialize</span><span class="o">.</span><span class="n">get_tables</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="mesh_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.mesh_from_seg_id">[docs]</a><span class="k">def</span> <span class="nf">mesh_from_seg_id</span><span class="p">(</span>
+    <span class="n">seg_id</span><span class="p">,</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="n">use_https</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_trimesh</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To fetch a mesh from the cave</span>
+<span class="sd">    table using cloudvolume</span>
+<span class="sd">    </span>
+<span class="sd">    example_cell_id = 864691137197197121</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># to access the minnie65 public release dataset</span>
+    <span class="c1"># you initialize the client like this</span>
+    <span class="n">cv</span> <span class="o">=</span> <span class="n">cloudvolume</span><span class="o">.</span><span class="n">CloudVolume</span><span class="p">(</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">segmentation_source</span><span class="p">(),</span>
+        <span class="n">progress</span><span class="o">=</span><span class="n">progress</span><span class="p">,</span>
+        <span class="n">use_https</span> <span class="o">=</span> <span class="n">use_https</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># which, given a root_id, can be used to get a mesh</span>
+    <span class="c1"># cloud volume returns a dictionary with the neuron segment id as the key </span>
+    <span class="c1"># and the mesh as the value</span>
+    
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">seg_id</span><span class="p">)[</span><span class="n">seg_id</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">return_trimesh</span><span class="p">:</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">Trimesh</span><span class="p">(</span>
+            <span class="n">vertices</span><span class="o">=</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span>
+            <span class="n">faces</span><span class="o">=</span><span class="n">mesh</span><span class="o">.</span><span class="n">faces</span><span class="p">,</span>
+        <span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">mesh</span></div>
+
+<span class="c1"># ------------------- wrapper for interface -------</span>
+<div class="viewcode-block" id="CaveInterface"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.CaveInterface">[docs]</a><span class="nd">@add_func</span><span class="p">(</span>
+    <span class="n">func_to_add_unpacked</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">neuron_nucleus_df</span><span class="p">,</span>
+        <span class="n">segment_ids_with_nucleus</span><span class="p">,</span>
+        <span class="n">set_cave_auth</span><span class="p">,</span>
+        <span class="n">load_cave_token</span><span class="p">,</span>
+        <span class="n">table_size</span><span class="p">,</span>
+        <span class="n">presyn_df_from_seg_id</span><span class="p">,</span>
+        <span class="n">postsyn_df_from_seg_id</span><span class="p">,</span>
+        <span class="n">pre_post_df_from_seg_id</span><span class="p">,</span>
+        <span class="n">get_tables</span><span class="p">,</span>
+        <span class="n">mesh_from_seg_id</span><span class="p">,</span>
+        <span class="n">synapse_df_from_seg_id</span><span class="p">,</span>
+        <span class="n">mesh_from_seg_id</span><span class="p">,</span>
+        
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">CaveInterface</span><span class="p">():</span>
+    <span class="nd">@default_args</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">release_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">env_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cave_token</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">release</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">):</span>
+        
+        <span class="k">if</span> <span class="n">client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">init_cave_client</span><span class="p">(</span>
+                <span class="n">release</span> <span class="o">=</span> <span class="n">release</span><span class="p">,</span>
+                <span class="n">env_filepath</span> <span class="o">=</span> <span class="n">env_filepath</span><span class="p">,</span>
+                <span class="n">release_name</span> <span class="o">=</span> <span class="n">release_name</span><span class="p">,</span>
+                <span class="n">cave_token</span> <span class="o">=</span> <span class="n">cave_token</span><span class="p">,</span>
+            <span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">release_name</span> <span class="o">=</span> <span class="n">release_name_from_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+        <span class="c1">#self.release = release_from_release_name(self.release_name)</span>
+        <span class="n">set_cave_auth</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span>
+            <span class="n">cave_token</span><span class="o">=</span><span class="n">cave_token</span><span class="p">,</span>
+            <span class="n">env_filepath</span> <span class="o">=</span> <span class="n">env_filepath</span>
+        <span class="p">)</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_table_names</span><span class="p">()</span>
+        
+        
+    <span class="k">def</span> <span class="nf">set_table_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">table_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">table_dict</span> <span class="o">=</span> <span class="n">table_dict_from_release_name</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">release_name</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">table_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="n">table_name_from_table_str</span><span class="p">(</span><span class="n">k</span><span class="p">),</span>
+                <span class="n">v</span>
+            <span class="p">)</span>
+        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">release_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">materialize</span><span class="o">.</span><span class="n">get_table_metadata</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">release_info_table_name</span>
+        <span class="p">)</span>
+        
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">voxel_to_nm_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">release_info</span><span class="p">[</span><span class="s1">&#39;voxel_resolution&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+        
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">k</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;__&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">k</span><span class="p">)</span></div>
+    
+    
+
+
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+        
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

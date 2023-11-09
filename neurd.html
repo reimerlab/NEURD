@@ -202,8 +202,31 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.branch_utils.width_upstream"><code class="docutils literal notranslate"><span class="pre">width_upstream()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#neurd-cave-client-utils-module">neurd.cave_client_utils module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#neurd-cave-interface-module">neurd.cave_interface module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-neurd.cave_client_utils">neurd.cave_client_utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.CaveInterface"><code class="docutils literal notranslate"><span class="pre">CaveInterface</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.get_tables"><code class="docutils literal notranslate"><span class="pre">get_tables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.init_cave_client"><code class="docutils literal notranslate"><span class="pre">init_cave_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.load_cave_token"><code class="docutils literal notranslate"><span class="pre">load_cave_token()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.mesh_from_seg_id"><code class="docutils literal notranslate"><span class="pre">mesh_from_seg_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.neuron_nucleus_df"><code class="docutils literal notranslate"><span class="pre">neuron_nucleus_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.postsyn_df_from_seg_id"><code class="docutils literal notranslate"><span class="pre">postsyn_df_from_seg_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.pre_post_df_from_seg_id"><code class="docutils literal notranslate"><span class="pre">pre_post_df_from_seg_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.prepost_syn_df_from_cave_syn_df"><code class="docutils literal notranslate"><span class="pre">prepost_syn_df_from_cave_syn_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.presyn_df_from_seg_id"><code class="docutils literal notranslate"><span class="pre">presyn_df_from_seg_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.release_from_release_name"><code class="docutils literal notranslate"><span class="pre">release_from_release_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.release_name_from_client"><code class="docutils literal notranslate"><span class="pre">release_name_from_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.release_name_from_release"><code class="docutils literal notranslate"><span class="pre">release_name_from_release()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.save_cave_token_to_cloudvolume_secrets"><code class="docutils literal notranslate"><span class="pre">save_cave_token_to_cloudvolume_secrets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.segment_ids_with_nucleus"><code class="docutils literal notranslate"><span class="pre">segment_ids_with_nucleus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.set_cave_auth"><code class="docutils literal notranslate"><span class="pre">set_cave_auth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.set_global_table_names"><code class="docutils literal notranslate"><span class="pre">set_global_table_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.synapse_df_from_seg_id"><code class="docutils literal notranslate"><span class="pre">synapse_df_from_seg_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.table_dict_from_release_name"><code class="docutils literal notranslate"><span class="pre">table_dict_from_release_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.table_name_from_table_str"><code class="docutils literal notranslate"><span class="pre">table_name_from_table_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cave_client_utils.table_size"><code class="docutils literal notranslate"><span class="pre">table_size()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-neurd.cave_interface">neurd.cave_interface module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#neurd-cell-type-conv-utils-module">neurd.cell_type_conv_utils module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-neurd.cell_type_utils">neurd.cell_type_utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.accuracy_df_by_cell_type_fine"><code class="docutils literal notranslate"><span class="pre">accuracy_df_by_cell_type_fine()</span></code></a></li>
@@ -3079,11 +3102,211 @@ on it’s skeleton</p>
 <dd></dd></dl>
 
 </section>
-<section id="neurd-cave-client-utils-module">
-<h2>neurd.cave_client_utils module<a class="headerlink" href="#neurd-cave-client-utils-module" title="Permalink to this heading"></a></h2>
+<section id="module-neurd.cave_client_utils">
+<span id="neurd-cave-client-utils-module"></span><h2>neurd.cave_client_utils module<a class="headerlink" href="#module-neurd.cave_client_utils" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">CaveInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">release_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cave_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">release</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#CaveInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#neurd.cave_client_utils.CaveInterface" title="neurd.cave_client_utils.CaveInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">CaveInterface</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface.get_tables">
+<span class="sig-name descname"><span class="pre">get_tables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface.get_tables" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface.load_cave_token">
+<span class="sig-name descname"><span class="pre">load_cave_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface.load_cave_token" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface.mesh_from_seg_id">
+<span class="sig-name descname"><span class="pre">mesh_from_seg_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_https</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_trimesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface.mesh_from_seg_id" title="Permalink to this definition"></a></dt>
+<dd><p>Purpose: To fetch a mesh from the cave
+table using cloudvolume</p>
+<p>example_cell_id = 864691137197197121</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface.neuron_nucleus_df">
+<span class="sig-name descname"><span class="pre">neuron_nucleus_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_non_neuron_table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface.neuron_nucleus_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface.postsyn_df_from_seg_id">
+<span class="sig-name descname"><span class="pre">postsyn_df_from_seg_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface.postsyn_df_from_seg_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface.pre_post_df_from_seg_id">
+<span class="sig-name descname"><span class="pre">pre_post_df_from_seg_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface.pre_post_df_from_seg_id" title="Permalink to this definition"></a></dt>
+<dd><p>Example:
+seg_id = 864691137197197121</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface.presyn_df_from_seg_id">
+<span class="sig-name descname"><span class="pre">presyn_df_from_seg_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface.presyn_df_from_seg_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface.segment_ids_with_nucleus">
+<span class="sig-name descname"><span class="pre">segment_ids_with_nucleus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_non_neuron_table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface.segment_ids_with_nucleus" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface.set_cave_auth">
+<span class="sig-name descname"><span class="pre">set_cave_auth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cave_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_global_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface.set_cave_auth" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface.synapse_df_from_seg_id">
+<span class="sig-name descname"><span class="pre">synapse_df_from_seg_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">voxel_to_nm_scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface.synapse_df_from_seg_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.CaveInterface.table_size">
+<span class="sig-name descname"><span class="pre">table_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurd.cave_client_utils.CaveInterface.table_size" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.get_tables">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">get_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#get_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.get_tables" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.init_cave_client">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">init_cave_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">release_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cave_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">release</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#init_cave_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.init_cave_client" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.load_cave_token">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">load_cave_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#load_cave_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.load_cave_token" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.mesh_from_seg_id">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">mesh_from_seg_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seg_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_https</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_trimesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#mesh_from_seg_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.mesh_from_seg_id" title="Permalink to this definition"></a></dt>
+<dd><p>Purpose: To fetch a mesh from the cave
+table using cloudvolume</p>
+<p>example_cell_id = 864691137197197121</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.neuron_nucleus_df">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">neuron_nucleus_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neuron_non_neuron_table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#neuron_nucleus_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.neuron_nucleus_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.postsyn_df_from_seg_id">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">postsyn_df_from_seg_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seg_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#postsyn_df_from_seg_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.postsyn_df_from_seg_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.pre_post_df_from_seg_id">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">pre_post_df_from_seg_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seg_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#pre_post_df_from_seg_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.pre_post_df_from_seg_id" title="Permalink to this definition"></a></dt>
+<dd><p>Example:
+seg_id = 864691137197197121</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.prepost_syn_df_from_cave_syn_df">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">prepost_syn_df_from_cave_syn_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">syn_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seg_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('segment_id',</span> <span class="pre">'segment_id_secondary',</span> <span class="pre">'synapse_id',</span> <span class="pre">'prepost',</span> <span class="pre">'synapse_x',</span> <span class="pre">'synapse_y',</span> <span class="pre">'synapse_z',</span> <span class="pre">'synapse_size')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">voxel_to_nm_scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#prepost_syn_df_from_cave_syn_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.prepost_syn_df_from_cave_syn_df" title="Permalink to this definition"></a></dt>
+<dd><p>Purpose: Want to reformat the synapse dataframe from the CAVE table
+to the standard synapse format</p>
+<p>— old columns —
+“pre_pt_root_id”
+“post_pt_root_id”
+“size”
+“id”
+“prepost”</p>
+<p>— new columns —
+segment_id,
+segment_id_secondary,
+synapse_id,
+prepost,
+synapse_x,
+synapse_y,
+synapse_z,
+synapse_size,</p>
+<p>ctr_pt_position</p>
+<p>Pseudocode:
+For presyn/postsyn:
+1) Restrict the dataframe to the current segment_id</p>
+<p>Example:
+from neurd import cave_client_utils as ccu
+ccu.prepost_syn_df_from_cave_syn_df(</p>
+<blockquote>
+<div><p>syn_df,
+seg_id=seg_id,</p>
+</div></blockquote>
+<p>)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.presyn_df_from_seg_id">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">presyn_df_from_seg_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seg_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#presyn_df_from_seg_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.presyn_df_from_seg_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.release_from_release_name">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">release_from_release_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">release_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#release_from_release_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.release_from_release_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.release_name_from_client">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">release_name_from_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#release_name_from_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.release_name_from_client" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.release_name_from_release">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">release_name_from_release</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">release</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'minnie65_public'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#release_name_from_release"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.release_name_from_release" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.save_cave_token_to_cloudvolume_secrets">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">save_cave_token_to_cloudvolume_secrets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cave_token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cloudvolume_secrets_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#save_cave_token_to_cloudvolume_secrets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.save_cave_token_to_cloudvolume_secrets" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.segment_ids_with_nucleus">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">segment_ids_with_nucleus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neuron_non_neuron_table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#segment_ids_with_nucleus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.segment_ids_with_nucleus" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.set_cave_auth">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">set_cave_auth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cave_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_global_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#set_cave_auth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.set_cave_auth" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.set_global_table_names">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">set_global_table_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">release_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#set_global_table_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.set_global_table_names" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.synapse_df_from_seg_id">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">synapse_df_from_seg_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seg_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">voxel_to_nm_scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#synapse_df_from_seg_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.synapse_df_from_seg_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.table_dict_from_release_name">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">table_dict_from_release_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">release_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#table_dict_from_release_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.table_dict_from_release_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.table_name_from_table_str">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">table_name_from_table_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#table_name_from_table_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.table_name_from_table_str" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cave_client_utils.table_size">
+<span class="sig-prename descclassname"><span class="pre">neurd.cave_client_utils.</span></span><span class="sig-name descname"><span class="pre">table_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cave_client_utils.html#table_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cave_client_utils.table_size" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
-<section id="neurd-cave-interface-module">
-<h2>neurd.cave_interface module<a class="headerlink" href="#neurd-cave-interface-module" title="Permalink to this heading"></a></h2>
+<section id="module-neurd.cave_interface">
+<span id="neurd-cave-interface-module"></span><h2>neurd.cave_interface module<a class="headerlink" href="#module-neurd.cave_interface" title="Permalink to this heading"></a></h2>
 </section>
 <section id="neurd-cell-type-conv-utils-module">
 <h2>neurd.cell_type_conv_utils module<a class="headerlink" href="#neurd-cell-type-conv-utils-module" title="Permalink to this heading"></a></h2>
