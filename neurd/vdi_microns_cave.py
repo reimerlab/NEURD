@@ -126,4 +126,7 @@ from datasci_tools import pandas_utils as pu
 
 from . import synapse_utils as syu  
 
-volume_data_interface = DataInterfaceMicrons()
+try:
+    volume_data_interface = DataInterfaceMicrons()
+except:
+    volume_data_interface = None

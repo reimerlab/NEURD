@@ -32,11 +32,11 @@ class DataInterfaceH01(vdi_def.DataInterfaceDefault):
     def voxel_to_nm_scaling(self):
         return np.array([8,8,33])
     
-    def segment_id_to_synapse_dict(
+    def segment_id_to_synapse_df(
         self,
         *args,
         **kwargs):
-        return super().segment_id_to_synapse_dict(
+        return super().segment_id_to_synapse_df(
             *args,
             **kwargs
         )

@@ -35,7 +35,7 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
     def voxel_to_nm_scaling(self):
         return np.array([4,4,40])
     
-    def segment_id_to_synapse_dict(
+    def segment_id_to_synapse_df(
         self,
         *args,
         **kwargs):
