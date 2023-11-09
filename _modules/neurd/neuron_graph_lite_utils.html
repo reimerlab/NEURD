@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.neuron_graph_lite_utils &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.neuron_graph_lite_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.neuron_graph_lite_utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+
+
+
+<span class="sd">Purpose: funtionality for converting a neuron object to </span>
+<span class="sd">a graph representation that can be converted to a 2D/3D ativation maps</span>
+
+
+
+
+
+
+<span class="sd">Ex 1: HOw to change between ravel and index</span>
+
+<span class="sd">from datasci_tools import numpy_utils as nu</span>
+<span class="sd">curr_act_map[nu.ravel_index([5,4,9],array_size)]</span>
+
+
+
+
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">branch_attrs_for_G</span> <span class="o">=</span> <span class="p">[</span>
+<span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="c1">#surface area of branch</span>
+<span class="s2">&quot;compartment&quot;</span><span class="p">,</span>
+<span class="s1">&#39;axon_compartment&#39;</span><span class="p">,</span> <span class="c1">#whether it is axon or dendrite</span>
+<span class="s2">&quot;boutons_cdfs&quot;</span><span class="p">,</span>
+<span class="s2">&quot;boutons_volume&quot;</span><span class="p">,</span>
+<span class="s2">&quot;labels&quot;</span><span class="p">,</span>
+<span class="s2">&quot;mesh_center&quot;</span><span class="p">,</span>
+<span class="s2">&quot;endpoint_upstream&quot;</span><span class="p">,</span>
+<span class="s2">&quot;endpoint_downstream&quot;</span><span class="p">,</span>
+<span class="s2">&quot;mesh_volume&quot;</span><span class="p">,</span>
+<span class="s2">&quot;n_boutons&quot;</span><span class="p">,</span>
+<span class="s2">&quot;n_spines&quot;</span><span class="p">,</span>
+<span class="s2">&quot;n_synapses&quot;</span><span class="p">,</span>
+<span class="s1">&#39;n_synapses_head&#39;</span><span class="p">,</span>
+<span class="s1">&#39;n_synapses_neck&#39;</span><span class="p">,</span>
+<span class="s1">&#39;n_synapses_no_head&#39;</span><span class="p">,</span>
+<span class="s1">&#39;n_synapses_post&#39;</span><span class="p">,</span>
+<span class="s1">&#39;n_synapses_pre&#39;</span><span class="p">,</span>
+<span class="s1">&#39;n_synapses_shaft&#39;</span><span class="p">,</span>
+<span class="s1">&#39;n_synapses_spine&#39;</span><span class="p">,</span>
+<span class="s2">&quot;skeletal_length&quot;</span><span class="p">,</span>
+<span class="s2">&quot;spine_density&quot;</span><span class="p">,</span>
+<span class="s2">&quot;spine_volume_density&quot;</span><span class="p">,</span>
+<span class="s2">&quot;spine_volume_median&quot;</span><span class="p">,</span>
+<span class="s2">&quot;synapse_density&quot;</span><span class="p">,</span>
+<span class="s1">&#39;synapse_density_post&#39;</span><span class="p">,</span>
+<span class="s1">&#39;synapse_density_pre&#39;</span><span class="p">,</span>
+<span class="s2">&quot;total_spine_volume&quot;</span><span class="p">,</span>
+<span class="s2">&quot;width&quot;</span><span class="p">,</span>
+<span class="s2">&quot;width_new&quot;</span><span class="p">,</span>
+<span class="s1">&#39;soma_distance_euclidean&#39;</span><span class="p">,</span>
+<span class="s1">&#39;soma_distance_skeletal&#39;</span><span class="p">,</span>
+<span class="s2">&quot;skeleton_vector_upstream&quot;</span><span class="p">,</span>
+<span class="s2">&quot;skeleton_vector_downstream&quot;</span><span class="p">,</span>
+<span class="s2">&quot;width_upstream&quot;</span><span class="p">,</span>
+<span class="s2">&quot;width_downstream&quot;</span><span class="p">,</span>
+<span class="s2">&quot;min_dist_synapses_pre_upstream&quot;</span><span class="p">,</span>
+<span class="s2">&quot;min_dist_synapses_post_upstream&quot;</span><span class="p">,</span>
+<span class="s2">&quot;min_dist_synapses_pre_downstream&quot;</span><span class="p">,</span>
+<span class="s2">&quot;min_dist_synapses_post_downstream&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">branch_attrs_limb_based_for_G</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;parent_skeletal_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;siblings_skeletal_angle_max&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;siblings_skeletal_angle_min&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;children_skeletal_angle_max&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;children_skeletal_angle_min&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+
+<span class="n">soma_attrs_for_G</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;area&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;compartment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mesh_center&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;mesh_center&quot;</span><span class="p">,</span><span class="s2">&quot;endpoint_upstream&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;n_synapses&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;n_synapses_post&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;n_synapses_pre&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;sdf&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;side_length_ratios&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;volume_ratio&#39;</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;volume&quot;</span><span class="p">,</span><span class="s2">&quot;mesh_volume&quot;</span><span class="p">],</span>
+<span class="p">]</span>
+
+<span class="n">features_to_output_default</span> <span class="o">=</span> <span class="p">[</span>
+<span class="c1">#&quot;area&quot;,</span>
+<span class="c1">#&quot;n_synapses_post&quot;,</span>
+<span class="c1">#&quot;n_synapses_pre&quot;,</span>
+<span class="s2">&quot;axon&quot;</span><span class="p">,</span>
+<span class="s2">&quot;dendrite&quot;</span><span class="p">,</span>
+<span class="s2">&quot;n_boutons&quot;</span><span class="p">,</span>
+<span class="c1">#&quot;mesh_volume&quot;,</span>
+<span class="c1">#&quot;n_spines&quot;,</span>
+<span class="s2">&quot;n_synapses_head&quot;</span><span class="p">,</span>
+<span class="c1">#&quot;n_synapses_neck&quot;,</span>
+<span class="s2">&quot;n_synapses_shaft&quot;</span><span class="p">,</span>
+<span class="c1">#&quot;n_synapses_no_head&quot;,</span>
+<span class="s2">&quot;skeletal_length&quot;</span><span class="p">,</span>
+<span class="c1">#&quot;spine_density&quot;,</span>
+<span class="s2">&quot;spine_volume_density&quot;</span><span class="p">,</span>
+<span class="s2">&quot;synapse_density&quot;</span><span class="p">,</span>
+<span class="s2">&quot;width_median_mesh_center&quot;</span>
+<span class="p">]</span>
+
+<span class="n">soma_attrs_mapping_for_G</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">mesh_volume</span> <span class="o">=</span> <span class="s2">&quot;volume&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">neuorn_obj_attributes</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nucleus_id&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;segment_id&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;split_index&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+
+<span class="n">graph_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/mnt/dj-stor01/platinum/minnie65/02/graphs&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="save_G_with_attrs"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.save_G_with_attrs">[docs]</a><span class="k">def</span> <span class="nf">save_G_with_attrs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">segment_id</span><span class="p">,</span>
+                      <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                      <span class="n">file_append</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                      <span class="n">file_path</span> <span class="o">=</span> <span class="n">graph_path</span><span class="p">,</span>
+                      <span class="n">return_filepath</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    To save a Graph after processing</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    ctcu.save_G_with_attrs(G,segment_id=segment_id,split_index=split_index)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">segment_id</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">split_index</span><span class="si">}</span><span class="s2">_neuron_graph&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_append</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">file_name</span> <span class="o">+</span> <span class="n">file_append</span>
+        
+    <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">su</span><span class="o">.</span><span class="n">compressed_pickle</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">filepath</span><span class="p">,</span><span class="n">return_filepath</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">return_filepath</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span></div>
+
+<div class="viewcode-block" id="load_G_with_attrs"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.load_G_with_attrs">[docs]</a><span class="k">def</span> <span class="nf">load_G_with_attrs</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">su</span><span class="o">.</span><span class="n">decompress_pickle</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span></div>
+
+<span class="n">soma_name</span> <span class="o">=</span> <span class="s2">&quot;S0&quot;</span>
+
+<div class="viewcode-block" id="soma_branch_df_split"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.soma_branch_df_split">[docs]</a><span class="k">def</span> <span class="nf">soma_branch_df_split</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;node == &#39;</span><span class="si">{</span><span class="n">soma_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">),</span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;node != &#39;S0&#39;&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="attr_value_by_node"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.attr_value_by_node">[docs]</a><span class="k">def</span> <span class="nf">attr_value_by_node</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">node_name</span><span class="p">,</span><span class="n">attr</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;node == &#39;</span><span class="si">{</span><span class="n">node_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)[</span><span class="n">attr</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="attr_value_soma"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.attr_value_soma">[docs]</a><span class="k">def</span> <span class="nf">attr_value_soma</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">attr</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ex: </span>
+<span class="sd">    ctcu.attr_value_soma(df_idx,&quot;n_synapses&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">attr_value_by_node</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">soma_name</span><span class="p">,</span><span class="n">attr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="mesh_center_xyz"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.mesh_center_xyz">[docs]</a><span class="k">def</span> <span class="nf">mesh_center_xyz</span><span class="p">(</span><span class="n">center</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">y</span><span class="o">=</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">z</span><span class="o">=</span><span class="n">center</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="width_new_extract"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.width_new_extract">[docs]</a><span class="k">def</span> <span class="nf">width_new_extract</span><span class="p">(</span><span class="n">width_new</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;width_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">width_new</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+<div class="viewcode-block" id="labels_extract"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.labels_extract">[docs]</a><span class="k">def</span> <span class="nf">labels_extract</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+    <span class="n">labels_to_check</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;basal&quot;</span><span class="p">,</span><span class="s2">&quot;apical&quot;</span><span class="p">,</span><span class="s2">&quot;soma&quot;</span><span class="p">,</span><span class="s2">&quot;axon&quot;</span><span class="p">,</span><span class="s2">&quot;dendrite&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels_to_check</span><span class="p">}</span></div>
+    
+<div class="viewcode-block" id="axon_compartment_extract"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.axon_compartment_extract">[docs]</a><span class="k">def</span> <span class="nf">axon_compartment_extract</span><span class="p">(</span><span class="n">axon_comp</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">axon</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">axon_comp</span> <span class="o">==</span> <span class="s2">&quot;axon&quot;</span><span class="p">),</span>
+           <span class="n">dendrite</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">axon_comp</span> <span class="o">==</span> <span class="s2">&quot;dendrite&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="boutons_volume_extract"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.boutons_volume_extract">[docs]</a><span class="k">def</span> <span class="nf">boutons_volume_extract</span><span class="p">(</span><span class="n">bouton_volumes</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">bouton_volumes_median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">bouton_volumes</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="boutons_cdfs_extract"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.boutons_cdfs_extract">[docs]</a><span class="k">def</span> <span class="nf">boutons_cdfs_extract</span><span class="p">(</span><span class="n">bouton_cdfs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">bouton_cdfs_median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">bouton_cdfs</span><span class="p">))</span></div>
+
+<span class="n">special_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">upstream_endpoint</span> <span class="o">=</span> <span class="n">mesh_center_xyz</span><span class="p">,</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">labels_extract</span><span class="p">,</span>
+    <span class="n">axon_compartment</span> <span class="o">=</span> <span class="n">axon_compartment_extract</span><span class="p">,</span>
+    <span class="n">boutons_volume</span><span class="o">=</span> <span class="n">boutons_volume_extract</span><span class="p">,</span>
+    <span class="n">boutons_cdfs</span><span class="o">=</span><span class="n">boutons_cdfs_extract</span><span class="p">,</span>
+    <span class="n">width_new</span><span class="o">=</span><span class="n">width_new_extract</span><span class="p">,</span>
+<span class="p">)</span>
+
+<div class="viewcode-block" id="G_with_attrs_from_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.G_with_attrs_from_neuron_obj">[docs]</a><span class="k">def</span> <span class="nf">G_with_attrs_from_neuron_obj</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">soma_attributes</span><span class="o">=</span><span class="n">soma_attrs_for_G</span><span class="p">,</span>
+    <span class="n">branch_attributes</span> <span class="o">=</span> <span class="n">branch_attrs_for_G</span><span class="p">,</span>
+    <span class="n">include_branch_dynamics</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">plot_G</span>  <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">neuron_obj_attributes_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    To convert a neuron object to </span>
+<span class="sd">    a graph object with attributes stored</span>
+<span class="sd">    </span>
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Generate the total graph</span>
+<span class="sd">    2) Assign the node attributes</span>
+<span class="sd">    3) Assign the soma attributes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">spu</span><span class="o">.</span><span class="n">set_neuron_head_neck_shaft_idx</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    <span class="n">spu</span><span class="o">.</span><span class="n">set_neuron_synapses_head_neck_shaft</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    <span class="n">spu</span><span class="o">.</span><span class="n">set_soma_synapses_spine_label</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    <span class="n">syu</span><span class="o">.</span><span class="n">set_limb_branch_idx_to_synapses</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    
+    <span class="n">nst</span><span class="o">.</span><span class="n">soma_distance_skeletal_branch_set</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    <span class="n">nst</span><span class="o">.</span><span class="n">soma_distance_euclidean_branch_set</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    <span class="n">nst</span><span class="o">.</span><span class="n">upstream_endpoint_branch_set</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    <span class="n">bu</span><span class="o">.</span><span class="n">set_branches_endpoints_upstream_downstream_idx</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--whole_neuron_branch_concept_network&quot;</span><span class="p">)</span>
+    <span class="n">G_total</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">whole_neuron_branch_concept_network</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">directional</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">print_flag</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+        <span class="n">with_data_in_nodes</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="n">update_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    
+    <span class="k">for</span> <span class="n">s_name</span> <span class="ow">in</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">get_soma_node_names</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--Working on Soma </span><span class="si">{</span><span class="n">s_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">s_dict</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">branch_attr_dict_from_node</span><span class="p">(</span>
+                    <span class="n">neuron_obj</span><span class="p">[</span><span class="n">s_name</span><span class="p">],</span>
+                    <span class="n">node_name</span> <span class="o">=</span> <span class="n">s_name</span><span class="p">,</span>
+                    <span class="c1">#attr_list=branch_attributes_global,</span>
+                    <span class="n">attr_list</span> <span class="o">=</span> <span class="n">soma_attributes</span><span class="p">,</span>
+                    <span class="n">include_node_name_as_top_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="n">update_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">s_dict</span><span class="p">)</span>
+        
+    <span class="c1">#computing the limb attributes   </span>
+    <span class="n">limb_df</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">stats_df</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">functions_list</span><span class="o">=</span><span class="p">[</span><span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lu.</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">ns</span><span class="o">.</span><span class="n">limb_function_append_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> 
+                        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">branch_attrs_limb_based_for_G</span><span class="p">])</span>
+    
+    <span class="k">for</span> <span class="n">limb_name</span> <span class="ow">in</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">get_limb_node_names</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-- Working on Limb </span><span class="si">{</span><span class="n">limb_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">limb_obj</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_name</span><span class="p">]</span>
+        <span class="n">soma_start_vec</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">soma_starting_vector</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">soma_center</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="s2">&quot;S0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mesh_center</span><span class="p">)</span>
+        <span class="n">soma_start_angle</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">soma_starting_angle</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">soma_center</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="s2">&quot;S0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mesh_center</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">branch_name</span> <span class="ow">in</span> <span class="n">limb_obj</span><span class="o">.</span><span class="n">get_branch_names</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  --Branch </span><span class="si">{</span><span class="n">branch_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">s_dict</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">branch_attr_dict_from_node</span><span class="p">(</span>
+                    <span class="n">limb_obj</span><span class="p">[</span><span class="n">branch_name</span><span class="p">],</span>
+                    <span class="n">node_name</span> <span class="o">=</span> <span class="n">branch_name</span><span class="p">,</span>
+                    <span class="n">attr_list</span><span class="o">=</span><span class="n">branch_attributes</span><span class="p">,</span>
+                    <span class="c1">#attr_list = soma_attributes_global,</span>
+                    <span class="n">include_node_name_as_top_key</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">include_branch_dynamics</span> <span class="o">=</span> <span class="n">include_branch_dynamics</span><span class="p">)</span>
+            
+            <span class="n">s_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nst</span><span class="o">.</span><span class="n">branch_stats_dict_from_df</span><span class="p">(</span><span class="n">limb_df</span><span class="p">,</span><span class="n">limb_name</span><span class="p">,</span><span class="n">branch_name</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">branch_name</span> <span class="o">==</span> <span class="n">limb_obj</span><span class="o">.</span><span class="n">current_starting_node</span><span class="p">:</span>
+                <span class="n">s_dict</span><span class="p">[</span><span class="s2">&quot;soma_start_vec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">soma_start_vec</span>
+                <span class="n">s_dict</span><span class="p">[</span><span class="s2">&quot;soma_start_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">soma_start_angle</span>
+            <span class="n">update_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">limb_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">branch_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span><span class="n">s_dict</span><span class="p">})</span>
+
+    
+    <span class="n">xu</span><span class="o">.</span><span class="n">set_node_attributes_dict</span><span class="p">(</span><span class="n">G_total</span><span class="p">,</span><span class="n">update_dict</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">plot_G</span><span class="p">:</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">G_total</span><span class="p">),</span><span class="n">with_labels</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">neuorn_obj_attributes</span><span class="p">:</span>
+        <span class="n">xu</span><span class="o">.</span><span class="n">set_graph_attr</span><span class="p">(</span><span class="n">G_total</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="nb">getattr</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">k</span><span class="p">))</span>
+        
+    <span class="k">if</span> <span class="n">neuron_obj_attributes_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">neuron_obj_attributes_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">xu</span><span class="o">.</span><span class="n">set_graph_attr</span><span class="p">(</span><span class="n">G_total</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">G_total</span></div>
+
+
+
+
+<div class="viewcode-block" id="soma_center_from_df"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.soma_center_from_df">[docs]</a><span class="k">def</span> <span class="nf">soma_center_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">col_suffix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;node == &#39;</span><span class="si">{</span><span class="n">soma_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)[[</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">col_suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                     <span class="sa">f</span><span class="s2">&quot;y</span><span class="si">{</span><span class="n">col_suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                     <span class="sa">f</span><span class="s2">&quot;z</span><span class="si">{</span><span class="n">col_suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span></div>
+
+
+<span class="c1"># stats_func_list = []</span>
+<span class="c1"># def generate_new_stats(</span>
+<span class="c1">#     G,</span>
+<span class="c1">#     stats_func_list=</span>
+<span class="c1">#     ):</span>
+
+
+<div class="viewcode-block" id="stats_df_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.stats_df_from_G">[docs]</a><span class="k">def</span> <span class="nf">stats_df_from_G</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span>
+    <span class="n">no_attribute_default</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">None_default</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">attr_to_skip</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;side_length_ratios&quot;</span><span class="p">,</span><span class="s2">&quot;sdf&quot;</span><span class="p">,</span><span class="s2">&quot;mesh_center&quot;</span><span class="p">),</span>
+    <span class="n">fix_presyns_on_dendrites</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">center_xyz_at_soma</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To convert the data stored in a graph into a dataframe </span>
+<span class="sd">    where all columns are scalar values</span>
+
+<span class="sd">    Things to figure out: </span>
+<span class="sd">    - Null value: 0</span>
+<span class="sd">    - How to 1 hot encode things</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">df_dicts</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+        <span class="n">curr_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;node&quot;</span><span class="p">:</span><span class="n">n</span><span class="p">}</span>
+        <span class="n">attr_dict</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">get_node_attribute_dict</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">node</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="s2">&quot;S0&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">attr_dict</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">attr_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">attr_to_skip</span><span class="p">:</span>
+                    <span class="k">continue</span>
+            <span class="c1">#print(f&quot;k = {k}&quot;)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">curr_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">None_default</span>
+                <span class="c1">#print(f&quot;None activated&quot;)</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">special_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">special_params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">curr_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">special_params</span><span class="p">[</span><span class="n">k</span><span class="p">](</span><span class="n">v</span><span class="p">))</span>
+                    <span class="k">continue</span>
+
+                <span class="n">curr_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="n">df_dicts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr_dict</span><span class="p">)</span>
+
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">df_dicts</span><span class="p">),</span><span class="n">no_attribute_default</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Will make sure no presyn information </span>
+<span class="sd">    appears on the dendritic branches</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">fix_presyns_on_dendrites</span><span class="p">:</span>
+        <span class="n">idx_to_change</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;axon == 0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_to_change</span><span class="p">,</span><span class="s2">&quot;synapse_density&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_to_change</span><span class="p">,</span><span class="s2">&quot;synapse_density&quot;</span><span class="p">]</span><span class="o">*</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_to_change</span><span class="p">,</span><span class="s2">&quot;n_synapses_post&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_to_change</span><span class="p">,</span><span class="s2">&quot;n_synapses&quot;</span><span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_to_change</span><span class="p">,</span><span class="s2">&quot;n_synapses&quot;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_to_change</span><span class="p">,</span><span class="s2">&quot;n_synapses_post&quot;</span><span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_to_change</span><span class="p">,</span><span class="s2">&quot;n_synapses_pre&quot;</span><span class="p">]</span>  <span class="o">=</span>  <span class="mi">0</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx_to_change</span><span class="p">,</span><span class="s2">&quot;synapse_density_pre&quot;</span><span class="p">]</span>  <span class="o">=</span>  <span class="mi">0</span>
+    
+    <span class="k">if</span> <span class="n">center_xyz_at_soma</span><span class="p">:</span>
+        
+        <span class="n">soma_center</span> <span class="o">=</span> <span class="n">soma_center_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">soma_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">soma_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">soma_center</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        
+    
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<span class="n">window_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">],</span>
+        <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">],</span>
+        <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">])</span>
+
+<div class="viewcode-block" id="symmetric_window"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.symmetric_window">[docs]</a><span class="k">def</span> <span class="nf">symmetric_window</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">z</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To Create a dict that will act like a window: </span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    ctcu.symmetric_window(x=100,y=200,z = 300)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">curr_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">ax</span><span class="p">,</span><span class="n">ax_val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">],[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">ax_val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax_val</span> <span class="o">=</span> <span class="n">size</span>
+        
+        <span class="k">if</span> <span class="n">ax_val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        
+        <span class="n">curr_dict</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">ax_val</span><span class="p">,</span><span class="n">ax_val</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">curr_dict</span></div>
+
+<div class="viewcode-block" id="plot_df_xyz"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.plot_df_xyz">[docs]</a><span class="k">def</span> <span class="nf">plot_df_xyz</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">branch_size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">soma_size</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+               <span class="n">soma_color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span><span class="n">branch_color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
+               <span class="n">col_suffix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">flip_y</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,):</span>
+    <span class="n">soma_center</span> <span class="o">=</span> <span class="n">soma_center_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">all_points</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">col_suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;y</span><span class="si">{</span><span class="n">col_suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;z</span><span class="si">{</span><span class="n">col_suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">s_center</span> <span class="o">=</span> <span class="n">soma_center_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">col_suffix</span><span class="o">=</span><span class="n">col_suffix</span><span class="p">)</span>
+    <span class="n">nviz</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span><span class="n">scatters</span><span class="o">=</span><span class="p">[</span><span class="n">all_points</span><span class="p">,</span><span class="n">s_center</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)],</span>
+                      <span class="n">scatters_colors</span><span class="o">=</span><span class="p">[</span><span class="n">branch_color</span><span class="p">,</span><span class="n">soma_color</span><span class="p">],</span>
+                     <span class="n">scatter_size</span><span class="o">=</span><span class="p">[</span><span class="n">branch_size</span><span class="p">,</span><span class="n">soma_size</span><span class="p">],</span>
+                      <span class="n">flip_y</span> <span class="o">=</span> <span class="n">flip_y</span><span class="p">,</span>
+                      <span class="n">axis_box_off</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        
+
+<div class="viewcode-block" id="filter_df_by_xyz_window"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.filter_df_by_xyz_window">[docs]</a><span class="k">def</span> <span class="nf">filter_df_by_xyz_window</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="n">window_default</span><span class="p">,</span>
+                           <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                           <span class="n">plot_xyz</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    To restrict the rows to only those located at certain points:</span>
+<span class="sd">    </span>
+<span class="sd">    ctcu.filter_df_by_xyz_window(df,window = 50000,plot_xyz=True)</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">window</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">window_default</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">window</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">symmetric_window</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before window apppilcation, len(df) = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">df_result</span> <span class="o">=</span> <span class="n">df</span>
+    <span class="k">for</span> <span class="n">col_name</span> <span class="ow">in</span> <span class="n">window</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">df_result</span> <span class="o">=</span> <span class="n">df_result</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;((</span><span class="si">{</span><span class="n">col_name</span><span class="si">}</span><span class="s2"> &gt;= </span><span class="si">{</span><span class="n">window</span><span class="p">[</span><span class="n">col_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">) and &quot;</span>
+                                   <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">col_name</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="n">window</span><span class="p">[</span><span class="n">col_name</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">))&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AFTER window apppilcation, len(df) = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_result</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">plot_xyz</span><span class="p">:</span>
+        <span class="n">plot_df_xyz</span><span class="p">(</span><span class="n">df_result</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df_result</span></div>
+
+<span class="n">max_distance_soma_filtering</span> <span class="o">=</span> <span class="mi">50_000</span>
+<div class="viewcode-block" id="filter_df_by_soma_distance"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.filter_df_by_soma_distance">[docs]</a><span class="k">def</span> <span class="nf">filter_df_by_soma_distance</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">max_distance</span> <span class="o">=</span> <span class="n">max_distance_soma_filtering</span><span class="p">,</span>
+    <span class="n">distance_type</span> <span class="o">=</span> <span class="s2">&quot;soma_distance_skeletal&quot;</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">plot_xyz</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Will filter nodes that are only a </span>
+<span class="sd">    maximum distance away from the soma</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before filtering , len(df) = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">df_result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">distance_type</span><span class="si">}</span><span class="s2"> &lt;= </span><span class="si">{</span><span class="n">max_distance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AFTER window apppilcation, len(df) = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_result</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">plot_xyz</span><span class="p">:</span>
+        <span class="n">plot_df_xyz</span><span class="p">(</span><span class="n">df_result</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df_result</span></div>
+
+<div class="viewcode-block" id="filter_df_by_axon_dendrite"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.filter_df_by_axon_dendrite">[docs]</a><span class="k">def</span> <span class="nf">filter_df_by_axon_dendrite</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">dendrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">plot_xyz</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">cell_type</span> <span class="o">=</span> <span class="s2">&quot;inhibitory&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Will filter nodes that are only a </span>
+<span class="sd">    maximum distance away from the soma</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before filtering , len(df) = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dendrite</span><span class="p">:</span>
+        <span class="n">col_name</span> <span class="o">=</span> <span class="s2">&quot;dendrite&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">col_name</span> <span class="o">=</span> <span class="s2">&quot;axon&quot;</span>
+    <span class="n">df_result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">col_name</span><span class="si">}</span><span class="s2"> == 1) or (node == &#39;S0&#39;)&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">cell_type</span> <span class="o">==</span> <span class="s2">&quot;excitatory&quot;</span> <span class="ow">and</span> <span class="n">dendrite</span><span class="p">:</span>
+        <span class="n">df_result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;basal&#39;</span><span class="p">,</span><span class="s1">&#39;apical&#39;</span><span class="p">,</span><span class="s1">&#39;dendrite&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">   &gt;= 1) or (node == &#39;S0&#39;)&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">df_result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">col_name</span><span class="si">}</span><span class="s2"> == 1) or (node == &#39;S0&#39;)&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AFTER AXON_DENDRTIE apppilcation, len(df) = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_result</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">plot_xyz</span><span class="p">:</span>
+        <span class="n">plot_df_xyz</span><span class="p">(</span><span class="n">df_result</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df_result</span></div>
+
+
+<div class="viewcode-block" id="filter_df_by_skeletal_length"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.filter_df_by_skeletal_length">[docs]</a><span class="k">def</span> <span class="nf">filter_df_by_skeletal_length</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">min_skeletal_length</span> <span class="o">=</span> <span class="mi">10_000</span><span class="p">,</span>
+    <span class="n">dendrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">plot_xyz</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Will filter nodes that are only a </span>
+<span class="sd">    maximum distance away from the soma</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Before filtering , len(df) = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">df_result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(skeletal_length &gt; </span><span class="si">{</span><span class="n">min_skeletal_length</span><span class="si">}</span><span class="s2">) or (node == &#39;S0&#39;)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AFTER skeletal length apppilcation, len(df) = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_result</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">plot_xyz</span><span class="p">:</span>
+        <span class="n">plot_df_xyz</span><span class="p">(</span><span class="n">df_result</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">df_result</span></div>
+    
+
+
+<span class="c1"># ------------ Finding out the right mapping of idx -----------#</span>
+<div class="viewcode-block" id="axes_limits_from_df"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.axes_limits_from_df">[docs]</a><span class="k">def</span> <span class="nf">axes_limits_from_df</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">all_axes_same_scale</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">neg_positive_same_scale</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">min_absolute_value</span> <span class="o">=</span> <span class="mi">5_000</span><span class="p">,</span>
+    <span class="n">global_scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+
+    <span class="n">axes_limits</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[],</span><span class="n">y</span><span class="o">=</span><span class="p">[],</span><span class="n">z</span><span class="o">=</span><span class="p">[])</span>
+    <span class="k">for</span> <span class="n">col_name</span> <span class="ow">in</span> <span class="n">axes_limits</span><span class="p">:</span>
+        <span class="n">axes_limits</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span>  <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="o">-</span><span class="n">min_absolute_value</span><span class="p">),</span>
+                                  <span class="nb">max</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span><span class="n">min_absolute_value</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">neg_positive_same_scale</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">col_name</span> <span class="ow">in</span> <span class="n">axes_limits</span><span class="p">:</span>
+            <span class="n">abs_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">axes_limits</span><span class="p">[</span><span class="n">col_name</span><span class="p">])</span>
+            <span class="n">axes_limits</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">abs_vals</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">abs_vals</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">all_axes_same_scale</span><span class="p">:</span>
+        <span class="n">max_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">axes_limits</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span>
+        <span class="n">axes_limits</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:[</span><span class="o">-</span><span class="n">max_val</span><span class="p">,</span><span class="n">max_val</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">axes_limits</span><span class="p">}</span>
+    
+    <span class="k">if</span> <span class="n">global_scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_val</span> <span class="o">=</span> <span class="n">global_scale</span>
+        <span class="n">axes_limits</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:[</span><span class="o">-</span><span class="n">max_val</span><span class="p">,</span><span class="n">max_val</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">axes_limits</span><span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;axes_limits = </span><span class="se">\n</span><span class="si">{</span><span class="n">axes_limits</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">axes_limits</span></div>
+
+<div class="viewcode-block" id="array_shape_from_radius"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.array_shape_from_radius">[docs]</a><span class="k">def</span> <span class="nf">array_shape_from_radius</span><span class="p">(</span><span class="n">radius</span><span class="p">):</span>
+    <span class="n">edge_length</span> <span class="o">=</span> <span class="n">radius</span><span class="o">*</span><span class="mi">2</span>
+    <span class="n">array_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">edge_length</span><span class="p">,</span><span class="n">edge_length</span><span class="p">,</span><span class="n">edge_length</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">array_shape</span></div>
+
+<div class="viewcode-block" id="axes_limits_coordinates"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.axes_limits_coordinates">[docs]</a><span class="k">def</span> <span class="nf">axes_limits_coordinates</span><span class="p">(</span><span class="n">axes_limits</span><span class="p">,</span><span class="n">array_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">radius</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">array_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">array_shape</span> <span class="o">=</span> <span class="n">ctcu</span><span class="o">.</span><span class="n">array_shape_from_radius</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
+        
+    <span class="n">axes_limits_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">axes_limits</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s2">&quot;z&quot;</span><span class="p">]])</span>
+
+    <span class="n">limits_coords_by_axis</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axes_limits_array</span><span class="p">)):</span>
+        <span class="n">stacked_midpoints</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">ax_lim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes_limits_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">midpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ax_lim</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">array_shape</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">midpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">ax_lim</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">array_shape</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+            <span class="n">midpoints</span> <span class="o">=</span> <span class="p">(</span><span class="n">midpoints</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">midpoints</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
+            <span class="n">stacked_midpoints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">midpoints</span><span class="p">)</span>
+        <span class="n">limits_coords_by_axis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">stacked_midpoints</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">limits_coords_by_axis</span></div>
+
+
+<div class="viewcode-block" id="idx_for_col"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.idx_for_col">[docs]</a><span class="k">def</span> <span class="nf">idx_for_col</span><span class="p">(</span>
+    <span class="n">val</span><span class="p">,</span>
+    <span class="n">col</span><span class="p">,</span>
+    <span class="n">axes_limits</span><span class="p">,</span>
+    <span class="n">nbins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">no_soma_reservation</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To find out the adjusted idx </span>
+<span class="sd">    for a mapping of a datapoint</span>
+<span class="sd">    </span>
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    a) Figure out if positive or negative (assign -1 or 1 value)</span>
+<span class="sd">    b) Get the right threshold (need axes_limits)</span>
+<span class="sd">    c) Bin the value (need number of bins)</span>
+<span class="sd">    d) Find the right index for the value</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    col = &quot;x&quot;</span>
+<span class="sd">    verbose = True</span>
+<span class="sd">    val = df.loc[20,col]</span>
+<span class="sd">    nbins = 40</span>
+
+<span class="sd">    col = &quot;y&quot;</span>
+<span class="sd">    ctcu.idx_for_col(df.loc[100,col],col,</span>
+<span class="sd">                axes_limits=axes_limits,</span>
+<span class="sd">                verbose = True)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Working on </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">, value = </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">, nbins = </span><span class="si">{</span><span class="n">nbins</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">sgn</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sgn</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="n">lim</span> <span class="o">=</span> <span class="n">axes_limits</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="nb">int</span><span class="p">((</span><span class="mi">1</span><span class="o">+</span><span class="n">sgn</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sgn = </span><span class="si">{</span><span class="n">sgn</span><span class="si">}</span><span class="s2">, lim = </span><span class="si">{</span><span class="n">lim</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">lim</span><span class="o">*</span><span class="n">sgn</span><span class="p">,</span><span class="n">nbins</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">sgn</span><span class="o">*</span><span class="n">val</span><span class="p">,</span><span class="n">bins</span><span class="p">,</span><span class="n">right</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1">#adds in correction if too large</span>
+    <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="n">idx_corrected</span> <span class="o">=</span> <span class="n">nbins</span> <span class="o">+</span> <span class="n">sgn</span><span class="o">*</span><span class="n">idx</span>
+    
+    <span class="k">if</span> <span class="n">no_soma_reservation</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sgn</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">idx_corrected</span> <span class="o">=</span><span class="n">idx_corrected</span><span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;idx= </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">, idx_corrected = </span><span class="si">{</span><span class="n">idx_corrected</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">idx_corrected</span></div>
+
+
+
+<div class="viewcode-block" id="idx_xyz_to_df"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.idx_xyz_to_df">[docs]</a><span class="k">def</span> <span class="nf">idx_xyz_to_df</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    
+    <span class="c1">#arguments for the axes scaling</span>
+    <span class="n">all_axes_same_scale</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">neg_positive_same_scale</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">global_scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">axes_limits</span> <span class="o">=</span>  <span class="kc">None</span><span class="p">,</span>
+    
+    <span class="n">radius</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">plot_idx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To find the index of the data point based on the relative mesh center</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    0) Determine the axes limits</span>
+
+
+<span class="sd">    For each x,y,z column:</span>
+<span class="sd">    For each datapoint:</span>
+<span class="sd">    a) Figure out if positive or negative (assign -1 or 1 value)</span>
+<span class="sd">    b) Get the right threshold (need axes_limits)</span>
+<span class="sd">    c) Bin the value (need number of bins)</span>
+<span class="sd">    d) Find the right index for the value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nbins</span> <span class="o">=</span> <span class="n">radius</span>
+
+    <span class="k">if</span> <span class="n">axes_limits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">axes_limits</span> <span class="o">=</span> <span class="n">ctcu</span><span class="o">.</span><span class="n">axes_limits_from_df</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span>
+            <span class="n">all_axes_same_scale</span> <span class="o">=</span> <span class="n">all_axes_same_scale</span><span class="p">,</span>
+            <span class="n">neg_positive_same_scale</span> <span class="o">=</span> <span class="n">neg_positive_same_scale</span><span class="p">,</span>
+            <span class="n">global_scale</span><span class="o">=</span><span class="n">global_scale</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">y_idx</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span>
+        <span class="k">return</span> <span class="n">ctcu</span><span class="o">.</span><span class="n">idx_for_col</span><span class="p">(</span>
+            <span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">],</span>
+            <span class="n">col</span><span class="p">,</span>
+            <span class="n">axes_limits</span><span class="o">=</span><span class="n">axes_limits</span><span class="p">,</span>
+            <span class="n">nbins</span><span class="o">=</span><span class="n">nbins</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">x_idx</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
+        <span class="k">return</span> <span class="n">ctcu</span><span class="o">.</span><span class="n">idx_for_col</span><span class="p">(</span>
+            <span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">],</span>
+            <span class="n">col</span><span class="p">,</span>
+            <span class="n">nbins</span><span class="o">=</span><span class="n">nbins</span><span class="p">,</span>
+            <span class="n">axes_limits</span><span class="o">=</span><span class="n">axes_limits</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">z_idx</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="s2">&quot;z&quot;</span>
+        <span class="k">return</span> <span class="n">ctcu</span><span class="o">.</span><span class="n">idx_for_col</span><span class="p">(</span>
+            <span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">],</span>
+            <span class="n">col</span><span class="p">,</span>
+            <span class="n">nbins</span><span class="o">=</span><span class="n">nbins</span><span class="p">,</span>
+            <span class="n">axes_limits</span><span class="o">=</span><span class="n">axes_limits</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">new_column_from_row_function</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">x_idx</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;y_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">new_column_from_row_function</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">y_idx</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;z_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">new_column_from_row_function</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">z_idx</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot_idx</span><span class="p">:</span>
+        <span class="n">ctcu</span><span class="o">.</span><span class="n">plot_df_xyz</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span>
+            <span class="n">branch_size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">soma_size</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+            <span class="n">col_suffix</span><span class="o">=</span><span class="s2">&quot;_idx&quot;</span><span class="p">,</span>
+            <span class="n">buffer</span> <span class="o">=</span> <span class="n">nbins</span><span class="o">*</span><span class="mf">0.25</span><span class="p">,)</span>
+        
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="closest_node_idx_to_sample_idx"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.closest_node_idx_to_sample_idx">[docs]</a><span class="k">def</span> <span class="nf">closest_node_idx_to_sample_idx</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">axes_limits</span><span class="p">,</span>
+    <span class="n">array_shape</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To get the index of the closest node</span>
+<span class="sd">    point to a coordinate in the sampling</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">limits_coords_by_axis</span> <span class="o">=</span> <span class="n">ctcu</span><span class="o">.</span><span class="n">axes_limits_coordinates</span><span class="p">(</span><span class="n">axes_limits</span><span class="p">,</span><span class="n">array_shape</span> <span class="o">=</span> <span class="n">array_shape</span><span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">pykdtree.kdtree</span> <span class="kn">import</span> <span class="n">KDTree</span>
+
+    <span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span><span class="n">zi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="o">*</span><span class="n">limits_coords_by_axis</span><span class="p">,</span><span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+    <span class="n">limits_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">k</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span><span class="n">zi</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span>
+    
+<span class="c1">#     if verbose:</span>
+<span class="c1">#         print(f&quot;limits_coords=\n{limits_coords}&quot;)</span>
+
+    <span class="n">limits_coords_kd</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s2">&quot;z&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="n">dist</span><span class="p">,</span><span class="n">closest_nodes</span> <span class="o">=</span> <span class="n">limits_coords_kd</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">limits_coords</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;closest_nodes = </span><span class="si">{</span><span class="n">closest_nodes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dist = </span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">closest_nodes</span></div>
+
+
+<div class="viewcode-block" id="attr_activation_map"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.attr_activation_map">[docs]</a><span class="k">def</span> <span class="nf">attr_activation_map</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">attr</span><span class="p">,</span>
+    <span class="n">array_shape</span><span class="p">,</span>
+    <span class="n">return_vector</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">soma_at_end</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">exclude_soma_node</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">return_as_df</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">fill_zeros_with_closest_value</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">axes_limits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    
+    
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    To generate an activation map and to export it</span>
+<span class="sd">    (as a multidimensional array or as a vector)</span>
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    edge_length = radius*2</span>
+<span class="sd">    array_size = (edge_length,edge_length,edge_length)</span>
+
+<span class="sd">    attr = &quot;mesh_volume&quot;</span>
+<span class="sd">    ctcu.attr_activation_map(df_idx,attr,array_shape = array_size,)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">soma_at_end</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">return_vector</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Must return vector for soma to be at end&quot;</span><span class="p">)</span>
+
+    <span class="n">curr_act_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">array_shape</span><span class="p">)</span>
+    <span class="n">placement_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">array_shape</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">soma_at_end</span> <span class="ow">or</span> <span class="n">exclude_soma_node</span><span class="p">:</span>
+        <span class="n">df_branch</span> <span class="o">=</span> <span class="n">ctcu</span><span class="o">.</span><span class="n">soma_branch_df_split</span><span class="p">(</span><span class="n">df</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">df_branch</span> <span class="o">=</span> <span class="n">df</span>
+        
+    <span class="n">attr_vals</span> <span class="o">=</span> <span class="n">df_branch</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">attr_idx</span> <span class="o">=</span> <span class="n">df_branch</span><span class="p">[[</span><span class="s2">&quot;x_idx&quot;</span><span class="p">,</span><span class="s2">&quot;y_idx&quot;</span><span class="p">,</span><span class="s2">&quot;z_idx&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">j</span><span class="p">,(</span><span class="n">v</span><span class="p">,</span><span class="n">v_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">attr_vals</span><span class="p">,</span><span class="n">attr_idx</span><span class="p">)):</span>
+        <span class="n">placement_map</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">v_idx</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">curr_act_map</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">v_idx</span><span class="p">)]</span> <span class="o">&lt;</span> <span class="n">v</span><span class="p">:</span>
+            <span class="n">curr_act_map</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">v_idx</span><span class="p">)]</span> <span class="o">=</span> <span class="n">v</span> 
+
+    <span class="k">if</span> <span class="n">return_vector</span><span class="p">:</span>
+        <span class="n">curr_act_map</span> <span class="o">=</span> <span class="n">curr_act_map</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="n">placement_map</span> <span class="o">=</span> <span class="n">placement_map</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="w">        </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    -- 12/3 How to fill in the non-zero values</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">fill_zeros_with_closest_value</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">axes_limits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Need axes limits in order to fill in zeros&quot;</span><span class="p">)</span>
+            
+<span class="c1">#         print(f&quot;len(df) = {len(df)}&quot;)</span>
+<span class="c1">#         print(f&quot;len(attr_vals) = {len(attr_vals)}&quot;)</span>
+        <span class="n">closest_branch_idx</span> <span class="o">=</span> <span class="n">ctcu</span><span class="o">.</span><span class="n">closest_node_idx_to_sample_idx</span><span class="p">(</span>
+            <span class="n">df_branch</span><span class="p">,</span>
+            <span class="n">axes_limits</span><span class="p">,</span>
+            <span class="n">array_shape</span><span class="p">,</span>
+            <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="p">)</span>
+        
+        
+        <span class="n">curr_act_map</span><span class="p">[</span><span class="n">placement_map</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr_vals</span><span class="p">[</span><span class="n">closest_branch_idx</span><span class="p">[</span><span class="n">placement_map</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]]</span>
+        
+        
+    
+    <span class="k">if</span> <span class="n">soma_at_end</span><span class="p">:</span>
+        <span class="c1">#print(len(curr_act_map))</span>
+        <span class="n">curr_act_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">curr_act_map</span><span class="p">,[</span><span class="n">ctcu</span><span class="o">.</span><span class="n">attr_value_soma</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">attr</span><span class="p">)]])</span>
+        <span class="c1">#print(len(curr_act_map))</span>
+        
+    
+    
+    <span class="k">if</span> <span class="n">return_as_df</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">return_vector</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">col_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">_&quot;</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">array_shape</span><span class="p">)]</span> <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">curr_act_map</span><span class="p">))]</span>
+        
+        <span class="k">if</span> <span class="n">soma_at_end</span><span class="p">:</span>
+            <span class="n">col_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">_soma&quot;</span><span class="p">)</span>
+        <span class="n">df_curr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">curr_act_map</span><span class="p">])</span>
+        <span class="n">df_curr</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">col_names</span>
+        <span class="k">return</span> <span class="n">df_curr</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">curr_act_map</span></div>
+    
+    
+<div class="viewcode-block" id="feature_map_df"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.feature_map_df">[docs]</a><span class="k">def</span> <span class="nf">feature_map_df</span><span class="p">(</span><span class="n">df_idx</span><span class="p">,</span>
+                   <span class="n">array_shape</span><span class="p">,</span>
+                  <span class="n">features_to_output</span><span class="o">=</span><span class="n">features_to_output_default</span><span class="p">,</span>
+                   <span class="n">segment_id</span><span class="o">=</span><span class="mi">12345</span><span class="p">,</span>
+                   <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                   <span class="n">axes_limits</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">exclude_soma_node</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                   <span class="n">fill_zeros_with_closest_value</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                  <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Will turn a dataframe with the indices of where to map the branch objects</span>
+<span class="sd">    into a dataframe with the vector unraveled</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">f_maps</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctcu</span><span class="o">.</span><span class="n">attr_activation_map</span><span class="p">(</span><span class="n">df_idx</span><span class="p">,</span>
+                                       <span class="n">attr</span><span class="p">,</span>
+                                       <span class="n">array_shape</span> <span class="o">=</span> <span class="n">array_shape</span><span class="p">,</span>
+                                      <span class="n">axes_limits</span> <span class="o">=</span> <span class="n">axes_limits</span><span class="p">,</span>
+                                      <span class="n">exclude_soma_node</span><span class="o">=</span><span class="n">exclude_soma_node</span><span class="p">,</span>
+                                      <span class="n">fill_zeros_with_closest_value</span> <span class="o">=</span> <span class="n">fill_zeros_with_closest_value</span><span class="p">)</span> 
+          <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">features_to_output</span><span class="p">]</span>
+    <span class="n">f_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">f_maps</span><span class="p">,</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">f_df</span><span class="p">[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">segment_id</span>
+    <span class="n">f_df</span><span class="p">[</span><span class="s2">&quot;split_index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">split_index</span>
+    <span class="n">order_at_front</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">,</span><span class="s2">&quot;split_index&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">f_df</span><span class="p">[</span><span class="n">order_at_front</span> <span class="o">+</span> 
+                            <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">f_df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">order_at_front</span><span class="p">]]</span></div>
+
+
+
+<div class="viewcode-block" id="no_spatial_df_from_df_filtered"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_graph_lite_utils.no_spatial_df_from_df_filtered">[docs]</a><span class="k">def</span> <span class="nf">no_spatial_df_from_df_filtered</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">new_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">summed_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">k</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;n_&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;skeletal_length&quot;</span><span class="p">,</span><span class="s2">&quot;total_spine_volume&quot;</span><span class="p">]</span>
+    <span class="n">weighted_attributes</span> <span class="o">=</span><span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="s2">&quot;density&quot;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;width_median_mesh_center&quot;</span><span class="p">,</span>
+                                                                      <span class="s2">&quot;width_no_spine_median_mesh_center&quot;</span><span class="p">,</span>
+                                                                      <span class="s2">&quot;spine_volume_median&quot;</span><span class="p">,</span>
+                                                                     <span class="s2">&quot;width&quot;</span><span class="p">,</span><span class="s2">&quot;bouton_cdfs_median&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">summed_values</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">new_data</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">weighted_attributes</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">new_data</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;skeletal_length&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">new_data</span><span class="p">[</span><span class="s2">&quot;skeletal_length&quot;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="n">syn_density_to_comp</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;shaft&quot;</span><span class="p">,</span><span class="s2">&quot;head&quot;</span><span class="p">,</span><span class="s2">&quot;neck&quot;</span><span class="p">,</span><span class="s2">&quot;no_head&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">syn_density_to_comp</span><span class="p">:</span>
+        <span class="n">new_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;synapse_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">_density&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;n_synapses_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">/</span><span class="n">new_data</span><span class="p">[</span><span class="s2">&quot;skeletal_length&quot;</span><span class="p">]</span>
+                                                                       
+                                                                       
+    <span class="n">new_data</span><span class="p">[</span><span class="s2">&quot;soma_volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;mesh_volume&quot;</span><span class="p">]</span>
+    <span class="n">new_data</span><span class="p">[</span><span class="s2">&quot;soma_n_synapses&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;n_synapses_post&quot;</span><span class="p">]</span>
+    <span class="n">new_data</span><span class="p">[</span><span class="s2">&quot;soma_synapse_density&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;n_synapses_post&quot;</span><span class="p">]</span><span class="o">/</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;area&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">([</span><span class="n">new_data</span><span class="p">])</span></div>
+
+
+<span class="c1">#--- from neurd_packages ---</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">limb_utils</span> <span class="k">as</span> <span class="n">lu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
+
+<span class="c1">#--- from datasci_tools ---</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_graph_lite_utils</span> <span class="k">as</span> <span class="n">ctcu</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>neurd.vdi_microns_cave &mdash; neurd  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            neurd
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">neurd</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">neurd</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../neurd.html">neurd</a></li>
+      <li class="breadcrumb-item active">neurd.vdi_microns_cave</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for neurd.vdi_microns_cave</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">vdi_default</span> <span class="k">as</span> <span class="n">vdi_def</span>
+<span class="kn">from</span> <span class="nn">.cave_client_utils</span> <span class="kn">import</span> <span class="n">CaveInterface</span>
+
+<span class="n">parameters_config_filename</span> <span class="o">=</span> <span class="s2">&quot;parameters_config_microns.py&quot;</span>
+<span class="n">config_filepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span>
+    <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;parameter_configs/</span><span class="si">{</span><span class="n">parameters_config_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
+
+<span class="n">release_name_default</span> <span class="o">=</span> <span class="s2">&quot;minnie65_public&quot;</span>
+
+<span class="n">default_settings</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;microns&quot;</span><span class="p">,</span>
+    <span class="n">parameters_config_filepaths</span> <span class="o">=</span> <span class="n">config_filepath</span><span class="p">,</span>
+    
+    <span class="n">synapse_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>   
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="DataInterfaceMicrons"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons">[docs]</a><span class="k">class</span> <span class="nc">DataInterfaceMicrons</span><span class="p">(</span><span class="n">vdi_def</span><span class="o">.</span><span class="n">DataInterfaceDefault</span><span class="p">):</span>
+    
+<div class="viewcode-block" id="DataInterfaceMicrons.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        
+        <span class="c1"># --- cave interface</span>
+        <span class="n">release_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">env_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cave_token</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        
+        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">):</span>
+        
+        
+        
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">default_settings</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">release_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">release_name</span> <span class="o">=</span> <span class="n">release_name_default</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">CaveInterface</span><span class="p">(</span>
+            <span class="n">release_name</span> <span class="o">=</span> <span class="n">release_name</span><span class="p">,</span>
+            <span class="n">env_filepath</span> <span class="o">=</span> <span class="n">env_filepath</span><span class="p">,</span>
+            <span class="n">cave_token</span> <span class="o">=</span> <span class="n">cave_token</span><span class="p">,</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">,</span>
+        <span class="p">)</span></div>
+        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">voxel_to_nm_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span>
+    
+<div class="viewcode-block" id="DataInterfaceMicrons.segment_id_to_synapse_df"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.segment_id_to_synapse_df">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_df</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">):</span>
+        
+        <span class="n">syn_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">synapse_df_from_seg_id</span><span class="p">(</span>
+            <span class="n">seg_id</span><span class="o">=</span><span class="n">segment_id</span><span class="p">,</span>
+            <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+        <span class="p">)</span>
+
+        <span class="n">syn_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">map_column_with_dict</span><span class="p">(</span>
+            <span class="n">syn_df</span><span class="p">,</span>
+            <span class="s2">&quot;prepost&quot;</span><span class="p">,</span>
+            <span class="n">dict_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">pre</span> <span class="o">=</span> <span class="s2">&quot;presyn&quot;</span><span class="p">,</span>
+                <span class="n">post</span> <span class="o">=</span> <span class="s2">&quot;postsyn&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">syn_df</span></div>
+        
+    <span class="c1"># def segment_id_to_synapse_dict(</span>
+    <span class="c1">#     self,</span>
+    <span class="c1">#     segment_id,</span>
+    <span class="c1">#     *args,</span>
+    <span class="c1">#     **kwargs):</span>
+
+    <span class="c1">#     syn_df = self.client.synapse_df_from_seg_id(</span>
+    <span class="c1">#             seg_id=segment_id,</span>
+    <span class="c1">#             voxel_to_nm_scaling = self.voxel_to_nm_scaling,</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1">#     syn_df = pu.map_column_with_dict(</span>
+    <span class="c1">#         syn_df,</span>
+    <span class="c1">#         &quot;prepost&quot;,</span>
+    <span class="c1">#         dict_map = dict(</span>
+    <span class="c1">#             pre = &quot;presyn&quot;,</span>
+    <span class="c1">#             post = &quot;postsyn&quot;,</span>
+    <span class="c1">#         )</span>
+    <span class="c1">#     )</span>
+    <span class="c1">#     return syu.synapse_dict_from_synapse_df(</span>
+    <span class="c1">#         df = syn_df,</span>
+    <span class="c1">#         scaling = np.array([1,1,1]),</span>
+    <span class="c1">#         coordinates_nm = False,</span>
+    <span class="c1">#     )</span>
+    
+<div class="viewcode-block" id="DataInterfaceMicrons.get_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.get_align_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_align_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span> </div>
+    
+<div class="viewcode-block" id="DataInterfaceMicrons.fetch_segment_id_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.fetch_segment_id_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">fetch_segment_id_mesh</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">segment_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">):</span> 
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">mesh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">mesh_from_seg_id</span><span class="p">(</span>
+            <span class="n">seg_id</span><span class="o">=</span><span class="n">segment_id</span>
+        <span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">mesh</span></div></div>
+    
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>  
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">volume_data_interface</span> <span class="o">=</span> <span class="n">DataInterfaceMicrons</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">volume_data_interface</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Brendan Celii.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

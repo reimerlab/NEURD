@@ -60,14 +60,6 @@ neurd.cave\_interface module
    :undoc-members:
    :show-inheritance:
 
-neurd.cell\_type\_conv\_utils module
-------------------------------------
-
-.. automodule:: neurd.cell_type_conv_utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 neurd.cell\_type\_utils module
 ------------------------------
 
@@ -216,6 +208,14 @@ neurd.neuron\_geometry\_utils module
 ------------------------------------
 
 .. automodule:: neurd.neuron_geometry_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neurd.neuron\_graph\_lite\_utils module
+---------------------------------------
+
+.. automodule:: neurd.neuron_graph_lite_utils
    :members:
    :undoc-members:
    :show-inheritance:
