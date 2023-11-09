@@ -298,6 +298,7 @@ def prepost_syn_df_from_cave_syn_df(
     syn_types = ["pre","post"]
     columns = list(columns)
     
+    #print(f"Inside prepost syn voxel_to_nm_scaling = {voxel_to_nm_scaling}")
     size_scaling = np.prod(voxel_to_nm_scaling)
 
     for i in range(len(syn_types)):
@@ -366,6 +367,7 @@ def synapse_df_from_seg_id(
     voxel_to_nm_scaling=None,
     ):
     
+    #print(f"voxel_to_nm_scaling inside synapse_df_from_seg_id = {voxel_to_nm_scaling}")
     new_syn_df = pre_post_df_from_seg_id(
         seg_id,
         client,

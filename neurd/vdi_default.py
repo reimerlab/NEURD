@@ -40,9 +40,8 @@ def neuron_obj_func(func):
         
     return new_func
         
-    
 
-class DataInterfaceDefault(ABC):
+class DataInterfaceBoilerPlate(ABC):
     proof_version = 7
     
     def __init__(
@@ -132,20 +131,7 @@ class DataInterfaceDefault(ABC):
             **kwargs
         )
         
-    # -------- abstract properties
-    @property
-    @abstractmethod
-    def voxel_to_nm_scaling(self):
-        return np.array([1,1,1])
-    
     # --------------------------
-    @abstractmethod
-    def get_align_matrix(self,*args,**kwargs):
-        """
-        
-        """
-        return None
-
     def align_array(self,array,align_matrix = None,**kwargs):
         #print(f"inside vdi align array")
         return nru.align_array(array,align_matrix = align_matrix)
@@ -198,135 +184,7 @@ class DataInterfaceDefault(ABC):
             **kwargs
         )
     
-        
-    # ------- Functions for fetching -----
-    def fetch_segment_id_mesh(
-        self,
-        segment_id=None,
-        meshes_directory = None,
-        mesh_filepath = None,
-        plot = False,
-        ext = "off"
-        ): 
-        """
-        """
-        
-        if mesh_filepath is None:
-            if meshes_directory is None:
-                meshes_directory = self.meshes_directory
-            
-            mesh_filepath = Path(meshes_directory) / Path(
-                f"{segment_id}.{ext}")
-        
-        mesh = tu.load_mesh_no_processing(mesh_filepath)
-
-        if plot: 
-            ipvu.plot_objects(mesh)
-            
-        return mesh
-    
-    def fetch_undecimated_segment_id_mesh(
-        self,
-        segment_id,
-        meshes_directory = None,
-        plot = False,
-        ext = "off",
-        ):
-        
-        if meshes_directory is None:
-            meshes_directory = self.meshes_undecimated_directory
-        
-        return self.fetch_segment_id_mesh(
-            segment_id,
-            meshes_directory = meshes_directory,
-            plot = plot,
-            ext = ext
-        )
-    
-    @abstractmethod
-    def segment_id_to_synapse_dict(
-        self,
-        *args,
-        **kwargs):
-        """
-        Return a dataframe containing all the synapses
-        of a segment_id (both pre and post ) with the 
-        following columns:
-        
-        Note: all sizes should be scaled from voxels to nm
-        formwat if that's how they originally are exported
-        
-        
-        segment_id,
-        segment_id_secondary,
-        synapse_id,
-        prepost,
-        synapse_x,
-        synapse_y,
-        synapse_z,
-        synapse_size,
-        """
-        
-        if kwargs.get("synapse_filepath",None) is None:
-            if self.synapse_filepath is None:
-                raise Exception("No synapse filepath set")
-            kwargs["synapse_filepath"] = self.synapse_filepath
-        
-        return syu.synapse_dict_from_synapse_csv(**kwargs)
-    
-    def set_synapse_filepath(self,synapse_filepath):
-        self.synapse_filepath = synapse_filepath
-
-    def nuclei_from_segment_id(
-        self,
-        segment_id,
-        return_centers=True,
-        return_nm=True,
-        ):
-        """
-        Purpose: To returns the nuclues
-        information corresponding to a segment
-        """
-        nuclues_ids = None
-        nucleus_centers = None
-        
-        if return_centers:
-            return nuclues_ids,nucleus_centers
-        else:
-            return nucleus_ids
-           
-    def nuclei_classification_info_from_nucleus_id(
-        self,
-        nuclei,
-        *args,
-        **kwargs,
-        ):
-        """
-        Purpose: To return a dictionary of cell type
-        information (same structure as from the allen institute of brain science CAVE client return)
-    
-
-        Example Returns: 
-        
-        {
-            'external_cell_type': 'excitatory',
-            'external_cell_type_n_nuc': 1,
-            'external_cell_type_fine': '23P',
-            'external_cell_type_fine_n_nuc': 1,
-            'external_cell_type_fine_e_i': 'excitatory'
-        }
-        
-        """
-        
-        return {
-            'external_cell_type': None,
-            'external_cell_type_n_nuc': None,
-            'external_cell_type_fine': None,
-            'external_cell_type_fine_n_nuc': None,
-            'external_cell_type_fine_e_i': None,
-        }
-        
-        
+    # -------- save and load for neuron obj
     def save_neuron_obj(
         self,
         neuron_obj,
@@ -334,7 +192,27 @@ class DataInterfaceDefault(ABC):
         filename = None,
         suffix = '',
         verbose = False,):
-        
+        """
+        _summary_
+
+        Parameters
+        ----------
+        neuron_obj : _type_
+            _description_
+        directory : _type_, optional
+            _description_, by default None
+        filename : _type_, optional
+            _description_, by default None
+        suffix : str, optional
+            _description_, by default ''
+        verbose : bool, optional
+            _description_, by default False
+
+        Returns
+        -------
+        _type_
+            _description_
+        """
         if directory is None:
             directory = self.neuron_obj_directory
         
@@ -387,33 +265,7 @@ class DataInterfaceDefault(ABC):
             original_mesh = mesh_decimated,
             **kwargs
         ) 
-          
         
-    # ---------- Functions that should be reviewed or overriden --
-    
-    # ---- the filters used for autoproofreading -- 
-    def exc_filters_auto_proof(*args,**kwargs):
-        return pru.v7_exc_filters(
-            *args,**kwargs
-    )
-        
-    def inh_filters_auto_proof(*args,**kwargs):
-        
-        return pru.v7_inh_filters(
-            *args,**kwargs
-        )
-    
-    @property
-    def default_low_degree_graph_filters(self):
-        return [
-            gf.axon_webbing_filter,
-            gf.thick_t_filter,
-            gf.axon_double_back_filter,
-            gf.fork_divergence_filter,
-            gf.fork_min_skeletal_distance_filter,
-            gf.axon_spine_at_intersection_filter,
-            gf.min_synapse_dist_to_branch_point_filter,
-        ]
         
     # ---------- used by autoproofreading --------------
     def multiplicity(self,neuron_obj):
@@ -430,49 +282,6 @@ class DataInterfaceDefault(ABC):
         return neuron_obj.nucleus_id
     
     
-    def save_neuron_obj_auto_proof(
-        self,
-        neuron_obj,
-        directory = None,
-        filename = None,
-        suffix = None,
-        verbose = False,):
-        if directory is None:
-            directory = self.neuron_obj_auto_proof_directory
-            
-        if suffix is None:
-            suffix = self.neuron_obj_auto_proof_suffix
-            
-        return self.save_neuron_obj(
-            neuron_obj=neuron_obj,
-            directory = directory,
-            filename = filename,
-            suffix = suffix,
-            verbose = verbose,
-        )
-        
-    def load_neuron_obj_auto_proof(
-        self,
-        segment_id,
-        mesh_decimated = None,
-        directory = None,
-        **kwargs):
-        
-        
-        if directory is None:
-            directory = self.neuron_obj_auto_proof_directory
-            
-        if "suffix" not in kwargs:
-            kwargs["suffix"] = self.neuron_obj_auto_proof_suffix
-            
-        return self.load_neuron_obj(
-            segment_id,
-            mesh_decimated = mesh_decimated,
-            directory=directory,
-            **kwargs
-        )
-        
-        
     # ---- used by proximities
     def segment_id_and_split_index(
         self,
@@ -517,22 +326,67 @@ class DataInterfaceDefault(ABC):
             else:
                 return [dict(segment_id=k,split_index = v) for k,v in zip(seg_ids_final,sp_idxs_final)]
     
-
-    def segment_id_to_synapse_table_optimized_connectome(
+    
+    def segment_id_to_synapse_dict(
         self,
         segment_id,
-        split_index = 0,
-        synapse_type = None,
-        coordinates_nm = False,
-        **kwargs
-        ):
+        **kwargs):
         """
-        Purpose: to return a dataframe
-        of the valid connections in connectome with
-        the constraint of one segment id as a presyn or postsyn
+        
+        Purpose: return a dictionary containing the presyn and postsyn information for a certain segment from the backend datasource implmeneted for the data. The structure of the returned dictionary should in the following format where all coordinates and sizes ARE SCALED TO NM ALREADY
+        
+        syn_dict = dict(
+            presyn = dict(
+                synapse_ids= np.array (N),
+                synapse_coordinates = np.array (Nx3),
+                synapse_sizes = np.array (N),
+            ),
+            postsyn = dict(
+                synapse_ids= np.array (N),
+                synapse_coordinates = np.array (Nx3),
+                synapse_sizes = np.array (N),
+            )
+        )
+        
+        
+        The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute) with the following columns
+        
+        segment_id,
+        segment_id_secondary,
+        synapse_id,
+        prepost, # presyn or postsyn
+        synapse_x, # in voxel coordinates
+        synapse_y, # in voxel coordinates
+        synapse_z, # in voxel coordinates
+        synapse_size, # in voxel coordinates
+        
+        
+        Example Implementation
+        ----------------------
+        cave_client_utils.synapse_df_from_seg_id
+        
         """
-        return None
-
+        
+        
+        syn_df = self.segment_id_to_synapse_df(
+            segment_id,
+            **kwargs,
+        )
+        
+        df = syu.add_nm_to_synapse_df(
+            syn_df,
+            scaling=self.voxel_to_nm_scaling,
+        )
+        
+        syn_dict = syu.synapse_dict_from_synapse_df(
+            df,
+            scaling = None,
+            coordinates_nm = True,
+            **kwargs
+        )
+        
+        return syn_dict
+    
     def segment_id_to_synapse_table_optimized(
         self,
         segment_id,
@@ -541,6 +395,33 @@ class DataInterfaceDefault(ABC):
         coordinates_nm = True,
         synapse_filepath = None,
         **kwargs):
+        """
+        Purpose: Given a segment id (or neuron obj)
+        will retrieve the synapses from a backend synapse implementation
+
+        Parameters
+        ----------
+        segment_id : int or neuron.Neuron
+            _description_
+        synapse_type : _type_, optional
+            _description_, by default None
+        filter_away_self_synapses : bool, optional
+            _description_, by default True
+        coordinates_nm : bool, optional
+            _description_, by default True
+        synapse_filepath : _type_, optional
+            _description_, by default None
+
+        Returns
+        -------
+        _type_
+            _description_
+
+        Raises
+        ------
+        Exception
+            _description_
+        """
         if isinstance(segment_id,neuron.Neuron):
             if synapse_filepath is None:
                 synapse_filepath = getattr(
@@ -573,6 +454,364 @@ class DataInterfaceDefault(ABC):
             return_df = return_df.query(f"prepost == '{synapse_type}'").reset_index(drop=True)
 
         return return_df
+    
+    @neuron_obj_func
+    def pre_post_synapse_ids_coords_from_connectome(
+        self,
+        segment_id_pre,
+        segment_id_post,
+        split_index_pre=0,
+        split_index_post=0,
+        synapse_pre_df = None,
+        verbose= False,
+        ):
+        
+        if synapse_pre_df is None:
+            synapse_pre_df = self.segment_id_to_synapse_table_optimized_proofread(
+                segment_id_pre,
+                split_index = split_index_pre,
+                synapse_type="presyn",
+            )
+
+        def synapse_coordinates_from_df(df):
+            return df[["synapse_x_nm","synapse_y_nm","synapse_z_nm"]].to_numpy().astype('float')
+
+        # gets the pre and post synapses
+        
+        if len(synapse_pre_df) > 0:
+            syn_ids = syu.synapse_df(segment_id_post.synapses_valid)["syn_id"].to_list()
+
+            
+            synapse_pre_post_df = synapse_pre_df.query(
+            f"(secondary_seg_id == {segment_id_post.segment_id})")
+            
+            synapse_pre_post_df = synapse_pre_post_df.query(
+            f"(synapse_id in {syn_ids})"
+            )
+
+
+            synapse_pre_post_coords = synapse_coordinates_from_df(synapse_pre_post_df)
+            synapse_pre_post_ids = synapse_pre_post_df["synapse_id"].to_numpy()
+        else:
+            synapse_pre_post_coords = []
+            synapse_pre_post_ids = []
+
+        if verbose:
+            print(f"synapse_pre_post_coords = {synapse_pre_post_coords}")
+            print(f"synapse_pre_post_ids = {synapse_pre_post_ids}")
+
+        return synapse_pre_post_ids,synapse_pre_post_coords
+    
+    
+class DataInterfaceDefault(DataInterfaceBoilerPlate):
+    """
+    Class to outline what functions to overload in implement a volume data interface that will work with NEURD. All methods exposed fall under the following categories
+    
+    1) required abstract method
+    2) data fetchers/setters
+    3) autoproofreading filter settings
+    
+    All fetchers and setters have a default implementation where data is stored locally in csv (for synapses) or locally in the neuron object. If exporting data to non-local source (ex: database) override these functions to pull from other these sources
+    """
+    def __init__(
+        self,
+        *args,
+        **kwargs
+        ):
+        
+        super().__init__(*args,**kwargs)
+        
+    @property    
+    @abstractmethod
+    def voxel_to_nm_scaling(self):
+        """
+        ***REQUIRED OVERRIDE***
+        
+        Purpose: Provide a 1x3 numpy matrix representing the scaling of voxel units to nm units. If the data is already in nm format then just assign a ones matrix
+        
+        Returns
+        -------
+        scaling_vector : np.array
+            vector that can convert a matrix or vector of 3D voxel coordinates to 3D nm coordinates (default: np.array([1,1,1]))
+        """
+        return np.array([1,1,1])
+    
+    @abstractmethod
+    def get_align_matrix(self,*args,**kwargs):
+        """
+        ***REQUIRED OVERRIDE***
+        
+        Purpose: a transformation matrix (call A, 3x3) that when applied to a matrix of 3D coordinates (call B, Nx3) as a matrix multiplication of C = BA will produce a new matrix of rotated coordinates (call C, Nx3) so that all coordinates or a mesh or skeleton are rotated to ensure that the apical of the neuron is generally direted in the positive z direction.
+        
+        """
+        return None
+    
+    @abstractmethod
+    def segment_id_to_synapse_df(
+        self,
+        segment_id,
+        **kwargs,
+        ):
+        """
+        ***REQUIRED OVERRIDE***
+        
+        Purpose: return a dataframe with the presyn
+        and postsyn information for a certain segment from the backend data source. The structure of the dataframe should return the following columns
+        
+        segment_id,
+        segment_id_secondary,
+        synapse_id,
+        prepost, # presyn or postsyn
+        synapse_x, # in voxel coordinates
+        synapse_y, # in voxel coordinates
+        synapse_z, # in voxel coordinates
+        synapse_size, # in voxel coordinates
+        
+        The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute)
+    
+        
+        Returns
+        -------
+        pd.DataFrame
+            dataframe with all of the relevant synapse information for one segment id
+        """
+        if kwargs.get("synapse_filepath",None) is None:
+            if self.synapse_filepath is None:
+                raise Exception("No synapse filepath set")
+            kwargs["synapse_filepath"] = self.synapse_filepath
+        
+        df = syu.synapse_df_from_csv(
+            synapse_filepath,
+            segment_id = segment_id,
+            coordinates_nm = False,
+            scaling = None,
+            **kwargs
+        )
+        
+        return df
+    
+    # ---- Data Fetching and Savinig Functions
+    def fetch_segment_id_mesh(
+        self,
+        segment_id=None,
+        meshes_directory = None,
+        mesh_filepath = None,
+        plot = False,
+        ext = "off"
+        ):
+        """
+        
+
+        """
+        
+        if mesh_filepath is None:
+            if meshes_directory is None:
+                meshes_directory = self.meshes_directory
+            
+            mesh_filepath = Path(meshes_directory) / Path(
+                f"{segment_id}.{ext}")
+        
+        mesh = tu.load_mesh_no_processing(mesh_filepath)
+
+        if plot: 
+            ipvu.plot_objects(mesh)
+            
+        return mesh
+    
+    def fetch_undecimated_segment_id_mesh(
+        self,
+        segment_id,
+        meshes_directory = None,
+        plot = False,
+        ext = "off",
+        ):
+        
+        if meshes_directory is None:
+            meshes_directory = self.meshes_undecimated_directory
+        
+        return self.fetch_segment_id_mesh(
+            segment_id,
+            meshes_directory = meshes_directory,
+            plot = plot,
+            ext = ext
+        )
+    
+    def set_synapse_filepath(self,synapse_filepath):
+        self.synapse_filepath = synapse_filepath
+
+    def nuclei_from_segment_id(
+        self,
+        segment_id,
+        return_centers=True,
+        return_nm=True,
+        ):
+        """
+        Purpose: To returns the nuclues
+        information corresponding to a segment
+        """
+        nuclues_ids = None
+        nucleus_centers = None
+        
+        if return_centers:
+            return nuclues_ids,nucleus_centers
+        else:
+            return nucleus_ids
+           
+    def nuclei_classification_info_from_nucleus_id(
+        self,
+        nuclei,
+        *args,
+        **kwargs,
+        ):
+        """
+        Purpose: To return a dictionary of cell type
+        information (same structure as from the allen institute of brain science CAVE client return)
+    
+
+        Example Returns: 
+        
+        {
+            'external_cell_type': 'excitatory',
+            'external_cell_type_n_nuc': 1,
+            'external_cell_type_fine': '23P',
+            'external_cell_type_fine_n_nuc': 1,
+            'external_cell_type_fine_e_i': 'excitatory'
+        }
+        
+        """
+        
+        return {
+            'external_cell_type': None,
+            'external_cell_type_n_nuc': None,
+            'external_cell_type_fine': None,
+            'external_cell_type_fine_n_nuc': None,
+            'external_cell_type_fine_e_i': None,
+        }
+    
+        
+    def save_neuron_obj_auto_proof(
+        self,
+        neuron_obj,
+        directory = None,
+        filename = None,
+        suffix = None,
+        verbose = False,):
+        if directory is None:
+            directory = self.neuron_obj_auto_proof_directory
+            
+        if suffix is None:
+            suffix = self.neuron_obj_auto_proof_suffix
+            
+        return self.save_neuron_obj(
+            neuron_obj=neuron_obj,
+            directory = directory,
+            filename = filename,
+            suffix = suffix,
+            verbose = verbose,
+        )
+        
+    def load_neuron_obj_auto_proof(
+        self,
+        segment_id,
+        mesh_decimated = None,
+        directory = None,
+        **kwargs):
+        
+        
+        if directory is None:
+            directory = self.neuron_obj_auto_proof_directory
+            
+        if "suffix" not in kwargs:
+            kwargs["suffix"] = self.neuron_obj_auto_proof_suffix
+            
+        return self.load_neuron_obj(
+            segment_id,
+            mesh_decimated = mesh_decimated,
+            directory=directory,
+            **kwargs
+        )
+        
+        
+        
+    # --------- functions for setting autoproofreading ---
+    def exc_filters_auto_proof(*args,**kwargs):
+        return pru.v7_exc_filters(
+            *args,**kwargs
+    )
+        
+    def inh_filters_auto_proof(*args,**kwargs):
+        
+        return pru.v7_inh_filters(
+            *args,**kwargs
+        )
+    
+    @property
+    def default_low_degree_graph_filters(self):
+        return [
+            gf.axon_webbing_filter,
+            gf.thick_t_filter,
+            gf.axon_double_back_filter,
+            gf.fork_divergence_filter,
+            gf.fork_min_skeletal_distance_filter,
+            gf.axon_spine_at_intersection_filter,
+            gf.min_synapse_dist_to_branch_point_filter,
+        ]
+        
+        
+    # --- Fetching functions of data (default to searching neuron obj because no default database set up)
+    @neuron_obj_func
+    def fetch_proofread_mesh(
+        self,
+        segment_id,
+        split_index = 0,
+        plot_mesh = False,
+        **kwargs
+        
+        ):
+        
+        neuron_obj = segment_id
+        mesh = neuron_obj.mesh_from_branches
+        
+        if plot_mesh:
+            ipvu.plot_objects(mesh)
+            
+        return mesh
+    
+    @neuron_obj_func
+    def fetch_soma_mesh(
+        self,
+        segment_id,
+        split_index = 0,
+        plot_mesh = False,
+        **kwargs
+        
+        ):
+        
+        neuron_obj = segment_id
+        mesh = neuron_obj["S0"].mesh
+        
+        if plot_mesh:
+            ipvu.plot_objects(mesh)
+            
+        return mesh
+    
+    
+    def segment_id_to_synapse_table_optimized_connectome(
+        self,
+        segment_id,
+        split_index = 0,
+        synapse_type = None,
+        coordinates_nm = False,
+        **kwargs
+        ):
+        """
+        Purpose: to return a dataframe
+        of the valid connections in connectome with
+        the constraint of one segment id as a presyn or postsyn
+        """
+        return None
+
+    
     
     @neuron_obj_func
     def segment_id_to_synapse_table_optimized_proofread(
@@ -654,89 +893,6 @@ class DataInterfaceDefault(ABC):
             G = nxu.clean_G(G,verbose = verbose,**kwargs)
             
         return G
-    
-    @neuron_obj_func
-    def fetch_proofread_mesh(
-        self,
-        segment_id,
-        split_index = 0,
-        plot_mesh = False,
-        **kwargs
-        
-        ):
-        
-        neuron_obj = segment_id
-        mesh = neuron_obj.mesh_from_branches
-        
-        if plot_mesh:
-            ipvu.plot_objects(mesh)
-            
-        return mesh
-    
-    @neuron_obj_func
-    def fetch_soma_mesh(
-        self,
-        segment_id,
-        split_index = 0,
-        plot_mesh = False,
-        **kwargs
-        
-        ):
-        
-        neuron_obj = segment_id
-        mesh = neuron_obj["S0"].mesh
-        
-        if plot_mesh:
-            ipvu.plot_objects(mesh)
-            
-        return mesh
-    
-    @neuron_obj_func
-    def pre_post_synapse_ids_coords_from_connectome(
-        self,
-        segment_id_pre,
-        segment_id_post,
-        split_index_pre=0,
-        split_index_post=0,
-        synapse_pre_df = None,
-        verbose= False,
-        ):
-        
-        if synapse_pre_df is None:
-            synapse_pre_df = self.segment_id_to_synapse_table_optimized_proofread(
-                segment_id_pre,
-                split_index = split_index_pre,
-                synapse_type="presyn",
-            )
-
-        def synapse_coordinates_from_df(df):
-            return df[["synapse_x_nm","synapse_y_nm","synapse_z_nm"]].to_numpy().astype('float')
-
-        # gets the pre and post synapses
-        
-        if len(synapse_pre_df) > 0:
-            syn_ids = syu.synapse_df(segment_id_post.synapses_valid)["syn_id"].to_list()
-
-            
-            synapse_pre_post_df = synapse_pre_df.query(
-            f"(secondary_seg_id == {segment_id_post.segment_id})")
-            
-            synapse_pre_post_df = synapse_pre_post_df.query(
-            f"(synapse_id in {syn_ids})"
-            )
-
-
-            synapse_pre_post_coords = synapse_coordinates_from_df(synapse_pre_post_df)
-            synapse_pre_post_ids = synapse_pre_post_df["synapse_id"].to_numpy()
-        else:
-            synapse_pre_post_coords = []
-            synapse_pre_post_ids = []
-
-        if verbose:
-            print(f"synapse_pre_post_coords = {synapse_pre_post_coords}")
-            print(f"synapse_pre_post_ids = {synapse_pre_post_ids}")
-
-        return synapse_pre_post_ids,synapse_pre_post_coords
     
     
         

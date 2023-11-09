@@ -35,6 +35,12 @@ jobs:
           pip3 install git+https://github.com/reimerlab/dotmotif/
           python3 -m pip install datajoint
           python3 -m pip install  -r ./requirements.txt
+      - name: Install caveclient dependencies
+        run: |
+          python3 -m pip install \
+          cloud-volume==8.27.0 \
+          caveclient==5.11.0 \
+          python-dotenv
 
       - name: Add any new modules
         run: |

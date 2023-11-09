@@ -4123,6 +4123,19 @@ def synapse_df_from_synapse_dict(
         
     return df
 
+def add_nm_to_synapse_df(
+    df,
+    scaling,
+    ):
+    df[
+        ["synapse_x_nm",'synapse_y_nm','synapse_z_nm']
+    ] = df[
+        ["synapse_x",'synapse_y','synapse_z']
+    ].to_numpy() * scaling
+    
+    df["synapse_size_nm"] = df["synapse_size"]*(scaling.prod())
+    
+    return df
 def synapse_df_from_csv(
     synapse_filepath,
     segment_id = None,
@@ -4145,14 +4158,11 @@ def synapse_df_from_csv(
         df = df.query(f"segment_id == {segment_id}").reset_index(drop=True)
         
     if coordinates_nm:
-        df[
-            ["synapse_x_nm",'synapse_y_nm','synapse_z_nm']
-        ] = df[
-            ["synapse_x",'synapse_y','synapse_z']
-        ].to_numpy() * scaling
-        
-        df["synapse_size_nm"] = df["synapse_size"]*(scaling.prod())
-        
+        df = add_nm_to_synapse_df(
+            df,
+            scaling=scaling,
+        )
+    
     return df
 
 def synapse_dict_from_synapse_df(
@@ -4230,7 +4240,7 @@ def synapse_dict_from_synapse_csv(
     
     return synapse_dict_from_synapse_df(
         df,
-        scaling = scaling,
+        scaling = None,
         verbose = verbose,
         coordinates_nm = coordinates_nm,
         **kwargs

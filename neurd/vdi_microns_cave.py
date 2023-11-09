@@ -56,15 +56,16 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
     def voxel_to_nm_scaling(self):
         return self.client.voxel_to_nm_scaling
     
-    def segment_id_to_synapse_dict(
+    def segment_id_to_synapse_df(
         self,
         segment_id,
         *args,
-        **kwargs):
-
+        **kwargs
+        ):
+        
         syn_df = self.client.synapse_df_from_seg_id(
-                seg_id=segment_id,
-                voxel_to_nm_scaling = self.voxel_to_nm_scaling,
+            seg_id=segment_id,
+            voxel_to_nm_scaling = np.array([1,1,1])
         )
 
         syn_df = pu.map_column_with_dict(
@@ -75,11 +76,33 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
                 post = "postsyn",
             )
         )
-        return syu.synapse_dict_from_synapse_df(
-            df = syn_df,
-            scaling = np.array([1,1,1]),
-            coordinates_nm = False,
-        )
+        
+        return syn_df
+        
+    # def segment_id_to_synapse_dict(
+    #     self,
+    #     segment_id,
+    #     *args,
+    #     **kwargs):
+
+    #     syn_df = self.client.synapse_df_from_seg_id(
+    #             seg_id=segment_id,
+    #             voxel_to_nm_scaling = self.voxel_to_nm_scaling,
+    #     )
+
+    #     syn_df = pu.map_column_with_dict(
+    #         syn_df,
+    #         "prepost",
+    #         dict_map = dict(
+    #             pre = "presyn",
+    #             post = "postsyn",
+    #         )
+    #     )
+    #     return syu.synapse_dict_from_synapse_df(
+    #         df = syn_df,
+    #         scaling = np.array([1,1,1]),
+    #         coordinates_nm = False,
+    #     )
     
     def get_align_matrix(self,*args,**kwargs):
         return None 

@@ -9,7 +9,7 @@ RUN pip3 install \
     neuron_morphology_tools==1.0.0 \
     graph_nx_tools==1.0.0 \
     mesh_processing_tools==1.0.0 \
-    code_structure_tools==1.0.0 
+    code_structure_tools==1.0.2 
     
 
 RUN pip3 install \
