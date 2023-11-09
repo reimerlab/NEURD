@@ -2,6 +2,10 @@ from abc import (ABC,abstractmethod,)
 from pathlib import Path
 import numpy as np
 import pandas as pd
+import trimesh
+from typing import List,Union
+from .neuron import Neuron
+import networkx as nx
 
 # --- for parameters
 parameters_config_filename = "parameters_config_default.py"
@@ -193,25 +197,25 @@ class DataInterfaceBoilerPlate(ABC):
         suffix = '',
         verbose = False,):
         """
-        _summary_
+        
 
         Parameters
         ----------
         neuron_obj : _type_
-            _description_
+            
         directory : _type_, optional
-            _description_, by default None
+            by default None
         filename : _type_, optional
-            _description_, by default None
+            by default None
         suffix : str, optional
-            _description_, by default ''
+            by default ''
         verbose : bool, optional
-            _description_, by default False
+            by default False
 
         Returns
         -------
         _type_
-            _description_
+            
         """
         if directory is None:
             directory = self.neuron_obj_directory
@@ -327,6 +331,11 @@ class DataInterfaceBoilerPlate(ABC):
                 return [dict(segment_id=k,split_index = v) for k,v in zip(seg_ids_final,sp_idxs_final)]
     
     
+    def add_nm_to_synapse_df(self,df):
+        return syu.add_nm_to_synapse_df(
+            df,
+            scaling=self.voxel_to_nm_scaling,
+        )
     def segment_id_to_synapse_dict(
         self,
         segment_id,
@@ -373,10 +382,7 @@ class DataInterfaceBoilerPlate(ABC):
             **kwargs,
         )
         
-        df = syu.add_nm_to_synapse_df(
-            syn_df,
-            scaling=self.voxel_to_nm_scaling,
-        )
+        df = self.add_nm_to_synapse_df(syn_df)
         
         syn_dict = syu.synapse_dict_from_synapse_df(
             df,
@@ -397,30 +403,31 @@ class DataInterfaceBoilerPlate(ABC):
         **kwargs):
         """
         Purpose: Given a segment id (or neuron obj)
-        will retrieve the synapses from a backend synapse implementation
+        will retrieve the synapses from a backend synapse implementation renamed in a particular manner
+        
 
         Parameters
         ----------
         segment_id : int or neuron.Neuron
-            _description_
+            
         synapse_type : _type_, optional
-            _description_, by default None
+            by default None
         filter_away_self_synapses : bool, optional
-            _description_, by default True
+            by default True
         coordinates_nm : bool, optional
-            _description_, by default True
+            by default True
         synapse_filepath : _type_, optional
-            _description_, by default None
+            by default None
 
         Returns
         -------
         _type_
-            _description_
+            
 
         Raises
         ------
         Exception
-            _description_
+            
         """
         if isinstance(segment_id,neuron.Neuron):
             if synapse_filepath is None:
@@ -429,18 +436,26 @@ class DataInterfaceBoilerPlate(ABC):
                 )
             segment_id = segment_id.segment_id
             
-        
-        if synapse_filepath is None:
-            if self.synapse_filepath is None:
-                raise Exception("No synapse filepath set")
-            synapse_filepath = self.synapse_filepath
-        
-        return_df = syu.synapse_df_from_csv(
-            synapse_filepath=synapse_filepath,
+        return_df = self.segment_id_to_synapse_df(
             segment_id=segment_id,
+            synapse_filepath = synapse_filepath,
             coordinates_nm=coordinates_nm,
-            **kwargs
         )
+        
+        if coordinates_nm:
+            return_df = self.add_nm_to_synapse_df(return_df)
+        
+        # if synapse_filepath is None:
+        #     if self.synapse_filepath is None:
+        #         raise Exception("No synapse filepath set")
+        #     synapse_filepath = self.synapse_filepath
+        
+        # return_df = syu.synapse_df_from_csv(
+        #     synapse_filepath=synapse_filepath,
+        #     segment_id=segment_id,
+        #     coordinates_nm=coordinates_nm,
+        #     **kwargs
+        # )
         
         return_df = pu.rename_columns(
             return_df,
@@ -569,12 +584,22 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
         
         The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute)
     
+        Paramaeters
+        ___________
+        segment_id: int
+        coordinates_nm: bool
+            Whether to scale the coordinate to nm units
+        scaling: np.array
+            The scaling factor to use
         
         Returns
         -------
         pd.DataFrame
             dataframe with all of the relevant synapse information for one segment id
         """
+        if scaling is None:
+            scaling = self.voxel_to_nm_scaling
+            
         if kwargs.get("synapse_filepath",None) is None:
             if self.synapse_filepath is None:
                 raise Exception("No synapse filepath set")
@@ -593,15 +618,32 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
     # ---- Data Fetching and Savinig Functions
     def fetch_segment_id_mesh(
         self,
-        segment_id=None,
-        meshes_directory = None,
-        mesh_filepath = None,
-        plot = False,
-        ext = "off"
-        ):
+        segment_id:int=None,
+        meshes_directory:str = None,
+        mesh_filepath:str = None,
+        plot:bool = False,
+        ext:str = "off"
+        ) -> trimesh.Trimesh:
         """
-        
+        Purpose: retrieve a decimated segment id mesh. Current implementation assumes a local filepath storing all meshes.
 
+        Parameters
+        ----------
+        segment_id : int, optional
+            neuron segment id, by default None
+        meshes_directory : str, optional
+            location of decimated mesh files, by default None
+        mesh_filepath : str, optional
+            complete path of location and filename for neuron , by default None
+        plot : bool, optional
+            by default False
+        ext : str, optional
+            the file extension for mesh storage, by default "off"
+
+        Returns
+        -------
+        trimesh.Trimesh
+            decimated mesh for segment id
         """
         
         if mesh_filepath is None:
@@ -620,11 +662,30 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
     
     def fetch_undecimated_segment_id_mesh(
         self,
-        segment_id,
-        meshes_directory = None,
-        plot = False,
-        ext = "off",
-        ):
+        segment_id:int,
+        meshes_directory:str = None,
+        plot:bool = False,
+        ext:str = "off",
+        ) -> trimesh.Trimesh:
+        """
+        
+
+        Parameters
+        ----------
+        segment_id : int
+            
+        meshes_directory : str, optional
+            by default None
+        plot : bool, optional
+            by default False
+        ext : str, optional
+            by default "off"
+
+        Returns
+        -------
+        trimesh.Trimesh
+            undecimated mesh for segment id
+        """
         
         if meshes_directory is None:
             meshes_directory = self.meshes_undecimated_directory
@@ -636,18 +697,45 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
             ext = ext
         )
     
-    def set_synapse_filepath(self,synapse_filepath):
+    def set_synapse_filepath(
+        self,
+        synapse_filepath:str
+        ) -> None:
+        """
+        sets the location and filename of the synapse csv for the default implementation that loads synapses from a local csv file
+
+        Parameters
+        ----------
+        synapse_filepath : str
+            complete folder path and filename for synapse csv
+        """ 
         self.synapse_filepath = synapse_filepath
 
     def nuclei_from_segment_id(
         self,
-        segment_id,
-        return_centers=True,
-        return_nm=True,
-        ):
+        segment_id:int,
+        return_centers:bool=True,
+        return_nm:bool=True,
+        )->np.array:
         """
-        Purpose: To returns the nuclues
-        information corresponding to a segment
+        retrieves the nuclei id (and possibly the 
+        nuclei centers) from an external database. No external database currently set so currently set to None returns. 
+
+        Parameters
+        ----------
+        segment_id : int
+            
+        return_centers : bool, optional
+            whether to return the nuclei center coordinates along with the ids, by default True
+        return_nm : bool, optional
+            whether to return nuclei center coordinates in nm units, by default True
+
+        Returns
+        -------
+        nuclei_ids: np.array (N,)
+            nuclei ids corresponding to segment_id
+        nuclei_centers: np.array (N,3), optional
+            center locations for the corresponding nuclei
         """
         nuclues_ids = None
         nucleus_centers = None
@@ -659,13 +747,13 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
            
     def nuclei_classification_info_from_nucleus_id(
         self,
-        nuclei,
+        nuclei:int,
         *args,
         **kwargs,
-        ):
+        )->dict:
         """
         Purpose: To return a dictionary of cell type
-        information (same structure as from the allen institute of brain science CAVE client return)
+        information (same structure as from the allen institute of brain science CAVE client return) from an external database. No external database currently set up so None filled dictionary returned.   
     
 
         Example Returns: 
@@ -677,7 +765,16 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
             'external_cell_type_fine_n_nuc': 1,
             'external_cell_type_fine_e_i': 'excitatory'
         }
-        
+
+        Parameters
+        ----------
+        nuclei : int
+            
+
+        Returns
+        -------
+        dict
+            nuclei info about classification (fine and coarse)
         """
         
         return {
@@ -691,11 +788,34 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
         
     def save_neuron_obj_auto_proof(
         self,
-        neuron_obj,
-        directory = None,
-        filename = None,
-        suffix = None,
-        verbose = False,):
+        neuron_obj:Neuron,
+        directory:str=None,
+        filename:str = None,
+        suffix:str = None,
+        verbose:bool = False,) -> str:
+        """
+        Save a neuron object in the autoproofreading directory (using the default pbz2 compressed method that does not save the mesh along with it). Typical  This is the current local implementation, should be overriden if the proofreading neuron objects are to be saved in an external store 
+        
+        Default filename: {segment_id}.pbz2 
+
+        Parameters
+        ----------
+        neuron_obj : Neuron
+            
+        directory : str, optional
+            location for storing .pbz2 files, by default None
+        filename : str, optional
+            a custom name for compressed neuron file to replace the default name, by default None
+        suffix : str, optional
+            change filename to {segment_id}{suffix}.pbz2 , by default None
+        verbose : bool, optional
+            by default False
+
+        Returns
+        -------
+        str
+            filepath of saved neuron file
+        """
         if directory is None:
             directory = self.neuron_obj_auto_proof_directory
             
@@ -712,10 +832,27 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
         
     def load_neuron_obj_auto_proof(
         self,
-        segment_id,
-        mesh_decimated = None,
-        directory = None,
-        **kwargs):
+        segment_id:str,
+        mesh_decimated:trimesh.Trimesh = None,
+        directory:str = None,
+        **kwargs) -> Neuron:
+        """
+        Loading an external neuron file into a python object. Current implementation assumes the default .pbz2 method of compression that does not store the mesh information, which is why the mesh object needs to be passed as an argument
+
+        Parameters
+        ----------
+        segment_id : str
+            
+        mesh_decimated : trimesh.Trimesh, optional
+            the original decimated mesh before any proofreaidng, by default None
+        directory : str, optional
+            filepath location of saved .pbz2 file, by default self.neuron_obj_auto_proof_directory
+
+        Returns
+        -------
+        Neuron
+            
+        """
         
         
         if directory is None:
@@ -735,18 +872,40 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
         
     # --------- functions for setting autoproofreading ---
     def exc_filters_auto_proof(*args,**kwargs):
+        """
+        All autoproofreading filters (referenced in proofreading_utils.py) that will be used for excitatory cells
+
+        Returns
+        -------
+        List[filter objects]
+            
+        """
         return pru.v7_exc_filters(
             *args,**kwargs
     )
         
     def inh_filters_auto_proof(*args,**kwargs):
-        
+        """
+        All autoproofreading filters (referenced in proofreading_utils.py) that will be used for inhibitory cells
+
+        Returns
+        -------
+        List[filter functions]
+            
+        """
         return pru.v7_inh_filters(
             *args,**kwargs
         )
     
     @property
     def default_low_degree_graph_filters(self):
+        """
+        The graph filters to be using the 'exc_low_degree_branching_filter' for autoproofreading that inspects axon branches with exactly 2 downstream nodes and classifies as an error based on if one fo the following graph filters has a successful match. Overriding this function could be simply excluding some filters that are not applicable/work for your volume even with parameters tuned
+
+        Returns
+        -------
+        List[graph filter functions]
+        """
         return [
             gf.axon_webbing_filter,
             gf.thick_t_filter,
@@ -762,12 +921,28 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
     @neuron_obj_func
     def fetch_proofread_mesh(
         self,
-        segment_id,
-        split_index = 0,
-        plot_mesh = False,
+        segment_id:Union[int,Neuron],
+        split_index:int = 0,
+        plot_mesh:bool = False,
         **kwargs
-        
-        ):
+        )-> trimesh.Trimesh:
+        """
+        Retrieve mesh after autoproofreading filtering. Default implementation uses a local solution of extracting the mesh from the neuron object, but the proofreading mesh could be stored in an external database with only the segment id and split index needed to retrieve. 
+
+        Parameters
+        ----------
+        segment_id : Union[int,Neuron]
+            proofread neuron object from which the mesh can be extracted or an int representing the segment id for external database implementation where saved products indexed by unique segment_id and split index
+        split_index : int, optional
+            for external database implementation where saved products indexed by unique segment_id and split index, by default 0
+        plot_mesh : bool, optional
+            by default False
+
+        Returns
+        -------
+        trimesh.Trimesh
+            auto proofread mesh
+        """
         
         neuron_obj = segment_id
         mesh = neuron_obj.mesh_from_branches
@@ -780,12 +955,29 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
     @neuron_obj_func
     def fetch_soma_mesh(
         self,
-        segment_id,
-        split_index = 0,
-        plot_mesh = False,
+        segment_id:Union[int,Neuron],
+        split_index:int = 0,
+        plot_mesh:bool = False,
         **kwargs
         
         ):
+        """
+        Retrieve soma mesh. Default implementation uses a local solution of extracting the soma mesh from the neuron object, but the soma mesh could be stored in an external database with only the segment id and split index needed to retrieve. 
+
+        Parameters
+        ----------
+        segment_id : Union[int,Neuron]
+            neuron object from which the mesh can be extracted or an int representing the segment id for external database implementation where saved products indexed by unique segment_id and split index
+        split_index : int, optional
+            for external database implementation where saved products indexed by unique segment_id and split index, by default 0
+        plot_mesh : bool, optional
+            by default False
+
+        Returns
+        -------
+        trimesh.Trimesh
+            auto proofread mesh
+        """
         
         neuron_obj = segment_id
         mesh = neuron_obj["S0"].mesh
@@ -795,19 +987,18 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
             
         return mesh
     
-    
     def segment_id_to_synapse_table_optimized_connectome(
         self,
-        segment_id,
-        split_index = 0,
-        synapse_type = None,
-        coordinates_nm = False,
+        segment_id:Union[int,Neuron],
+        split_index:int = 0,
+        synapse_type:str = None,
+        coordinates_nm:bool = False,
         **kwargs
         ):
         """
         Purpose: to return a dataframe
-        of the valid connections in connectome with
-        the constraint of one segment id as a presyn or postsyn
+        of the connections before proofreading with
+        the constraint of one segment_id/split_index as a presyn or postsyn. Not implemented for local storage
         """
         return None
 
@@ -816,11 +1007,28 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
     @neuron_obj_func
     def segment_id_to_synapse_table_optimized_proofread(
         self,
-        segment_id,
-        split_index = 0,
-        synapse_type = None,
+        segment_id:Union[int,Neuron],
+        split_index:int = 0,
+        synapse_type:str = None,
         **kwargs
         ):
+        """
+        Purpose: to return a dataframe
+        of the valid connections in the proofread segment/split. Currently only implemented for local solution of where synapse information stored in local csv and proofrad synapses are stored in neuron object. Could override to pull original or proofread synapses from an external source.
+
+        Parameters
+        ----------
+        segment_id : Union[int,Neuron]
+            neuron obj with proofread synapses, or just segment id if synapses stored externally
+        split_index : int, optional
+            identifier for segment if stored externally, by default 0
+        synapse_type : str, optional
+            presyn or postsyn restriction, by default None
+
+        Returns
+        -------
+        synapse_df : pd.DataFrame
+        """
         neuron_obj = segment_id
         
         orig_syn_df = self.segment_id_to_synapse_table_optimized(
@@ -847,6 +1055,9 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
                 soma_distance = "skeletal_distance_to_soma",
             )
         )
+        
+        if synapse_type is not None:
+            syn_df = syn_df.query(f"prepost == '{synapse_type}'").reset_index(drop=True) 
 
         merge_df = pd.merge(
             orig_syn_df,
@@ -859,10 +1070,26 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
     @neuron_obj_func
     def soma_nm_coordinate(
         self,
-        segment_id,
-        split_index = 0,
-        return_dict = False,
-        **kwargs):
+        segment_id:Union[int,Neuron],
+        split_index:int = 0,
+        return_dict:bool = False,
+        **kwargs)->np.array:
+        """
+        Return the soma coordinate for a segment. Implemented with local solution of accepting neuron object but could override with external store fetching.
+
+        Parameters
+        ----------
+        segment_id : Union[int,Neuron]
+            
+        split_index : int, optional
+            by default 0
+        return_dict : bool, optional
+            by default False
+
+        Returns
+        -------
+        soma coordinate: np.array (3,)
+        """
             
         neuron_obj = segment_id
         
@@ -872,20 +1099,38 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
             return {f"centroid_{ax}_nm":val for ax,val in zip(["x","y","z"],return_value)}
         else:
             return return_value
+
     
     @neuron_obj_func
     def graph_obj_from_proof_stage(
         self,
-        segment_id,
-        split_index = 0,
-        clean = True,
-        verbose = False,
+        segment_id:Union[int,Neuron],
+        split_index:int = 0,
+        clean:bool = True,
+        verbose:bool = False,
         **kwargs
-        ):
+        ) -> nx.DiGraph:
         """
-        Purpose: to get the neuron_obj from 
-        decomposition cell type
+        
+        Purpose: Retrieve the lite neuron_obj (implemented). Local implementation where retrieved from pipeline products of neuron obj but could override to fetch from an external store using the segment id and split index
+
+        Parameters
+        ----------
+        segment_id : Union[int,Neuron]
+            
+        split_index : int, optional
+            by default 0
+        clean : bool, optional
+            by default True
+        verbose : bool, optional
+            by default False
+
+        Returns
+        -------
+        neuron_obj_lite: nx.DiGraph
         """
+        
+        
         neuron_obj = segment_id
         G = neuron_obj.neuron_graph_after_proof
             
@@ -896,21 +1141,7 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
     
     
         
-    
-"""
-Functions there: 
 
-segment_id_to_synapse_table
-decomposition_with_spine_recalculation
-segment_to_nuclei
-vdi.fetch_segment_id_mesh
-save_proofread_faces
-save_proofread_faces
-save_proofread_skeleton
-voxel_to_nm_scaling
-voxel_to_nm_scaling
-save_proofread_faces
-"""
 from datasci_tools import pandas_utils as pu
 from datasci_tools import ipyvolume_utils as ipvu
 from datasci_tools import numpy_utils as nu
