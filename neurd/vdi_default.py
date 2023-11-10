@@ -45,7 +45,7 @@ def neuron_obj_func(func):
     return new_func
         
 
-class DataInterfaceBoilerPlate(ABC):
+class DataInterfaceBoilerplate(ABC):
     proof_version = 7
     
     def __init__(
@@ -518,7 +518,7 @@ class DataInterfaceBoilerPlate(ABC):
         return synapse_pre_post_ids,synapse_pre_post_coords
     
     
-class DataInterfaceDefault(DataInterfaceBoilerPlate):
+class DataInterfaceDefault(DataInterfaceBoilerplate):
     """
     Class to outline what functions to overload in implement a volume data interface that will work with NEURD. All methods exposed fall under the following categories
     
@@ -584,8 +584,9 @@ class DataInterfaceDefault(DataInterfaceBoilerPlate):
         
         The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute)
     
-        Paramaeters
+        Parameters
         ___________
+        
         segment_id: int
         coordinates_nm: bool
             Whether to scale the coordinate to nm units

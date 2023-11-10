@@ -17,7 +17,7 @@ from datasci_tools import numpy_dep as np
 current_module = sys.modules[__name__]
 
 
-
+from .documentation_utils import tag
 
 branch_mesh_attributes = ["spines","boutons"]
 object_attributes = ["synapses","spines_obj"]
@@ -69,8 +69,6 @@ def convert_soma_to_piece_connectivity_to_graph(soma_to_piece_connectivity):
     return concept_network 
 
     
-
-
 def dc_check(current_object,attribute,default_value = None):
     try:
         return getattr(current_object,attribute)
