@@ -117,10 +117,10 @@
     <span class="k">return</span> <span class="n">new_func</span></div>
         
 
-<div class="viewcode-block" id="DataInterfaceBoilerPlate"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate">[docs]</a><span class="k">class</span> <span class="nc">DataInterfaceBoilerPlate</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate">[docs]</a><span class="k">class</span> <span class="nc">DataInterfaceBoilerplate</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
     <span class="n">proof_version</span> <span class="o">=</span> <span class="mi">7</span>
     
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
@@ -138,7 +138,7 @@
     <span class="k">def</span> <span class="nf">vdi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span>
         
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.set_parameters_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.set_parameters_obj">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_obj</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.set_parameters_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_obj">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_obj</span><span class="p">(</span>
         <span class="bp">self</span>
         <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -167,7 +167,7 @@
                 <span class="n">filepath</span> <span class="o">=</span> <span class="n">f</span>
             <span class="p">)</span></div>
         
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.set_parameters_obj_from_filepath"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.set_parameters_obj_from_filepath">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_obj_from_filepath</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.set_parameters_obj_from_filepath"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_obj_from_filepath">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_obj_from_filepath</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">set_module_parameters</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
@@ -193,7 +193,7 @@
         <span class="k">if</span> <span class="n">set_module_parameters</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters_for_directory_modules</span><span class="p">()</span></div>
             
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.set_parameters_for_directory_modules"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.set_parameters_for_directory_modules">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_for_directory_modules</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.set_parameters_for_directory_modules"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_for_directory_modules">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_for_directory_modules</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -208,19 +208,19 @@
         <span class="p">)</span></div>
         
     <span class="c1"># --------------------------</span>
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.align_array"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_array">[docs]</a>    <span class="k">def</span> <span class="nf">align_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">array</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.align_array"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.align_array">[docs]</a>    <span class="k">def</span> <span class="nf">align_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">array</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1">#print(f&quot;inside vdi align array&quot;)</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">align_array</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">align_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.align_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">align_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1">#print(f&quot;inside vdi align mesh&quot;)</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">align_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_skeleton">[docs]</a>    <span class="k">def</span> <span class="nf">align_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">skeleton</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.align_skeleton">[docs]</a>    <span class="k">def</span> <span class="nf">align_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">skeleton</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1">#print(f&quot;inside vdi align skeleton&quot;)</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">align_skeleton</span><span class="p">(</span><span class="n">skeleton</span><span class="o">=</span><span class="n">skeleton</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.align_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_neuron_obj_from_align_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">align_neuron_obj_from_align_matrix</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.align_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.align_neuron_obj_from_align_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">align_neuron_obj_from_align_matrix</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">neuron_obj</span><span class="p">,</span>
         <span class="n">align_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -233,10 +233,10 @@
             <span class="n">align_skeleton</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">align_skeleton</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.unalign_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.unalign_neuron_obj_from_align_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">unalign_neuron_obj_from_align_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.unalign_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.unalign_neuron_obj_from_align_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">unalign_neuron_obj_from_align_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">unalign_neuron_obj_from_align_matrix</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span><span class="o">=</span><span class="n">align_matrix</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.align_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.align_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">align_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.align_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.align_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">align_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Keep the body of function as &quot;pass&quot; unless the neuron obj needs to be rotated so axon is pointing down</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -248,7 +248,7 @@
             <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.unalign_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.unalign_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">unalign_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.unalign_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.unalign_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">unalign_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Keep the body of function as &quot;pass&quot; unless the neuron obj needs to be rotated so axon is pointing down</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -261,7 +261,7 @@
         <span class="p">)</span></div>
     
     <span class="c1"># -------- save and load for neuron obj</span>
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.save_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.save_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">save_neuron_obj</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.save_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.save_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">save_neuron_obj</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">neuron_obj</span><span class="p">,</span>
         <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -308,7 +308,7 @@
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.pbz2&quot;</span></div>
     
         
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.load_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.load_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">load_neuron_obj</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.load_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.load_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">load_neuron_obj</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mesh_decimated</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -344,22 +344,22 @@
         
         
     <span class="c1"># ---------- used by autoproofreading --------------</span>
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.multiplicity"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.multiplicity">[docs]</a>    <span class="k">def</span> <span class="nf">multiplicity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.multiplicity"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.multiplicity">[docs]</a>    <span class="k">def</span> <span class="nf">multiplicity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        For those who don&#39;t store the output of each stage in the neuron obj</span>
 <span class="sd">        this function could be redefined to pull from a database</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">multiplicity</span></div>
         
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.nucleus_id"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.nucleus_id">[docs]</a>    <span class="k">def</span> <span class="nf">nucleus_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.nucleus_id"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.nucleus_id">[docs]</a>    <span class="k">def</span> <span class="nf">nucleus_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">nucleus_id</span></div>
     
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.cell_type"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.cell_type">[docs]</a>    <span class="k">def</span> <span class="nf">cell_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.cell_type"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.cell_type">[docs]</a>    <span class="k">def</span> <span class="nf">cell_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">neuron_obj</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">nucleus_id</span></div>
     
     
     <span class="c1"># ---- used by proximities</span>
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.segment_id_and_split_index"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_and_split_index">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_and_split_index</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.segment_id_and_split_index"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.segment_id_and_split_index">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_and_split_index</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="p">,</span>
         <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -403,12 +403,12 @@
                 <span class="k">return</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">segment_id</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">split_index</span> <span class="o">=</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">seg_ids_final</span><span class="p">,</span><span class="n">sp_idxs_final</span><span class="p">)]</span></div>
     
     
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.add_nm_to_synapse_df"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.add_nm_to_synapse_df">[docs]</a>    <span class="k">def</span> <span class="nf">add_nm_to_synapse_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">df</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.add_nm_to_synapse_df"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.add_nm_to_synapse_df">[docs]</a>    <span class="k">def</span> <span class="nf">add_nm_to_synapse_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">df</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">syu</span><span class="o">.</span><span class="n">add_nm_to_synapse_df</span><span class="p">(</span>
             <span class="n">df</span><span class="p">,</span>
             <span class="n">scaling</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
         <span class="p">)</span></div>
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.segment_id_to_synapse_dict"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_to_synapse_dict">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_dict</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.segment_id_to_synapse_dict"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.segment_id_to_synapse_dict">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_dict</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -465,7 +465,7 @@
         
         <span class="k">return</span> <span class="n">syn_dict</span></div>
     
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.segment_id_to_synapse_table_optimized"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.segment_id_to_synapse_table_optimized">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_table_optimized</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.segment_id_to_synapse_table_optimized"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.segment_id_to_synapse_table_optimized">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_table_optimized</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="p">,</span>
         <span class="n">synapse_type</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -542,7 +542,7 @@
 
         <span class="k">return</span> <span class="n">return_df</span></div>
     
-<div class="viewcode-block" id="DataInterfaceBoilerPlate.pre_post_synapse_ids_coords_from_connectome"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerPlate.pre_post_synapse_ids_coords_from_connectome">[docs]</a>    <span class="nd">@neuron_obj_func</span>
+<div class="viewcode-block" id="DataInterfaceBoilerplate.pre_post_synapse_ids_coords_from_connectome"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.pre_post_synapse_ids_coords_from_connectome">[docs]</a>    <span class="nd">@neuron_obj_func</span>
     <span class="k">def</span> <span class="nf">pre_post_synapse_ids_coords_from_connectome</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id_pre</span><span class="p">,</span>
@@ -590,7 +590,7 @@
         <span class="k">return</span> <span class="n">synapse_pre_post_ids</span><span class="p">,</span><span class="n">synapse_pre_post_coords</span></div></div>
     
     
-<div class="viewcode-block" id="DataInterfaceDefault"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault">[docs]</a><span class="k">class</span> <span class="nc">DataInterfaceDefault</span><span class="p">(</span><span class="n">DataInterfaceBoilerPlate</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceDefault"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault">[docs]</a><span class="k">class</span> <span class="nc">DataInterfaceDefault</span><span class="p">(</span><span class="n">DataInterfaceBoilerplate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to outline what functions to overload in implement a volume data interface that will work with NEURD. All methods exposed fall under the following categories</span>
 <span class="sd">    </span>
@@ -656,8 +656,9 @@
 <span class="sd">        </span>
 <span class="sd">        The default implementation assumes there is a local synapse csv file (whose path needs to be passed as an argument or set with as an object attribute)</span>
 <span class="sd">    </span>
-<span class="sd">        Paramaeters</span>
+<span class="sd">        Parameters</span>
 <span class="sd">        ___________</span>
+<span class="sd">        </span>
 <span class="sd">        segment_id: int</span>
 <span class="sd">        coordinates_nm: bool</span>
 <span class="sd">            Whether to scale the coordinate to nm units</span>

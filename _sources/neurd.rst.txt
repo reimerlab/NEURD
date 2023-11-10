@@ -108,6 +108,14 @@ neurd.connectome\_utils module
    :undoc-members:
    :show-inheritance:
 
+neurd.documentation\_utils module
+---------------------------------
+
+.. automodule:: neurd.documentation_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 neurd.error\_detection module
 -----------------------------
 
