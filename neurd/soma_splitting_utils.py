@@ -79,7 +79,10 @@ def plot_red_blue_split_suggestions_per_limb(
     """
     
     if red_blue_splits is None:
-        red_blue_splits = neuron_obj.red_blue_split_results
+        red_blue_splits = getattr(neuron_obj,"red_blue_split_results",None)
+        
+    if red_blue_splits is None:
+        return None
     
     limb_red_blue_dict = limb_red_blue_dict_from_red_blue_splits(
         red_blue_splits

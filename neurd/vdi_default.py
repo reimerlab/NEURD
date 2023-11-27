@@ -376,11 +376,12 @@ class DataInterfaceBoilerplate(ABC):
         
         """
         
-        
         syn_df = self.segment_id_to_synapse_df(
             segment_id,
             **kwargs,
         )
+        
+        
         
         df = self.add_nm_to_synapse_df(syn_df)
         
@@ -598,16 +599,15 @@ class DataInterfaceDefault(DataInterfaceBoilerplate):
         pd.DataFrame
             dataframe with all of the relevant synapse information for one segment id
         """
-        if scaling is None:
-            scaling = self.voxel_to_nm_scaling
             
         if kwargs.get("synapse_filepath",None) is None:
             if self.synapse_filepath is None:
                 raise Exception("No synapse filepath set")
             kwargs["synapse_filepath"] = self.synapse_filepath
         
+        #raise Exception("")
+        
         df = syu.synapse_df_from_csv(
-            synapse_filepath,
             segment_id = segment_id,
             coordinates_nm = False,
             scaling = None,

@@ -39,7 +39,7 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
         self,
         *args,
         **kwargs):
-        return super().segment_id_to_synapse_dict(
+        return super().segment_id_to_synapse_df(
             *args,
             **kwargs
         )

@@ -870,7 +870,8 @@ class Limb:
             
             
         
-
+    def set_branches_endpoints_upstream_downstream_idx(self):
+        bu.set_branches_endpoints_upstream_downstream_idx_on_limb(self)
         
     @property
     def mesh_volume(self):
@@ -2725,6 +2726,13 @@ class Neuron:
             **kwargs
         )
         
+    
+    @property
+    def red_blue_split_points_by_limb(self):
+        rb_splits = getattr(self,"red_blue_split_results",None)
+        return ssu.limb_red_blue_dict_from_red_blue_splits(
+            rb_splits     
+        )
         
         
     
@@ -3470,6 +3478,7 @@ class Neuron:
     def mesh_volume(self):
         return self.limb_mesh_volume
     
+    
     @property 
     def mesh_volume_with_somas(self):
         return self.limb_mesh_volume + self.soma_mesh_volume
@@ -3732,10 +3741,6 @@ class Neuron:
         return nru.n_limbs(self)
     
     @property
-    def n_limbs(self):
-        return nru.n_limbs(self)
-    
-    @property
     def n_branches_per_limb(self):
         return nru.n_branches_per_limb(self)
     
@@ -3768,6 +3773,7 @@ class Neuron:
     @property
     def width_median(self):
         return nru.width_median(self)
+    
     @property
     def width_no_spine_median(self):
         return nru.width_no_spine_median(self)

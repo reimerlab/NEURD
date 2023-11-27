@@ -2741,6 +2741,7 @@ def visualize_neuron_specific_limb(neuron_obj,
     nviz.plot_limb_concept_network_2D(neuron_obj,
                                      ret_col)
     
+plot_limb_idx = visualize_neuron_specific_limb
 
 def plot_valid_error_synapses(neuron_obj,
                               synapse_dict,
@@ -3835,6 +3836,12 @@ def plot_soma_extraction_meshes(
         meshes_colors=meshes_colors
     )
 
+def plot_spines_head_neck(neuron_obj,**kwargs):
+    spu.plot_spines_head_neck(neuron_obj,**kwargs)
+    
+def plot_synapses(neuron_obj,**kwargs):
+    syu.plot_synapses(neuron_obj,**kwargs)
+
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk
 from mesh_tools import trimesh_utils as tu
@@ -3854,6 +3861,7 @@ from . import neuron_searching as ns
 from . import neuron_utils as nru
 from . import proofreading_utils as pru
 from . import synapse_utils as syu
+from . import spine_utils as spu
 
 
 

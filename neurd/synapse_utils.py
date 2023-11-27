@@ -1412,14 +1412,20 @@ def add_synapses_to_neuron_obj(
     if verbose:
         print(f"\n---Step 1: Computing synapse_dict---")
         
+    
         
     if segment_id is None:
         segment_id = neuron_obj.segment_id
+        
     synapse_dict = vdi.segment_id_to_synapse_dict(
         segment_id = segment_id,
         validation=validation,
         verbose=verbose,
-        **kwargs)
+        **kwargs
+    )
+
+
+    
 
     #original_mesh_kd = tu.mesh_to_kdtree(original_mesh)
     if verbose:
