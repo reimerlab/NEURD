@@ -228,6 +228,14 @@ neurd.neuron\_graph\_lite\_utils module
    :undoc-members:
    :show-inheritance:
 
+neurd.neuron\_pipeline\_utils module
+------------------------------------
+
+.. automodule:: neurd.neuron_pipeline_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 neurd.neuron\_searching module
 ------------------------------
 

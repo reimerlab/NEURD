@@ -767,6 +767,7 @@
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.network_starting_info"><code class="docutils literal notranslate"><span class="pre">Limb.network_starting_info</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.nodes_to_exclude"><code class="docutils literal notranslate"><span class="pre">Limb.nodes_to_exclude</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.set_attribute_dict"><code class="docutils literal notranslate"><span class="pre">Limb.set_attribute_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.set_branches_endpoints_upstream_downstream_idx"><code class="docutils literal notranslate"><span class="pre">Limb.set_branches_endpoints_upstream_downstream_idx()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.set_computed_attribute_data"><code class="docutils literal notranslate"><span class="pre">Limb.set_computed_attribute_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.set_concept_network_directional"><code class="docutils literal notranslate"><span class="pre">Limb.set_concept_network_directional()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.set_concept_network_edges_from_current_starting_data"><code class="docutils literal notranslate"><span class="pre">Limb.set_concept_network_edges_from_current_starting_data()</span></code></a></li>
@@ -877,6 +878,7 @@
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.oblique_limb_branch_dict"><code class="docutils literal notranslate"><span class="pre">Neuron.oblique_limb_branch_dict</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.plot_limb_concept_network"><code class="docutils literal notranslate"><span class="pre">Neuron.plot_limb_concept_network()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.plot_soma_limb_concept_network"><code class="docutils literal notranslate"><span class="pre">Neuron.plot_soma_limb_concept_network()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.red_blue_split_points_by_limb"><code class="docutils literal notranslate"><span class="pre">Neuron.red_blue_split_points_by_limb</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.same_soma_multi_touching_limbs"><code class="docutils literal notranslate"><span class="pre">Neuron.same_soma_multi_touching_limbs</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.save_compressed_neuron"><code class="docutils literal notranslate"><span class="pre">Neuron.save_compressed_neuron()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.save_neuron_object"><code class="docutils literal notranslate"><span class="pre">Neuron.save_neuron_object()</span></code></a></li>
@@ -974,6 +976,12 @@
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_graph_lite_utils.stats_df_from_G"><code class="docutils literal notranslate"><span class="pre">stats_df_from_G()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_graph_lite_utils.symmetric_window"><code class="docutils literal notranslate"><span class="pre">symmetric_window()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_graph_lite_utils.width_new_extract"><code class="docutils literal notranslate"><span class="pre">width_new_extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="neurd.html#module-neurd.neuron_pipeline_utils">neurd.neuron_pipeline_utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_pipeline_utils.after_auto_proof_stats"><code class="docutils literal notranslate"><span class="pre">after_auto_proof_stats()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_pipeline_utils.auto_proof_stage"><code class="docutils literal notranslate"><span class="pre">auto_proof_stage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_pipeline_utils.cell_type_ax_dendr_stage"><code class="docutils literal notranslate"><span class="pre">cell_type_ax_dendr_stage()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="neurd.html#module-neurd.neuron_searching">neurd.neuron_searching module</a><ul>
@@ -1533,6 +1541,7 @@
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_limb_concept_network_2D"><code class="docutils literal notranslate"><span class="pre">plot_limb_concept_network_2D()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_limb_correspondence"><code class="docutils literal notranslate"><span class="pre">plot_limb_correspondence()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_limb_correspondence_multiple"><code class="docutils literal notranslate"><span class="pre">plot_limb_correspondence_multiple()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_limb_idx"><code class="docutils literal notranslate"><span class="pre">plot_limb_idx()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_limb_path"><code class="docutils literal notranslate"><span class="pre">plot_limb_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_mesh_face_idx"><code class="docutils literal notranslate"><span class="pre">plot_mesh_face_idx()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_meshes_skeletons"><code class="docutils literal notranslate"><span class="pre">plot_meshes_skeletons()</span></code></a></li>
@@ -1541,7 +1550,9 @@
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_soma_limb_concept_network"><code class="docutils literal notranslate"><span class="pre">plot_soma_limb_concept_network()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_soma_meshes"><code class="docutils literal notranslate"><span class="pre">plot_soma_meshes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_spines"><code class="docutils literal notranslate"><span class="pre">plot_spines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_spines_head_neck"><code class="docutils literal notranslate"><span class="pre">plot_spines_head_neck()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_split_suggestions_per_limb"><code class="docutils literal notranslate"><span class="pre">plot_split_suggestions_per_limb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_synapses"><code class="docutils literal notranslate"><span class="pre">plot_synapses()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_valid_error_synapses"><code class="docutils literal notranslate"><span class="pre">plot_valid_error_synapses()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_web_intersection"><code class="docutils literal notranslate"><span class="pre">plot_web_intersection()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plottable_from_branches"><code class="docutils literal notranslate"><span class="pre">plottable_from_branches()</span></code></a></li>

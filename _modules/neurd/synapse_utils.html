@@ -1484,14 +1484,20 @@
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---Step 1: Computing synapse_dict---&quot;</span><span class="p">)</span>
         
+    
         
     <span class="k">if</span> <span class="n">segment_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">segment_id</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">segment_id</span>
+        
     <span class="n">synapse_dict</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">segment_id_to_synapse_dict</span><span class="p">(</span>
         <span class="n">segment_id</span> <span class="o">=</span> <span class="n">segment_id</span><span class="p">,</span>
         <span class="n">validation</span><span class="o">=</span><span class="n">validation</span><span class="p">,</span>
         <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+
+
+    
 
     <span class="c1">#original_mesh_kd = tu.mesh_to_kdtree(original_mesh)</span>
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>

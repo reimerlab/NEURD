@@ -2813,6 +2813,7 @@
     <span class="n">nviz</span><span class="o">.</span><span class="n">plot_limb_concept_network_2D</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                      <span class="n">ret_col</span><span class="p">)</span></div>
     
+<span class="n">plot_limb_idx</span> <span class="o">=</span> <span class="n">visualize_neuron_specific_limb</span>
 
 <div class="viewcode-block" id="plot_valid_error_synapses"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_valid_error_synapses">[docs]</a><span class="k">def</span> <span class="nf">plot_valid_error_synapses</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                               <span class="n">synapse_dict</span><span class="p">,</span>
@@ -3907,6 +3908,12 @@
         <span class="n">meshes_colors</span><span class="o">=</span><span class="n">meshes_colors</span>
     <span class="p">)</span></div>
 
+<div class="viewcode-block" id="plot_spines_head_neck"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_spines_head_neck">[docs]</a><span class="k">def</span> <span class="nf">plot_spines_head_neck</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">spu</span><span class="o">.</span><span class="n">plot_spines_head_neck</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="plot_synapses"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_synapses">[docs]</a><span class="k">def</span> <span class="nf">plot_synapses</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">syu</span><span class="o">.</span><span class="n">plot_synapses</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 <span class="c1">#--- from mesh_tools ---</span>
 <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
 <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
@@ -3926,6 +3933,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
 
 
 

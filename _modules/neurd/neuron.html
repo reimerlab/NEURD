@@ -942,7 +942,8 @@
             
             
         
-
+<div class="viewcode-block" id="Limb.set_branches_endpoints_upstream_downstream_idx"><a class="viewcode-back" href="../../neurd.html#neurd.neuron.Limb.set_branches_endpoints_upstream_downstream_idx">[docs]</a>    <span class="k">def</span> <span class="nf">set_branches_endpoints_upstream_downstream_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">bu</span><span class="o">.</span><span class="n">set_branches_endpoints_upstream_downstream_idx_on_limb</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
         
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mesh_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2797,6 +2798,13 @@
             <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
         
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">red_blue_split_points_by_limb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rb_splits</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;red_blue_split_results&quot;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ssu</span><span class="o">.</span><span class="n">limb_red_blue_dict_from_red_blue_splits</span><span class="p">(</span>
+            <span class="n">rb_splits</span>     
+        <span class="p">)</span>
         
         
     
@@ -3542,6 +3550,7 @@
     <span class="k">def</span> <span class="nf">mesh_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">limb_mesh_volume</span>
     
+    
     <span class="nd">@property</span> 
     <span class="k">def</span> <span class="nf">mesh_volume_with_somas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">limb_mesh_volume</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">soma_mesh_volume</span>
@@ -3804,10 +3813,6 @@
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">n_limbs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">n_limbs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">n_limbs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-    
-    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">n_branches_per_limb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">n_branches_per_limb</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     
@@ -3840,6 +3845,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">width_median</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">width_median</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">width_no_spine_median</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">width_no_spine_median</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>

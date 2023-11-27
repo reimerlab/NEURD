@@ -205,6 +205,8 @@
         <li><a href="neurd.html#neurd.synapse_utils.adjust_obj_with_face_offset">(in module neurd.synapse_utils)</a>
 </li>
       </ul></li>
+      <li><a href="neurd.html#neurd.neuron_pipeline_utils.after_auto_proof_stats">after_auto_proof_stats() (in module neurd.neuron_pipeline_utils)</a>
+</li>
       <li><a href="neurd.html#neurd.ais_utils.ais_count_bins_dict">ais_count_bins_dict() (in module neurd.ais_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.neuron_utils.align_and_restrict_branch">align_and_restrict_branch() (in module neurd.neuron_utils)</a>
@@ -440,6 +442,8 @@
       <li><a href="neurd.html#neurd.connectome_utils.attribute_from_edge_dict">attribute_from_edge_dict() (in module neurd.connectome_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.concept_network_utils.attribute_upstream_downstream">attribute_upstream_downstream() (in module neurd.concept_network_utils)</a>
+</li>
+      <li><a href="neurd.html#neurd.neuron_pipeline_utils.auto_proof_stage">auto_proof_stage() (in module neurd.neuron_pipeline_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.neuron_searching.average_branch_length">average_branch_length() (in module neurd.neuron_searching)</a>
 </li>
@@ -857,6 +861,8 @@
 </li>
       <li><a href="neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.cell_type">cell_type() (neurd.vdi_default.DataInterfaceBoilerplate method)</a>
 </li>
+      <li><a href="neurd.html#neurd.neuron_pipeline_utils.cell_type_ax_dendr_stage">cell_type_ax_dendr_stage() (in module neurd.neuron_pipeline_utils)</a>
+</li>
       <li><a href="neurd.html#neurd.cell_type_utils.cell_type_fine_classifier_map_derived">cell_type_fine_classifier_map_derived() (in module neurd.cell_type_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.cell_type_utils.cell_type_fine_for_clustering_inh">cell_type_fine_for_clustering_inh (in module neurd.cell_type_utils)</a>
@@ -939,10 +945,10 @@
         <li><a href="neurd.html#neurd.neuron_searching.closest_mesh_skeleton_dist">(in module neurd.neuron_searching)</a>
 </li>
       </ul></li>
-      <li><a href="neurd.html#neurd.neuron_graph_lite_utils.closest_node_idx_to_sample_idx">closest_node_idx_to_sample_idx() (in module neurd.neuron_graph_lite_utils)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="neurd.html#neurd.neuron_graph_lite_utils.closest_node_idx_to_sample_idx">closest_node_idx_to_sample_idx() (in module neurd.neuron_graph_lite_utils)</a>
+</li>
       <li><a href="neurd.html#neurd.cell_type_utils.coarse_cell_type_from_coarse">coarse_cell_type_from_coarse() (in module neurd.cell_type_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.cell_type_utils.coarse_cell_type_from_fine">coarse_cell_type_from_fine() (in module neurd.cell_type_utils)</a>
@@ -2439,6 +2445,8 @@
 </li>
         <li><a href="neurd.html#module-neurd.neuron_graph_lite_utils">neurd.neuron_graph_lite_utils</a>
 </li>
+        <li><a href="neurd.html#module-neurd.neuron_pipeline_utils">neurd.neuron_pipeline_utils</a>
+</li>
         <li><a href="neurd.html#module-neurd.neuron_searching">neurd.neuron_searching</a>
 </li>
         <li><a href="neurd.html#module-neurd.neuron_simplification">neurd.neuron_simplification</a>
@@ -2914,10 +2922,10 @@
 </li>
       <li><a href="neurd.html#neurd.spine_utils.Spine.neck_area">neck_area (neurd.spine_utils.Spine property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.spine_utils.Spine.neck_bbox_max_x_nm">neck_bbox_max_x_nm (neurd.spine_utils.Spine property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="neurd.html#neurd.spine_utils.Spine.neck_bbox_max_y_nm">neck_bbox_max_y_nm (neurd.spine_utils.Spine property)</a>
 </li>
       <li><a href="neurd.html#neurd.spine_utils.Spine.neck_bbox_max_z_nm">neck_bbox_max_z_nm (neurd.spine_utils.Spine property)</a>
@@ -3150,6 +3158,13 @@
 
       <ul>
         <li><a href="neurd.html#module-neurd.neuron_graph_lite_utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    neurd.neuron_pipeline_utils
+
+      <ul>
+        <li><a href="neurd.html#module-neurd.neuron_pipeline_utils">module</a>
 </li>
       </ul></li>
       <li>
@@ -3582,6 +3597,8 @@
 </li>
       <li><a href="neurd.html#neurd.neuron_visualizations.plot_limb_correspondence_multiple">plot_limb_correspondence_multiple() (in module neurd.neuron_visualizations)</a>
 </li>
+      <li><a href="neurd.html#neurd.neuron_visualizations.plot_limb_idx">plot_limb_idx() (in module neurd.neuron_visualizations)</a>
+</li>
       <li><a href="neurd.html#neurd.neuron_visualizations.plot_limb_path">plot_limb_path() (in module neurd.neuron_visualizations)</a>
 </li>
       <li><a href="neurd.html#neurd.proofreading_utils.plot_limb_to_red_blue_groups">plot_limb_to_red_blue_groups() (in module neurd.proofreading_utils)</a>
@@ -3636,14 +3653,22 @@
 </li>
       <li><a href="neurd.html#neurd.neuron_visualizations.plot_spines">plot_spines() (in module neurd.neuron_visualizations)</a>
 </li>
-      <li><a href="neurd.html#neurd.spine_utils.plot_spines_head_neck">plot_spines_head_neck() (in module neurd.spine_utils)</a>
+      <li><a href="neurd.html#neurd.neuron_visualizations.plot_spines_head_neck">plot_spines_head_neck() (in module neurd.neuron_visualizations)</a>
+
+      <ul>
+        <li><a href="neurd.html#neurd.spine_utils.plot_spines_head_neck">(in module neurd.spine_utils)</a>
 </li>
+      </ul></li>
       <li><a href="neurd.html#neurd.spine_utils.plot_spines_objs_with_head_neck_and_coordinates">plot_spines_objs_with_head_neck_and_coordinates() (in module neurd.spine_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.neuron_visualizations.plot_split_suggestions_per_limb">plot_split_suggestions_per_limb() (in module neurd.neuron_visualizations)</a>
 </li>
-      <li><a href="neurd.html#neurd.synapse_utils.plot_synapses">plot_synapses() (in module neurd.synapse_utils)</a>
+      <li><a href="neurd.html#neurd.neuron_visualizations.plot_synapses">plot_synapses() (in module neurd.neuron_visualizations)</a>
+
+      <ul>
+        <li><a href="neurd.html#neurd.synapse_utils.plot_synapses">(in module neurd.synapse_utils)</a>
 </li>
+      </ul></li>
       <li><a href="neurd.html#neurd.synapse_utils.plot_synapses_compartment">plot_synapses_compartment() (in module neurd.synapse_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.synapse_utils.plot_synapses_error_from_neuron_obj">plot_synapses_error_from_neuron_obj() (in module neurd.synapse_utils)</a>
@@ -3797,6 +3822,8 @@
       <li><a href="neurd.html#neurd.neuron_utils.recalculate_endpoints_and_order_skeletons_over_neuron">recalculate_endpoints_and_order_skeletons_over_neuron() (in module neurd.neuron_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.soma_splitting_utils.red_blue_split_dict_by_limb_from_red_blue_split_results">red_blue_split_dict_by_limb_from_red_blue_split_results() (in module neurd.soma_splitting_utils)</a>
+</li>
+      <li><a href="neurd.html#neurd.neuron.Neuron.red_blue_split_points_by_limb">red_blue_split_points_by_limb (neurd.neuron.Neuron property)</a>
 </li>
       <li><a href="neurd.html#neurd.proofreading_utils.refine_axon_for_high_fidelity_skeleton">refine_axon_for_high_fidelity_skeleton() (in module neurd.proofreading_utils)</a>
 </li>
@@ -3959,7 +3986,11 @@
       <li><a href="neurd.html#neurd.spine_utils.set_branch_synapses_head_neck_shaft">set_branch_synapses_head_neck_shaft() (in module neurd.spine_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.branch_utils.set_branches_endpoints_upstream_downstream_idx">set_branches_endpoints_upstream_downstream_idx() (in module neurd.branch_utils)</a>
+
+      <ul>
+        <li><a href="neurd.html#neurd.neuron.Limb.set_branches_endpoints_upstream_downstream_idx">(neurd.neuron.Limb method)</a>
 </li>
+      </ul></li>
       <li><a href="neurd.html#neurd.branch_utils.set_branches_endpoints_upstream_downstream_idx_on_limb">set_branches_endpoints_upstream_downstream_idx_on_limb() (in module neurd.branch_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.cave_client_utils.set_cave_auth">set_cave_auth() (in module neurd.cave_client_utils)</a>
@@ -4400,10 +4431,10 @@
 </li>
       <li><a href="neurd.html#neurd.spine_utils.spine_id_range_from_limb_branch_idx">spine_id_range_from_limb_branch_idx() (in module neurd.spine_utils)</a>
 </li>
-      <li><a href="neurd.html#neurd.spine_utils.spine_int_label">spine_int_label() (in module neurd.spine_utils)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="neurd.html#neurd.spine_utils.spine_int_label">spine_int_label() (in module neurd.spine_utils)</a>
+</li>
       <li><a href="neurd.html#neurd.spine_utils.spine_labels">spine_labels() (in module neurd.spine_utils)</a>
 </li>
       <li><a href="neurd.html#neurd.apical_utils.spine_labels_from_compartment">spine_labels_from_compartment() (in module neurd.apical_utils)</a>
