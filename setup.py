@@ -1,6 +1,9 @@
+from os import path
 from pathlib import Path
 from setuptools import setup, find_packages
 from typing import List
+
+here = path.abspath(path.dirname(__file__))
 
 def get_install_requires(filepath=None):
     if filepath is None:
@@ -31,10 +34,13 @@ def get_long_description(filepath='README.md'):
         
     return long_description
 
+# read in version number into __version__
+with open(path.join(here, 'neurd', 'version.py')) as f:
+    exec(f.read())
 
 setup(
     name='neurd', # the name of the package, which can be different than the folder when using pip instal
-    version='1.0.0',
+    version=__version__,
     description='A mesh decomposition framework for automated proofreading and morphological analysis of neuronal EM reconstructions',
     long_description=get_long_description(),
 	project_urls={
