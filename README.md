@@ -13,7 +13,7 @@ publication: https://www.biorxiv.org/content/10.1101/2023.03.14.532674v1
 ### Download Docker Image
 
 ```bash
-docker pull celiib/mesh_tools:v3
+docker pull celiib/neurd:v1
 ```
 
 ### Run Docker Container (from CLI)
