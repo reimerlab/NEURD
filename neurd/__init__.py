@@ -1,3 +1,4 @@
+from .version import __version__
 from datasci_tools import module_utils as modu
 from pathlib import Path
 
