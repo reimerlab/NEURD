@@ -380,6 +380,14 @@ neurd.vdi\_microns\_cave module
    :undoc-members:
    :show-inheritance:
 
+neurd.version module
+--------------------
+
+.. automodule:: neurd.version
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 neurd.volume\_utils module
 --------------------------
 
