@@ -1,0 +1,53 @@
+neurd.parameter\_configs package
+================================
+
+Submodules
+----------
+
+neurd.parameter\_configs.parameters\_config\_default module
+-----------------------------------------------------------
+
+.. automodule:: neurd.parameter_configs.parameters_config_default
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neurd.parameter\_configs.parameters\_config\_default\_old module
+----------------------------------------------------------------
+
+.. automodule:: neurd.parameter_configs.parameters_config_default_old
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neurd.parameter\_configs.parameters\_config\_h01 module
+-------------------------------------------------------
+
+.. automodule:: neurd.parameter_configs.parameters_config_h01
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neurd.parameter\_configs.parameters\_config\_h01\_old module
+------------------------------------------------------------
+
+.. automodule:: neurd.parameter_configs.parameters_config_h01_old
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neurd.parameter\_configs.parameters\_config\_microns module
+-----------------------------------------------------------
+
+.. automodule:: neurd.parameter_configs.parameters_config_microns
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: neurd.parameter_configs
+   :members:
+   :undoc-members:
+   :show-inheritance:
