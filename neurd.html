@@ -1398,6 +1398,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.proximity_analysis_utils.example_pairwise_postsyn_analysis"><code class="docutils literal notranslate"><span class="pre">example_pairwise_postsyn_analysis()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.proximity_analysis_utils.pairwise_presyn_proximity_onto_postsyn"><code class="docutils literal notranslate"><span class="pre">pairwise_presyn_proximity_onto_postsyn()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.proximity_analysis_utils.plot_prox_func_vs_attribute_from_edge_df"><code class="docutils literal notranslate"><span class="pre">plot_prox_func_vs_attribute_from_edge_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.proximity_analysis_utils.print_n_dict"><code class="docutils literal notranslate"><span class="pre">print_n_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.proximity_analysis_utils.str_of_n_prox_n_syn"><code class="docutils literal notranslate"><span class="pre">str_of_n_prox_n_syn()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-neurd.proximity_utils">neurd.proximity_utils module</a><ul>
@@ -14979,10 +14981,58 @@ For each unique graph (that made it in the graph_idx):
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.proximity_analysis_utils.plot_prox_func_vs_attribute_from_edge_df">
-<span class="sig-prename descclassname"><span class="pre">neurd.proximity_analysis_utils.</span></span><span class="sig-name descname"><span class="pre">plot_prox_func_vs_attribute_from_edge_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">edge_df,</span> <span class="pre">source='Exc',</span> <span class="pre">targets=['Exc',</span> <span class="pre">'Inh'],</span> <span class="pre">column='presyn_skeletal_distance_to_soma',</span> <span class="pre">divisor=1000,</span> <span class="pre">hue='connection_type',</span> <span class="pre">percentile_upper=99,</span> <span class="pre">percentile_lower=0,</span> <span class="pre">func=&lt;function</span> <span class="pre">conversion_rate&gt;,</span> <span class="pre">bins=None,</span> <span class="pre">n_bins=10,</span> <span class="pre">equal_depth_bins=True,</span> <span class="pre">data_source='H01',</span> <span class="pre">axes_fontsize=35,</span> <span class="pre">title_fontsize=40,</span> <span class="pre">tick_fontsize=30,</span> <span class="pre">legend_fontsize=25,</span> <span class="pre">title_pad=15,</span> <span class="pre">legend_title='Connection</span> <span class="pre">Type',</span> <span class="pre">linewidth=3,</span> <span class="pre">xlabel='Axon</span> <span class="pre">Distance</span> <span class="pre">to</span> <span class="pre">Soma</span> <span class="pre">($\\mu</span> <span class="pre">m$)',</span> <span class="pre">ylabel='Mean</span> <span class="pre">Conversion</span> <span class="pre">Rate',</span> <span class="pre">title='Conversion</span> <span class="pre">Rate</span> <span class="pre">vs.</span> <span class="pre">Axon\n</span> <span class="pre">Distance</span> <span class="pre">to</span> <span class="pre">Soma',</span> <span class="pre">ax=None,</span> <span class="pre">figsize=(8,</span> <span class="pre">7),</span> <span class="pre">add_scatter=True,</span> <span class="pre">scatter_size=100,</span> <span class="pre">verbose=False,</span> <span class="pre">verbose_bin_df=False,</span> <span class="pre">legend_label=None,</span> <span class="pre">bins_mid_type='weighted'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/proximity_analysis_utils.html#plot_prox_func_vs_attribute_from_edge_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.proximity_analysis_utils.plot_prox_func_vs_attribute_from_edge_df" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">neurd.proximity_analysis_utils.</span></span><span class="sig-name descname"><span class="pre">plot_prox_func_vs_attribute_from_edge_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">edge_df,</span> <span class="pre">source='Exc',</span> <span class="pre">targets=['Exc',</span> <span class="pre">'Inh'],</span> <span class="pre">column='presyn_skeletal_distance_to_soma',</span> <span class="pre">divisor=1000,</span> <span class="pre">hue='connection_type',</span> <span class="pre">percentile_upper=99,</span> <span class="pre">percentile_lower=0,</span> <span class="pre">func=&lt;function</span> <span class="pre">conversion_rate&gt;,</span> <span class="pre">bins=None,</span> <span class="pre">n_bins=10,</span> <span class="pre">equal_depth_bins=True,</span> <span class="pre">data_source='H01',</span> <span class="pre">axes_fontsize=35,</span> <span class="pre">title_fontsize=40,</span> <span class="pre">tick_fontsize=30,</span> <span class="pre">legend_fontsize=25,</span> <span class="pre">title_pad=15,</span> <span class="pre">legend_title='Connection</span> <span class="pre">Type',</span> <span class="pre">linewidth=3,</span> <span class="pre">xlabel='Axon</span> <span class="pre">Distance</span> <span class="pre">to</span> <span class="pre">Soma</span> <span class="pre">($\\mu</span> <span class="pre">m$)',</span> <span class="pre">ylabel='Mean</span> <span class="pre">Conversion</span> <span class="pre">Rate',</span> <span class="pre">title='Conversion</span> <span class="pre">Rate</span> <span class="pre">vs.</span> <span class="pre">Axon\n</span> <span class="pre">Distance</span> <span class="pre">to</span> <span class="pre">Soma',</span> <span class="pre">ax=None,</span> <span class="pre">figsize=(8,</span> <span class="pre">7),</span> <span class="pre">add_scatter=True,</span> <span class="pre">scatter_size=100,</span> <span class="pre">verbose=False,</span> <span class="pre">verbose_bin_df=False,</span> <span class="pre">legend_label=None,</span> <span class="pre">bins_mid_type='weighted',</span> <span class="pre">return_n_dict=False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/proximity_analysis_utils.html#plot_prox_func_vs_attribute_from_edge_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.proximity_analysis_utils.plot_prox_func_vs_attribute_from_edge_df" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: To plot the a function of the proximity
 df as a function of an attribute of the proximities
 (like presyn distance)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.proximity_analysis_utils.print_n_dict">
+<span class="sig-prename descclassname"><span class="pre">neurd.proximity_analysis_utils.</span></span><span class="sig-name descname"><span class="pre">print_n_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_joiner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/proximity_analysis_utils.html#print_n_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.proximity_analysis_utils.print_n_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Purpose: To print out the category and n_proximity dict
+from the optional returned n_dict datastructure from
+plot_prox_func_vs_attribute_from_edge_df</p>
+<p>Pseudocode:
+1) Iterate through all keys</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>get the datapoints (round to 2 decimal places)</p></li>
+<li><p>Get proximity</p></li>
+<li><dl class="simple">
+<dt>Create str for all datapoints as</dt><dd><p>xi (n_prox = pi),</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Append all category strings</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.proximity_analysis_utils.str_of_n_prox_n_syn">
+<span class="sig-prename descclassname"><span class="pre">neurd.proximity_analysis_utils.</span></span><span class="sig-name descname"><span class="pre">str_of_n_prox_n_syn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'category'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">independent_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'proximity_dist'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prox_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'n_prox'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">syn_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'n_syn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category_str_joiner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/proximity_analysis_utils.html#str_of_n_prox_n_syn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.proximity_analysis_utils.str_of_n_prox_n_syn" title="Permalink to this definition"></a></dt>
+<dd><p>Purpose: Printing the n_prox and n_syn for each datapoint
+in a conversion by x plot</p>
+<p>Pseudocode:
+1) Iterate through each category</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Get the proximity dist (round to 2 decimal places)</p></li>
+<li><p>Get the n_prox</p></li>
+<li><p>Get the n_syn</p></li>
+<li><dl class="simple">
+<dt>cretae a string concatenated for all prox dist of</dt><dd><p>prox_dist (n_prox = x, n_syn = y),</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Concatenate all category strings with</p></li>
+</ol>
 </dd></dl>
 
 </section>

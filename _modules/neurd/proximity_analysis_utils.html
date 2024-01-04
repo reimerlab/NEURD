@@ -737,6 +737,7 @@
     <span class="n">legend_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     
     <span class="n">bins_mid_type</span> <span class="o">=</span> <span class="s2">&quot;weighted&quot;</span><span class="p">,</span>
+    <span class="n">return_n_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Purpose: To plot the a function of the proximity </span>
@@ -760,6 +761,7 @@
 
     <span class="n">edge_df_filt</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_df_filt</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">/</span><span class="n">divisor</span>
 
+    <span class="n">n_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">source_list</span> <span class="o">=</span> <span class="n">nu</span><span class="o">.</span><span class="n">to_list</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">source_list</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
@@ -780,12 +782,19 @@
                 <span class="n">return_std</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                 <span class="n">verbose_bins</span> <span class="o">=</span> <span class="n">verbose_bin_df</span><span class="p">,</span>
             <span class="p">)</span>
-
+            
+            
             <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;For </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    bins mid = </span><span class="si">{</span><span class="n">exc_post_bins</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    bins length = </span><span class="si">{</span><span class="n">exc_post_len</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="c1">#print(f&quot;bin len = {exc_post_len}&quot;)</span>
+            
+            <span class="n">n_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">datapoint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">exc_post_bins</span><span class="p">),</span>
+                <span class="n">n_prox</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">exc_post_len</span><span class="p">),</span>
+            <span class="p">)</span>
+
 
             <span class="k">if</span> <span class="n">legend_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">legend_label</span><span class="si">}</span><span class="s2">)&quot;</span>
@@ -820,7 +829,41 @@
     <span class="n">mu</span><span class="o">.</span><span class="n">set_legend_fontsizes</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">legend_fontsize</span><span class="p">)</span>
     <span class="n">mu</span><span class="o">.</span><span class="n">set_axes_tick_font_size</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">tick_fontsize</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">ax</span></div>
+    <span class="k">if</span> <span class="n">return_n_dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ax</span><span class="p">,</span><span class="n">n_dict</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">axs</span></div>
+    
+<div class="viewcode-block" id="print_n_dict"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.print_n_dict">[docs]</a><span class="k">def</span> <span class="nf">print_n_dict</span><span class="p">(</span>
+    <span class="n">n_dict</span><span class="p">,</span>
+    <span class="n">category_joiner</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To print out the category and n_proximity dict</span>
+<span class="sd">    from the optional returned n_dict datastructure from</span>
+<span class="sd">    plot_prox_func_vs_attribute_from_edge_df</span>
+
+<span class="sd">    Pseudocode:</span>
+<span class="sd">    1) Iterate through all keys</span>
+<span class="sd">        a. get the datapoints (round to 2 decimal places)</span>
+<span class="sd">        b. Get proximity</span>
+<span class="sd">        c. Create str for all datapoints as </span>
+<span class="sd">            xi (n_prox = pi),</span>
+<span class="sd">    2) Append all category strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">categories_strs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">c</span><span class="p">,</span><span class="n">d</span> <span class="ow">in</span> <span class="n">n_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">cat_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">: &quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> (n_prox = </span><span class="si">{</span><span class="n">pi</span><span class="si">}</span><span class="s2">)&quot;</span> 
+                             <span class="k">for</span> <span class="n">xi</span><span class="p">,</span><span class="n">pi</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;datapoint&#39;</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;n_prox&#39;</span><span class="p">])])</span>
+        <span class="n">categories_strs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat_str</span><span class="p">)</span>
+
+    <span class="n">total_str</span> <span class="o">=</span> <span class="n">category_joiner</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">categories_strs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;total_str = </span><span class="se">\n</span><span class="si">{</span><span class="n">total_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">total_str</span></div>
 
 <div class="viewcode-block" id="conversion_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_df">[docs]</a><span class="k">def</span> <span class="nf">conversion_df</span><span class="p">(</span>
     <span class="n">proximity_df</span><span class="p">,</span>
@@ -875,6 +918,50 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of pairs = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_conv</span><span class="p">)</span><span class="si">}</span><span class="s2"> (time = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="n">df_conv</span></div>
+
+
+<div class="viewcode-block" id="str_of_n_prox_n_syn"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.str_of_n_prox_n_syn">[docs]</a><span class="k">def</span> <span class="nf">str_of_n_prox_n_syn</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">category_column</span> <span class="o">=</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="n">independent_axis</span> <span class="o">=</span> <span class="s2">&quot;proximity_dist&quot;</span><span class="p">,</span>
+    <span class="n">prox_column</span> <span class="o">=</span> <span class="s2">&quot;n_prox&quot;</span><span class="p">,</span>
+    <span class="n">syn_column</span> <span class="o">=</span> <span class="s2">&quot;n_syn&quot;</span><span class="p">,</span>
+    <span class="n">category_str_joiner</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Printing the n_prox and n_syn for each datapoint</span>
+<span class="sd">    in a conversion by x plot</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) Iterate through each category</span>
+<span class="sd">        a. Get the proximity dist (round to 2 decimal places)</span>
+<span class="sd">        b. Get the n_prox</span>
+<span class="sd">        c. Get the n_syn</span>
+
+<span class="sd">        d. cretae a string concatenated for all prox dist of</span>
+<span class="sd">            prox_dist (n_prox = x, n_syn = y),</span>
+<span class="sd">    2) Concatenate all category strings with \n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">categories</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">category_column</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span>
+    <span class="n">category_strs</span> <span class="o">=</span><span class="p">[]</span> 
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">:</span>
+        <span class="n">df_sub</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">category_column</span><span class="si">}</span><span class="s2"> == &#39;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">df_sub</span><span class="p">[</span><span class="n">independent_axis</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">df_sub</span><span class="p">[</span><span class="n">prox_column</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">df_sub</span><span class="p">[</span><span class="n">syn_column</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        
+        <span class="n">cat_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">: &quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xi</span><span class="si">}</span><span class="s2"> (n_prox=</span><span class="si">{</span><span class="n">pi</span><span class="si">}</span><span class="s2">, n_syn = </span><span class="si">{</span><span class="n">si</span><span class="si">}</span><span class="s2">)&quot;</span>
+                                       <span class="k">for</span> <span class="n">xi</span><span class="p">,</span><span class="n">pi</span><span class="p">,</span><span class="n">si</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">s</span><span class="p">)])</span>
+        <span class="n">category_strs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat_str</span><span class="p">)</span>
+
+    <span class="n">total_str</span> <span class="o">=</span> <span class="n">category_str_joiner</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">category_strs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;total_str = </span><span class="se">\n</span><span class="si">{</span><span class="n">total_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">total_str</span></div>
 
 <span class="c1"># ------------- Setting up parameters -----------</span>
 
