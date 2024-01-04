@@ -663,6 +663,7 @@ def plot_prox_func_vs_attribute_from_edge_df(
     legend_label=None,
     
     bins_mid_type = "weighted",
+    return_n_dict = False,
     ):
     """
     Purpose: To plot the a function of the proximity 
@@ -686,6 +687,7 @@ def plot_prox_func_vs_attribute_from_edge_df(
 
     edge_df_filt[column] = edge_df_filt[column]/divisor
 
+    n_dict = dict()
     source_list = nu.to_list(source)
     for source in source_list:
         for target in targets:
@@ -706,12 +708,19 @@ def plot_prox_func_vs_attribute_from_edge_df(
                 return_std = False,
                 verbose_bins = verbose_bin_df,
             )
-
+            
+            
             if verbose:
                 print(f"For {label}:")
                 print(f"    bins mid = {exc_post_bins}")
                 print(f"    bins length = {exc_post_len}")
             #print(f"bin len = {exc_post_len}")
+            
+            n_dict[label] = dict(
+                datapoint = np.array(exc_post_bins),
+                n_prox = np.array(exc_post_len),
+            )
+
 
             if legend_label is not None:
                 label = f"{label} ({legend_label})"
@@ -746,7 +755,41 @@ def plot_prox_func_vs_attribute_from_edge_df(
     mu.set_legend_fontsizes(ax,legend_fontsize)
     mu.set_axes_tick_font_size(ax,tick_fontsize)
     
-    return ax
+    if return_n_dict:
+        return ax,n_dict
+    else:
+        return axs
+    
+def print_n_dict(
+    n_dict,
+    category_joiner = "\n",
+    verbose = True):
+    """
+    Purpose: To print out the category and n_proximity dict
+    from the optional returned n_dict datastructure from
+    plot_prox_func_vs_attribute_from_edge_df
+
+    Pseudocode:
+    1) Iterate through all keys
+        a. get the datapoints (round to 2 decimal places)
+        b. Get proximity
+        c. Create str for all datapoints as 
+            xi (n_prox = pi),
+    2) Append all category strings
+    """
+
+    categories_strs = []
+    for c,d in n_dict.items():
+        cat_str = f"{c}: " + ", ".join([f"{np.round(xi,2)} (n_prox = {pi})" 
+                             for xi,pi in zip(d['datapoint'],d['n_prox'])])
+        categories_strs.append(cat_str)
+
+    total_str = category_joiner.join(categories_strs)
+
+    if verbose:
+        print(f"total_str = \n{total_str}")
+        
+    return total_str
 
 def conversion_df(
     proximity_df,
@@ -801,6 +844,50 @@ def conversion_df(
         print(f"# of pairs = {len(df_conv)} (time = {time.time() - st:.3f})")
         
     return df_conv
+
+
+def str_of_n_prox_n_syn(
+    df,
+    category_column = "category",
+    independent_axis = "proximity_dist",
+    prox_column = "n_prox",
+    syn_column = "n_syn",
+    category_str_joiner = "\n",
+    verbose= False
+    ):
+    """
+    Purpose: Printing the n_prox and n_syn for each datapoint
+    in a conversion by x plot
+
+    Pseudocode: 
+    1) Iterate through each category
+        a. Get the proximity dist (round to 2 decimal places)
+        b. Get the n_prox
+        c. Get the n_syn
+
+        d. cretae a string concatenated for all prox dist of
+            prox_dist (n_prox = x, n_syn = y),
+    2) Concatenate all category strings with \n
+    """
+    
+    categories = set(df[category_column].to_list())
+    category_strs =[] 
+    for c in categories:
+        df_sub = df.query(f"{category_column} == '{c}'")
+        x = df_sub[independent_axis].to_list()
+        x = np.round(x,2)
+        p = df_sub[prox_column].to_list()
+        s = df_sub[syn_column].to_list()
+        
+        cat_str = f"{c}: " + ", ".join([f"{xi} (n_prox={pi}, n_syn = {si})"
+                                       for xi,pi,si in zip(x,p,s)])
+        category_strs.append(cat_str)
+
+    total_str = category_str_joiner.join(category_strs)
+    if verbose:
+        print(f"total_str = \n{total_str}")
+        
+    return total_str
 
 # ------------- Setting up parameters -----------
 

@@ -42,6 +42,4 @@ Documentation Site: https://reimerlab.github.io/NEURD/
 
 ### Tutorials
 
-All of the tutorials made for showing the decomposition/autoproofreading pipeline (and other features like spine detection and proximity detection) are in .ipynb inside Applications>Tutorials.
-
-A video tutorial of the decomposition/autoproofreading pipeline can be found here: https://youtu.be/ObGoIE8q70Y
+All of the tutorials made for showing the decomposition/autoproofreading pipeline (and other features like spine detection and proximity detection) are in .ipynb files inside Applications>Tutorials.
