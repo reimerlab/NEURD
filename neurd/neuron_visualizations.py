@@ -2742,6 +2742,7 @@ def visualize_neuron_specific_limb(neuron_obj,
                                      ret_col)
     
 plot_limb_idx = visualize_neuron_specific_limb
+plot_limb = visualize_neuron_specific_limb
 
 def plot_valid_error_synapses(neuron_obj,
                               synapse_dict,
@@ -3841,6 +3842,28 @@ def plot_spines_head_neck(neuron_obj,**kwargs):
     
 def plot_synapses(neuron_obj,**kwargs):
     syu.plot_synapses(neuron_obj,**kwargs)
+    
+def plot_branch(
+    branch_obj,
+    upstream_color = "yellow",
+    downstream_color = "aqua",
+    verbose = True,
+    **kwargs):
+    
+    if verbose:
+        print(f"upstream_color = {upstream_color}")
+        print(f"downstream_color = {downstream_color}")
+    
+    upstream = branch_obj.endpoint_upstream
+    downstream = branch_obj.endpoint_downstream
+    
+    ipvu.plot_objects(
+        branch_obj.mesh,
+        branch_obj.skeleton,
+        scatters=[upstream,downstream],
+        scatters_colors=[upstream_color,downstream_color],
+        **kwargs
+    )
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk

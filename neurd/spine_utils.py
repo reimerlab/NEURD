@@ -229,9 +229,48 @@ def spine_bouton_labels_to_plot():
 
 class Spine:
     """
-    Classs that will hold information about 
-    the synapses that will be attributes of a neuron object
-    
+    Classs that will hold information about a spine extracted from a neuron
+
+    Attributes
+    ----------
+    mesh_face_idx: a list of face indices of the branch that belong to the spine mesh
+    mesh: the submesh of the branch that represent the spine (mesh_face_idx indexed into the branch mesh
+    neck_face_idx: a list of face indices of the spine’s mesh that were classified as the neck (can be empty if not detected)
+    head_face_idx:  list of face indices of the spine’s mesh that were classified as the head (can be empty if not detected)
+    neck_sdf: the sdf value of the neck submesh from the clustering algorithm used to segment the head from the neck 
+    head_sdf: the sdf value of the head submesh from the clustering algorithm used to segment the head from the neck 
+    head_width: a width approximation using ray tracing of the head submesh
+    neck_width:  a width approximation using ray tracing of the head submesh
+    volume: volume of entire mesh
+    spine_id: unique identifier for spine
+    sdf:  the sdf value of the spine submesh from the clustering algorithm used to segment the spine from the branch mesh
+    endpoints_dist: skeletal walk distance of the skeletal point closest to the start of the spine protrusion to the branch skeletal endpoints
+    upstream_dist: skeletal walk distance of the skeletal point closest to the start of the spine protrusion to the upstream branch skeletal endpoint
+    downstream_dist: skeletal walk distance of the skeletal point closest to the start of the spine protrusion to the downstream branch skeletal endpoint
+    coordinate_border_verts: 
+    coordinate: one coordinate of the border vertices to be used for spine locations
+    bbox_oriented_side_lengths
+    head_bbox_oriented_side_lengths
+    neck_bbox_oriented_side_lengths
+    head_mesh_splits
+    head_mesh_splits_face_idx
+    branch_width_overall
+    branch_skeletal_length
+    branch_width_at_base
+    skeleton: surface skeleton over the spine mesh
+    skeletal_length: length of spine skeleton
+
+    # -- attributes similar to those of spine attribute
+    closest_branch_face_idx
+    closest_sk_coordinate: 3D location in space of closest skeletal point on branch for which spine is located
+    closest_face_coordinate: center coordinate of closest mesh face  on branch for which spine is located
+    closest_face_dist: distance from synapse coordinate to closest_face_coordinate
+    soma_distance: skeletal walk distance from synapse to soma
+    soma_distance_euclidean: straight path distance from synapse to soma center
+    compartment: the compartment of the branch that the spine is located on
+    limb_idx: the limb identifier that the spine is located on
+    branch_idx: the branch identifier that the spine is located on
+
     """
     def __init__(
         self,
@@ -2177,6 +2216,31 @@ def head_neck_shaft_idx_from_branch(branch_obj,
                                   return_idx = False),
                           meshes_colors="random")
     return head_neck_shaft_idx
+
+def spine_density(obj,um = True):
+    """
+    n_spine / skeletal length (um)
+    """
+    skeletal_length = obj.skeletal_length
+    if um:
+        skeletal_length = skeletal_length/1000
+        
+    if skeletal_length == 0:
+        return 0
+    return len(obj.spines_obj)/skeletal_length
+    
+def spine_volume_density(obj,um = True):
+    """
+    sum spine volume (um**3) / skeletal length (um)
+    """
+    skeletal_length = obj.skeletal_length
+    if um:
+        skeletal_length = skeletal_length/1000
+    
+    if skeletal_length == 0:
+        return 0
+    return np.sum([k.volume for k in obj.spines_obj])/skeletal_length
+
 
 def spine_density_over_limb_branch(neuron_obj,
                                      limb_branch_dict,

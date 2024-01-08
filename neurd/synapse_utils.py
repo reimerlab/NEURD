@@ -35,6 +35,25 @@ class Synapse:
     Classs that will hold information about 
     the synapses that will be attributes of a neuron object
     
+    Attributes
+    ----------
+    
+    synapse_id: 
+    synapse volume
+    upstream_dist: skeletal distance from the closest upstream branch point
+    downstream_dist: skeletal distance from the closest downstream branch point or endpoint
+    coordinate: 3D location in space: 
+    closest_sk_coordinate: 3D location in space of closest skeletal point on branch for which synapse is located
+    closest_face_coordinate: center coordinate of closest mesh face  on branch for which synapse is located
+    closest_face_dist: distance from synapse coordinate to closest_face_coordinate
+    soma_distance: skeletal walk distance from synapse to soma
+    soma_distance_euclidean: straight path distance from synapse to soma center
+    head_neck_shaft: whether the synapse is located on a spine head, spine neck or neurite shaft (decoding of integer label is in spine_utils)
+    compartment: the compartment of the branch that the synapse is located on
+    limb_idx: the limb identifier that the synapse is located on
+    branch_idx: the branch identifier that the synapse is located on
+
+    Note: features like head_neck_shaft, compartment are not populated until later stages (cell typing, autoproofreading) when that information is available for the branches
     """
     def __init__(self,synapse_obj=None,**kwargs):
         for a in synapse_attributes:
@@ -1759,6 +1778,8 @@ def synapses_df(
     Purpose: To create a dataframe with all of the features
     of the synapses so the synapses can be queried
     """
+    if isinstance(neuron_obj,neuron.Limb) or (isinstance(neuron_obj,neuron.Branch)):
+        neuron_obj = neuron_obj.synapses
 
     if type(neuron_obj) == list:
         return syu.synapses_to_synapses_df(
@@ -1766,6 +1787,9 @@ def synapses_df(
             add_compartment_coarse_fine=add_compartment_coarse_fine,
             decode_head_neck_shaft_idx=decode_head_neck_shaft_idx,
             **kwargs)
+        
+    
+        
     if synapse_types_to_process is not None:
         curr_synapse_types = {k:v for k,v in 
                               syu.synapse_types.items() if k in synapse_types_to_process}
@@ -4490,4 +4514,5 @@ from datasci_tools import numpy_dep as np
 from datasci_tools import numpy_utils as nu
 from datasci_tools import pandas_utils as pu
 
+from . import neuron
 from . import synapse_utils as syu

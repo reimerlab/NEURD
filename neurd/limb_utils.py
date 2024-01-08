@@ -170,7 +170,8 @@ def siblings_skeletal_angle_max(
     return lu.siblings_skeletal_angle(
         limb_obj,
         branch_idx,
-        extrema_value = "max"
+        extrema_value = "max",
+        **kwargs
     )
 
 def siblings_skeletal_angle_min(
@@ -182,7 +183,8 @@ def siblings_skeletal_angle_min(
     return lu.siblings_skeletal_angle(
         limb_obj,
         branch_idx,
-        extrema_value = "min"
+        extrema_value = "min",
+        **kwargs
     )
 
 def children_skeletal_angle_max(
@@ -194,7 +196,8 @@ def children_skeletal_angle_max(
     return lu.children_skeletal_angle(
         limb_obj,
         branch_idx,
-        extrema_value = "max"
+        extrema_value = "max",
+        **kwargs
     )
 
 def children_skeletal_angle_min(
@@ -206,7 +209,8 @@ def children_skeletal_angle_min(
     return lu.children_skeletal_angle(
         limb_obj,
         branch_idx,
-        extrema_value = "min"
+        extrema_value = "min",
+        **kwargs
     )
 
 
@@ -411,3 +415,44 @@ def skeletal_angles_df(neuron_obj,
     angles_df = nst.stats_df(neuron_obj,functions_list)
         
     return angles_df
+
+def root_width(limb_obj):
+    return limb_obj[limb_obj.current_starting_node].width_upstream
+
+def best_feature_match_in_descendents(
+    limb,
+    branch_idx,
+    feature,
+    verbose = True,
+    ):
+    child_nodes = xu.all_children_nodes(limb.concept_network,branch_idx,depth_limit = None)
+    child_features = [getattr(limb[c],feature) for c in child_nodes]
+    
+    branch_feature = getattr(limb[branch_idx],feature)
+    
+    abs_diff = [np.abs(cf - branch_feature) for cf in child_features]
+    
+    min_idx = np.argmin(abs_diff)
+    min_child = child_nodes[min_idx]
+    min_child_value = child_features[min_idx]
+    
+    if verbose:
+        print(f"child_nodes = {child_nodes}")
+        print(f"All children {feature} = {child_features}")
+        print(f"Best match of Branch {branch_idx} {feature} ({branch_feature:.2f}):")
+        print(f"   Child Node {min_child}, {feature} = {min_child_value:.2f}")
+        
+    return min_child
+
+def root_skeleton_vector_from_soma(
+    neuron_obj,
+    limb_idx,
+    soma_name = "S0",
+    normalize = True):
+
+    limb = neuron_obj[limb_idx]
+    root_skeleton_vector_from_soma = limb.current_starting_coordinate - neuron_obj[soma_name].mesh_center
+    if normalize:
+        root_skeleton_vector_from_soma = root_skeleton_vector_from_soma/np.linalg.norm(root_skeleton_vector_from_soma)
+    return root_skeleton_vector_from_soma
+    

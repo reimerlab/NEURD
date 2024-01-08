@@ -346,12 +346,19 @@ class Branch:
     
     @property
     def skeleton_vector_upstream(self):
+        """
+        the skelelton vector near upstream coordinate where the vector is oriented in the skeletal walk direction away from the soma
+        """
         if self._skeleton_vector_upstream is None:
             self._skeleton_vector_upstream = bu.skeleton_vector_upstream(self)
         return self._skeleton_vector_upstream 
     
     @property
     def skeleton_vector_downstream(self):
+        """
+        the skelelton vector near downstream coordinate where the vector is oriented in the skeletal walk direction away from the soma
+        """
+
         if self._skeleton_vector_downstream is None:
             self._skeleton_vector_downstream = bu.skeleton_vector_downstream(self)
         return self._skeleton_vector_downstream
@@ -868,8 +875,10 @@ class Limb:
             print(f"self.deleted_edges = {self.deleted_edges}")
             print(f"self.created_edges = {self.created_edges}")
             
-            
-        
+    @property
+    def current_starting_soma_vertices(self):
+        return self.current_touching_soma_vertices    
+    
     def set_branches_endpoints_upstream_downstream_idx(self):
         bu.set_branches_endpoints_upstream_downstream_idx_on_limb(self)
         
@@ -879,6 +888,9 @@ class Limb:
                              self.get_branch_names(),
                              "mesh_volume")
     
+    @property
+    def branches(self):
+        return [k for k in self]
     
     @property
     def area(self):
@@ -1188,6 +1200,9 @@ class Limb:
         return return_dict
     
     def touching_somas(self):
+        """
+        The soma identifiers that a current limb is adjacent two (useful for finding paths to cut for multi-soma or multi-touch limbs
+        """
         return [k["starting_soma"] for k in self.all_concept_network_data if k["starting_soma"] >= 0]
     
     
@@ -1968,6 +1983,10 @@ class Soma:
                                          watertight_method=watertight_method)
         
         return self._volume/divisor
+    
+    @property
+    def mesh_volume(self,**kwargs):
+        return self.volume
         
     def __eq__(self,other):
         #print("inside equality function")
@@ -2675,9 +2694,18 @@ class Neuron:
             
         nru.recalculate_endpoints_and_order_skeletons_over_neuron(self)
         
+        try:
+            bu.set_branches_endpoints_upstream_downstream_idx(self,)
+        except:
+            pass
+        
         if not suppress_all_output:
             print(f"Total time for neuron instance creation = {time.time() - neuron_creation_time}")
             
+    @property
+    def limbs(self):
+        return [k for k in self]
+    
     
     def __getattr__(self,k):
         if k[:2] == "__":
@@ -2729,6 +2757,9 @@ class Neuron:
     
     @property
     def red_blue_split_points_by_limb(self):
+        """
+        dummy docstring
+        """
         rb_splits = getattr(self,"red_blue_split_results",None)
         return ssu.limb_red_blue_dict_from_red_blue_splits(
             rb_splits     
@@ -3610,6 +3641,11 @@ class Neuron:
     @property
     def axon_mesh(self):
         return nru.axon_mesh(self)
+    
+    @property
+    def dendrite_mesh(self):
+        return nru.dendrite_mesh(self)
+    
     @property
     def axon_skeleton(self):
         return nru.axon_skeleton(self)

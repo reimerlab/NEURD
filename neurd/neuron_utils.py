@@ -5956,6 +5956,13 @@ def axon_mesh(neuron_obj):
                                      feature="mesh")
     return tu.combine_meshes(axon_meshes)
 
+def dendrite_mesh(neuron_obj):
+    limb_branch_dict = clu.dendrite_limb_branch_dict(neuron_obj)
+    meshes = nru.feature_over_limb_branch_dict(neuron_obj,limb_branch_dict,
+                                     feature="mesh")
+    return tu.combine_meshes(meshes)
+    
+
 def axon_skeleton(neuron_obj):
     axon_limb_branch_dict = clu.axon_limb_branch_dict(neuron_obj)
     axon_meshes = nru.feature_over_limb_branch_dict(neuron_obj,axon_limb_branch_dict,

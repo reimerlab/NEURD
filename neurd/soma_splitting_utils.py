@@ -27,7 +27,14 @@ def limb_red_blue_dict_from_red_blue_splits(
     ),
     stack_all_attributes = True,
     ):
+    """
+    a dictionary data structure that stores for each limb
+    - valid points: coordinates that should belong to the existing neuronal process ( a marker of where the valid mesh is). 
+    - error points: coordinates that should belong to incorrect neuronal process resulting from merge errors ( a marker of where the error mesh starts)
+    - coordinate: locations of split points used in the elimination of soma to soma paths
 
+    The valid and error points can be used as inputs for automatic mesh splitting algorithms in other pipelines (ex: Neuroglancer)
+    """
     limb_red_blue_dict = ssu.red_blue_split_dict_by_limb_from_red_blue_split_results(
         red_blue_split_results
     )
