@@ -244,7 +244,8 @@
     <span class="k">return</span> <span class="n">lu</span><span class="o">.</span><span class="n">siblings_skeletal_angle</span><span class="p">(</span>
         <span class="n">limb_obj</span><span class="p">,</span>
         <span class="n">branch_idx</span><span class="p">,</span>
-        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span>
+        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="siblings_skeletal_angle_min"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.siblings_skeletal_angle_min">[docs]</a><span class="k">def</span> <span class="nf">siblings_skeletal_angle_min</span><span class="p">(</span>
@@ -256,7 +257,8 @@
     <span class="k">return</span> <span class="n">lu</span><span class="o">.</span><span class="n">siblings_skeletal_angle</span><span class="p">(</span>
         <span class="n">limb_obj</span><span class="p">,</span>
         <span class="n">branch_idx</span><span class="p">,</span>
-        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span>
+        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="children_skeletal_angle_max"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.children_skeletal_angle_max">[docs]</a><span class="k">def</span> <span class="nf">children_skeletal_angle_max</span><span class="p">(</span>
@@ -268,7 +270,8 @@
     <span class="k">return</span> <span class="n">lu</span><span class="o">.</span><span class="n">children_skeletal_angle</span><span class="p">(</span>
         <span class="n">limb_obj</span><span class="p">,</span>
         <span class="n">branch_idx</span><span class="p">,</span>
-        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span>
+        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="children_skeletal_angle_min"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.children_skeletal_angle_min">[docs]</a><span class="k">def</span> <span class="nf">children_skeletal_angle_min</span><span class="p">(</span>
@@ -280,7 +283,8 @@
     <span class="k">return</span> <span class="n">lu</span><span class="o">.</span><span class="n">children_skeletal_angle</span><span class="p">(</span>
         <span class="n">limb_obj</span><span class="p">,</span>
         <span class="n">branch_idx</span><span class="p">,</span>
-        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span>
+        <span class="n">extrema_value</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
 
@@ -485,6 +489,47 @@
     <span class="n">angles_df</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">stats_df</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">functions_list</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="n">angles_df</span></div>
+
+<div class="viewcode-block" id="root_width"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.root_width">[docs]</a><span class="k">def</span> <span class="nf">root_width</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">current_starting_node</span><span class="p">]</span><span class="o">.</span><span class="n">width_upstream</span></div>
+
+<div class="viewcode-block" id="best_feature_match_in_descendents"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.best_feature_match_in_descendents">[docs]</a><span class="k">def</span> <span class="nf">best_feature_match_in_descendents</span><span class="p">(</span>
+    <span class="n">limb</span><span class="p">,</span>
+    <span class="n">branch_idx</span><span class="p">,</span>
+    <span class="n">feature</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+    <span class="n">child_nodes</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">all_children_nodes</span><span class="p">(</span><span class="n">limb</span><span class="o">.</span><span class="n">concept_network</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">,</span><span class="n">depth_limit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">child_features</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">limb</span><span class="p">[</span><span class="n">c</span><span class="p">],</span><span class="n">feature</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">child_nodes</span><span class="p">]</span>
+    
+    <span class="n">branch_feature</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">limb</span><span class="p">[</span><span class="n">branch_idx</span><span class="p">],</span><span class="n">feature</span><span class="p">)</span>
+    
+    <span class="n">abs_diff</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cf</span> <span class="o">-</span> <span class="n">branch_feature</span><span class="p">)</span> <span class="k">for</span> <span class="n">cf</span> <span class="ow">in</span> <span class="n">child_features</span><span class="p">]</span>
+    
+    <span class="n">min_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">abs_diff</span><span class="p">)</span>
+    <span class="n">min_child</span> <span class="o">=</span> <span class="n">child_nodes</span><span class="p">[</span><span class="n">min_idx</span><span class="p">]</span>
+    <span class="n">min_child_value</span> <span class="o">=</span> <span class="n">child_features</span><span class="p">[</span><span class="n">min_idx</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;child_nodes = </span><span class="si">{</span><span class="n">child_nodes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All children </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">child_features</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best match of Branch </span><span class="si">{</span><span class="n">branch_idx</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">branch_feature</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">):&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Child Node </span><span class="si">{</span><span class="n">min_child</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">min_child_value</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">min_child</span></div>
+
+<div class="viewcode-block" id="root_skeleton_vector_from_soma"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.root_skeleton_vector_from_soma">[docs]</a><span class="k">def</span> <span class="nf">root_skeleton_vector_from_soma</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">limb_idx</span><span class="p">,</span>
+    <span class="n">soma_name</span> <span class="o">=</span> <span class="s2">&quot;S0&quot;</span><span class="p">,</span>
+    <span class="n">normalize</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">limb</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span>
+    <span class="n">root_skeleton_vector_from_soma</span> <span class="o">=</span> <span class="n">limb</span><span class="o">.</span><span class="n">current_starting_coordinate</span> <span class="o">-</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="n">soma_name</span><span class="p">]</span><span class="o">.</span><span class="n">mesh_center</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">root_skeleton_vector_from_soma</span> <span class="o">=</span> <span class="n">root_skeleton_vector_from_soma</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">root_skeleton_vector_from_soma</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">root_skeleton_vector_from_soma</span></div>
+    
 </pre></div>
 
            </div>

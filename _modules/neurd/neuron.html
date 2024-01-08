@@ -420,12 +420,19 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">skeleton_vector_upstream</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        the skelelton vector near upstream coordinate where the vector is oriented in the skeletal walk direction away from the soma</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skeleton_vector_upstream</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_skeleton_vector_upstream</span> <span class="o">=</span> <span class="n">bu</span><span class="o">.</span><span class="n">skeleton_vector_upstream</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skeleton_vector_upstream</span> 
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">skeleton_vector_downstream</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        the skelelton vector near downstream coordinate where the vector is oriented in the skeletal walk direction away from the soma</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skeleton_vector_downstream</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_skeleton_vector_downstream</span> <span class="o">=</span> <span class="n">bu</span><span class="o">.</span><span class="n">skeleton_vector_downstream</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skeleton_vector_downstream</span>
@@ -942,8 +949,10 @@
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;self.deleted_edges = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">deleted_edges</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;self.created_edges = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">created_edges</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
             
-            
-        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_starting_soma_vertices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_touching_soma_vertices</span>    
+    
 <div class="viewcode-block" id="Limb.set_branches_endpoints_upstream_downstream_idx"><a class="viewcode-back" href="../../neurd.html#neurd.neuron.Limb.set_branches_endpoints_upstream_downstream_idx">[docs]</a>    <span class="k">def</span> <span class="nf">set_branches_endpoints_upstream_downstream_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">bu</span><span class="o">.</span><span class="n">set_branches_endpoints_upstream_downstream_idx_on_limb</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
         
@@ -953,6 +962,9 @@
                              <span class="bp">self</span><span class="o">.</span><span class="n">get_branch_names</span><span class="p">(),</span>
                              <span class="s2">&quot;mesh_volume&quot;</span><span class="p">)</span>
     
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">branches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1262,6 +1274,9 @@
         <span class="k">return</span> <span class="n">return_dict</span>
     
 <div class="viewcode-block" id="Limb.touching_somas"><a class="viewcode-back" href="../../neurd.html#neurd.neuron.Limb.touching_somas">[docs]</a>    <span class="k">def</span> <span class="nf">touching_somas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The soma identifiers that a current limb is adjacent two (useful for finding paths to cut for multi-soma or multi-touch limbs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="s2">&quot;starting_soma&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_concept_network_data</span> <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="s2">&quot;starting_soma&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span></div>
 <span class="w">    </span>
 <span class="w">    </span>
@@ -2042,6 +2057,10 @@
                                          <span class="n">watertight_method</span><span class="o">=</span><span class="n">watertight_method</span><span class="p">)</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_volume</span><span class="o">/</span><span class="n">divisor</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mesh_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume</span>
         
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
         <span class="c1">#print(&quot;inside equality function&quot;)</span>
@@ -2749,9 +2768,18 @@
             
         <span class="n">nru</span><span class="o">.</span><span class="n">recalculate_endpoints_and_order_skeletons_over_neuron</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">bu</span><span class="o">.</span><span class="n">set_branches_endpoints_upstream_downstream_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        
         <span class="k">if</span> <span class="ow">not</span> <span class="n">suppress_all_output</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time for neuron instance creation = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">neuron_creation_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
             
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">limbs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span>
+    
     
     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">k</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;__&quot;</span><span class="p">:</span>
@@ -2803,6 +2831,9 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">red_blue_split_points_by_limb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        dummy docstring</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rb_splits</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;red_blue_split_results&quot;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ssu</span><span class="o">.</span><span class="n">limb_red_blue_dict_from_red_blue_splits</span><span class="p">(</span>
             <span class="n">rb_splits</span>     
@@ -3684,6 +3715,11 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">axon_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">axon_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dendrite_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">dendrite_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">axon_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">axon_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>

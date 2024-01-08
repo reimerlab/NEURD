@@ -580,6 +580,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="neurd.html#module-neurd.limb_utils">neurd.limb_utils module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.all_paths_to_leaf_nodes"><code class="docutils literal notranslate"><span class="pre">all_paths_to_leaf_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.best_feature_match_in_descendents"><code class="docutils literal notranslate"><span class="pre">best_feature_match_in_descendents()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.children_skeletal_angle"><code class="docutils literal notranslate"><span class="pre">children_skeletal_angle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.children_skeletal_angle_max"><code class="docutils literal notranslate"><span class="pre">children_skeletal_angle_max()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.children_skeletal_angle_min"><code class="docutils literal notranslate"><span class="pre">children_skeletal_angle_min()</span></code></a></li>
@@ -587,6 +588,8 @@
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.most_usptream_endpoints_of_branches_on_limb"><code class="docutils literal notranslate"><span class="pre">most_usptream_endpoints_of_branches_on_limb()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.parent_skeletal_angle"><code class="docutils literal notranslate"><span class="pre">parent_skeletal_angle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.relation_skeletal_angle"><code class="docutils literal notranslate"><span class="pre">relation_skeletal_angle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.root_skeleton_vector_from_soma"><code class="docutils literal notranslate"><span class="pre">root_skeleton_vector_from_soma()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.root_width"><code class="docutils literal notranslate"><span class="pre">root_width()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.siblings_skeletal_angle"><code class="docutils literal notranslate"><span class="pre">siblings_skeletal_angle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.siblings_skeletal_angle_max"><code class="docutils literal notranslate"><span class="pre">siblings_skeletal_angle_max()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.limb_utils.siblings_skeletal_angle_min"><code class="docutils literal notranslate"><span class="pre">siblings_skeletal_angle_min()</span></code></a></li>
@@ -753,11 +756,13 @@
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.boutons"><code class="docutils literal notranslate"><span class="pre">Limb.boutons</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.boutons_volume"><code class="docutils literal notranslate"><span class="pre">Limb.boutons_volume</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.branch_objects"><code class="docutils literal notranslate"><span class="pre">Limb.branch_objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.branches"><code class="docutils literal notranslate"><span class="pre">Limb.branches</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.compute_boutons_volume"><code class="docutils literal notranslate"><span class="pre">Limb.compute_boutons_volume()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.compute_spines_volume"><code class="docutils literal notranslate"><span class="pre">Limb.compute_spines_volume()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.concept_network_data_by_soma"><code class="docutils literal notranslate"><span class="pre">Limb.concept_network_data_by_soma</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.concept_network_data_by_starting_node"><code class="docutils literal notranslate"><span class="pre">Limb.concept_network_data_by_starting_node</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.convert_concept_network_to_directional"><code class="docutils literal notranslate"><span class="pre">Limb.convert_concept_network_to_directional()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.current_starting_soma_vertices"><code class="docutils literal notranslate"><span class="pre">Limb.current_starting_soma_vertices</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.divided_skeletons"><code class="docutils literal notranslate"><span class="pre">Limb.divided_skeletons</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.find_branch_by_skeleton_coordinate"><code class="docutils literal notranslate"><span class="pre">Limb.find_branch_by_skeleton_coordinate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Limb.get_attribute_dict"><code class="docutils literal notranslate"><span class="pre">Limb.get_attribute_dict()</span></code></a></li>
@@ -829,6 +834,7 @@
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.compute_boutons_volume"><code class="docutils literal notranslate"><span class="pre">Neuron.compute_boutons_volume()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.compute_spines_volume"><code class="docutils literal notranslate"><span class="pre">Neuron.compute_spines_volume()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.dendrite_limb_branch_dict"><code class="docutils literal notranslate"><span class="pre">Neuron.dendrite_limb_branch_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.dendrite_mesh"><code class="docutils literal notranslate"><span class="pre">Neuron.dendrite_mesh</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.dendrite_on_axon_limb_branch_dict"><code class="docutils literal notranslate"><span class="pre">Neuron.dendrite_on_axon_limb_branch_dict</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.dendrite_skeleton"><code class="docutils literal notranslate"><span class="pre">Neuron.dendrite_skeleton</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.distance_errored_synapses_post"><code class="docutils literal notranslate"><span class="pre">Neuron.distance_errored_synapses_post</span></code></a></li>
@@ -850,6 +856,7 @@
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.limb_area"><code class="docutils literal notranslate"><span class="pre">Neuron.limb_area</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.limb_branch_dict"><code class="docutils literal notranslate"><span class="pre">Neuron.limb_branch_dict</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.limb_mesh_volume"><code class="docutils literal notranslate"><span class="pre">Neuron.limb_mesh_volume</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.limbs"><code class="docutils literal notranslate"><span class="pre">Neuron.limbs</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.max_limb_n_branches"><code class="docutils literal notranslate"><span class="pre">Neuron.max_limb_n_branches</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.max_limb_skeletal_length"><code class="docutils literal notranslate"><span class="pre">Neuron.max_limb_skeletal_length</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Neuron.max_soma_area"><code class="docutils literal notranslate"><span class="pre">Neuron.max_soma_area</span></code></a></li>
@@ -940,6 +947,7 @@
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Soma.__init__"><code class="docutils literal notranslate"><span class="pre">Soma.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Soma.area"><code class="docutils literal notranslate"><span class="pre">Soma.area</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Soma.compartment"><code class="docutils literal notranslate"><span class="pre">Soma.compartment</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Soma.mesh_volume"><code class="docutils literal notranslate"><span class="pre">Soma.mesh_volume</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Soma.n_synapses"><code class="docutils literal notranslate"><span class="pre">Soma.n_synapses</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Soma.n_synapses_post"><code class="docutils literal notranslate"><span class="pre">Soma.n_synapses_post</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.neuron.Soma.n_synapses_pre"><code class="docutils literal notranslate"><span class="pre">Soma.n_synapses_pre</span></code></a></li>
@@ -1343,6 +1351,7 @@
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_utils.coordinates_to_closest_limb_branch"><code class="docutils literal notranslate"><span class="pre">coordinates_to_closest_limb_branch()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_utils.copy_neuron"><code class="docutils literal notranslate"><span class="pre">copy_neuron()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_utils.decompress_neuron"><code class="docutils literal notranslate"><span class="pre">decompress_neuron()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_utils.dendrite_mesh"><code class="docutils literal notranslate"><span class="pre">dendrite_mesh()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_utils.dendrite_skeleton"><code class="docutils literal notranslate"><span class="pre">dendrite_skeleton()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_utils.distance_to_soma_from_coordinate_close_to_branch"><code class="docutils literal notranslate"><span class="pre">distance_to_soma_from_coordinate_close_to_branch()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_utils.downstream_endpoint"><code class="docutils literal notranslate"><span class="pre">downstream_endpoint()</span></code></a></li>
@@ -1531,6 +1540,7 @@
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_axon"><code class="docutils literal notranslate"><span class="pre">plot_axon()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_axon_merge_errors"><code class="docutils literal notranslate"><span class="pre">plot_axon_merge_errors()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_boutons"><code class="docutils literal notranslate"><span class="pre">plot_boutons()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_branch"><code class="docutils literal notranslate"><span class="pre">plot_branch()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_branch_groupings"><code class="docutils literal notranslate"><span class="pre">plot_branch_groupings()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_branch_mesh_attribute"><code class="docutils literal notranslate"><span class="pre">plot_branch_mesh_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_branch_on_whole_mesh"><code class="docutils literal notranslate"><span class="pre">plot_branch_on_whole_mesh()</span></code></a></li>
@@ -1551,6 +1561,7 @@
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_ipv_scatter"><code class="docutils literal notranslate"><span class="pre">plot_ipv_scatter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_ipv_skeleton"><code class="docutils literal notranslate"><span class="pre">plot_ipv_skeleton()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_labeled_limb_branch_dicts"><code class="docutils literal notranslate"><span class="pre">plot_labeled_limb_branch_dicts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_limb"><code class="docutils literal notranslate"><span class="pre">plot_limb()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_limb_branch_dict"><code class="docutils literal notranslate"><span class="pre">plot_limb_branch_dict()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_limb_branch_dict_multiple"><code class="docutils literal notranslate"><span class="pre">plot_limb_branch_dict_multiple()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.neuron_visualizations.plot_limb_concept_network_2D"><code class="docutils literal notranslate"><span class="pre">plot_limb_concept_network_2D()</span></code></a></li>
@@ -1807,6 +1818,41 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="neurd.html#module-neurd.spine_utils">neurd.spine_utils module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine"><code class="docutils literal notranslate"><span class="pre">Spine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.mesh_face_idx"><code class="docutils literal notranslate"><span class="pre">Spine.mesh_face_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.mesh"><code class="docutils literal notranslate"><span class="pre">Spine.mesh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.neck_face_idx"><code class="docutils literal notranslate"><span class="pre">Spine.neck_face_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_face_idx"><code class="docutils literal notranslate"><span class="pre">Spine.head_face_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.neck_sdf"><code class="docutils literal notranslate"><span class="pre">Spine.neck_sdf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_sdf"><code class="docutils literal notranslate"><span class="pre">Spine.head_sdf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_width"><code class="docutils literal notranslate"><span class="pre">Spine.head_width</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.neck_width"><code class="docutils literal notranslate"><span class="pre">Spine.neck_width</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.volume"><code class="docutils literal notranslate"><span class="pre">Spine.volume</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.spine_id"><code class="docutils literal notranslate"><span class="pre">Spine.spine_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.sdf"><code class="docutils literal notranslate"><span class="pre">Spine.sdf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.endpoints_dist"><code class="docutils literal notranslate"><span class="pre">Spine.endpoints_dist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.upstream_dist"><code class="docutils literal notranslate"><span class="pre">Spine.upstream_dist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.downstream_dist"><code class="docutils literal notranslate"><span class="pre">Spine.downstream_dist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.coordinate_border_verts"><code class="docutils literal notranslate"><span class="pre">Spine.coordinate_border_verts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.coordinate"><code class="docutils literal notranslate"><span class="pre">Spine.coordinate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.bbox_oriented_side_lengths"><code class="docutils literal notranslate"><span class="pre">Spine.bbox_oriented_side_lengths</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_bbox_oriented_side_lengths"><code class="docutils literal notranslate"><span class="pre">Spine.head_bbox_oriented_side_lengths</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.neck_bbox_oriented_side_lengths"><code class="docutils literal notranslate"><span class="pre">Spine.neck_bbox_oriented_side_lengths</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_mesh_splits"><code class="docutils literal notranslate"><span class="pre">Spine.head_mesh_splits</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_mesh_splits_face_idx"><code class="docutils literal notranslate"><span class="pre">Spine.head_mesh_splits_face_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.branch_width_overall"><code class="docutils literal notranslate"><span class="pre">Spine.branch_width_overall</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.branch_skeletal_length"><code class="docutils literal notranslate"><span class="pre">Spine.branch_skeletal_length</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.branch_width_at_base"><code class="docutils literal notranslate"><span class="pre">Spine.branch_width_at_base</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.skeleton"><code class="docutils literal notranslate"><span class="pre">Spine.skeleton</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.skeletal_length"><code class="docutils literal notranslate"><span class="pre">Spine.skeletal_length</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.closest_branch_face_idx"><code class="docutils literal notranslate"><span class="pre">Spine.closest_branch_face_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.closest_sk_coordinate"><code class="docutils literal notranslate"><span class="pre">Spine.closest_sk_coordinate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.closest_face_coordinate"><code class="docutils literal notranslate"><span class="pre">Spine.closest_face_coordinate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.closest_face_dist"><code class="docutils literal notranslate"><span class="pre">Spine.closest_face_dist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.soma_distance"><code class="docutils literal notranslate"><span class="pre">Spine.soma_distance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.soma_distance_euclidean"><code class="docutils literal notranslate"><span class="pre">Spine.soma_distance_euclidean</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.compartment"><code class="docutils literal notranslate"><span class="pre">Spine.compartment</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.limb_idx"><code class="docutils literal notranslate"><span class="pre">Spine.limb_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.branch_idx"><code class="docutils literal notranslate"><span class="pre">Spine.branch_idx</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.__init__"><code class="docutils literal notranslate"><span class="pre">Spine.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.area"><code class="docutils literal notranslate"><span class="pre">Spine.area</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.area_of_border_verts"><code class="docutils literal notranslate"><span class="pre">Spine.area_of_border_verts</span></code></a></li>
@@ -1814,7 +1860,7 @@
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.base_coordinate_x_nm"><code class="docutils literal notranslate"><span class="pre">Spine.base_coordinate_x_nm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.base_coordinate_y_nm"><code class="docutils literal notranslate"><span class="pre">Spine.base_coordinate_y_nm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.base_coordinate_z_nm"><code class="docutils literal notranslate"><span class="pre">Spine.base_coordinate_z_nm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.bbox_oriented_side_lengths"><code class="docutils literal notranslate"><span class="pre">Spine.bbox_oriented_side_lengths</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#id0"><code class="docutils literal notranslate"><span class="pre">Spine.bbox_oriented_side_lengths</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.bbox_oriented_side_max"><code class="docutils literal notranslate"><span class="pre">Spine.bbox_oriented_side_max</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.bbox_oriented_side_middle"><code class="docutils literal notranslate"><span class="pre">Spine.bbox_oriented_side_middle</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.bbox_oriented_side_min"><code class="docutils literal notranslate"><span class="pre">Spine.bbox_oriented_side_min</span></code></a></li>
@@ -1836,14 +1882,14 @@
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_bbox_min_x_nm"><code class="docutils literal notranslate"><span class="pre">Spine.head_bbox_min_x_nm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_bbox_min_y_nm"><code class="docutils literal notranslate"><span class="pre">Spine.head_bbox_min_y_nm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_bbox_min_z_nm"><code class="docutils literal notranslate"><span class="pre">Spine.head_bbox_min_z_nm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_bbox_oriented_side_lengths"><code class="docutils literal notranslate"><span class="pre">Spine.head_bbox_oriented_side_lengths</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#id14"><code class="docutils literal notranslate"><span class="pre">Spine.head_bbox_oriented_side_lengths</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_bbox_oriented_side_max"><code class="docutils literal notranslate"><span class="pre">Spine.head_bbox_oriented_side_max</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_bbox_oriented_side_middle"><code class="docutils literal notranslate"><span class="pre">Spine.head_bbox_oriented_side_middle</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_bbox_oriented_side_min"><code class="docutils literal notranslate"><span class="pre">Spine.head_bbox_oriented_side_min</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_exist"><code class="docutils literal notranslate"><span class="pre">Spine.head_exist</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_mesh"><code class="docutils literal notranslate"><span class="pre">Spine.head_mesh</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_mesh_splits"><code class="docutils literal notranslate"><span class="pre">Spine.head_mesh_splits</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_mesh_splits_face_idx"><code class="docutils literal notranslate"><span class="pre">Spine.head_mesh_splits_face_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#id15"><code class="docutils literal notranslate"><span class="pre">Spine.head_mesh_splits</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#id16"><code class="docutils literal notranslate"><span class="pre">Spine.head_mesh_splits_face_idx</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_mesh_splits_from_index"><code class="docutils literal notranslate"><span class="pre">Spine.head_mesh_splits_from_index()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_mesh_splits_max"><code class="docutils literal notranslate"><span class="pre">Spine.head_mesh_splits_max</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.head_mesh_splits_min"><code class="docutils literal notranslate"><span class="pre">Spine.head_mesh_splits_min</span></code></a></li>
@@ -1867,7 +1913,7 @@
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.neck_bbox_min_x_nm"><code class="docutils literal notranslate"><span class="pre">Spine.neck_bbox_min_x_nm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.neck_bbox_min_y_nm"><code class="docutils literal notranslate"><span class="pre">Spine.neck_bbox_min_y_nm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.neck_bbox_min_z_nm"><code class="docutils literal notranslate"><span class="pre">Spine.neck_bbox_min_z_nm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.neck_bbox_oriented_side_lengths"><code class="docutils literal notranslate"><span class="pre">Spine.neck_bbox_oriented_side_lengths</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#id17"><code class="docutils literal notranslate"><span class="pre">Spine.neck_bbox_oriented_side_lengths</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.neck_bbox_oriented_side_max"><code class="docutils literal notranslate"><span class="pre">Spine.neck_bbox_oriented_side_max</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.neck_bbox_oriented_side_middle"><code class="docutils literal notranslate"><span class="pre">Spine.neck_bbox_oriented_side_middle</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.neck_bbox_oriented_side_min"><code class="docutils literal notranslate"><span class="pre">Spine.neck_bbox_oriented_side_min</span></code></a></li>
@@ -1885,8 +1931,8 @@
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.sdf_mean"><code class="docutils literal notranslate"><span class="pre">Spine.sdf_mean</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.sdf_median"><code class="docutils literal notranslate"><span class="pre">Spine.sdf_median</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.shaft_border_area"><code class="docutils literal notranslate"><span class="pre">Spine.shaft_border_area</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.skeletal_length"><code class="docutils literal notranslate"><span class="pre">Spine.skeletal_length</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.skeleton"><code class="docutils literal notranslate"><span class="pre">Spine.skeleton</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#id18"><code class="docutils literal notranslate"><span class="pre">Spine.skeletal_length</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#id19"><code class="docutils literal notranslate"><span class="pre">Spine.skeleton</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.spine_area"><code class="docutils literal notranslate"><span class="pre">Spine.spine_area</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.spine_bbox_max_x_nm"><code class="docutils literal notranslate"><span class="pre">Spine.spine_bbox_max_x_nm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.spine_utils.Spine.spine_bbox_max_y_nm"><code class="docutils literal notranslate"><span class="pre">Spine.spine_bbox_max_y_nm</span></code></a></li>
@@ -2028,6 +2074,7 @@
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_compartment_synapses"><code class="docutils literal notranslate"><span class="pre">spine_compartment_synapses()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_compartments_face_idx_for_neuron_mesh"><code class="docutils literal notranslate"><span class="pre">spine_compartments_face_idx_for_neuron_mesh()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_counts_from_spine_df"><code class="docutils literal notranslate"><span class="pre">spine_counts_from_spine_df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_density"><code class="docutils literal notranslate"><span class="pre">spine_density()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_density_over_limb_branch"><code class="docutils literal notranslate"><span class="pre">spine_density_over_limb_branch()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_df_for_db_from_spine_objs"><code class="docutils literal notranslate"><span class="pre">spine_df_for_db_from_spine_objs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_features_to_print"><code class="docutils literal notranslate"><span class="pre">spine_features_to_print()</span></code></a></li>
@@ -2050,6 +2097,7 @@
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_str_label"><code class="docutils literal notranslate"><span class="pre">spine_str_label()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_synapse_stats_from_synapse_df"><code class="docutils literal notranslate"><span class="pre">spine_synapse_stats_from_synapse_df()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_table_restriction_high_confidence"><code class="docutils literal notranslate"><span class="pre">spine_table_restriction_high_confidence()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_volume_density"><code class="docutils literal notranslate"><span class="pre">spine_volume_density()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spine_volume_to_spine_area"><code class="docutils literal notranslate"><span class="pre">spine_volume_to_spine_area()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spines"><code class="docutils literal notranslate"><span class="pre">spines()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.spine_utils.spines_head"><code class="docutils literal notranslate"><span class="pre">spines_head()</span></code></a></li>
@@ -2076,6 +2124,20 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="neurd.html#module-neurd.synapse_utils">neurd.synapse_utils module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse"><code class="docutils literal notranslate"><span class="pre">Synapse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.synapse_id"><code class="docutils literal notranslate"><span class="pre">Synapse.synapse_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.upstream_dist"><code class="docutils literal notranslate"><span class="pre">Synapse.upstream_dist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.downstream_dist"><code class="docutils literal notranslate"><span class="pre">Synapse.downstream_dist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.coordinate"><code class="docutils literal notranslate"><span class="pre">Synapse.coordinate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.closest_sk_coordinate"><code class="docutils literal notranslate"><span class="pre">Synapse.closest_sk_coordinate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.closest_face_coordinate"><code class="docutils literal notranslate"><span class="pre">Synapse.closest_face_coordinate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.closest_face_dist"><code class="docutils literal notranslate"><span class="pre">Synapse.closest_face_dist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.soma_distance"><code class="docutils literal notranslate"><span class="pre">Synapse.soma_distance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.soma_distance_euclidean"><code class="docutils literal notranslate"><span class="pre">Synapse.soma_distance_euclidean</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.head_neck_shaft"><code class="docutils literal notranslate"><span class="pre">Synapse.head_neck_shaft</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.compartment"><code class="docutils literal notranslate"><span class="pre">Synapse.compartment</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.limb_idx"><code class="docutils literal notranslate"><span class="pre">Synapse.limb_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.branch_idx"><code class="docutils literal notranslate"><span class="pre">Synapse.branch_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.Note"><code class="docutils literal notranslate"><span class="pre">Synapse.Note</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.__init__"><code class="docutils literal notranslate"><span class="pre">Synapse.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="neurd.html#neurd.synapse_utils.Synapse.export"><code class="docutils literal notranslate"><span class="pre">Synapse.export()</span></code></a></li>
 </ul>

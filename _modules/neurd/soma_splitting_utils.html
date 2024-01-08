@@ -101,7 +101,14 @@
     <span class="p">),</span>
     <span class="n">stack_all_attributes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    a dictionary data structure that stores for each limb</span>
+<span class="sd">    - valid points: coordinates that should belong to the existing neuronal process ( a marker of where the valid mesh is). </span>
+<span class="sd">    - error points: coordinates that should belong to incorrect neuronal process resulting from merge errors ( a marker of where the error mesh starts)</span>
+<span class="sd">    - coordinate: locations of split points used in the elimination of soma to soma paths</span>
 
+<span class="sd">    The valid and error points can be used as inputs for automatic mesh splitting algorithms in other pipelines (ex: Neuroglancer)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">limb_red_blue_dict</span> <span class="o">=</span> <span class="n">ssu</span><span class="o">.</span><span class="n">red_blue_split_dict_by_limb_from_red_blue_split_results</span><span class="p">(</span>
         <span class="n">red_blue_split_results</span>
     <span class="p">)</span>

@@ -516,6 +516,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-neurd.limb_utils">neurd.limb_utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.all_paths_to_leaf_nodes"><code class="docutils literal notranslate"><span class="pre">all_paths_to_leaf_nodes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.best_feature_match_in_descendents"><code class="docutils literal notranslate"><span class="pre">best_feature_match_in_descendents()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.children_skeletal_angle"><code class="docutils literal notranslate"><span class="pre">children_skeletal_angle()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.children_skeletal_angle_max"><code class="docutils literal notranslate"><span class="pre">children_skeletal_angle_max()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.children_skeletal_angle_min"><code class="docutils literal notranslate"><span class="pre">children_skeletal_angle_min()</span></code></a></li>
@@ -523,6 +524,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.most_usptream_endpoints_of_branches_on_limb"><code class="docutils literal notranslate"><span class="pre">most_usptream_endpoints_of_branches_on_limb()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.parent_skeletal_angle"><code class="docutils literal notranslate"><span class="pre">parent_skeletal_angle()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.relation_skeletal_angle"><code class="docutils literal notranslate"><span class="pre">relation_skeletal_angle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.root_skeleton_vector_from_soma"><code class="docutils literal notranslate"><span class="pre">root_skeleton_vector_from_soma()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.root_width"><code class="docutils literal notranslate"><span class="pre">root_width()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.siblings_skeletal_angle"><code class="docutils literal notranslate"><span class="pre">siblings_skeletal_angle()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.siblings_skeletal_angle_max"><code class="docutils literal notranslate"><span class="pre">siblings_skeletal_angle_max()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.limb_utils.siblings_skeletal_angle_min"><code class="docutils literal notranslate"><span class="pre">siblings_skeletal_angle_min()</span></code></a></li>
@@ -999,6 +1002,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.coordinates_to_closest_limb_branch"><code class="docutils literal notranslate"><span class="pre">coordinates_to_closest_limb_branch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.copy_neuron"><code class="docutils literal notranslate"><span class="pre">copy_neuron()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.decompress_neuron"><code class="docutils literal notranslate"><span class="pre">decompress_neuron()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.dendrite_mesh"><code class="docutils literal notranslate"><span class="pre">dendrite_mesh()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.dendrite_skeleton"><code class="docutils literal notranslate"><span class="pre">dendrite_skeleton()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.distance_to_soma_from_coordinate_close_to_branch"><code class="docutils literal notranslate"><span class="pre">distance_to_soma_from_coordinate_close_to_branch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_utils.downstream_endpoint"><code class="docutils literal notranslate"><span class="pre">downstream_endpoint()</span></code></a></li>
@@ -1187,6 +1191,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_axon"><code class="docutils literal notranslate"><span class="pre">plot_axon()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_axon_merge_errors"><code class="docutils literal notranslate"><span class="pre">plot_axon_merge_errors()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_boutons"><code class="docutils literal notranslate"><span class="pre">plot_boutons()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_branch"><code class="docutils literal notranslate"><span class="pre">plot_branch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_branch_groupings"><code class="docutils literal notranslate"><span class="pre">plot_branch_groupings()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_branch_mesh_attribute"><code class="docutils literal notranslate"><span class="pre">plot_branch_mesh_attribute()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_branch_on_whole_mesh"><code class="docutils literal notranslate"><span class="pre">plot_branch_on_whole_mesh()</span></code></a></li>
@@ -1207,6 +1212,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_ipv_scatter"><code class="docutils literal notranslate"><span class="pre">plot_ipv_scatter()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_ipv_skeleton"><code class="docutils literal notranslate"><span class="pre">plot_ipv_skeleton()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_labeled_limb_branch_dicts"><code class="docutils literal notranslate"><span class="pre">plot_labeled_limb_branch_dicts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_limb"><code class="docutils literal notranslate"><span class="pre">plot_limb()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_limb_branch_dict"><code class="docutils literal notranslate"><span class="pre">plot_limb_branch_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_limb_branch_dict_multiple"><code class="docutils literal notranslate"><span class="pre">plot_limb_branch_dict_multiple()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_limb_concept_network_2D"><code class="docutils literal notranslate"><span class="pre">plot_limb_concept_network_2D()</span></code></a></li>
@@ -1574,6 +1580,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_compartment_synapses"><code class="docutils literal notranslate"><span class="pre">spine_compartment_synapses()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_compartments_face_idx_for_neuron_mesh"><code class="docutils literal notranslate"><span class="pre">spine_compartments_face_idx_for_neuron_mesh()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_counts_from_spine_df"><code class="docutils literal notranslate"><span class="pre">spine_counts_from_spine_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_density"><code class="docutils literal notranslate"><span class="pre">spine_density()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_density_over_limb_branch"><code class="docutils literal notranslate"><span class="pre">spine_density_over_limb_branch()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_df_for_db_from_spine_objs"><code class="docutils literal notranslate"><span class="pre">spine_df_for_db_from_spine_objs()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_features_to_print"><code class="docutils literal notranslate"><span class="pre">spine_features_to_print()</span></code></a></li>
@@ -1596,6 +1603,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_str_label"><code class="docutils literal notranslate"><span class="pre">spine_str_label()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_synapse_stats_from_synapse_df"><code class="docutils literal notranslate"><span class="pre">spine_synapse_stats_from_synapse_df()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_table_restriction_high_confidence"><code class="docutils literal notranslate"><span class="pre">spine_table_restriction_high_confidence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_volume_density"><code class="docutils literal notranslate"><span class="pre">spine_volume_density()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spine_volume_to_spine_area"><code class="docutils literal notranslate"><span class="pre">spine_volume_to_spine_area()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spines"><code class="docutils literal notranslate"><span class="pre">spines()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.spine_utils.spines_head"><code class="docutils literal notranslate"><span class="pre">spines_head()</span></code></a></li>
@@ -5919,6 +5927,11 @@ coordinate = orienting_coords[“bottom_far_right”],</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="neurd.limb_utils.best_feature_match_in_descendents">
+<span class="sig-prename descclassname"><span class="pre">neurd.limb_utils.</span></span><span class="sig-name descname"><span class="pre">best_feature_match_in_descendents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/limb_utils.html#best_feature_match_in_descendents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.limb_utils.best_feature_match_in_descendents" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="neurd.limb_utils.children_skeletal_angle">
 <span class="sig-prename descclassname"><span class="pre">neurd.limb_utils.</span></span><span class="sig-name descname"><span class="pre">children_skeletal_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limb_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/limb_utils.html#children_skeletal_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.limb_utils.children_skeletal_angle" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -5990,6 +6003,16 @@ verbose = True,
 <span class="sig-prename descclassname"><span class="pre">neurd.limb_utils.</span></span><span class="sig-name descname"><span class="pre">relation_skeletal_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limb_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrema_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/limb_utils.html#relation_skeletal_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.limb_utils.relation_skeletal_angle" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: To find the sibling angles with all siblings</p>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.limb_utils.root_skeleton_vector_from_soma">
+<span class="sig-prename descclassname"><span class="pre">neurd.limb_utils.</span></span><span class="sig-name descname"><span class="pre">root_skeleton_vector_from_soma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limb_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'S0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/limb_utils.html#root_skeleton_vector_from_soma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.limb_utils.root_skeleton_vector_from_soma" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.limb_utils.root_width">
+<span class="sig-prename descclassname"><span class="pre">neurd.limb_utils.</span></span><span class="sig-name descname"><span class="pre">root_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limb_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/limb_utils.html#root_width"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.limb_utils.root_width" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.limb_utils.siblings_skeletal_angle">
@@ -6834,12 +6857,14 @@ piece that has no branching</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Branch.skeleton_vector_downstream">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">skeleton_vector_downstream</span></span><a class="headerlink" href="#neurd.neuron.Branch.skeleton_vector_downstream" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>the skelelton vector near downstream coordinate where the vector is oriented in the skeletal walk direction away from the soma</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Branch.skeleton_vector_upstream">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">skeleton_vector_upstream</span></span><a class="headerlink" href="#neurd.neuron.Branch.skeleton_vector_upstream" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>the skelelton vector near upstream coordinate where the vector is oriented in the skeletal walk direction away from the soma</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Branch.spine_density">
@@ -7027,6 +7052,11 @@ soma_idx –&gt; soma_group_idx –&gt; dict(touching_verts,endpoint)</p>
 <dd><p>dictionary mapping the index to the</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="neurd.neuron.Limb.branches">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">branches</span></span><a class="headerlink" href="#neurd.neuron.Limb.branches" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.neuron.Limb.compute_boutons_volume">
 <span class="sig-name descname"><span class="pre">compute_boutons_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron.html#Limb.compute_boutons_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron.Limb.compute_boutons_volume" title="Permalink to this definition"></a></dt>
@@ -7068,6 +7098,11 @@ plt.show()</p>
 <p>nx.draw(directional_concept_network,with_labels=True)
 plt.show()</p>
 </dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neurd.neuron.Limb.current_starting_soma_vertices">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_starting_soma_vertices</span></span><a class="headerlink" href="#neurd.neuron.Limb.current_starting_soma_vertices" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Limb.divided_skeletons">
@@ -7327,7 +7362,8 @@ stitched together</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.neuron.Limb.touching_somas">
 <span class="sig-name descname"><span class="pre">touching_somas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron.html#Limb.touching_somas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron.Limb.touching_somas" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The soma identifiers that a current limb is adjacent two (useful for finding paths to cut for multi-soma or multi-touch limbs</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Limb.web">
@@ -7569,6 +7605,11 @@ Ex: Parent.__init(self)</p>
 <dd></dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="neurd.neuron.Neuron.dendrite_mesh">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dendrite_mesh</span></span><a class="headerlink" href="#neurd.neuron.Neuron.dendrite_mesh" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Neuron.dendrite_on_axon_limb_branch_dict">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dendrite_on_axon_limb_branch_dict</span></span><a class="headerlink" href="#neurd.neuron.Neuron.dendrite_on_axon_limb_branch_dict" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -7687,6 +7728,11 @@ current_neuron.get_limbs_touching_soma(0)</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Neuron.limb_mesh_volume">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">limb_mesh_volume</span></span><a class="headerlink" href="#neurd.neuron.Neuron.limb_mesh_volume" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neurd.neuron.Neuron.limbs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">limbs</span></span><a class="headerlink" href="#neurd.neuron.Neuron.limbs" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -7918,7 +7964,8 @@ nx.draw(my_neuron.concept_network,with_labels=True,node_color=node_list_colors,<
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Neuron.red_blue_split_points_by_limb">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">red_blue_split_points_by_limb</span></span><a class="headerlink" href="#neurd.neuron.Neuron.red_blue_split_points_by_limb" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>dummy docstring</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Neuron.same_soma_multi_touching_limbs">
@@ -8166,6 +8213,11 @@ piece that has no branching</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Soma.compartment">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compartment</span></span><a class="headerlink" href="#neurd.neuron.Soma.compartment" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neurd.neuron.Soma.mesh_volume">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mesh_volume</span></span><a class="headerlink" href="#neurd.neuron.Soma.mesh_volume" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -11365,6 +11417,11 @@ c) Find mapping of Coordinate to –&gt; (limb,branch)</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="neurd.neuron_utils.dendrite_mesh">
+<span class="sig-prename descclassname"><span class="pre">neurd.neuron_utils.</span></span><span class="sig-name descname"><span class="pre">dendrite_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_utils.html#dendrite_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_utils.dendrite_mesh" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="neurd.neuron_utils.dendrite_skeleton">
 <span class="sig-prename descclassname"><span class="pre">neurd.neuron_utils.</span></span><span class="sig-name descname"><span class="pre">dendrite_skeleton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_utils.html#dendrite_skeleton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_utils.dendrite_skeleton" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -13119,6 +13176,11 @@ one color dictionary of limb_name –&gt; branch_name –&gt; color</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="neurd.neuron_visualizations.plot_branch">
+<span class="sig-prename descclassname"><span class="pre">neurd.neuron_visualizations.</span></span><span class="sig-name descname"><span class="pre">plot_branch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yellow'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">downstream_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'aqua'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_visualizations.html#plot_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_visualizations.plot_branch" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="neurd.neuron_visualizations.plot_branch_groupings">
 <span class="sig-prename descclassname"><span class="pre">neurd.neuron_visualizations.</span></span><span class="sig-name descname"><span class="pre">plot_branch_groupings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limb_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_meshes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_skeletons</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_group_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_group_color_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'skipped'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_visualizations.html#plot_branch_groupings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_visualizations.plot_branch_groupings" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: To Plot branch objects all of a certain color
@@ -13273,6 +13335,11 @@ nviz.plot_labeled_limb_branch_dicts(n_test,</p>
 )</p>
 </div></blockquote>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.neuron_visualizations.plot_limb">
+<span class="sig-prename descclassname"><span class="pre">neurd.neuron_visualizations.</span></span><span class="sig-name descname"><span class="pre">plot_limb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limb_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limb_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_color_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurd.neuron_visualizations.plot_limb" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.neuron_visualizations.plot_limb_branch_dict">
@@ -15303,7 +15370,12 @@ bounding_box : does not rotate the box and makes it axis aligned</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.soma_splitting_utils.limb_red_blue_dict_from_red_blue_splits">
 <span class="sig-prename descclassname"><span class="pre">neurd.soma_splitting_utils.</span></span><span class="sig-name descname"><span class="pre">limb_red_blue_dict_from_red_blue_splits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">red_blue_split_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attributes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('valid_points',</span> <span class="pre">'error_points',</span> <span class="pre">'coordinate')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stack_all_attributes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/soma_splitting_utils.html#limb_red_blue_dict_from_red_blue_splits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.soma_splitting_utils.limb_red_blue_dict_from_red_blue_splits" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>a dictionary data structure that stores for each limb
+- valid points: coordinates that should belong to the existing neuronal process ( a marker of where the valid mesh is).
+- error points: coordinates that should belong to incorrect neuronal process resulting from merge errors ( a marker of where the error mesh starts)
+- coordinate: locations of split points used in the elimination of soma to soma paths</p>
+<p>The valid and error points can be used as inputs for automatic mesh splitting algorithms in other pipelines (ex: Neuroglancer)</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.soma_splitting_utils.multi_soma_split_execution">
@@ -15342,8 +15414,312 @@ b. use plot object to plot the limb</p>
 <dt class="sig sig-object py" id="neurd.spine_utils.Spine">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">Spine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_spine_attributes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#Spine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.Spine" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Classs that will hold information about
-the synapses that will be attributes of a neuron object</p>
+<p>Classs that will hold information about a spine extracted from a neuron</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.mesh_face_idx">
+<span class="sig-name descname"><span class="pre">mesh_face_idx</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.mesh_face_idx" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a list of face indices of the branch that belong to the spine mesh</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.mesh">
+<span class="sig-name descname"><span class="pre">mesh</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.mesh" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the submesh of the branch that represent the spine (mesh_face_idx indexed into the branch mesh</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.neck_face_idx">
+<span class="sig-name descname"><span class="pre">neck_face_idx</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.neck_face_idx" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a list of face indices of the spine’s mesh that were classified as the neck (can be empty if not detected)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.head_face_idx">
+<span class="sig-name descname"><span class="pre">head_face_idx</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.head_face_idx" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of face indices of the spine’s mesh that were classified as the head (can be empty if not detected)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.neck_sdf">
+<span class="sig-name descname"><span class="pre">neck_sdf</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.neck_sdf" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the sdf value of the neck submesh from the clustering algorithm used to segment the head from the neck</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.head_sdf">
+<span class="sig-name descname"><span class="pre">head_sdf</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.head_sdf" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the sdf value of the head submesh from the clustering algorithm used to segment the head from the neck</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.head_width">
+<span class="sig-name descname"><span class="pre">head_width</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.head_width" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a width approximation using ray tracing of the head submesh</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.neck_width">
+<span class="sig-name descname"><span class="pre">neck_width</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.neck_width" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a width approximation using ray tracing of the head submesh</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.volume">
+<span class="sig-name descname"><span class="pre">volume</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.volume" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>volume of entire mesh</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.spine_id">
+<span class="sig-name descname"><span class="pre">spine_id</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.spine_id" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>unique identifier for spine</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.sdf">
+<span class="sig-name descname"><span class="pre">sdf</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.sdf" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the sdf value of the spine submesh from the clustering algorithm used to segment the spine from the branch mesh</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.endpoints_dist">
+<span class="sig-name descname"><span class="pre">endpoints_dist</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.endpoints_dist" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>skeletal walk distance of the skeletal point closest to the start of the spine protrusion to the branch skeletal endpoints</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.upstream_dist">
+<span class="sig-name descname"><span class="pre">upstream_dist</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.upstream_dist" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>skeletal walk distance of the skeletal point closest to the start of the spine protrusion to the upstream branch skeletal endpoint</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.downstream_dist">
+<span class="sig-name descname"><span class="pre">downstream_dist</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.downstream_dist" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>skeletal walk distance of the skeletal point closest to the start of the spine protrusion to the downstream branch skeletal endpoint</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.coordinate_border_verts">
+<span class="sig-name descname"><span class="pre">coordinate_border_verts</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.coordinate_border_verts" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.coordinate">
+<span class="sig-name descname"><span class="pre">coordinate</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.coordinate" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>one coordinate of the border vertices to be used for spine locations</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.bbox_oriented_side_lengths">
+<span class="sig-name descname"><span class="pre">bbox_oriented_side_lengths</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.bbox_oriented_side_lengths" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.head_bbox_oriented_side_lengths">
+<span class="sig-name descname"><span class="pre">head_bbox_oriented_side_lengths</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.head_bbox_oriented_side_lengths" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.neck_bbox_oriented_side_lengths">
+<span class="sig-name descname"><span class="pre">neck_bbox_oriented_side_lengths</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.neck_bbox_oriented_side_lengths" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.head_mesh_splits">
+<span class="sig-name descname"><span class="pre">head_mesh_splits</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.head_mesh_splits" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.head_mesh_splits_face_idx">
+<span class="sig-name descname"><span class="pre">head_mesh_splits_face_idx</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.head_mesh_splits_face_idx" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.branch_width_overall">
+<span class="sig-name descname"><span class="pre">branch_width_overall</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.branch_width_overall" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.branch_skeletal_length">
+<span class="sig-name descname"><span class="pre">branch_skeletal_length</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.branch_skeletal_length" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.branch_width_at_base">
+<span class="sig-name descname"><span class="pre">branch_width_at_base</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.branch_width_at_base" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.skeleton">
+<span class="sig-name descname"><span class="pre">skeleton</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.skeleton" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>surface skeleton over the spine mesh</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.skeletal_length">
+<span class="sig-name descname"><span class="pre">skeletal_length</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.skeletal_length" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>length of spine skeleton</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">#</span> <span class="pre">--</span> <span class="pre">attributes</span> <span class="pre">similar</span> <span class="pre">to</span> <span class="pre">those</span> <span class="pre">of</span> <span class="pre">spine</span> <span class="pre">attribute</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.closest_branch_face_idx">
+<span class="sig-name descname"><span class="pre">closest_branch_face_idx</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.closest_branch_face_idx" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.closest_sk_coordinate">
+<span class="sig-name descname"><span class="pre">closest_sk_coordinate</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.closest_sk_coordinate" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>3D location in space of closest skeletal point on branch for which spine is located</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.closest_face_coordinate">
+<span class="sig-name descname"><span class="pre">closest_face_coordinate</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.closest_face_coordinate" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>center coordinate of closest mesh face  on branch for which spine is located</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.closest_face_dist">
+<span class="sig-name descname"><span class="pre">closest_face_dist</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.closest_face_dist" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>distance from synapse coordinate to closest_face_coordinate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.soma_distance">
+<span class="sig-name descname"><span class="pre">soma_distance</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.soma_distance" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>skeletal walk distance from synapse to soma</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.soma_distance_euclidean">
+<span class="sig-name descname"><span class="pre">soma_distance_euclidean</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.soma_distance_euclidean" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>straight path distance from synapse to soma center</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.compartment">
+<span class="sig-name descname"><span class="pre">compartment</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.compartment" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the compartment of the branch that the spine is located on</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.limb_idx">
+<span class="sig-name descname"><span class="pre">limb_idx</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.limb_idx" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the limb identifier that the spine is located on</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.spine_utils.Spine.branch_idx">
+<span class="sig-name descname"><span class="pre">branch_idx</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.branch_idx" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the branch identifier that the spine is located on</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.spine_utils.Spine.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_spine_attributes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#Spine.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.Spine.__init__" title="Permalink to this definition"></a></dt>
@@ -15380,8 +15756,8 @@ the synapses that will be attributes of a neuron object</p>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="neurd.spine_utils.Spine.bbox_oriented_side_lengths">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bbox_oriented_side_lengths</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.bbox_oriented_side_lengths" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bbox_oriented_side_lengths</span></span><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -15490,8 +15866,8 @@ the synapses that will be attributes of a neuron object</p>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="neurd.spine_utils.Spine.head_bbox_oriented_side_lengths">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">head_bbox_oriented_side_lengths</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.head_bbox_oriented_side_lengths" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id14">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">head_bbox_oriented_side_lengths</span></span><a class="headerlink" href="#id14" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -15520,13 +15896,13 @@ the synapses that will be attributes of a neuron object</p>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="neurd.spine_utils.Spine.head_mesh_splits">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">head_mesh_splits</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.head_mesh_splits" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id15">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">head_mesh_splits</span></span><a class="headerlink" href="#id15" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="neurd.spine_utils.Spine.head_mesh_splits_face_idx">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">head_mesh_splits_face_idx</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.head_mesh_splits_face_idx" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id16">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">head_mesh_splits_face_idx</span></span><a class="headerlink" href="#id16" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -15645,8 +16021,8 @@ the synapses that will be attributes of a neuron object</p>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="neurd.spine_utils.Spine.neck_bbox_oriented_side_lengths">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">neck_bbox_oriented_side_lengths</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.neck_bbox_oriented_side_lengths" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id17">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">neck_bbox_oriented_side_lengths</span></span><a class="headerlink" href="#id17" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -15735,13 +16111,13 @@ the synapses that will be attributes of a neuron object</p>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="neurd.spine_utils.Spine.skeletal_length">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">skeletal_length</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.skeletal_length" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id18">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">skeletal_length</span></span><a class="headerlink" href="#id18" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="neurd.spine_utils.Spine.skeleton">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">skeleton</span></span><a class="headerlink" href="#neurd.spine_utils.Spine.skeleton" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id19">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">skeleton</span></span><a class="headerlink" href="#id19" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -16140,8 +16516,8 @@ smoothness:{smoothness}”)</p>
 <blockquote>
 <div><p>csm.cgal_segmentation(cgal_mesh_file,clusters,smoothness)</p>
 <p>#read in the csv file
-cgal_output_file = Path(cgal_mesh_file + “-<a href="#id14"><span class="problematic" id="id15">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “.csv” )
-cgal_output_file_sdf = Path(cgal_mesh_file + “-<a href="#id16"><span class="problematic" id="id17">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “_sdf.csv” )</p>
+cgal_output_file = Path(cgal_mesh_file + “-<a href="#id20"><span class="problematic" id="id21">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “.csv” )
+cgal_output_file_sdf = Path(cgal_mesh_file + “-<a href="#id22"><span class="problematic" id="id23">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “_sdf.csv” )</p>
 <p>cgal_data = np.genfromtxt(str(cgal_output_file.absolute()), delimiter=’</p>
 </div></blockquote>
 <dl class="simple">
@@ -16782,6 +17158,12 @@ mesh_alpha = 1</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="neurd.spine_utils.spine_density">
+<span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">spine_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">um</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#spine_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.spine_density" title="Permalink to this definition"></a></dt>
+<dd><p>n_spine / skeletal length (um)</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.spine_density_over_limb_branch">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">spine_density_over_limb_branch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limb_branch_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synapse_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'synapses'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_skeletal_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#spine_density_over_limb_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.spine_density_over_limb_branch" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: To calculate the
@@ -16957,6 +17339,12 @@ df into the averages and counts for different
 <dt class="sig sig-object py" id="neurd.spine_utils.spine_table_restriction_high_confidence">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">spine_table_restriction_high_confidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pandas'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_default_restrictions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_query_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#spine_table_restriction_high_confidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.spine_table_restriction_high_confidence" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.spine_utils.spine_volume_density">
+<span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">spine_volume_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">um</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#spine_volume_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.spine_volume_density" title="Permalink to this definition"></a></dt>
+<dd><p>sum spine volume (um**3) / skeletal length (um)</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.spine_volume_to_spine_area">
@@ -17151,6 +17539,146 @@ syu.calculate_upstream_downstream_dist_from_down_idx(syn,down_idx)</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Classs that will hold information about
 the synapses that will be attributes of a neuron object</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.synapse_id">
+<span class="sig-name descname"><span class="pre">synapse_id</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.synapse_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">synapse</span> <span class="pre">volume</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.upstream_dist">
+<span class="sig-name descname"><span class="pre">upstream_dist</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.upstream_dist" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>skeletal distance from the closest upstream branch point</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.downstream_dist">
+<span class="sig-name descname"><span class="pre">downstream_dist</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.downstream_dist" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>skeletal distance from the closest downstream branch point or endpoint</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.coordinate">
+<span class="sig-name descname"><span class="pre">coordinate</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.coordinate" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>3D location in space:</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.closest_sk_coordinate">
+<span class="sig-name descname"><span class="pre">closest_sk_coordinate</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.closest_sk_coordinate" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>3D location in space of closest skeletal point on branch for which synapse is located</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.closest_face_coordinate">
+<span class="sig-name descname"><span class="pre">closest_face_coordinate</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.closest_face_coordinate" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>center coordinate of closest mesh face  on branch for which synapse is located</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.closest_face_dist">
+<span class="sig-name descname"><span class="pre">closest_face_dist</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.closest_face_dist" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>distance from synapse coordinate to closest_face_coordinate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.soma_distance">
+<span class="sig-name descname"><span class="pre">soma_distance</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.soma_distance" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>skeletal walk distance from synapse to soma</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.soma_distance_euclidean">
+<span class="sig-name descname"><span class="pre">soma_distance_euclidean</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.soma_distance_euclidean" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>straight path distance from synapse to soma center</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.head_neck_shaft">
+<span class="sig-name descname"><span class="pre">head_neck_shaft</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.head_neck_shaft" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>whether the synapse is located on a spine head, spine neck or neurite shaft (decoding of integer label is in spine_utils)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.compartment">
+<span class="sig-name descname"><span class="pre">compartment</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.compartment" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the compartment of the branch that the synapse is located on</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.limb_idx">
+<span class="sig-name descname"><span class="pre">limb_idx</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.limb_idx" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the limb identifier that the synapse is located on</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.branch_idx">
+<span class="sig-name descname"><span class="pre">branch_idx</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.branch_idx" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the branch identifier that the synapse is located on</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.Note">
+<span class="sig-name descname"><span class="pre">Note</span></span><a class="headerlink" href="#neurd.synapse_utils.Synapse.Note" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>features like head_neck_shaft, compartment are not populated until later stages (cell typing, autoproofreading) when that information is available for the branches</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.synapse_utils.Synapse.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">synapse_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/synapse_utils.html#Synapse.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.synapse_utils.Synapse.__init__" title="Permalink to this definition"></a></dt>

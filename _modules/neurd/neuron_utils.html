@@ -6030,6 +6030,13 @@
                                      <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;mesh&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tu</span><span class="o">.</span><span class="n">combine_meshes</span><span class="p">(</span><span class="n">axon_meshes</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="dendrite_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.dendrite_mesh">[docs]</a><span class="k">def</span> <span class="nf">dendrite_mesh</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
+    <span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="n">clu</span><span class="o">.</span><span class="n">dendrite_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
+    <span class="n">meshes</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">feature_over_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">limb_branch_dict</span><span class="p">,</span>
+                                     <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;mesh&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tu</span><span class="o">.</span><span class="n">combine_meshes</span><span class="p">(</span><span class="n">meshes</span><span class="p">)</span></div>
+    
+
 <span class="k">def</span> <span class="nf">axon_skeleton</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
     <span class="n">axon_limb_branch_dict</span> <span class="o">=</span> <span class="n">clu</span><span class="o">.</span><span class="n">axon_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
     <span class="n">axon_meshes</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">feature_over_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">axon_limb_branch_dict</span><span class="p">,</span>

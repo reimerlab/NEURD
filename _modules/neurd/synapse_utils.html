@@ -109,6 +109,25 @@
 <span class="sd">    Classs that will hold information about </span>
 <span class="sd">    the synapses that will be attributes of a neuron object</span>
 <span class="sd">    </span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    </span>
+<span class="sd">    synapse_id: </span>
+<span class="sd">    synapse volume</span>
+<span class="sd">    upstream_dist: skeletal distance from the closest upstream branch point</span>
+<span class="sd">    downstream_dist: skeletal distance from the closest downstream branch point or endpoint</span>
+<span class="sd">    coordinate: 3D location in space: </span>
+<span class="sd">    closest_sk_coordinate: 3D location in space of closest skeletal point on branch for which synapse is located</span>
+<span class="sd">    closest_face_coordinate: center coordinate of closest mesh face  on branch for which synapse is located</span>
+<span class="sd">    closest_face_dist: distance from synapse coordinate to closest_face_coordinate</span>
+<span class="sd">    soma_distance: skeletal walk distance from synapse to soma</span>
+<span class="sd">    soma_distance_euclidean: straight path distance from synapse to soma center</span>
+<span class="sd">    head_neck_shaft: whether the synapse is located on a spine head, spine neck or neurite shaft (decoding of integer label is in spine_utils)</span>
+<span class="sd">    compartment: the compartment of the branch that the synapse is located on</span>
+<span class="sd">    limb_idx: the limb identifier that the synapse is located on</span>
+<span class="sd">    branch_idx: the branch identifier that the synapse is located on</span>
+
+<span class="sd">    Note: features like head_neck_shaft, compartment are not populated until later stages (cell typing, autoproofreading) when that information is available for the branches</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Synapse.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.synapse_utils.Synapse.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">synapse_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">synapse_attributes</span><span class="p">:</span>
@@ -1833,6 +1852,8 @@
 <span class="sd">    Purpose: To create a dataframe with all of the features</span>
 <span class="sd">    of the synapses so the synapses can be queried</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">neuron</span><span class="o">.</span><span class="n">Limb</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">neuron</span><span class="o">.</span><span class="n">Branch</span><span class="p">)):</span>
+        <span class="n">neuron_obj</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">synapses</span>
 
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">syu</span><span class="o">.</span><span class="n">synapses_to_synapses_df</span><span class="p">(</span>
@@ -1840,6 +1861,9 @@
             <span class="n">add_compartment_coarse_fine</span><span class="o">=</span><span class="n">add_compartment_coarse_fine</span><span class="p">,</span>
             <span class="n">decode_head_neck_shaft_idx</span><span class="o">=</span><span class="n">decode_head_neck_shaft_idx</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+    
+        
     <span class="k">if</span> <span class="n">synapse_types_to_process</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">curr_synapse_types</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> 
                               <span class="n">syu</span><span class="o">.</span><span class="n">synapse_types</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">synapse_types_to_process</span><span class="p">}</span>
@@ -4564,6 +4588,7 @@
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
 
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
 </pre></div>
 

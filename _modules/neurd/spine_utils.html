@@ -303,9 +303,48 @@
 
 <div class="viewcode-block" id="Spine"><a class="viewcode-back" href="../../neurd.html#neurd.spine_utils.Spine">[docs]</a><span class="k">class</span> <span class="nc">Spine</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classs that will hold information about </span>
-<span class="sd">    the synapses that will be attributes of a neuron object</span>
-<span class="sd">    </span>
+<span class="sd">    Classs that will hold information about a spine extracted from a neuron</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mesh_face_idx: a list of face indices of the branch that belong to the spine mesh</span>
+<span class="sd">    mesh: the submesh of the branch that represent the spine (mesh_face_idx indexed into the branch mesh</span>
+<span class="sd">    neck_face_idx: a list of face indices of the spine’s mesh that were classified as the neck (can be empty if not detected)</span>
+<span class="sd">    head_face_idx:  list of face indices of the spine’s mesh that were classified as the head (can be empty if not detected)</span>
+<span class="sd">    neck_sdf: the sdf value of the neck submesh from the clustering algorithm used to segment the head from the neck </span>
+<span class="sd">    head_sdf: the sdf value of the head submesh from the clustering algorithm used to segment the head from the neck </span>
+<span class="sd">    head_width: a width approximation using ray tracing of the head submesh</span>
+<span class="sd">    neck_width:  a width approximation using ray tracing of the head submesh</span>
+<span class="sd">    volume: volume of entire mesh</span>
+<span class="sd">    spine_id: unique identifier for spine</span>
+<span class="sd">    sdf:  the sdf value of the spine submesh from the clustering algorithm used to segment the spine from the branch mesh</span>
+<span class="sd">    endpoints_dist: skeletal walk distance of the skeletal point closest to the start of the spine protrusion to the branch skeletal endpoints</span>
+<span class="sd">    upstream_dist: skeletal walk distance of the skeletal point closest to the start of the spine protrusion to the upstream branch skeletal endpoint</span>
+<span class="sd">    downstream_dist: skeletal walk distance of the skeletal point closest to the start of the spine protrusion to the downstream branch skeletal endpoint</span>
+<span class="sd">    coordinate_border_verts: </span>
+<span class="sd">    coordinate: one coordinate of the border vertices to be used for spine locations</span>
+<span class="sd">    bbox_oriented_side_lengths</span>
+<span class="sd">    head_bbox_oriented_side_lengths</span>
+<span class="sd">    neck_bbox_oriented_side_lengths</span>
+<span class="sd">    head_mesh_splits</span>
+<span class="sd">    head_mesh_splits_face_idx</span>
+<span class="sd">    branch_width_overall</span>
+<span class="sd">    branch_skeletal_length</span>
+<span class="sd">    branch_width_at_base</span>
+<span class="sd">    skeleton: surface skeleton over the spine mesh</span>
+<span class="sd">    skeletal_length: length of spine skeleton</span>
+
+<span class="sd">    # -- attributes similar to those of spine attribute</span>
+<span class="sd">    closest_branch_face_idx</span>
+<span class="sd">    closest_sk_coordinate: 3D location in space of closest skeletal point on branch for which spine is located</span>
+<span class="sd">    closest_face_coordinate: center coordinate of closest mesh face  on branch for which spine is located</span>
+<span class="sd">    closest_face_dist: distance from synapse coordinate to closest_face_coordinate</span>
+<span class="sd">    soma_distance: skeletal walk distance from synapse to soma</span>
+<span class="sd">    soma_distance_euclidean: straight path distance from synapse to soma center</span>
+<span class="sd">    compartment: the compartment of the branch that the spine is located on</span>
+<span class="sd">    limb_idx: the limb identifier that the spine is located on</span>
+<span class="sd">    branch_idx: the branch identifier that the spine is located on</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Spine.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.spine_utils.Spine.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -2251,6 +2290,31 @@
                                   <span class="n">return_idx</span> <span class="o">=</span> <span class="kc">False</span><span class="p">),</span>
                           <span class="n">meshes_colors</span><span class="o">=</span><span class="s2">&quot;random&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">head_neck_shaft_idx</span></div>
+
+<div class="viewcode-block" id="spine_density"><a class="viewcode-back" href="../../neurd.html#neurd.spine_utils.spine_density">[docs]</a><span class="k">def</span> <span class="nf">spine_density</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">um</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    n_spine / skeletal length (um)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">skeletal_length</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">skeletal_length</span>
+    <span class="k">if</span> <span class="n">um</span><span class="p">:</span>
+        <span class="n">skeletal_length</span> <span class="o">=</span> <span class="n">skeletal_length</span><span class="o">/</span><span class="mi">1000</span>
+        
+    <span class="k">if</span> <span class="n">skeletal_length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">spines_obj</span><span class="p">)</span><span class="o">/</span><span class="n">skeletal_length</span></div>
+    
+<div class="viewcode-block" id="spine_volume_density"><a class="viewcode-back" href="../../neurd.html#neurd.spine_utils.spine_volume_density">[docs]</a><span class="k">def</span> <span class="nf">spine_volume_density</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">um</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    sum spine volume (um**3) / skeletal length (um)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">skeletal_length</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">skeletal_length</span>
+    <span class="k">if</span> <span class="n">um</span><span class="p">:</span>
+        <span class="n">skeletal_length</span> <span class="o">=</span> <span class="n">skeletal_length</span><span class="o">/</span><span class="mi">1000</span>
+    
+    <span class="k">if</span> <span class="n">skeletal_length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">k</span><span class="o">.</span><span class="n">volume</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">spines_obj</span><span class="p">])</span><span class="o">/</span><span class="n">skeletal_length</span></div>
+
 
 <div class="viewcode-block" id="spine_density_over_limb_branch"><a class="viewcode-back" href="../../neurd.html#neurd.spine_utils.spine_density_over_limb_branch">[docs]</a><span class="k">def</span> <span class="nf">spine_density_over_limb_branch</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                      <span class="n">limb_branch_dict</span><span class="p">,</span>
