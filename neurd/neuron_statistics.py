@@ -7,6 +7,8 @@ from datasci_tools import general_utils as gu
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 
+top_of_layer_vector = np.array([0,-1,0])
+
 def neuron_path_analysis(neuron_obj,
                         N = 3,
                         plot_paths = False,

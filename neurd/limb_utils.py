@@ -455,4 +455,3 @@ def root_skeleton_vector_from_soma(
     if normalize:
         root_skeleton_vector_from_soma = root_skeleton_vector_from_soma/np.linalg.norm(root_skeleton_vector_from_soma)
     return root_skeleton_vector_from_soma
-    

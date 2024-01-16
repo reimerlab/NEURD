@@ -1092,6 +1092,19 @@ def endpoint_downstream_with_offset(
         verbose= verbose,
         )
 
+
+
+def skeleton_angle_from_top(
+    branch_obj,
+    top_of_layer_vector = None):
+    if top_of_layer_vector is None:
+        top_of_layer_vector = nst.top_of_layer_vector
+
+
+    sk_vector = branch_obj.skeleton_vector_upstream
+    angle_from_top = np.round(nu.angle_between_vectors(nst.top_of_layer_vector,sk_vector),4)
+    return angle_from_top
+
 # -------------------------------------------------------
 
 
@@ -1165,6 +1178,7 @@ from . import neuron_visualizations as nviz
 from . import spine_utils as spu
 from . import synapse_utils as syu
 from . import width_utils as wu
+from . import neuron_statistics as nst
 
  
 

@@ -9798,6 +9798,307 @@ def unalign_neuron_obj_from_align_matrix(
     setattr(curr_neuron,align_attr,None)
     return curr_neuron
     
+    
+def most_upstream_conn_comp_node(
+    neuron_obj,
+    limb_branch_dict=None,
+    verbose = False
+    ):
+    """
+    Purpose: Given a limb branch dict, find all of the root branches
+    of the subgraphs
+
+    Pseudocode: 
+    iterating through all of the limbs of the limb branch
+    1) Divide into connected components
+
+        For each connected component:
+        a) Find the most upstream node
+        b) add to the list for this limb branch
+
+    Ex:
+    nru.most_upstream_conn_comp_node_from_limb_branch_dict(
+        limb_branch_dict = n_obj_proof.basal_limb_branch_dict,
+        neuron_obj = n_obj_proof,
+        verbose = True,
+    )
+
+    """
+    if limb_branch_dict is None:
+        limb_branch_dict = neuron_obj.limb_branch_dict
+
+    upstream_nodes_dict = dict()
+    for limb_name,branches_idx in limb_branch_dict.items():
+
+        upstream_nodes_dict[limb_name] = []
+        limb_obj = neuron_obj[limb_name]
+
+        conn_comp = nru.connected_components_from_branches(
+            limb_obj,
+            branches=branches_idx,
+        )
+
+        if verbose:
+            print(f"Working on {limb_name}: # of conn comp = {len(conn_comp)}")
+            print(f" -- most upstream node --")
+        for j,cc in enumerate(conn_comp):
+            most_upstream_node = nru.most_upstream_branch(limb_obj,cc)
+
+            if verbose:
+                print(f"   conn comp {j}: {most_upstream_node}")
+
+            upstream_nodes_dict[limb_name].append(most_upstream_node)
+
+
+    return upstream_nodes_dict
+
+def statistic_per_branch(
+    neuron_obj,
+    stat_func,
+    limb_branch_dict=None,
+    suppress_errors = False,
+    default_value = None,
+    ):
+    """
+    Purpose: Find a statistic for a limb branch dict
+    
+    Pseudocode: 
+    1) 
+    """
+    
+    if limb_branch_dict is None:
+        limb_branch_dict = neuron_obj.limb_branch_dict
+        
+
+    def local_stat(branch_obj):
+        try:
+            if isinstance(stat_func,str):
+                return_value = getattr(branch_obj,stat_func)
+            else:
+                return_value = stat_func(branch_obj)
+        except Exception as e:
+            if suppress_errors:
+                return_value = default_value
+            else:
+                raise Exception(e)
+        return return_value
+        
+    stat_dict = dict([(limb_name,[local_stat(neuron_obj[limb_name][k]) for k in branches]) for limb_name,branches in limb_branch_dict.items()])
+    
+    return stat_dict
+
+def most_upstream_conn_comp_node_stat(
+    neuron_obj,
+    stat_func,
+    limb_branch_dict=None,
+    verbose = False,
+    return_upstream_conn_comp_nodes = False,
+    **kwargs
+    ):
+    """
+    Purpose: calculate the statistic for the most upstream node 
+    of every connected component in a limb branch dict
+    """
+    upstream_limb_branch_dict = nru.most_upstream_conn_comp_node(
+        neuron_obj,
+        limb_branch_dict=limb_branch_dict,
+        verbose = verbose
+    )
+    
+    stats_dict = statistic_per_branch(
+        neuron_obj,
+        stat_func,
+        limb_branch_dict=upstream_limb_branch_dict,
+        **kwargs
+    )
+    
+    if return_upstream_conn_comp_nodes:
+        return stats_dict,upstream_limb_branch_dict
+    else:
+        return stats_dict
+    
+roots_stat = most_upstream_conn_comp_node_stat
+
+def compartment_roots_stat(
+    neuron_obj,
+    compartment,
+    stat_func,
+    verbose = False,
+    return_root_nodes = False,
+    **kwargs
+    ):
+    """
+    Purpose: To compute the statistic for all the
+    root nodes of a certain compartment
+    """
+    return nru.most_upstream_conn_comp_node_stat(
+    neuron_obj,
+    stat_func,
+    limb_branch_dict=nru.label_limb_branch_dict(neuron_obj,compartment),
+    verbose = verbose,
+    return_upstream_conn_comp_nodes = return_root_nodes,
+    **kwargs
+    )
+    
+
+
+def compartment_roots_stat_extrema(
+    neuron_obj,
+    compartment,
+    stat_func,
+    extrema = "max",
+    return_limb_branch_idx=False,
+    verbose = False,
+    **kwargs
+    ):
+    """
+    Purpose: to compute the extrema of all of the root statistics
+    for a certain compartment
+    """
+    
+    if isinstance(extrema,str):
+        extrema_func = getattr(np,extrema)
+    else:
+        extrema_func = extrema
+    
+    stat_dict,lb = compartment_roots_stat(
+        neuron_obj,
+        compartment = compartment,
+        stat_func=stat_func,
+        return_root_nodes = True,
+        **kwargs
+    )
+    
+    stats_list = []
+    name_list = []
+    
+    for limb_name in lb:
+        stats_list += stat_dict[limb_name]
+        name_list += [f"{limb_name}_{k}" for k in lb[limb_name]]
+        
+    extrema_idx = getattr(np,f"arg{extrema_func.__name__}")(stats_list)
+    extrema_value = stats_list[extrema_idx]
+    extream_name = name_list[extrema_idx]
+    
+    if verbose:
+        print(f"{extrema_func.__name__} stat = {extrema_value} ({extream_name})")
+        
+    if return_limb_branch_idx:
+        return extrema_value,extream_name
+    else:
+        return extrema_value
+    
+# def compartment_roots_stat_max(
+#     neuron_obj,
+#     compartment,
+#     stat_func,
+#     return_limb_branch_idx=False,
+#     verbose = False,
+#     **kwargs
+#     ):
+    
+#     return compartment_roots_stat_extrema(
+#     neuron_obj,
+#     compartment=compartment,
+#     stat_func=stat_func,
+#     extrema = "max",
+#     return_limb_branch_idx=return_limb_branch_idx,
+#     verbose = verbose,
+#     **kwargs
+#     )
+
+ 
+# def compartment_roots_stat_min(
+#     neuron_obj,
+#     compartment,
+#     stat_func,
+#     return_limb_branch_idx=False,
+#     verbose = False,
+#     **kwargs
+#     ):
+    
+#     return compartment_roots_stat_extrema(
+#     neuron_obj,
+#     compartment=compartment,
+#     stat_func=stat_func,
+#     extrema = "min",
+#     return_limb_branch_idx=return_limb_branch_idx,
+#     verbose = verbose,
+#     **kwargs
+#     )
+
+# def compartment_root_skeleton_angle_max(
+#     neuron_obj,
+#     compartment,
+#     return_limb_branch_idx = False,
+#     verbose = False,
+#     **kwargs
+#     ):
+    
+#     return nru.compartment_roots_stat_max(
+#         neuron_obj,
+#         compartment = compartment,
+#         stat_func = bu.skeleton_angle_from_top,
+#         return_limb_branch_idx = return_limb_branch_idx,
+#         verbose = verbose,
+#         **kwargs
+#     )
+    
+# def compartment_root_skeleton_angle_min(
+#     neuron_obj,
+#     compartment,
+#     return_limb_branch_idx = False,
+#     verbose = False,
+#     **kwargs
+#     ):
+    
+#     return nru.compartment_roots_stat_min(
+#         neuron_obj,
+#         compartment = compartment,
+#         stat_func = bu.skeleton_angle_from_top,
+#         return_limb_branch_idx = return_limb_branch_idx,
+#         verbose = verbose,
+#         **kwargs
+#     )
+    
+from functools import partial,update_wrapper
+from . import branch_utils as bu
+
+compartment_roots_stat_max = update_wrapper(
+    partial(compartment_roots_stat_extrema,extrema = "max"),
+    compartment_roots_stat_extrema,
+)
+
+compartment_roots_stat_min = update_wrapper(
+    partial(compartment_roots_stat_extrema,extrema = "min"),
+    compartment_roots_stat_extrema,
+)
+
+compartment_root_skeleton_angle_max = update_wrapper(
+    partial(compartment_roots_stat_max,
+            stat_func = bu.skeleton_angle_from_top,),
+    compartment_roots_stat_max
+)
+
+compartment_root_skeleton_angle_min = update_wrapper(
+    partial(compartment_roots_stat_min,
+            stat_func = bu.skeleton_angle_from_top,),
+    compartment_roots_stat_min
+)
+
+compartment_root_width_max = update_wrapper(
+    partial(compartment_roots_stat_max,
+            stat_func = "width_upstream"),
+    compartment_roots_stat_max
+    
+)
+
+compartment_root_width_min = update_wrapper(
+    partial(compartment_roots_stat_min,
+            stat_func = "width_upstream",),
+    compartment_roots_stat_min
+)
+    
 
 # ------------- parameters for stats ---------------
 
@@ -9843,7 +10144,7 @@ attributes_dict_h01 = dict(
 
 
 #--- from neurd_packages ---
-from . import branch_utils as bu
+
 from . import classification_utils as clu
 from . import concept_network_utils as cnu
 from . import error_detection as ed
