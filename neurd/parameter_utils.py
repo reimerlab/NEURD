@@ -558,22 +558,25 @@ def parameters_from_filepath(
     from a python file
     """
 
-    if filepath is not None:
-        filepath = Path(filepath)
-        filename = filepath.stem
-        directory = str(plu.parent_directory(filepath).absolute())
+    if isinstance(filepath,dict):
+        return_value = filepath
+    else:
+        if filepath is not None:
+            filepath = Path(filepath)
+            filename = filepath.stem
+            directory = str(plu.parent_directory(filepath).absolute())
+            
+        module_name = filename.replace(".py","")
         
-    module_name = filename.replace(".py","")
-    
-    if directory is None:
-        directory = parameter_config_folder()
+        if directory is None:
+            directory = parameter_config_folder()
 
-    if directory not in sys.path:
-        sys.path.append(directory)
+        if directory not in sys.path:
+            sys.path.append(directory)
 
-    exec(f"import {module_name}; from {module_name} import {dict_name}")
-    return_value = eval(dict_name)
-    
+        exec(f"import {module_name}; from {module_name} import {dict_name}")
+        return_value = eval(dict_name)
+        
     if not return_dict:
         return_value =  PackageParameters(
             return_value
