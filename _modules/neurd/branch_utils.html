@@ -1166,6 +1166,19 @@
         <span class="n">verbose</span><span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
         <span class="p">)</span></div>
 
+
+
+<div class="viewcode-block" id="skeleton_angle_from_top"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeleton_angle_from_top">[docs]</a><span class="k">def</span> <span class="nf">skeleton_angle_from_top</span><span class="p">(</span>
+    <span class="n">branch_obj</span><span class="p">,</span>
+    <span class="n">top_of_layer_vector</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">top_of_layer_vector</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">top_of_layer_vector</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">top_of_layer_vector</span>
+
+
+    <span class="n">sk_vector</span> <span class="o">=</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">skeleton_vector_upstream</span>
+    <span class="n">angle_from_top</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">nu</span><span class="o">.</span><span class="n">angle_between_vectors</span><span class="p">(</span><span class="n">nst</span><span class="o">.</span><span class="n">top_of_layer_vector</span><span class="p">,</span><span class="n">sk_vector</span><span class="p">),</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">angle_from_top</span></div>
+
 <span class="c1"># -------------------------------------------------------</span>
 
 
@@ -1239,6 +1252,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">width_utils</span> <span class="k">as</span> <span class="n">wu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
 
  
 

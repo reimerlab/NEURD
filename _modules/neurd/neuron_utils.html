@@ -9872,6 +9872,307 @@
     <span class="nb">setattr</span><span class="p">(</span><span class="n">curr_neuron</span><span class="p">,</span><span class="n">align_attr</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">curr_neuron</span></div>
     
+    
+<div class="viewcode-block" id="most_upstream_conn_comp_node"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.most_upstream_conn_comp_node">[docs]</a><span class="k">def</span> <span class="nf">most_upstream_conn_comp_node</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">limb_branch_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Given a limb branch dict, find all of the root branches</span>
+<span class="sd">    of the subgraphs</span>
+
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    iterating through all of the limbs of the limb branch</span>
+<span class="sd">    1) Divide into connected components</span>
+
+<span class="sd">        For each connected component:</span>
+<span class="sd">        a) Find the most upstream node</span>
+<span class="sd">        b) add to the list for this limb branch</span>
+
+<span class="sd">    Ex:</span>
+<span class="sd">    nru.most_upstream_conn_comp_node_from_limb_branch_dict(</span>
+<span class="sd">        limb_branch_dict = n_obj_proof.basal_limb_branch_dict,</span>
+<span class="sd">        neuron_obj = n_obj_proof,</span>
+<span class="sd">        verbose = True,</span>
+<span class="sd">    )</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">limb_branch_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">limb_branch_dict</span>
+
+    <span class="n">upstream_nodes_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">limb_name</span><span class="p">,</span><span class="n">branches_idx</span> <span class="ow">in</span> <span class="n">limb_branch_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+        <span class="n">upstream_nodes_dict</span><span class="p">[</span><span class="n">limb_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">limb_obj</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_name</span><span class="p">]</span>
+
+        <span class="n">conn_comp</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">connected_components_from_branches</span><span class="p">(</span>
+            <span class="n">limb_obj</span><span class="p">,</span>
+            <span class="n">branches</span><span class="o">=</span><span class="n">branches_idx</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Working on </span><span class="si">{</span><span class="n">limb_name</span><span class="si">}</span><span class="s2">: # of conn comp = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">conn_comp</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; -- most upstream node --&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">cc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">conn_comp</span><span class="p">):</span>
+            <span class="n">most_upstream_node</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">most_upstream_branch</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">cc</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   conn comp </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">most_upstream_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">upstream_nodes_dict</span><span class="p">[</span><span class="n">limb_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">most_upstream_node</span><span class="p">)</span>
+
+
+    <span class="k">return</span> <span class="n">upstream_nodes_dict</span></div>
+
+<div class="viewcode-block" id="statistic_per_branch"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.statistic_per_branch">[docs]</a><span class="k">def</span> <span class="nf">statistic_per_branch</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">stat_func</span><span class="p">,</span>
+    <span class="n">limb_branch_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">suppress_errors</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">default_value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Find a statistic for a limb branch dict</span>
+<span class="sd">    </span>
+<span class="sd">    Pseudocode: </span>
+<span class="sd">    1) </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">limb_branch_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">limb_branch_dict</span>
+        
+
+    <span class="k">def</span> <span class="nf">local_stat</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stat_func</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+                <span class="n">return_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">stat_func</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">return_value</span> <span class="o">=</span> <span class="n">stat_func</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">suppress_errors</span><span class="p">:</span>
+                <span class="n">return_value</span> <span class="o">=</span> <span class="n">default_value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">return_value</span>
+        
+    <span class="n">stat_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">limb_name</span><span class="p">,[</span><span class="n">local_stat</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_name</span><span class="p">][</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">])</span> <span class="k">for</span> <span class="n">limb_name</span><span class="p">,</span><span class="n">branches</span> <span class="ow">in</span> <span class="n">limb_branch_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+    
+    <span class="k">return</span> <span class="n">stat_dict</span></div>
+
+<div class="viewcode-block" id="most_upstream_conn_comp_node_stat"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.most_upstream_conn_comp_node_stat">[docs]</a><span class="k">def</span> <span class="nf">most_upstream_conn_comp_node_stat</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">stat_func</span><span class="p">,</span>
+    <span class="n">limb_branch_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_upstream_conn_comp_nodes</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: calculate the statistic for the most upstream node </span>
+<span class="sd">    of every connected component in a limb branch dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">upstream_limb_branch_dict</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">most_upstream_conn_comp_node</span><span class="p">(</span>
+        <span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">limb_branch_dict</span><span class="o">=</span><span class="n">limb_branch_dict</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+    <span class="p">)</span>
+    
+    <span class="n">stats_dict</span> <span class="o">=</span> <span class="n">statistic_per_branch</span><span class="p">(</span>
+        <span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">stat_func</span><span class="p">,</span>
+        <span class="n">limb_branch_dict</span><span class="o">=</span><span class="n">upstream_limb_branch_dict</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">return_upstream_conn_comp_nodes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">stats_dict</span><span class="p">,</span><span class="n">upstream_limb_branch_dict</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">stats_dict</span></div>
+    
+<span class="n">roots_stat</span> <span class="o">=</span> <span class="n">most_upstream_conn_comp_node_stat</span>
+
+<div class="viewcode-block" id="compartment_roots_stat"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.compartment_roots_stat">[docs]</a><span class="k">def</span> <span class="nf">compartment_roots_stat</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">compartment</span><span class="p">,</span>
+    <span class="n">stat_func</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_root_nodes</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To compute the statistic for all the</span>
+<span class="sd">    root nodes of a certain compartment</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">nru</span><span class="o">.</span><span class="n">most_upstream_conn_comp_node_stat</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">stat_func</span><span class="p">,</span>
+    <span class="n">limb_branch_dict</span><span class="o">=</span><span class="n">nru</span><span class="o">.</span><span class="n">label_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">compartment</span><span class="p">),</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+    <span class="n">return_upstream_conn_comp_nodes</span> <span class="o">=</span> <span class="n">return_root_nodes</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span></div>
+    
+
+
+<div class="viewcode-block" id="compartment_roots_stat_extrema"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_utils.compartment_roots_stat_extrema">[docs]</a><span class="k">def</span> <span class="nf">compartment_roots_stat_extrema</span><span class="p">(</span>
+    <span class="n">neuron_obj</span><span class="p">,</span>
+    <span class="n">compartment</span><span class="p">,</span>
+    <span class="n">stat_func</span><span class="p">,</span>
+    <span class="n">extrema</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span>
+    <span class="n">return_limb_branch_idx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: to compute the extrema of all of the root statistics</span>
+<span class="sd">    for a certain compartment</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extrema</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
+        <span class="n">extrema_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">np</span><span class="p">,</span><span class="n">extrema</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">extrema_func</span> <span class="o">=</span> <span class="n">extrema</span>
+    
+    <span class="n">stat_dict</span><span class="p">,</span><span class="n">lb</span> <span class="o">=</span> <span class="n">compartment_roots_stat</span><span class="p">(</span>
+        <span class="n">neuron_obj</span><span class="p">,</span>
+        <span class="n">compartment</span> <span class="o">=</span> <span class="n">compartment</span><span class="p">,</span>
+        <span class="n">stat_func</span><span class="o">=</span><span class="n">stat_func</span><span class="p">,</span>
+        <span class="n">return_root_nodes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+    
+    <span class="n">stats_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">name_list</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">limb_name</span> <span class="ow">in</span> <span class="n">lb</span><span class="p">:</span>
+        <span class="n">stats_list</span> <span class="o">+=</span> <span class="n">stat_dict</span><span class="p">[</span><span class="n">limb_name</span><span class="p">]</span>
+        <span class="n">name_list</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">limb_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">lb</span><span class="p">[</span><span class="n">limb_name</span><span class="p">]]</span>
+        
+    <span class="n">extrema_idx</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">np</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;arg</span><span class="si">{</span><span class="n">extrema_func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="n">stats_list</span><span class="p">)</span>
+    <span class="n">extrema_value</span> <span class="o">=</span> <span class="n">stats_list</span><span class="p">[</span><span class="n">extrema_idx</span><span class="p">]</span>
+    <span class="n">extream_name</span> <span class="o">=</span> <span class="n">name_list</span><span class="p">[</span><span class="n">extrema_idx</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">extrema_func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> stat = </span><span class="si">{</span><span class="n">extrema_value</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">extream_name</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">return_limb_branch_idx</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">extrema_value</span><span class="p">,</span><span class="n">extream_name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">extrema_value</span></div>
+    
+<span class="c1"># def compartment_roots_stat_max(</span>
+<span class="c1">#     neuron_obj,</span>
+<span class="c1">#     compartment,</span>
+<span class="c1">#     stat_func,</span>
+<span class="c1">#     return_limb_branch_idx=False,</span>
+<span class="c1">#     verbose = False,</span>
+<span class="c1">#     **kwargs</span>
+<span class="c1">#     ):</span>
+    
+<span class="c1">#     return compartment_roots_stat_extrema(</span>
+<span class="c1">#     neuron_obj,</span>
+<span class="c1">#     compartment=compartment,</span>
+<span class="c1">#     stat_func=stat_func,</span>
+<span class="c1">#     extrema = &quot;max&quot;,</span>
+<span class="c1">#     return_limb_branch_idx=return_limb_branch_idx,</span>
+<span class="c1">#     verbose = verbose,</span>
+<span class="c1">#     **kwargs</span>
+<span class="c1">#     )</span>
+
+ 
+<span class="c1"># def compartment_roots_stat_min(</span>
+<span class="c1">#     neuron_obj,</span>
+<span class="c1">#     compartment,</span>
+<span class="c1">#     stat_func,</span>
+<span class="c1">#     return_limb_branch_idx=False,</span>
+<span class="c1">#     verbose = False,</span>
+<span class="c1">#     **kwargs</span>
+<span class="c1">#     ):</span>
+    
+<span class="c1">#     return compartment_roots_stat_extrema(</span>
+<span class="c1">#     neuron_obj,</span>
+<span class="c1">#     compartment=compartment,</span>
+<span class="c1">#     stat_func=stat_func,</span>
+<span class="c1">#     extrema = &quot;min&quot;,</span>
+<span class="c1">#     return_limb_branch_idx=return_limb_branch_idx,</span>
+<span class="c1">#     verbose = verbose,</span>
+<span class="c1">#     **kwargs</span>
+<span class="c1">#     )</span>
+
+<span class="c1"># def compartment_root_skeleton_angle_max(</span>
+<span class="c1">#     neuron_obj,</span>
+<span class="c1">#     compartment,</span>
+<span class="c1">#     return_limb_branch_idx = False,</span>
+<span class="c1">#     verbose = False,</span>
+<span class="c1">#     **kwargs</span>
+<span class="c1">#     ):</span>
+    
+<span class="c1">#     return nru.compartment_roots_stat_max(</span>
+<span class="c1">#         neuron_obj,</span>
+<span class="c1">#         compartment = compartment,</span>
+<span class="c1">#         stat_func = bu.skeleton_angle_from_top,</span>
+<span class="c1">#         return_limb_branch_idx = return_limb_branch_idx,</span>
+<span class="c1">#         verbose = verbose,</span>
+<span class="c1">#         **kwargs</span>
+<span class="c1">#     )</span>
+    
+<span class="c1"># def compartment_root_skeleton_angle_min(</span>
+<span class="c1">#     neuron_obj,</span>
+<span class="c1">#     compartment,</span>
+<span class="c1">#     return_limb_branch_idx = False,</span>
+<span class="c1">#     verbose = False,</span>
+<span class="c1">#     **kwargs</span>
+<span class="c1">#     ):</span>
+    
+<span class="c1">#     return nru.compartment_roots_stat_min(</span>
+<span class="c1">#         neuron_obj,</span>
+<span class="c1">#         compartment = compartment,</span>
+<span class="c1">#         stat_func = bu.skeleton_angle_from_top,</span>
+<span class="c1">#         return_limb_branch_idx = return_limb_branch_idx,</span>
+<span class="c1">#         verbose = verbose,</span>
+<span class="c1">#         **kwargs</span>
+<span class="c1">#     )</span>
+    
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span><span class="p">,</span><span class="n">update_wrapper</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
+
+<span class="n">compartment_roots_stat_max</span> <span class="o">=</span> <span class="n">update_wrapper</span><span class="p">(</span>
+    <span class="n">partial</span><span class="p">(</span><span class="n">compartment_roots_stat_extrema</span><span class="p">,</span><span class="n">extrema</span> <span class="o">=</span> <span class="s2">&quot;max&quot;</span><span class="p">),</span>
+    <span class="n">compartment_roots_stat_extrema</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">compartment_roots_stat_min</span> <span class="o">=</span> <span class="n">update_wrapper</span><span class="p">(</span>
+    <span class="n">partial</span><span class="p">(</span><span class="n">compartment_roots_stat_extrema</span><span class="p">,</span><span class="n">extrema</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span><span class="p">),</span>
+    <span class="n">compartment_roots_stat_extrema</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">compartment_root_skeleton_angle_max</span> <span class="o">=</span> <span class="n">update_wrapper</span><span class="p">(</span>
+    <span class="n">partial</span><span class="p">(</span><span class="n">compartment_roots_stat_max</span><span class="p">,</span>
+            <span class="n">stat_func</span> <span class="o">=</span> <span class="n">bu</span><span class="o">.</span><span class="n">skeleton_angle_from_top</span><span class="p">,),</span>
+    <span class="n">compartment_roots_stat_max</span>
+<span class="p">)</span>
+
+<span class="n">compartment_root_skeleton_angle_min</span> <span class="o">=</span> <span class="n">update_wrapper</span><span class="p">(</span>
+    <span class="n">partial</span><span class="p">(</span><span class="n">compartment_roots_stat_min</span><span class="p">,</span>
+            <span class="n">stat_func</span> <span class="o">=</span> <span class="n">bu</span><span class="o">.</span><span class="n">skeleton_angle_from_top</span><span class="p">,),</span>
+    <span class="n">compartment_roots_stat_min</span>
+<span class="p">)</span>
+
+<span class="n">compartment_root_width_max</span> <span class="o">=</span> <span class="n">update_wrapper</span><span class="p">(</span>
+    <span class="n">partial</span><span class="p">(</span><span class="n">compartment_roots_stat_max</span><span class="p">,</span>
+            <span class="n">stat_func</span> <span class="o">=</span> <span class="s2">&quot;width_upstream&quot;</span><span class="p">),</span>
+    <span class="n">compartment_roots_stat_max</span>
+    
+<span class="p">)</span>
+
+<span class="n">compartment_root_width_min</span> <span class="o">=</span> <span class="n">update_wrapper</span><span class="p">(</span>
+    <span class="n">partial</span><span class="p">(</span><span class="n">compartment_roots_stat_min</span><span class="p">,</span>
+            <span class="n">stat_func</span> <span class="o">=</span> <span class="s2">&quot;width_upstream&quot;</span><span class="p">,),</span>
+    <span class="n">compartment_roots_stat_min</span>
+<span class="p">)</span>
+    
 
 <span class="c1"># ------------- parameters for stats ---------------</span>
 
@@ -9917,7 +10218,7 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
+
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">classification_utils</span> <span class="k">as</span> <span class="n">clu</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">concept_network_utils</span> <span class="k">as</span> <span class="n">cnu</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">error_detection</span> <span class="k">as</span> <span class="n">ed</span>
