@@ -632,22 +632,25 @@
 <span class="sd">    from a python file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">stem</span>
-        <span class="n">directory</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">plu</span><span class="o">.</span><span class="n">parent_directory</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span>
+        <span class="n">return_value</span> <span class="o">=</span> <span class="n">filepath</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">stem</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">plu</span><span class="o">.</span><span class="n">parent_directory</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
+            
+        <span class="n">module_name</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.py&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
         
-    <span class="n">module_name</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.py&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">directory</span> <span class="o">=</span> <span class="n">parameter_config_folder</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="n">parameter_config_folder</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">directory</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">directory</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
 
-    <span class="n">exec</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;import </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2">; from </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2"> import </span><span class="si">{</span><span class="n">dict_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">return_value</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">dict_name</span><span class="p">)</span>
-    
+        <span class="n">exec</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;import </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2">; from </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2"> import </span><span class="si">{</span><span class="n">dict_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">return_value</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">dict_name</span><span class="p">)</span>
+        
     <span class="k">if</span> <span class="ow">not</span> <span class="n">return_dict</span><span class="p">:</span>
         <span class="n">return_value</span> <span class="o">=</span>  <span class="n">PackageParameters</span><span class="p">(</span>
             <span class="n">return_value</span>
