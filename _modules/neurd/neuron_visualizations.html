@@ -3938,6 +3938,80 @@
         <span class="n">scatters_colors</span><span class="o">=</span><span class="p">[</span><span class="n">upstream_color</span><span class="p">,</span><span class="n">downstream_color</span><span class="p">],</span>
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
+    
+
+<div class="viewcode-block" id="plot_merge_filter_suggestions"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_merge_filter_suggestions">[docs]</a><span class="k">def</span> <span class="nf">plot_merge_filter_suggestions</span><span class="p">(</span>
+    <span class="n">original_mesh</span><span class="p">,</span>
+    <span class="n">merge_valid_error_suggestions</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">neuron_obj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">merge_error_types</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">plot_valid_error_coordinates</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">valid_color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+    <span class="n">error_color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
+    <span class="n">print_merge_color_map</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To plot the valid/error suggestions</span>
+<span class="sd">    generated from</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">scatters</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">scatters_colors</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+    <span class="k">if</span> <span class="n">merge_valid_error_suggestions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">merge_valid_error_suggestions</span> <span class="o">=</span> <span class="n">neuron_obj</span><span class="o">.</span><span class="n">merge_filter_suggestions</span>
+
+    <span class="k">if</span> <span class="n">merge_error_types</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">merge_error_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">merge_valid_error_suggestions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">merge_error_types</span> <span class="o">=</span> <span class="n">nu</span><span class="o">.</span><span class="n">to_list</span><span class="p">(</span><span class="n">merge_error_types</span><span class="p">)</span>
+
+
+    <span class="n">local_color_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">merge_type</span> <span class="ow">in</span> <span class="n">merge_error_types</span><span class="p">:</span>
+        <span class="n">merge_info</span> <span class="o">=</span> <span class="n">merge_valid_error_suggestions</span><span class="p">[</span><span class="n">merge_type</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">merge_info</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+
+        <span class="n">merge_type</span> <span class="o">=</span> <span class="n">merge_type</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_red_blue_suggestions&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">pru</span><span class="o">.</span><span class="n">merge_type_to_color</span><span class="p">(</span><span class="n">merge_type</span><span class="p">)</span>
+        <span class="n">local_color_map</span><span class="p">[</span><span class="n">merge_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span>
+
+        <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">v_points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">e_points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">merge_point</span> <span class="ow">in</span> <span class="n">merge_info</span><span class="p">:</span>
+
+            <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">merge_point</span><span class="p">[</span><span class="s2">&quot;coordinate&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+            <span class="n">v_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">merge_point</span><span class="p">[</span><span class="s2">&quot;valid_points&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+            <span class="n">e_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">merge_point</span><span class="p">[</span><span class="s2">&quot;error_points&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+
+        <span class="n">scatters</span> <span class="o">+=</span> <span class="p">[</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">coords</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="n">scatters_colors</span> <span class="o">+=</span> <span class="p">[</span><span class="n">color</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">plot_valid_error_coordinates</span><span class="p">:</span>
+            <span class="n">scatters</span> <span class="o">+=</span> <span class="p">[</span><span class="n">v_points</span><span class="p">,</span><span class="n">e_points</span><span class="p">]</span>
+            <span class="n">scatters_colors</span> <span class="o">+=</span> <span class="p">[</span><span class="n">valid_color</span><span class="p">,</span><span class="n">error_color</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">print_merge_color_map</span><span class="p">:</span>
+        <span class="n">pru</span><span class="o">.</span><span class="n">print_merge_type_color_map</span><span class="p">(</span><span class="n">local_color_map</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">plot_valid_error_coordinates</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">For splitting&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">valid coordinates = </span><span class="si">{</span><span class="n">valid_color</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">error coordinates = </span><span class="si">{</span><span class="n">error_color</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">ipvu</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span>
+        <span class="n">original_mesh</span><span class="p">,</span>
+        <span class="n">scatters</span><span class="o">=</span><span class="n">scatters</span><span class="p">,</span>
+        <span class="n">scatters_colors</span><span class="o">=</span><span class="n">scatters_colors</span>
+    <span class="p">)</span></div>
 
 <span class="c1">#--- from mesh_tools ---</span>
 <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>

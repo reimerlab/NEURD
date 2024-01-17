@@ -61,6 +61,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-neurd.apical_utils">neurd.apical_utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#compartment-list-and-description">Compartment List and Description</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.apical_utils.add_compartment_coarse_fine_to_df"><code class="docutils literal notranslate"><span class="pre">add_compartment_coarse_fine_to_df()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.apical_utils.apical_classification"><code class="docutils literal notranslate"><span class="pre">apical_classification()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.apical_utils.apical_classification_high_soma_center"><code class="docutils literal notranslate"><span class="pre">apical_classification_high_soma_center()</span></code></a></li>
@@ -1233,6 +1234,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_limb_correspondence_multiple"><code class="docutils literal notranslate"><span class="pre">plot_limb_correspondence_multiple()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_limb_idx"><code class="docutils literal notranslate"><span class="pre">plot_limb_idx()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_limb_path"><code class="docutils literal notranslate"><span class="pre">plot_limb_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_merge_filter_suggestions"><code class="docutils literal notranslate"><span class="pre">plot_merge_filter_suggestions()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_mesh_face_idx"><code class="docutils literal notranslate"><span class="pre">plot_mesh_face_idx()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_meshes_skeletons"><code class="docutils literal notranslate"><span class="pre">plot_meshes_skeletons()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.plot_original_vs_proofread"><code class="docutils literal notranslate"><span class="pre">plot_original_vs_proofread()</span></code></a></li>
@@ -1378,8 +1380,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.proofreading_utils.low_branch_length_large_clusters_axon"><code class="docutils literal notranslate"><span class="pre">low_branch_length_large_clusters_axon()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.proofreading_utils.low_branch_length_large_clusters_dendrite"><code class="docutils literal notranslate"><span class="pre">low_branch_length_large_clusters_dendrite()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.proofreading_utils.make_filter_dict"><code class="docutils literal notranslate"><span class="pre">make_filter_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.proofreading_utils.merge_error_red_blue_suggestions_clean"><code class="docutils literal notranslate"><span class="pre">merge_error_red_blue_suggestions_clean()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.proofreading_utils.merge_type_to_color"><code class="docutils literal notranslate"><span class="pre">merge_type_to_color()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.proofreading_utils.multi_soma_split_suggestions"><code class="docutils literal notranslate"><span class="pre">multi_soma_split_suggestions()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.proofreading_utils.plot_limb_to_red_blue_groups"><code class="docutils literal notranslate"><span class="pre">plot_limb_to_red_blue_groups()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.proofreading_utils.print_merge_type_color_map"><code class="docutils literal notranslate"><span class="pre">print_merge_type_color_map()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.proofreading_utils.proofread_neuron"><code class="docutils literal notranslate"><span class="pre">proofread_neuron()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.proofreading_utils.proofread_neuron_class_predetermined"><code class="docutils literal notranslate"><span class="pre">proofread_neuron_class_predetermined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.proofreading_utils.proofread_neuron_full"><code class="docutils literal notranslate"><span class="pre">proofread_neuron_full()</span></code></a></li>
@@ -1983,6 +1988,27 @@ a range of min dist to max dist</p>
 </section>
 <section id="module-neurd.apical_utils">
 <span id="neurd-apical-utils-module"></span><h2>neurd.apical_utils module<a class="headerlink" href="#module-neurd.apical_utils" title="Permalink to this heading"></a></h2>
+<p>Module for helping to classify the different compartments</p>
+<section id="compartment-list-and-description">
+<h3>Compartment List and Description<a class="headerlink" href="#compartment-list-and-description" title="Permalink to this heading"></a></h3>
+<p>axon:
+soma:
+apical_shaft (only excitatory):</p>
+<blockquote>
+<div><p>the first protrusion of the apical neurite from the soma (the shaft generally projects upward towards the top of the volume as a single lined entity</p>
+</div></blockquote>
+<dl class="simple">
+<dt>apical (only excitatory):</dt><dd><p>all branches downstream of the first apical shaft protrusion (includes apical_shaft,apical_tuft,oblique). This compartment includes offshoots of the apical shaft that were not close to a 90 degree protrusion angle with respect to the the apical shaft trajectory</p>
+</dd>
+<dt>apical_tuft (only excitatory):</dt><dd><p>the branches downstream of the point at which the apical shaft terminates its striaght upward trajectory and a branching point of 2 or more offshoots with a non straight upward trajectory</p>
+</dd>
+<dt>oblique (only excitatory):</dt><dd><p>offshoots of the apical shaft (before the apical_tuft section) that were close to a 90 degree protrusion angle with respect to the the apical shaft trajectory</p>
+</dd>
+<dt>dendrite (only inhibitory):</dt><dd><p>any non-axon neurites on an inhibitory cell</p>
+</dd>
+<dt>basal (only excitatory):</dt><dd><p>any non-apical neurites on an excitatory cell</p>
+</dd>
+</dl>
 <p>Good neuron to show off for classification</p>
 <p>old_seg_id  = 864691135099943968
 neuron_obj = du.decomposition_with_spine_recalculation(old_seg_id,0)
@@ -1995,6 +2021,7 @@ verbose = True</p>
 </div></blockquote>
 <p>)</p>
 </div></blockquote>
+</section>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.apical_utils.add_compartment_coarse_fine_to_df">
 <span class="sig-prename descclassname"><span class="pre">neurd.apical_utils.</span></span><span class="sig-name descname"><span class="pre">add_compartment_coarse_fine_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compartment_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'compartment'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/apical_utils.html#add_compartment_coarse_fine_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.apical_utils.add_compartment_coarse_fine_to_df" title="Permalink to this definition"></a></dt>
@@ -7784,6 +7811,37 @@ current_neuron.get_limbs_touching_soma(0)</p>
 <dd></dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="neurd.neuron.Neuron.merge_filter_locations">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">merge_filter_locations</span></span><a class="headerlink" href="#neurd.neuron.Neuron.merge_filter_locations" title="Permalink to this definition"></a></dt>
+<dd><p>a nested dictionary datastructure storing the information on where the merge error filters were trigger.
+The order that the merge error filters was applied matters because the branches that triggered the filter are only those that had not triggered an early applied filter, and thus it was not already filtered away.
+Note: this product includes all branches that triggered the filter at this stage, regardless if they were downstream of another
+The datastructure is organized in the following way:</p>
+<dl class="simple">
+<dt>merge error filter name: –&gt; dict</dt><dd><dl class="simple">
+<dt>limb name:</dt><dd><p>list of 2x3 arrays that stores coordinates of the endpoints the skeleton of the branch that triggered the merge error filter (1st coordinate is upstream branch)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neurd.neuron.Neuron.merge_filter_suggestions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">merge_filter_suggestions</span></span><a class="headerlink" href="#neurd.neuron.Neuron.merge_filter_suggestions" title="Permalink to this definition"></a></dt>
+<dd><p>a dictionary data structure that stores a list for each merge error filter of merge filter suggestions that would be the minimal cuts that would eliminate all merge errors of that type .
+Each filter detection is a dictionary storing meta data about the suggestion, with the following as some of the keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>valid points: coordinates that should belong to the existing neuronal process ( a marker of where the valid mesh is).</p></li>
+<li><p>error points: coordinates that should belong to incorrect neuronal process resulting from merge errors ( a marker of where the error mesh starts)</p></li>
+<li><p>coordinate: locations of split points used in the elimination of soma to soma paths</p></li>
+</ul>
+<p>The valid and error points can be used as inputs for automatic mesh splitting algorithms in other pipelines (ex: Neuroglancer)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Neuron.mesh_errored_synapses_post">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mesh_errored_synapses_post</span></span><a class="headerlink" href="#neurd.neuron.Neuron.mesh_errored_synapses_post" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -7980,12 +8038,6 @@ nx.draw(my_neuron.concept_network,with_labels=True,node_color=node_list_colors,<
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="neurd.neuron.Neuron.red_blue_split_points_by_limb">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">red_blue_split_points_by_limb</span></span><a class="headerlink" href="#neurd.neuron.Neuron.red_blue_split_points_by_limb" title="Permalink to this definition"></a></dt>
-<dd><p>dummy docstring</p>
-</dd></dl>
-
-<dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Neuron.same_soma_multi_touching_limbs">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">same_soma_multi_touching_limbs</span></span><a class="headerlink" href="#neurd.neuron.Neuron.same_soma_multi_touching_limbs" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -8175,6 +8227,12 @@ nru.decompress_neuron(filepath=”/notebooks/test_neurons/preprocessed_neurons/m
 <dt class="sig sig-object py" id="neurd.neuron.Neuron.total_spine_volume">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_spine_volume</span></span><a class="headerlink" href="#neurd.neuron.Neuron.total_spine_volume" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="neurd.neuron.Neuron.valid_error_split_points_by_limb">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_error_split_points_by_limb</span></span><a class="headerlink" href="#neurd.neuron.Neuron.valid_error_split_points_by_limb" title="Permalink to this definition"></a></dt>
+<dd><p>dummy docstring</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="neurd.neuron.Neuron.web">
@@ -13536,6 +13594,13 @@ with just given a limb object</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="neurd.neuron_visualizations.plot_merge_filter_suggestions">
+<span class="sig-prename descclassname"><span class="pre">neurd.neuron_visualizations.</span></span><span class="sig-name descname"><span class="pre">plot_merge_filter_suggestions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_valid_error_suggestions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_error_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_valid_error_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'blue'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_merge_color_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_visualizations.html#plot_merge_filter_suggestions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_visualizations.plot_merge_filter_suggestions" title="Permalink to this definition"></a></dt>
+<dd><p>Purpose: To plot the valid/error suggestions
+generated from</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="neurd.neuron_visualizations.plot_mesh_face_idx">
 <span class="sig-prename descclassname"><span class="pre">neurd.neuron_visualizations.</span></span><span class="sig-name descname"><span class="pre">plot_mesh_face_idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">face_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshes_colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'random'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_visualizations.html#plot_mesh_face_idx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_visualizations.plot_mesh_face_idx" title="Permalink to this definition"></a></dt>
 <dd><p>To plot a mesh divided up by a face_mesh_idx</p>
@@ -14793,6 +14858,16 @@ _ = pru.low_branch_length_large_clusters_dendrite(neuron_obj,plot = True,</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="neurd.proofreading_utils.merge_error_red_blue_suggestions_clean">
+<span class="sig-prename descclassname"><span class="pre">neurd.proofreading_utils.</span></span><span class="sig-name descname"><span class="pre">merge_error_red_blue_suggestions_clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">red_blue_suggestions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/proofreading_utils.html#merge_error_red_blue_suggestions_clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.proofreading_utils.merge_error_red_blue_suggestions_clean" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.proofreading_utils.merge_type_to_color">
+<span class="sig-prename descclassname"><span class="pre">neurd.proofreading_utils.</span></span><span class="sig-name descname"><span class="pre">merge_type_to_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">merge_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/proofreading_utils.html#merge_type_to_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.proofreading_utils.merge_type_to_color" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="neurd.proofreading_utils.multi_soma_split_suggestions">
 <span class="sig-prename descclassname"><span class="pre">neurd.proofreading_utils.</span></span><span class="sig-name descname"><span class="pre">multi_soma_split_suggestions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_suggestions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_intermediates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_suggestions_scatter_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_segment_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_cut_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_multi_soma_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_cut_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'last'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_red_blue_suggestions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_red_blue_by_common_upstream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">one_hop_downstream_error_branches_max_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset_distance_for_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_final_blue_red_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_outermost_branches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_removed_branches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_error_downstream_length_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_valid_upstream_branches_restriction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_red_blue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/proofreading_utils.html#multi_soma_split_suggestions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.proofreading_utils.multi_soma_split_suggestions" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: To come up with suggestions for splitting a multi-soma</p>
@@ -14810,6 +14885,11 @@ _ = pru.low_branch_length_large_clusters_dendrite(neuron_obj,plot = True,</p>
 <dd><p>Purpose: To plot a picture of all the limb to red blue groups
 information</p>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.proofreading_utils.print_merge_type_color_map">
+<span class="sig-prename descclassname"><span class="pre">neurd.proofreading_utils.</span></span><span class="sig-name descname"><span class="pre">print_merge_type_color_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/proofreading_utils.html#print_merge_type_color_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.proofreading_utils.print_merge_type_color_map" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.proofreading_utils.proofread_neuron">

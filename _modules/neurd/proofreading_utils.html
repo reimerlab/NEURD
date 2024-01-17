@@ -93,6 +93,28 @@
 <span class="n">split_version</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># added width thresholding for which edges are allowed in the resolving edges high degree branching</span>
 <span class="n">split_version</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># startw with the double back check at beginning</span>
 
+<span class="n">merge_type_color_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;axon_on_dendrite_merges&quot;</span><span class="p">:</span><span class="s2">&quot;brown&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;high_degree_branching&quot;</span><span class="p">:</span><span class="s2">&quot;aqua&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;low_degree_branching&quot;</span><span class="p">:</span><span class="s2">&quot;purple&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;high_degree_branching_dendrite&quot;</span><span class="p">:</span><span class="s2">&quot;orange&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;width_jump_up_dendrite&quot;</span><span class="p">:</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;width_jump_up_axon&quot;</span><span class="p">:</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;double_back_dendrite&quot;</span><span class="p">:</span><span class="s2">&quot;pink&quot;</span>    
+<span class="p">}</span>
+
+<div class="viewcode-block" id="merge_type_to_color"><a class="viewcode-back" href="../../neurd.html#neurd.proofreading_utils.merge_type_to_color">[docs]</a><span class="k">def</span> <span class="nf">merge_type_to_color</span><span class="p">(</span><span class="n">merge_type</span><span class="p">):</span>
+    <span class="n">merge_type</span> <span class="o">=</span> <span class="n">merge_type</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_red_blue_suggestions&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">merge_type_color_map</span><span class="p">[</span><span class="n">merge_type</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="print_merge_type_color_map"><a class="viewcode-back" href="../../neurd.html#neurd.proofreading_utils.print_merge_type_color_map">[docs]</a><span class="k">def</span> <span class="nf">print_merge_type_color_map</span><span class="p">(</span><span class="n">color_map</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">color_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">color_map</span> <span class="o">=</span> <span class="n">merge_type_color_map</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Merge Type Colors:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">color_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="find_high_degree_coordinates_on_path"><a class="viewcode-back" href="../../neurd.html#neurd.proofreading_utils.find_high_degree_coordinates_on_path">[docs]</a><span class="k">def</span> <span class="nf">find_high_degree_coordinates_on_path</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">curr_path_to_cut</span><span class="p">,</span>
                                    <span class="n">degree_to_check</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -7796,7 +7818,20 @@
     <span class="k">return</span> <span class="n">inh_filters</span></div>
 
 
+<div class="viewcode-block" id="merge_error_red_blue_suggestions_clean"><a class="viewcode-back" href="../../neurd.html#neurd.proofreading_utils.merge_error_red_blue_suggestions_clean">[docs]</a><span class="k">def</span> <span class="nf">merge_error_red_blue_suggestions_clean</span><span class="p">(</span>
+    <span class="n">red_blue_suggestions</span><span class="p">):</span>
 
+    <span class="n">red_blue_merge_error_suggesions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">error_filter</span><span class="p">,</span><span class="n">red_blue_splits</span> <span class="ow">in</span> <span class="n">red_blue_suggestions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">red_blue_merge_error_suggesions</span><span class="p">[</span><span class="n">error_filter</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">limb_idx</span><span class="p">,</span><span class="n">limb_split_info</span> <span class="ow">in</span> <span class="n">red_blue_splits</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1">#red_blue_merge_error_suggesions[error_filter][limb_idx] = []</span>
+            <span class="k">for</span> <span class="n">split_dic_key</span><span class="p">,</span><span class="n">split_dict_list</span> <span class="ow">in</span> <span class="n">limb_split_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">split_dic</span> <span class="ow">in</span> <span class="n">split_dict_list</span><span class="p">:</span>
+                    <span class="n">red_blue_merge_error_suggesions</span><span class="p">[</span><span class="n">error_filter</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">split_dic</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">red_blue_merge_error_suggesions</span></div>
 
 
 <span class="c1"># ------------- parameters for stats ---------------</span>

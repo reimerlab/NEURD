@@ -2830,7 +2830,7 @@
         
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">red_blue_split_points_by_limb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">valid_error_split_points_by_limb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        dummy docstring</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -2838,7 +2838,6 @@
         <span class="k">return</span> <span class="n">ssu</span><span class="o">.</span><span class="n">limb_red_blue_dict_from_red_blue_splits</span><span class="p">(</span>
             <span class="n">rb_splits</span>     
         <span class="p">)</span>
-        
         
     
 <div class="viewcode-block" id="Neuron.get_total_n_branches"><a class="viewcode-back" href="../../neurd.html#neurd.neuron.Neuron.get_total_n_branches">[docs]</a>    <span class="k">def</span> <span class="nf">get_total_n_branches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -4175,7 +4174,47 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">n_synapses_total</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">synapses_total</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">synapses_total</span><span class="p">)</span>
+    
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">merge_filter_suggestions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        a dictionary data structure that stores a list for each merge error filter of merge filter suggestions that would be the minimal cuts that would eliminate all merge errors of that type . </span>
+<span class="sd">        Each filter detection is a dictionary storing meta data about the suggestion, with the following as some of the keys:</span>
+<span class="sd">            - valid points: coordinates that should belong to the existing neuronal process ( a marker of where the valid mesh is). </span>
+<span class="sd">            - error points: coordinates that should belong to incorrect neuronal process resulting from merge errors ( a marker of where the error mesh starts)</span>
+<span class="sd">            - coordinate: locations of split points used in the elimination of soma to soma paths</span>
+
+<span class="sd">            The valid and error points can be used as inputs for automatic mesh splitting algorithms in other pipelines (ex: Neuroglancer)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">rb_suggestions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_products</span><span class="p">[</span><span class="s2">&quot;auto_proof&quot;</span><span class="p">][</span><span class="s2">&quot;red_blue_suggestions&quot;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">pru</span><span class="o">.</span><span class="n">merge_error_red_blue_suggestions_clean</span><span class="p">(</span>
+                    <span class="n">rb_suggestions</span>
+                <span class="p">)</span>
+        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">merge_filter_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        a nested dictionary datastructure storing the information on where the merge error filters were trigger. </span>
+<span class="sd">        The order that the merge error filters was applied matters because the branches that triggered the filter are only those that had not triggered an early applied filter, and thus it was not already filtered away.</span>
+<span class="sd">        Note: this product includes all branches that triggered the filter at this stage, regardless if they were downstream of another</span>
+<span class="sd">        The datastructure is organized in the following way:</span>
+
+<span class="sd">        merge error filter name: --&gt; dict</span>
+<span class="sd">            limb name: </span>
+<span class="sd">                list of 2x3 arrays that stores coordinates of the endpoints the skeleton of the branch that triggered the merge error filter (1st coordinate is upstream branch)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_products</span><span class="p">[</span><span class="s2">&quot;auto_proof&quot;</span><span class="p">][</span><span class="s2">&quot;split_locations_before_filter&quot;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span></div>
+        
 
 
 <span class="c1">#--- from neurd_packages ---</span>
@@ -4188,6 +4227,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">width_utils</span> <span class="k">as</span> <span class="n">wu</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
 
 <span class="n">object_name_to_class</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">synapses</span><span class="o">=</span><span class="n">syu</span><span class="o">.</span><span class="n">Synapse</span><span class="p">,</span>
                            <span class="n">spines_obj</span> <span class="o">=</span> <span class="n">spu</span><span class="o">.</span><span class="n">Spine</span><span class="p">)</span>

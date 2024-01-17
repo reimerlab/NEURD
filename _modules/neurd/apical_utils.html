@@ -73,7 +73,24 @@
              
   <h1>Source code for neurd.apical_utils</h1><div class="highlight"><pre>
 <span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Module for helping to classify the different compartments</span>
 
+<span class="sd">Compartment List and Description</span>
+<span class="sd">-----------------------</span>
+<span class="sd">axon:</span>
+<span class="sd">soma:</span>
+<span class="sd">apical_shaft (only excitatory): </span>
+<span class="sd">    the first protrusion of the apical neurite from the soma (the shaft generally projects upward towards the top of the volume as a single lined entity</span>
+<span class="sd">apical (only excitatory): </span>
+<span class="sd">    all branches downstream of the first apical shaft protrusion (includes apical_shaft,apical_tuft,oblique). This compartment includes offshoots of the apical shaft that were not close to a 90 degree protrusion angle with respect to the the apical shaft trajectory</span>
+<span class="sd">apical_tuft (only excitatory): </span>
+<span class="sd">    the branches downstream of the point at which the apical shaft terminates its striaght upward trajectory and a branching point of 2 or more offshoots with a non straight upward trajectory</span>
+<span class="sd">oblique (only excitatory):</span>
+<span class="sd">    offshoots of the apical shaft (before the apical_tuft section) that were close to a 90 degree protrusion angle with respect to the the apical shaft trajectory</span>
+<span class="sd">dendrite (only inhibitory):</span>
+<span class="sd">    any non-axon neurites on an inhibitory cell</span>
+<span class="sd">basal (only excitatory):</span>
+<span class="sd">    any non-apical neurites on an excitatory cell</span>
 
 
 <span class="sd">Good neuron to show off for classification</span>
@@ -85,6 +102,7 @@
 <span class="sd">                          plot_labels=True,</span>
 <span class="sd">                          verbose = True</span>
 <span class="sd">                         )</span>
+
 
 
 
