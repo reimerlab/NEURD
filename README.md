@@ -50,29 +50,29 @@ All of the tutorials made for showing the decomposition/autoproofreading pipelin
 
 1. Auto Proofreading Pipeline:
 
-   - Multi Soma: neurd_packages/NEURD/Applications/Tutorials/Auto_Proof_Pipeline/Double_Soma/neuron_pipeline_vp5_double_soma.ipynb
-   - Single Soma Excitatory: neurd_packages/NEURD/Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Exc/neuron_pipeline_vp5_single_demo_exc.ipynb
-   - Single Soma Inhibitory: neurd_packages/NEURD/Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Inh/neuron_pipeline_vp5_single_demo_inh.ipynb
+   - Multi Soma: Applications/Tutorials/Auto_Proof_Pipeline/Double_Soma/neuron_pipeline_vp5_double_soma.ipynb
+   - Single Soma Excitatory: Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Exc/neuron_pipeline_vp5_single_demo_exc.ipynb
+   - Single Soma Inhibitory: Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Inh/neuron_pipeline_vp5_single_demo_inh.ipynb
 
 2. Neuron Object:
 
-   - Hierarchical Organization and Access: neurd_packages/NEURD/Applications/Tutorials/Neuron_Features/Neuron_Limb_Branch_Hierarchical_Data_Structure.ipynb
-   - Neuron Feature Tutorial: neurd_packages/NEURD/Applications/Tutorials/Neuron_Features/Neuron_Features_Tutorial.ipynb
-     **_ See Neuron_Feature_Documentation sheet below for detailed descriptions _**
+   - Hierarchical Organization and Access: Applications/Tutorials/Neuron_Features/Neuron_Limb_Branch_Hierarchical_Data_Structure.ipynb
+   - Neuron Feature Tutorial: Applications/Tutorials/Neuron*Features/Neuron_Features_Tutorial.ipynb
+     \*\** See Neuron*Feature_Documentation sheet below for detailed descriptions *\*\*
 
 3. Proximities:
 
-   - How to calculate proximities: neurd_packages/NEURD/Applications/Tutorials/Proximities/Tutorial_Proximities_vp2.ipynb
-   - SWC Output and Anlaysis with 3rd Party Software: neurd_packages/NEURD/Applications/Tutorials/SWC_Output_and_Analysis/SWC_output_and_morphopy_analysis.ipynb
+   - How to calculate proximities: Applications/Tutorials/Proximities/Tutorial_Proximities_vp2.ipynb
+   - SWC Output and Anlaysis with 3rd Party Software: Applications/Tutorials/SWC_Output_and_Analysis/SWC_output_and_morphopy_analysis.ipynb
 
 4. Volume Data Interface (VDI) Override Implementations:
 
-   - H01 (Human Dataset) VDI Override: neurd_packages/NEURD/Applications/Tutorials/VDI_override/Tutorial_Making_Vdi_Override_H01.ipynb
-   - MICrONS Caveclient VDI Override: neurd_packages/NEURD/Applications/Tutorials/VDI_microns_caveclient/vdi_microns_caveclient_demo.ipynb
-   - Fake Data VDI Override: neurd_packages/NEURD/Applications/Tutorials/VDI_override/Tutorial_Making_Vdi_Override_Whale.ipynb
+   - H01 (Human Dataset) VDI Override: Applications/Tutorials/VDI_override/Tutorial_Making_Vdi_Override_H01.ipynb
+   - MICrONS Caveclient VDI Override: Applications/Tutorials/VDI_microns_caveclient/vdi_microns_caveclient_demo.ipynb
+   - Fake Data VDI Override: Applications/Tutorials/VDI_override/Tutorial_Making_Vdi_Override_Whale.ipynb
 
 5. Connectivity Analysis:
-   - Conversion Rate of Groups of Cells: neurd_packages/NEURD/Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Inh/neuron_pipeline_vp5_single_demo_inh.ipynb
+   - Conversion Rate of Groups of Cells: Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Inh/neuron_pipeline_vp5_single_demo_inh.ipynb
 
 #### Documentation sheets:
 
