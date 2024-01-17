@@ -19,6 +19,28 @@ split_version = 2 # adding all of the non-soma touching pieces to all of the spl
 split_version = 3 # added width thresholding for which edges are allowed in the resolving edges high degree branching
 split_version = 4 # startw with the double back check at beginning
 
+merge_type_color_map = {
+    "axon_on_dendrite_merges":"brown",
+    "high_degree_branching":"aqua",
+    "low_degree_branching":"purple",
+    "high_degree_branching_dendrite":"orange",
+    "width_jump_up_dendrite":"black",
+    "width_jump_up_axon":"yellow",
+    "double_back_dendrite":"pink"    
+}
+
+def merge_type_to_color(merge_type):
+    merge_type = merge_type.replace("_red_blue_suggestions","")
+    return merge_type_color_map[merge_type]
+
+def print_merge_type_color_map(color_map = None):
+    if color_map is None:
+        color_map = merge_type_color_map
+    print(f"Merge Type Colors:")
+    print(f"------------------")
+    for k,v in color_map.items():
+        print(f"\t{k} : {v}")
+
 def find_high_degree_coordinates_on_path(limb_obj,curr_path_to_cut,
                                    degree_to_check=4):
     """
@@ -7722,7 +7744,20 @@ def v7_inh_filters(dendrite_branching_filters = None):
     return inh_filters
 
 
+def merge_error_red_blue_suggestions_clean(
+    red_blue_suggestions):
 
+    red_blue_merge_error_suggesions = dict()
+
+    for error_filter,red_blue_splits in red_blue_suggestions.items():
+        red_blue_merge_error_suggesions[error_filter] = []
+        for limb_idx,limb_split_info in red_blue_splits.items():
+            #red_blue_merge_error_suggesions[error_filter][limb_idx] = []
+            for split_dic_key,split_dict_list in limb_split_info.items():
+                for split_dic in split_dict_list:
+                    red_blue_merge_error_suggesions[error_filter].append(split_dic)
+
+    return red_blue_merge_error_suggesions
 
 
 # ------------- parameters for stats ---------------

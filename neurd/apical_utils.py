@@ -1,5 +1,22 @@
 '''
+Module for helping to classify the different compartments
 
+Compartment List and Description
+-----------------------
+axon:
+soma:
+apical_shaft (only excitatory): 
+    the first protrusion of the apical neurite from the soma (the shaft generally projects upward towards the top of the volume as a single lined entity
+apical (only excitatory): 
+    all branches downstream of the first apical shaft protrusion (includes apical_shaft,apical_tuft,oblique). This compartment includes offshoots of the apical shaft that were not close to a 90 degree protrusion angle with respect to the the apical shaft trajectory
+apical_tuft (only excitatory): 
+    the branches downstream of the point at which the apical shaft terminates its striaght upward trajectory and a branching point of 2 or more offshoots with a non straight upward trajectory
+oblique (only excitatory):
+    offshoots of the apical shaft (before the apical_tuft section) that were close to a 90 degree protrusion angle with respect to the the apical shaft trajectory
+dendrite (only inhibitory):
+    any non-axon neurites on an inhibitory cell
+basal (only excitatory):
+    any non-apical neurites on an excitatory cell
 
 
 Good neuron to show off for classification
@@ -11,6 +28,7 @@ apu.apical_classification(neuron_obj,
                           plot_labels=True,
                           verbose = True
                          )
+
 
 
 

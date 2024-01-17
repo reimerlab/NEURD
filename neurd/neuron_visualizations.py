@@ -3864,6 +3864,80 @@ def plot_branch(
         scatters_colors=[upstream_color,downstream_color],
         **kwargs
     )
+    
+
+def plot_merge_filter_suggestions(
+    original_mesh,
+    merge_valid_error_suggestions = None,
+    neuron_obj = None,
+    merge_error_types = None,
+    plot_valid_error_coordinates = True,
+    valid_color = "blue",
+    error_color = "red",
+    print_merge_color_map = True,
+    ):
+    """
+    Purpose: To plot the valid/error suggestions
+    generated from
+    """
+
+    scatters = []
+    scatters_colors = []
+
+
+    if merge_valid_error_suggestions is None:
+        merge_valid_error_suggestions = neuron_obj.merge_filter_suggestions
+
+    if merge_error_types is None:
+        merge_error_types = list(merge_valid_error_suggestions.keys())
+    else:
+        merge_error_types = nu.to_list(merge_error_types)
+
+
+    local_color_map = dict()
+    for merge_type in merge_error_types:
+        merge_info = merge_valid_error_suggestions[merge_type]
+
+        if len(merge_info) == 0:
+            continue
+
+
+        merge_type = merge_type.replace("_red_blue_suggestions","")
+        color = pru.merge_type_to_color(merge_type)
+        local_color_map[merge_type] = color
+
+        coords = []
+        v_points = []
+        e_points = []
+        for merge_point in merge_info:
+
+            coords.append(merge_point["coordinate"].reshape(-1,3))
+            v_points.append(merge_point["valid_points"].reshape(-1,3))
+            e_points.append(merge_point["error_points"].reshape(-1,3))
+
+        scatters += [
+            np.vstack(coords),
+        ]
+        scatters_colors += [color]
+
+        if plot_valid_error_coordinates:
+            scatters += [v_points,e_points]
+            scatters_colors += [valid_color,error_color]
+
+    if print_merge_color_map:
+        pru.print_merge_type_color_map(local_color_map)
+
+        if plot_valid_error_coordinates:
+            print(f"\nFor splitting")
+            print("--------------")
+            print(f"\tvalid coordinates = {valid_color}")
+            print(f"\terror coordinates = {error_color}")
+
+    ipvu.plot_objects(
+        original_mesh,
+        scatters=scatters,
+        scatters_colors=scatters_colors
+    )
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk

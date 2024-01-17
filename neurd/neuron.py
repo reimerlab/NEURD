@@ -2756,7 +2756,7 @@ class Neuron:
         
     
     @property
-    def red_blue_split_points_by_limb(self):
+    def valid_error_split_points_by_limb(self):
         """
         dummy docstring
         """
@@ -2764,7 +2764,6 @@ class Neuron:
         return ssu.limb_red_blue_dict_from_red_blue_splits(
             rb_splits     
         )
-        
         
     
     def get_total_n_branches(self):
@@ -4102,6 +4101,46 @@ class Neuron:
     @property
     def n_synapses_total(self):
         return len(self.synapses_total)
+    
+    
+    @property
+    def merge_filter_suggestions(self):
+        """
+        a dictionary data structure that stores a list for each merge error filter of merge filter suggestions that would be the minimal cuts that would eliminate all merge errors of that type . 
+        Each filter detection is a dictionary storing meta data about the suggestion, with the following as some of the keys:
+            - valid points: coordinates that should belong to the existing neuronal process ( a marker of where the valid mesh is). 
+            - error points: coordinates that should belong to incorrect neuronal process resulting from merge errors ( a marker of where the error mesh starts)
+            - coordinate: locations of split points used in the elimination of soma to soma paths
+
+            The valid and error points can be used as inputs for automatic mesh splitting algorithms in other pipelines (ex: Neuroglancer)
+        
+        """
+        try:
+            rb_suggestions = self.pipeline_products["auto_proof"]["red_blue_suggestions"]
+        except:
+            return dict()
+        
+        return pru.merge_error_red_blue_suggestions_clean(
+                    rb_suggestions
+                )
+        
+    @property
+    def merge_filter_locations(self):
+        """
+        a nested dictionary datastructure storing the information on where the merge error filters were trigger. 
+        The order that the merge error filters was applied matters because the branches that triggered the filter are only those that had not triggered an early applied filter, and thus it was not already filtered away.
+        Note: this product includes all branches that triggered the filter at this stage, regardless if they were downstream of another
+        The datastructure is organized in the following way:
+
+        merge error filter name: --> dict
+            limb name: 
+                list of 2x3 arrays that stores coordinates of the endpoints the skeleton of the branch that triggered the merge error filter (1st coordinate is upstream branch)
+        """
+        try:
+            return self.pipeline_products["auto_proof"]["split_locations_before_filter"]
+        except:
+            return dict()
+        
 
 
 #--- from neurd_packages ---
@@ -4114,6 +4153,7 @@ from . import soma_extraction_utils as sm
 from . import spine_utils as spu
 from . import synapse_utils as syu
 from . import width_utils as wu
+from . import proofreading_utils as pru
 
 object_name_to_class = dict(synapses=syu.Synapse,
                            spines_obj = spu.Spine)
