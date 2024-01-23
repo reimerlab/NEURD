@@ -57,8 +57,8 @@ All of the tutorials made for showing the decomposition/autoproofreading pipelin
 2. Neuron Object:
 
    - Hierarchical Organization and Access: Applications/Tutorials/Neuron_Features/Neuron_Limb_Branch_Hierarchical_Data_Structure.ipynb
-   - Neuron Feature Tutorial: Applications/Tutorials/Neuron*Features/Neuron_Features_Tutorial.ipynb
-     \*\** See Neuron*Feature_Documentation sheet below for detailed descriptions *\*\*
+   - Neuron Feature Tutorial: Applications/Tutorials/Neuron_Features/Neuron_Features_Tutorial.ipynb
+     \*\*\* See Neuron_Feature_Documentation sheet below for detailed descriptions \*\*\*
 
 3. Proximities:
 
@@ -72,7 +72,11 @@ All of the tutorials made for showing the decomposition/autoproofreading pipelin
    - Fake Data VDI Override: Applications/Tutorials/VDI_override/Tutorial_Making_Vdi_Override_Whale.ipynb
 
 5. Connectivity Analysis:
+
    - Conversion Rate of Groups of Cells: Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Inh/neuron_pipeline_vp5_single_demo_inh.ipynb
+
+6. Visualizations :
+   - Skeleton and Compartments of Auto Proofread Neuron: Applications/Tutorials/Visualizing_Auto_Proof_Neurons/Visualizing_Neuron_Skeletons_and_Compartments.ipynb
 
 #### Documentation sheets:
 
