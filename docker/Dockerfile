@@ -1,14 +1,14 @@
 # the original docker build is the docker build from the mesh_tools repo:
 # https://github.com/bacelii/mesh_tools/tree/main/docker
-FROM celiib/mesh_tools:v3
+FROM celiib/mesh_tools:v4
 
 RUN pip3 install --upgrade six 
 RUN pip3 install \
-    datasci_stdlib_tools==1.0.0 \
+    datasci_stdlib_tools==1.0.1 \
     machine_learning_tools==1.0.0 \
-    neuron_morphology_tools==1.0.0 \
+    neuron_morphology_tools==1.0.1 \
     graph_nx_tools==1.0.0 \
-    mesh_processing_tools==1.0.0 \
+    mesh_processing_tools==1.0.4 \
     code_structure_tools==1.0.2 
     
 
