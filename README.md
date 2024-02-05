@@ -13,17 +13,18 @@ publication: https://www.biorxiv.org/content/10.1101/2023.03.14.532674v1
 ### Download Docker Image
 
 ```bash
-docker pull celiib/neurd:v1
+docker pull celiib/neurd:v2
 ```
 
 ### Run Docker Container (from CLI)
 
 ```bash
+
 mkdir notebooks
 docker container run -it \
     -p 8890:8888 \
     -v ./notebooks:/notebooks \
-    celiib/neurd:v1
+    celiib/neurd:v2
 ```
 
 ### Installing NEURD inside Docker Container
