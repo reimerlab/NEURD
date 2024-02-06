@@ -8,6 +8,8 @@ publication: https://www.biorxiv.org/content/10.1101/2023.03.14.532674v1
 
 ## Setup: Installation inside docker env
 
+Note: _Current Docker environment does not currently work on Apple M series chips_
+
 ---
 
 ### Download Docker Image
