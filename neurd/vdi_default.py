@@ -121,15 +121,34 @@ class DataInterfaceBoilerplate(ABC):
         if set_module_parameters:
             self.set_parameters_for_directory_modules()
             
+    
+    def set_parameters_obj_from_dict(
+        self,
+        parameters,
+        verbose = False,
+        **kwargs
+        ):
+        params = paru.PackageParameters(parameters)
+        paru.set_parameters_for_directory_modules_from_obj(
+            obj = params,
+            parameters_obj_name = None,
+            verbose_loop = verbose,
+            **kwargs
+        )
+        
+        
     def set_parameters_for_directory_modules(
         self,
         directory = None,
         verbose = False,
+        obj = None,
         **kwargs):
         
+        if obj is None:
+            obj = self
         
         paru.set_parameters_for_directory_modules_from_obj(
-            obj = self,
+            obj = obj,
             directory = directory,
             verbose_loop = verbose,
             **kwargs

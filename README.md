@@ -39,6 +39,14 @@ git clone https://github.com/reimerlab/NEURD.git;
 pip3 install ./NEURD/;
 ```
 
+### run integration test to verify environment setup
+
+```bash
+cd /NEURD
+# run the integration tests
+python3 -m unittest discover -s tests
+```
+
 ## Documentation
 
 Documentation Site: https://reimerlab.github.io/NEURD/
@@ -91,3 +99,5 @@ All of the tutorials made for showing the decomposition/autoproofreading pipelin
    https://docs.google.com/spreadsheets/d/1B5FqA1jQjadnEuQPjmbhHZFthm21NW3tGNcoLVrEUW4/edit?usp=sharing
 3. NEURD paper N Table (for figures in publication)
    https://docs.google.com/spreadsheets/d/1OHeZjenEdYGDCl_5wM6wTdxFV_ouT3sQoJw5lVvgatg/edit?usp=sharing
+4. NEURD submodule parameter documentation:
+   https://docs.google.com/spreadsheets/d/ 1hrhCo4NKqTowep_ju-mICGHFp33TfWbS96tHEfbtZEs/edit?usp=sharing

@@ -2,6 +2,7 @@ from pathlib import Path
 import numpy as np
 from os import sys
 import time
+import pandas as pd
 
 
 modes_default = (
@@ -277,6 +278,10 @@ class PackageParameters:
             self._data[k] = v
         else:
             self.__dict__[k] = v
+            
+    @property
+    def dict(self):
+        return {k:v.dict for k,v in self._data.items()}
             
 
 def parameter_list_from_module(
@@ -610,7 +615,10 @@ def parameter_dict_from_module_and_obj(
 
     params_to_set = paru.parameter_list_from_module(module)
 
-    par_obj = getattr(obj,parameters_obj_name,None)
+    if parameters_obj_name is None:
+        par_obj = obj
+    else:
+        par_obj = getattr(obj,parameters_obj_name,None)
 
     if par_obj is not None:
         param_dict = par_obj.module_attr_map(
@@ -807,6 +815,54 @@ def category_param_from_module(
 
     return output_dict
 
+def export_df(
+    parameters_obj,
+    module_col = "module",
+    parameter_col = "parameter name",
+    value_col = "default value"):
+    
+    
+    """
+    Purpose: Want to export a dataframe
+    with the parameter values for different modules
+
+    Returns
+    -------
+    df : pd.DataFrame
+        a dataframe with the following columns: module, parameter_name, value
+
+    Pseudocode
+    ----------
+    0) Create a list to store dictionaries
+    1) Iterate through all modules of parameters object
+        a. Get a list of all the parameter names, values
+        b. Create a list of dictionaries with names, values and 
+            add to the list
+    2) Create the dataframe
+    """
+
+    param_list = []
+    for k,v in parameters_obj.dict.items():
+        param_list+=[{
+            module_col:k,
+            parameter_col:h,
+            value_col:j
+        } for h,j in v.items()]
+        
+    return pd.DataFrame.from_records(param_list)
+
+def export_csv(
+    parameters_obj,
+    filename = "./parameters.csv",
+    **kwargs):
+    
+    return pu.df_to_csv(
+        export_df(parameters_obj,**kwargs),
+        filename
+    )
+    
+
+
 
 
 #--- from python-tools
@@ -817,6 +873,7 @@ from datasci_tools import json_utils as jsu
 from datasci_tools import numpy_utils as nu
 from datasci_tools import general_utils as gu
 from datasci_tools import pathlib_utils as plu
+from datasci_tools import pandas_utils as pu
 
 
 

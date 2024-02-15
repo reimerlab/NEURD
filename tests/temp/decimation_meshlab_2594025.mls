@@ -1,0 +1,22 @@
+<!DOCTYPE FilterScript>
+<FilterScript>
+
+<filter name="Remove Duplicate Vertices"/>
+
+<filter name="Simplification: Quadric Edge Collapse Decimation" >
+    <Param name="TargetFaceNum" type="RichInt" value="100000"  />
+    <Param name="TargetPerc" type="RichFloat" value="0.25"  />
+    <Param name="QualityThr" type="RichFloat" value="1"  />
+    <Param name="PreserveBoundary" type="RichBool" value="true"  />
+    <Param name="BoundaryWeight" type="RichFloat" value="1"  />
+    <Param name="PreserveNormal" type="RichBool" value="true"  />
+    <Param name="PreserveTopology" type="RichBool" value="true"  />
+    <Param name="OptimalPlacement" type="RichBool" value="true"  />
+    <Param name="PlanarQuadric" type="RichBool" value="true"  />
+    <Param name="PlanarWeight" type="RichFloat" value="1"  />
+    <Param name="QualityWeight" type="RichBool" value="false"  />
+    <Param name="AutoClean" type="RichBool" value="true"  />
+    <Param name="Selected" type="RichBool" value="false"  />
+</filter>
+
+</FilterScript>
