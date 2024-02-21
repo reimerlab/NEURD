@@ -809,6 +809,53 @@ def calculate_spine_attributes(
     verbose_time=False,
     mesh = None,
     **kwargs):
+    """
+    Purpose
+    -----------
+    Given a spine mesh (and potentially the branch object it resides on) calculates descriptive statistics
+
+    Pseudocode
+    ----------------
+    1) calculates the volume
+    2) calculates the bounding box side lengths
+    3) calculates branch relative statistics:
+        a) closest mesh/skeleton coordinate
+        b) distance of spine base to each skeleton endpoint
+        c) width of branch obj at the base of the spine
+    4) Optionally calculates the head and neck clusters and statistics. spu.calculate_head_neck
+
+    Global Parameters to Set
+    ------------------------
+
+
+    Parameters
+    ----------
+    spine_obj : _type_
+        _description_
+    branch_obj : _type_, optional
+        _description_, by default None
+    calculate_coordinates : bool, optional
+        _description_, by default True
+    calculate_head_neck : bool, optional
+        _description_, by default False
+    branch_shaft_mesh_face_idx : _type_, optional
+        _description_, by default None
+    soma_center : _type_, optional
+        _description_, by default None
+    upstream_skeletal_length : _type_, optional
+        _description_, by default None
+    branch_features : _type_, optional
+        _description_, by default None
+    verbose_time : bool, optional
+        _description_, by default False
+    mesh : _type_, optional
+        _description_, by default None
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
     
     if verbose_time:
         st = time.time()
@@ -1509,6 +1556,18 @@ def get_spine_meshes_unfiltered_from_mesh(
     plot_shaft = False,
     plot = False,
     ):
+    """
+    Purpose
+    -----------
+    First initial spine mesh detection on a branch mesh
+
+    Pseudocode
+    ----------------
+
+    Global Parameters to Set
+    ----------------
+
+    """
     
     if clusters is None:
         clusters = clusters_threshold_global
@@ -1815,6 +1874,9 @@ def filter_out_border_spines(mesh,spine_submeshes,
                              check_spine_border_perc=None,
                             verbose=False,
                             return_idx = False):
+    """
+    Purpose: Filter away spines by their percentage overlap with parent border vertices 
+    """
     if border_percentage_threshold is None:
         border_percentage_threshold = border_percentage_threshold_global
         
@@ -1897,21 +1959,36 @@ def spine_head_neck(
     verbose = False,
     ):
     """
-    Purpose: To determine the head and neck
-    face idx of a mesh representing a spine
+    Purpose
+    -----------
+    To determine the head and neck face indices clustering of a mesh representing a spine
 
-    Pseudocode: 
+
+    Pseudocode
+    ----------------
     for clusters [2,3]:
-    1) Run the segemntation algorithm
-    2) Filter meshes for all those with a face count above threshold
-    and a sdf count above threshold
+    1) Run the segmentation algorithm (using cluster and smoothness thresholds)
+    2) Filter meshes for all those with a value above the face count above threshold and above the ray trace percentage width value
     3) Store the meshes not face as neck and store sdf value as weighted average
     4a) If none then continue
-    4b) If at least one, concatenate the faces of all of the spine heads
-    into one array (and do weighted average of the sdf)
+    4b) If at least one, concatenate the faces of all of the spine heads into one array (and do weighted average of the sdf)
     5) Break if found a head
-
     6) Optionally plot the spine neck and head
+
+    Global Parameters to Set
+    ----------------
+    head_smoothness:
+        the cgal segmentation smoothness parameter for clustering a spine mesh into a head and neck
+
+    head_ray_trace_min: float
+        minimum width approximation (units) as a percentile of the ray trace values for a submesh to be in consideration as a spine head submesh 
+
+    head_face_min: int
+        minimum number of faces for a submesh to be in consideration as a spine head submesh 
+
+    only_allow_one_connected_component_neck: bool
+        whether to allow for the neck submesh to be multiple connected components (aka disconnected) or not
+
 
 
     Can optionally return:
@@ -1928,6 +2005,7 @@ def spine_head_neck(
                        plot_head_neck=True)
 
     """
+    
     if head_ray_trace_min is None:
         head_ray_trace_min = head_ray_trace_min_global
         
@@ -1977,7 +2055,12 @@ def spine_head_neck(
         if verbose:
             print(f"head_obj_idx = {head_obj_idx}")
         
-        # Want to delete any meshes that have the border coordinates
+        """
+        Purpose:
+        --------
+        Want to delete any meshes that have the border coordinates
+        """
+        
         if no_head_coordinates is not None:
             head_obj_idx_final = []
             for hm in head_obj_idx:
@@ -1998,7 +2081,11 @@ def spine_head_neck(
         
         neck_obj_idx = np.delete(np.arange(len(meshes)),np.array(head_obj_idx).astype('int'))
 
-        #makes sure there always has to be a neck idx
+        """
+        Purpose:
+        --------
+        Ensure there is a neck submesh and optionally only one neck submesh (if more than one then negate the head segmentation)
+        """
         if len(neck_obj_idx) == 0:
             neck_obj_idx = np.arange(len(meshes))
             head_obj_idx = np.array([]).astype('int')
@@ -2019,6 +2106,11 @@ def spine_head_neck(
             print(f"head_obj_idx = {head_obj_idx}")
             print(f"neck_obj_idx= {neck_obj_idx}")
 
+        """
+        Purpose:
+        --------
+        Calculate the weighted average head and neck sdf and width values
+        """
         # save off the neck face idx
         neck_face_idx = np.concatenate(mesh_idx[neck_obj_idx])
         neck_sdf = nu.weighted_average(sdfs[neck_obj_idx],mesh_sizes[neck_obj_idx])
@@ -2372,19 +2464,58 @@ def calculate_spines_on_branch(
     
     
     """
-    Purpose: Will calculate the spines on a branch object
+    Purpose
+    -------
+    Will calculate the spines on a branch object
     
-    Pseudocode: 
-    1) Initial segmentation to get unfiltered spines
-    2) Run the following filters: 
-        a) face length
-        b) By Bounding Box max length
-        c) Border spines
-        d) skeleton endpoint nullification
-        e) soma nullification
-        f) spine volume filter
-    4) Return spines and volume
-    
+    Pseudocode
+    ----------------
+    1) spu.get_spine_meshes_unfiltered_from_mesh
+    2) filters spine meshes by minimum number of faces (spine_n_face_threshold) and minimum skeletal length (spine_sk_length_threshold)
+    3) if requested (filter_by_bounding_box_longest_side_length), filters the meshes to have less than a certain length (side_length_threshold) for the longest side of their oriented bounding box. 
+    To prevent false positive spines from long axon fragment merges
+    4) if requested (filter_out_border_spines), filter out meshes that have:
+        a) higher than a certain percentage (border_percentage_threshold) of the submesh vertices overlapping with border vertices (certices adjacent to open spaces in the mesh) on the parent mesh  
+        b) higher than certain percentage (check_spine_border_perc_global) of the parent mesh’s border vertices overlapping with the submesh vertices
+
+    5) if requested (skeleton_endpoint_nullification), filter away spines that are within a certain distance (skeleton_endpoint_nullification_distance) from the branch skeleton endpoints in order to avoid a high false positive class.
+    6) if requested (soma_vertex_nullification), filter out spines that have vertices overlapping with vertices of the soma
+    7) Creates a spine object for each of the spine meshes remaining after filtering:
+        a) spu.calculate_spine_attributes
+        
+    Global Parameters to Set
+    ----------------
+    spine_n_face_threshold: int
+        minimum number of mesh faces for a submesh to be in consideration for the spine classification
+
+    # -- size filtering
+    spine_sk_length_threshold: int
+        minimum length (unit) of the surface skeleton of the submesh for it to be in consideration for the spine classification
+
+    # -- bounding box filtering
+    filter_by_bounding_box_longest_side_length: 
+
+    side_length_threshold: 
+
+    # -- border filtering
+    filter_out_border_spines: bool
+        whether to be perform spine filtering by considering how much spine submesh vertices overlap with border vertices of barents
+
+    border_percentage_threshold: float
+        maximum percentage a submesh vertices can overlap with border vertices (certices adjacent to open spaces in the mesh) on the parent mesh and still be in consideration for spine label  
+
+    check_spine_border_perc_global: float
+        maximum percentage that a the parent mesh’s border vertices can overlapping with the submesh vertices and that submesh still be in consideration for spine label  
+    # -- skeleton filtering
+    skeleton_endpoint_nullification: bool
+
+    skeleton_endpoint_nullification_distance_global: float
+        minimum distance
+
+    # -- soma filtering
+    soma_vertex_nullification: bool
+
+
     
     Ex: 
     curr_limb = neuron_obj[2]
@@ -2621,6 +2752,36 @@ def calculate_spines_on_neuron(
     print_flag=False,
     limb_branch_dict_exclude = None,
     **kwargs):
+    """
+    Purpose: Will calculate spines over a neuron object
+    
+    Pseudocode
+    ----------------
+    1) Calculates a limb_branch_dict over which to perform spine detection if not already given. Which branches are included are determined by:
+        a) Generates width calculations if not already performed
+        b) performs the search with the query to get the limb branch dict
+    2) Iterates over all limbs in limb branch:
+        a) Generates the soma touching vertices and creates a kdtree for them
+        b) Iterates over all branches:
+            i) spu.calculate_spines_on_branch → returns spines and spine volumes
+            
+    Global Parameters to Set
+    ----------------
+    query: str
+        the query to restrict branches searched
+
+
+    
+    Ex: 
+    spu.calculate_spines_on_neuron(
+        recovered_neuron,
+        plot_query = False,
+        print_flag = True,
+    )
+    
+    nviz.plot_spines(recovered_neuron)
+    
+    """
     
     if query is None:
         query = query_global
@@ -2631,31 +2792,13 @@ def calculate_spines_on_neuron(
     if soma_vertex_nullification is None:
         soma_vertex_nullification = soma_vertex_nullification_global
     
-    """
-    Purpose: Will recalculate spines over a neuron object
     
-    Pseudocode: 
-    1) Recalculates the median mesh center if it was requested for a filter 
-    but not already calculated
-    
-    
-    Ex: 
-    spu.calculate_spines_on_neuron(
-    recovered_neuron,
-    plot_query = False,
-    print_flag = True,
-    )
-    
-    nviz.plot_spines(recovered_neuron)
-    
-    """
     if query is None:
         query = query_global
     
     # --- Step 1: Applies query to see which branches to calculate spines over ---
     if limb_branch_dict is None:
-        print(f"query = {query}")
-        if type(query) == dict():
+        if type(query) == dict:
             functions_list = query["functions_list"]
             current_query = query["query"]
         else:
@@ -3258,6 +3401,49 @@ def spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_ob
     skeleton = None,
     **kwargs
     ):
+    """
+    Purpose
+    -----------
+    Performs spine detection on a branch object or a branch mesh (optionally with a skeleton) and then apply filtering before creating official Spine objects from each individually detected spine.
+
+    Purpose Detailed
+    -----------------------
+
+    Pseudocode
+    ----------------
+    1) Generate initial spine mesh detection
+    2) Filter out border spines:
+        if requested (filter_out_border_spines), filter out meshes that have:
+            a) higher than a certain percentage (border_percentage_threshold) of the submesh vertices overlapping with border vertices (certices adjacent to open spaces in the mesh) on the parent mesh  
+            b) higher than certain percentage (check_spine_border_perc_global) of the parent mesh’s border vertices overlapping with the submesh vertices
+    3) skeleton endpoint filtering:
+        if requested (skeleton_endpoint_nullification), filter away spines that are within a certain distance (skeleton_endpoint_nullification_distance) from the branch skeleton endpoints in order to avoid a high false positive class.
+    4) some vertex nullification:
+        if requested (soma_vertex_nullification), filter out spines that have vertices overlapping with vertices of the soma
+    5) Creates spine objects from all the remaining spine objects (will do head/neck segmentaiton)
+
+    Global Parameters to Set
+    ----------------
+    # -- border filtering
+    filter_out_border_spines: bool
+        whether to be perform spine filtering by considering how much spine submesh vertices overlap with border vertices of shaft submesh
+
+    border_percentage_threshold: float
+        maximum percentage a submesh vertices can overlap with border vertices (vertices adjacent to open spaces in the mesh) on the parent mesh and still be in consideration for spine label  
+
+    # -- skeleton filtering
+    skeleton_endpoint_nullification: bool
+        whether to filter away spines that are within a certain distance (skeleton_endpoint_nullification_distance) from the branch skeleton endpoints in order to avoid a high false positive class.
+
+    skeleton_endpoint_nullification_distance_global: float
+        minimum distance a spine mesh can be from the branch skeleton endpoints and not be filtered away when the skeleton_endpoint_nullification flag is set
+
+    # -- soma filtering
+    soma_vertex_nullification: bool
+        when true will filter out spines that have vertices overlapping with vertices of the soma
+
+
+    """
     
     if filter_out_border_spines is None:
         filter_out_border_spines = filter_out_border_spines_global
@@ -3293,7 +3479,12 @@ def spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_ob
         plot = False,
         **kwargs
     )
-    
+    """
+    Purpose:
+    -------
+    if requested (filter_by_bounding_box_longest_side_length), filters the meshes to have less than a certain length (side_length_threshold) for the longest side of their oriented bounding box. To prevent false positive spines from long axon fragment merges
+
+    """
 
     if plot_spines_before_filter:
         print(f"plot_spines_before_filter: {len(spines)}")
@@ -3308,7 +3499,14 @@ def spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_ob
     
     if len(spine_submesh_split_filtered) == 0:
         return spine_submesh_split_filtered
-    
+    """
+    Purpose
+    -------
+    if requested (filter_out_border_spines), filter out meshes that have:
+        a) higher than a certain percentage (border_percentage_threshold) of the submesh vertices overlapping with border vertices (certices adjacent to open spaces in the mesh) on the parent mesh  
+        b) higher than certain percentage (check_spine_border_perc_global) of the parent mesh’s border vertices overlapping with the submesh vertices
+
+    """
     if filter_out_border_spines:
         if verbose:
             print("Using the filter_out_border_spines option")
@@ -3337,6 +3535,11 @@ def spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_ob
     if len(spine_submesh_split_filtered) == 0:
         return spine_submesh_split_filtered
 
+    """
+    Purpose
+    -------
+    if requested (skeleton_endpoint_nullification), filter away spines that are within a certain distance (skeleton_endpoint_nullification_distance) from the branch skeleton endpoints in order to avoid a high false positive class.
+    """
     if skeleton_endpoint_nullification and (branch_obj is not None or skeleton is not None):
         if skeleton is None:
             skeleton = branch_obj.skeleton
@@ -3369,6 +3572,12 @@ def spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_ob
     if len(spine_submesh_split_filtered) == 0:
         return spine_submesh_split_filtered
     
+    """
+    Purpose:
+    --------
+    
+    if requested (soma_vertex_nullification), filter out spines that have vertices overlapping with vertices of the soma
+    """
     if soma_vertex_nullification and (soma_kdtree is not None or soma_kdtree is not None):
         if soma_verts is not None:
             soma_kdtree = KDTree(soma_verts)
@@ -3395,7 +3604,12 @@ def spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_ob
         if verbose:
             print(f"After soma_vertex_nullification: # of spines = {len(spine_submesh_split_filtered)}")
             
-            
+    
+    """
+    Purpose:
+    --------
+    Creates spine objects from all the remaining spine objects (will do head/neck segmentaiton)
+    """
     # Creating the spine objects
     spine_objs = [spu.Spine(
         mesh = k,
@@ -3608,14 +3822,73 @@ def spine_volume_to_spine_area(spine_obj):
 
 def filter_spine_objs_by_size_bare_minimum(
     spine_objs,
-    spine_n_face_threshold = None,#6,
-    spine_sk_length_threshold = None,#306.6,
-    filter_by_volume_threshold = None,#900496.186,
-    bbox_oriented_side_max_min = None,#300,
-    sdf_mean_min = None,#0,
-    spine_volume_to_spine_area_min = None,
+    spine_n_face_threshold: int = None,#6,
+    spine_sk_length_threshold: float = None,#306.6,
+    filter_by_volume_threshold: float = None,#900496.186,
+    bbox_oriented_side_max_min: int = None,#300,
+    sdf_mean_min: float = None,#0,
+    spine_volume_to_spine_area_min: float = None,
     verbose = False,
     ):
+    """
+    Purpose
+    -----------
+    Filters the spine objects for minimum feature requirements.
+
+    Pseudocode
+    ----------------
+    1) Apply a list of simple attribute “greater than” queries to filter down the spine objects.
+
+
+    Global Parameters to Set
+    ----------------
+    spine_n_face_threshold_bare_min: 
+        minimum number of faces for a valid spine mesh
+
+    spine_sk_length_threshold_bare_min: 
+        minimum surface skeletal length (units) of a valid spine mesh
+
+    filter_by_volume_threshold_bare_min:
+        minimum volume (units) of a valid spine mesh
+
+    bbox_oriented_side_max_min_bare_min:
+        minimum side length (uints) of the oriented bounding box surrounding the spine mesh for valid spines
+
+    sdf_mean_min_bare_min: 
+        minimum mean sdf value (computed in the shaft/spine clustering step performed by the cgal clustering algorithm) for valid spine meshes
+
+    spine_volume_to_spine_area_min_bare_min:
+        minimum ratio of mesh volume (units^3) to mesh area (units^2) for valid spine meshes
+
+    Notes
+    --------
+    1) Visualize the spines after these filtering
+
+
+    Parameters
+    ----------
+    spine_objs : _type_
+        _description_
+    spine_n_face_threshold : int, optional
+        _description_, by default None
+    spine_sk_length_threshold : float, optional
+        _description_, by default None
+    filter_by_volume_threshold : float, optional
+        _description_, by default None
+    bbox_oriented_side_max_min : int, optional
+        _description_, by default None
+    sdf_mean_min : float, optional
+        _description_, by default None
+    spine_volume_to_spine_area_min : float, optional
+        _description_, by default None
+    verbose : bool, optional
+        _description_, by default False
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
     if len(spine_objs) == 0:
         return spine_objs
     
@@ -4102,6 +4375,79 @@ def spine_objs_bare_minimum_filt_with_attr_from_branch_obj(
     skeleton = None,
     **kwargs
     ):
+    """
+    Purpose
+    -----------
+    Performs spine detection on a branch object or a branch mesh (optionally with a skeleton)
+
+    Purpose Detailed
+    -----------------------
+
+    Pseudocode
+    ----------------
+    1) Generates spine objects
+    2) Calculate spine attributes for each spine object
+    3) Apply bare minimum spine attribute filtering (filter_spine_objs_by_size_bare_minimum)
+
+    
+        
+    Analysis Roadmap
+    ----------------
+    spu.spine_objs_bare_minimum_filt_with_attr_from_branch_obj
+        spu.spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_obj
+        
+            spu.get_spine_meshes_unfiltered_from_mesh
+                spu.get_spine_meshes_unfiltered_from_mesh
+                    spu.split_mesh_into_spines_shaft:
+                        tu.mesh_segmentation
+                            VISUALIZATION: visualization that enough chopped up
+                            PARAMETER CHANGE:
+                                smoothness_threshold
+                                clusters_threshold
+
+                        spu.restrict_meshes_to_shaft_meshes_without_coordinates
+                            VISUALIZATION: look at initial shaft seaparation (c)
+                            PARAMETER CHANGE:
+                                shaft_close_hole_area_top_2_mean_max
+                                shaft_mesh_volume_max
+                                shaft_mesh_n_faces_min
+
+                VISUALIZATION: individual spines prior to individual spine filtering
+
+            VISUALIZATION: spines after filtering (or each step after filtering)
+            PARAMETER CHANGE:
+                # -- border filtering
+                filter_out_border_spines
+                border_percentage_threshold
+                # -- skeleton filtering
+                skeleton_endpoint_nullification
+                skeleton_endpoint_nullification_distance
+                # -- soma filtering
+                soma_vertex_nullification: bool
+
+
+        filter_spine_objs_by_size_bare_minimum
+            VISUALIZATION: spines before and after substitution
+            PARAMETER CHANGE:                
+                spine_n_face_threshold_bare_min
+                spine_sk_length_threshold_bare_min
+                filter_by_volume_threshold_bare_min
+                bbox_oriented_side_max_min_bare_min
+                sdf_mean_min_bare_min
+                spine_volume_to_spine_area_min_bare_min
+                
+        spu.calculate_spine_attributes_for_list
+            spu.calculate_spine_attributes:
+                spu.calculate_head_neck:
+                    VISUALIZATION: spine head/neck subdivision
+                    PARAMETER CHANGE:
+                        head_smoothness
+                        head_ray_trace_min
+                        head_face_min
+                        only_allow_one_connected_component_neck
+
+    """
+
 
     if mesh is None:
         mesh = branch_obj.mesh
@@ -4366,7 +4712,6 @@ def spine_objs_and_synapse_df_computed_from_branch_idx(
     Purpose: from a branch object
     will generate spine objects and the
     synapse df of synaspes onto spines
-
     """
     
     if not verbose_computation:
@@ -5189,9 +5534,29 @@ def restrict_meshes_to_shaft_meshes_without_coordinates(
     return_all_shaft_if_none = True,
     ):
     """
-    Purpose: To restrict a list of meshes
-    to those with a high probabilty of being
-    a shaft mesh
+    Purpose
+    -----------
+    To restrict a list of meshes to those with a high probability of being a shaft mesh
+
+    Pseudocode
+    ------------
+    1) restricts meshes to those greater than a certain volume (shaft_mesh_volume_max) or greater than a certain mean top 2 hole area (shaft_close_hole_area_top_2_mean_max) because both could be indicative of a shaft mesh
+        functions used: trimesh_utils.close_hole_area_top_2_mean, trimesh_utils.mesh_volume
+    2) restricts meshes to face threshold (shaft_mesh_n_faces_min)
+    3) Returns the indices of the meshes remaining after filtering
+
+    Global Parameters to Set
+    ----------------
+    shaft_close_hole_area_top_2_mean_max: float
+        a minimum mesh area (nm^2)  threshold for the mean of the top 2 holes (ideally the connecting ends of the tube like shaft sections from the mesh cluster (from the CGAL algorithm) to be potentially considered a part of the neuron shaft. (The max refers to a max suffix is in reference to spines)
+
+    shaft_mesh_volume_max: int
+        the minimum mesh volume (nm^3) for a mesh cluster (from the CGAL algorithm) to be potentially considered a part of the neuron shaft. (The max refers to a max suffix is in reference to spines)
+
+    shaft_mesh_n_faces_min: int
+        A minimum number of faces on a submesh cluster early in the pipeline to be potentially considered a part of the neuron shaft.
+
+
     """
     if close_hole_area_top_2_mean_max is None:
         close_hole_area_top_2_mean_max = shaft_close_hole_area_top_2_mean_max_global
@@ -5239,6 +5604,70 @@ def split_mesh_into_spines_shaft(
     plot_shaft_buffer = 0,
     **kwargs
     ):
+    """
+    Purpose
+    -----------
+    Determine the final classification of shaft submeshes and then return all connected components (floating islands) of the submesh after the shaft has been removed as individual spine meshes. In other words, generates the meshes for each individual spine (prior to individual spine filtering steps).
+
+    Pseudocode
+    ----------------
+    1) runs a segmentation on the mesh with given clusters and smoothness.	
+    a) generates a mapping of the clusters the sdf values for each face
+    2) splits the segmentation into separate meshes
+    3) spu.restrict_meshes_to_shaft_meshes_without_coordinates
+    4) Divide the meshes into spine meshes and shaft meshes (first pass)
+    5) Given first pass of the shaft and spine classification, reclassifies some spine meshes as shaft meshes to ensure complete graph connectivity between all shaft submeshes using the following algorithm
+            1) start with biggest shaft
+            2) Find the shortest paths to all shaft parts
+            3) add all the submeshes that aren't already in the shaft category to the shaft category
+    6) Creates a total spine submesh by removing all of the shaft submeshes from the original mesh, divides up this total spine submesh into connected components (separate islands) as separate meshes so each mesh represents a single spine
+    7)  Sorts the spine meshes from largest (number of faces) to smallest
+    8) Returns spine meshes and the sdf values (generated in the segmentation step) associated with them
+
+
+
+    Global Parameters to Set
+    ----------------
+    smoothness_threshold: 
+        The smoothness parameter for the cgal mesh segmentation algorithm used as an initial intermediate over-segmentation step in the spine detection. The smaller the smoothness value, generally the more number of underlying clusters on the mesh identified and the more spines that can be potentially identified at the higher risk of false positives (although the spine algorithm attempts to filter away false positives from the underlying mesh segmentation). Source: https://doc.cgal.org/4.6/Surface_mesh_segmentation/index.html
+
+    clusters_threshold:
+        The clusters parameter for the cgal mesh segmentation algorithm used as an initial intermediate over-segmentation step in the spine detection. The larger the number of clusters the more spines can be potentially identified at the higher risk of false positives (although the spine algorithm attempts to filter away false positives from the underlying mesh segmentation). Source: https://doc.cgal.org/4.6/Surface_mesh_segmentation/index.html
+
+
+
+    Parameters
+    ----------
+    current_mesh : _type_
+        _description_
+    segment_name : str, optional
+        _description_, by default ""
+    clusters : _type_, optional
+        _description_, by default None
+    smoothness : _type_, optional
+        _description_, by default None
+    cgal_folder : _type_, optional
+        _description_, by default Path("./cgal_temp")
+    delete_temp_file : bool, optional
+        _description_, by default True
+    shaft_threshold : _type_, optional
+        _description_, by default None
+    return_sdf : bool, optional
+        _description_, by default True
+    print_flag : bool, optional
+        _description_, by default False
+    plot_segmentation : bool, optional
+        _description_, by default False
+    plot_shaft : bool, optional
+        _description_, by default False
+    plot_shaft_buffer : int, optional
+        _description_, by default 0
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
     if clusters is None:
         clusters = clusters_threshold_global
     

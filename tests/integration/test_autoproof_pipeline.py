@@ -47,7 +47,7 @@ class TestAutoproofPipeline(unittest.TestCase):
         self.assertIsNotNone(self.__class__.mesh)
         
     # --- Step 1: Decimation --
-    def test_3_decimatoin(self):
+    def test_3_decimation(self):
         self.__class__.mesh_decimated = tu.decimate(
             self.__class__.mesh,
             decimation_ratio =0.25,
