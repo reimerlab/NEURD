@@ -4,7 +4,7 @@
 
 NEURD: A mesh decomposition framework for automated proofreading and morphological analysis of neuronal EM reconstructions
 
-publication: https://www.biorxiv.org/content/10.1101/2023.03.14.532674v1
+publication: [https://www.biorxiv.org/content/10.1101/2023.03.14.532674v1](https://www.biorxiv.org/content/10.1101/2023.03.14.532674v3)
 
 ## Setup: Installation inside docker env
 
