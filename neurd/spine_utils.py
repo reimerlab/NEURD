@@ -5434,6 +5434,10 @@ def scale_stats_df(
     return df
 
 def filter_and_scale_spine_syn_df(spine_df,syn_df):
+    """
+    Purpose: To reduce the number of columns of the synapse table
+    and to scale the area and volume values in both the synapse and spine table so in um^2 and um^3
+    """
     syn_df_filt = spu.synapse_spine_match_df_filtering(syn_df)
     syn_df_scaled = spu.scale_stats_df(syn_df_filt)
     spine_df_scaled = spu.scale_stats_df(spine_df)

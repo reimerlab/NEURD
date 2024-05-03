@@ -49,6 +49,7 @@ CF = "corticofugal",
 NP = "near_projecting"
     
 )
+
 cell_type_fine_names_excitatory = {
 
  '23P':"layer_2/3_pyramidal", 
@@ -66,6 +67,52 @@ cell_type_fine_name_inhibitory = {
  'MC':"martinotti",
  'NGC':"neurogliaform"
 }
+cell_type_fine_names_inhibitory = cell_type_fine_name_inhibitory
+
+def cell_type_names_str(
+    print_ei = True,
+    verbose = False,
+    separator = " : "):
+    total_str = []
+    def str_dict(d,ct=None):
+        all_str = []
+        if ct is not None:
+            append_str = f"{separator}{ct.title()}"
+        else:
+            append_str = ""
+        for k,v in d.items():
+            
+            all_str.append(f"{k.replace('_',' ')}{separator}{v.replace('_',' ').title()}{append_str}")
+        return all_str
+    
+    for ei in ['excitatory','inhibitory']:
+        d = eval(f"cell_type_fine_names_{ei}")
+        if print_ei:
+            local_strs = str_dict(d,ei)
+        else:
+            local_strs = str_dict(d)
+        
+        total_str += local_strs
+        
+    if verbose:
+        print("\n".join(total_str))
+    return total_str
+
+def export_cell_type_abbreviations_csv(
+    filepath = "cell_type_table.csv",
+    return_df = False,
+    ):
+
+    strs = cell_type_names_str(print_ei=True,separator=",",verbose = False)
+    with open(filepath,"w") as f:
+        f.write(f"Abbreviation,Cell Type,Excitatory/Inhibitory\n")
+        f.writelines([f"{k}\n" for k in strs])
+
+    if return_df:
+        df = pu.csv_to_df(filepath)
+        return df
+    
+    return filepath
 
 e_i_from_type_dict = gu.merge_dicts([{
 'IT_short': "excitatory",
