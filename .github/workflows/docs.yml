@@ -31,6 +31,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pip3 install scikit-learn
           pip3 install git+https://github.com/reimerlab/tamarind.git
           pip3 install git+https://github.com/reimerlab/dotmotif/
           python3 -m pip install datajoint
