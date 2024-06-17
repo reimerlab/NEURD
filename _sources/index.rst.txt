@@ -14,7 +14,7 @@ Welcome to NEURD's documentation!
 
 Getting Started with NEURD
 ==========================
-* Tutorial 1: Decomposing neuron and autoproofreading pipeline `Excitatory notebook<https://github.com/reimerlab/NEURD/blob/main/Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Exc/neuron_pipeline_vp5_single_demo_exc.ipynb>`_ `Inhibitory notebook <https://github.com/reimerlab/NEURD/tree/main/Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Inh>`_
+* Tutorial 1: Decomposing neuron and autoproofreading pipeline `Excitatory notebook <https://github.com/reimerlab/NEURD/blob/main/Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Exc/neuron_pipeline_vp5_single_demo_exc.ipynb>`_ `Inhibitory notebook <https://github.com/reimerlab/NEURD/tree/main/Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Inh>`_
 * Tutorial 2: Splitting multi-somas `notebook <https://github.com/reimerlab/NEURD/blob/main/Applications/Tutorials/Auto_Proof_Pipeline/Double_Soma/neuron_pipeline_vp5_double_soma.ipynb>`_
 * Tutorial 3: Exploring NEURD precomputed features: `notebook <https://github.com/reimerlab/NEURD/blob/main/Applications/Tutorials/Neuron_Features/Neuron_Features_Tutorial.ipynb>`_
 * Tutorial 4: Exploring NEURD hierarchical graph representation: `notebook <https://github.com/reimerlab/NEURD/blob/main/Applications/Tutorials/Neuron_Features/Neuron_Limb_Branch_Hierarchical_Data_Structure.ipynb>`_
