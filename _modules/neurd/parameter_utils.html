@@ -76,6 +76,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
 <span class="n">modes_default</span> <span class="o">=</span> <span class="p">(</span>
@@ -350,7 +351,11 @@
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;_data&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="o">.</span><span class="n">dict</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
             
 
 <div class="viewcode-block" id="parameter_list_from_module"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.parameter_list_from_module">[docs]</a><span class="k">def</span> <span class="nf">parameter_list_from_module</span><span class="p">(</span>
@@ -684,7 +689,10 @@
 
     <span class="n">params_to_set</span> <span class="o">=</span> <span class="n">paru</span><span class="o">.</span><span class="n">parameter_list_from_module</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
 
-    <span class="n">par_obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">parameters_obj_name</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">parameters_obj_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">par_obj</span> <span class="o">=</span> <span class="n">obj</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">par_obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">parameters_obj_name</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">par_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">param_dict</span> <span class="o">=</span> <span class="n">par_obj</span><span class="o">.</span><span class="n">module_attr_map</span><span class="p">(</span>
@@ -881,6 +889,54 @@
 
     <span class="k">return</span> <span class="n">output_dict</span></div>
 
+<div class="viewcode-block" id="export_df"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.export_df">[docs]</a><span class="k">def</span> <span class="nf">export_df</span><span class="p">(</span>
+    <span class="n">parameters_obj</span><span class="p">,</span>
+    <span class="n">module_col</span> <span class="o">=</span> <span class="s2">&quot;module&quot;</span><span class="p">,</span>
+    <span class="n">parameter_col</span> <span class="o">=</span> <span class="s2">&quot;parameter name&quot;</span><span class="p">,</span>
+    <span class="n">value_col</span> <span class="o">=</span> <span class="s2">&quot;default value&quot;</span><span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Want to export a dataframe</span>
+<span class="sd">    with the parameter values for different modules</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        a dataframe with the following columns: module, parameter_name, value</span>
+
+<span class="sd">    Pseudocode</span>
+<span class="sd">    ----------</span>
+<span class="sd">    0) Create a list to store dictionaries</span>
+<span class="sd">    1) Iterate through all modules of parameters object</span>
+<span class="sd">        a. Get a list of all the parameter names, values</span>
+<span class="sd">        b. Create a list of dictionaries with names, values and </span>
+<span class="sd">            add to the list</span>
+<span class="sd">    2) Create the dataframe</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">param_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">parameters_obj</span><span class="o">.</span><span class="n">dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">param_list</span><span class="o">+=</span><span class="p">[{</span>
+            <span class="n">module_col</span><span class="p">:</span><span class="n">k</span><span class="p">,</span>
+            <span class="n">parameter_col</span><span class="p">:</span><span class="n">h</span><span class="p">,</span>
+            <span class="n">value_col</span><span class="p">:</span><span class="n">j</span>
+        <span class="p">}</span> <span class="k">for</span> <span class="n">h</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+        
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">param_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="export_csv"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.export_csv">[docs]</a><span class="k">def</span> <span class="nf">export_csv</span><span class="p">(</span>
+    <span class="n">parameters_obj</span><span class="p">,</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./parameters.csv&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    
+    <span class="k">return</span> <span class="n">pu</span><span class="o">.</span><span class="n">df_to_csv</span><span class="p">(</span>
+        <span class="n">export_df</span><span class="p">(</span><span class="n">parameters_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+        <span class="n">filename</span>
+    <span class="p">)</span></div>
+    
+
+
 
 
 <span class="c1">#--- from python-tools</span>
@@ -891,6 +947,7 @@
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pathlib_utils</span> <span class="k">as</span> <span class="n">plu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
 
 
 

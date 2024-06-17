@@ -123,6 +123,7 @@
 <span class="n">NP</span> <span class="o">=</span> <span class="s2">&quot;near_projecting&quot;</span>
     
 <span class="p">)</span>
+
 <span class="n">cell_type_fine_names_excitatory</span> <span class="o">=</span> <span class="p">{</span>
 
  <span class="s1">&#39;23P&#39;</span><span class="p">:</span><span class="s2">&quot;layer_2/3_pyramidal&quot;</span><span class="p">,</span> 
@@ -140,6 +141,52 @@
  <span class="s1">&#39;MC&#39;</span><span class="p">:</span><span class="s2">&quot;martinotti&quot;</span><span class="p">,</span>
  <span class="s1">&#39;NGC&#39;</span><span class="p">:</span><span class="s2">&quot;neurogliaform&quot;</span>
 <span class="p">}</span>
+<span class="n">cell_type_fine_names_inhibitory</span> <span class="o">=</span> <span class="n">cell_type_fine_name_inhibitory</span>
+
+<div class="viewcode-block" id="cell_type_names_str"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_names_str">[docs]</a><span class="k">def</span> <span class="nf">cell_type_names_str</span><span class="p">(</span>
+    <span class="n">print_ei</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">separator</span> <span class="o">=</span> <span class="s2">&quot; : &quot;</span><span class="p">):</span>
+    <span class="n">total_str</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span> <span class="nf">str_dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">ct</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">all_str</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">ct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">append_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">separator</span><span class="si">}{</span><span class="n">ct</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">append_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            
+            <span class="n">all_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">separator</span><span class="si">}{</span><span class="n">v</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}{</span><span class="n">append_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">all_str</span>
+    
+    <span class="k">for</span> <span class="n">ei</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;excitatory&#39;</span><span class="p">,</span><span class="s1">&#39;inhibitory&#39;</span><span class="p">]:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cell_type_fine_names_</span><span class="si">{</span><span class="n">ei</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">print_ei</span><span class="p">:</span>
+            <span class="n">local_strs</span> <span class="o">=</span> <span class="n">str_dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">ei</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">local_strs</span> <span class="o">=</span> <span class="n">str_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        
+        <span class="n">total_str</span> <span class="o">+=</span> <span class="n">local_strs</span>
+        
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">total_str</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">total_str</span></div>
+
+<div class="viewcode-block" id="export_cell_type_abbreviations_csv"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.export_cell_type_abbreviations_csv">[docs]</a><span class="k">def</span> <span class="nf">export_cell_type_abbreviations_csv</span><span class="p">(</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="s2">&quot;cell_type_table.csv&quot;</span><span class="p">,</span>
+    <span class="n">return_df</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+
+    <span class="n">strs</span> <span class="o">=</span> <span class="n">cell_type_names_str</span><span class="p">(</span><span class="n">print_ei</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Abbreviation,Cell Type,Excitatory/Inhibitory</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">writelines</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">strs</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">return_df</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">csv_to_df</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+    
+    <span class="k">return</span> <span class="n">filepath</span></div>
 
 <span class="n">e_i_from_type_dict</span> <span class="o">=</span> <span class="n">gu</span><span class="o">.</span><span class="n">merge_dicts</span><span class="p">([{</span>
 <span class="s1">&#39;IT_short&#39;</span><span class="p">:</span> <span class="s2">&quot;excitatory&quot;</span><span class="p">,</span>

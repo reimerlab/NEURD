@@ -883,6 +883,53 @@
     <span class="n">verbose_time</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">mesh</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Given a spine mesh (and potentially the branch object it resides on) calculates descriptive statistics</span>
+
+<span class="sd">    Pseudocode</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    1) calculates the volume</span>
+<span class="sd">    2) calculates the bounding box side lengths</span>
+<span class="sd">    3) calculates branch relative statistics:</span>
+<span class="sd">        a) closest mesh/skeleton coordinate</span>
+<span class="sd">        b) distance of spine base to each skeleton endpoint</span>
+<span class="sd">        c) width of branch obj at the base of the spine</span>
+<span class="sd">    4) Optionally calculates the head and neck clusters and statistics. spu.calculate_head_neck</span>
+
+<span class="sd">    Global Parameters to Set</span>
+<span class="sd">    ------------------------</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spine_obj : _type_</span>
+<span class="sd">        _description_</span>
+<span class="sd">    branch_obj : _type_, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    calculate_coordinates : bool, optional</span>
+<span class="sd">        _description_, by default True</span>
+<span class="sd">    calculate_head_neck : bool, optional</span>
+<span class="sd">        _description_, by default False</span>
+<span class="sd">    branch_shaft_mesh_face_idx : _type_, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    soma_center : _type_, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    upstream_skeletal_length : _type_, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    branch_features : _type_, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    verbose_time : bool, optional</span>
+<span class="sd">        _description_, by default False</span>
+<span class="sd">    mesh : _type_, optional</span>
+<span class="sd">        _description_, by default None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    _type_</span>
+<span class="sd">        _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">if</span> <span class="n">verbose_time</span><span class="p">:</span>
         <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -1583,6 +1630,18 @@
     <span class="n">plot_shaft</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose</span>
+<span class="sd">    -----------</span>
+<span class="sd">    First initial spine mesh detection on a branch mesh</span>
+
+<span class="sd">    Pseudocode</span>
+<span class="sd">    ----------------</span>
+
+<span class="sd">    Global Parameters to Set</span>
+<span class="sd">    ----------------</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">if</span> <span class="n">clusters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">clusters</span> <span class="o">=</span> <span class="n">clusters_threshold_global</span>
@@ -1889,6 +1948,9 @@
                              <span class="n">check_spine_border_perc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                             <span class="n">return_idx</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Filter away spines by their percentage overlap with parent border vertices </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">border_percentage_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">border_percentage_threshold</span> <span class="o">=</span> <span class="n">border_percentage_threshold_global</span>
         
@@ -1971,21 +2033,36 @@
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Purpose: To determine the head and neck</span>
-<span class="sd">    face idx of a mesh representing a spine</span>
+<span class="sd">    Purpose</span>
+<span class="sd">    -----------</span>
+<span class="sd">    To determine the head and neck face indices clustering of a mesh representing a spine</span>
 
-<span class="sd">    Pseudocode: </span>
+
+<span class="sd">    Pseudocode</span>
+<span class="sd">    ----------------</span>
 <span class="sd">    for clusters [2,3]:</span>
-<span class="sd">    1) Run the segemntation algorithm</span>
-<span class="sd">    2) Filter meshes for all those with a face count above threshold</span>
-<span class="sd">    and a sdf count above threshold</span>
+<span class="sd">    1) Run the segmentation algorithm (using cluster and smoothness thresholds)</span>
+<span class="sd">    2) Filter meshes for all those with a value above the face count above threshold and above the ray trace percentage width value</span>
 <span class="sd">    3) Store the meshes not face as neck and store sdf value as weighted average</span>
 <span class="sd">    4a) If none then continue</span>
-<span class="sd">    4b) If at least one, concatenate the faces of all of the spine heads</span>
-<span class="sd">    into one array (and do weighted average of the sdf)</span>
+<span class="sd">    4b) If at least one, concatenate the faces of all of the spine heads into one array (and do weighted average of the sdf)</span>
 <span class="sd">    5) Break if found a head</span>
-
 <span class="sd">    6) Optionally plot the spine neck and head</span>
+
+<span class="sd">    Global Parameters to Set</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    head_smoothness:</span>
+<span class="sd">        the cgal segmentation smoothness parameter for clustering a spine mesh into a head and neck</span>
+
+<span class="sd">    head_ray_trace_min: float</span>
+<span class="sd">        minimum width approximation (units) as a percentile of the ray trace values for a submesh to be in consideration as a spine head submesh </span>
+
+<span class="sd">    head_face_min: int</span>
+<span class="sd">        minimum number of faces for a submesh to be in consideration as a spine head submesh </span>
+
+<span class="sd">    only_allow_one_connected_component_neck: bool</span>
+<span class="sd">        whether to allow for the neck submesh to be multiple connected components (aka disconnected) or not</span>
+
 
 
 <span class="sd">    Can optionally return:</span>
@@ -2002,6 +2079,7 @@
 <span class="sd">                       plot_head_neck=True)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    
     <span class="k">if</span> <span class="n">head_ray_trace_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">head_ray_trace_min</span> <span class="o">=</span> <span class="n">head_ray_trace_min_global</span>
         
@@ -2050,8 +2128,13 @@
         
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;head_obj_idx = </span><span class="si">{</span><span class="n">head_obj_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Purpose:</span>
+<span class="sd">        --------</span>
+<span class="sd">        Want to delete any meshes that have the border coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         
-        <span class="c1"># Want to delete any meshes that have the border coordinates</span>
         <span class="k">if</span> <span class="n">no_head_coordinates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">head_obj_idx_final</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">hm</span> <span class="ow">in</span> <span class="n">head_obj_idx</span><span class="p">:</span>
@@ -2072,7 +2155,11 @@
         
         <span class="n">neck_obj_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">meshes</span><span class="p">)),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">head_obj_idx</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">))</span>
 
-        <span class="c1">#makes sure there always has to be a neck idx</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Purpose:</span>
+<span class="sd">        --------</span>
+<span class="sd">        Ensure there is a neck submesh and optionally only one neck submesh (if more than one then negate the head segmentation)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">neck_obj_idx</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">neck_obj_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">meshes</span><span class="p">))</span>
             <span class="n">head_obj_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
@@ -2093,6 +2180,11 @@
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;head_obj_idx = </span><span class="si">{</span><span class="n">head_obj_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;neck_obj_idx= </span><span class="si">{</span><span class="n">neck_obj_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Purpose:</span>
+<span class="sd">        --------</span>
+<span class="sd">        Calculate the weighted average head and neck sdf and width values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># save off the neck face idx</span>
         <span class="n">neck_face_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">mesh_idx</span><span class="p">[</span><span class="n">neck_obj_idx</span><span class="p">])</span>
         <span class="n">neck_sdf</span> <span class="o">=</span> <span class="n">nu</span><span class="o">.</span><span class="n">weighted_average</span><span class="p">(</span><span class="n">sdfs</span><span class="p">[</span><span class="n">neck_obj_idx</span><span class="p">],</span><span class="n">mesh_sizes</span><span class="p">[</span><span class="n">neck_obj_idx</span><span class="p">])</span>
@@ -2446,19 +2538,58 @@
 <span class="w">    </span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Purpose: Will calculate the spines on a branch object</span>
+<span class="sd">    Purpose</span>
+<span class="sd">    -------</span>
+<span class="sd">    Will calculate the spines on a branch object</span>
 <span class="sd">    </span>
-<span class="sd">    Pseudocode: </span>
-<span class="sd">    1) Initial segmentation to get unfiltered spines</span>
-<span class="sd">    2) Run the following filters: </span>
-<span class="sd">        a) face length</span>
-<span class="sd">        b) By Bounding Box max length</span>
-<span class="sd">        c) Border spines</span>
-<span class="sd">        d) skeleton endpoint nullification</span>
-<span class="sd">        e) soma nullification</span>
-<span class="sd">        f) spine volume filter</span>
-<span class="sd">    4) Return spines and volume</span>
-<span class="sd">    </span>
+<span class="sd">    Pseudocode</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    1) spu.get_spine_meshes_unfiltered_from_mesh</span>
+<span class="sd">    2) filters spine meshes by minimum number of faces (spine_n_face_threshold) and minimum skeletal length (spine_sk_length_threshold)</span>
+<span class="sd">    3) if requested (filter_by_bounding_box_longest_side_length), filters the meshes to have less than a certain length (side_length_threshold) for the longest side of their oriented bounding box. </span>
+<span class="sd">    To prevent false positive spines from long axon fragment merges</span>
+<span class="sd">    4) if requested (filter_out_border_spines), filter out meshes that have:</span>
+<span class="sd">        a) higher than a certain percentage (border_percentage_threshold) of the submesh vertices overlapping with border vertices (certices adjacent to open spaces in the mesh) on the parent mesh  </span>
+<span class="sd">        b) higher than certain percentage (check_spine_border_perc_global) of the parent mesh’s border vertices overlapping with the submesh vertices</span>
+
+<span class="sd">    5) if requested (skeleton_endpoint_nullification), filter away spines that are within a certain distance (skeleton_endpoint_nullification_distance) from the branch skeleton endpoints in order to avoid a high false positive class.</span>
+<span class="sd">    6) if requested (soma_vertex_nullification), filter out spines that have vertices overlapping with vertices of the soma</span>
+<span class="sd">    7) Creates a spine object for each of the spine meshes remaining after filtering:</span>
+<span class="sd">        a) spu.calculate_spine_attributes</span>
+<span class="sd">        </span>
+<span class="sd">    Global Parameters to Set</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    spine_n_face_threshold: int</span>
+<span class="sd">        minimum number of mesh faces for a submesh to be in consideration for the spine classification</span>
+
+<span class="sd">    # -- size filtering</span>
+<span class="sd">    spine_sk_length_threshold: int</span>
+<span class="sd">        minimum length (unit) of the surface skeleton of the submesh for it to be in consideration for the spine classification</span>
+
+<span class="sd">    # -- bounding box filtering</span>
+<span class="sd">    filter_by_bounding_box_longest_side_length: </span>
+
+<span class="sd">    side_length_threshold: </span>
+
+<span class="sd">    # -- border filtering</span>
+<span class="sd">    filter_out_border_spines: bool</span>
+<span class="sd">        whether to be perform spine filtering by considering how much spine submesh vertices overlap with border vertices of barents</span>
+
+<span class="sd">    border_percentage_threshold: float</span>
+<span class="sd">        maximum percentage a submesh vertices can overlap with border vertices (certices adjacent to open spaces in the mesh) on the parent mesh and still be in consideration for spine label  </span>
+
+<span class="sd">    check_spine_border_perc_global: float</span>
+<span class="sd">        maximum percentage that a the parent mesh’s border vertices can overlapping with the submesh vertices and that submesh still be in consideration for spine label  </span>
+<span class="sd">    # -- skeleton filtering</span>
+<span class="sd">    skeleton_endpoint_nullification: bool</span>
+
+<span class="sd">    skeleton_endpoint_nullification_distance_global: float</span>
+<span class="sd">        minimum distance</span>
+
+<span class="sd">    # -- soma filtering</span>
+<span class="sd">    soma_vertex_nullification: bool</span>
+
+
 <span class="sd">    </span>
 <span class="sd">    Ex: </span>
 <span class="sd">    curr_limb = neuron_obj[2]</span>
@@ -2695,6 +2826,36 @@
     <span class="n">print_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">limb_branch_dict_exclude</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Will calculate spines over a neuron object</span>
+<span class="sd">    </span>
+<span class="sd">    Pseudocode</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    1) Calculates a limb_branch_dict over which to perform spine detection if not already given. Which branches are included are determined by:</span>
+<span class="sd">        a) Generates width calculations if not already performed</span>
+<span class="sd">        b) performs the search with the query to get the limb branch dict</span>
+<span class="sd">    2) Iterates over all limbs in limb branch:</span>
+<span class="sd">        a) Generates the soma touching vertices and creates a kdtree for them</span>
+<span class="sd">        b) Iterates over all branches:</span>
+<span class="sd">            i) spu.calculate_spines_on_branch → returns spines and spine volumes</span>
+<span class="sd">            </span>
+<span class="sd">    Global Parameters to Set</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    query: str</span>
+<span class="sd">        the query to restrict branches searched</span>
+
+
+<span class="sd">    </span>
+<span class="sd">    Ex: </span>
+<span class="sd">    spu.calculate_spines_on_neuron(</span>
+<span class="sd">        recovered_neuron,</span>
+<span class="sd">        plot_query = False,</span>
+<span class="sd">        print_flag = True,</span>
+<span class="sd">    )</span>
+<span class="sd">    </span>
+<span class="sd">    nviz.plot_spines(recovered_neuron)</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">if</span> <span class="n">query</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">query</span> <span class="o">=</span> <span class="n">query_global</span>
@@ -2704,32 +2865,14 @@
     
     <span class="k">if</span> <span class="n">soma_vertex_nullification</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">soma_vertex_nullification</span> <span class="o">=</span> <span class="n">soma_vertex_nullification_global</span>
-<span class="w">    </span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Purpose: Will recalculate spines over a neuron object</span>
-<span class="sd">    </span>
-<span class="sd">    Pseudocode: </span>
-<span class="sd">    1) Recalculates the median mesh center if it was requested for a filter </span>
-<span class="sd">    but not already calculated</span>
-<span class="sd">    </span>
-<span class="sd">    </span>
-<span class="sd">    Ex: </span>
-<span class="sd">    spu.calculate_spines_on_neuron(</span>
-<span class="sd">    recovered_neuron,</span>
-<span class="sd">    plot_query = False,</span>
-<span class="sd">    print_flag = True,</span>
-<span class="sd">    )</span>
-<span class="sd">    </span>
-<span class="sd">    nviz.plot_spines(recovered_neuron)</span>
-<span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    
+    
     <span class="k">if</span> <span class="n">query</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">query</span> <span class="o">=</span> <span class="n">query_global</span>
     
     <span class="c1"># --- Step 1: Applies query to see which branches to calculate spines over ---</span>
     <span class="k">if</span> <span class="n">limb_branch_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;query = </span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
             <span class="n">functions_list</span> <span class="o">=</span> <span class="n">query</span><span class="p">[</span><span class="s2">&quot;functions_list&quot;</span><span class="p">]</span>
             <span class="n">current_query</span> <span class="o">=</span> <span class="n">query</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -3332,6 +3475,49 @@
     <span class="n">skeleton</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Performs spine detection on a branch object or a branch mesh (optionally with a skeleton) and then apply filtering before creating official Spine objects from each individually detected spine.</span>
+
+<span class="sd">    Purpose Detailed</span>
+<span class="sd">    -----------------------</span>
+
+<span class="sd">    Pseudocode</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    1) Generate initial spine mesh detection</span>
+<span class="sd">    2) Filter out border spines:</span>
+<span class="sd">        if requested (filter_out_border_spines), filter out meshes that have:</span>
+<span class="sd">            a) higher than a certain percentage (border_percentage_threshold) of the submesh vertices overlapping with border vertices (certices adjacent to open spaces in the mesh) on the parent mesh  </span>
+<span class="sd">            b) higher than certain percentage (check_spine_border_perc_global) of the parent mesh’s border vertices overlapping with the submesh vertices</span>
+<span class="sd">    3) skeleton endpoint filtering:</span>
+<span class="sd">        if requested (skeleton_endpoint_nullification), filter away spines that are within a certain distance (skeleton_endpoint_nullification_distance) from the branch skeleton endpoints in order to avoid a high false positive class.</span>
+<span class="sd">    4) some vertex nullification:</span>
+<span class="sd">        if requested (soma_vertex_nullification), filter out spines that have vertices overlapping with vertices of the soma</span>
+<span class="sd">    5) Creates spine objects from all the remaining spine objects (will do head/neck segmentaiton)</span>
+
+<span class="sd">    Global Parameters to Set</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    # -- border filtering</span>
+<span class="sd">    filter_out_border_spines: bool</span>
+<span class="sd">        whether to be perform spine filtering by considering how much spine submesh vertices overlap with border vertices of shaft submesh</span>
+
+<span class="sd">    border_percentage_threshold: float</span>
+<span class="sd">        maximum percentage a submesh vertices can overlap with border vertices (vertices adjacent to open spaces in the mesh) on the parent mesh and still be in consideration for spine label  </span>
+
+<span class="sd">    # -- skeleton filtering</span>
+<span class="sd">    skeleton_endpoint_nullification: bool</span>
+<span class="sd">        whether to filter away spines that are within a certain distance (skeleton_endpoint_nullification_distance) from the branch skeleton endpoints in order to avoid a high false positive class.</span>
+
+<span class="sd">    skeleton_endpoint_nullification_distance_global: float</span>
+<span class="sd">        minimum distance a spine mesh can be from the branch skeleton endpoints and not be filtered away when the skeleton_endpoint_nullification flag is set</span>
+
+<span class="sd">    # -- soma filtering</span>
+<span class="sd">    soma_vertex_nullification: bool</span>
+<span class="sd">        when true will filter out spines that have vertices overlapping with vertices of the soma</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">if</span> <span class="n">filter_out_border_spines</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">filter_out_border_spines</span> <span class="o">=</span> <span class="n">filter_out_border_spines_global</span>
@@ -3367,7 +3553,12 @@
         <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span>
-    
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose:</span>
+<span class="sd">    -------</span>
+<span class="sd">    if requested (filter_by_bounding_box_longest_side_length), filters the meshes to have less than a certain length (side_length_threshold) for the longest side of their oriented bounding box. To prevent false positive spines from long axon fragment merges</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">plot_spines_before_filter</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;plot_spines_before_filter: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">spines</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -3382,7 +3573,14 @@
     
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spine_submesh_split_filtered</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">spine_submesh_split_filtered</span>
-    
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose</span>
+<span class="sd">    -------</span>
+<span class="sd">    if requested (filter_out_border_spines), filter out meshes that have:</span>
+<span class="sd">        a) higher than a certain percentage (border_percentage_threshold) of the submesh vertices overlapping with border vertices (certices adjacent to open spaces in the mesh) on the parent mesh  </span>
+<span class="sd">        b) higher than certain percentage (check_spine_border_perc_global) of the parent mesh’s border vertices overlapping with the submesh vertices</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">filter_out_border_spines</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using the filter_out_border_spines option&quot;</span><span class="p">)</span>
@@ -3411,6 +3609,11 @@
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spine_submesh_split_filtered</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">spine_submesh_split_filtered</span>
 
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose</span>
+<span class="sd">    -------</span>
+<span class="sd">    if requested (skeleton_endpoint_nullification), filter away spines that are within a certain distance (skeleton_endpoint_nullification_distance) from the branch skeleton endpoints in order to avoid a high false positive class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">skeleton_endpoint_nullification</span> <span class="ow">and</span> <span class="p">(</span><span class="n">branch_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">skeleton</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">skeleton</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">skeleton</span> <span class="o">=</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">skeleton</span>
@@ -3442,7 +3645,13 @@
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spine_submesh_split_filtered</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">spine_submesh_split_filtered</span>
-    
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose:</span>
+<span class="sd">    --------</span>
+<span class="sd">    </span>
+<span class="sd">    if requested (soma_vertex_nullification), filter out spines that have vertices overlapping with vertices of the soma</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">soma_vertex_nullification</span> <span class="ow">and</span> <span class="p">(</span><span class="n">soma_kdtree</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">soma_kdtree</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">soma_verts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">soma_kdtree</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">soma_verts</span><span class="p">)</span>
@@ -3468,8 +3677,13 @@
             
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After soma_vertex_nullification: # of spines = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">spine_submesh_split_filtered</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            
-            
+<span class="w">            </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose:</span>
+<span class="sd">    --------</span>
+<span class="sd">    Creates spine objects from all the remaining spine objects (will do head/neck segmentaiton)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Creating the spine objects</span>
     <span class="n">spine_objs</span> <span class="o">=</span> <span class="p">[</span><span class="n">spu</span><span class="o">.</span><span class="n">Spine</span><span class="p">(</span>
         <span class="n">mesh</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span>
@@ -3682,14 +3896,73 @@
 
 <div class="viewcode-block" id="filter_spine_objs_by_size_bare_minimum"><a class="viewcode-back" href="../../neurd.html#neurd.spine_utils.filter_spine_objs_by_size_bare_minimum">[docs]</a><span class="k">def</span> <span class="nf">filter_spine_objs_by_size_bare_minimum</span><span class="p">(</span>
     <span class="n">spine_objs</span><span class="p">,</span>
-    <span class="n">spine_n_face_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#6,</span>
-    <span class="n">spine_sk_length_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#306.6,</span>
-    <span class="n">filter_by_volume_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#900496.186,</span>
-    <span class="n">bbox_oriented_side_max_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#300,</span>
-    <span class="n">sdf_mean_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#0,</span>
-    <span class="n">spine_volume_to_spine_area_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">spine_n_face_threshold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#6,</span>
+    <span class="n">spine_sk_length_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#306.6,</span>
+    <span class="n">filter_by_volume_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#900496.186,</span>
+    <span class="n">bbox_oriented_side_max_min</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#300,</span>
+    <span class="n">sdf_mean_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#0,</span>
+    <span class="n">spine_volume_to_spine_area_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Filters the spine objects for minimum feature requirements.</span>
+
+<span class="sd">    Pseudocode</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    1) Apply a list of simple attribute “greater than” queries to filter down the spine objects.</span>
+
+
+<span class="sd">    Global Parameters to Set</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    spine_n_face_threshold_bare_min: </span>
+<span class="sd">        minimum number of faces for a valid spine mesh</span>
+
+<span class="sd">    spine_sk_length_threshold_bare_min: </span>
+<span class="sd">        minimum surface skeletal length (units) of a valid spine mesh</span>
+
+<span class="sd">    filter_by_volume_threshold_bare_min:</span>
+<span class="sd">        minimum volume (units) of a valid spine mesh</span>
+
+<span class="sd">    bbox_oriented_side_max_min_bare_min:</span>
+<span class="sd">        minimum side length (uints) of the oriented bounding box surrounding the spine mesh for valid spines</span>
+
+<span class="sd">    sdf_mean_min_bare_min: </span>
+<span class="sd">        minimum mean sdf value (computed in the shaft/spine clustering step performed by the cgal clustering algorithm) for valid spine meshes</span>
+
+<span class="sd">    spine_volume_to_spine_area_min_bare_min:</span>
+<span class="sd">        minimum ratio of mesh volume (units^3) to mesh area (units^2) for valid spine meshes</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    --------</span>
+<span class="sd">    1) Visualize the spines after these filtering</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spine_objs : _type_</span>
+<span class="sd">        _description_</span>
+<span class="sd">    spine_n_face_threshold : int, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    spine_sk_length_threshold : float, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    filter_by_volume_threshold : float, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    bbox_oriented_side_max_min : int, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    sdf_mean_min : float, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    spine_volume_to_spine_area_min : float, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    verbose : bool, optional</span>
+<span class="sd">        _description_, by default False</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    _type_</span>
+<span class="sd">        _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spine_objs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">spine_objs</span>
     
@@ -4176,6 +4449,79 @@
     <span class="n">skeleton</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Performs spine detection on a branch object or a branch mesh (optionally with a skeleton)</span>
+
+<span class="sd">    Purpose Detailed</span>
+<span class="sd">    -----------------------</span>
+
+<span class="sd">    Pseudocode</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    1) Generates spine objects</span>
+<span class="sd">    2) Calculate spine attributes for each spine object</span>
+<span class="sd">    3) Apply bare minimum spine attribute filtering (filter_spine_objs_by_size_bare_minimum)</span>
+
+<span class="sd">    </span>
+<span class="sd">        </span>
+<span class="sd">    Analysis Roadmap</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    spu.spine_objs_bare_minimum_filt_with_attr_from_branch_obj</span>
+<span class="sd">        spu.spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_obj</span>
+<span class="sd">        </span>
+<span class="sd">            spu.get_spine_meshes_unfiltered_from_mesh</span>
+<span class="sd">                spu.get_spine_meshes_unfiltered_from_mesh</span>
+<span class="sd">                    spu.split_mesh_into_spines_shaft:</span>
+<span class="sd">                        tu.mesh_segmentation</span>
+<span class="sd">                            VISUALIZATION: visualization that enough chopped up</span>
+<span class="sd">                            PARAMETER CHANGE:</span>
+<span class="sd">                                smoothness_threshold</span>
+<span class="sd">                                clusters_threshold</span>
+
+<span class="sd">                        spu.restrict_meshes_to_shaft_meshes_without_coordinates</span>
+<span class="sd">                            VISUALIZATION: look at initial shaft seaparation (c)</span>
+<span class="sd">                            PARAMETER CHANGE:</span>
+<span class="sd">                                shaft_close_hole_area_top_2_mean_max</span>
+<span class="sd">                                shaft_mesh_volume_max</span>
+<span class="sd">                                shaft_mesh_n_faces_min</span>
+
+<span class="sd">                VISUALIZATION: individual spines prior to individual spine filtering</span>
+
+<span class="sd">            VISUALIZATION: spines after filtering (or each step after filtering)</span>
+<span class="sd">            PARAMETER CHANGE:</span>
+<span class="sd">                # -- border filtering</span>
+<span class="sd">                filter_out_border_spines</span>
+<span class="sd">                border_percentage_threshold</span>
+<span class="sd">                # -- skeleton filtering</span>
+<span class="sd">                skeleton_endpoint_nullification</span>
+<span class="sd">                skeleton_endpoint_nullification_distance</span>
+<span class="sd">                # -- soma filtering</span>
+<span class="sd">                soma_vertex_nullification: bool</span>
+
+
+<span class="sd">        filter_spine_objs_by_size_bare_minimum</span>
+<span class="sd">            VISUALIZATION: spines before and after substitution</span>
+<span class="sd">            PARAMETER CHANGE:                </span>
+<span class="sd">                spine_n_face_threshold_bare_min</span>
+<span class="sd">                spine_sk_length_threshold_bare_min</span>
+<span class="sd">                filter_by_volume_threshold_bare_min</span>
+<span class="sd">                bbox_oriented_side_max_min_bare_min</span>
+<span class="sd">                sdf_mean_min_bare_min</span>
+<span class="sd">                spine_volume_to_spine_area_min_bare_min</span>
+<span class="sd">                </span>
+<span class="sd">        spu.calculate_spine_attributes_for_list</span>
+<span class="sd">            spu.calculate_spine_attributes:</span>
+<span class="sd">                spu.calculate_head_neck:</span>
+<span class="sd">                    VISUALIZATION: spine head/neck subdivision</span>
+<span class="sd">                    PARAMETER CHANGE:</span>
+<span class="sd">                        head_smoothness</span>
+<span class="sd">                        head_ray_trace_min</span>
+<span class="sd">                        head_face_min</span>
+<span class="sd">                        only_allow_one_connected_component_neck</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
 
     <span class="k">if</span> <span class="n">mesh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">mesh</span> <span class="o">=</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">mesh</span>
@@ -4440,7 +4786,6 @@
 <span class="sd">    Purpose: from a branch object</span>
 <span class="sd">    will generate spine objects and the</span>
 <span class="sd">    synapse df of synaspes onto spines</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">if</span> <span class="ow">not</span> <span class="n">verbose_computation</span><span class="p">:</span>
@@ -5163,6 +5508,10 @@
     <span class="k">return</span> <span class="n">df</span></div>
 
 <div class="viewcode-block" id="filter_and_scale_spine_syn_df"><a class="viewcode-back" href="../../neurd.html#neurd.spine_utils.filter_and_scale_spine_syn_df">[docs]</a><span class="k">def</span> <span class="nf">filter_and_scale_spine_syn_df</span><span class="p">(</span><span class="n">spine_df</span><span class="p">,</span><span class="n">syn_df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: To reduce the number of columns of the synapse table</span>
+<span class="sd">    and to scale the area and volume values in both the synapse and spine table so in um^2 and um^3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">syn_df_filt</span> <span class="o">=</span> <span class="n">spu</span><span class="o">.</span><span class="n">synapse_spine_match_df_filtering</span><span class="p">(</span><span class="n">syn_df</span><span class="p">)</span>
     <span class="n">syn_df_scaled</span> <span class="o">=</span> <span class="n">spu</span><span class="o">.</span><span class="n">scale_stats_df</span><span class="p">(</span><span class="n">syn_df_filt</span><span class="p">)</span>
     <span class="n">spine_df_scaled</span> <span class="o">=</span> <span class="n">spu</span><span class="o">.</span><span class="n">scale_stats_df</span><span class="p">(</span><span class="n">spine_df</span><span class="p">)</span>
@@ -5263,9 +5612,29 @@
     <span class="n">return_all_shaft_if_none</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Purpose: To restrict a list of meshes</span>
-<span class="sd">    to those with a high probabilty of being</span>
-<span class="sd">    a shaft mesh</span>
+<span class="sd">    Purpose</span>
+<span class="sd">    -----------</span>
+<span class="sd">    To restrict a list of meshes to those with a high probability of being a shaft mesh</span>
+
+<span class="sd">    Pseudocode</span>
+<span class="sd">    ------------</span>
+<span class="sd">    1) restricts meshes to those greater than a certain volume (shaft_mesh_volume_max) or greater than a certain mean top 2 hole area (shaft_close_hole_area_top_2_mean_max) because both could be indicative of a shaft mesh</span>
+<span class="sd">        functions used: trimesh_utils.close_hole_area_top_2_mean, trimesh_utils.mesh_volume</span>
+<span class="sd">    2) restricts meshes to face threshold (shaft_mesh_n_faces_min)</span>
+<span class="sd">    3) Returns the indices of the meshes remaining after filtering</span>
+
+<span class="sd">    Global Parameters to Set</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    shaft_close_hole_area_top_2_mean_max: float</span>
+<span class="sd">        a minimum mesh area (nm^2)  threshold for the mean of the top 2 holes (ideally the connecting ends of the tube like shaft sections from the mesh cluster (from the CGAL algorithm) to be potentially considered a part of the neuron shaft. (The max refers to a max suffix is in reference to spines)</span>
+
+<span class="sd">    shaft_mesh_volume_max: int</span>
+<span class="sd">        the minimum mesh volume (nm^3) for a mesh cluster (from the CGAL algorithm) to be potentially considered a part of the neuron shaft. (The max refers to a max suffix is in reference to spines)</span>
+
+<span class="sd">    shaft_mesh_n_faces_min: int</span>
+<span class="sd">        A minimum number of faces on a submesh cluster early in the pipeline to be potentially considered a part of the neuron shaft.</span>
+
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">close_hole_area_top_2_mean_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">close_hole_area_top_2_mean_max</span> <span class="o">=</span> <span class="n">shaft_close_hole_area_top_2_mean_max_global</span>
@@ -5313,6 +5682,70 @@
     <span class="n">plot_shaft_buffer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose</span>
+<span class="sd">    -----------</span>
+<span class="sd">    Determine the final classification of shaft submeshes and then return all connected components (floating islands) of the submesh after the shaft has been removed as individual spine meshes. In other words, generates the meshes for each individual spine (prior to individual spine filtering steps).</span>
+
+<span class="sd">    Pseudocode</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    1) runs a segmentation on the mesh with given clusters and smoothness.	</span>
+<span class="sd">    a) generates a mapping of the clusters the sdf values for each face</span>
+<span class="sd">    2) splits the segmentation into separate meshes</span>
+<span class="sd">    3) spu.restrict_meshes_to_shaft_meshes_without_coordinates</span>
+<span class="sd">    4) Divide the meshes into spine meshes and shaft meshes (first pass)</span>
+<span class="sd">    5) Given first pass of the shaft and spine classification, reclassifies some spine meshes as shaft meshes to ensure complete graph connectivity between all shaft submeshes using the following algorithm</span>
+<span class="sd">            1) start with biggest shaft</span>
+<span class="sd">            2) Find the shortest paths to all shaft parts</span>
+<span class="sd">            3) add all the submeshes that aren&#39;t already in the shaft category to the shaft category</span>
+<span class="sd">    6) Creates a total spine submesh by removing all of the shaft submeshes from the original mesh, divides up this total spine submesh into connected components (separate islands) as separate meshes so each mesh represents a single spine</span>
+<span class="sd">    7)  Sorts the spine meshes from largest (number of faces) to smallest</span>
+<span class="sd">    8) Returns spine meshes and the sdf values (generated in the segmentation step) associated with them</span>
+
+
+
+<span class="sd">    Global Parameters to Set</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    smoothness_threshold: </span>
+<span class="sd">        The smoothness parameter for the cgal mesh segmentation algorithm used as an initial intermediate over-segmentation step in the spine detection. The smaller the smoothness value, generally the more number of underlying clusters on the mesh identified and the more spines that can be potentially identified at the higher risk of false positives (although the spine algorithm attempts to filter away false positives from the underlying mesh segmentation). Source: https://doc.cgal.org/4.6/Surface_mesh_segmentation/index.html</span>
+
+<span class="sd">    clusters_threshold:</span>
+<span class="sd">        The clusters parameter for the cgal mesh segmentation algorithm used as an initial intermediate over-segmentation step in the spine detection. The larger the number of clusters the more spines can be potentially identified at the higher risk of false positives (although the spine algorithm attempts to filter away false positives from the underlying mesh segmentation). Source: https://doc.cgal.org/4.6/Surface_mesh_segmentation/index.html</span>
+
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    current_mesh : _type_</span>
+<span class="sd">        _description_</span>
+<span class="sd">    segment_name : str, optional</span>
+<span class="sd">        _description_, by default &quot;&quot;</span>
+<span class="sd">    clusters : _type_, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    smoothness : _type_, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    cgal_folder : _type_, optional</span>
+<span class="sd">        _description_, by default Path(&quot;./cgal_temp&quot;)</span>
+<span class="sd">    delete_temp_file : bool, optional</span>
+<span class="sd">        _description_, by default True</span>
+<span class="sd">    shaft_threshold : _type_, optional</span>
+<span class="sd">        _description_, by default None</span>
+<span class="sd">    return_sdf : bool, optional</span>
+<span class="sd">        _description_, by default True</span>
+<span class="sd">    print_flag : bool, optional</span>
+<span class="sd">        _description_, by default False</span>
+<span class="sd">    plot_segmentation : bool, optional</span>
+<span class="sd">        _description_, by default False</span>
+<span class="sd">    plot_shaft : bool, optional</span>
+<span class="sd">        _description_, by default False</span>
+<span class="sd">    plot_shaft_buffer : int, optional</span>
+<span class="sd">        _description_, by default 0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    _type_</span>
+<span class="sd">        _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">clusters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">clusters</span> <span class="o">=</span> <span class="n">clusters_threshold_global</span>
     

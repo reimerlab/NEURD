@@ -246,6 +246,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.cell_type_fine_name_cleaner"><code class="docutils literal notranslate"><span class="pre">cell_type_fine_name_cleaner()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.cell_type_from_feature_df"><code class="docutils literal notranslate"><span class="pre">cell_type_from_feature_df()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.cell_type_high_probability_df_from_df"><code class="docutils literal notranslate"><span class="pre">cell_type_high_probability_df_from_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.cell_type_names_str"><code class="docutils literal notranslate"><span class="pre">cell_type_names_str()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.classes_from_cell_type_name"><code class="docutils literal notranslate"><span class="pre">classes_from_cell_type_name()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.clean_cell_type_fine"><code class="docutils literal notranslate"><span class="pre">clean_cell_type_fine()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.coarse_cell_type_from_coarse"><code class="docutils literal notranslate"><span class="pre">coarse_cell_type_from_coarse()</span></code></a></li>
@@ -259,6 +260,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.e_i_label_from_cell_type_fine"><code class="docutils literal notranslate"><span class="pre">e_i_label_from_cell_type_fine()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.e_i_model_as_logistic_reg_on_border_df"><code class="docutils literal notranslate"><span class="pre">e_i_model_as_logistic_reg_on_border_df()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.excitatory_high_probability_df_from_df"><code class="docutils literal notranslate"><span class="pre">excitatory_high_probability_df_from_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.export_cell_type_abbreviations_csv"><code class="docutils literal notranslate"><span class="pre">export_cell_type_abbreviations_csv()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.filter_cell_type_df_for_most_complete_duplicates"><code class="docutils literal notranslate"><span class="pre">filter_cell_type_df_for_most_complete_duplicates()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.load_border_exc_inh_df"><code class="docutils literal notranslate"><span class="pre">load_border_exc_inh_df()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.cell_type_utils.load_manual_exc_inh_df"><code class="docutils literal notranslate"><span class="pre">load_manual_exc_inh_df()</span></code></a></li>
@@ -1275,6 +1277,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.parameter_utils.category_param_from_module"><code class="docutils literal notranslate"><span class="pre">category_param_from_module()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.parameter_utils.clean_modules_dict"><code class="docutils literal notranslate"><span class="pre">clean_modules_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.parameter_utils.config_directory"><code class="docutils literal notranslate"><span class="pre">config_directory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.parameter_utils.export_csv"><code class="docutils literal notranslate"><span class="pre">export_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.parameter_utils.export_df"><code class="docutils literal notranslate"><span class="pre">export_df()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.parameter_utils.export_package_param_dict_to_file"><code class="docutils literal notranslate"><span class="pre">export_package_param_dict_to_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.parameter_utils.global_param_and_attributes_dict_to_separate_mode_jsons"><code class="docutils literal notranslate"><span class="pre">global_param_and_attributes_dict_to_separate_mode_jsons()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.parameter_utils.injest_nested_dict"><code class="docutils literal notranslate"><span class="pre">injest_nested_dict()</span></code></a></li>
@@ -3496,6 +3500,11 @@ that are highly likely to be excitatory</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="neurd.cell_type_utils.cell_type_names_str">
+<span class="sig-prename descclassname"><span class="pre">neurd.cell_type_utils.</span></span><span class="sig-name descname"><span class="pre">cell_type_names_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">print_ei</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">:</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cell_type_utils.html#cell_type_names_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cell_type_utils.cell_type_names_str" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="neurd.cell_type_utils.classes_from_cell_type_name">
 <span class="sig-prename descclassname"><span class="pre">neurd.cell_type_utils.</span></span><span class="sig-name descname"><span class="pre">classes_from_cell_type_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cell_type_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cell_type_utils.html#classes_from_cell_type_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cell_type_utils.classes_from_cell_type_name" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: Returns a list to iterate over depending on
@@ -3581,6 +3590,11 @@ verbose = True)</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.cell_type_utils.excitatory_high_probability_df_from_df">
 <span class="sig-prename descclassname"><span class="pre">neurd.cell_type_utils.</span></span><span class="sig-name descname"><span class="pre">excitatory_high_probability_df_from_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baylor_exc_prob_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.65</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gnn_prob_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.65</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cell_type_utils.html#excitatory_high_probability_df_from_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cell_type_utils.excitatory_high_probability_df_from_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.cell_type_utils.export_cell_type_abbreviations_csv">
+<span class="sig-prename descclassname"><span class="pre">neurd.cell_type_utils.</span></span><span class="sig-name descname"><span class="pre">export_cell_type_abbreviations_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cell_type_table.csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/cell_type_utils.html#export_cell_type_abbreviations_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.cell_type_utils.export_cell_type_abbreviations_csv" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -13947,6 +13961,11 @@ parts of a neuron</p>
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shared_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/parameter_utils.html#PackageParameters.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.parameter_utils.PackageParameters.__init__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="neurd.parameter_utils.PackageParameters.dict">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dict</span></span><a class="headerlink" href="#neurd.parameter_utils.PackageParameters.dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.parameter_utils.PackageParameters.module_attr_map">
 <span class="sig-name descname"><span class="pre">module_attr_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plus_unused</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/parameter_utils.html#PackageParameters.module_attr_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.parameter_utils.PackageParameters.module_attr_map" title="Permalink to this definition"></a></dt>
@@ -14024,6 +14043,40 @@ to a specific category in a module</p>
 <dt class="sig sig-object py" id="neurd.parameter_utils.config_directory">
 <span class="sig-prename descclassname"><span class="pre">neurd.parameter_utils.</span></span><span class="sig-name descname"><span class="pre">config_directory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/parameter_utils.html#config_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.parameter_utils.config_directory" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.parameter_utils.export_csv">
+<span class="sig-prename descclassname"><span class="pre">neurd.parameter_utils.</span></span><span class="sig-name descname"><span class="pre">export_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./parameters.csv'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/parameter_utils.html#export_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.parameter_utils.export_csv" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.parameter_utils.export_df">
+<span class="sig-prename descclassname"><span class="pre">neurd.parameter_utils.</span></span><span class="sig-name descname"><span class="pre">export_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'module'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'parameter</span> <span class="pre">name'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default</span> <span class="pre">value'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/parameter_utils.html#export_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.parameter_utils.export_df" title="Permalink to this definition"></a></dt>
+<dd><p>Purpose: Want to export a dataframe
+with the parameter values for different modules</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – a dataframe with the following columns: module, parameter_name, value</p></li>
+<li><p><em>Pseudocode</em></p></li>
+<li><p><em>———-</em></p></li>
+<li><p><em>0) Create a list to store dictionaries</em></p></li>
+<li><p><em>1) Iterate through all modules of parameters object</em> –</p>
+<ol class="loweralpha simple">
+<li><p>Get a list of all the parameter names, values</p></li>
+<li><dl class="simple">
+<dt>Create a list of dictionaries with names, values and</dt><dd><p>add to the list</p>
+</dd>
+</dl>
+</li>
+</ol>
+</li>
+<li><p><em>2) Create the dataframe</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.parameter_utils.export_package_param_dict_to_file">
@@ -16529,7 +16582,99 @@ of the spine to a reference mesh</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.calculate_spine_attributes">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">calculate_spine_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spine_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_head_neck</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_shaft_mesh_face_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_skeletal_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#calculate_spine_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.calculate_spine_attributes" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><section id="purpose">
+<h3>Purpose<a class="headerlink" href="#purpose" title="Permalink to this heading"></a></h3>
+<p>Given a spine mesh (and potentially the branch object it resides on) calculates descriptive statistics</p>
+</section>
+<section id="pseudocode">
+<h3>Pseudocode<a class="headerlink" href="#pseudocode" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>calculates the volume</p></li>
+<li><p>calculates the bounding box side lengths</p></li>
+<li><dl class="simple">
+<dt>calculates branch relative statistics:</dt><dd><ol class="loweralpha simple">
+<li><p>closest mesh/skeleton coordinate</p></li>
+<li><p>distance of spine base to each skeleton endpoint</p></li>
+<li><p>width of branch obj at the base of the spine</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p>Optionally calculates the head and neck clusters and statistics. spu.calculate_head_neck</p></li>
+</ol>
+</section>
+<section id="global-parameters-to-set">
+<h3>Global Parameters to Set<a class="headerlink" href="#global-parameters-to-set" title="Permalink to this heading"></a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">param spine_obj<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_</p>
+</dd>
+<dt class="field-even">type spine_obj<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_</p>
+</dd>
+<dt class="field-odd">param branch_obj<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type branch_obj<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_, optional</p>
+</dd>
+<dt class="field-odd">param calculate_coordinates<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default True</p>
+</dd>
+<dt class="field-even">type calculate_coordinates<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, optional</p>
+</dd>
+<dt class="field-odd">param calculate_head_neck<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default False</p>
+</dd>
+<dt class="field-even">type calculate_head_neck<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, optional</p>
+</dd>
+<dt class="field-odd">param branch_shaft_mesh_face_idx<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type branch_shaft_mesh_face_idx<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_, optional</p>
+</dd>
+<dt class="field-odd">param soma_center<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type soma_center<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_, optional</p>
+</dd>
+<dt class="field-odd">param upstream_skeletal_length<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type upstream_skeletal_length<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_, optional</p>
+</dd>
+<dt class="field-odd">param branch_features<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type branch_features<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_, optional</p>
+</dd>
+<dt class="field-odd">param verbose_time<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default False</p>
+</dd>
+<dt class="field-even">type verbose_time<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, optional</p>
+</dd>
+<dt class="field-odd">param mesh<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type mesh<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_, optional</p>
+</dd>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.calculate_spine_attributes_for_list">
@@ -16588,23 +16733,70 @@ computed in syu.add_valid_synapses_to_neuron_obj</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.calculate_spines_on_branch">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">calculate_spines_on_branch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusters_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothness_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shaft_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spines_before_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spine_n_face_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spine_sk_length_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spines_after_face_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_by_bounding_box_longest_side_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side_length_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spines_after_bbox_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_out_border_spines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_percentage_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_spine_border_perc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spines_after_border_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton_endpoint_nullification</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton_endpoint_nullification_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spines_after_skeleton_endpt_nullification</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_vertex_nullification</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_verts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_kdtree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spines_after_soma_nullification</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_by_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_spine_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_by_volume_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spines_after_volume_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_segmentation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#calculate_spines_on_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.calculate_spines_on_branch" title="Permalink to this definition"></a></dt>
-<dd><p>Purpose: Will calculate the spines on a branch object</p>
-<p>Pseudocode:
-1) Initial segmentation to get unfiltered spines
-2) Run the following filters:</p>
+<dd><section id="id20">
+<h3>Purpose<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h3>
+<p>Will calculate the spines on a branch object</p>
+</section>
+<section id="id21">
+<h3>Pseudocode<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>spu.get_spine_meshes_unfiltered_from_mesh</p></li>
+<li><p>filters spine meshes by minimum number of faces (spine_n_face_threshold) and minimum skeletal length (spine_sk_length_threshold)</p></li>
+</ol>
+<p>3) if requested (filter_by_bounding_box_longest_side_length), filters the meshes to have less than a certain length (side_length_threshold) for the longest side of their oriented bounding box.
+To prevent false positive spines from long axon fragment merges
+4) if requested (filter_out_border_spines), filter out meshes that have:</p>
 <blockquote>
 <div><ol class="loweralpha simple">
-<li><p>face length</p></li>
-<li><p>By Bounding Box max length</p></li>
-<li><p>Border spines</p></li>
-<li><p>skeleton endpoint nullification</p></li>
-<li><p>soma nullification</p></li>
-<li><p>spine volume filter</p></li>
+<li><p>higher than a certain percentage (border_percentage_threshold) of the submesh vertices overlapping with border vertices (certices adjacent to open spaces in the mesh) on the parent mesh</p></li>
+<li><p>higher than certain percentage (check_spine_border_perc_global) of the parent mesh’s border vertices overlapping with the submesh vertices</p></li>
 </ol>
 </div></blockquote>
-<ol class="arabic simple" start="4">
-<li><p>Return spines and volume</p></li>
+<ol class="arabic simple" start="5">
+<li><p>if requested (skeleton_endpoint_nullification), filter away spines that are within a certain distance (skeleton_endpoint_nullification_distance) from the branch skeleton endpoints in order to avoid a high false positive class.</p></li>
+<li><p>if requested (soma_vertex_nullification), filter out spines that have vertices overlapping with vertices of the soma</p></li>
+<li><dl class="simple">
+<dt>Creates a spine object for each of the spine meshes remaining after filtering:</dt><dd><ol class="loweralpha simple">
+<li><p>spu.calculate_spine_attributes</p></li>
 </ol>
+</dd>
+</dl>
+</li>
+</ol>
+</section>
+<section id="id22">
+<h3>Global Parameters to Set<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>spine_n_face_threshold: int</dt><dd><p>minimum number of mesh faces for a submesh to be in consideration for the spine classification</p>
+</dd>
+</dl>
+<p># – size filtering
+spine_sk_length_threshold: int</p>
+<blockquote>
+<div><p>minimum length (unit) of the surface skeleton of the submesh for it to be in consideration for the spine classification</p>
+</div></blockquote>
+<p># – bounding box filtering
+filter_by_bounding_box_longest_side_length:</p>
+<p>side_length_threshold:</p>
+<p># – border filtering
+filter_out_border_spines: bool</p>
+<blockquote>
+<div><p>whether to be perform spine filtering by considering how much spine submesh vertices overlap with border vertices of barents</p>
+</div></blockquote>
+<dl class="simple">
+<dt>border_percentage_threshold: float</dt><dd><p>maximum percentage a submesh vertices can overlap with border vertices (certices adjacent to open spaces in the mesh) on the parent mesh and still be in consideration for spine label</p>
+</dd>
+<dt>check_spine_border_perc_global: float</dt><dd><p>maximum percentage that a the parent mesh’s border vertices can overlapping with the submesh vertices and that submesh still be in consideration for spine label</p>
+</dd>
+</dl>
+<p># – skeleton filtering
+skeleton_endpoint_nullification: bool</p>
+<dl class="simple">
+<dt>skeleton_endpoint_nullification_distance_global: float</dt><dd><p>minimum distance</p>
+</dd>
+</dl>
+<p># – soma filtering
+soma_vertex_nullification: bool</p>
 <p>Ex:
 curr_limb = neuron_obj[2]
 soma_verts = np.concatenate([neuron_obj[f”S{k}”].mesh.vertices for k in curr_limb.touching_somas()])</p>
@@ -16625,12 +16817,57 @@ plot_spines_after_volume_filter = True,</p>
 <p>print_flag=True,</p>
 </div></blockquote>
 <p>)</p>
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.calculate_spines_on_neuron">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">calculate_spines_on_neuron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limb_branch_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_vertex_nullification</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_spine_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limb_branch_dict_exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#calculate_spines_on_neuron"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.calculate_spines_on_neuron" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Purpose: Will calculate spines over a neuron object</p>
+<section id="id23">
+<h3>Pseudocode<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>Calculates a limb_branch_dict over which to perform spine detection if not already given. Which branches are included are determined by:</dt><dd><ol class="loweralpha simple">
+<li><p>Generates width calculations if not already performed</p></li>
+<li><p>performs the search with the query to get the limb branch dict</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Iterates over all limbs in limb branch:</dt><dd><ol class="loweralpha simple">
+<li><p>Generates the soma touching vertices and creates a kdtree for them</p></li>
+<li><dl class="simple">
+<dt>Iterates over all branches:</dt><dd><ol class="lowerroman simple">
+<li><p>spu.calculate_spines_on_branch → returns spines and spine volumes</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</section>
+<section id="id24">
+<h3>Global Parameters to Set<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>query: str</dt><dd><p>the query to restrict branches searched</p>
+</dd>
+</dl>
+<p>Ex:
+spu.calculate_spines_on_neuron(</p>
+<blockquote>
+<div><p>recovered_neuron,
+plot_query = False,
+print_flag = True,</p>
+</div></blockquote>
+<p>)</p>
+<p>nviz.plot_spines(recovered_neuron)</p>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.calculate_upstream_downstream_dist_from_up_idx">
@@ -16715,8 +16952,8 @@ smoothness:{smoothness}”)</p>
 <blockquote>
 <div><p>csm.cgal_segmentation(cgal_mesh_file,clusters,smoothness)</p>
 <p>#read in the csv file
-cgal_output_file = Path(cgal_mesh_file + “-<a href="#id20"><span class="problematic" id="id21">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “.csv” )
-cgal_output_file_sdf = Path(cgal_mesh_file + “-<a href="#id22"><span class="problematic" id="id23">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “_sdf.csv” )</p>
+cgal_output_file = Path(cgal_mesh_file + “-<a href="#id46"><span class="problematic" id="id47">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “.csv” )
+cgal_output_file_sdf = Path(cgal_mesh_file + “-<a href="#id48"><span class="problematic" id="id49">cgal_</span></a>” + str(np.round(clusters,2)) + “_” + “{:.2f}”.format(smoothness) + “_sdf.csv” )</p>
 <p>cgal_data = np.genfromtxt(str(cgal_output_file.absolute()), delimiter=’</p>
 </div></blockquote>
 <dl class="simple">
@@ -16818,7 +17055,9 @@ or a spine index and the compartment</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.filter_and_scale_spine_syn_df">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">filter_and_scale_spine_syn_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spine_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">syn_df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#filter_and_scale_spine_syn_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.filter_and_scale_spine_syn_df" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Purpose: To reduce the number of columns of the synapse table
+and to scale the area and volume values in both the synapse and spine table so in um^2 and um^3</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.filter_away_fp_from_df">
@@ -16833,7 +17072,8 @@ or a spine index and the compartment</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.filter_out_border_spines">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">filter_out_border_spines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spine_submeshes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_percentage_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_spine_border_perc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#filter_out_border_spines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.filter_out_border_spines" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Purpose: Filter away spines by their percentage overlap with parent border vertices</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.filter_out_soma_touching_spines">
@@ -16860,8 +17100,95 @@ b) If any of the vertices have - distance then nullify</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.filter_spine_objs_by_size_bare_minimum">
-<span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">filter_spine_objs_by_size_bare_minimum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spine_objs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spine_n_face_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spine_sk_length_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_by_volume_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox_oriented_side_max_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sdf_mean_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spine_volume_to_spine_area_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#filter_spine_objs_by_size_bare_minimum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.filter_spine_objs_by_size_bare_minimum" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">filter_spine_objs_by_size_bare_minimum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spine_objs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spine_n_face_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spine_sk_length_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_by_volume_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox_oriented_side_max_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sdf_mean_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spine_volume_to_spine_area_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#filter_spine_objs_by_size_bare_minimum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.filter_spine_objs_by_size_bare_minimum" title="Permalink to this definition"></a></dt>
+<dd><section id="id25">
+<h3>Purpose<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
+<p>Filters the spine objects for minimum feature requirements.</p>
+</section>
+<section id="id26">
+<h3>Pseudocode<a class="headerlink" href="#id26" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Apply a list of simple attribute “greater than” queries to filter down the spine objects.</p></li>
+</ol>
+</section>
+<section id="id27">
+<h3>Global Parameters to Set<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>spine_n_face_threshold_bare_min:</dt><dd><p>minimum number of faces for a valid spine mesh</p>
+</dd>
+<dt>spine_sk_length_threshold_bare_min:</dt><dd><p>minimum surface skeletal length (units) of a valid spine mesh</p>
+</dd>
+<dt>filter_by_volume_threshold_bare_min:</dt><dd><p>minimum volume (units) of a valid spine mesh</p>
+</dd>
+<dt>bbox_oriented_side_max_min_bare_min:</dt><dd><p>minimum side length (uints) of the oriented bounding box surrounding the spine mesh for valid spines</p>
+</dd>
+<dt>sdf_mean_min_bare_min:</dt><dd><p>minimum mean sdf value (computed in the shaft/spine clustering step performed by the cgal clustering algorithm) for valid spine meshes</p>
+</dd>
+<dt>spine_volume_to_spine_area_min_bare_min:</dt><dd><p>minimum ratio of mesh volume (units^3) to mesh area (units^2) for valid spine meshes</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ol class="arabic simple">
+<li><p>Visualize the spines after these filtering</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">param spine_objs<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_</p>
+</dd>
+<dt class="field-even">type spine_objs<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_</p>
+</dd>
+<dt class="field-odd">param spine_n_face_threshold<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type spine_n_face_threshold<span class="colon">:</span></dt>
+<dd class="field-even"><p>int, optional</p>
+</dd>
+<dt class="field-odd">param spine_sk_length_threshold<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type spine_sk_length_threshold<span class="colon">:</span></dt>
+<dd class="field-even"><p>float, optional</p>
+</dd>
+<dt class="field-odd">param filter_by_volume_threshold<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type filter_by_volume_threshold<span class="colon">:</span></dt>
+<dd class="field-even"><p>float, optional</p>
+</dd>
+<dt class="field-odd">param bbox_oriented_side_max_min<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type bbox_oriented_side_max_min<span class="colon">:</span></dt>
+<dd class="field-even"><p>int, optional</p>
+</dd>
+<dt class="field-odd">param sdf_mean_min<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type sdf_mean_min<span class="colon">:</span></dt>
+<dd class="field-even"><p>float, optional</p>
+</dd>
+<dt class="field-odd">param spine_volume_to_spine_area_min<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type spine_volume_to_spine_area_min<span class="colon">:</span></dt>
+<dd class="field-even"><p>float, optional</p>
+</dd>
+<dt class="field-odd">param verbose<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default False</p>
+</dd>
+<dt class="field-even">type verbose<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, optional</p>
+</dd>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.filter_spine_objs_from_restrictions">
@@ -16890,7 +17217,17 @@ spines according to the size thresholds</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.get_spine_meshes_unfiltered_from_mesh">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">get_spine_meshes_unfiltered_from_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shaft_expansion_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'path_to_all_shaft_mesh'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cgal_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('cgal_temp')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_temp_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_sdf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_mesh_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shaft_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensure_mesh_conn_comp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_segmentation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_shaft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#get_spine_meshes_unfiltered_from_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.get_spine_meshes_unfiltered_from_mesh" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><section id="id28">
+<h3>Purpose<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h3>
+<p>First initial spine mesh detection on a branch mesh</p>
+</section>
+<section id="id29">
+<h3>Pseudocode<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h3>
+</section>
+<section id="id30">
+<h3>Global Parameters to Set<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h3>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.head_exist">
@@ -17129,9 +17466,33 @@ a list of queries</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.restrict_meshes_to_shaft_meshes_without_coordinates">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">restrict_meshes_to_shaft_meshes_without_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meshes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_hole_area_top_2_mean_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_volume_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_faces_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_all_shaft_if_none</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#restrict_meshes_to_shaft_meshes_without_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.restrict_meshes_to_shaft_meshes_without_coordinates" title="Permalink to this definition"></a></dt>
-<dd><p>Purpose: To restrict a list of meshes
-to those with a high probabilty of being
-a shaft mesh</p>
+<dd><section id="id31">
+<h3>Purpose<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h3>
+<p>To restrict a list of meshes to those with a high probability of being a shaft mesh</p>
+</section>
+<section id="id32">
+<h3>Pseudocode<a class="headerlink" href="#id32" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>restricts meshes to those greater than a certain volume (shaft_mesh_volume_max) or greater than a certain mean top 2 hole area (shaft_close_hole_area_top_2_mean_max) because both could be indicative of a shaft mesh</dt><dd><p>functions used: trimesh_utils.close_hole_area_top_2_mean, trimesh_utils.mesh_volume</p>
+</dd>
+</dl>
+</li>
+<li><p>restricts meshes to face threshold (shaft_mesh_n_faces_min)</p></li>
+<li><p>Returns the indices of the meshes remaining after filtering</p></li>
+</ol>
+</section>
+<section id="id33">
+<h3>Global Parameters to Set<a class="headerlink" href="#id33" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>shaft_close_hole_area_top_2_mean_max: float</dt><dd><p>a minimum mesh area (nm^2)  threshold for the mean of the top 2 holes (ideally the connecting ends of the tube like shaft sections from the mesh cluster (from the CGAL algorithm) to be potentially considered a part of the neuron shaft. (The max refers to a max suffix is in reference to spines)</p>
+</dd>
+<dt>shaft_mesh_volume_max: int</dt><dd><p>the minimum mesh volume (nm^3) for a mesh cluster (from the CGAL algorithm) to be potentially considered a part of the neuron shaft. (The max refers to a max suffix is in reference to spines)</p>
+</dd>
+<dt>shaft_mesh_n_faces_min: int</dt><dd><p>A minimum number of faces on a submesh cluster early in the pipeline to be potentially considered a part of the neuron shaft.</p>
+</dd>
+</dl>
+</section>
 </dd></dl>
 
 <dl class="py function">
@@ -17391,21 +17752,33 @@ for spine density
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.spine_head_neck">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">spine_head_neck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(2,</span> <span class="pre">3,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_segmentation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">head_ray_trace_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">head_face_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_head_face_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=int64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_head_sdf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_segmentation_after_first_success</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_head_coordinates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_allow_one_connected_component_neck</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_head_neck</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_meshes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_sdf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#spine_head_neck"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.spine_head_neck" title="Permalink to this definition"></a></dt>
-<dd><p>Purpose: To determine the head and neck
-face idx of a mesh representing a spine</p>
-<p>Pseudocode:
-for clusters [2,3]:
-1) Run the segemntation algorithm
-2) Filter meshes for all those with a face count above threshold
-and a sdf count above threshold
+<dd><section id="id34">
+<h3>Purpose<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h3>
+<p>To determine the head and neck face indices clustering of a mesh representing a spine</p>
+</section>
+<section id="id35">
+<h3>Pseudocode<a class="headerlink" href="#id35" title="Permalink to this heading"></a></h3>
+<p>for clusters [2,3]:
+1) Run the segmentation algorithm (using cluster and smoothness thresholds)
+2) Filter meshes for all those with a value above the face count above threshold and above the ray trace percentage width value
 3) Store the meshes not face as neck and store sdf value as weighted average
 4a) If none then continue
-4b) If at least one, concatenate the faces of all of the spine heads
-into one array (and do weighted average of the sdf)
-5) Break if found a head</p>
-<ol class="arabic simple" start="6">
-<li><p>Optionally plot the spine neck and head</p></li>
-</ol>
+4b) If at least one, concatenate the faces of all of the spine heads into one array (and do weighted average of the sdf)
+5) Break if found a head
+6) Optionally plot the spine neck and head</p>
+</section>
+<section id="id36">
+<h3>Global Parameters to Set<a class="headerlink" href="#id36" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>head_smoothness:</dt><dd><p>the cgal segmentation smoothness parameter for clustering a spine mesh into a head and neck</p>
+</dd>
+<dt>head_ray_trace_min: float</dt><dd><p>minimum width approximation (units) as a percentile of the ray trace values for a submesh to be in consideration as a spine head submesh</p>
+</dd>
+<dt>head_face_min: int</dt><dd><p>minimum number of faces for a submesh to be in consideration as a spine head submesh</p>
+</dd>
+<dt>only_allow_one_connected_component_neck: bool</dt><dd><p>whether to allow for the neck submesh to be multiple connected components (aka disconnected) or not</p>
+</dd>
+</dl>
 <p>Can optionally return:
 1) Meshes instead of face idx</p>
 <p>Ex:
@@ -17421,6 +17794,7 @@ plot_segmentation=True,</p>
 </div></blockquote>
 <p>plot_head_neck=True)</p>
 </div></blockquote>
+</section>
 </dd></dl>
 
 <dl class="py function">
@@ -17487,7 +17861,98 @@ a limb_branch_spine_dict</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.spine_objs_bare_minimum_filt_with_attr_from_branch_obj">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">spine_objs_bare_minimum_filt_with_attr_from_branch_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_verts_on_limb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_kdtree_on_limb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_unfiltered_spines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_filtered_spines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_skeletal_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#spine_objs_bare_minimum_filt_with_attr_from_branch_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.spine_objs_bare_minimum_filt_with_attr_from_branch_obj" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><section id="id37">
+<h3>Purpose<a class="headerlink" href="#id37" title="Permalink to this heading"></a></h3>
+<p>Performs spine detection on a branch object or a branch mesh (optionally with a skeleton)</p>
+</section>
+<section id="purpose-detailed">
+<h3>Purpose Detailed<a class="headerlink" href="#purpose-detailed" title="Permalink to this heading"></a></h3>
+</section>
+<section id="id38">
+<h3>Pseudocode<a class="headerlink" href="#id38" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Generates spine objects</p></li>
+<li><p>Calculate spine attributes for each spine object</p></li>
+<li><p>Apply bare minimum spine attribute filtering (filter_spine_objs_by_size_bare_minimum)</p></li>
+</ol>
+</section>
+<section id="analysis-roadmap">
+<h3>Analysis Roadmap<a class="headerlink" href="#analysis-roadmap" title="Permalink to this heading"></a></h3>
+<dl>
+<dt>spu.spine_objs_bare_minimum_filt_with_attr_from_branch_obj</dt><dd><p>spu.spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_obj</p>
+<blockquote>
+<div><dl>
+<dt>spu.get_spine_meshes_unfiltered_from_mesh</dt><dd><dl>
+<dt>spu.get_spine_meshes_unfiltered_from_mesh</dt><dd><dl>
+<dt>spu.split_mesh_into_spines_shaft:</dt><dd><dl>
+<dt>tu.mesh_segmentation</dt><dd><p>VISUALIZATION: visualization that enough chopped up
+PARAMETER CHANGE:</p>
+<blockquote>
+<div><p>smoothness_threshold
+clusters_threshold</p>
+</div></blockquote>
+</dd>
+<dt>spu.restrict_meshes_to_shaft_meshes_without_coordinates</dt><dd><p>VISUALIZATION: look at initial shaft seaparation (c)
+PARAMETER CHANGE:</p>
+<blockquote>
+<div><p>shaft_close_hole_area_top_2_mean_max
+shaft_mesh_volume_max
+shaft_mesh_n_faces_min</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>VISUALIZATION: individual spines prior to individual spine filtering</p>
+</dd>
+</dl>
+<p>VISUALIZATION: spines after filtering (or each step after filtering)
+PARAMETER CHANGE:</p>
+<blockquote>
+<div><p># – border filtering
+filter_out_border_spines
+border_percentage_threshold
+# – skeleton filtering
+skeleton_endpoint_nullification
+skeleton_endpoint_nullification_distance
+# – soma filtering
+soma_vertex_nullification: bool</p>
+</div></blockquote>
+</div></blockquote>
+<dl>
+<dt>filter_spine_objs_by_size_bare_minimum</dt><dd><p>VISUALIZATION: spines before and after substitution
+PARAMETER CHANGE:</p>
+<blockquote>
+<div><p>spine_n_face_threshold_bare_min
+spine_sk_length_threshold_bare_min
+filter_by_volume_threshold_bare_min
+bbox_oriented_side_max_min_bare_min
+sdf_mean_min_bare_min
+spine_volume_to_spine_area_min_bare_min</p>
+</div></blockquote>
+</dd>
+<dt>spu.calculate_spine_attributes_for_list</dt><dd><dl>
+<dt>spu.calculate_spine_attributes:</dt><dd><dl>
+<dt>spu.calculate_head_neck:</dt><dd><p>VISUALIZATION: spine head/neck subdivision
+PARAMETER CHANGE:</p>
+<blockquote>
+<div><p>head_smoothness
+head_ray_trace_min
+head_face_min
+only_allow_one_connected_component_neck</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.spine_objs_near_endpoints">
@@ -17497,7 +17962,68 @@ a limb_branch_spine_dict</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_obj">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_segmentation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensure_mesh_conn_comp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spines_before_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_out_border_spines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_percentage_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spines_after_border_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton_endpoint_nullification</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton_endpoint_nullification_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spines_after_skeleton_endpt_nullification</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_vertex_nullification</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_verts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soma_kdtree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spines_after_soma_nullification</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skeleton</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_branch_obj" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><section id="id39">
+<h3>Purpose<a class="headerlink" href="#id39" title="Permalink to this heading"></a></h3>
+<p>Performs spine detection on a branch object or a branch mesh (optionally with a skeleton) and then apply filtering before creating official Spine objects from each individually detected spine.</p>
+</section>
+<section id="id40">
+<h3>Purpose Detailed<a class="headerlink" href="#id40" title="Permalink to this heading"></a></h3>
+</section>
+<section id="id41">
+<h3>Pseudocode<a class="headerlink" href="#id41" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Generate initial spine mesh detection</p></li>
+<li><dl class="simple">
+<dt>Filter out border spines:</dt><dd><dl class="simple">
+<dt>if requested (filter_out_border_spines), filter out meshes that have:</dt><dd><ol class="loweralpha simple">
+<li><p>higher than a certain percentage (border_percentage_threshold) of the submesh vertices overlapping with border vertices (certices adjacent to open spaces in the mesh) on the parent mesh</p></li>
+<li><p>higher than certain percentage (check_spine_border_perc_global) of the parent mesh’s border vertices overlapping with the submesh vertices</p></li>
+</ol>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>skeleton endpoint filtering:</dt><dd><p>if requested (skeleton_endpoint_nullification), filter away spines that are within a certain distance (skeleton_endpoint_nullification_distance) from the branch skeleton endpoints in order to avoid a high false positive class.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>some vertex nullification:</dt><dd><p>if requested (soma_vertex_nullification), filter out spines that have vertices overlapping with vertices of the soma</p>
+</dd>
+</dl>
+</li>
+<li><p>Creates spine objects from all the remaining spine objects (will do head/neck segmentaiton)</p></li>
+</ol>
+</section>
+<section id="id42">
+<h3>Global Parameters to Set<a class="headerlink" href="#id42" title="Permalink to this heading"></a></h3>
+<p># – border filtering
+filter_out_border_spines: bool</p>
+<blockquote>
+<div><p>whether to be perform spine filtering by considering how much spine submesh vertices overlap with border vertices of shaft submesh</p>
+</div></blockquote>
+<dl class="simple">
+<dt>border_percentage_threshold: float</dt><dd><p>maximum percentage a submesh vertices can overlap with border vertices (vertices adjacent to open spaces in the mesh) on the parent mesh and still be in consideration for spine label</p>
+</dd>
+</dl>
+<p># – skeleton filtering
+skeleton_endpoint_nullification: bool</p>
+<blockquote>
+<div><p>whether to filter away spines that are within a certain distance (skeleton_endpoint_nullification_distance) from the branch skeleton endpoints in order to avoid a high false positive class.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>skeleton_endpoint_nullification_distance_global: float</dt><dd><p>minimum distance a spine mesh can be from the branch skeleton endpoints and not be filtered away when the skeleton_endpoint_nullification flag is set</p>
+</dd>
+</dl>
+<p># – soma filtering
+soma_vertex_nullification: bool</p>
+<blockquote>
+<div><p>when true will filter out spines that have vertices overlapping with vertices of the soma</p>
+</div></blockquote>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.spine_objs_with_border_sk_endpoint_and_soma_filter_from_scratch_on_mesh">
@@ -17596,7 +18122,121 @@ of mapping fae to component</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.split_mesh_into_spines_shaft">
 <span class="sig-prename descclassname"><span class="pre">neurd.spine_utils.</span></span><span class="sig-name descname"><span class="pre">split_mesh_into_spines_shaft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cgal_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('cgal_temp')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_temp_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shaft_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_sdf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_segmentation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_shaft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_shaft_buffer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/spine_utils.html#split_mesh_into_spines_shaft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.spine_utils.split_mesh_into_spines_shaft" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><section id="id43">
+<h3>Purpose<a class="headerlink" href="#id43" title="Permalink to this heading"></a></h3>
+<p>Determine the final classification of shaft submeshes and then return all connected components (floating islands) of the submesh after the shaft has been removed as individual spine meshes. In other words, generates the meshes for each individual spine (prior to individual spine filtering steps).</p>
+</section>
+<section id="id44">
+<h3>Pseudocode<a class="headerlink" href="#id44" title="Permalink to this heading"></a></h3>
+<p>1) runs a segmentation on the mesh with given clusters and smoothness.
+a) generates a mapping of the clusters the sdf values for each face
+2) splits the segmentation into separate meshes
+3) spu.restrict_meshes_to_shaft_meshes_without_coordinates
+4) Divide the meshes into spine meshes and shaft meshes (first pass)
+5) Given first pass of the shaft and spine classification, reclassifies some spine meshes as shaft meshes to ensure complete graph connectivity between all shaft submeshes using the following algorithm</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>start with biggest shaft</p></li>
+<li><p>Find the shortest paths to all shaft parts</p></li>
+<li><p>add all the submeshes that aren’t already in the shaft category to the shaft category</p></li>
+</ol>
+</div></blockquote>
+<ol class="arabic simple" start="6">
+<li><p>Creates a total spine submesh by removing all of the shaft submeshes from the original mesh, divides up this total spine submesh into connected components (separate islands) as separate meshes so each mesh represents a single spine</p></li>
+<li><p>Sorts the spine meshes from largest (number of faces) to smallest</p></li>
+<li><p>Returns spine meshes and the sdf values (generated in the segmentation step) associated with them</p></li>
+</ol>
+</section>
+<section id="id45">
+<h3>Global Parameters to Set<a class="headerlink" href="#id45" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>smoothness_threshold:</dt><dd><p>The smoothness parameter for the cgal mesh segmentation algorithm used as an initial intermediate over-segmentation step in the spine detection. The smaller the smoothness value, generally the more number of underlying clusters on the mesh identified and the more spines that can be potentially identified at the higher risk of false positives (although the spine algorithm attempts to filter away false positives from the underlying mesh segmentation). Source: <a class="reference external" href="https://doc.cgal.org/4.6/Surface_mesh_segmentation/index.html">https://doc.cgal.org/4.6/Surface_mesh_segmentation/index.html</a></p>
+</dd>
+<dt>clusters_threshold:</dt><dd><p>The clusters parameter for the cgal mesh segmentation algorithm used as an initial intermediate over-segmentation step in the spine detection. The larger the number of clusters the more spines can be potentially identified at the higher risk of false positives (although the spine algorithm attempts to filter away false positives from the underlying mesh segmentation). Source: <a class="reference external" href="https://doc.cgal.org/4.6/Surface_mesh_segmentation/index.html">https://doc.cgal.org/4.6/Surface_mesh_segmentation/index.html</a></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">param current_mesh<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_</p>
+</dd>
+<dt class="field-even">type current_mesh<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_</p>
+</dd>
+<dt class="field-odd">param segment_name<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default “”</p>
+</dd>
+<dt class="field-even">type segment_name<span class="colon">:</span></dt>
+<dd class="field-even"><p>str, optional</p>
+</dd>
+<dt class="field-odd">param clusters<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type clusters<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_, optional</p>
+</dd>
+<dt class="field-odd">param smoothness<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type smoothness<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_, optional</p>
+</dd>
+<dt class="field-odd">param cgal_folder<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default Path(“./cgal_temp”)</p>
+</dd>
+<dt class="field-even">type cgal_folder<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_, optional</p>
+</dd>
+<dt class="field-odd">param delete_temp_file<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default True</p>
+</dd>
+<dt class="field-even">type delete_temp_file<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, optional</p>
+</dd>
+<dt class="field-odd">param shaft_threshold<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default None</p>
+</dd>
+<dt class="field-even">type shaft_threshold<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_, optional</p>
+</dd>
+<dt class="field-odd">param return_sdf<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default True</p>
+</dd>
+<dt class="field-even">type return_sdf<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, optional</p>
+</dd>
+<dt class="field-odd">param print_flag<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default False</p>
+</dd>
+<dt class="field-even">type print_flag<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, optional</p>
+</dd>
+<dt class="field-odd">param plot_segmentation<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default False</p>
+</dd>
+<dt class="field-even">type plot_segmentation<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, optional</p>
+</dd>
+<dt class="field-odd">param plot_shaft<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default False</p>
+</dd>
+<dt class="field-even">type plot_shaft<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, optional</p>
+</dd>
+<dt class="field-odd">param plot_shaft_buffer<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_, by default 0</p>
+</dd>
+<dt class="field-even">type plot_shaft_buffer<span class="colon">:</span></dt>
+<dd class="field-even"><p>int, optional</p>
+</dd>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>_type_</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="neurd.spine_utils.split_mesh_into_spines_shaft_old">
@@ -19645,7 +20285,7 @@ will retrieve the synapses from a backend synapse implementation renamed in a pa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_for_directory_modules">
-<span class="sig-name descname"><span class="pre">set_parameters_for_directory_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceBoilerplate.set_parameters_for_directory_modules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_for_directory_modules" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_parameters_for_directory_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceBoilerplate.set_parameters_for_directory_modules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_for_directory_modules" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -19653,6 +20293,11 @@ will retrieve the synapses from a backend synapse implementation renamed in a pa
 <span class="sig-name descname"><span class="pre">set_parameters_obj</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceBoilerplate.set_parameters_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_obj" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: To set the parameters obj using the</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_obj_from_dict">
+<span class="sig-name descname"><span class="pre">set_parameters_obj_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/vdi_default.html#DataInterfaceBoilerplate.set_parameters_obj_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_obj_from_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_obj_from_filepath">

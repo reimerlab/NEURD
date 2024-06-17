@@ -195,15 +195,34 @@
         <span class="k">if</span> <span class="n">set_module_parameters</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_parameters_for_directory_modules</span><span class="p">()</span></div>
             
+    
+<div class="viewcode-block" id="DataInterfaceBoilerplate.set_parameters_obj_from_dict"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_obj_from_dict">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_obj_from_dict</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="p">,</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">paru</span><span class="o">.</span><span class="n">PackageParameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="n">paru</span><span class="o">.</span><span class="n">set_parameters_for_directory_modules_from_obj</span><span class="p">(</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">params</span><span class="p">,</span>
+            <span class="n">parameters_obj_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">verbose_loop</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
+        
+        
 <div class="viewcode-block" id="DataInterfaceBoilerplate.set_parameters_for_directory_modules"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceBoilerplate.set_parameters_for_directory_modules">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameters_for_directory_modules</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span>
         
         <span class="n">paru</span><span class="o">.</span><span class="n">set_parameters_for_directory_modules_from_obj</span><span class="p">(</span>
-            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="p">,</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="p">,</span>
             <span class="n">directory</span> <span class="o">=</span> <span class="n">directory</span><span class="p">,</span>
             <span class="n">verbose_loop</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span>
