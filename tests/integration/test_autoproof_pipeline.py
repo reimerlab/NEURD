@@ -19,6 +19,7 @@ from datasci_tools import pathlib_utils as plu
 from mesh_tools import trimesh_utils as tu
 
 from pathlib import Path
+import pathllib
 
 
 class TestAutoproofPipeline(unittest.TestCase):

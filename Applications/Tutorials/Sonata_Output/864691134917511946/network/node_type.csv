@@ -1,0 +1,4 @@
+ node_type_id model_type compartment
+0 100 morphology soma
+1 101 morphology dendrite
+2 102 morphology axon
