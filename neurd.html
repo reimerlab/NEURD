@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en">
 <head>
@@ -6,18 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd package &mdash; neurd  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -428,6 +426,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.connectome_utils.visualize_graph_connections_by_method"><code class="docutils literal notranslate"><span class="pre">visualize_graph_connections_by_method()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#module-neurd.dandi_utils">neurd.dandi_utils module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-neurd.documentation_utils">neurd.documentation_utils module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.documentation_utils.name"><code class="docutils literal notranslate"><span class="pre">name()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.documentation_utils.tag"><code class="docutils literal notranslate"><span class="pre">tag()</span></code></a></li>
@@ -1268,6 +1267,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.visualize_neuron_path"><code class="docutils literal notranslate"><span class="pre">visualize_neuron_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.visualize_neuron_specific_limb"><code class="docutils literal notranslate"><span class="pre">visualize_neuron_specific_limb()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#neurd.neuron_visualizations.visualize_subset_neuron_limbs"><code class="docutils literal notranslate"><span class="pre">visualize_subset_neuron_limbs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-neurd.nwb_utils">neurd.nwb_utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#neurd.nwb_utils.example_nwb_file"><code class="docutils literal notranslate"><span class="pre">example_nwb_file()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-neurd.parameter_utils">neurd.parameter_utils module</a><ul>
@@ -5005,6 +5008,25 @@ method = “neuroglancer”</p>
 <p>)</p>
 </dd></dl>
 
+</section>
+<section id="module-neurd.dandi_utils">
+<span id="neurd-dandi-utils-module"></span><h2>neurd.dandi_utils module<a class="headerlink" href="#module-neurd.dandi_utils" title="Permalink to this heading"></a></h2>
+<p>DANDI: centralized place to shared datasets related to brain (usually in NWB formats)
+- file format supports: NWB (Neurodata Without Borders), BIDS (Brain Imaging Data Structure, for MRI, fMRI)</p>
+<p>Features:
+1) Version control
+2) Follows FAIR principle</p>
+<blockquote>
+<div><p>FAIR: Findable, Accessible, Interoperable, Reusable</p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Handle massive datasets</p></li>
+</ol>
+<p>Typical process:
+1) create NWB file (using PyNWB)
+2) upload the data to DANDI archive using the command-line toold dandi-cli
+3) share datasets or cite in publications
+4) Other labs can download the datasets using the web interface</p>
 </section>
 <section id="module-neurd.documentation_utils">
 <span id="neurd-documentation-utils-module"></span><h2>neurd.documentation_utils module<a class="headerlink" href="#module-neurd.documentation_utils" title="Permalink to this heading"></a></h2>
@@ -13948,6 +13970,28 @@ parts of a neuron</p>
 <span class="sig-prename descclassname"><span class="pre">neurd.neuron_visualizations.</span></span><span class="sig-name descname"><span class="pre">visualize_subset_neuron_limbs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limbs_to_plot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/neuron_visualizations.html#visualize_subset_neuron_limbs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.neuron_visualizations.visualize_subset_neuron_limbs" title="Permalink to this definition"></a></dt>
 <dd><p>Purpose: Will just plot some of the limbs</p>
 </dd></dl>
+
+</section>
+<section id="module-neurd.nwb_utils">
+<span id="neurd-nwb-utils-module"></span><h2>neurd.nwb_utils module<a class="headerlink" href="#module-neurd.nwb_utils" title="Permalink to this heading"></a></h2>
+<p>Purpose of NWB: to store (mainly in hdf5 files) large scale neuroscience data easily</p>
+<p>Data types typically supported:
+1) electrophysiology recordings (spikes)
+2) behavioral data (movement tracking)
+3) optimal imaging (calcium data)
+4) experimental metadata</p>
+<p>Advantages:
+1) hdf5 based - handle lard scale datasets
+2) schema for metadata about experiment
+3) has PyNWB that helps interact with NWB files</p>
+<p>Typical process:
+1) create a NWB file object (with metadata)
+2) adds a subject object to the file.subject attribute
+3) Creates data, stores inside another object, then adds to nwb file object with (add_aquisition)</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="neurd.nwb_utils.example_nwb_file">
+<span class="sig-prename descclassname"><span class="pre">neurd.nwb_utils.</span></span><span class="sig-name descname"><span class="pre">example_nwb_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/neurd/nwb_utils.html#example_nwb_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#neurd.nwb_utils.example_nwb_file" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </section>
 <section id="module-neurd.parameter_utils">

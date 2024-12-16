@@ -116,6 +116,14 @@ neurd.connectome\_utils module
    :undoc-members:
    :show-inheritance:
 
+neurd.dandi\_utils module
+-------------------------
+
+.. automodule:: neurd.dandi_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 neurd.documentation\_utils module
 ---------------------------------
 
@@ -280,6 +288,14 @@ neurd.neuron\_visualizations module
 -----------------------------------
 
 .. automodule:: neurd.neuron_visualizations
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+neurd.nwb\_utils module
+-----------------------
+
+.. automodule:: neurd.nwb_utils
    :members:
    :undoc-members:
    :show-inheritance:
