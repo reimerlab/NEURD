@@ -805,14 +805,15 @@ class DataInterfaceDefault(DataInterfaceBoilerplate):
             'external_cell_type_fine_e_i': None,
         }
     
-        
+    
     def save_neuron_obj_auto_proof(
         self,
         neuron_obj:Neuron,
         directory:str=None,
         filename:str = None,
         suffix:str = None,
-        verbose:bool = False,) -> str:
+        verbose:bool = False,
+        compressed = False) -> str:
         """
         Save a neuron object in the autoproofreading directory (using the default pbz2 compressed method that does not save the mesh along with it). Typical  This is the current local implementation, should be overriden if the proofreading neuron objects are to be saved in an external store 
         
@@ -842,19 +843,32 @@ class DataInterfaceDefault(DataInterfaceBoilerplate):
         if suffix is None:
             suffix = self.neuron_obj_auto_proof_suffix
             
-        return self.save_neuron_obj(
-            neuron_obj=neuron_obj,
-            directory = directory,
-            filename = filename,
-            suffix = suffix,
-            verbose = verbose,
-        )
+        
+            
+        if compressed:
+            return self.save_neuron_obj(
+                neuron_obj=neuron_obj,
+                directory = directory,
+                filename = filename,
+                suffix = suffix,
+                verbose = verbose,
+            )
+        else:
+            return su.compressed_pickle(
+                neuron_obj,
+                folder = directory,
+                filename = f"{neuron_obj.segment_id}{suffix}.pbz2",
+                return_filepath = True,
+            )
+            
+            
         
     def load_neuron_obj_auto_proof(
         self,
         segment_id:str,
         mesh_decimated:trimesh.Trimesh = None,
         directory:str = None,
+        compressed = False,
         **kwargs) -> Neuron:
         """
         Loading an external neuron file into a python object. Current implementation assumes the default .pbz2 method of compression that does not store the mesh information, which is why the mesh object needs to be passed as an argument
@@ -881,12 +895,19 @@ class DataInterfaceDefault(DataInterfaceBoilerplate):
         if "suffix" not in kwargs:
             kwargs["suffix"] = self.neuron_obj_auto_proof_suffix
             
-        return self.load_neuron_obj(
-            segment_id,
-            mesh_decimated = mesh_decimated,
-            directory=directory,
-            **kwargs
-        )
+        if compressed:
+            return self.load_neuron_obj(
+                segment_id,
+                mesh_decimated = mesh_decimated,
+                directory=directory,
+                **kwargs
+            )
+        else:
+            suffix = kwargs["suffix"]
+            return su.decompress_pickle(
+                Path(directory) / Path(f"{segment_id}{suffix}")
+            )
+            
         
         
         
@@ -1161,11 +1182,11 @@ class DataInterfaceDefault(DataInterfaceBoilerplate):
     
     
         
-
 from datasci_tools import pandas_utils as pu
 from datasci_tools import ipyvolume_utils as ipvu
 from datasci_tools import numpy_utils as nu
 from datasci_tools import mesh_utils as meshu
+from datasci_tools import system_utils as su
 
 from mesh_tools import trimesh_utils as tu
 

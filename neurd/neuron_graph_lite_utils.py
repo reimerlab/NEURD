@@ -206,6 +206,7 @@ def G_with_attrs_from_neuron_obj(
     include_branch_dynamics = True,
     plot_G  = False,
     neuron_obj_attributes_dict = None,
+    recalculate_soma_volumes = True,
     ):
     """
     To convert a neuron object to 
@@ -245,6 +246,8 @@ def G_with_attrs_from_neuron_obj(
                     #attr_list=branch_attributes_global,
                     attr_list = soma_attributes,
                     include_node_name_as_top_key=True)
+        if recalculate_soma_volumes and tu is not None:
+            s_dict["mesh_volume"] = tu.mesh_volume(neuron_obj[s_name])
         
         update_dict.update(s_dict)
         
@@ -910,6 +913,8 @@ def no_spatial_df_from_df_filtered(df):
     return pd.DataFrame.from_records([new_data])
 
 
+
+    
 #--- from neurd_packages ---
 from . import branch_utils as bu
 from . import limb_utils as lu
@@ -926,5 +931,11 @@ from datasci_tools import networkx_utils as xu
 from datasci_tools import numpy_dep as np
 from datasci_tools import pandas_utils as pu
 from datasci_tools import system_utils as su
+
+# -- from mesh_tools
+try:
+    from mesh_tools import trimesh_tool as tu
+except:
+    tu = None
 
 from . import neuron_graph_lite_utils as ctcu

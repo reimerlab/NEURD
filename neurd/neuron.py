@@ -21,9 +21,13 @@ from .documentation_utils import tag
 
 branch_mesh_attributes = ["spines","boutons"]
 object_attributes = ["synapses","spines_obj"]
-computed_attribute_list = ["width_array","width_array_skeletal_lengths","width_new","spines_volume",
-                                                  "boutons_volume",
-                                                  "labels","boutons_cdfs","web_cdf","web","head_neck_shaft_idx"] + branch_mesh_attributes + object_attributes
+computed_attribute_list = [
+    "width_array",
+    "width_array_skeletal_lengths",
+    "width_new",
+    "spines_volume",
+    "boutons_volume",
+    "labels","boutons_cdfs","web_cdf","web","head_neck_shaft_idx"] + branch_mesh_attributes + object_attributes
 
 
 def export_skeleton(self,subgraph_nodes=None):
@@ -406,7 +410,7 @@ class Branch:
         """
         dictionary mapping the index to the 
         """
-        divisor=1000000
+        divisor=1_000_000
         return self.mesh.area/divisor
     
     @property

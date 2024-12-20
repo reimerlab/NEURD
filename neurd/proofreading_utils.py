@@ -1842,7 +1842,7 @@ def split_disconnected_neuron(neuron_obj,
         curr_soma_meshes = [soma_obj.mesh]
         curr_soma_sdfs = [soma_obj.sdf]
         curr_soma_synapses = [soma_obj.synapses]
-        curr_soma_volume = [soma_obj.volume]
+        curr_soma_volume = [soma_obj._volume]
         curr_soma_volume_ratios = [soma_obj.volume_ratio]
 
 

@@ -225,6 +225,7 @@ def multi_soma_split_execution(
     split_results = None,
     verbose = False,
     store_in_obj = True,
+    add_split_index = True,
     ):
     """
     Purpose: to execute the multi-soma
@@ -275,7 +276,10 @@ def multi_soma_split_execution(
                 stage = "multi_soma_split_execution"
             )
     
-
+    if add_split_index:
+        for i,k in enumerate(neuron_list):
+            k.split_index = i
+            
     return neuron_list
 
 

@@ -4323,9 +4323,10 @@ def preprocess_neuron(
 
     print(f"Total time for Concept Networks = {time.time() - concept_network_time}")
 
-
+    soma_meshes = current_mesh_data[0]["soma_meshes"]
     preprocessed_data= dict(
-        soma_meshes = current_mesh_data[0]["soma_meshes"],
+        soma_meshes = soma_meshes,
+        soma_volumes = [tu.mesh_volume(k) for k in soma_meshes],
         soma_to_piece_connectivity = current_mesh_data[0]["soma_to_piece_connectivity"],
         soma_sdfs = total_soma_list_sdf,
         insignificant_limbs=insignificant_limbs,
