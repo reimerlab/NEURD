@@ -877,14 +877,15 @@
             <span class="s1">&#39;external_cell_type_fine_e_i&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">}</span></div>
     
-        
+    
 <div class="viewcode-block" id="DataInterfaceDefault.save_neuron_obj_auto_proof"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.save_neuron_obj_auto_proof">[docs]</a>    <span class="k">def</span> <span class="nf">save_neuron_obj_auto_proof</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">neuron_obj</span><span class="p">:</span><span class="n">Neuron</span><span class="p">,</span>
         <span class="n">directory</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">filename</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">suffix</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">verbose</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">verbose</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">compressed</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save a neuron object in the autoproofreading directory (using the default pbz2 compressed method that does not save the mesh along with it). Typical  This is the current local implementation, should be overriden if the proofreading neuron objects are to be saved in an external store </span>
 <span class="sd">        </span>
@@ -914,19 +915,32 @@
         <span class="k">if</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">suffix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_obj_auto_proof_suffix</span>
             
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_neuron_obj</span><span class="p">(</span>
-            <span class="n">neuron_obj</span><span class="o">=</span><span class="n">neuron_obj</span><span class="p">,</span>
-            <span class="n">directory</span> <span class="o">=</span> <span class="n">directory</span><span class="p">,</span>
-            <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">,</span>
-            <span class="n">suffix</span> <span class="o">=</span> <span class="n">suffix</span><span class="p">,</span>
-            <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        
+            
+        <span class="k">if</span> <span class="n">compressed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_neuron_obj</span><span class="p">(</span>
+                <span class="n">neuron_obj</span><span class="o">=</span><span class="n">neuron_obj</span><span class="p">,</span>
+                <span class="n">directory</span> <span class="o">=</span> <span class="n">directory</span><span class="p">,</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">,</span>
+                <span class="n">suffix</span> <span class="o">=</span> <span class="n">suffix</span><span class="p">,</span>
+                <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">su</span><span class="o">.</span><span class="n">compressed_pickle</span><span class="p">(</span>
+                <span class="n">neuron_obj</span><span class="p">,</span>
+                <span class="n">folder</span> <span class="o">=</span> <span class="n">directory</span><span class="p">,</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">neuron_obj</span><span class="o">.</span><span class="n">segment_id</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">.pbz2&quot;</span><span class="p">,</span>
+                <span class="n">return_filepath</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span></div>
+            
+            
         
 <div class="viewcode-block" id="DataInterfaceDefault.load_neuron_obj_auto_proof"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_default.DataInterfaceDefault.load_neuron_obj_auto_proof">[docs]</a>    <span class="k">def</span> <span class="nf">load_neuron_obj_auto_proof</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">mesh_decimated</span><span class="p">:</span><span class="n">trimesh</span><span class="o">.</span><span class="n">Trimesh</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">directory</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">compressed</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Neuron</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loading an external neuron file into a python object. Current implementation assumes the default .pbz2 method of compression that does not store the mesh information, which is why the mesh object needs to be passed as an argument</span>
@@ -953,12 +967,19 @@
         <span class="k">if</span> <span class="s2">&quot;suffix&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;suffix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neuron_obj_auto_proof_suffix</span>
             
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_neuron_obj</span><span class="p">(</span>
-            <span class="n">segment_id</span><span class="p">,</span>
-            <span class="n">mesh_decimated</span> <span class="o">=</span> <span class="n">mesh_decimated</span><span class="p">,</span>
-            <span class="n">directory</span><span class="o">=</span><span class="n">directory</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">compressed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_neuron_obj</span><span class="p">(</span>
+                <span class="n">segment_id</span><span class="p">,</span>
+                <span class="n">mesh_decimated</span> <span class="o">=</span> <span class="n">mesh_decimated</span><span class="p">,</span>
+                <span class="n">directory</span><span class="o">=</span><span class="n">directory</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">suffix</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;suffix&quot;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">su</span><span class="o">.</span><span class="n">decompress_pickle</span><span class="p">(</span>
+                <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">segment_id</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="p">)</span></div>
+            
         
         
         
@@ -1233,11 +1254,11 @@
     
     
         
-
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
 <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">mesh_utils</span> <span class="k">as</span> <span class="n">meshu</span>
+<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
 
 <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 

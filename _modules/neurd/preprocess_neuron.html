@@ -4395,9 +4395,10 @@
 
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time for Concept Networks = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">concept_network_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-
+    <span class="n">soma_meshes</span> <span class="o">=</span> <span class="n">current_mesh_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;soma_meshes&quot;</span><span class="p">]</span>
     <span class="n">preprocessed_data</span><span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">soma_meshes</span> <span class="o">=</span> <span class="n">current_mesh_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;soma_meshes&quot;</span><span class="p">],</span>
+        <span class="n">soma_meshes</span> <span class="o">=</span> <span class="n">soma_meshes</span><span class="p">,</span>
+        <span class="n">soma_volumes</span> <span class="o">=</span> <span class="p">[</span><span class="n">tu</span><span class="o">.</span><span class="n">mesh_volume</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">soma_meshes</span><span class="p">],</span>
         <span class="n">soma_to_piece_connectivity</span> <span class="o">=</span> <span class="n">current_mesh_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;soma_to_piece_connectivity&quot;</span><span class="p">],</span>
         <span class="n">soma_sdfs</span> <span class="o">=</span> <span class="n">total_soma_list_sdf</span><span class="p">,</span>
         <span class="n">insignificant_limbs</span><span class="o">=</span><span class="n">insignificant_limbs</span><span class="p">,</span>

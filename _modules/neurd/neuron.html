@@ -93,9 +93,13 @@
 
 <span class="n">branch_mesh_attributes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;spines&quot;</span><span class="p">,</span><span class="s2">&quot;boutons&quot;</span><span class="p">]</span>
 <span class="n">object_attributes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;synapses&quot;</span><span class="p">,</span><span class="s2">&quot;spines_obj&quot;</span><span class="p">]</span>
-<span class="n">computed_attribute_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;width_array&quot;</span><span class="p">,</span><span class="s2">&quot;width_array_skeletal_lengths&quot;</span><span class="p">,</span><span class="s2">&quot;width_new&quot;</span><span class="p">,</span><span class="s2">&quot;spines_volume&quot;</span><span class="p">,</span>
-                                                  <span class="s2">&quot;boutons_volume&quot;</span><span class="p">,</span>
-                                                  <span class="s2">&quot;labels&quot;</span><span class="p">,</span><span class="s2">&quot;boutons_cdfs&quot;</span><span class="p">,</span><span class="s2">&quot;web_cdf&quot;</span><span class="p">,</span><span class="s2">&quot;web&quot;</span><span class="p">,</span><span class="s2">&quot;head_neck_shaft_idx&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">branch_mesh_attributes</span> <span class="o">+</span> <span class="n">object_attributes</span>
+<span class="n">computed_attribute_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;width_array&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;width_array_skeletal_lengths&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;width_new&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;spines_volume&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;boutons_volume&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;labels&quot;</span><span class="p">,</span><span class="s2">&quot;boutons_cdfs&quot;</span><span class="p">,</span><span class="s2">&quot;web_cdf&quot;</span><span class="p">,</span><span class="s2">&quot;web&quot;</span><span class="p">,</span><span class="s2">&quot;head_neck_shaft_idx&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">branch_mesh_attributes</span> <span class="o">+</span> <span class="n">object_attributes</span>
 
 
 <div class="viewcode-block" id="export_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.neuron.export_skeleton">[docs]</a><span class="k">def</span> <span class="nf">export_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">subgraph_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -478,7 +482,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        dictionary mapping the index to the </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">divisor</span><span class="o">=</span><span class="mi">1000000</span>
+        <span class="n">divisor</span><span class="o">=</span><span class="mi">1_000_000</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">area</span><span class="o">/</span><span class="n">divisor</span>
     
     <span class="nd">@property</span>
