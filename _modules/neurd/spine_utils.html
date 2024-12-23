@@ -3439,6 +3439,7 @@
 <div class="viewcode-block" id="skeletal_length_from_spine"><a class="viewcode-back" href="../../neurd.html#neurd.spine_utils.skeletal_length_from_spine">[docs]</a><span class="k">def</span> <span class="nf">skeletal_length_from_spine</span><span class="p">(</span><span class="n">spine</span><span class="p">,</span><span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">sk</span><span class="o">.</span><span class="n">calculate_skeleton_distance</span><span class="p">(</span><span class="n">spu</span><span class="o">.</span><span class="n">skeleton_from_spine</span><span class="p">(</span><span class="n">spine</span><span class="p">))</span></div>
 
+
 <div class="viewcode-block" id="volume_from_spine"><a class="viewcode-back" href="../../neurd.html#neurd.spine_utils.volume_from_spine">[docs]</a><span class="k">def</span> <span class="nf">volume_from_spine</span><span class="p">(</span><span class="n">spine</span><span class="p">,</span><span class="n">default_value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">tu</span><span class="o">.</span><span class="n">mesh_volume</span><span class="p">(</span><span class="n">spine</span><span class="o">.</span><span class="n">mesh</span><span class="p">)</span>
