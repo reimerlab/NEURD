@@ -813,7 +813,7 @@ class DataInterfaceDefault(DataInterfaceBoilerplate):
         filename:str = None,
         suffix:str = None,
         verbose:bool = False,
-        compressed = False) -> str:
+        compressed = True) -> str:
         """
         Save a neuron object in the autoproofreading directory (using the default pbz2 compressed method that does not save the mesh along with it). Typical  This is the current local implementation, should be overriden if the proofreading neuron objects are to be saved in an external store 
         
@@ -868,7 +868,7 @@ class DataInterfaceDefault(DataInterfaceBoilerplate):
         segment_id:str,
         mesh_decimated:trimesh.Trimesh = None,
         directory:str = None,
-        compressed = False,
+        compressed = True,
         **kwargs) -> Neuron:
         """
         Loading an external neuron file into a python object. Current implementation assumes the default .pbz2 method of compression that does not store the mesh information, which is why the mesh object needs to be passed as an argument

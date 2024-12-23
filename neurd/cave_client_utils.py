@@ -100,6 +100,8 @@ def set_global_table_names(
         
 set_global_table_names()
 
+def get_table(table_name,client):
+    return client.materialize.query_table(table_name)
 
 @default_args()
 def load_cave_token(env_filepath=None):
@@ -435,7 +437,7 @@ def mesh_from_seg_id(
         mesh_from_seg_id,
         synapse_df_from_seg_id,
         mesh_from_seg_id,
-        
+        get_table,
     ],
 )
 class CaveInterface():
