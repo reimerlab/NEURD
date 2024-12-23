@@ -89,6 +89,9 @@ All of the tutorials made for showing the decomposition/autoproofreading pipelin
 6. Visualizations :
    - Skeleton and Compartments of Auto Proofread Neuron: Applications/Tutorials/Visualizing_Auto_Proof_Neurons/Visualizing_Neuron_Skeletons_and_Compartments.ipynb
 
+7. Cell Type Classification :
+   - GNN modlel inference (Neuron and Limb based): Applications/Tutorials/GNN_Cell_Typing/GNN_Neuron_Cell_Typing_Tutorial.ipynb
+
 #### Documentation sheets:
 
 ---

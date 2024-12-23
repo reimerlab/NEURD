@@ -3367,6 +3367,7 @@ def skeleton_from_spine(spine,plot=False):
 def skeletal_length_from_spine(spine,plot=False):
     return sk.calculate_skeleton_distance(spu.skeleton_from_spine(spine))
 
+
 def volume_from_spine(spine,default_value = 0):
     try:
         return tu.mesh_volume(spine.mesh)
