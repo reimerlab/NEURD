@@ -172,6 +172,8 @@
         
 <span class="n">set_global_table_names</span><span class="p">()</span>
 
+<div class="viewcode-block" id="get_table"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.get_table">[docs]</a><span class="k">def</span> <span class="nf">get_table</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span><span class="n">client</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">materialize</span><span class="o">.</span><span class="n">query_table</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="load_cave_token"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.load_cave_token">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">load_cave_token</span><span class="p">(</span><span class="n">env_filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -507,7 +509,7 @@
         <span class="n">mesh_from_seg_id</span><span class="p">,</span>
         <span class="n">synapse_df_from_seg_id</span><span class="p">,</span>
         <span class="n">mesh_from_seg_id</span><span class="p">,</span>
-        
+        <span class="n">get_table</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">class</span> <span class="nc">CaveInterface</span><span class="p">():</span>

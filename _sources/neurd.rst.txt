@@ -148,6 +148,14 @@ neurd.functional\_tuning\_utils module
    :undoc-members:
    :show-inheritance:
 
+neurd.gnn\_cell\_typing\_utils module
+-------------------------------------
+
+.. automodule:: neurd.gnn_cell_typing_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 neurd.gnn\_embedding\_utils module
 ----------------------------------
 
