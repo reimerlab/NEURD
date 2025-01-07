@@ -143,9 +143,12 @@ Applications/**/*.pbz2
 !Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Exc/864691134917511946.off
 !Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Inh/864691135567721964.off
 
-!Applications/Tutorials/Auto_Proof_Pipeline/Double_Soma/864691135510518224.pbz2
-!Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Exc/864691134917511946.pbz2
-!Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Inh/864691135567721964.pbz2
+!Applications/Tutorials/Auto_Proof_Pipeline/Double_Soma/864691135510518224_auto_proof.pbz2
+!Applications/Tutorials/Auto_Proof_Pipeline/Double_Soma/864691135510518224_split_0.pbz2
+
+!Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Exc/864691134917511946_auto_proof.pbz2
+!Applications/Tutorials/Auto_Proof_Pipeline/Single_Soma_Inh/864691135567721964_auto_proof.pbz2
+!Applications/**/*_auto_proof.pbz2
 
 
 
