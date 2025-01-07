@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.graph_filters &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -80,13 +80,13 @@
 
 
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
 
-<div class="viewcode-block" id="upstream_pair_singular"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.upstream_pair_singular">[docs]</a><span class="k">def</span> <span class="nf">upstream_pair_singular</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="upstream_pair_singular"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.upstream_pair_singular">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">upstream_pair_singular</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                           <span class="n">G</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">upstream_branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">downstream_branches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -382,7 +382,7 @@
     <span class="k">return</span> <span class="n">winning_node</span><span class="p">,</span><span class="n">error_branches</span></div>
 
 
-<div class="viewcode-block" id="graph_filter_adapter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.graph_filter_adapter">[docs]</a><span class="k">def</span> <span class="nf">graph_filter_adapter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="graph_filter_adapter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.graph_filter_adapter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">graph_filter_adapter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                         <span class="n">limb_obj</span><span class="p">,</span>
                          <span class="n">motif</span><span class="p">,</span>
                          <span class="n">graph_filter_func</span><span class="p">,</span>
@@ -448,7 +448,7 @@
     
 
 
-<div class="viewcode-block" id="wide_angle_t_motif"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.wide_angle_t_motif">[docs]</a><span class="k">def</span> <span class="nf">wide_angle_t_motif</span><span class="p">(</span><span class="n">child_width_maximum</span> <span class="o">=</span> <span class="mi">100000</span><span class="p">,</span>
+<div class="viewcode-block" id="wide_angle_t_motif"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.wide_angle_t_motif">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">wide_angle_t_motif</span><span class="p">(</span><span class="n">child_width_maximum</span> <span class="o">=</span> <span class="mi">100000</span><span class="p">,</span>
                        <span class="n">child_width_minimum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
                         <span class="n">parent_width_maximum</span> <span class="o">=</span> <span class="mi">75</span><span class="p">,</span>
                         <span class="n">child_skeletal_threshold</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
@@ -472,7 +472,7 @@
 <span class="s2">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">motif</span></div>
 
-<div class="viewcode-block" id="axon_webbing_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_webbing_filter">[docs]</a><span class="k">def</span> <span class="nf">axon_webbing_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_webbing_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_webbing_filter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_webbing_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                          <span class="n">limb_obj</span><span class="p">,</span>
                                 
                         <span class="c1">#arguments for the motif finding</span>
@@ -552,7 +552,7 @@
 <span class="s2">    d2.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold_total</span><span class="si">}</span>
 <span class="s2">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="nf">axon_web_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">axon_web_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                      <span class="n">upstream_branch</span><span class="p">,</span>
                      <span class="n">downstream_branches</span><span class="p">,</span>
                       <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -594,7 +594,7 @@
                          <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="axon_spine_at_intersection_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_spine_at_intersection_filter">[docs]</a><span class="k">def</span> <span class="nf">axon_spine_at_intersection_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_spine_at_intersection_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_spine_at_intersection_filter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_spine_at_intersection_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                                       <span class="n">limb_obj</span><span class="p">,</span>
                                     <span class="n">attempt_upstream_pair_singular</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                                       <span class="n">upstream_width_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#110,</span>
@@ -644,7 +644,7 @@
 <span class="s2">    </span>
 <span class="s2">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="nf">axon_spine_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">axon_spine_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                      <span class="n">upstream_branch</span><span class="p">,</span>
                      <span class="n">downstream_branches</span><span class="p">,</span>
                       <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -666,7 +666,7 @@
                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="min_synapse_dist_to_branch_point_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.min_synapse_dist_to_branch_point_filter">[docs]</a><span class="k">def</span> <span class="nf">min_synapse_dist_to_branch_point_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="min_synapse_dist_to_branch_point_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.min_synapse_dist_to_branch_point_filter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">min_synapse_dist_to_branch_point_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                                       <span class="n">limb_obj</span><span class="p">,</span>
                                     <span class="n">attempt_upstream_pair_singular</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                                       <span class="n">upstream_width_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#110,</span>
@@ -710,7 +710,7 @@
 <span class="s2">    </span>
 <span class="s2">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="nf">min_synapse_dist_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">min_synapse_dist_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                      <span class="n">upstream_branch</span><span class="p">,</span>
                      <span class="n">downstream_branches</span><span class="p">,</span>
                       <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -734,7 +734,7 @@
                          <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="fork_divergence_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.fork_divergence_filter">[docs]</a><span class="k">def</span> <span class="nf">fork_divergence_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="fork_divergence_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.fork_divergence_filter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">fork_divergence_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                           <span class="n">limb_obj</span><span class="p">,</span>
                           <span class="c1">#arguments for the motif search</span>
                         <span class="n">downstream_width_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#90,</span>
@@ -799,7 +799,7 @@
 <span class="s2">    d2.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">total_downstream_skeleton_length_threshold</span><span class="si">}</span>
 <span class="s2">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="nf">fork_div_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fork_div_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                      <span class="n">upstream_branch</span><span class="p">,</span>
                      <span class="n">downstream_branches</span><span class="p">,</span>
                       <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -825,7 +825,7 @@
                          <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="fork_min_skeletal_distance_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.fork_min_skeletal_distance_filter">[docs]</a><span class="k">def</span> <span class="nf">fork_min_skeletal_distance_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="fork_min_skeletal_distance_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.fork_min_skeletal_distance_filter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">fork_min_skeletal_distance_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                           <span class="n">limb_obj</span><span class="p">,</span>
                           <span class="c1">#arguments for the motif search</span>
                         <span class="n">downstream_width_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#90,</span>
@@ -887,7 +887,7 @@
 <span class="s2">    d2.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">total_downstream_skeleton_length_threshold</span><span class="si">}</span>
 <span class="s2">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="nf">fork_min_skeletal_distance_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fork_min_skeletal_distance_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                      <span class="n">upstream_branch</span><span class="p">,</span>
                      <span class="n">downstream_branches</span><span class="p">,</span>
                       <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -914,7 +914,7 @@
                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="axon_double_back_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_double_back_filter">[docs]</a><span class="k">def</span> <span class="nf">axon_double_back_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_double_back_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_double_back_filter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_double_back_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                           <span class="n">limb_obj</span><span class="p">,</span>
                           <span class="c1">#arguments for the motif search</span>
                             <span class="n">branch_skeletal_length_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#2000,#4000,</span>
@@ -956,7 +956,7 @@
 <span class="s2">    </span>
 <span class="s2">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="nf">double_back_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">double_back_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                      <span class="n">upstream_branch</span><span class="p">,</span>
                      <span class="n">downstream_branches</span><span class="p">,</span>
                          <span class="n">G</span><span class="p">,</span>
@@ -992,7 +992,7 @@
                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="thick_t_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.thick_t_filter">[docs]</a><span class="k">def</span> <span class="nf">thick_t_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="thick_t_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.thick_t_filter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">thick_t_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                     <span class="n">limb_obj</span><span class="p">,</span>
                     <span class="n">parent_width_maximum</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#70,</span>
                    <span class="n">min_child_width_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#78,#85,</span>
@@ -1047,7 +1047,7 @@
 <span class="s2">    d2.skeletal_length_downstream_total &gt; </span><span class="si">{</span><span class="n">child_skeletal_threshold_total</span><span class="si">}</span>
 <span class="s2">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="nf">thick_t_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">thick_t_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                      <span class="n">upstream_branch</span><span class="p">,</span>
                      <span class="n">downstream_branches</span><span class="p">,</span>
                      <span class="n">G</span><span class="p">,</span>
@@ -1072,7 +1072,7 @@
 
 
 <span class="c1"># ------------------ 7/26 Inhibitory Filters ----------------</span>
-<div class="viewcode-block" id="axon_double_back_inh_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_double_back_inh_filter">[docs]</a><span class="k">def</span> <span class="nf">axon_double_back_inh_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_double_back_inh_filter"><a class="viewcode-back" href="../../neurd.html#neurd.graph_filters.axon_double_back_inh_filter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_double_back_inh_filter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                           <span class="n">limb_obj</span><span class="p">,</span>
                           <span class="c1">#arguments for the motif search</span>
                             <span class="n">branch_skeletal_length_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#2000,#4000,</span>
@@ -1116,7 +1116,7 @@
 <span class="s2">    </span>
 <span class="s2">    &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="nf">double_back_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">double_back_func</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                      <span class="n">upstream_branch</span><span class="p">,</span>
                      <span class="n">downstream_branches</span><span class="p">,</span>
                          <span class="n">G</span><span class="p">,</span>
@@ -1318,24 +1318,24 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">concept_network_utils</span> <span class="k">as</span> <span class="n">cnu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">error_detection</span> <span class="k">as</span> <span class="n">ed</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">concept_network_utils</span> <span class="k">as</span> <span class="n">cnu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">error_detection</span> <span class="k">as</span> <span class="n">ed</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
 
 <span class="n">min_double_back_threshold</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">double_back_threshold_axon_thin</span>
 <span class="n">min_double_back_threshold_inh</span> <span class="o">=</span> <span class="n">ed</span><span class="o">.</span><span class="n">double_back_threshold_axon_thick_inh</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">dotmotif_utils</span> <span class="k">as</span> <span class="n">dmu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">dotmotif_utils</span> <span class="k">as</span> <span class="n">dmu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">graph_filters</span> <span class="k">as</span> <span class="n">gf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">graph_filters</span> <span class="k">as</span> <span class="n">gf</span>
 </pre></div>
 
            </div>

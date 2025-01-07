@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.classification_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -81,17 +81,17 @@
 
 
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">from</span> <span class="nn">pykdtree.kdtree</span> <span class="kn">import</span> <span class="n">KDTree</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pykdtree.kdtree</span><span class="w"> </span><span class="kn">import</span> <span class="n">KDTree</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
 
 <span class="n">top_volume_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 
-<div class="viewcode-block" id="axon_candidates"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_candidates">[docs]</a><span class="k">def</span> <span class="nf">axon_candidates</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_candidates"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_candidates">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_candidates</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                     <span class="n">possible_axon_limbs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                    <span class="n">ais_threshold</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span>
                    <span class="n">plot_close_branches</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -352,7 +352,7 @@
     <span class="k">return</span> <span class="n">all_candidates</span></div>
 
 
-<div class="viewcode-block" id="candidate_starting_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.candidate_starting_skeletal_angle">[docs]</a><span class="k">def</span> <span class="nf">candidate_starting_skeletal_angle</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">candidate_nodes</span><span class="p">,</span>
+<div class="viewcode-block" id="candidate_starting_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.candidate_starting_skeletal_angle">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">candidate_starting_skeletal_angle</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">candidate_nodes</span><span class="p">,</span>
                                       <span class="n">offset</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span><span class="c1">#20000,</span>
                                     <span class="n">axon_sk_direction_comparison_distance</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span><span class="c1">#5000,</span>
                                     <span class="n">buffer_for_skeleton</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">,</span>
@@ -553,7 +553,7 @@
     
     
 
-<div class="viewcode-block" id="filter_axon_candiates_old"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.filter_axon_candiates_old">[docs]</a><span class="k">def</span> <span class="nf">filter_axon_candiates_old</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="filter_axon_candiates_old"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.filter_axon_candiates_old">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">filter_axon_candiates_old</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">axon_subgraph_candidates</span><span class="p">,</span>
     <span class="n">axon_angle_threshold_relaxed</span> <span class="o">=</span> <span class="mi">110</span><span class="p">,</span><span class="c1">#90,</span>
     <span class="n">axon_angle_threshold</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span>
@@ -1042,14 +1042,14 @@
 <span class="c1"># --------- arguments to use for the axon identification -----------</span>
 <span class="n">axon_width_like_requirement</span> <span class="o">=</span> <span class="s2">&quot;(median_mesh_center &lt; 200)&quot;</span><span class="c1"># or no_spine_median_mesh_center &lt; 150)&quot;</span>
 <span class="n">ais_axon_width_like_requirement</span> <span class="o">=</span> <span class="s2">&quot;(median_mesh_center &lt; 600)&quot;</span> <span class="c1">#this will get all of axons including the axon </span>
-<div class="viewcode-block" id="axon_width_like_query_revised"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_width_like_query_revised">[docs]</a><span class="k">def</span> <span class="nf">axon_width_like_query_revised</span><span class="p">(</span><span class="n">width_to_use</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_width_like_query_revised"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_width_like_query_revised">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_width_like_query_revised</span><span class="p">(</span><span class="n">width_to_use</span><span class="p">,</span>
                                   <span class="n">spine_limit</span><span class="p">,</span>
                                  <span class="n">spine_density</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
    
     <span class="n">axon_width_like_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;((n_spines &lt; 7) and (</span><span class="si">{</span><span class="n">width_to_use</span><span class="si">}</span><span class="s2">) and spine_density &lt;= 0.00008)&quot;</span>
     <span class="k">return</span> <span class="n">axon_width_like_query</span></div>
 
-<div class="viewcode-block" id="axon_width_like_segments"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_width_like_segments">[docs]</a><span class="k">def</span> <span class="nf">axon_width_like_segments</span><span class="p">(</span><span class="n">current_neuron</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_width_like_segments"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_width_like_segments">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_width_like_segments</span><span class="p">(</span><span class="n">current_neuron</span><span class="p">,</span>
                       <span class="n">current_query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">current_functions_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">include_ais</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1118,7 +1118,7 @@
 
 
     
-<div class="viewcode-block" id="axon_like_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_like_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">axon_like_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_like_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_like_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_like_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                               <span class="n">downstream_face_threshold</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
                                 <span class="n">width_match_threshold</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
                                <span class="n">downstream_non_axon_percentage_threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
@@ -1160,7 +1160,7 @@
     <span class="k">return</span> <span class="n">final_axon_like_classification</span></div>
     
     
-<div class="viewcode-block" id="clear_axon_labels_from_dendritic_paths_to_starter_node"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.clear_axon_labels_from_dendritic_paths_to_starter_node">[docs]</a><span class="k">def</span> <span class="nf">clear_axon_labels_from_dendritic_paths_to_starter_node</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="clear_axon_labels_from_dendritic_paths_to_starter_node"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.clear_axon_labels_from_dendritic_paths_to_starter_node">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">clear_axon_labels_from_dendritic_paths_to_starter_node</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                                           <span class="n">axon_branches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                                           <span class="n">dendritic_branches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                                           <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -1238,7 +1238,7 @@
     <span class="n">final_axon_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">setdiff1d</span><span class="p">(</span><span class="n">axon_branches</span><span class="p">,</span><span class="n">final_non_axonal_branches</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">final_axon_list</span></div>
 
-<div class="viewcode-block" id="axon_classification"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_classification">[docs]</a><span class="k">def</span> <span class="nf">axon_classification</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_classification"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_classification">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_classification</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                         
                         
     <span class="n">error_on_multi_soma</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -1544,17 +1544,17 @@
 <span class="c1"># ----------- 2/15: Visualizing the Axon Classification --------- #</span>
 
 
-<div class="viewcode-block" id="axon_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">axon_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="axon_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
     <span class="n">axon_limb_branch_dict</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">query_neuron_by_labels</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                          <span class="n">matching_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;axon&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">axon_limb_branch_dict</span></div>
 
-<div class="viewcode-block" id="dendrite_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.dendrite_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">dendrite_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="dendrite_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.dendrite_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dendrite_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
     <span class="n">dendrite_limb_branch_dict</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">query_neuron_by_labels</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                          <span class="n">not_matching_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;axon&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">dendrite_limb_branch_dict</span></div>
 
-<div class="viewcode-block" id="dendrite_branches_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.dendrite_branches_on_limb">[docs]</a><span class="k">def</span> <span class="nf">dendrite_branches_on_limb</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">limb_name</span><span class="p">):</span>
+<div class="viewcode-block" id="dendrite_branches_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.dendrite_branches_on_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dendrite_branches_on_limb</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">limb_name</span><span class="p">):</span>
     <span class="n">dendrite_limb_branch_dict</span> <span class="o">=</span> <span class="n">clu</span><span class="o">.</span><span class="n">dendrite_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">limb_name</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">limb_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;L</span><span class="si">{</span><span class="n">limb_name</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -1563,7 +1563,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span></div>
 
-<div class="viewcode-block" id="axon_mesh_from_labels"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_mesh_from_labels">[docs]</a><span class="k">def</span> <span class="nf">axon_mesh_from_labels</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_mesh_from_labels"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_mesh_from_labels">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_mesh_from_labels</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                          <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                          <span class="n">plot_axon</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1593,7 +1593,7 @@
         
     <span class="k">return</span> <span class="n">axon_mesh</span></div>
 
-<span class="k">def</span> <span class="nf">axon_faces_from_labels_on_original_mesh</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">axon_faces_from_labels_on_original_mesh</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                            <span class="n">original_mesh</span><span class="p">,</span>
                                            <span class="n">original_mesh_kdtree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                             <span class="n">plot_axon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1637,7 +1637,7 @@
 <span class="c1"># ----------- 1/22: Apical Classification (The beginning parts): ----------------- #</span>
 
 
-<div class="viewcode-block" id="apical_branch_candidates_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.apical_branch_candidates_on_limb">[docs]</a><span class="k">def</span> <span class="nf">apical_branch_candidates_on_limb</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="apical_branch_candidates_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.apical_branch_candidates_on_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">apical_branch_candidates_on_limb</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                      
                                      
                                     <span class="n">apical_check_distance_max</span> <span class="o">=</span> <span class="mi">90000</span><span class="p">,</span>
@@ -1839,7 +1839,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">apical_branches</span><span class="p">)</span></div>
             
 
-<div class="viewcode-block" id="apical_classification"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.apical_classification">[docs]</a><span class="k">def</span> <span class="nf">apical_classification</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="apical_classification"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.apical_classification">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">apical_classification</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                           
                         <span class="n">skip_splitting</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                           
@@ -1943,7 +1943,7 @@
         
         
 <span class="c1"># ---------- For inhibitory and excitatory classification ---------- #</span>
-<div class="viewcode-block" id="contains_excitatory_apical"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.contains_excitatory_apical">[docs]</a><span class="k">def</span> <span class="nf">contains_excitatory_apical</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="contains_excitatory_apical"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.contains_excitatory_apical">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">contains_excitatory_apical</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                              <span class="n">plot_apical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                <span class="n">return_n_apicals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                             <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -1964,7 +1964,7 @@
         
     <span class="k">return</span> <span class="n">apical_flag</span></div>
     
-<div class="viewcode-block" id="contains_excitatory_axon"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.contains_excitatory_axon">[docs]</a><span class="k">def</span> <span class="nf">contains_excitatory_axon</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="contains_excitatory_axon"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.contains_excitatory_axon">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">contains_excitatory_axon</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                              <span class="n">plot_axons</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                              <span class="n">return_axon_angles</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                              <span class="n">return_n_axons</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -2012,7 +2012,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">axon_exist_flag</span></div>
 
-<div class="viewcode-block" id="spine_level_classifier"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.spine_level_classifier">[docs]</a><span class="k">def</span> <span class="nf">spine_level_classifier</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="spine_level_classifier"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.spine_level_classifier">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">spine_level_classifier</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                            <span class="n">sparsely_spiney_threshold</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="p">,</span>
                      <span class="n">spine_density_threshold</span> <span class="o">=</span> <span class="mf">0.0003</span><span class="p">,</span>
                      <span class="c1">#min_n_processed_branches=2,</span>
@@ -2063,7 +2063,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">final_label</span></div>
         
-<div class="viewcode-block" id="inhibitory_excitatory_classifier"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.inhibitory_excitatory_classifier">[docs]</a><span class="k">def</span> <span class="nf">inhibitory_excitatory_classifier</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="inhibitory_excitatory_classifier"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.inhibitory_excitatory_classifier">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">inhibitory_excitatory_classifier</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                      <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                      <span class="n">return_spine_classification</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                      <span class="n">return_axon_angles</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -2203,7 +2203,7 @@
     
     
 
-<div class="viewcode-block" id="axon_starting_branch"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_starting_branch">[docs]</a><span class="k">def</span> <span class="nf">axon_starting_branch</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_starting_branch"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_starting_branch">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_starting_branch</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                         <span class="n">axon_limb_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="n">axon_branches</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                          <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -2238,7 +2238,7 @@
     <span class="k">return</span> <span class="n">closest_branch</span></div>
         
         
-<div class="viewcode-block" id="axon_starting_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_starting_coordinate">[docs]</a><span class="k">def</span> <span class="nf">axon_starting_coordinate</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_starting_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_starting_coordinate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_starting_coordinate</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                             <span class="n">axon_limb_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                             <span class="n">axon_branches</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                             <span class="n">plot_axon_starting_endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -2316,7 +2316,7 @@
 
 <span class="c1"># ----------------- 1/24/22: Rewrote the filtering function to be cleaner and have better picking from candidates -----</span>
 
-<div class="viewcode-block" id="filter_axon_candiates"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.filter_axon_candiates">[docs]</a><span class="k">def</span> <span class="nf">filter_axon_candiates</span><span class="p">(</span>
+<div class="viewcode-block" id="filter_axon_candiates"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.filter_axon_candiates">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">filter_axon_candiates</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">axon_subgraph_candidates</span><span class="p">,</span>
 
@@ -2684,7 +2684,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">best_axon_candidate_filtered</span></div>
 
-<div class="viewcode-block" id="axon_faces_from_labels_on_original_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_faces_from_labels_on_original_mesh">[docs]</a><span class="k">def</span> <span class="nf">axon_faces_from_labels_on_original_mesh</span><span class="p">(</span>
+<div class="viewcode-block" id="axon_faces_from_labels_on_original_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.classification_utils.axon_faces_from_labels_on_original_mesh">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_faces_from_labels_on_original_mesh</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">original_mesh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">original_mesh_kdtree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -2742,8 +2742,8 @@
 <span class="p">)</span>
 
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
 
 <span class="n">attributes_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
     <span class="n">vdi</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">data_interface</span>
@@ -2815,28 +2815,28 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
 
 <span class="c1">#--- from mesh_tools ---</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">filtering_utils</span> <span class="k">as</span> <span class="n">flu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">filtering_utils</span> <span class="k">as</span> <span class="n">flu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">classification_utils</span> <span class="k">as</span> <span class="n">clu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_utils</span> <span class="k">as</span> <span class="n">clu</span>
 </pre></div>
 
            </div>

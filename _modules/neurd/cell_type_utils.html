@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.cell_type_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -81,16 +81,16 @@
 
 
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pathlib_utils</span> <span class="k">as</span> <span class="n">plu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">linear_model</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pathlib_utils</span> <span class="k">as</span> <span class="n">plu</span>
 
 <span class="n">e_i_model</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">e_i_model_features_default</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;syn_density_shaft&quot;</span><span class="p">,</span><span class="s2">&quot;spine_density&quot;</span><span class="p">]</span>
@@ -141,12 +141,12 @@
 <span class="p">}</span>
 <span class="n">cell_type_fine_names_inhibitory</span> <span class="o">=</span> <span class="n">cell_type_fine_name_inhibitory</span>
 
-<div class="viewcode-block" id="cell_type_names_str"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_names_str">[docs]</a><span class="k">def</span> <span class="nf">cell_type_names_str</span><span class="p">(</span>
+<div class="viewcode-block" id="cell_type_names_str"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_names_str">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cell_type_names_str</span><span class="p">(</span>
     <span class="n">print_ei</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">separator</span> <span class="o">=</span> <span class="s2">&quot; : &quot;</span><span class="p">):</span>
     <span class="n">total_str</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">def</span> <span class="nf">str_dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">ct</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">str_dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">ct</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">all_str</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">ct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">append_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">separator</span><span class="si">}{</span><span class="n">ct</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -170,7 +170,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">total_str</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">total_str</span></div>
 
-<div class="viewcode-block" id="export_cell_type_abbreviations_csv"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.export_cell_type_abbreviations_csv">[docs]</a><span class="k">def</span> <span class="nf">export_cell_type_abbreviations_csv</span><span class="p">(</span>
+<div class="viewcode-block" id="export_cell_type_abbreviations_csv"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.export_cell_type_abbreviations_csv">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">export_cell_type_abbreviations_csv</span><span class="p">(</span>
     <span class="n">filepath</span> <span class="o">=</span> <span class="s2">&quot;cell_type_table.csv&quot;</span><span class="p">,</span>
     <span class="n">return_df</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
@@ -291,7 +291,7 @@
     <span class="s2">&quot;5P_PT&quot;</span><span class="p">:</span><span class="s2">&quot;5P_ET&quot;</span>
 <span class="p">}</span>
 
-<div class="viewcode-block" id="cell_type_fine_mapping_publishable"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_fine_mapping_publishable">[docs]</a><span class="k">def</span> <span class="nf">cell_type_fine_mapping_publishable</span><span class="p">(</span>
+<div class="viewcode-block" id="cell_type_fine_mapping_publishable"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_fine_mapping_publishable">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cell_type_fine_mapping_publishable</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">column</span><span class="o">=</span><span class="s2">&quot;gnn_cell_type_fine&quot;</span><span class="p">,</span>
     <span class="n">dict_map</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -306,7 +306,7 @@
 
 <span class="n">map_cell_type_fine_publishable</span> <span class="o">=</span> <span class="n">cell_type_fine_mapping_publishable</span>
 
-<div class="viewcode-block" id="classes_from_cell_type_name"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.classes_from_cell_type_name">[docs]</a><span class="k">def</span> <span class="nf">classes_from_cell_type_name</span><span class="p">(</span><span class="n">cell_type_name</span><span class="p">):</span>
+<div class="viewcode-block" id="classes_from_cell_type_name"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.classes_from_cell_type_name">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">classes_from_cell_type_name</span><span class="p">(</span><span class="n">cell_type_name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Purpose: Returns a list to iterate over depending on </span>
 <span class="sd">    the name of the cell type</span>
@@ -373,7 +373,7 @@
 <span class="s1">&#39;6CT&#39;</span><span class="p">:</span><span class="s2">&quot;6P-CT&quot;</span><span class="p">,</span>
 <span class="p">}</span>            
 
-<div class="viewcode-block" id="cell_type_fine_classifier_map_derived"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_fine_classifier_map_derived">[docs]</a><span class="k">def</span> <span class="nf">cell_type_fine_classifier_map_derived</span><span class="p">(</span>
+<div class="viewcode-block" id="cell_type_fine_classifier_map_derived"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_fine_classifier_map_derived">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cell_type_fine_classifier_map_derived</span><span class="p">(</span>
     <span class="n">cell_type_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">e_i_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">e_i_labels</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -386,7 +386,7 @@
     <span class="k">if</span> <span class="n">cell_type_dict_extended</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">cell_type_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">cell_type_dict_extended</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">dummy</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dummy</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">g</span>
     
     <span class="k">if</span> <span class="n">e_i_labels</span><span class="p">:</span>
@@ -562,7 +562,7 @@
 
 <span class="n">cell_type_fine_color_map</span> <span class="o">=</span> <span class="n">cell_type_fine_color_map_bcm</span>
 
-<div class="viewcode-block" id="e_i_label_from_cell_type_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_label_from_cell_type_fine">[docs]</a><span class="k">def</span> <span class="nf">e_i_label_from_cell_type_fine</span><span class="p">(</span>
+<div class="viewcode-block" id="e_i_label_from_cell_type_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_label_from_cell_type_fine">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">e_i_label_from_cell_type_fine</span><span class="p">(</span>
     <span class="n">cell_type</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">default_value</span> <span class="o">=</span> <span class="s2">&quot;other&quot;</span><span class="p">):</span>
@@ -585,7 +585,7 @@
         <span class="k">return</span> <span class="n">default_value</span>
     <span class="k">return</span> <span class="n">e_i_from_type_dict</span><span class="p">[</span><span class="n">winning_candid</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="e_i_color_dict"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_color_dict">[docs]</a><span class="k">def</span> <span class="nf">e_i_color_dict</span><span class="p">(</span>
+<div class="viewcode-block" id="e_i_color_dict"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_color_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">e_i_color_dict</span><span class="p">(</span>
     <span class="n">excitatory_color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
     <span class="n">inhibitory_color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
     <span class="n">other_color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
@@ -607,14 +607,14 @@
 
 <span class="n">cell_type_coarse_color_map</span> <span class="o">=</span> <span class="n">e_i_raw_color_dict</span>
 
-<div class="viewcode-block" id="coarse_cell_type_from_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.coarse_cell_type_from_fine">[docs]</a><span class="k">def</span> <span class="nf">coarse_cell_type_from_fine</span><span class="p">(</span><span class="n">cell_type</span><span class="p">):</span>
+<div class="viewcode-block" id="coarse_cell_type_from_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.coarse_cell_type_from_fine">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">coarse_cell_type_from_fine</span><span class="p">(</span><span class="n">cell_type</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">e_i_from_type_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cell_type</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">v</span>
         
     <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="coarse_cell_type_from_coarse"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.coarse_cell_type_from_coarse">[docs]</a><span class="k">def</span> <span class="nf">coarse_cell_type_from_coarse</span><span class="p">(</span><span class="n">cell_type</span><span class="p">):</span>
+<div class="viewcode-block" id="coarse_cell_type_from_coarse"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.coarse_cell_type_from_coarse">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">coarse_cell_type_from_coarse</span><span class="p">(</span><span class="n">cell_type</span><span class="p">):</span>
     <span class="k">if</span> <span class="s2">&quot;exc&quot;</span> <span class="ow">in</span> <span class="n">cell_type</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;excitatory&quot;</span>
     <span class="k">elif</span> <span class="s2">&quot;inh&quot;</span> <span class="ow">in</span> <span class="n">cell_type</span><span class="p">:</span>
@@ -622,7 +622,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="filter_cell_type_df_for_most_complete_duplicates"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.filter_cell_type_df_for_most_complete_duplicates">[docs]</a><span class="k">def</span> <span class="nf">filter_cell_type_df_for_most_complete_duplicates</span><span class="p">(</span>
+<div class="viewcode-block" id="filter_cell_type_df_for_most_complete_duplicates"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.filter_cell_type_df_for_most_complete_duplicates">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">filter_cell_type_df_for_most_complete_duplicates</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">segment_id_name</span> <span class="o">=</span> <span class="s2">&quot;pt_root_id&quot;</span><span class="p">):</span>
     <span class="c1">#filter to keep most complete</span>
@@ -681,7 +681,7 @@
 <span class="n">cell_type_fine_names</span> <span class="o">=</span> <span class="n">gu</span><span class="o">.</span><span class="n">merge_dicts</span><span class="p">([</span><span class="n">cell_type_fine_names_excitatory</span><span class="p">,</span>
                <span class="n">cell_type_fine_name_inhibitory</span><span class="p">])</span>
     
-<div class="viewcode-block" id="plot_e_i_model_classifier_map"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.plot_e_i_model_classifier_map">[docs]</a><span class="k">def</span> <span class="nf">plot_e_i_model_classifier_map</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_e_i_model_classifier_map"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.plot_e_i_model_classifier_map">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_e_i_model_classifier_map</span><span class="p">(</span>
     <span class="n">data_to_plot</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">mlu</span><span class="o">.</span><span class="n">plot_classifier_map</span><span class="p">(</span><span class="n">e_i_model</span><span class="p">,</span>
@@ -691,7 +691,7 @@
                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="postsyn_branches_near_soma"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.postsyn_branches_near_soma">[docs]</a><span class="k">def</span> <span class="nf">postsyn_branches_near_soma</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="postsyn_branches_near_soma"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.postsyn_branches_near_soma">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">postsyn_branches_near_soma</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">perform_axon_classification</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="c1">#for the synapses filter</span>
     <span class="n">n_synapses_post_min</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
@@ -763,7 +763,7 @@
         
     <span class="k">return</span> <span class="n">spines_and_sk_filt_limb_branch</span></div>
 
-<div class="viewcode-block" id="postsyn_branches_near_soma_for_syn_post_density"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.postsyn_branches_near_soma_for_syn_post_density">[docs]</a><span class="k">def</span> <span class="nf">postsyn_branches_near_soma_for_syn_post_density</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="postsyn_branches_near_soma_for_syn_post_density"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.postsyn_branches_near_soma_for_syn_post_density">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">postsyn_branches_near_soma_for_syn_post_density</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                                     <span class="n">plot_spines_and_sk_filter</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                                     
                                                     <span class="n">spine_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -819,7 +819,7 @@
     
 
 
-<div class="viewcode-block" id="synapse_density_near_soma"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.synapse_density_near_soma">[docs]</a><span class="k">def</span> <span class="nf">synapse_density_near_soma</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="synapse_density_near_soma"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.synapse_density_near_soma">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapse_density_near_soma</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                               <span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                               <span class="n">synapse_type</span> <span class="o">=</span> <span class="s2">&quot;synapses&quot;</span><span class="p">,</span>
                               <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -847,7 +847,7 @@
         <span class="n">return_skeletal_length</span> <span class="o">=</span> <span class="n">return_skeletal_length</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">density</span></div>
 
-<div class="viewcode-block" id="synapse_density_stats"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.synapse_density_stats">[docs]</a><span class="k">def</span> <span class="nf">synapse_density_stats</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="synapse_density_stats"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.synapse_density_stats">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapse_density_stats</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                           <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                           <span class="n">return_skeletal_length</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                          <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -892,7 +892,7 @@
 
 
 
-<div class="viewcode-block" id="spine_density_near_soma"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.spine_density_near_soma">[docs]</a><span class="k">def</span> <span class="nf">spine_density_near_soma</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="spine_density_near_soma"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.spine_density_near_soma">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">spine_density_near_soma</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                             <span class="n">limb_branch_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                            <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                             <span class="n">multiplier</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
@@ -944,7 +944,7 @@
 
 <span class="c1"># ------------ 8/28 E/I Classifier ---------------</span>
 
-<div class="viewcode-block" id="load_manual_exc_inh_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.load_manual_exc_inh_df">[docs]</a><span class="k">def</span> <span class="nf">load_manual_exc_inh_df</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">manual_df_path</span><span class="p">):</span>
+<div class="viewcode-block" id="load_manual_exc_inh_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.load_manual_exc_inh_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">load_manual_exc_inh_df</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">manual_df_path</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">manual_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">csv_to_df</span><span class="p">(</span><span class="n">manual_df_path</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span> 
@@ -959,7 +959,7 @@
     <span class="n">manual_exc_df</span><span class="p">[</span><span class="s2">&quot;cell_type_manual&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;excitatory&quot;</span></div>
 
 
-<div class="viewcode-block" id="set_e_i_model_as_kNN"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.set_e_i_model_as_kNN">[docs]</a><span class="k">def</span> <span class="nf">set_e_i_model_as_kNN</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>
+<div class="viewcode-block" id="set_e_i_model_as_kNN"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.set_e_i_model_as_kNN">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_e_i_model_as_kNN</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>
                          <span class="n">y</span><span class="p">,</span>
                          <span class="n">n_neighbors</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
                         <span class="n">plot_map</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -977,7 +977,7 @@
                   <span class="p">)</span>
     <span class="k">return</span> <span class="n">clf</span></div>
 
-<div class="viewcode-block" id="set_e_i_model"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.set_e_i_model">[docs]</a><span class="k">def</span> <span class="nf">set_e_i_model</span><span class="p">(</span><span class="n">features</span><span class="o">=</span> <span class="n">e_i_model_features_default</span><span class="p">,</span>
+<div class="viewcode-block" id="set_e_i_model"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.set_e_i_model">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_e_i_model</span><span class="p">(</span><span class="n">features</span><span class="o">=</span> <span class="n">e_i_model_features_default</span><span class="p">,</span>
                   <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;cell_type&quot;</span><span class="p">,</span>
                   <span class="n">add_features_to_model_obj</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                   <span class="n">model_type</span> <span class="o">=</span> <span class="s2">&quot;logistic_reg&quot;</span><span class="p">,</span><span class="c1">#&quot;kNN&quot;,</span>
@@ -1034,7 +1034,7 @@
         <span class="k">return</span> <span class="n">clf</span></div>
         
     
-<div class="viewcode-block" id="predict_class_single_datapoint"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.predict_class_single_datapoint">[docs]</a><span class="k">def</span> <span class="nf">predict_class_single_datapoint</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span>
+<div class="viewcode-block" id="predict_class_single_datapoint"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.predict_class_single_datapoint">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">predict_class_single_datapoint</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span>
                                   <span class="n">data</span><span class="p">,</span>
                                   <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                                   <span class="n">return_probability</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -1057,7 +1057,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pred_class</span></div>
     
-<div class="viewcode-block" id="e_i_classification_single"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_classification_single">[docs]</a><span class="k">def</span> <span class="nf">e_i_classification_single</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+<div class="viewcode-block" id="e_i_classification_single"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_classification_single">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">e_i_classification_single</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
                               <span class="n">features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                               <span class="n">model</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                              <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1113,7 +1113,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pred_class</span></div>
 
-<div class="viewcode-block" id="e_i_classification_from_neuron_obj_old"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_classification_from_neuron_obj_old">[docs]</a><span class="k">def</span> <span class="nf">e_i_classification_from_neuron_obj_old</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="e_i_classification_from_neuron_obj_old"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_classification_from_neuron_obj_old">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">e_i_classification_from_neuron_obj_old</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                       <span class="n">features</span> <span class="o">=</span> <span class="n">e_i_model_features_default</span><span class="p">,</span>
                                       <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                                       <span class="n">return_cell_type_info</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1212,7 +1212,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">baylor_e_i</span></div>
     
-<div class="viewcode-block" id="e_i_classification_from_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_classification_from_neuron_obj">[docs]</a><span class="k">def</span> <span class="nf">e_i_classification_from_neuron_obj</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="e_i_classification_from_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_classification_from_neuron_obj">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">e_i_classification_from_neuron_obj</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                       <span class="n">features</span> <span class="o">=</span> <span class="n">e_i_model_features_default</span><span class="p">,</span>
                                       <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                                       <span class="n">return_cell_type_info</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1340,7 +1340,7 @@
     
     
     
-<div class="viewcode-block" id="dendrite_branch_stats_near_soma"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.dendrite_branch_stats_near_soma">[docs]</a><span class="k">def</span> <span class="nf">dendrite_branch_stats_near_soma</span><span class="p">(</span>
+<div class="viewcode-block" id="dendrite_branch_stats_near_soma"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.dendrite_branch_stats_near_soma">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dendrite_branch_stats_near_soma</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">plot_spines_and_sk_filter</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1390,7 +1390,7 @@
     <span class="k">return</span> <span class="n">dendr_branches_dict</span></div>
 
 
-<div class="viewcode-block" id="soma_stats_for_cell_type"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.soma_stats_for_cell_type">[docs]</a><span class="k">def</span> <span class="nf">soma_stats_for_cell_type</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="soma_stats_for_cell_type"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.soma_stats_for_cell_type">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">soma_stats_for_cell_type</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Stats we want to include about the soma</span>
 <span class="sd">    to maybe help cell type</span>
@@ -1419,7 +1419,7 @@
 
 
 
-<div class="viewcode-block" id="load_border_exc_inh_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.load_border_exc_inh_df">[docs]</a><span class="k">def</span> <span class="nf">load_border_exc_inh_df</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">border_df_path</span><span class="p">,</span>
+<div class="viewcode-block" id="load_border_exc_inh_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.load_border_exc_inh_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">load_border_exc_inh_df</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">border_df_path</span><span class="p">,</span>
                           <span class="n">path_backup</span> <span class="o">=</span> <span class="n">border_df_path_backup</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">manual_df</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">csv_to_df</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -1433,11 +1433,11 @@
     <span class="n">border_inh_df</span> <span class="o">=</span> <span class="n">manual_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;cell_type_manual==&#39;inhibitory&#39;&quot;</span><span class="p">)</span></div>
     
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">machine_learning_tools</span> <span class="kn">import</span> <span class="n">visualizations_ml</span> <span class="k">as</span> <span class="n">vml</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">machine_learning_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">visualizations_ml</span> <span class="k">as</span> <span class="n">vml</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="n">vml</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="e_i_model_as_logistic_reg_on_border_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_model_as_logistic_reg_on_border_df">[docs]</a><span class="k">def</span> <span class="nf">e_i_model_as_logistic_reg_on_border_df</span><span class="p">(</span>
+<div class="viewcode-block" id="e_i_model_as_logistic_reg_on_border_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.e_i_model_as_logistic_reg_on_border_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">e_i_model_as_logistic_reg_on_border_df</span><span class="p">(</span>
     <span class="n">label</span><span class="o">=</span><span class="s2">&quot;cell_type_manual&quot;</span><span class="p">,</span>
     <span class="n">features</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">class_weight</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;excitatory&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;inhibitory&quot;</span><span class="p">:</span><span class="mf">1.5</span><span class="p">},</span>
@@ -1480,7 +1480,7 @@
 
 
 
-<div class="viewcode-block" id="plot_classifier_map"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.plot_classifier_map">[docs]</a><span class="k">def</span> <span class="nf">plot_classifier_map</span><span class="p">(</span><span class="n">clf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_classifier_map"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.plot_classifier_map">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_classifier_map</span><span class="p">(</span><span class="n">clf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                        <span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;probability&quot;</span><span class="p">,</span>
                        <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                        <span class="n">y</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1516,9 +1516,9 @@
 
                                              <span class="p">)</span></div>
     
-<div class="viewcode-block" id="border_training_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.border_training_df">[docs]</a><span class="k">def</span> <span class="nf">border_training_df</span><span class="p">():</span>
+<div class="viewcode-block" id="border_training_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.border_training_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">border_training_df</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">pu</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">ctu</span><span class="o">.</span><span class="n">border_exc_df</span><span class="p">,</span><span class="n">ctu</span><span class="o">.</span><span class="n">border_inh_df</span><span class="p">])</span></div>
-<div class="viewcode-block" id="all_training_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.all_training_df">[docs]</a><span class="k">def</span> <span class="nf">all_training_df</span><span class="p">(</span><span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="all_training_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.all_training_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">all_training_df</span><span class="p">(</span><span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="n">ctu</span><span class="o">.</span><span class="n">load_manual_exc_inh_df</span><span class="p">()</span>
     <span class="n">ctu</span><span class="o">.</span><span class="n">load_border_exc_inh_df</span><span class="p">()</span>
     
@@ -1528,8 +1528,8 @@
           <span class="n">ctu</span><span class="o">.</span><span class="n">border_inh_df</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
     
     <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plotting training data&quot;</span><span class="p">)</span>
         <span class="n">sns</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">train_df</span><span class="p">,</span>
                         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;syn_density_post&quot;</span><span class="p">,</span>
@@ -1548,7 +1548,7 @@
         <span class="s2">&quot;sst&quot;</span><span class="p">:</span><span class="s2">&quot;SST&quot;</span><span class="p">,</span>
     <span class="p">}</span>
 
-<div class="viewcode-block" id="cell_type_fine_name_cleaner"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_fine_name_cleaner">[docs]</a><span class="k">def</span> <span class="nf">cell_type_fine_name_cleaner</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+<div class="viewcode-block" id="cell_type_fine_name_cleaner"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_fine_name_cleaner">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cell_type_fine_name_cleaner</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
     <span class="n">fine_cell_type_mapping</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;6IT&#39;</span><span class="p">:</span><span class="s2">&quot;6P_IT&quot;</span>
     <span class="p">}</span>
@@ -1570,7 +1570,7 @@
         
     <span class="k">return</span> <span class="n">cell_type_fine</span></div>
 
-<div class="viewcode-block" id="clean_cell_type_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.clean_cell_type_fine">[docs]</a><span class="k">def</span> <span class="nf">clean_cell_type_fine</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class="viewcode-block" id="clean_cell_type_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.clean_cell_type_fine">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">clean_cell_type_fine</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;cell_type_fine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">new_column_from_row_function</span><span class="p">(</span>
         <span class="n">df</span><span class="p">,</span>
         <span class="n">cell_type_fine_name_cleaner</span>
@@ -1580,7 +1580,7 @@
 
 
     
-<div class="viewcode-block" id="df_cell_type_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.df_cell_type_fine">[docs]</a><span class="k">def</span> <span class="nf">df_cell_type_fine</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class="viewcode-block" id="df_cell_type_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.df_cell_type_fine">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">df_cell_type_fine</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="n">df_fine</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;cell_type_fine == cell_type_fine&quot;</span><span class="p">)</span>
     <span class="n">df_fine</span> <span class="o">=</span> <span class="n">ctu</span><span class="o">.</span><span class="n">clean_cell_type_fine</span><span class="p">(</span><span class="n">df_fine</span><span class="p">)</span>
     <span class="n">df_fine</span> <span class="o">=</span> <span class="n">df_fine</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;cell_type_fine != &#39;Unsure E&#39;&quot;</span><span class="p">)</span>
@@ -1593,12 +1593,12 @@
 <span class="k">except</span><span class="p">:</span>
     <span class="n">feature_df</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="cell_type_from_feature_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_from_feature_df">[docs]</a><span class="k">def</span> <span class="nf">cell_type_from_feature_df</span><span class="p">(</span><span class="n">segment_id</span><span class="p">):</span>
+<div class="viewcode-block" id="cell_type_from_feature_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_from_feature_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cell_type_from_feature_df</span><span class="p">(</span><span class="n">segment_id</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">feature_df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;id==&#39;</span><span class="si">{</span><span class="n">segment_id</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)[</span><span class="s2">&quot;cell_type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
 <span class="c1"># --------------- For comparing the accuracy of cell types ---------------</span>
-<div class="viewcode-block" id="accuracy_df_by_cell_type_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.accuracy_df_by_cell_type_fine">[docs]</a><span class="k">def</span> <span class="nf">accuracy_df_by_cell_type_fine</span><span class="p">(</span>
+<div class="viewcode-block" id="accuracy_df_by_cell_type_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.accuracy_df_by_cell_type_fine">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">accuracy_df_by_cell_type_fine</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">cell_type_fine_label</span> <span class="o">=</span> <span class="s2">&quot;cell_type_fine&quot;</span><span class="p">,</span>
@@ -1671,7 +1671,7 @@
     <span class="n">df_fine_results</span> <span class="o">=</span> <span class="n">df_fine_results</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">df_fine_results</span></div>
 
-<div class="viewcode-block" id="rename_dict_for_cell_type_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.rename_dict_for_cell_type_fine">[docs]</a><span class="k">def</span> <span class="nf">rename_dict_for_cell_type_fine</span><span class="p">(</span>
+<div class="viewcode-block" id="rename_dict_for_cell_type_fine"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.rename_dict_for_cell_type_fine">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">rename_dict_for_cell_type_fine</span><span class="p">(</span>
     <span class="n">keep_classes_inh</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">keep_classes_exc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">default_name_inh</span> <span class="o">=</span> <span class="s2">&quot;Other Inh&quot;</span><span class="p">,</span>
@@ -1713,7 +1713,7 @@
             
     <span class="k">return</span> <span class="n">rename_dict</span></div>
 
-<div class="viewcode-block" id="rename_cell_type_fine_column"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.rename_cell_type_fine_column">[docs]</a><span class="k">def</span> <span class="nf">rename_cell_type_fine_column</span><span class="p">(</span>
+<div class="viewcode-block" id="rename_cell_type_fine_column"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.rename_cell_type_fine_column">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">rename_cell_type_fine_column</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">column</span> <span class="o">=</span> <span class="s2">&quot;gnn_cell_type_fine&quot;</span><span class="p">,</span>
     <span class="n">keep_classes_exc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1740,7 +1740,7 @@
 
 
 
-<div class="viewcode-block" id="plot_cell_type_gnn_embedding"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.plot_cell_type_gnn_embedding">[docs]</a><span class="k">def</span> <span class="nf">plot_cell_type_gnn_embedding</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_cell_type_gnn_embedding"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.plot_cell_type_gnn_embedding">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_cell_type_gnn_embedding</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     
     <span class="n">column</span> <span class="o">=</span> <span class="s2">&quot;cell_type&quot;</span><span class="p">,</span>
@@ -1847,7 +1847,7 @@
     
     <span class="k">return</span> <span class="n">ax</span></div>
 
-<div class="viewcode-block" id="cell_type_high_probability_df_from_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_high_probability_df_from_df">[docs]</a><span class="k">def</span> <span class="nf">cell_type_high_probability_df_from_df</span><span class="p">(</span>
+<div class="viewcode-block" id="cell_type_high_probability_df_from_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.cell_type_high_probability_df_from_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cell_type_high_probability_df_from_df</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">cell_type</span><span class="p">,</span>
     <span class="n">baylor_exc_prob_threshold</span> <span class="o">=</span> <span class="mf">0.65</span><span class="p">,</span>
@@ -1880,7 +1880,7 @@
 
     <span class="k">return</span> <span class="n">df_filt</span></div>
     
-<div class="viewcode-block" id="excitatory_high_probability_df_from_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.excitatory_high_probability_df_from_df">[docs]</a><span class="k">def</span> <span class="nf">excitatory_high_probability_df_from_df</span><span class="p">(</span>
+<div class="viewcode-block" id="excitatory_high_probability_df_from_df"><a class="viewcode-back" href="../../neurd.html#neurd.cell_type_utils.excitatory_high_probability_df_from_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">excitatory_high_probability_df_from_df</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">baylor_exc_prob_threshold</span> <span class="o">=</span> <span class="mf">0.65</span><span class="p">,</span>
     <span class="n">gnn_prob_threshold</span> <span class="o">=</span> <span class="mf">0.65</span><span class="p">,</span>
@@ -1973,36 +1973,36 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
 
 <span class="c1">#--- from machine_learning_tools ---</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">machine_learning_tools</span> <span class="kn">import</span> <span class="n">machine_learning_utils</span> <span class="k">as</span> <span class="n">mlu</span>
-    <span class="kn">from</span> <span class="nn">machine_learning_tools</span> <span class="kn">import</span> <span class="n">visualizations_ml</span> <span class="k">as</span> <span class="n">vml</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">machine_learning_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">machine_learning_utils</span> <span class="k">as</span> <span class="n">mlu</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">machine_learning_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">visualizations_ml</span> <span class="k">as</span> <span class="n">vml</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="n">mlu</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">vml</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="c1">#--- from mesh_tools ---</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pathlib_utils</span> <span class="k">as</span> <span class="n">plu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">string_utils</span> <span class="k">as</span> <span class="n">stru</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pathlib_utils</span> <span class="k">as</span> <span class="n">plu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">string_utils</span> <span class="k">as</span> <span class="n">stru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">cell_type_utils</span> <span class="k">as</span> <span class="n">ctu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">cell_type_utils</span> <span class="k">as</span> <span class="n">ctu</span>
 
 <span class="n">set_e_i_model</span><span class="p">()</span>
 </pre></div>

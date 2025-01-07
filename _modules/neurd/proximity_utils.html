@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.proximity_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -86,21 +86,21 @@
 
 
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">import</span> <span class="nn">datajoint</span> <span class="k">as</span> <span class="nn">dj</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pykdtree.kdtree</span> <span class="kn">import</span> <span class="n">KDTree</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datajoint</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dj</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pykdtree.kdtree</span><span class="w"> </span><span class="kn">import</span> <span class="n">KDTree</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<div class="viewcode-block" id="synapse_coordinates_from_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.synapse_coordinates_from_df">[docs]</a><span class="k">def</span> <span class="nf">synapse_coordinates_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class="viewcode-block" id="synapse_coordinates_from_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.synapse_coordinates_from_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapse_coordinates_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">df</span><span class="p">[</span>
         <span class="p">[</span><span class="s2">&quot;synapse_x_nm&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_y_nm&quot;</span><span class="p">,</span><span class="s2">&quot;synapse_z_nm&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="proximity_search_neurons_from_bounding_box"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.proximity_search_neurons_from_bounding_box">[docs]</a><span class="k">def</span> <span class="nf">proximity_search_neurons_from_bounding_box</span><span class="p">(</span>
+<div class="viewcode-block" id="proximity_search_neurons_from_bounding_box"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.proximity_search_neurons_from_bounding_box">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">proximity_search_neurons_from_bounding_box</span><span class="p">(</span>
     <span class="n">segment_id</span><span class="p">,</span>
     <span class="n">split_index</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -134,7 +134,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">nodes</span></div>
 
-<div class="viewcode-block" id="proximity_search_neurons_from_database"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.proximity_search_neurons_from_database">[docs]</a><span class="k">def</span> <span class="nf">proximity_search_neurons_from_database</span><span class="p">(</span>
+<div class="viewcode-block" id="proximity_search_neurons_from_database"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.proximity_search_neurons_from_database">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">proximity_search_neurons_from_database</span><span class="p">(</span>
     <span class="n">segment_id</span><span class="p">,</span>
     <span class="n">split_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">):</span>
@@ -148,7 +148,7 @@
         <span class="n">return_node_names</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="presyn_proximity_data"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.presyn_proximity_data">[docs]</a><span class="k">def</span> <span class="nf">presyn_proximity_data</span><span class="p">(</span>
+<div class="viewcode-block" id="presyn_proximity_data"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.presyn_proximity_data">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">presyn_proximity_data</span><span class="p">(</span>
     <span class="n">segment_id</span><span class="p">,</span>
     <span class="n">split_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -271,7 +271,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="postsyn_proximity_data"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.postsyn_proximity_data">[docs]</a><span class="k">def</span> <span class="nf">postsyn_proximity_data</span><span class="p">(</span>
+<div class="viewcode-block" id="postsyn_proximity_data"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.postsyn_proximity_data">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">postsyn_proximity_data</span><span class="p">(</span>
     <span class="n">segment_id</span><span class="p">,</span>
     <span class="n">split_index</span><span class="p">,</span>
     <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -407,7 +407,7 @@
     
     <span class="k">return</span> <span class="n">return_dict</span></div>
 
-<div class="viewcode-block" id="proximity_pre_post"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.proximity_pre_post">[docs]</a><span class="k">def</span> <span class="nf">proximity_pre_post</span><span class="p">(</span>
+<div class="viewcode-block" id="proximity_pre_post"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.proximity_pre_post">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">proximity_pre_post</span><span class="p">(</span>
     <span class="n">segment_id_pre</span><span class="p">,</span>
     <span class="n">segment_id_post</span><span class="p">,</span>
     <span class="n">split_index_pre</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -816,7 +816,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">proximities</span></div>
     
-<div class="viewcode-block" id="example_proximity"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.example_proximity">[docs]</a><span class="k">def</span> <span class="nf">example_proximity</span><span class="p">(</span>
+<div class="viewcode-block" id="example_proximity"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.example_proximity">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">example_proximity</span><span class="p">(</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">plot</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">return_df</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
@@ -851,7 +851,7 @@
     <span class="p">)</span></div>
     
     
-<div class="viewcode-block" id="A_prox_from_G_prox"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.A_prox_from_G_prox">[docs]</a><span class="k">def</span> <span class="nf">A_prox_from_G_prox</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="A_prox_from_G_prox"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.A_prox_from_G_prox">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">A_prox_from_G_prox</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">A_syn</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">(</span>
         <span class="n">G</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
@@ -859,7 +859,7 @@
     <span class="n">A_syn</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">A_syn</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">A_syn</span></div>
 
-<div class="viewcode-block" id="A_syn_from_G_prox"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.A_syn_from_G_prox">[docs]</a><span class="k">def</span> <span class="nf">A_syn_from_G_prox</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="A_syn_from_G_prox"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.A_syn_from_G_prox">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">A_syn_from_G_prox</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">A_syn</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">(</span>
         <span class="n">G</span><span class="p">,</span>
         <span class="n">weight</span> <span class="o">=</span> <span class="s2">&quot;n_synapses&quot;</span><span class="p">,</span>
@@ -870,7 +870,7 @@
 
 
 
-<div class="viewcode-block" id="plot_proximity"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.plot_proximity">[docs]</a><span class="k">def</span> <span class="nf">plot_proximity</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_proximity"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_utils.plot_proximity">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_proximity</span><span class="p">(</span>
     <span class="n">prox_data</span><span class="p">,</span>
     <span class="n">mesh_presyn</span><span class="p">,</span>
     <span class="n">mesh_postsyn</span><span class="p">,</span>
@@ -997,24 +997,24 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
 
 <span class="c1">#--- from neuron_morphology_tools ---</span>
-<span class="kn">from</span> <span class="nn">neuron_morphology_tools</span> <span class="kn">import</span> <span class="n">neuron_nx_utils</span> <span class="k">as</span> <span class="n">nxu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">neuron_morphology_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_nx_utils</span> <span class="k">as</span> <span class="n">nxu</span>
 
 <span class="c1">#--- from mesh_tools ---</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proximity_utils</span> <span class="k">as</span> <span class="n">pxu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">proximity_utils</span> <span class="k">as</span> <span class="n">pxu</span>
 </pre></div>
 
            </div>

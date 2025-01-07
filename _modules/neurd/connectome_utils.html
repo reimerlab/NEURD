@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.connectome_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -81,18 +81,18 @@
 
 
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
 
 <span class="n">return_nm_default</span> <span class="o">=</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="synapse_coordinate_from_seg_split_syn_id"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.synapse_coordinate_from_seg_split_syn_id">[docs]</a><span class="k">def</span> <span class="nf">synapse_coordinate_from_seg_split_syn_id</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="synapse_coordinate_from_seg_split_syn_id"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.synapse_coordinate_from_seg_split_syn_id">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapse_coordinate_from_seg_split_syn_id</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                                              <span class="n">presyn_id</span><span class="p">,</span>
                                             <span class="n">postsyn_id</span><span class="p">,</span>
                                             <span class="n">synapse_id</span><span class="p">,</span>
@@ -130,7 +130,7 @@
         <span class="k">return</span> <span class="n">syn_coord</span></div>
 
 
-<div class="viewcode-block" id="synapse_ids_and_coord_from_segment_ids_edge"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.synapse_ids_and_coord_from_segment_ids_edge">[docs]</a><span class="k">def</span> <span class="nf">synapse_ids_and_coord_from_segment_ids_edge</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">segment_id_1</span><span class="p">,</span><span class="n">segment_id_2</span><span class="p">,</span>
+<div class="viewcode-block" id="synapse_ids_and_coord_from_segment_ids_edge"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.synapse_ids_and_coord_from_segment_ids_edge">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapse_ids_and_coord_from_segment_ids_edge</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">segment_id_1</span><span class="p">,</span><span class="n">segment_id_2</span><span class="p">,</span>
                                                     <span class="n">return_nm</span><span class="o">=</span><span class="n">return_nm_default</span><span class="p">,</span>
                                                     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="n">synapse_ids</span> <span class="o">=</span> <span class="p">[]</span>
@@ -161,7 +161,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;synapse_coordinates = </span><span class="si">{</span><span class="n">synapse_coordinates</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">synapse_ids</span><span class="p">,</span><span class="n">synapse_coordinates</span></div>
 
-<div class="viewcode-block" id="pre_post_node_names_from_synapse_id"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.pre_post_node_names_from_synapse_id">[docs]</a><span class="k">def</span> <span class="nf">pre_post_node_names_from_synapse_id</span><span class="p">(</span>
+<div class="viewcode-block" id="pre_post_node_names_from_synapse_id"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.pre_post_node_names_from_synapse_id">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">pre_post_node_names_from_synapse_id</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">synapse_id</span><span class="p">,</span>
     <span class="n">node_names</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#node names to help restrict the search and make it quicker</span>
@@ -193,7 +193,7 @@
 
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">pre_post_pairs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="segment_ids_from_synapse_ids"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.segment_ids_from_synapse_ids">[docs]</a><span class="k">def</span> <span class="nf">segment_ids_from_synapse_ids</span><span class="p">(</span>
+<div class="viewcode-block" id="segment_ids_from_synapse_ids"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.segment_ids_from_synapse_ids">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">segment_ids_from_synapse_ids</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">synapse_ids</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -232,7 +232,7 @@
     <span class="k">return</span> <span class="n">seg_ids</span></div>
 
 
-<div class="viewcode-block" id="synapses_from_segment_id_edges"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.synapses_from_segment_id_edges">[docs]</a><span class="k">def</span> <span class="nf">synapses_from_segment_id_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="synapses_from_segment_id_edges"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.synapses_from_segment_id_edges">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapses_from_segment_id_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                                   <span class="n">segment_id_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                   <span class="n">segment_ids</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                   <span class="n">synapse_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -314,7 +314,7 @@
         <span class="k">return</span> <span class="n">synapses_dict</span></div>
     
     
-<div class="viewcode-block" id="soma_center_from_segment_id"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.soma_center_from_segment_id">[docs]</a><span class="k">def</span> <span class="nf">soma_center_from_segment_id</span><span class="p">(</span>
+<div class="viewcode-block" id="soma_center_from_segment_id"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.soma_center_from_segment_id">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">soma_center_from_segment_id</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">segment_id</span><span class="p">,</span>
     <span class="n">return_nm</span> <span class="o">=</span> <span class="n">return_nm_default</span>
@@ -340,13 +340,13 @@
 
     <span class="k">return</span> <span class="n">soma_center</span></div>
 
-<div class="viewcode-block" id="soma_centers_from_segment_ids"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.soma_centers_from_segment_ids">[docs]</a><span class="k">def</span> <span class="nf">soma_centers_from_segment_ids</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="soma_centers_from_segment_ids"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.soma_centers_from_segment_ids">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">soma_centers_from_segment_ids</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                                  <span class="n">segment_ids</span><span class="p">,</span>
                                  <span class="n">return_nm</span> <span class="o">=</span> <span class="n">return_nm_default</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">conu</span><span class="o">.</span><span class="n">soma_center_from_segment_id</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">return_nm</span><span class="o">=</span><span class="n">return_nm</span><span class="p">)</span>
                     <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">segment_ids</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="segment_id_from_seg_split_id"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.segment_id_from_seg_split_id">[docs]</a><span class="k">def</span> <span class="nf">segment_id_from_seg_split_id</span><span class="p">(</span><span class="n">seg_split_id</span><span class="p">):</span>
+<div class="viewcode-block" id="segment_id_from_seg_split_id"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.segment_id_from_seg_split_id">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">segment_id_from_seg_split_id</span><span class="p">(</span><span class="n">seg_split_id</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">seg_split_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span></div>
 
 
@@ -431,7 +431,7 @@
 
 <span class="sd">&#39;&#39;&#39;</span>
 
-<div class="viewcode-block" id="visualize_graph_connections_by_method"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.visualize_graph_connections_by_method">[docs]</a><span class="k">def</span> <span class="nf">visualize_graph_connections_by_method</span><span class="p">(</span>
+<div class="viewcode-block" id="visualize_graph_connections_by_method"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.visualize_graph_connections_by_method">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_graph_connections_by_method</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">segment_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;meshafterparty&#39;</span><span class="p">,</span><span class="c1">#&#39;neuroglancer&#39;</span>
@@ -510,7 +510,7 @@
 
     <span class="c1">#0) Determine if whether should return things in nm</span>
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;neuroglancer&quot;</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">allen_utils</span> <span class="k">as</span> <span class="nn">alu</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">allen_utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">alu</span>
         <span class="n">alu</span><span class="o">.</span><span class="n">initialize_client</span><span class="p">()</span>
         <span class="n">alu</span><span class="o">.</span><span class="n">set_version_to_latest</span><span class="p">()</span>
         <span class="n">return_nm</span> <span class="o">=</span> <span class="kc">False</span>
@@ -695,7 +695,7 @@
     <span class="k">return</span> <span class="n">return_value</span></div>
         
 
-<div class="viewcode-block" id="presyn_postsyn_skeletal_path_from_synapse_id"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.presyn_postsyn_skeletal_path_from_synapse_id">[docs]</a><span class="k">def</span> <span class="nf">presyn_postsyn_skeletal_path_from_synapse_id</span><span class="p">(</span>
+<div class="viewcode-block" id="presyn_postsyn_skeletal_path_from_synapse_id"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.presyn_postsyn_skeletal_path_from_synapse_id">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">presyn_postsyn_skeletal_path_from_synapse_id</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">synapse_id</span><span class="p">,</span>
     <span class="n">synapse_coordinate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -928,7 +928,7 @@
 
 
 <span class="c1"># ----- for computing edge functions over the connectome ----------</span>
-<div class="viewcode-block" id="compute_edge_statistic"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.compute_edge_statistic">[docs]</a><span class="k">def</span> <span class="nf">compute_edge_statistic</span><span class="p">(</span>
+<div class="viewcode-block" id="compute_edge_statistic"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.compute_edge_statistic">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compute_edge_statistic</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">edge_func</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -950,7 +950,7 @@
 
     
     
-<div class="viewcode-block" id="presyn_postsyn_walk_euclidean_skeletal_dist"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.presyn_postsyn_walk_euclidean_skeletal_dist">[docs]</a><span class="k">def</span> <span class="nf">presyn_postsyn_walk_euclidean_skeletal_dist</span><span class="p">(</span>
+<div class="viewcode-block" id="presyn_postsyn_walk_euclidean_skeletal_dist"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.presyn_postsyn_walk_euclidean_skeletal_dist">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">presyn_postsyn_walk_euclidean_skeletal_dist</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">segment_id_1</span><span class="p">,</span>
     <span class="n">segment_id_2</span><span class="p">,</span>
@@ -1000,27 +1000,27 @@
     <span class="k">return</span> <span class="n">G</span></div>
     
     
-<div class="viewcode-block" id="attribute_from_edge_dict"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.attribute_from_edge_dict">[docs]</a><span class="k">def</span> <span class="nf">attribute_from_edge_dict</span><span class="p">(</span><span class="n">edge_dict</span><span class="p">,</span><span class="n">attribute</span><span class="p">):</span>
+<div class="viewcode-block" id="attribute_from_edge_dict"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.attribute_from_edge_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">attribute_from_edge_dict</span><span class="p">(</span><span class="n">edge_dict</span><span class="p">,</span><span class="n">attribute</span><span class="p">):</span>
     <span class="n">edge_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">edge_dict</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">edge_dict</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">e_dict</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="k">for</span> <span class="n">e_idx</span><span class="p">,</span><span class="n">e_dict</span> <span class="ow">in</span> <span class="n">edge_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span></div>
     
-<div class="viewcode-block" id="postsyn_skeletal_distance_to_soma_from_edge_dict"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.postsyn_skeletal_distance_to_soma_from_edge_dict">[docs]</a><span class="k">def</span> <span class="nf">postsyn_skeletal_distance_to_soma_from_edge_dict</span><span class="p">(</span><span class="n">edge_dict</span><span class="p">):</span>
+<div class="viewcode-block" id="postsyn_skeletal_distance_to_soma_from_edge_dict"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.postsyn_skeletal_distance_to_soma_from_edge_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">postsyn_skeletal_distance_to_soma_from_edge_dict</span><span class="p">(</span><span class="n">edge_dict</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">attribute_from_edge_dict</span><span class="p">(</span>
         <span class="n">edge_dict</span><span class="p">,</span>
         <span class="n">attribute</span> <span class="o">=</span> <span class="s2">&quot;postsyn_skeletal_distance_to_soma&quot;</span>
     <span class="p">)</span></div>
     
-<div class="viewcode-block" id="syn_coordinate_from_edge_dict"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.syn_coordinate_from_edge_dict">[docs]</a><span class="k">def</span> <span class="nf">syn_coordinate_from_edge_dict</span><span class="p">(</span><span class="n">edge_dict</span><span class="p">):</span>
+<div class="viewcode-block" id="syn_coordinate_from_edge_dict"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.syn_coordinate_from_edge_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">syn_coordinate_from_edge_dict</span><span class="p">(</span><span class="n">edge_dict</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">edge_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;synapse_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s2">&quot;z&quot;</span><span class="p">]])</span><span class="o">*</span><span class="n">vdi</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">edge_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">edge_dict</span><span class="p">)</span>
         <span class="k">return</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">e_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;synapse_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s2">&quot;z&quot;</span><span class="p">]]</span> <span class="k">for</span> <span class="n">e_idx</span><span class="p">,</span><span class="n">e_dict</span> <span class="ow">in</span> <span class="n">edge_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">vdi</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span></div>
 
-<div class="viewcode-block" id="compute_presyn_postsyn_walk_euclidean_skeletal_dist"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.compute_presyn_postsyn_walk_euclidean_skeletal_dist">[docs]</a><span class="k">def</span> <span class="nf">compute_presyn_postsyn_walk_euclidean_skeletal_dist</span><span class="p">(</span>
+<div class="viewcode-block" id="compute_presyn_postsyn_walk_euclidean_skeletal_dist"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.compute_presyn_postsyn_walk_euclidean_skeletal_dist">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compute_presyn_postsyn_walk_euclidean_skeletal_dist</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">verbose_loop</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1033,7 +1033,7 @@
     <span class="n">verbose_loop</span> <span class="o">=</span> <span class="n">verbose_loop</span><span class="p">,</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="presyn_postsyn_soma_relative_synapse_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.presyn_postsyn_soma_relative_synapse_coordinate">[docs]</a><span class="k">def</span> <span class="nf">presyn_postsyn_soma_relative_synapse_coordinate</span><span class="p">(</span>
+<div class="viewcode-block" id="presyn_postsyn_soma_relative_synapse_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.presyn_postsyn_soma_relative_synapse_coordinate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">presyn_postsyn_soma_relative_synapse_coordinate</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">segment_id_1</span><span class="p">,</span>
     <span class="n">segment_id_2</span><span class="p">,</span>
@@ -1064,7 +1064,7 @@
                 <span class="p">)</span>
     <span class="k">return</span> <span class="n">G</span></div>
 
-<div class="viewcode-block" id="add_presyn_postsyn_syn_dist_signed_to_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_presyn_postsyn_syn_dist_signed_to_edge_df">[docs]</a><span class="k">def</span> <span class="nf">add_presyn_postsyn_syn_dist_signed_to_edge_df</span><span class="p">(</span>
+<div class="viewcode-block" id="add_presyn_postsyn_syn_dist_signed_to_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_presyn_postsyn_syn_dist_signed_to_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_presyn_postsyn_syn_dist_signed_to_edge_df</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">centroid_name</span> <span class="o">=</span> <span class="s2">&quot;centroid&quot;</span><span class="p">,</span>
     <span class="p">):</span>
@@ -1079,7 +1079,7 @@
     
 
 
-<div class="viewcode-block" id="computed_presyn_postsyn_soma_relative_synapse_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.computed_presyn_postsyn_soma_relative_synapse_coordinate">[docs]</a><span class="k">def</span> <span class="nf">computed_presyn_postsyn_soma_relative_synapse_coordinate</span><span class="p">(</span>
+<div class="viewcode-block" id="computed_presyn_postsyn_soma_relative_synapse_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.computed_presyn_postsyn_soma_relative_synapse_coordinate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">computed_presyn_postsyn_soma_relative_synapse_coordinate</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">verbose_loop</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1093,7 +1093,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="presyn_soma_postsyn_soma_euclid_dist_axis"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.presyn_soma_postsyn_soma_euclid_dist_axis">[docs]</a><span class="k">def</span> <span class="nf">presyn_soma_postsyn_soma_euclid_dist_axis</span><span class="p">(</span>
+<div class="viewcode-block" id="presyn_soma_postsyn_soma_euclid_dist_axis"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.presyn_soma_postsyn_soma_euclid_dist_axis">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">presyn_soma_postsyn_soma_euclid_dist_axis</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">segment_id_1</span><span class="p">,</span>
     <span class="n">segment_id_2</span><span class="p">,</span>
@@ -1134,7 +1134,7 @@
     
     <span class="k">return</span> <span class="n">G</span></div>
 
-<div class="viewcode-block" id="compute_presyn_soma_postsyn_soma_euclid_dist_axis"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.compute_presyn_soma_postsyn_soma_euclid_dist_axis">[docs]</a><span class="k">def</span> <span class="nf">compute_presyn_soma_postsyn_soma_euclid_dist_axis</span><span class="p">(</span>
+<div class="viewcode-block" id="compute_presyn_soma_postsyn_soma_euclid_dist_axis"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.compute_presyn_soma_postsyn_soma_euclid_dist_axis">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compute_presyn_soma_postsyn_soma_euclid_dist_axis</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">verbose_loop</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1148,7 +1148,7 @@
     <span class="p">)</span></div>
     
     
-<div class="viewcode-block" id="soma_centers_from_node_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.soma_centers_from_node_df">[docs]</a><span class="k">def</span> <span class="nf">soma_centers_from_node_df</span><span class="p">(</span><span class="n">node_df</span><span class="p">,</span><span class="n">return_nm</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="soma_centers_from_node_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.soma_centers_from_node_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">soma_centers_from_node_df</span><span class="p">(</span><span class="n">node_df</span><span class="p">,</span><span class="n">return_nm</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">return_nm</span><span class="p">:</span>
         <span class="n">append</span> <span class="o">=</span> <span class="s2">&quot;_nm&quot;</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1161,7 +1161,7 @@
 
 
 
-<div class="viewcode-block" id="plot_3D_distribution_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_3D_distribution_attribute">[docs]</a><span class="k">def</span> <span class="nf">plot_3D_distribution_attribute</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_3D_distribution_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_3D_distribution_attribute">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_3D_distribution_attribute</span><span class="p">(</span>
     <span class="n">attribute</span><span class="p">,</span>
     <span class="n">df</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">G</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1297,7 +1297,7 @@
             <span class="n">soma_centers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conu</span><span class="o">.</span><span class="n">soma_centers_from_node_df</span><span class="p">(</span><span class="n">curr_df</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
             <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
-        <span class="kn">from</span> <span class="nn">neurd</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">neurd</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
         <span class="n">nviz</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span>
             <span class="n">scatters</span><span class="o">=</span><span class="n">soma_centers</span><span class="p">,</span>
             <span class="n">scatters_colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
@@ -1305,7 +1305,7 @@
             <span class="n">axis_box_off</span><span class="o">=</span><span class="n">axis_box_off</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="plot_3d_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_3d_attribute">[docs]</a><span class="k">def</span> <span class="nf">plot_3d_attribute</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_3d_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_3d_attribute">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_3d_attribute</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">attribute</span><span class="p">,</span>
     
@@ -1384,7 +1384,7 @@
             <span class="n">soma_centers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conu</span><span class="o">.</span><span class="n">soma_centers_from_node_df</span><span class="p">(</span><span class="n">curr_df</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
             <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
-        <span class="kn">from</span> <span class="nn">neurd</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">neurd</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
         <span class="n">nviz</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span>
             <span class="n">scatters</span><span class="o">=</span><span class="n">soma_centers</span><span class="p">,</span>
             <span class="n">scatters_colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
@@ -1394,7 +1394,7 @@
             <span class="n">meshes_colors</span><span class="o">=</span><span class="n">meshes_colors</span><span class="p">,</span>
         <span class="p">)</span></div>
         
-<div class="viewcode-block" id="exc_to_exc_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.exc_to_exc_edge_df">[docs]</a><span class="k">def</span> <span class="nf">exc_to_exc_edge_df</span><span class="p">(</span>
+<div class="viewcode-block" id="exc_to_exc_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.exc_to_exc_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">exc_to_exc_edge_df</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">min_skeletal_length</span> <span class="o">=</span> <span class="mi">100_000</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1441,7 +1441,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of edges = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edge_no_soma_df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">edge_no_soma_df</span></div>
 
-<div class="viewcode-block" id="presyns_with_soma_postsyns"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.presyns_with_soma_postsyns">[docs]</a><span class="k">def</span> <span class="nf">presyns_with_soma_postsyns</span><span class="p">(</span>
+<div class="viewcode-block" id="presyns_with_soma_postsyns"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.presyns_with_soma_postsyns">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">presyns_with_soma_postsyns</span><span class="p">(</span>
     <span class="n">edge_df</span><span class="p">,</span>
     <span class="n">keep_manual_proofread_nodes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">man_proofread_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1460,7 +1460,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">soma_presyns</span></div>
     
-<div class="viewcode-block" id="filter_away_presyns_with_soma_postsyns"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.filter_away_presyns_with_soma_postsyns">[docs]</a><span class="k">def</span> <span class="nf">filter_away_presyns_with_soma_postsyns</span><span class="p">(</span>
+<div class="viewcode-block" id="filter_away_presyns_with_soma_postsyns"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.filter_away_presyns_with_soma_postsyns">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">filter_away_presyns_with_soma_postsyns</span><span class="p">(</span>
     <span class="n">edge_df</span><span class="p">,</span>
     <span class="n">keep_manual_proofread_nodes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">man_proofread_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1475,7 +1475,7 @@
     
     
 
-<div class="viewcode-block" id="add_synapse_xyz_to_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_synapse_xyz_to_edge_df">[docs]</a><span class="k">def</span> <span class="nf">add_synapse_xyz_to_edge_df</span><span class="p">(</span>
+<div class="viewcode-block" id="add_synapse_xyz_to_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_synapse_xyz_to_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_synapse_xyz_to_edge_df</span><span class="p">(</span>
     <span class="n">edge_df</span><span class="p">,</span>
     <span class="n">node_df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">G</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1499,7 +1499,7 @@
     <span class="k">return</span> <span class="n">edge_df_with_centroids</span></div>
 
 
-<div class="viewcode-block" id="set_edge_attribute_from_node_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.set_edge_attribute_from_node_attribute">[docs]</a><span class="k">def</span> <span class="nf">set_edge_attribute_from_node_attribute</span><span class="p">(</span>
+<div class="viewcode-block" id="set_edge_attribute_from_node_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.set_edge_attribute_from_node_attribute">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_edge_attribute_from_node_attribute</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">attribute</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -1512,7 +1512,7 @@
         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
     <span class="p">)</span>     </div>
 
-<div class="viewcode-block" id="set_edge_presyn_postsyn_centroid"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.set_edge_presyn_postsyn_centroid">[docs]</a><span class="k">def</span> <span class="nf">set_edge_presyn_postsyn_centroid</span><span class="p">(</span>
+<div class="viewcode-block" id="set_edge_presyn_postsyn_centroid"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.set_edge_presyn_postsyn_centroid">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_edge_presyn_postsyn_centroid</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
@@ -1528,7 +1528,7 @@
         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
     <span class="p">)</span>     </div>
 
-<div class="viewcode-block" id="add_axes_subset_soma_to_syn_euclidean_dist_to_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_axes_subset_soma_to_syn_euclidean_dist_to_edge_df">[docs]</a><span class="k">def</span> <span class="nf">add_axes_subset_soma_to_syn_euclidean_dist_to_edge_df</span><span class="p">(</span>
+<div class="viewcode-block" id="add_axes_subset_soma_to_syn_euclidean_dist_to_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_axes_subset_soma_to_syn_euclidean_dist_to_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_axes_subset_soma_to_syn_euclidean_dist_to_edge_df</span><span class="p">(</span>
     <span class="n">edge_df</span><span class="p">,</span>
     <span class="n">syn_type</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;presyn&quot;</span><span class="p">,</span><span class="s2">&quot;postsyn&quot;</span><span class="p">),</span>
     <span class="n">axes</span> <span class="o">=</span> <span class="s2">&quot;xz&quot;</span><span class="p">,</span>
@@ -1555,7 +1555,7 @@
     <span class="k">return</span> <span class="n">edge_df</span></div>
  
     
-<div class="viewcode-block" id="radius_cell_type_sampling"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.radius_cell_type_sampling">[docs]</a><span class="k">def</span> <span class="nf">radius_cell_type_sampling</span><span class="p">(</span>
+<div class="viewcode-block" id="radius_cell_type_sampling"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.radius_cell_type_sampling">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">radius_cell_type_sampling</span><span class="p">(</span>
     <span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">radius</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1615,7 +1615,7 @@
 
 
 
-<div class="viewcode-block" id="plot_soma_dist_distr"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_soma_dist_distr">[docs]</a><span class="k">def</span> <span class="nf">plot_soma_dist_distr</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_soma_dist_distr"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_soma_dist_distr">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_soma_dist_distr</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;presyn_soma_postsyn_soma_euclid_dist&quot;</span>
     <span class="n">y</span> <span class="o">=</span> <span class="s2">&quot;postsyn_skeletal_distance_to_soma&quot;</span>
     <span class="n">sml</span><span class="o">.</span><span class="n">hist2D</span><span class="p">(</span>
@@ -1630,7 +1630,7 @@
         <span class="n">y</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="plotting_edge_df_delta_ori"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plotting_edge_df_delta_ori">[docs]</a><span class="k">def</span> <span class="nf">plotting_edge_df_delta_ori</span><span class="p">(</span>
+<div class="viewcode-block" id="plotting_edge_df_delta_ori"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plotting_edge_df_delta_ori">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plotting_edge_df_delta_ori</span><span class="p">(</span>
     <span class="n">edge_df</span><span class="p">,</span>
     <span class="n">title_suffix</span><span class="p">,</span>
     <span class="n">plot_soma_dist</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1723,7 +1723,7 @@
 
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="restrict_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.restrict_edge_df">[docs]</a><span class="k">def</span> <span class="nf">restrict_edge_df</span><span class="p">(</span>
+<div class="viewcode-block" id="restrict_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.restrict_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">restrict_edge_df</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">postsyn_compartments</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">spine_categories</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1898,7 +1898,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">curr_edge_df</span></div>
     
-<div class="viewcode-block" id="restrict_edge_df_by_cell_type_and_layer"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.restrict_edge_df_by_cell_type_and_layer">[docs]</a><span class="k">def</span> <span class="nf">restrict_edge_df_by_cell_type_and_layer</span><span class="p">(</span>
+<div class="viewcode-block" id="restrict_edge_df_by_cell_type_and_layer"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.restrict_edge_df_by_cell_type_and_layer">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">restrict_edge_df_by_cell_type_and_layer</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">cell_types</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">presyn_cell_types</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1924,7 +1924,7 @@
         <span class="n">title_suffix_from_non_None</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_restricted_edge_df_delta_ori"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_restricted_edge_df_delta_ori">[docs]</a><span class="k">def</span> <span class="nf">plot_restricted_edge_df_delta_ori</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_restricted_edge_df_delta_ori"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_restricted_edge_df_delta_ori">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_restricted_edge_df_delta_ori</span><span class="p">(</span>
     <span class="n">edge_df</span><span class="p">,</span>
     
     <span class="c1"># -- for restrictions ---</span>
@@ -1996,7 +1996,7 @@
     <span class="k">return</span> <span class="n">curr_edge_df</span></div>
 
 
-<div class="viewcode-block" id="plot_functional_connection_from_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_functional_connection_from_df">[docs]</a><span class="k">def</span> <span class="nf">plot_functional_connection_from_df</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_functional_connection_from_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_functional_connection_from_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_functional_connection_from_df</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -2105,7 +2105,7 @@
 
 
 
-<div class="viewcode-block" id="plot_cell_type_pre_post_attribute_hist"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_cell_type_pre_post_attribute_hist">[docs]</a><span class="k">def</span> <span class="nf">plot_cell_type_pre_post_attribute_hist</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_cell_type_pre_post_attribute_hist"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.plot_cell_type_pre_post_attribute_hist">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_cell_type_pre_post_attribute_hist</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">cell_type_pairs</span><span class="p">,</span>
     <span class="n">attribute</span> <span class="o">=</span> <span class="s2">&quot;delta_ori_rad&quot;</span><span class="p">,</span>
@@ -2204,7 +2204,7 @@
     <span class="k">if</span> <span class="n">return_dfs</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">dfs_to_return</span></div>
         
-<div class="viewcode-block" id="add_delta_ori_edge_features"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_delta_ori_edge_features">[docs]</a><span class="k">def</span> <span class="nf">add_delta_ori_edge_features</span><span class="p">(</span>
+<div class="viewcode-block" id="add_delta_ori_edge_features"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_delta_ori_edge_features">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_delta_ori_edge_features</span><span class="p">(</span>
     <span class="n">edge_df</span><span class="p">,</span>
     <span class="p">):</span>
 
@@ -2233,7 +2233,7 @@
 
     <span class="k">return</span> <span class="n">sampled_edge_df</span></div>
 
-<div class="viewcode-block" id="neuroglancer_df_from_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.neuroglancer_df_from_edge_df">[docs]</a><span class="k">def</span> <span class="nf">neuroglancer_df_from_edge_df</span><span class="p">(</span>
+<div class="viewcode-block" id="neuroglancer_df_from_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.neuroglancer_df_from_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">neuroglancer_df_from_edge_df</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">columns_at_front</span><span class="o">=</span><span class="p">(</span>
@@ -2314,12 +2314,12 @@
 
 
 
-<div class="viewcode-block" id="mean_axon_skeletal_length"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.mean_axon_skeletal_length">[docs]</a><span class="k">def</span> <span class="nf">mean_axon_skeletal_length</span><span class="p">(</span>
+<div class="viewcode-block" id="mean_axon_skeletal_length"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.mean_axon_skeletal_length">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">mean_axon_skeletal_length</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">nodes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
     
-    <span class="kn">from</span> <span class="nn">graph_tools</span> <span class="kn">import</span> <span class="n">graph_statistics</span> <span class="k">as</span> <span class="n">gstat</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">graph_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">graph_statistics</span> <span class="k">as</span> <span class="n">gstat</span>
     
     <span class="k">return</span> <span class="n">gstat</span><span class="o">.</span><span class="n">node_attribute_mean</span><span class="p">(</span>
         <span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="p">,</span>
@@ -2328,12 +2328,12 @@
         <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="mean_dendrite_skeletal_length"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.mean_dendrite_skeletal_length">[docs]</a><span class="k">def</span> <span class="nf">mean_dendrite_skeletal_length</span><span class="p">(</span>
+<div class="viewcode-block" id="mean_dendrite_skeletal_length"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.mean_dendrite_skeletal_length">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">mean_dendrite_skeletal_length</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">nodes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
     
-    <span class="kn">from</span> <span class="nn">graph_tools</span> <span class="kn">import</span> <span class="n">graph_statistics</span> <span class="k">as</span> <span class="n">gstat</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">graph_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">graph_statistics</span> <span class="k">as</span> <span class="n">gstat</span>
     
     <span class="k">return</span> <span class="n">gstat</span><span class="o">.</span><span class="n">node_attribute_mean</span><span class="p">(</span>
         <span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="p">,</span>
@@ -2342,7 +2342,7 @@
         <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="excitatory_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.excitatory_nodes">[docs]</a><span class="k">def</span> <span class="nf">excitatory_nodes</span><span class="p">(</span>
+<div class="viewcode-block" id="excitatory_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.excitatory_nodes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">excitatory_nodes</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">attriubte</span> <span class="o">=</span> <span class="s2">&quot;cell_type&quot;</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -2354,7 +2354,7 @@
         <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="inhibitory_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.inhibitory_nodes">[docs]</a><span class="k">def</span> <span class="nf">inhibitory_nodes</span><span class="p">(</span>
+<div class="viewcode-block" id="inhibitory_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.inhibitory_nodes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">inhibitory_nodes</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">attriubte</span> <span class="o">=</span> <span class="s2">&quot;cell_type&quot;</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -2367,7 +2367,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="basic_connectivity_axon_dendrite_stats_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.basic_connectivity_axon_dendrite_stats_from_G">[docs]</a><span class="k">def</span> <span class="nf">basic_connectivity_axon_dendrite_stats_from_G</span><span class="p">(</span>
+<div class="viewcode-block" id="basic_connectivity_axon_dendrite_stats_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.basic_connectivity_axon_dendrite_stats_from_G">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">basic_connectivity_axon_dendrite_stats_from_G</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">G_lite</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -2386,8 +2386,8 @@
 <span class="sd">    1) Get the excitatory and inhibitory nodes</span>
 <span class="sd">    2) </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">graph_tools</span> <span class="kn">import</span> <span class="n">graph_path_utils</span> <span class="k">as</span> <span class="n">gpu</span>
-    <span class="kn">from</span> <span class="nn">graph_tools</span> <span class="kn">import</span> <span class="n">graph_statistics</span> <span class="k">as</span> <span class="n">gstat</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">graph_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">graph_path_utils</span> <span class="k">as</span> <span class="n">gpu</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">graph_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">graph_statistics</span> <span class="k">as</span> <span class="n">gstat</span>
     
     <span class="k">if</span> <span class="n">G_lite</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">G_lite</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">nodes_edges_only_G</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
@@ -2495,7 +2495,7 @@
 
     <span class="k">return</span> <span class="n">graph_dict</span></div>
 
-<div class="viewcode-block" id="add_compartment_syn_flag_columns_to_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_compartment_syn_flag_columns_to_edge_df">[docs]</a><span class="k">def</span> <span class="nf">add_compartment_syn_flag_columns_to_edge_df</span><span class="p">(</span>
+<div class="viewcode-block" id="add_compartment_syn_flag_columns_to_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_compartment_syn_flag_columns_to_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_compartment_syn_flag_columns_to_edge_df</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">return_columns</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
@@ -2522,7 +2522,7 @@
         <span class="k">return</span> <span class="n">edge_df_with_comp_cols</span></div>
 
 
-<div class="viewcode-block" id="n_compartment_syn_from_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.n_compartment_syn_from_edge_df">[docs]</a><span class="k">def</span> <span class="nf">n_compartment_syn_from_edge_df</span><span class="p">(</span>
+<div class="viewcode-block" id="n_compartment_syn_from_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.n_compartment_syn_from_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">n_compartment_syn_from_edge_df</span><span class="p">(</span>
     <span class="n">df</span>
     <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2542,7 +2542,7 @@
     <span class="k">return</span> <span class="n">edge_df_with_comp_cols</span></div>
 
     
-<div class="viewcode-block" id="add_spine_syn_flag_columns_to_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_spine_syn_flag_columns_to_edge_df">[docs]</a><span class="k">def</span> <span class="nf">add_spine_syn_flag_columns_to_edge_df</span><span class="p">(</span>
+<div class="viewcode-block" id="add_spine_syn_flag_columns_to_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.add_spine_syn_flag_columns_to_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_spine_syn_flag_columns_to_edge_df</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">return_columns</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
@@ -2562,7 +2562,7 @@
         <span class="k">return</span> <span class="n">edge_df_with_comp_cols</span></div>
 
     
-<div class="viewcode-block" id="n_spine_syn_from_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.n_spine_syn_from_edge_df">[docs]</a><span class="k">def</span> <span class="nf">n_spine_syn_from_edge_df</span><span class="p">(</span>
+<div class="viewcode-block" id="n_spine_syn_from_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_utils.n_spine_syn_from_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">n_spine_syn_from_edge_df</span><span class="p">(</span>
     <span class="n">df</span>
     <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2651,35 +2651,35 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">apical_utils</span> <span class="k">as</span> <span class="n">apu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">cell_type_utils</span> <span class="k">as</span> <span class="n">ctu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">functional_tuning_utils</span> <span class="k">as</span> <span class="n">ftu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">functional_tuning_utils</span> <span class="k">as</span> <span class="n">ftu</span> 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">apical_utils</span> <span class="k">as</span> <span class="n">apu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">cell_type_utils</span> <span class="k">as</span> <span class="n">ctu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">functional_tuning_utils</span> <span class="k">as</span> <span class="n">ftu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">functional_tuning_utils</span> <span class="k">as</span> <span class="n">ftu</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
 
 <span class="c1">#--- from machine_learning_tools ---</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">machine_learning_tools</span> <span class="kn">import</span> <span class="n">seaborn_ml</span> <span class="k">as</span> <span class="n">sml</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">machine_learning_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">seaborn_ml</span> <span class="k">as</span> <span class="n">sml</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="n">sml</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="c1">#--- from mesh_tools ---</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">statistics_visualizations</span> <span class="k">as</span> <span class="n">sviz</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">string_utils</span> <span class="k">as</span> <span class="n">stru</span>
-<span class="kn">from</span> <span class="nn">datasci_tools.tqdm_utils</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">statistics_visualizations</span> <span class="k">as</span> <span class="n">sviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">string_utils</span> <span class="k">as</span> <span class="n">stru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools.tqdm_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">connectome_utils</span> <span class="k">as</span> <span class="n">conu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">connectome_utils</span> <span class="k">as</span> <span class="n">conu</span>
 </pre></div>
 
            </div>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.connectome_analysis_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -71,11 +71,11 @@
              
   <h1>Source code for neurd.connectome_analysis_utils</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
 
-<div class="viewcode-block" id="restrict_edge_df_by_types_compartment"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.restrict_edge_df_by_types_compartment">[docs]</a><span class="k">def</span> <span class="nf">restrict_edge_df_by_types_compartment</span><span class="p">(</span>
+<div class="viewcode-block" id="restrict_edge_df_by_types_compartment"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.restrict_edge_df_by_types_compartment">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">restrict_edge_df_by_types_compartment</span><span class="p">(</span>
     <span class="n">edge_df</span><span class="p">,</span>
     <span class="n">synapse_type</span> <span class="o">=</span> <span class="s2">&quot;postsyn&quot;</span><span class="p">,</span>
     <span class="n">cell_type</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -189,7 +189,7 @@
 
 <span class="n">cell_type_fine_labels_global</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;23P&#39;</span><span class="p">,</span> <span class="s1">&#39;4P&#39;</span><span class="p">,</span> <span class="s1">&#39;5P-IT&#39;</span><span class="p">,</span> <span class="s1">&#39;5P-NP&#39;</span><span class="p">,</span> <span class="s1">&#39;5P-PT&#39;</span><span class="p">,</span><span class="s1">&#39;6P-CT&#39;</span><span class="p">,</span><span class="s1">&#39;6P-IT&#39;</span><span class="p">,</span><span class="s1">&#39;BC&#39;</span><span class="p">,</span><span class="s2">&quot;BPC&quot;</span><span class="p">,</span><span class="s2">&quot;MC&quot;</span><span class="p">,</span><span class="s2">&quot;NGC&quot;</span><span class="p">,</span><span class="s2">&quot;Pvalb&quot;</span><span class="p">,</span><span class="s2">&quot;SST&quot;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="cell_count"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.cell_count">[docs]</a><span class="k">def</span> <span class="nf">cell_count</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">synapse_type</span><span class="p">,</span><span class="n">return_str</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,):</span>
+<div class="viewcode-block" id="cell_count"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.cell_count">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cell_count</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">synapse_type</span><span class="p">,</span><span class="n">return_str</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,):</span>
     <span class="k">if</span> <span class="n">synapse_type</span> <span class="o">==</span> <span class="s2">&quot;presyn&quot;</span><span class="p">:</span>
         <span class="n">id_name</span> <span class="o">=</span> <span class="s2">&quot;source&quot;</span>
     <span class="k">else</span><span class="p">:</span>
@@ -336,7 +336,7 @@
 <span class="c1">#         plt.show()</span>
         
         
-<div class="viewcode-block" id="plot_histogram_discrete_labels"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.plot_histogram_discrete_labels">[docs]</a><span class="k">def</span> <span class="nf">plot_histogram_discrete_labels</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_histogram_discrete_labels"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.plot_histogram_discrete_labels">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_histogram_discrete_labels</span><span class="p">(</span>
     <span class="n">edge_df</span><span class="p">,</span>
     <span class="n">restrictions_dicts</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">compartment_labels</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1"># cell_type_fine_labels_global,#[&quot;apical&quot;]</span>
@@ -479,7 +479,7 @@
     <span class="k">return</span> <span class="n">ax</span></div>
         
         
-<div class="viewcode-block" id="plot_cell_type_edge_stat"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.plot_cell_type_edge_stat">[docs]</a><span class="k">def</span> <span class="nf">plot_cell_type_edge_stat</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_cell_type_edge_stat"><a class="viewcode-back" href="../../neurd.html#neurd.connectome_analysis_utils.plot_cell_type_edge_stat">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_cell_type_edge_stat</span><span class="p">(</span>
     <span class="n">edge_df</span><span class="p">,</span>
     <span class="n">cell_type_feature</span> <span class="o">=</span> <span class="s2">&quot;cell_type&quot;</span><span class="p">,</span>
     <span class="n">presyn_cell_type_feature</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -561,15 +561,15 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">cell_type_utils</span> <span class="k">as</span> <span class="n">ctu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">cell_type_utils</span> <span class="k">as</span> <span class="n">ctu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">connectome_analysis_utils</span> <span class="k">as</span> <span class="n">cona</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">connectome_analysis_utils</span> <span class="k">as</span> <span class="n">cona</span>
 </pre></div>
 
            </div>

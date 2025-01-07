@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.motif_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -80,14 +80,14 @@
 
 
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
 
 <span class="n">motif_key</span> <span class="o">=</span> <span class="s2">&quot;motif&quot;</span>
 <span class="n">identifier_name_global</span> <span class="o">=</span> <span class="s2">&quot;identifier&quot;</span>
@@ -96,7 +96,7 @@
 <span class="n">min_gnn_probability_global</span> <span class="o">=</span> <span class="mf">0.6</span>
 <span class="n">cell_type_fine_exclude_global</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SST&#39;</span><span class="p">,</span><span class="s1">&#39;NGC&#39;</span><span class="p">,]</span>
 
-<div class="viewcode-block" id="edges_from_str"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.edges_from_str">[docs]</a><span class="k">def</span> <span class="nf">edges_from_str</span><span class="p">(</span>
+<div class="viewcode-block" id="edges_from_str"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.edges_from_str">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">edges_from_str</span><span class="p">(</span>
     <span class="n">string</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">return_edge_str</span> <span class="o">=</span> <span class="kc">False</span>
@@ -104,7 +104,7 @@
     <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">edge_pattern</span><span class="p">)</span>
     <span class="n">s_find</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">string</span><span class="p">)]</span>
     <span class="k">if</span> <span class="n">return_edge_str</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">regex_utils</span> <span class="k">as</span> <span class="n">reu</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">regex_utils</span> <span class="k">as</span> <span class="n">reu</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">reu</span><span class="o">.</span><span class="n">substr_from_match_obj</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">s_find</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">g</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
@@ -115,11 +115,11 @@
         
     <span class="k">return</span> <span class="n">edges</span></div>
 
-<div class="viewcode-block" id="nodes_from_str"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.nodes_from_str">[docs]</a><span class="k">def</span> <span class="nf">nodes_from_str</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+<div class="viewcode-block" id="nodes_from_str"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.nodes_from_str">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">nodes_from_str</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="n">edges_str</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">edges_from_str</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">return_edge_str</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">edges_str</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="motif_nodes_from_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_nodes_from_motif">[docs]</a><span class="k">def</span> <span class="nf">motif_nodes_from_motif</span><span class="p">(</span>
+<div class="viewcode-block" id="motif_nodes_from_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_nodes_from_motif">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">motif_nodes_from_motif</span><span class="p">(</span>
     <span class="n">motif</span><span class="p">,</span>
     <span class="n">only_upper</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -153,7 +153,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span><span class="n">k</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">found_letters</span><span class="p">)}</span></div>
     
-<div class="viewcode-block" id="n_nodes_from_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.n_nodes_from_motif">[docs]</a><span class="k">def</span> <span class="nf">n_nodes_from_motif</span><span class="p">(</span>
+<div class="viewcode-block" id="n_nodes_from_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.n_nodes_from_motif">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">n_nodes_from_motif</span><span class="p">(</span>
     <span class="n">motif</span><span class="p">,</span>
     <span class="n">only_upper</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -166,7 +166,7 @@
     <span class="n">return_n_nodes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="nodes_mapping_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.nodes_mapping_from_G">[docs]</a><span class="k">def</span> <span class="nf">nodes_mapping_from_G</span><span class="p">(</span>
+<div class="viewcode-block" id="nodes_mapping_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.nodes_mapping_from_G">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">nodes_mapping_from_G</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -185,7 +185,7 @@
     <span class="k">return</span> <span class="n">mapping</span></div>
     
     
-<div class="viewcode-block" id="nodes_from_motif_dict"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.nodes_from_motif_dict">[docs]</a><span class="k">def</span> <span class="nf">nodes_from_motif_dict</span><span class="p">(</span>
+<div class="viewcode-block" id="nodes_from_motif_dict"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.nodes_from_motif_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">nodes_from_motif_dict</span><span class="p">(</span>
     <span class="n">motif_dict</span><span class="p">,</span>
     <span class="n">return_dict</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -225,7 +225,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">r_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
     
-<div class="viewcode-block" id="edges_from_motif_dict"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.edges_from_motif_dict">[docs]</a><span class="k">def</span> <span class="nf">edges_from_motif_dict</span><span class="p">(</span>
+<div class="viewcode-block" id="edges_from_motif_dict"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.edges_from_motif_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">edges_from_motif_dict</span><span class="p">(</span>
     <span class="n">motif_dict</span><span class="p">,</span>
     <span class="n">return_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">return_node_mapping</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -276,7 +276,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edges = </span><span class="si">{</span><span class="n">edges</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">return_dict</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">regex_utils</span> <span class="k">as</span> <span class="n">reu</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">regex_utils</span> <span class="k">as</span> <span class="n">reu</span>
         <span class="n">s_find</span> <span class="o">=</span> <span class="n">mfu</span><span class="o">.</span><span class="n">edges_from_str</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">return_edge_str</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         
 <span class="c1">#         return_dict = {reu.substr_from_match_obj(k):v for k,v in</span>
@@ -296,7 +296,7 @@
     
     
 
-<div class="viewcode-block" id="subgraph_from_motif_dict"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.subgraph_from_motif_dict">[docs]</a><span class="k">def</span> <span class="nf">subgraph_from_motif_dict</span><span class="p">(</span>
+<div class="viewcode-block" id="subgraph_from_motif_dict"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.subgraph_from_motif_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">subgraph_from_motif_dict</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">motif_dict</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -328,7 +328,7 @@
     <span class="k">return</span> <span class="n">sub_G</span></div>
 
 
-<div class="viewcode-block" id="motif_segment_df_from_motifs"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_segment_df_from_motifs">[docs]</a><span class="k">def</span> <span class="nf">motif_segment_df_from_motifs</span><span class="p">(</span>
+<div class="viewcode-block" id="motif_segment_df_from_motifs"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_segment_df_from_motifs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">motif_segment_df_from_motifs</span><span class="p">(</span>
     <span class="n">motifs</span><span class="p">,</span>
     <span class="n">return_df</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">motif</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -367,7 +367,7 @@
     <span class="k">return</span> <span class="n">keys_to_write</span></div>
 
 
-<div class="viewcode-block" id="motif_data"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_data">[docs]</a><span class="k">def</span> <span class="nf">motif_data</span><span class="p">(</span>
+<div class="viewcode-block" id="motif_data"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_data">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">motif_data</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">motif_dict</span><span class="p">,</span>
     
@@ -500,7 +500,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">motif_data_dict</span></div>
     
-<div class="viewcode-block" id="filter_G_attributes"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.filter_G_attributes">[docs]</a><span class="k">def</span> <span class="nf">filter_G_attributes</span><span class="p">(</span>
+<div class="viewcode-block" id="filter_G_attributes"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.filter_G_attributes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">filter_G_attributes</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">node_attributes</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;gnn_cell_type_fine&quot;</span><span class="p">,</span>
@@ -533,7 +533,7 @@
     <span class="k">return</span> <span class="n">sub_G</span></div>
     
     
-<div class="viewcode-block" id="motif_G"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_G">[docs]</a><span class="k">def</span> <span class="nf">motif_G</span><span class="p">(</span>
+<div class="viewcode-block" id="motif_G"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_G">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">motif_G</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">motif_dict</span><span class="p">,</span>
     <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -582,7 +582,7 @@
     
     <span class="k">return</span> <span class="n">sub_G</span></div>
 
-<div class="viewcode-block" id="node_attributes_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.node_attributes_from_G">[docs]</a><span class="k">def</span> <span class="nf">node_attributes_from_G</span><span class="p">(</span>
+<div class="viewcode-block" id="node_attributes_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.node_attributes_from_G">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">node_attributes_from_G</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">features</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">features_to_ignore</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -626,9 +626,9 @@
     <span class="k">return</span> <span class="n">final_features</span></div>
 
 
-<div class="viewcode-block" id="set_compartment_flat"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.set_compartment_flat">[docs]</a><span class="k">def</span> <span class="nf">set_compartment_flat</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+<div class="viewcode-block" id="set_compartment_flat"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.set_compartment_flat">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_compartment_flat</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
     
-    <span class="k">def</span> <span class="nf">comp_flat</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">comp_flat</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="s2">&quot;postsyn_compartment_fine&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">key</span><span class="p">[</span><span class="s2">&quot;postsyn_compartment_coarse&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -643,7 +643,7 @@
     <span class="k">return</span> <span class="n">G</span></div>
 
 <span class="c1"># ----------- conversions to str --------------</span>
-<div class="viewcode-block" id="str_from_G_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.str_from_G_motif">[docs]</a><span class="k">def</span> <span class="nf">str_from_G_motif</span><span class="p">(</span>
+<div class="viewcode-block" id="str_from_G_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.str_from_G_motif">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">str_from_G_motif</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">node_attributes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">edge_attributes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;postsyn_compartment_flat&quot;</span><span class="p">,),</span>
@@ -723,7 +723,7 @@
 
 
     
-<div class="viewcode-block" id="dotmotif_str_from_G_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.dotmotif_str_from_G_motif">[docs]</a><span class="k">def</span> <span class="nf">dotmotif_str_from_G_motif</span><span class="p">(</span>
+<div class="viewcode-block" id="dotmotif_str_from_G_motif"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.dotmotif_str_from_G_motif">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dotmotif_str_from_G_motif</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">node_attributes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">edge_attributes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;postsyn_compartment&quot;</span><span class="p">,),</span>
@@ -800,7 +800,7 @@
 
 
 
-<div class="viewcode-block" id="node_attributes_strs"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.node_attributes_strs">[docs]</a><span class="k">def</span> <span class="nf">node_attributes_strs</span><span class="p">(</span>
+<div class="viewcode-block" id="node_attributes_strs"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.node_attributes_strs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">node_attributes_strs</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">joining_str</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
     <span class="n">node_attributes</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -846,7 +846,7 @@
 
 
 
-<div class="viewcode-block" id="motif_column_mapping"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_column_mapping">[docs]</a><span class="k">def</span> <span class="nf">motif_column_mapping</span><span class="p">(</span>
+<div class="viewcode-block" id="motif_column_mapping"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_column_mapping">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">motif_column_mapping</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">mapping</span><span class="p">):</span>
 <span class="w">    </span>
@@ -878,7 +878,7 @@
     
     <span class="k">return</span> <span class="n">column_mapping</span> </div>
 
-<div class="viewcode-block" id="unique_motif_reduction"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.unique_motif_reduction">[docs]</a><span class="k">def</span> <span class="nf">unique_motif_reduction</span><span class="p">(</span>
+<div class="viewcode-block" id="unique_motif_reduction"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.unique_motif_reduction">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">unique_motif_reduction</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">column</span> <span class="o">=</span> <span class="s2">&quot;motif_str&quot;</span><span class="p">,</span>
@@ -1043,7 +1043,7 @@
 
 
 
-<div class="viewcode-block" id="motif_dicts_from_motif_from_database"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_dicts_from_motif_from_database">[docs]</a><span class="k">def</span> <span class="nf">motif_dicts_from_motif_from_database</span><span class="p">(</span>
+<div class="viewcode-block" id="motif_dicts_from_motif_from_database"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.motif_dicts_from_motif_from_database">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">motif_dicts_from_motif_from_database</span><span class="p">(</span>
     <span class="n">motif</span><span class="p">,</span>
     <span class="p">):</span>
 
@@ -1053,7 +1053,7 @@
     
     <span class="k">return</span> <span class="n">motif_dicts</span></div>
 
-<div class="viewcode-block" id="annotated_motif_df"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.annotated_motif_df">[docs]</a><span class="k">def</span> <span class="nf">annotated_motif_df</span><span class="p">(</span>
+<div class="viewcode-block" id="annotated_motif_df"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.annotated_motif_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">annotated_motif_df</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">motif</span><span class="p">,</span>
     <span class="n">node_attributes</span> <span class="o">=</span> <span class="p">(</span>
@@ -1196,7 +1196,7 @@
 
 
 
-<div class="viewcode-block" id="query_with_edge_col"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.query_with_edge_col">[docs]</a><span class="k">def</span> <span class="nf">query_with_edge_col</span><span class="p">(</span>
+<div class="viewcode-block" id="query_with_edge_col"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.query_with_edge_col">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">query_with_edge_col</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">query</span><span class="p">,</span>
     <span class="n">edge_delimiter</span> <span class="o">=</span> <span class="s2">&quot;-&gt;&quot;</span>
@@ -1226,7 +1226,7 @@
     <span class="k">return</span> <span class="n">df_filt</span></div>
 
 
-<div class="viewcode-block" id="filter_motif_df"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.filter_motif_df">[docs]</a><span class="k">def</span> <span class="nf">filter_motif_df</span><span class="p">(</span>
+<div class="viewcode-block" id="filter_motif_df"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.filter_motif_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">filter_motif_df</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">node_filters</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">min_gnn_probability</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="c1">#gives about a 90% on inhibitory cells</span>
@@ -1335,7 +1335,7 @@
     <span class="k">return</span> <span class="n">filt_df</span></div>
 
 
-<div class="viewcode-block" id="counts_df_from_motif_df"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.counts_df_from_motif_df">[docs]</a><span class="k">def</span> <span class="nf">counts_df_from_motif_df</span><span class="p">(</span>
+<div class="viewcode-block" id="counts_df_from_motif_df"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.counts_df_from_motif_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">counts_df_from_motif_df</span><span class="p">(</span>
     <span class="n">motif_df</span><span class="p">,</span>
     <span class="n">motif_column</span> <span class="o">=</span> <span class="s2">&quot;motif_str&quot;</span><span class="p">):</span>
     
@@ -1350,7 +1350,7 @@
     
     <span class="k">return</span> <span class="n">motif_counts</span></div>
 
-<div class="viewcode-block" id="visualize_graph_connections"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.visualize_graph_connections">[docs]</a><span class="k">def</span> <span class="nf">visualize_graph_connections</span><span class="p">(</span>
+<div class="viewcode-block" id="visualize_graph_connections"><a class="viewcode-back" href="../../neurd.html#neurd.motif_utils.visualize_graph_connections">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_graph_connections</span><span class="p">(</span>
     <span class="n">G</span><span class="p">,</span>
     <span class="n">key</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -1395,7 +1395,7 @@
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;synapse_ids= </span><span class="si">{</span><span class="n">synapse_ids</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="kn">from</span> <span class="nn">neurd</span> <span class="kn">import</span> <span class="n">connectome_utils</span> <span class="k">as</span> <span class="n">conu</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">neurd</span><span class="w"> </span><span class="kn">import</span> <span class="n">connectome_utils</span> <span class="k">as</span> <span class="n">conu</span>
     <span class="k">return</span> <span class="n">conu</span><span class="o">.</span><span class="n">visualize_graph_connections_by_method</span><span class="p">(</span>
         <span class="n">G</span><span class="p">,</span>
         <span class="n">segment_ids</span><span class="o">=</span><span class="n">node_names</span><span class="p">,</span>
@@ -1476,22 +1476,22 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">regex_utils</span> <span class="k">as</span> <span class="n">reu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools.tqdm_utils</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">regex_utils</span> <span class="k">as</span> <span class="n">reu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools.tqdm_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="n">motif_Gs_for_n_nodes</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">motif_Gs_for_n_nodes</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">motif_utils</span> <span class="k">as</span> <span class="n">mfu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">dotmotif_utils</span> <span class="k">as</span> <span class="n">dmu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">motif_utils</span> <span class="k">as</span> <span class="n">mfu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">dotmotif_utils</span> <span class="k">as</span> <span class="n">dmu</span>
 </pre></div>
 
            </div>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.neuron_pipeline_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -76,10 +76,10 @@
 <span class="sd">and compartment labeling stage</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<div class="viewcode-block" id="cell_type_ax_dendr_stage"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_pipeline_utils.cell_type_ax_dendr_stage">[docs]</a><span class="k">def</span> <span class="nf">cell_type_ax_dendr_stage</span><span class="p">(</span>
+<div class="viewcode-block" id="cell_type_ax_dendr_stage"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_pipeline_utils.cell_type_ax_dendr_stage">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cell_type_ax_dendr_stage</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">mesh_decimated</span><span class="p">,</span>
     <span class="n">store_in_obj</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -419,7 +419,7 @@
 
 <span class="c1"># -------- auto proofreading -----------</span>
 
-<div class="viewcode-block" id="after_auto_proof_stats"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_pipeline_utils.after_auto_proof_stats">[docs]</a><span class="k">def</span> <span class="nf">after_auto_proof_stats</span><span class="p">(</span>
+<div class="viewcode-block" id="after_auto_proof_stats"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_pipeline_utils.after_auto_proof_stats">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">after_auto_proof_stats</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">store_in_obj</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -583,7 +583,7 @@
     <span class="k">return</span> <span class="n">neuron_proof_dict</span></div>
 
 
-<div class="viewcode-block" id="auto_proof_stage"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_pipeline_utils.auto_proof_stage">[docs]</a><span class="k">def</span> <span class="nf">auto_proof_stage</span><span class="p">(</span>
+<div class="viewcode-block" id="auto_proof_stage"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_pipeline_utils.auto_proof_stage">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">auto_proof_stage</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">mesh_decimated</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">calculate_after_proof_stats</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -673,29 +673,29 @@
 
 
 <span class="c1"># ----------------------</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
 <span class="n">attributes_dict_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
     <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span><span class="p">,</span>
     <span class="n">vdi</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">data_interface</span>
 <span class="p">)</span>   
     
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pipeline</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_simplification</span> <span class="k">as</span> <span class="n">nsimp</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">cell_type_utils</span> <span class="k">as</span> <span class="n">ctu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_graph_lite_utils</span> <span class="k">as</span> <span class="n">ctcu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_simplification</span> <span class="k">as</span> <span class="n">nsimp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">cell_type_utils</span> <span class="k">as</span> <span class="n">ctu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_graph_lite_utils</span> <span class="k">as</span> <span class="n">ctcu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
 
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">apical_utils</span> <span class="k">as</span> <span class="n">apu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">apical_utils</span> <span class="k">as</span> <span class="n">apu</span>
 </pre></div>
 
            </div>

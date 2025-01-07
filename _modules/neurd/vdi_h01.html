@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.vdi_h01 &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -70,10 +70,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for neurd.vdi_h01</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">vdi_default</span> <span class="k">as</span> <span class="n">vdi_def</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">vdi_default</span> <span class="k">as</span> <span class="n">vdi_def</span>
 
 <span class="n">parameters_config_filename</span> <span class="o">=</span> <span class="s2">&quot;parameters_config_h01.py&quot;</span>
 <span class="n">config_filepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span>
@@ -87,10 +87,10 @@
     <span class="n">synapse_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
-<div class="viewcode-block" id="DataInterfaceH01"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_h01.DataInterfaceH01">[docs]</a><span class="k">class</span> <span class="nc">DataInterfaceH01</span><span class="p">(</span><span class="n">vdi_def</span><span class="o">.</span><span class="n">DataInterfaceDefault</span><span class="p">):</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<div class="viewcode-block" id="DataInterfaceH01"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_h01.DataInterfaceH01">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DataInterfaceH01</span><span class="p">(</span><span class="n">vdi_def</span><span class="o">.</span><span class="n">DataInterfaceDefault</span><span class="p">):</span>
     
-<div class="viewcode-block" id="DataInterfaceH01.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_h01.DataInterfaceH01.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceH01.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_h01.DataInterfaceH01.__init__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">):</span>
@@ -101,10 +101,10 @@
         <span class="p">)</span></div>
         
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">voxel_to_nm_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">voxel_to_nm_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">33</span><span class="p">])</span>
     
-<div class="viewcode-block" id="DataInterfaceH01.segment_id_to_synapse_df"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_h01.DataInterfaceH01.segment_id_to_synapse_df">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_df</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceH01.segment_id_to_synapse_df"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_h01.DataInterfaceH01.segment_id_to_synapse_df">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">segment_id_to_synapse_df</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -114,8 +114,8 @@
         <span class="p">)</span></div>
         
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">default_low_degree_graph_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">graph_filters</span> <span class="k">as</span> <span class="n">gf</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">default_low_degree_graph_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">graph_filters</span> <span class="k">as</span> <span class="n">gf</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">gf</span><span class="o">.</span><span class="n">axon_webbing_filter</span><span class="p">,</span>
             <span class="n">gf</span><span class="o">.</span><span class="n">thick_t_filter</span><span class="p">,</span>
@@ -125,7 +125,7 @@
         <span class="p">]</span>
         
         
-<div class="viewcode-block" id="DataInterfaceH01.get_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_h01.DataInterfaceH01.get_align_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_align_matrix</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceH01.get_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_h01.DataInterfaceH01.get_align_matrix">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_align_matrix</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">neuron_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">soma_center</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

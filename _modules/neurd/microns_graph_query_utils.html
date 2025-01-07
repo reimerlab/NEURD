@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.microns_graph_query_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -85,23 +85,23 @@
 <span class="n">default_edge_df_path</span> <span class="o">=</span> <span class="s2">&quot;/platinum_graph/Data/G_query_v6_filtered_edge_and_node_df.gzip&quot;</span>
 <span class="n">default_graph_path</span> <span class="o">=</span> <span class="s2">&quot;/platinum_graph/Data/G_query_v6_filtered.pbz2&quot;</span>
 
-<div class="viewcode-block" id="load_node_df"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.load_node_df">[docs]</a><span class="k">def</span> <span class="nf">load_node_df</span><span class="p">(</span><span class="n">filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="load_node_df"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.load_node_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">load_node_df</span><span class="p">(</span><span class="n">filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">filepath</span> <span class="o">=</span> <span class="n">default_node_df_path</span>
         
     <span class="k">return</span> <span class="n">su</span><span class="o">.</span><span class="n">decompress_pickle</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="load_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.load_edge_df">[docs]</a><span class="k">def</span> <span class="nf">load_edge_df</span><span class="p">(</span><span class="n">filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="load_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.load_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">load_edge_df</span><span class="p">(</span><span class="n">filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">filepath</span> <span class="o">=</span> <span class="n">default_edge_df_path</span>
         
     <span class="k">return</span> <span class="n">pu</span><span class="o">.</span><span class="n">gzip_to_df</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span></div>
 
 <span class="c1"># ----------------- Node querying ------------------------- #</span>
-<div class="viewcode-block" id="soma_centers_from_node_df"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.soma_centers_from_node_df">[docs]</a><span class="k">def</span> <span class="nf">soma_centers_from_node_df</span><span class="p">(</span><span class="n">node_df</span><span class="p">):</span>
+<div class="viewcode-block" id="soma_centers_from_node_df"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.soma_centers_from_node_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">soma_centers_from_node_df</span><span class="p">(</span><span class="n">node_df</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">node_df</span><span class="p">[[</span><span class="s2">&quot;soma_x_nm&quot;</span><span class="p">,</span><span class="s2">&quot;soma_y_nm&quot;</span><span class="p">,</span><span class="s2">&quot;soma_z_nm&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="soma_centers_from_node_query"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.soma_centers_from_node_query">[docs]</a><span class="k">def</span> <span class="nf">soma_centers_from_node_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span>
+<div class="viewcode-block" id="soma_centers_from_node_query"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.soma_centers_from_node_query">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">soma_centers_from_node_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span>
                                 <span class="n">G</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="n">node_df</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                 <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -138,7 +138,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">sub_df_centers</span></div>
     
-<div class="viewcode-block" id="node_df_from_attribute_value"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.node_df_from_attribute_value">[docs]</a><span class="k">def</span> <span class="nf">node_df_from_attribute_value</span><span class="p">(</span>
+<div class="viewcode-block" id="node_df_from_attribute_value"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.node_df_from_attribute_value">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">node_df_from_attribute_value</span><span class="p">(</span>
     <span class="n">attribute_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">attribute_value</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">query</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -159,7 +159,7 @@
                                  <span class="n">node_df</span> <span class="o">=</span> <span class="n">node_df</span><span class="p">,</span>
                                  <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="node_df_from_query"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.node_df_from_query">[docs]</a><span class="k">def</span> <span class="nf">node_df_from_query</span><span class="p">(</span>
+<div class="viewcode-block" id="node_df_from_query"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.node_df_from_query">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">node_df_from_query</span><span class="p">(</span>
     <span class="n">query</span><span class="p">,</span>
     <span class="n">G</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">node_df</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -178,7 +178,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of nodes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">curr_df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">curr_df</span></div>
 
-<div class="viewcode-block" id="excitatory_cells_node_df"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.excitatory_cells_node_df">[docs]</a><span class="k">def</span> <span class="nf">excitatory_cells_node_df</span><span class="p">(</span>
+<div class="viewcode-block" id="excitatory_cells_node_df"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.excitatory_cells_node_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">excitatory_cells_node_df</span><span class="p">(</span>
     <span class="n">G</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">node_df</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
@@ -192,7 +192,7 @@
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="inhibitory_cells_node_df"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.inhibitory_cells_node_df">[docs]</a><span class="k">def</span> <span class="nf">inhibitory_cells_node_df</span><span class="p">(</span>
+<div class="viewcode-block" id="inhibitory_cells_node_df"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.inhibitory_cells_node_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">inhibitory_cells_node_df</span><span class="p">(</span>
     <span class="n">G</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">node_df</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
@@ -206,7 +206,7 @@
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="n_excitatory_n_inhibitory_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.n_excitatory_n_inhibitory_nodes">[docs]</a><span class="k">def</span> <span class="nf">n_excitatory_n_inhibitory_nodes</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="n_excitatory_n_inhibitory_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.microns_graph_query_utils.n_excitatory_n_inhibitory_nodes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">n_excitatory_n_inhibitory_nodes</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                    <span class="n">node_df</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="n">n_excitatory</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mqu</span><span class="o">.</span><span class="n">excitatory_cells_node_df</span><span class="p">(</span><span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span><span class="n">node_df</span><span class="o">=</span><span class="n">node_df</span><span class="p">))</span>
@@ -218,11 +218,11 @@
 
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_graph_query_utils</span> <span class="k">as</span> <span class="n">mqu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_graph_query_utils</span> <span class="k">as</span> <span class="n">mqu</span>
 </pre></div>
 
            </div>

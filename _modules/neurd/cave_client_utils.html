@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.cave_client_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -71,8 +71,8 @@
              
   <h1>Source code for neurd.cave_client_utils</h1><div class="highlight"><pre>
 <span></span><span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">cloudvolume</span>
-    <span class="kn">from</span> <span class="nn">caveclient</span> <span class="kn">import</span> <span class="n">CAVEclient</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">cloudvolume</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">caveclient</span><span class="w"> </span><span class="kn">import</span> <span class="n">CAVEclient</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must install cloudvolume and caveclinet&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pip3 install cloud-volume --upgrade&quot;</span><span class="p">)</span>
@@ -80,18 +80,18 @@
     
     
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">code_structure_tools.decorators</span> <span class="kn">import</span> <span class="n">default_args</span><span class="p">,</span><span class="n">add_func</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">code_structure_tools.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_args</span><span class="p">,</span><span class="n">add_func</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Must install code_structure_utils&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://github.com/bacelii/code_structure_tools&quot;</span><span class="p">)</span>
     
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">json_utils</span> <span class="k">as</span> <span class="n">jsu</span>
-<span class="kn">import</span> <span class="nn">trimesh</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">json_utils</span> <span class="k">as</span> <span class="n">jsu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">trimesh</span>
 <span class="w">    </span>
 <span class="sd">&quot;&quot;&quot; tables in public release</span>
 <span class="sd">&#39;synapses_pni_2&#39;,</span>
@@ -136,7 +136,7 @@
 <span class="n">cloudvolume_secrets_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/root/.cloudvolume/secrets&quot;</span><span class="p">)</span>
 <span class="c1">#release_name = &quot;minnie65_public&quot;</span>
 
-<div class="viewcode-block" id="table_dict_from_release_name"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.table_dict_from_release_name">[docs]</a><span class="k">def</span> <span class="nf">table_dict_from_release_name</span><span class="p">(</span>
+<div class="viewcode-block" id="table_dict_from_release_name"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.table_dict_from_release_name">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">table_dict_from_release_name</span><span class="p">(</span>
     <span class="n">release_name</span><span class="p">,</span>
     <span class="n">return_default</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,):</span>
     <span class="n">table_dict</span> <span class="o">=</span> <span class="n">release_tables</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
@@ -153,11 +153,11 @@
     
     <span class="k">return</span> <span class="n">table_dict</span></div>
 
-<div class="viewcode-block" id="table_name_from_table_str"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.table_name_from_table_str">[docs]</a><span class="k">def</span> <span class="nf">table_name_from_table_str</span><span class="p">(</span><span class="n">table_str</span><span class="p">):</span>
+<div class="viewcode-block" id="table_name_from_table_str"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.table_name_from_table_str">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">table_name_from_table_str</span><span class="p">(</span><span class="n">table_str</span><span class="p">):</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">table_str</span><span class="si">}</span><span class="s2">_table_name&quot;</span></div>
 
 <div class="viewcode-block" id="set_global_table_names"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.set_global_table_names">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">set_global_table_names</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_global_table_names</span><span class="p">(</span>
     <span class="n">release_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">):</span>
@@ -172,11 +172,11 @@
         
 <span class="n">set_global_table_names</span><span class="p">()</span>
 
-<div class="viewcode-block" id="get_table"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.get_table">[docs]</a><span class="k">def</span> <span class="nf">get_table</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span><span class="n">client</span><span class="p">):</span>
+<div class="viewcode-block" id="get_table"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.get_table">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_table</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span><span class="n">client</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">materialize</span><span class="o">.</span><span class="n">query_table</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="load_cave_token"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.load_cave_token">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">load_cave_token</span><span class="p">(</span><span class="n">env_filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_cave_token</span><span class="p">(</span><span class="n">env_filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">load_dotenv</span><span class="p">(</span><span class="n">env_filepath</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -186,7 +186,7 @@
     <span class="k">return</span> <span class="n">cave_token</span></div>
         
 <div class="viewcode-block" id="save_cave_token_to_cloudvolume_secrets"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.save_cave_token_to_cloudvolume_secrets">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">save_cave_token_to_cloudvolume_secrets</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_cave_token_to_cloudvolume_secrets</span><span class="p">(</span>
     <span class="n">cave_token</span><span class="p">,</span>
     <span class="n">cloudvolume_secrets_path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
@@ -204,7 +204,7 @@
     <span class="k">return</span> <span class="n">json_file</span></div>
 
 <div class="viewcode-block" id="set_cave_auth"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.set_cave_auth">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">set_cave_auth</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_cave_auth</span><span class="p">(</span>
     <span class="n">client</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">cave_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">env_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -230,18 +230,18 @@
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="release_name_from_release"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.release_name_from_release">[docs]</a><span class="k">def</span> <span class="nf">release_name_from_release</span><span class="p">(</span>
+<div class="viewcode-block" id="release_name_from_release"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.release_name_from_release">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">release_name_from_release</span><span class="p">(</span>
     <span class="n">release</span><span class="p">,</span>
     <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;minnie65_public&quot;</span>
     <span class="p">):</span>
     
     <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">release</span><span class="si">}</span><span class="s1">&#39;</span></div>
 
-<div class="viewcode-block" id="release_from_release_name"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.release_from_release_name">[docs]</a><span class="k">def</span> <span class="nf">release_from_release_name</span><span class="p">(</span><span class="n">release_name</span><span class="p">):</span>
+<div class="viewcode-block" id="release_from_release_name"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.release_from_release_name">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">release_from_release_name</span><span class="p">(</span><span class="n">release_name</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">release_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="init_cave_client"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.init_cave_client">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">init_cave_client</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">init_cave_client</span><span class="p">(</span>
     <span class="n">release_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">env_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">cave_token</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -254,13 +254,13 @@
     <span class="n">client</span> <span class="o">=</span> <span class="n">CAVEclient</span><span class="p">(</span><span class="n">release_name</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">client</span></div>
     
-<div class="viewcode-block" id="release_name_from_client"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.release_name_from_client">[docs]</a><span class="k">def</span> <span class="nf">release_name_from_client</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<div class="viewcode-block" id="release_name_from_client"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.release_name_from_client">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">release_name_from_client</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">datastack_name</span></div>
 
 
 <span class="c1"># --------- functions for helping access client</span>
 
-<div class="viewcode-block" id="neuron_nucleus_df"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.neuron_nucleus_df">[docs]</a><span class="k">def</span> <span class="nf">neuron_nucleus_df</span><span class="p">(</span>
+<div class="viewcode-block" id="neuron_nucleus_df"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.neuron_nucleus_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">neuron_nucleus_df</span><span class="p">(</span>
     <span class="n">client</span><span class="p">,</span>
     <span class="n">neuron_non_neuron_table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -275,7 +275,7 @@
     
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">nuc_df</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="segment_ids_with_nucleus"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.segment_ids_with_nucleus">[docs]</a><span class="k">def</span> <span class="nf">segment_ids_with_nucleus</span><span class="p">(</span>
+<div class="viewcode-block" id="segment_ids_with_nucleus"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.segment_ids_with_nucleus">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">segment_ids_with_nucleus</span><span class="p">(</span>
     <span class="n">client</span><span class="p">,</span>
     <span class="n">neuron_non_neuron_table_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -289,13 +289,13 @@
     
     <span class="k">return</span> <span class="n">return_list</span></div>
 
-<div class="viewcode-block" id="table_size"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.table_size">[docs]</a><span class="k">def</span> <span class="nf">table_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">client</span><span class="p">,</span><span class="n">table_name</span><span class="p">):</span>
+<div class="viewcode-block" id="table_size"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.table_size">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">table_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">client</span><span class="p">,</span><span class="n">table_name</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">materialize</span><span class="o">.</span><span class="n">get_annotation_count</span><span class="p">(</span>
         <span class="n">table_name</span>
     <span class="p">)</span> </div>
     
 <span class="c1"># pick a segment you selected from neuroglancer to enter here</span>
-<div class="viewcode-block" id="presyn_df_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.presyn_df_from_seg_id">[docs]</a><span class="k">def</span> <span class="nf">presyn_df_from_seg_id</span><span class="p">(</span>
+<div class="viewcode-block" id="presyn_df_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.presyn_df_from_seg_id">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">presyn_df_from_seg_id</span><span class="p">(</span>
     <span class="n">seg_id</span><span class="p">,</span>
     <span class="n">client</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
@@ -306,7 +306,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;# of pre = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="postsyn_df_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.postsyn_df_from_seg_id">[docs]</a><span class="k">def</span> <span class="nf">postsyn_df_from_seg_id</span><span class="p">(</span>
+<div class="viewcode-block" id="postsyn_df_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.postsyn_df_from_seg_id">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">postsyn_df_from_seg_id</span><span class="p">(</span>
     <span class="n">seg_id</span><span class="p">,</span>
     <span class="n">client</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span>
@@ -318,7 +318,7 @@
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="prepost_syn_df_from_cave_syn_df"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.prepost_syn_df_from_cave_syn_df">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">prepost_syn_df_from_cave_syn_df</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">prepost_syn_df_from_cave_syn_df</span><span class="p">(</span>
     <span class="n">syn_df</span><span class="p">,</span>
     <span class="n">seg_id</span><span class="p">,</span>
     <span class="n">columns</span> <span class="o">=</span> <span class="p">(</span>
@@ -407,7 +407,7 @@
     
     <span class="k">return</span> <span class="n">new_syn_df</span></div>
 
-<div class="viewcode-block" id="pre_post_df_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.pre_post_df_from_seg_id">[docs]</a><span class="k">def</span> <span class="nf">pre_post_df_from_seg_id</span><span class="p">(</span>
+<div class="viewcode-block" id="pre_post_df_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.pre_post_df_from_seg_id">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">pre_post_df_from_seg_id</span><span class="p">(</span>
     <span class="n">seg_id</span><span class="p">,</span>
     <span class="n">client</span><span class="p">,</span>
     <span class="n">concat</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -434,7 +434,7 @@
     <span class="k">return</span> <span class="n">pre_df</span><span class="p">,</span><span class="n">post_df</span></div>
 
 <div class="viewcode-block" id="synapse_df_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.synapse_df_from_seg_id">[docs]</a><span class="nd">@default_args</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">synapse_df_from_seg_id</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">synapse_df_from_seg_id</span><span class="p">(</span>
     <span class="n">seg_id</span><span class="p">,</span>
     <span class="n">client</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -456,11 +456,11 @@
     
     <span class="k">return</span> <span class="n">new_syn_df</span></div>
 
-<div class="viewcode-block" id="get_tables"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.get_tables">[docs]</a><span class="k">def</span> <span class="nf">get_tables</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+<div class="viewcode-block" id="get_tables"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.get_tables">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_tables</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">materialize</span><span class="o">.</span><span class="n">get_tables</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="mesh_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.mesh_from_seg_id">[docs]</a><span class="k">def</span> <span class="nf">mesh_from_seg_id</span><span class="p">(</span>
+<div class="viewcode-block" id="mesh_from_seg_id"><a class="viewcode-back" href="../../neurd.html#neurd.cave_client_utils.mesh_from_seg_id">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">mesh_from_seg_id</span><span class="p">(</span>
     <span class="n">seg_id</span><span class="p">,</span>
     <span class="n">client</span><span class="p">,</span>
     <span class="n">use_https</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -512,9 +512,9 @@
         <span class="n">get_table</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
-<span class="k">class</span> <span class="nc">CaveInterface</span><span class="p">():</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CaveInterface</span><span class="p">():</span>
     <span class="nd">@default_args</span><span class="p">()</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">release_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">env_filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -543,7 +543,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_table_names</span><span class="p">()</span>
         
         
-    <span class="k">def</span> <span class="nf">set_table_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_table_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">table_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">table_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">table_dict</span> <span class="o">=</span> <span class="n">table_dict_from_release_name</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">release_name</span>
@@ -556,20 +556,20 @@
             <span class="p">)</span>
         
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">release_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">release_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">materialize</span><span class="o">.</span><span class="n">get_table_metadata</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">release_info_table_name</span>
         <span class="p">)</span>
         
     
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">voxel_to_nm_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">voxel_to_nm_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">release_info</span><span class="p">[</span><span class="s1">&#39;voxel_resolution&#39;</span><span class="p">]</span>
         <span class="p">)</span>
         
 
-    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">k</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;__&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
@@ -580,10 +580,10 @@
     
 
 
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 
         

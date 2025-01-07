@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.neuron_visualizations &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -71,25 +71,25 @@
              
   <h1>Source code for neurd.neuron_visualizations</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">import</span> <span class="nn">ipyvolume</span> <span class="k">as</span> <span class="nn">ipv</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">reload</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">trimesh</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">import</span> <span class="nn">ipyvolume</span> <span class="k">as</span> <span class="nn">ipv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ipyvolume</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ipv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">reload</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">trimesh</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ipyvolume</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ipv</span>
 
 <span class="n">soma_color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
 <span class="n">glia_color</span> <span class="o">=</span> <span class="s2">&quot;aqua&quot;</span>
 <span class="n">nuclei_color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
 
-<div class="viewcode-block" id="plot_soma_limb_concept_network"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_soma_limb_concept_network">[docs]</a><span class="k">def</span> <span class="nf">plot_soma_limb_concept_network</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_soma_limb_concept_network"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_soma_limb_concept_network">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_soma_limb_concept_network</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                   <span class="n">soma_color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
                                   <span class="n">limb_color</span><span class="o">=</span><span class="s2">&quot;aqua&quot;</span><span class="p">,</span>
                                    <span class="n">multi_touch_color</span> <span class="o">=</span> <span class="s2">&quot;brown&quot;</span><span class="p">,</span>
@@ -132,7 +132,7 @@
            <span class="n">font_color</span><span class="o">=</span><span class="n">font_color</span><span class="p">,</span><span class="n">node_size</span><span class="o">=</span><span class="n">node_size</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="plot_limb_concept_network_2D"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_concept_network_2D">[docs]</a><span class="k">def</span> <span class="nf">plot_limb_concept_network_2D</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_limb_concept_network_2D"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_concept_network_2D">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_limb_concept_network_2D</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                  <span class="n">node_colors</span><span class="o">=</span><span class="nb">dict</span><span class="p">(),</span>
                                  <span class="n">limb_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                  <span class="n">somas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -308,7 +308,7 @@
     
 
 
-<div class="viewcode-block" id="plot_concept_network"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_concept_network">[docs]</a><span class="k">def</span> <span class="nf">plot_concept_network</span><span class="p">(</span><span class="n">curr_concept_network</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_concept_network"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_concept_network">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_concept_network</span><span class="p">(</span><span class="n">curr_concept_network</span><span class="p">,</span>
                             <span class="n">arrow_size</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
                             <span class="n">arrow_color</span> <span class="o">=</span> <span class="s2">&quot;maroon&quot;</span><span class="p">,</span>
                             <span class="n">edge_color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
@@ -450,7 +450,7 @@
     <span class="k">if</span> <span class="n">show_at_end</span><span class="p">:</span>
         <span class="n">ipv</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
         
-<div class="viewcode-block" id="visualize_concept_map"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_concept_map">[docs]</a><span class="k">def</span> <span class="nf">visualize_concept_map</span><span class="p">(</span><span class="n">curr_concept_network</span><span class="p">,</span>
+<div class="viewcode-block" id="visualize_concept_map"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_concept_map">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_concept_map</span><span class="p">(</span><span class="n">curr_concept_network</span><span class="p">,</span>
                             <span class="n">node_color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
                             <span class="c1">#node_color=&quot;black&quot;,</span>
                             <span class="n">node_alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
@@ -628,7 +628,7 @@
 
 
 
-<div class="viewcode-block" id="plot_branch_pieces"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_pieces">[docs]</a><span class="k">def</span> <span class="nf">plot_branch_pieces</span><span class="p">(</span><span class="n">neuron_network</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_branch_pieces"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_pieces">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branch_pieces</span><span class="p">(</span><span class="n">neuron_network</span><span class="p">,</span>
                        <span class="n">node_to_branch_dict</span><span class="p">,</span>
                       <span class="n">background_mesh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -671,7 +671,7 @@
     
     
 
-<div class="viewcode-block" id="plot_ipv_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_ipv_mesh">[docs]</a><span class="k">def</span> <span class="nf">plot_ipv_mesh</span><span class="p">(</span><span class="n">elephant_mesh_sub</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.2</span><span class="p">],</span>
+<div class="viewcode-block" id="plot_ipv_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_ipv_mesh">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_ipv_mesh</span><span class="p">(</span><span class="n">elephant_mesh_sub</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.2</span><span class="p">],</span>
                  <span class="n">flip_y</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">elephant_mesh_sub</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> 
@@ -714,7 +714,7 @@
         <span class="n">mesh4</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
         <span class="n">mesh4</span><span class="o">.</span><span class="n">material</span><span class="o">.</span><span class="n">transparent</span> <span class="o">=</span> <span class="kc">True</span></div>
         
-<div class="viewcode-block" id="plot_ipv_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_ipv_skeleton">[docs]</a><span class="k">def</span> <span class="nf">plot_ipv_skeleton</span><span class="p">(</span><span class="n">edge_coordinates</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+<div class="viewcode-block" id="plot_ipv_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_ipv_skeleton">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_ipv_skeleton</span><span class="p">(</span><span class="n">edge_coordinates</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
                      <span class="n">flip_y</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">edge_coordinates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1">#print(&quot;Edge coordinates in plot_ipv_skeleton were of 0 length so returning&quot;)</span>
@@ -740,7 +740,7 @@
 
     <span class="k">return</span> <span class="n">unique_skeleton_verts_final</span></div>
 
-<div class="viewcode-block" id="plot_ipv_scatter"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_ipv_scatter">[docs]</a><span class="k">def</span> <span class="nf">plot_ipv_scatter</span><span class="p">(</span><span class="n">scatter_points</span><span class="p">,</span><span class="n">scatter_color</span><span class="o">=</span><span class="p">[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],</span>
+<div class="viewcode-block" id="plot_ipv_scatter"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_ipv_scatter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_ipv_scatter</span><span class="p">(</span><span class="n">scatter_points</span><span class="p">,</span><span class="n">scatter_color</span><span class="o">=</span><span class="p">[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],</span>
                     <span class="n">scatter_size</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
                     <span class="n">flip_y</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="n">scatter_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scatter_points</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
@@ -765,7 +765,7 @@
 <span class="n">current_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="visualize_neuron"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron">[docs]</a><span class="k">def</span> <span class="nf">visualize_neuron</span><span class="p">(</span>
+<div class="viewcode-block" id="visualize_neuron"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_neuron</span><span class="p">(</span>
     <span class="c1">#the neuron we want to visualize</span>
     <span class="n">input_neuron</span><span class="p">,</span>
     
@@ -1939,7 +1939,7 @@
     <span class="k">return</span></div>
 
 
-<div class="viewcode-block" id="plot_spines"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_spines">[docs]</a><span class="k">def</span> <span class="nf">plot_spines</span><span class="p">(</span><span class="n">current_neuron</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_spines"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_spines">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_spines</span><span class="p">(</span><span class="n">current_neuron</span><span class="p">,</span>
                 <span class="n">mesh_whole_neuron_alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
                 <span class="n">mesh_whole_neuron_color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
                 <span class="n">mesh_spines_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
@@ -1959,7 +1959,7 @@
 
                          <span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_boutons"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_boutons">[docs]</a><span class="k">def</span> <span class="nf">plot_boutons</span><span class="p">(</span><span class="n">current_neuron</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_boutons"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_boutons">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_boutons</span><span class="p">(</span><span class="n">current_neuron</span><span class="p">,</span>
                 <span class="n">mesh_whole_neuron_alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
                 <span class="n">mesh_whole_neuron_color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
                 <span class="n">boutons_color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
@@ -2164,8 +2164,8 @@
 <span class="sd">&#39;&#39;&#39;</span>
             
         
-<div class="viewcode-block" id="plot_branch_spines"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_spines">[docs]</a><span class="k">def</span> <span class="nf">plot_branch_spines</span><span class="p">(</span><span class="n">curr_branch</span><span class="p">,</span><span class="n">plot_skeletons</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+<div class="viewcode-block" id="plot_branch_spines"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_spines">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branch_spines</span><span class="p">(</span><span class="n">curr_branch</span><span class="p">,</span><span class="n">plot_skeletons</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Purpose: To plot a branch with certain spines</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2187,7 +2187,7 @@
                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
     
-<div class="viewcode-block" id="plot_split_suggestions_per_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_split_suggestions_per_limb">[docs]</a><span class="k">def</span> <span class="nf">plot_split_suggestions_per_limb</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_split_suggestions_per_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_split_suggestions_per_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_split_suggestions_per_limb</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">limb_results</span><span class="p">,</span>
     <span class="c1">#red_blue_splits=None,</span>
@@ -2273,7 +2273,7 @@
 
         
         
-<div class="viewcode-block" id="visualize_neuron_path"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_path">[docs]</a><span class="k">def</span> <span class="nf">visualize_neuron_path</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="visualize_neuron_path"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_path">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_neuron_path</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                           <span class="n">limb_idx</span><span class="p">,</span>
                           <span class="n">path</span><span class="p">,</span>
                           <span class="n">path_mesh_color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
@@ -2305,7 +2305,7 @@
                              <span class="n">scatter_size</span><span class="o">=</span><span class="n">scatter_size</span><span class="p">,</span>
                              <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="limb_correspondence_plottable"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.limb_correspondence_plottable">[docs]</a><span class="k">def</span> <span class="nf">limb_correspondence_plottable</span><span class="p">(</span><span class="n">limb_correspondence</span><span class="p">,</span>
+<div class="viewcode-block" id="limb_correspondence_plottable"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.limb_correspondence_plottable">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">limb_correspondence_plottable</span><span class="p">(</span><span class="n">limb_correspondence</span><span class="p">,</span>
                                   <span class="n">mesh_name</span><span class="o">=</span><span class="s2">&quot;branch_mesh&quot;</span><span class="p">,</span>
                                  <span class="n">combine</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2327,7 +2327,7 @@
         
     <span class="k">return</span> <span class="n">meshes</span><span class="p">,</span><span class="n">skeletons</span></div>
 
-<div class="viewcode-block" id="plot_limb_correspondence"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_correspondence">[docs]</a><span class="k">def</span> <span class="nf">plot_limb_correspondence</span><span class="p">(</span><span class="n">limb_correspondence</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_limb_correspondence"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_correspondence">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_limb_correspondence</span><span class="p">(</span><span class="n">limb_correspondence</span><span class="p">,</span>
                             <span class="n">meshes_colors</span><span class="o">=</span><span class="s2">&quot;random&quot;</span><span class="p">,</span>
                             <span class="n">skeleton_colors</span><span class="o">=</span><span class="s2">&quot;random&quot;</span><span class="p">,</span>
                             <span class="n">mesh_name</span><span class="o">=</span><span class="s2">&quot;branch_mesh&quot;</span><span class="p">,</span>
@@ -2347,7 +2347,7 @@
                      <span class="p">)</span></div>
     
     
-<div class="viewcode-block" id="plot_limb_path"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_path">[docs]</a><span class="k">def</span> <span class="nf">plot_limb_path</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_limb_path"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_path">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_limb_path</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Purpose: To highlight the nodes on a path</span>
 <span class="sd">    with just given a limb object</span>
@@ -2369,7 +2369,7 @@
     
     
 <span class="c1"># ----------- For plotting classifications ------------------ #</span>
-<div class="viewcode-block" id="plot_labeled_limb_branch_dicts"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_labeled_limb_branch_dicts">[docs]</a><span class="k">def</span> <span class="nf">plot_labeled_limb_branch_dicts</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_labeled_limb_branch_dicts"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_labeled_limb_branch_dicts">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_labeled_limb_branch_dicts</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                            <span class="n">labels</span><span class="p">,</span>
                            <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
                           <span class="n">skeleton</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -2410,7 +2410,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_axon"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_axon">[docs]</a><span class="k">def</span> <span class="nf">plot_axon</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_axon"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_axon">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_axon</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">skeleton</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">plot_synapses</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -2429,14 +2429,14 @@
                          <span class="n">skeleton_color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
                           <span class="n">total_synapses</span><span class="o">=</span><span class="n">plot_synapses</span><span class="p">,</span>
                          <span class="p">)</span></div>
-<div class="viewcode-block" id="plot_dendrite_and_synapses"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_dendrite_and_synapses">[docs]</a><span class="k">def</span> <span class="nf">plot_dendrite_and_synapses</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_dendrite_and_synapses"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_dendrite_and_synapses">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_dendrite_and_synapses</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">nviz</span><span class="o">.</span><span class="n">visualize_neuron</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                      <span class="n">limb_branch_dict</span><span class="o">=</span><span class="n">neuron_obj</span><span class="o">.</span><span class="n">dendrite_limb_branch_dict</span><span class="p">,</span>
                      <span class="n">mesh_color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
                      <span class="n">skeleton_color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
                      <span class="n">limb_branch_synapses</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_axon_merge_errors"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_axon_merge_errors">[docs]</a><span class="k">def</span> <span class="nf">plot_axon_merge_errors</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_axon_merge_errors"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_axon_merge_errors">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_axon_merge_errors</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">):</span>
     <span class="n">error_limb_branch_dict</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">query_neuron_by_labels</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                              <span class="n">matching_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;axon-like&quot;</span><span class="p">],</span>
                              <span class="n">not_matching_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;axon&quot;</span><span class="p">]</span>
@@ -2450,7 +2450,7 @@
     
 
 
-<div class="viewcode-block" id="plot_branch_with_boutons_old"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_with_boutons_old">[docs]</a><span class="k">def</span> <span class="nf">plot_branch_with_boutons_old</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_branch_with_boutons_old"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_with_boutons_old">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branch_with_boutons_old</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span>
                             <span class="n">bouton_color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
                             <span class="n">non_bouton_color</span> <span class="o">=</span> <span class="s2">&quot;aqua&quot;</span><span class="p">,</span>
                              <span class="n">main_mesh_color</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span>
@@ -2535,7 +2535,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No bouton processing done&quot;</span><span class="p">)</span></div>
     
 
-<div class="viewcode-block" id="plot_branches_with_mesh_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branches_with_mesh_attribute">[docs]</a><span class="k">def</span> <span class="nf">plot_branches_with_mesh_attribute</span><span class="p">(</span><span class="n">branches</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_branches_with_mesh_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branches_with_mesh_attribute">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branches_with_mesh_attribute</span><span class="p">(</span><span class="n">branches</span><span class="p">,</span>
                                       <span class="n">mesh_attribute</span><span class="p">,</span>
                                       <span class="n">plot_skeletons</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                              <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -2589,7 +2589,7 @@
                      <span class="n">skeletons</span><span class="o">=</span><span class="n">skeletons</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plot_branches_with_spines"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branches_with_spines">[docs]</a><span class="k">def</span> <span class="nf">plot_branches_with_spines</span><span class="p">(</span><span class="n">branches</span><span class="p">,</span><span class="n">plot_skeletons</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_branches_with_spines"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branches_with_spines">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branches_with_spines</span><span class="p">(</span><span class="n">branches</span><span class="p">,</span><span class="n">plot_skeletons</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                              <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    To plot the branch meshes and their spines</span>
@@ -2601,7 +2601,7 @@
                                       <span class="n">plot_skeletons</span><span class="o">=</span><span class="n">plot_skeletons</span><span class="p">,</span>
                              <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_branches_with_boutons"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branches_with_boutons">[docs]</a><span class="k">def</span> <span class="nf">plot_branches_with_boutons</span><span class="p">(</span><span class="n">branches</span><span class="p">,</span><span class="n">plot_skeletons</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_branches_with_boutons"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branches_with_boutons">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branches_with_boutons</span><span class="p">(</span><span class="n">branches</span><span class="p">,</span><span class="n">plot_skeletons</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                              <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    To plot the branch meshes and their spines</span>
@@ -2654,7 +2654,7 @@
 <span class="sd">                     meshes_colors=&quot;red&quot;,</span>
 <span class="sd">                      mesh_alpha=1,</span>
 <span class="sd">                     skeletons=skeletons)&#39;&#39;&#39;</span>
-<div class="viewcode-block" id="plot_branch_on_whole_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_on_whole_mesh">[docs]</a><span class="k">def</span> <span class="nf">plot_branch_on_whole_mesh</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_branch_on_whole_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_on_whole_mesh">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branch_on_whole_mesh</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                              <span class="n">limb_idx</span><span class="p">,</span>
                              <span class="n">branch_idx</span><span class="p">,</span>
                               <span class="n">visualize_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -2677,7 +2677,7 @@
                           <span class="n">return_color_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">plot_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                          <span class="n">limb_branch_dict</span><span class="p">,</span>
                           <span class="n">visualize_type</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">],</span>
                           <span class="n">plot_random_color_map</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -2755,7 +2755,7 @@
 <span class="sd">                         **kwargs)&quot;&quot;&quot;</span>
 
     
-<div class="viewcode-block" id="visualize_neuron_lite"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_lite">[docs]</a><span class="k">def</span> <span class="nf">visualize_neuron_lite</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="visualize_neuron_lite"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_lite">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_neuron_lite</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                          <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">nviz</span><span class="o">.</span><span class="n">visualize_neuron</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                      <span class="n">visualize_type</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">],</span>
@@ -2763,7 +2763,7 @@
                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>    </div>
 
     
-<div class="viewcode-block" id="visualize_neuron_limbs"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_limbs">[docs]</a><span class="k">def</span> <span class="nf">visualize_neuron_limbs</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">limbs_to_plot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="visualize_neuron_limbs"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_limbs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_neuron_limbs</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">limbs_to_plot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">plot_soma_limb_network</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">limbs_to_plot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">limbs_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="n">nru</span><span class="o">.</span><span class="n">get_limb_string_name</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">limbs_to_plot</span><span class="p">]</span>
@@ -2782,7 +2782,7 @@
     <span class="k">if</span> <span class="n">plot_soma_limb_network</span><span class="p">:</span>
         <span class="n">nviz</span><span class="o">.</span><span class="n">plot_soma_limb_concept_network</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                    <span class="n">node_colors</span><span class="o">=</span><span class="n">ret_col</span><span class="p">)</span></div>
-<div class="viewcode-block" id="visualize_subset_neuron_limbs"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_subset_neuron_limbs">[docs]</a><span class="k">def</span> <span class="nf">visualize_subset_neuron_limbs</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="visualize_subset_neuron_limbs"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_subset_neuron_limbs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_subset_neuron_limbs</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                  <span class="n">limbs_to_plot</span><span class="p">,):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Purpose: Will just plot some of the limbs</span>
@@ -2790,7 +2790,7 @@
     <span class="n">nviz</span><span class="o">.</span><span class="n">visualize_neuron_limbs</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">limbs_to_plot</span><span class="p">,</span>
                                <span class="n">plot_soma_limb_network</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="visualize_neuron_specific_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_specific_limb">[docs]</a><span class="k">def</span> <span class="nf">visualize_neuron_specific_limb</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="visualize_neuron_specific_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_specific_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_neuron_specific_limb</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                    <span class="n">limb_idx</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                   <span class="n">limb_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                    <span class="n">mesh_color_alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -2816,7 +2816,7 @@
 <span class="n">plot_limb_idx</span> <span class="o">=</span> <span class="n">visualize_neuron_specific_limb</span>
 <span class="n">plot_limb</span> <span class="o">=</span> <span class="n">visualize_neuron_specific_limb</span>
 
-<div class="viewcode-block" id="plot_valid_error_synapses"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_valid_error_synapses">[docs]</a><span class="k">def</span> <span class="nf">plot_valid_error_synapses</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_valid_error_synapses"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_valid_error_synapses">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_valid_error_synapses</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                               <span class="n">synapse_dict</span><span class="p">,</span>
                              <span class="n">synapse_scatter_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
                               <span class="n">valid_presyn_color</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span>
@@ -2939,7 +2939,7 @@
                      <span class="n">scatter_size</span><span class="o">=</span><span class="n">scatter_size_to_use</span><span class="p">,</span>
                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="visualize_limb_obj"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_limb_obj">[docs]</a><span class="k">def</span> <span class="nf">visualize_limb_obj</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>                 
+<div class="viewcode-block" id="visualize_limb_obj"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_limb_obj">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_limb_obj</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>                 
     <span class="n">meshes_colors</span> <span class="o">=</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span>
     <span class="n">skeletons_colors</span> <span class="o">=</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span>
     <span class="n">plot_soma_vertices</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -2974,7 +2974,7 @@
                      <span class="n">scatters</span><span class="o">=</span><span class="n">all_scatters</span><span class="p">,</span>
                      <span class="n">scatter_size</span><span class="o">=</span><span class="n">all_scatters_sizes</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="visualize_axon_dendrite"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_axon_dendrite">[docs]</a><span class="k">def</span> <span class="nf">visualize_axon_dendrite</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="visualize_axon_dendrite"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_axon_dendrite">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_axon_dendrite</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                            <span class="n">axon_color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
                             <span class="n">dendrite_color</span> <span class="o">=</span> <span class="s2">&quot;aqua&quot;</span><span class="p">,</span>
                             <span class="n">plot_mesh</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -3021,7 +3021,7 @@
                          <span class="n">skeleton_color</span><span class="o">=</span><span class="n">color_dict</span><span class="p">)</span></div>
 
     
-<div class="viewcode-block" id="limb_branch_dicts_to_combined_color_dict"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.limb_branch_dicts_to_combined_color_dict">[docs]</a><span class="k">def</span> <span class="nf">limb_branch_dicts_to_combined_color_dict</span><span class="p">(</span><span class="n">limb_branch_dict_list</span><span class="p">,</span>
+<div class="viewcode-block" id="limb_branch_dicts_to_combined_color_dict"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.limb_branch_dicts_to_combined_color_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">limb_branch_dicts_to_combined_color_dict</span><span class="p">(</span><span class="n">limb_branch_dict_list</span><span class="p">,</span>
                                             <span class="n">color_list</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Purpose: Will combine multiple limb branch dict lists into </span>
@@ -3039,7 +3039,7 @@
     <span class="k">return</span> <span class="n">color_dict</span></div>
 
 
-<div class="viewcode-block" id="visualize_neuron_axon_dendrite"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_axon_dendrite">[docs]</a><span class="k">def</span> <span class="nf">visualize_neuron_axon_dendrite</span><span class="p">(</span>
+<div class="viewcode-block" id="visualize_neuron_axon_dendrite"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_axon_dendrite">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_neuron_axon_dendrite</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">visualize_type</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">],</span>
     <span class="n">axon_color</span> <span class="o">=</span> <span class="s2">&quot;aqua&quot;</span><span class="p">,</span>
@@ -3072,7 +3072,7 @@
                           <span class="o">**</span><span class="n">kwargs</span>
                          <span class="p">)</span>    </div>
     
-<div class="viewcode-block" id="visualize_neuron_axon_merge_errors"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_axon_merge_errors">[docs]</a><span class="k">def</span> <span class="nf">visualize_neuron_axon_merge_errors</span><span class="p">(</span>
+<div class="viewcode-block" id="visualize_neuron_axon_merge_errors"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_neuron_axon_merge_errors">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_neuron_axon_merge_errors</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">visualize_type</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">],</span>
     <span class="n">axon_error_color</span> <span class="o">=</span> <span class="s2">&quot;aqua&quot;</span><span class="p">,</span>
@@ -3109,7 +3109,7 @@
                          <span class="p">)</span>    </div>
     
     
-<div class="viewcode-block" id="plot_branch_mesh_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_mesh_attribute">[docs]</a><span class="k">def</span> <span class="nf">plot_branch_mesh_attribute</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_branch_mesh_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_mesh_attribute">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branch_mesh_attribute</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                               <span class="n">mesh_attribute</span><span class="p">,</span>
                               <span class="n">mesh_color</span><span class="p">,</span>
                               <span class="n">mesh_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
@@ -3181,7 +3181,7 @@
     <span class="k">if</span> <span class="n">return_vertices</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">total_vertices</span></div>
     
-<div class="viewcode-block" id="plot_web_intersection"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_web_intersection">[docs]</a><span class="k">def</span> <span class="nf">plot_web_intersection</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_web_intersection"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_web_intersection">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_web_intersection</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                           <span class="n">limb_idx</span><span class="p">,</span>
                          <span class="n">branch_idx</span><span class="p">,</span>
                           <span class="n">parent_color</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span>
@@ -3309,7 +3309,7 @@
                      <span class="p">)</span></div>
 
     
-<div class="viewcode-block" id="set_zoom"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.set_zoom">[docs]</a><span class="k">def</span> <span class="nf">set_zoom</span><span class="p">(</span><span class="n">center_coordinate</span><span class="p">,</span>
+<div class="viewcode-block" id="set_zoom"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.set_zoom">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_zoom</span><span class="p">(</span><span class="n">center_coordinate</span><span class="p">,</span>
                        <span class="n">radius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                        <span class="n">radius_xyz</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                        <span class="n">show_at_end</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -3340,7 +3340,7 @@
     <span class="k">if</span> <span class="n">show_at_end</span><span class="p">:</span>
         <span class="n">ipv</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>    </div>
         
-<div class="viewcode-block" id="plot_limb_correspondence_multiple"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_correspondence_multiple">[docs]</a><span class="k">def</span> <span class="nf">plot_limb_correspondence_multiple</span><span class="p">(</span><span class="n">limb_correspondence_list</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_limb_correspondence_multiple"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_correspondence_multiple">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_limb_correspondence_multiple</span><span class="p">(</span><span class="n">limb_correspondence_list</span><span class="p">,</span>
                                       <span class="n">color_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                       <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                                       <span class="o">**</span><span class="n">kwargs</span>
@@ -3372,7 +3372,7 @@
                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
 
-<div class="viewcode-block" id="plot_limb_branch_dict_multiple"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_branch_dict_multiple">[docs]</a><span class="k">def</span> <span class="nf">plot_limb_branch_dict_multiple</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_limb_branch_dict_multiple"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_limb_branch_dict_multiple">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_limb_branch_dict_multiple</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                    <span class="n">limb_branch_dict_list</span><span class="p">,</span>
                                    <span class="n">color_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                    <span class="n">visualize_type</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">],</span>
@@ -3413,7 +3413,7 @@
     
         
 
-<div class="viewcode-block" id="visualize_branch_at_downstream_split"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_branch_at_downstream_split">[docs]</a><span class="k">def</span> <span class="nf">visualize_branch_at_downstream_split</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="visualize_branch_at_downstream_split"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.visualize_branch_at_downstream_split">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">visualize_branch_at_downstream_split</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                          <span class="n">limb_idx</span><span class="p">,</span>
                                          <span class="n">branch_idx</span><span class="p">,</span>
                                         <span class="n">radius</span> <span class="o">=</span> <span class="mi">20000</span><span class="p">,</span>
@@ -3488,7 +3488,7 @@
                  <span class="n">turn_axis_on</span><span class="o">=</span><span class="n">turn_axis_on</span><span class="p">)</span></div>
         
         
-<div class="viewcode-block" id="set_zoom_to_limb_branch"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.set_zoom_to_limb_branch">[docs]</a><span class="k">def</span> <span class="nf">set_zoom_to_limb_branch</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="set_zoom_to_limb_branch"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.set_zoom_to_limb_branch">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_zoom_to_limb_branch</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                            <span class="n">limb_idx</span><span class="p">,</span>
                            <span class="n">branch_idx</span><span class="p">,</span>
                             <span class="n">radius</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
@@ -3500,7 +3500,7 @@
                       <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span>
                  <span class="n">turn_axis_on</span><span class="o">=</span><span class="n">turn_axis_on</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="add_scatter_to_current_plot"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.add_scatter_to_current_plot">[docs]</a><span class="k">def</span> <span class="nf">add_scatter_to_current_plot</span><span class="p">(</span><span class="n">scatters</span><span class="p">,</span>
+<div class="viewcode-block" id="add_scatter_to_current_plot"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.add_scatter_to_current_plot">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_scatter_to_current_plot</span><span class="p">(</span><span class="n">scatters</span><span class="p">,</span>
                                <span class="n">scatters_colors</span><span class="p">,</span>
                                <span class="n">scatter_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
     <span class="n">nviz</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span><span class="n">scatters</span><span class="o">=</span><span class="n">scatters</span><span class="p">,</span>
@@ -3513,7 +3513,7 @@
                  <span class="c1">#zoom_radius=3000</span>
                  <span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_original_vs_proofread"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_original_vs_proofread">[docs]</a><span class="k">def</span> <span class="nf">plot_original_vs_proofread</span><span class="p">(</span><span class="n">original</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_original_vs_proofread"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_original_vs_proofread">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_original_vs_proofread</span><span class="p">(</span><span class="n">original</span><span class="p">,</span>
     <span class="n">proofread</span><span class="p">,</span>
     <span class="n">original_color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
     <span class="n">proofread_color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
@@ -3569,7 +3569,7 @@
                      <span class="n">mesh_alpha</span><span class="o">=</span><span class="n">mesh_alpha</span><span class="p">)</span></div>
     
     
-<div class="viewcode-block" id="vector_to_scatter_line"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.vector_to_scatter_line">[docs]</a><span class="k">def</span> <span class="nf">vector_to_scatter_line</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span>
+<div class="viewcode-block" id="vector_to_scatter_line"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.vector_to_scatter_line">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">vector_to_scatter_line</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span>
                           <span class="n">start_coordainte</span><span class="p">,</span>
                           <span class="n">distance_to_plot</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
                         <span class="n">n_points</span> <span class="o">=</span> <span class="mi">20</span><span class="p">):</span>
@@ -3581,7 +3581,7 @@
     <span class="n">normal_line</span> <span class="o">=</span> <span class="n">scaling</span><span class="o">*</span><span class="n">nu</span><span class="o">.</span><span class="n">repeat_vector_down_rows</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">scaling</span><span class="p">))</span> <span class="o">+</span> <span class="n">start_coordainte</span>
     <span class="k">return</span> <span class="n">normal_line</span></div>
 
-<div class="viewcode-block" id="plot_intermediates"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_intermediates">[docs]</a><span class="k">def</span> <span class="nf">plot_intermediates</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_intermediates"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_intermediates">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_intermediates</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                        <span class="n">branches</span><span class="p">,</span>
                       <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -3602,7 +3602,7 @@
                      <span class="n">skeletons</span><span class="o">=</span><span class="p">[</span><span class="n">limb_obj</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">skeleton</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">],</span>
                      <span class="n">skeletons_colors</span><span class="o">=</span><span class="n">curr_colors</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_branch_groupings"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_groupings">[docs]</a><span class="k">def</span> <span class="nf">plot_branch_groupings</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_branch_groupings"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_groupings">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branch_groupings</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
 <span class="n">groupings</span><span class="p">,</span>
 <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="n">plot_meshes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -3671,7 +3671,7 @@
                       <span class="n">skeletons_colors</span><span class="o">=</span> <span class="n">color_list</span><span class="p">,)</span></div>
 
     
-<div class="viewcode-block" id="plottable_from_branches"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plottable_from_branches">[docs]</a><span class="k">def</span> <span class="nf">plottable_from_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">,</span><span class="n">attributes</span><span class="p">):</span>
+<div class="viewcode-block" id="plottable_from_branches"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plottable_from_branches">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plottable_from_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">,</span><span class="n">attributes</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">nu</span><span class="o">.</span><span class="n">is_array_like</span><span class="p">(</span><span class="n">branch_list</span><span class="p">):</span>
         <span class="n">branch_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">branch_list</span><span class="p">]</span>
     
@@ -3687,16 +3687,16 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">return_attributes</span></div>
     
-<div class="viewcode-block" id="plottable_meshes"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plottable_meshes">[docs]</a><span class="k">def</span> <span class="nf">plottable_meshes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">):</span>
+<div class="viewcode-block" id="plottable_meshes"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plottable_meshes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plottable_meshes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">plottable_from_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">,</span><span class="s2">&quot;mesh&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="plottable_skeletons"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plottable_skeletons">[docs]</a><span class="k">def</span> <span class="nf">plottable_skeletons</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">):</span>
+<div class="viewcode-block" id="plottable_skeletons"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plottable_skeletons">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plottable_skeletons</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">plottable_from_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">,</span><span class="s2">&quot;skeleton&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="plottable_meshes_skeletons"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plottable_meshes_skeletons">[docs]</a><span class="k">def</span> <span class="nf">plottable_meshes_skeletons</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">):</span>
+<div class="viewcode-block" id="plottable_meshes_skeletons"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plottable_meshes_skeletons">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plottable_meshes_skeletons</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">plottable_from_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">,[</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span><span class="s2">&quot;skeleton&quot;</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="plot_branches_with_colors"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branches_with_colors">[docs]</a><span class="k">def</span> <span class="nf">plot_branches_with_colors</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">,</span><span class="n">colors</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_branches_with_colors"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branches_with_colors">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branches_with_colors</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">,</span><span class="n">colors</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="n">meshes</span><span class="p">,</span><span class="n">skeletons</span> <span class="o">=</span> <span class="n">nviz</span><span class="o">.</span><span class="n">plottable_meshes_skeletons</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_list</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">colors</span> <span class="o">=</span> <span class="n">mu</span><span class="o">.</span><span class="n">generate_non_randon_named_color_list</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">meshes</span><span class="p">))</span>
@@ -3710,7 +3710,7 @@
                      <span class="n">skeletons_colors</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plot_branch_with_neighbors"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_with_neighbors">[docs]</a><span class="k">def</span> <span class="nf">plot_branch_with_neighbors</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">,</span><span class="n">neighbor_idxs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_branch_with_neighbors"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch_with_neighbors">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branch_with_neighbors</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">,</span><span class="n">neighbor_idxs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                <span class="n">branch_color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
                                <span class="n">neighbors_color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
                                <span class="n">scatters_colors</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span>
@@ -3766,7 +3766,7 @@
                      <span class="n">scatter_size</span><span class="o">=</span><span class="n">scatter_size</span><span class="p">,</span>
                     <span class="o">**</span><span class="n">plot_dict</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_candidates"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_candidates">[docs]</a><span class="k">def</span> <span class="nf">plot_candidates</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_candidates"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_candidates">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_candidates</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                    <span class="n">candidates</span><span class="p">,</span>
                    <span class="n">color_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">mesh_color_alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -3791,7 +3791,7 @@
                                         <span class="o">**</span><span class="n">kwargs</span>
                                        <span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_compartments"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_compartments">[docs]</a><span class="k">def</span> <span class="nf">plot_compartments</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_compartments"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_compartments">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_compartments</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                      <span class="n">apical_color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
                      <span class="n">apical_shaft_color</span> <span class="o">=</span> <span class="s2">&quot;aqua&quot;</span><span class="p">,</span>
                      <span class="n">apical_tuft_color</span> <span class="o">=</span> <span class="s2">&quot;purple&quot;</span><span class="p">,</span>
@@ -3832,7 +3832,7 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unlabeled: transparent green&quot;</span><span class="p">)</span></div>
     
     
-<div class="viewcode-block" id="plot_mesh_face_idx"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_mesh_face_idx">[docs]</a><span class="k">def</span> <span class="nf">plot_mesh_face_idx</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">face_idx</span><span class="p">,</span><span class="n">meshes_colors</span> <span class="o">=</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_mesh_face_idx"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_mesh_face_idx">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_mesh_face_idx</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">face_idx</span><span class="p">,</span><span class="n">meshes_colors</span> <span class="o">=</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    To plot a mesh divided up by a face_mesh_idx</span>
 <span class="sd">    </span>
@@ -3846,7 +3846,7 @@
                           <span class="n">meshes_colors</span><span class="o">=</span><span class="n">meshes_colors</span><span class="p">,</span>
                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_soma_meshes"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_soma_meshes">[docs]</a><span class="k">def</span> <span class="nf">plot_soma_meshes</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_soma_meshes"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_soma_meshes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_soma_meshes</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                      <span class="n">meshes_colors</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                      <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -3862,7 +3862,7 @@
                      <span class="n">meshes_colors</span><span class="o">=</span><span class="n">meshes_colors</span><span class="p">,</span>
                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="plot_meshes_skeletons"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_meshes_skeletons">[docs]</a><span class="k">def</span> <span class="nf">plot_meshes_skeletons</span><span class="p">(</span><span class="n">meshes</span><span class="p">,</span><span class="n">skeletons</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_meshes_skeletons"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_meshes_skeletons">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_meshes_skeletons</span><span class="p">(</span><span class="n">meshes</span><span class="p">,</span><span class="n">skeletons</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
     <span class="n">cols</span> <span class="o">=</span> <span class="n">mu</span><span class="o">.</span><span class="n">generate_non_randon_named_color_list</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">meshes</span><span class="p">))</span>
     <span class="n">nviz</span><span class="o">.</span><span class="n">plot_objects</span><span class="p">(</span>
@@ -3873,7 +3873,7 @@
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_soma_extraction_meshes"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_soma_extraction_meshes">[docs]</a><span class="k">def</span> <span class="nf">plot_soma_extraction_meshes</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_soma_extraction_meshes"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_soma_extraction_meshes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_soma_extraction_meshes</span><span class="p">(</span>
     <span class="n">mesh</span><span class="p">,</span>
     <span class="n">soma_meshes</span><span class="p">,</span>
     <span class="n">glia_meshes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -3909,13 +3909,13 @@
         <span class="n">meshes_colors</span><span class="o">=</span><span class="n">meshes_colors</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="plot_spines_head_neck"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_spines_head_neck">[docs]</a><span class="k">def</span> <span class="nf">plot_spines_head_neck</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_spines_head_neck"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_spines_head_neck">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_spines_head_neck</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">spu</span><span class="o">.</span><span class="n">plot_spines_head_neck</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_synapses"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_synapses">[docs]</a><span class="k">def</span> <span class="nf">plot_synapses</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_synapses"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_synapses">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_synapses</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">syu</span><span class="o">.</span><span class="n">plot_synapses</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="plot_branch"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch">[docs]</a><span class="k">def</span> <span class="nf">plot_branch</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_branch"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_branch">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_branch</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">upstream_color</span> <span class="o">=</span> <span class="s2">&quot;yellow&quot;</span><span class="p">,</span>
     <span class="n">downstream_color</span> <span class="o">=</span> <span class="s2">&quot;aqua&quot;</span><span class="p">,</span>
@@ -3938,7 +3938,7 @@
     <span class="p">)</span></div>
     
 
-<div class="viewcode-block" id="plot_merge_filter_suggestions"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_merge_filter_suggestions">[docs]</a><span class="k">def</span> <span class="nf">plot_merge_filter_suggestions</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_merge_filter_suggestions"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_visualizations.plot_merge_filter_suggestions">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_merge_filter_suggestions</span><span class="p">(</span>
     <span class="n">original_mesh</span><span class="p">,</span>
     <span class="n">merge_valid_error_suggestions</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">neuron_obj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -4012,30 +4012,30 @@
     <span class="p">)</span></div>
 
 <span class="c1">#--- from mesh_tools ---</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
 
 
 
 <span class="n">plot_objects</span> <span class="o">=</span> <span class="n">ipvu</span><span class="o">.</span><span class="n">plot_objects</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
 </pre></div>
 
            </div>

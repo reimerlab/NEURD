@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.neuron_simplification &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -81,12 +81,12 @@
 
 
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">import</span> <span class="nn">copy</span> 
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
 
 <span class="c1"># --------- functions that will carry out deletion ---------</span>
-<div class="viewcode-block" id="branch_idx_map_from_branches_to_delete_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.branch_idx_map_from_branches_to_delete_on_limb">[docs]</a><span class="k">def</span> <span class="nf">branch_idx_map_from_branches_to_delete_on_limb</span><span class="p">(</span>
+<div class="viewcode-block" id="branch_idx_map_from_branches_to_delete_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.branch_idx_map_from_branches_to_delete_on_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">branch_idx_map_from_branches_to_delete_on_limb</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branches_to_delete</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -122,7 +122,7 @@
 
     <span class="k">return</span> <span class="n">new_node_name_dict</span></div>
 
-<div class="viewcode-block" id="reset_concept_network_branch_endpoints"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.reset_concept_network_branch_endpoints">[docs]</a><span class="k">def</span> <span class="nf">reset_concept_network_branch_endpoints</span><span class="p">(</span>
+<div class="viewcode-block" id="reset_concept_network_branch_endpoints"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.reset_concept_network_branch_endpoints">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">reset_concept_network_branch_endpoints</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -132,7 +132,7 @@
         <span class="n">branch_obj</span> <span class="o">=</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">branch_idx</span><span class="p">]</span>
         <span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">branch_idx</span><span class="p">][</span><span class="s2">&quot;endpoints&quot;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoints</span></div>
         
-<div class="viewcode-block" id="all_concept_network_data_updated"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.all_concept_network_data_updated">[docs]</a><span class="k">def</span> <span class="nf">all_concept_network_data_updated</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="all_concept_network_data_updated"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.all_concept_network_data_updated">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">all_concept_network_data_updated</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Purpose: To revise the all concept network data</span>
 <span class="sd">    for a limb object, assuming after the concept network has been reset</span>
@@ -146,7 +146,7 @@
 
     <span class="k">return</span> <span class="n">all_concept_network_data_revised</span></div>
 
-<div class="viewcode-block" id="delete_branches_from_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.delete_branches_from_limb">[docs]</a><span class="k">def</span> <span class="nf">delete_branches_from_limb</span><span class="p">(</span>
+<div class="viewcode-block" id="delete_branches_from_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.delete_branches_from_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">delete_branches_from_limb</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">limb_idx</span><span class="p">,</span>
     <span class="n">branches_to_delete</span><span class="p">,</span>
@@ -206,7 +206,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time for deletion: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">st</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
         
         
-<div class="viewcode-block" id="delete_branches_from_neuron"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.delete_branches_from_neuron">[docs]</a><span class="k">def</span> <span class="nf">delete_branches_from_neuron</span><span class="p">(</span>
+<div class="viewcode-block" id="delete_branches_from_neuron"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.delete_branches_from_neuron">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">delete_branches_from_neuron</span><span class="p">(</span>
         <span class="n">neuron_obj</span><span class="p">,</span>
         <span class="n">limb_branch_dict</span><span class="p">,</span>
         <span class="n">plot_final_neuron</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -247,7 +247,7 @@
 
 
 
-<div class="viewcode-block" id="combine_path_branches_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.combine_path_branches_on_limb">[docs]</a><span class="k">def</span> <span class="nf">combine_path_branches_on_limb</span><span class="p">(</span>
+<div class="viewcode-block" id="combine_path_branches_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.combine_path_branches_on_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">combine_path_branches_on_limb</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">one_downstream_node_branches</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -447,7 +447,7 @@
     
     
 
-<div class="viewcode-block" id="combine_path_branches"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.combine_path_branches">[docs]</a><span class="k">def</span> <span class="nf">combine_path_branches</span><span class="p">(</span>
+<div class="viewcode-block" id="combine_path_branches"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.combine_path_branches">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">combine_path_branches</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">plot_downstream_path_limb_branch</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -507,7 +507,7 @@
     <span class="k">return</span> <span class="n">new_neuron_obj</span></div>
 
 
-<div class="viewcode-block" id="floating_end_nodes_limb_branch"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.floating_end_nodes_limb_branch">[docs]</a><span class="k">def</span> <span class="nf">floating_end_nodes_limb_branch</span><span class="p">(</span>
+<div class="viewcode-block" id="floating_end_nodes_limb_branch"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.floating_end_nodes_limb_branch">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">floating_end_nodes_limb_branch</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">limb_branch_dict_restriction</span> <span class="o">=</span> <span class="s2">&quot;dendrite&quot;</span><span class="p">,</span>
     <span class="n">width_max</span>  <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>
@@ -573,7 +573,7 @@
         <span class="k">return</span> <span class="n">limb_br</span></div>
     
 
-<div class="viewcode-block" id="merge_floating_end_nodes_to_parent"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.merge_floating_end_nodes_to_parent">[docs]</a><span class="k">def</span> <span class="nf">merge_floating_end_nodes_to_parent</span><span class="p">(</span>
+<div class="viewcode-block" id="merge_floating_end_nodes_to_parent"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.merge_floating_end_nodes_to_parent">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">merge_floating_end_nodes_to_parent</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">floating_end_nodes_limb_branch_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">plot_floating_end_nodes_limb_branch_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -654,7 +654,7 @@
     <span class="k">return</span> <span class="n">new_neuron_obj</span></div>
 
 
-<div class="viewcode-block" id="branching_simplification"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.branching_simplification">[docs]</a><span class="k">def</span> <span class="nf">branching_simplification</span><span class="p">(</span>
+<div class="viewcode-block" id="branching_simplification"><a class="viewcode-back" href="../../neurd.html#neurd.neuron_simplification.branching_simplification">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">branching_simplification</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">return_copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     
@@ -750,17 +750,17 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">proofreading_utils</span> <span class="k">as</span> <span class="n">pru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_simplification</span> <span class="k">as</span> <span class="n">nsimp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_simplification</span> <span class="k">as</span> <span class="n">nsimp</span>
 </pre></div>
 
            </div>

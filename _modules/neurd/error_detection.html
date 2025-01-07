@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.error_detection &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -71,16 +71,16 @@
              
   <h1>Source code for neurd.error_detection</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">from</span> <span class="nn">pykdtree.kdtree</span> <span class="kn">import</span> <span class="n">KDTree</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">data_struct_utils</span> <span class="k">as</span> <span class="n">dsu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pykdtree.kdtree</span><span class="w"> </span><span class="kn">import</span> <span class="n">KDTree</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">data_struct_utils</span> <span class="k">as</span> <span class="n">dsu</span>
 
 <span class="n">double_back_threshold_axon_thick</span> <span class="o">=</span> <span class="mi">120</span>
 <span class="n">double_back_threshold_axon_thin</span> <span class="o">=</span> <span class="mi">127</span>
@@ -96,7 +96,7 @@
 
 
 
-<div class="viewcode-block" id="calculate_skip_distance_poly"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.calculate_skip_distance_poly">[docs]</a><span class="k">def</span> <span class="nf">calculate_skip_distance_poly</span><span class="p">(</span>
+<div class="viewcode-block" id="calculate_skip_distance_poly"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.calculate_skip_distance_poly">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_skip_distance_poly</span><span class="p">(</span>
     <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -109,7 +109,7 @@
     <span class="k">return</span> <span class="n">nu</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">degree</span><span class="p">)</span></div>
 
     
-<div class="viewcode-block" id="skip_distance_from_branch_width"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.skip_distance_from_branch_width">[docs]</a><span class="k">def</span> <span class="nf">skip_distance_from_branch_width</span><span class="p">(</span>
+<div class="viewcode-block" id="skip_distance_from_branch_width"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.skip_distance_from_branch_width">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skip_distance_from_branch_width</span><span class="p">(</span>
     <span class="n">width</span><span class="p">,</span>
     <span class="n">max_skip</span> <span class="o">=</span> <span class="mi">2300</span><span class="p">,</span>
     <span class="n">skip_distance_poly</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -129,7 +129,7 @@
             <span class="n">skip_value</span> <span class="o">=</span> <span class="n">max_skip</span>
     <span class="k">return</span> <span class="n">skip_value</span></div>
     
-<div class="viewcode-block" id="width_jump_edges"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_edges">[docs]</a><span class="k">def</span> <span class="nf">width_jump_edges</span><span class="p">(</span><span class="n">limb</span><span class="p">,</span>
+<div class="viewcode-block" id="width_jump_edges"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_edges">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_jump_edges</span><span class="p">(</span><span class="n">limb</span><span class="p">,</span>
                     <span class="n">width_name</span> <span class="o">=</span> <span class="s2">&quot;no_spine_median_mesh_center&quot;</span><span class="p">,</span>
                      <span class="n">width_jump_threshold</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
                      <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -196,13 +196,13 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time for width = </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">width_start_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">error_edges</span></div>
 
-<div class="viewcode-block" id="path_to_edges"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.path_to_edges">[docs]</a><span class="k">def</span> <span class="nf">path_to_edges</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">skip_nodes</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="path_to_edges"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.path_to_edges">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">path_to_edges</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">skip_nodes</span><span class="o">=</span><span class="p">[]):</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">ni</span> <span class="ow">in</span> <span class="n">skip_nodes</span><span class="p">:</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">path</span> <span class="o">!=</span> <span class="n">ni</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span><span class="o">.</span><span class="n">T</span></div>
 
-<div class="viewcode-block" id="width_jump_edges_path"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_edges_path">[docs]</a><span class="k">def</span> <span class="nf">width_jump_edges_path</span><span class="p">(</span><span class="n">limb</span><span class="p">,</span> <span class="c1">#assuming the concept network is already set</span>
+<div class="viewcode-block" id="width_jump_edges_path"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_edges_path">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_jump_edges_path</span><span class="p">(</span><span class="n">limb</span><span class="p">,</span> <span class="c1">#assuming the concept network is already set</span>
                           <span class="n">path_to_check</span><span class="p">,</span>
                     <span class="n">width_name</span> <span class="o">=</span> <span class="s2">&quot;no_spine_median_mesh_center&quot;</span><span class="p">,</span>
                      <span class="n">width_jump_threshold</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
@@ -273,7 +273,7 @@
 
 
 
-<div class="viewcode-block" id="double_back_edges"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_edges">[docs]</a><span class="k">def</span> <span class="nf">double_back_edges</span><span class="p">(</span>
+<div class="viewcode-block" id="double_back_edges"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_edges">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">double_back_edges</span><span class="p">(</span>
     <span class="n">limb</span><span class="p">,</span>
     <span class="n">double_back_threshold</span> <span class="o">=</span> <span class="mi">130</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -359,7 +359,7 @@
 
 
 
-<div class="viewcode-block" id="double_back_edges_path"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_edges_path">[docs]</a><span class="k">def</span> <span class="nf">double_back_edges_path</span><span class="p">(</span>
+<div class="viewcode-block" id="double_back_edges_path"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_edges_path">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">double_back_edges_path</span><span class="p">(</span>
     <span class="n">limb</span><span class="p">,</span>
     <span class="n">path_to_check</span><span class="p">,</span>
     <span class="n">double_back_threshold</span> <span class="o">=</span> <span class="mi">130</span><span class="p">,</span>
@@ -443,7 +443,7 @@
 
 
 <span class="c1"># ----------- 1/31: This will only compare doubling back and width transitions for big nodes</span>
-<div class="viewcode-block" id="width_jump_double_back_edges_path"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_double_back_edges_path">[docs]</a><span class="k">def</span> <span class="nf">width_jump_double_back_edges_path</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span> <span class="c1">#assuming the concept network is already set</span>
+<div class="viewcode-block" id="width_jump_double_back_edges_path"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_double_back_edges_path">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_jump_double_back_edges_path</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span> <span class="c1">#assuming the concept network is already set</span>
     <span class="n">path</span><span class="p">,</span>
     <span class="n">starting_coordinate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">width_name</span> <span class="o">=</span> <span class="s2">&quot;no_spine_median_mesh_center&quot;</span><span class="p">,</span>
@@ -770,7 +770,7 @@
         
         
     
-<div class="viewcode-block" id="resolving_crossovers"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.resolving_crossovers">[docs]</a><span class="k">def</span> <span class="nf">resolving_crossovers</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="resolving_crossovers"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.resolving_crossovers">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">resolving_crossovers</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                         <span class="n">coordinate</span><span class="p">,</span>
                         <span class="n">match_threshold</span> <span class="o">=</span> <span class="mi">65</span><span class="p">,</span>
                          <span class="c1">#match_threshold = 60,</span>
@@ -1163,7 +1163,7 @@
 <span class="c1"># ------------ part that will error all floating axon pieces ----------- #</span>
 
 
-<div class="viewcode-block" id="error_branches_by_axons"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.error_branches_by_axons">[docs]</a><span class="k">def</span> <span class="nf">error_branches_by_axons</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">visualize_errors_at_end</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<div class="viewcode-block" id="error_branches_by_axons"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.error_branches_by_axons">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">error_branches_by_axons</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">visualize_errors_at_end</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">min_skeletal_path_threshold</span> <span class="o">=</span> <span class="mi">15000</span><span class="p">,</span>
                                 <span class="n">sub_skeleton_length</span> <span class="o">=</span> <span class="mi">20000</span><span class="p">,</span>
                                 <span class="n">ais_angle_threshold</span> <span class="o">=</span> <span class="mi">110</span><span class="p">,</span>
@@ -1320,7 +1320,7 @@
     <span class="k">return</span> <span class="n">final_error_axons</span></div>
 
 
-<div class="viewcode-block" id="error_faces_by_axons"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.error_faces_by_axons">[docs]</a><span class="k">def</span> <span class="nf">error_faces_by_axons</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">error_branches</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="error_faces_by_axons"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.error_faces_by_axons">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">error_faces_by_axons</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">error_branches</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                          <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">visualize_errors_at_end</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">min_skeletal_path_threshold</span> <span class="o">=</span> <span class="mi">15000</span><span class="p">,</span>
                                 <span class="n">sub_skeleton_length</span> <span class="o">=</span> <span class="mi">20000</span><span class="p">,</span>
@@ -1626,7 +1626,7 @@
 <span class="sd">    return fork_div_limb_branch</span>
 
 <span class="sd">&#39;&#39;&#39;</span>
-<div class="viewcode-block" id="attempt_width_matching_for_fork_divergence"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.attempt_width_matching_for_fork_divergence">[docs]</a><span class="k">def</span> <span class="nf">attempt_width_matching_for_fork_divergence</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="attempt_width_matching_for_fork_divergence"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.attempt_width_matching_for_fork_divergence">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">attempt_width_matching_for_fork_divergence</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                               <span class="n">fork_div_limb_branch</span><span class="p">,</span>
                                               <span class="n">width_match_threshold</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
                                               <span class="n">width_match_buffer</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
@@ -1713,7 +1713,7 @@
     <span class="k">return</span> <span class="n">fork_div_limb_branch_rev</span></div>
 
 
-<div class="viewcode-block" id="axon_fork_divergence_errors_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.axon_fork_divergence_errors_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">axon_fork_divergence_errors_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="axon_fork_divergence_errors_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.axon_fork_divergence_errors_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">axon_fork_divergence_errors_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                            <span class="n">divergence_threshold_mean</span> <span class="o">=</span> <span class="mi">160</span><span class="p">,</span>
                                             <span class="n">width_threshold</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span>
                                             <span class="n">upstream_width_max</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span>
@@ -1786,7 +1786,7 @@
 
 
 
-<div class="viewcode-block" id="webbing_t_errors_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.webbing_t_errors_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">webbing_t_errors_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="webbing_t_errors_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.webbing_t_errors_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">webbing_t_errors_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                      <span class="n">axon_only</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                                 <span class="c1">#child_width_maximum = 75,</span>
                                 <span class="n">child_width_maximum</span> <span class="o">=</span> <span class="mi">75</span><span class="p">,</span>
@@ -1877,7 +1877,7 @@
                                      <span class="n">invalid_branches_from_webbing</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">invalid_branches_from_webbing</span></div>
 
-<div class="viewcode-block" id="webbing_t_errors_limb_branch_dict_old"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.webbing_t_errors_limb_branch_dict_old">[docs]</a><span class="k">def</span> <span class="nf">webbing_t_errors_limb_branch_dict_old</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="webbing_t_errors_limb_branch_dict_old"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.webbing_t_errors_limb_branch_dict_old">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">webbing_t_errors_limb_branch_dict_old</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                      <span class="n">axon_only</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                                 <span class="c1">#child_width_maximum = 75,</span>
                                 <span class="n">child_width_maximum</span> <span class="o">=</span> <span class="mi">75</span><span class="p">,</span>
@@ -1982,7 +1982,7 @@
     
 <span class="c1"># -------- New Rule 4: High Degree Branching ----------#</span>
     
-<div class="viewcode-block" id="matched_branches_by_angle"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.matched_branches_by_angle">[docs]</a><span class="k">def</span> <span class="nf">matched_branches_by_angle</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="matched_branches_by_angle"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.matched_branches_by_angle">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">matched_branches_by_angle</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                               <span class="n">branches</span><span class="p">,</span>
                              <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     
@@ -1997,7 +1997,7 @@
     <span class="n">coordinate_branches</span> <span class="o">=</span> <span class="n">branches</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="matched_branches_by_angle_at_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.matched_branches_by_angle_at_coordinate">[docs]</a><span class="k">def</span> <span class="nf">matched_branches_by_angle_at_coordinate</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="matched_branches_by_angle_at_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.matched_branches_by_angle_at_coordinate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">matched_branches_by_angle_at_coordinate</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">coordinate</span><span class="p">,</span>
     <span class="n">coordinate_branches</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">offset</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
@@ -2550,7 +2550,7 @@
 
 
 
-<div class="viewcode-block" id="thick_t_errors_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.thick_t_errors_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">thick_t_errors_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="thick_t_errors_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.thick_t_errors_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">thick_t_errors_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
         <span class="n">axon_only</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">parent_width_maximum</span> <span class="o">=</span> <span class="mi">70</span><span class="p">,</span>
         <span class="n">min_child_width_max</span> <span class="o">=</span> <span class="mi">78</span><span class="p">,</span><span class="c1">#85,</span>
@@ -2637,7 +2637,7 @@
     <span class="k">return</span> <span class="n">t_error_limb_branch</span></div>
 
 
-<div class="viewcode-block" id="cut_kissing_graph_edges"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.cut_kissing_graph_edges">[docs]</a><span class="k">def</span> <span class="nf">cut_kissing_graph_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+<div class="viewcode-block" id="cut_kissing_graph_edges"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.cut_kissing_graph_edges">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cut_kissing_graph_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                             <span class="n">limb_obj</span><span class="p">,</span>
                             <span class="n">coordinate</span><span class="p">,</span>
     <span class="n">kiss_check_bbox_longest_side_threshold</span> <span class="o">=</span> <span class="mi">450</span><span class="p">,</span>
@@ -2771,7 +2771,7 @@
     <span class="k">return</span> <span class="n">G</span></div>
 
 <span class="c1"># ------ Rule 7: Width Jump and Double Back Revision ----------- #</span>
-<div class="viewcode-block" id="width_jump_from_upstream_min"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_from_upstream_min">[docs]</a><span class="k">def</span> <span class="nf">width_jump_from_upstream_min</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="width_jump_from_upstream_min"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_from_upstream_min">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_jump_from_upstream_min</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                       <span class="n">branch_idx</span><span class="p">,</span>
                       <span class="n">skeletal_length_min</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
                        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -2810,7 +2810,7 @@
     <span class="k">return</span> <span class="n">width_jump</span></div>
 
 
-<div class="viewcode-block" id="width_jump_up_error_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_up_error_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">width_jump_up_error_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="width_jump_up_error_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_up_error_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_jump_up_error_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                          <span class="n">limb_branch_dict_restriction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                          <span class="n">upstream_skeletal_length_min</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
                                          <span class="n">branch_skeletal_length_min</span> <span class="o">=</span> <span class="mi">6000</span><span class="p">,</span>
@@ -2869,7 +2869,7 @@
     <span class="k">return</span> <span class="n">width_jump_limb_branch</span></div>
 
 
-<div class="viewcode-block" id="width_jump_up_axon"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_up_axon">[docs]</a><span class="k">def</span> <span class="nf">width_jump_up_axon</span><span class="p">(</span>
+<div class="viewcode-block" id="width_jump_up_axon"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_up_axon">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_jump_up_axon</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">upstream_skeletal_length_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#5000,</span>
     <span class="n">branch_skeletal_length_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#8000,</span>
@@ -2887,7 +2887,7 @@
 <span class="sd">    1) Find all of the axon branches</span>
 <span class="sd">    2) Run the width jump check</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">neurd</span> <span class="kn">import</span> <span class="n">limb_utils</span> <span class="k">as</span> <span class="n">lu</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">neurd</span><span class="w"> </span><span class="kn">import</span> <span class="n">limb_utils</span> <span class="k">as</span> <span class="n">lu</span>
     <span class="k">if</span> <span class="n">upstream_skeletal_length_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">upstream_skeletal_length_min</span> <span class="o">=</span> <span class="n">upstream_skeletal_length_min_width_j_axon_global</span>
     <span class="k">if</span> <span class="n">branch_skeletal_length_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -2936,13 +2936,13 @@
 
 <span class="c1">#dendrite_trunk_width = 500</span>
 
-<div class="viewcode-block" id="dendrite_branch_restriction"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.dendrite_branch_restriction">[docs]</a><span class="k">def</span> <span class="nf">dendrite_branch_restriction</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="dendrite_branch_restriction"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.dendrite_branch_restriction">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dendrite_branch_restriction</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                <span class="n">width_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#dendrite_trunk_width,</span>
                                 <span class="n">upstream_skeletal_length_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#5000,</span>
                                 <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                                 <span class="n">verbose</span><span class="o">=</span> <span class="kc">False</span>
                                <span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">neurd</span> <span class="kn">import</span> <span class="n">limb_utils</span> <span class="k">as</span> <span class="n">lu</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">neurd</span><span class="w"> </span><span class="kn">import</span> <span class="n">limb_utils</span> <span class="k">as</span> <span class="n">lu</span>
     
     <span class="k">if</span> <span class="n">width_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">width_max</span> <span class="o">=</span> <span class="n">width_max_dendr_restr_global</span>
@@ -2984,7 +2984,7 @@
 
 
 
-<div class="viewcode-block" id="width_jump_up_dendrite"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_up_dendrite">[docs]</a><span class="k">def</span> <span class="nf">width_jump_up_dendrite</span><span class="p">(</span>
+<div class="viewcode-block" id="width_jump_up_dendrite"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.width_jump_up_dendrite">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_jump_up_dendrite</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">upstream_skeletal_length_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#5000,</span>
     <span class="n">branch_skeletal_length_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#7000,</span>
@@ -3037,7 +3037,7 @@
 <span class="c1"># -------------- Doubling Back Errors ---------------------- #</span>
 
 
-<div class="viewcode-block" id="double_back_error_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_error_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">double_back_error_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="double_back_error_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_error_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">double_back_error_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                        <span class="n">double_back_threshold</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
                                        <span class="n">branch_skeletal_length_min</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span>
                                        
@@ -3087,7 +3087,7 @@
     <span class="k">return</span> <span class="n">double_back_limb_branch_dict</span></div>
 
 
-<div class="viewcode-block" id="double_back_dendrite"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_dendrite">[docs]</a><span class="k">def</span> <span class="nf">double_back_dendrite</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="double_back_dendrite"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_dendrite">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">double_back_dendrite</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                         <span class="n">double_back_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="c1">#120,</span>
                          <span class="n">comparison_distance</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#3000,</span>
                          <span class="n">offset</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#0,</span>
@@ -3144,7 +3144,7 @@
     <span class="k">return</span> <span class="n">double_back_errors</span></div>
 
 
-<div class="viewcode-block" id="double_back_axon_thin"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_axon_thin">[docs]</a><span class="k">def</span> <span class="nf">double_back_axon_thin</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="double_back_axon_thin"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_axon_thin">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">double_back_axon_thin</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                           <span class="n">axon_width_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="n">double_back_threshold</span><span class="o">=</span><span class="mi">135</span><span class="p">,</span>
                          <span class="n">comparison_distance</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
@@ -3199,7 +3199,7 @@
     <span class="k">return</span> <span class="n">double_back_errors</span></div>
 
 
-<div class="viewcode-block" id="double_back_axon_thick"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_axon_thick">[docs]</a><span class="k">def</span> <span class="nf">double_back_axon_thick</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="double_back_axon_thick"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_axon_thick">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">double_back_axon_thick</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                           <span class="n">axon_width_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                            <span class="n">axon_width_threshold_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="n">double_back_threshold</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
@@ -3264,7 +3264,7 @@
 
 
 
-<div class="viewcode-block" id="calculate_skip_distance"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.calculate_skip_distance">[docs]</a><span class="k">def</span> <span class="nf">calculate_skip_distance</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="calculate_skip_distance"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.calculate_skip_distance">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_skip_distance</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                             <span class="n">branch_idx</span><span class="p">,</span>
                             <span class="n">calculate_skip_distance_including_downstream</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                            <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -3290,7 +3290,7 @@
     <span class="k">return</span> <span class="n">skip_distance</span></div>
 
 
-<div class="viewcode-block" id="high_low_degree_upstream_match_preprocessing"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.high_low_degree_upstream_match_preprocessing">[docs]</a><span class="k">def</span> <span class="nf">high_low_degree_upstream_match_preprocessing</span><span class="p">(</span>
+<div class="viewcode-block" id="high_low_degree_upstream_match_preprocessing"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.high_low_degree_upstream_match_preprocessing">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">high_low_degree_upstream_match_preprocessing</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     
@@ -4001,7 +4001,7 @@
     
 <span class="c1">#     return winning_node,error_branches</span>
 
-<div class="viewcode-block" id="high_degree_false_positive_low_sibling_filter"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.high_degree_false_positive_low_sibling_filter">[docs]</a><span class="k">def</span> <span class="nf">high_degree_false_positive_low_sibling_filter</span><span class="p">(</span>
+<div class="viewcode-block" id="high_degree_false_positive_low_sibling_filter"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.high_degree_false_positive_low_sibling_filter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">high_degree_false_positive_low_sibling_filter</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">downstream_idx</span><span class="p">,</span>
@@ -4096,7 +4096,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sibling angle greater than max so returning original errors&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">error_downstream</span></div>
     
-<div class="viewcode-block" id="high_degree_upstream_match"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.high_degree_upstream_match">[docs]</a><span class="k">def</span> <span class="nf">high_degree_upstream_match</span><span class="p">(</span>
+<div class="viewcode-block" id="high_degree_upstream_match"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.high_degree_upstream_match">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">high_degree_upstream_match</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     
@@ -4371,7 +4371,7 @@
 
     
 
-<div class="viewcode-block" id="high_degree_branch_errors_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.high_degree_branch_errors_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">high_degree_branch_errors_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="high_degree_branch_errors_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.high_degree_branch_errors_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">high_degree_branch_errors_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                                <span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="s2">&quot;axon&quot;</span><span class="p">,</span>
                                                <span class="c1"># parameters to add as more filters for the branches to check</span>
                                                <span class="n">skip_distance</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -4516,7 +4516,7 @@
 
 
 
-<div class="viewcode-block" id="high_degree_branch_errors_dendrite_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.high_degree_branch_errors_dendrite_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">high_degree_branch_errors_dendrite_limb_branch_dict</span><span class="p">(</span>
+<div class="viewcode-block" id="high_degree_branch_errors_dendrite_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.high_degree_branch_errors_dendrite_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">high_degree_branch_errors_dendrite_limb_branch_dict</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
 
     <span class="c1"># parameters for high_degree_branch_errors_limb_branch_dict</span>
@@ -4644,7 +4644,7 @@
 
 <span class="c1"># ---------- The low degree error detection ----------- #</span>
 <span class="n">low_degree_filters_default</span> <span class="o">=</span> <span class="p">[]</span>
-<div class="viewcode-block" id="low_degree_upstream_match"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.low_degree_upstream_match">[docs]</a><span class="k">def</span> <span class="nf">low_degree_upstream_match</span><span class="p">(</span>
+<div class="viewcode-block" id="low_degree_upstream_match"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.low_degree_upstream_match">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">low_degree_upstream_match</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
 
@@ -4857,7 +4857,7 @@
     
     
 
-<div class="viewcode-block" id="low_degree_branch_errors_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.low_degree_branch_errors_limb_branch_dict">[docs]</a><span class="k">def</span> <span class="nf">low_degree_branch_errors_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="low_degree_branch_errors_limb_branch_dict"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.low_degree_branch_errors_limb_branch_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">low_degree_branch_errors_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                                <span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="s2">&quot;axon&quot;</span><span class="p">,</span>
                                                <span class="c1"># parameters to add as more filters for the branches to check</span>
                                                <span class="n">skip_distance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -4987,7 +4987,7 @@
     <span class="k">return</span> <span class="n">limb_branch_dict_errors</span></div>
     
 
-<div class="viewcode-block" id="double_back_threshold_axon_by_width"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_threshold_axon_by_width">[docs]</a><span class="k">def</span> <span class="nf">double_back_threshold_axon_by_width</span><span class="p">(</span><span class="n">limb_obj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="double_back_threshold_axon_by_width"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.double_back_threshold_axon_by_width">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">double_back_threshold_axon_by_width</span><span class="p">(</span><span class="n">limb_obj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                <span class="n">branch_idx</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                 <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="n">axon_thin_width_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -5017,7 +5017,7 @@
     <span class="k">return</span> <span class="n">thresh</span></div>
 
 
-<div class="viewcode-block" id="upstream_node_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.upstream_node_from_G">[docs]</a><span class="k">def</span> <span class="nf">upstream_node_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+<div class="viewcode-block" id="upstream_node_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.upstream_node_from_G">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">upstream_node_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
     <span class="n">upstream_nodes</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">get_nodes_with_attributes_dict</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                                   <span class="nb">dict</span><span class="p">(</span><span class="n">node_type</span><span class="o">=</span><span class="s2">&quot;upstream&quot;</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">upstream_nodes</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
@@ -5025,13 +5025,13 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">upstream_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
     
-<div class="viewcode-block" id="downstream_nodes_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.downstream_nodes_from_G">[docs]</a><span class="k">def</span> <span class="nf">downstream_nodes_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+<div class="viewcode-block" id="downstream_nodes_from_G"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.downstream_nodes_from_G">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">downstream_nodes_from_G</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
     <span class="n">downstream_nodes</span> <span class="o">=</span> <span class="n">xu</span><span class="o">.</span><span class="n">get_nodes_with_attributes_dict</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
                                   <span class="nb">dict</span><span class="p">(</span><span class="n">node_type</span><span class="o">=</span><span class="s2">&quot;downstream&quot;</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">downstream_nodes</span></div>
 
 
-<div class="viewcode-block" id="debug_branches_low_degree"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.debug_branches_low_degree">[docs]</a><span class="k">def</span> <span class="nf">debug_branches_low_degree</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">debug_branches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">filters_to_run</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="debug_branches_low_degree"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.debug_branches_low_degree">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">debug_branches_low_degree</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">debug_branches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">filters_to_run</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ed.debug_branches_low_degree(neuron_obj,debug_branches=[68])</span>
 <span class="sd">    </span>
@@ -5041,7 +5041,7 @@
                                          <span class="n">debug_branches</span><span class="o">=</span><span class="n">debug_branches</span>
                                             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="debug_branches_high_degree"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.debug_branches_high_degree">[docs]</a><span class="k">def</span> <span class="nf">debug_branches_high_degree</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">debug_branches</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="debug_branches_high_degree"><a class="viewcode-back" href="../../neurd.html#neurd.error_detection.debug_branches_high_degree">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">debug_branches_high_degree</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">debug_branches</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">ed</span><span class="o">.</span><span class="n">high_degree_branch_errors_limb_branch_dict</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                          <span class="n">debug_branches</span><span class="o">=</span><span class="n">debug_branches</span>
                                             <span class="p">)</span></div>
@@ -5320,32 +5320,32 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">concept_network_utils</span> <span class="k">as</span> <span class="n">cnu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">graph_filters</span> <span class="k">as</span> <span class="n">gf</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">concept_network_utils</span> <span class="k">as</span> <span class="n">cnu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">graph_filters</span> <span class="k">as</span> <span class="n">gf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
 
 <span class="c1">#--- from mesh_tools ---</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">data_struct_utils</span> <span class="k">as</span> <span class="n">dsu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
-<span class="kn">from</span> <span class="nn">datasci_tools.tqdm_utils</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">data_struct_utils</span> <span class="k">as</span> <span class="n">dsu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools.tqdm_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">error_detection</span> <span class="k">as</span> <span class="n">ed</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">error_detection</span> <span class="k">as</span> <span class="n">ed</span>
 </pre></div>
 
            </div>

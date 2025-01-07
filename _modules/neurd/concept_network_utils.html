@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.concept_network_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -71,12 +71,12 @@
              
   <h1>Source code for neurd.concept_network_utils</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
 
 <span class="n">non_branching_upstream</span> <span class="o">=</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="distance_between_nodes_di"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.distance_between_nodes_di">[docs]</a><span class="k">def</span> <span class="nf">distance_between_nodes_di</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="distance_between_nodes_di"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.distance_between_nodes_di">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">distance_between_nodes_di</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                       <span class="n">start_idx</span><span class="p">,</span>
                       <span class="n">destination_idx</span><span class="p">,</span>
                       <span class="n">reverse_di_graph</span><span class="p">,):</span>
@@ -97,7 +97,7 @@
     
     <span class="k">return</span> <span class="n">nst</span><span class="o">.</span><span class="n">skeletal_length_along_path</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="distance_between_nodes_di_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.distance_between_nodes_di_upstream">[docs]</a><span class="k">def</span> <span class="nf">distance_between_nodes_di_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="distance_between_nodes_di_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.distance_between_nodes_di_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">distance_between_nodes_di_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                       <span class="n">start_idx</span><span class="p">,</span>
                       <span class="n">destination_idx</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -110,7 +110,7 @@
                       <span class="n">destination_idx</span><span class="p">,</span>
                       <span class="n">reverse_di_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="distance_between_nodes_di_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.distance_between_nodes_di_downstream">[docs]</a><span class="k">def</span> <span class="nf">distance_between_nodes_di_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="distance_between_nodes_di_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.distance_between_nodes_di_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">distance_between_nodes_di_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                       <span class="n">start_idx</span><span class="p">,</span>
                       <span class="n">destination_idx</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -123,7 +123,7 @@
                       <span class="n">destination_idx</span><span class="p">,</span>
                       <span class="n">reverse_di_graph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="branches_within_distance"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.branches_within_distance">[docs]</a><span class="k">def</span> <span class="nf">branches_within_distance</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="branches_within_distance"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.branches_within_distance">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">branches_within_distance</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                              <span class="n">branch_idx</span><span class="p">,</span>
                             <span class="n">dist_func</span><span class="p">,</span>
                             <span class="n">distance_threshold</span><span class="p">,</span>
@@ -144,7 +144,7 @@
         <span class="k">return</span> <span class="n">branches_within_dist</span><span class="p">[</span><span class="n">branches_within_dist</span> <span class="o">!=</span> <span class="n">branch_idx</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="branches_within_distance_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.branches_within_distance_upstream">[docs]</a><span class="k">def</span> <span class="nf">branches_within_distance_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="branches_within_distance_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.branches_within_distance_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">branches_within_distance_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                              <span class="n">branch_idx</span><span class="p">,</span>
                                      <span class="n">distance_threshold</span><span class="p">,</span>
                                      <span class="n">include_branch_idx</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -154,7 +154,7 @@
                                    <span class="n">distance_threshold</span><span class="o">=</span><span class="n">distance_threshold</span><span class="p">,</span>
                                    <span class="n">include_branch_idx</span> <span class="o">=</span> <span class="n">include_branch_idx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="branches_within_distance_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.branches_within_distance_downstream">[docs]</a><span class="k">def</span> <span class="nf">branches_within_distance_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="branches_within_distance_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.branches_within_distance_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">branches_within_distance_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                              <span class="n">branch_idx</span><span class="p">,</span>
                                      <span class="n">distance_threshold</span><span class="p">,</span>
                                        <span class="n">include_branch_idx</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -170,7 +170,7 @@
                                    <span class="n">include_branch_idx</span> <span class="o">=</span> <span class="n">include_branch_idx</span><span class="p">)</span></div>
 
 <span class="c1">#find all end nodes within a downstream threshold</span>
-<div class="viewcode-block" id="endnode_branches_of_branches_within_distance_downtream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.endnode_branches_of_branches_within_distance_downtream">[docs]</a><span class="k">def</span> <span class="nf">endnode_branches_of_branches_within_distance_downtream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="endnode_branches_of_branches_within_distance_downtream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.endnode_branches_of_branches_within_distance_downtream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">endnode_branches_of_branches_within_distance_downtream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                                    <span class="n">branch_idx</span><span class="p">,</span>
                                                    <span class="n">skip_distance</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
                                                            <span class="n">return_skipped_branches</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -202,10 +202,10 @@
         <span class="k">return</span> <span class="n">end_nodes</span></div>
 
 
-<div class="viewcode-block" id="branches_with_parent_branching"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.branches_with_parent_branching">[docs]</a><span class="k">def</span> <span class="nf">branches_with_parent_branching</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="branches_with_parent_branching"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.branches_with_parent_branching">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">branches_with_parent_branching</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">xu</span><span class="o">.</span><span class="n">nodes_with_parent_branching</span><span class="p">(</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network_directional</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="branches_with_parent_non_branching"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.branches_with_parent_non_branching">[docs]</a><span class="k">def</span> <span class="nf">branches_with_parent_non_branching</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="branches_with_parent_non_branching"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.branches_with_parent_non_branching">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">branches_with_parent_non_branching</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Purpose: To see if a branch had a parent node</span>
 <span class="sd">    that branched off into multiple branches</span>
@@ -215,7 +215,7 @@
 
 
 
-<div class="viewcode-block" id="subgraph_around_branch"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.subgraph_around_branch">[docs]</a><span class="k">def</span> <span class="nf">subgraph_around_branch</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="subgraph_around_branch"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.subgraph_around_branch">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">subgraph_around_branch</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                            <span class="n">branch_idx</span><span class="p">,</span>
                            <span class="n">upstream_distance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                            <span class="n">downstream_distance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -339,7 +339,7 @@
         
     <span class="k">return</span> <span class="n">sub_G</span></div>
 
-<div class="viewcode-block" id="downstream_nodes_without_branching"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.downstream_nodes_without_branching">[docs]</a><span class="k">def</span> <span class="nf">downstream_nodes_without_branching</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="downstream_nodes_without_branching"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.downstream_nodes_without_branching">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">downstream_nodes_without_branching</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                       <span class="n">branch_idx</span><span class="p">,</span>
                                       <span class="n">nodes_to_exclude</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -365,7 +365,7 @@
             
     <span class="k">return</span> <span class="n">downstream_nodes</span></div>
 
-<div class="viewcode-block" id="upstream_nodes_without_branching"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.upstream_nodes_without_branching">[docs]</a><span class="k">def</span> <span class="nf">upstream_nodes_without_branching</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="upstream_nodes_without_branching"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.upstream_nodes_without_branching">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">upstream_nodes_without_branching</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                       <span class="n">branch_idx</span><span class="p">,</span>
                                     <span class="n">nodes_to_exclude</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -463,7 +463,7 @@
 <span class="sd">    else:</span>
 <span class="sd">        return down_attr_concat</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<div class="viewcode-block" id="other_direction"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.other_direction">[docs]</a><span class="k">def</span> <span class="nf">other_direction</span><span class="p">(</span><span class="n">direction</span><span class="p">):</span>
+<div class="viewcode-block" id="other_direction"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.other_direction">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">other_direction</span><span class="p">(</span><span class="n">direction</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">direction</span><span class="o">==</span><span class="s2">&quot;upstream&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;downstream&quot;</span>
     <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;downstream&quot;</span><span class="p">:</span>
@@ -471,7 +471,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unknown direction: </span><span class="si">{</span><span class="n">direction</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="nodes_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.nodes_upstream_downstream">[docs]</a><span class="k">def</span> <span class="nf">nodes_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="nodes_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.nodes_upstream_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">nodes_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                              <span class="n">branch_idx</span><span class="p">,</span>
                              <span class="n">direction</span><span class="p">,</span>
                              <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span><span class="n">include_branch_in_dist</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -506,7 +506,7 @@
         
     <span class="k">return</span> <span class="n">all_downstream_nodes</span></div>
 
-<div class="viewcode-block" id="nodes_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.nodes_downstream">[docs]</a><span class="k">def</span> <span class="nf">nodes_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="nodes_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.nodes_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">nodes_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                              <span class="n">branch_idx</span><span class="p">,</span>
                              <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
                           <span class="n">include_branch_in_dist</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -526,7 +526,7 @@
                          <span class="n">nodes_to_exclude</span> <span class="o">=</span> <span class="n">nodes_to_exclude</span><span class="p">,</span>
                                     <span class="n">nodes_to_include</span><span class="o">=</span><span class="n">nodes_to_include</span><span class="p">,)</span></div>
 
-<div class="viewcode-block" id="nodes_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.nodes_upstream">[docs]</a><span class="k">def</span> <span class="nf">nodes_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="nodes_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.nodes_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">nodes_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                              <span class="n">branch_idx</span><span class="p">,</span>
                              <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
                           <span class="n">include_branch_in_dist</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -548,7 +548,7 @@
                     
                      
         
-<div class="viewcode-block" id="attribute_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.attribute_upstream_downstream">[docs]</a><span class="k">def</span> <span class="nf">attribute_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="attribute_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.attribute_upstream_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">attribute_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                  <span class="n">branch_idx</span><span class="p">,</span>
                                   <span class="n">direction</span><span class="p">,</span>
                                   <span class="n">attribute_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -689,7 +689,7 @@
 <span class="sd">        return up_attr_concat</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
-<div class="viewcode-block" id="downstream_nodes_mesh_connected"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.downstream_nodes_mesh_connected">[docs]</a><span class="k">def</span> <span class="nf">downstream_nodes_mesh_connected</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">,</span>
+<div class="viewcode-block" id="downstream_nodes_mesh_connected"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.downstream_nodes_mesh_connected">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">downstream_nodes_mesh_connected</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">,</span>
                                    <span class="n">n_points_of_contact</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                     <span class="n">downstream_branches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                    <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -721,7 +721,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="skeleton_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeleton_upstream_downstream">[docs]</a><span class="k">def</span> <span class="nf">skeleton_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="skeleton_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeleton_upstream_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeleton_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                        <span class="n">branch_idx</span><span class="p">,</span>
                                  <span class="n">direction</span><span class="p">,</span>
                        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
@@ -761,7 +761,7 @@
         
     <span class="k">return</span> <span class="n">skel</span></div>
 
-<div class="viewcode-block" id="skeleton_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeleton_downstream">[docs]</a><span class="k">def</span> <span class="nf">skeleton_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="skeleton_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeleton_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeleton_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                        <span class="n">branch_idx</span><span class="p">,</span>
                        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
                        <span class="n">only_non_branching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -783,7 +783,7 @@
                         <span class="o">**</span><span class="n">kwargs</span>
                        <span class="p">)</span></div>
 
-<div class="viewcode-block" id="skeleton_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeleton_upstream">[docs]</a><span class="k">def</span> <span class="nf">skeleton_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="skeleton_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeleton_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeleton_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                        <span class="n">branch_idx</span><span class="p">,</span>
                        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
                        <span class="n">only_non_branching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -804,7 +804,7 @@
                        <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="synapses_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapses_upstream_downstream">[docs]</a><span class="k">def</span> <span class="nf">synapses_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="synapses_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapses_upstream_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapses_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                        <span class="n">branch_idx</span><span class="p">,</span>
                         <span class="n">direction</span><span class="p">,</span>
                        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
@@ -865,7 +865,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">syns</span></div>
     
-<div class="viewcode-block" id="synapses_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapses_downstream">[docs]</a><span class="k">def</span> <span class="nf">synapses_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="synapses_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapses_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapses_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                        <span class="n">branch_idx</span><span class="p">,</span>
                        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
                        <span class="n">only_non_branching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -893,7 +893,7 @@
                         <span class="o">**</span><span class="n">kwargs</span>
                        <span class="p">)</span></div>
 
-<div class="viewcode-block" id="synapses_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapses_upstream">[docs]</a><span class="k">def</span> <span class="nf">synapses_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="synapses_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapses_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapses_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                        <span class="n">branch_idx</span><span class="p">,</span>
                        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
                        <span class="n">only_non_branching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -922,7 +922,7 @@
                        <span class="p">)</span></div>
     
 
-<div class="viewcode-block" id="weighted_attribute_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.weighted_attribute_upstream_downstream">[docs]</a><span class="k">def</span> <span class="nf">weighted_attribute_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="weighted_attribute_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.weighted_attribute_upstream_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">weighted_attribute_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                           <span class="n">branch_idx</span><span class="p">,</span>
                                            <span class="n">direction</span><span class="p">,</span>
                                           <span class="n">attribute_name</span><span class="p">,</span>
@@ -975,7 +975,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
     
-<div class="viewcode-block" id="width_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.width_upstream_downstream">[docs]</a><span class="k">def</span> <span class="nf">width_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="width_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.width_upstream_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">direction</span><span class="p">,</span>
     <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
@@ -1087,7 +1087,7 @@
 <span class="sd">        return 0</span>
 <span class="sd">&#39;&#39;&#39;</span>
     
-<div class="viewcode-block" id="width_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.width_upstream">[docs]</a><span class="k">def</span> <span class="nf">width_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="width_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.width_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
     <span class="n">only_non_branching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1128,7 +1128,7 @@
     <span class="n">nodes_to_exclude</span> <span class="o">=</span> <span class="n">nodes_to_exclude</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="width_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.width_downstream">[docs]</a><span class="k">def</span> <span class="nf">width_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="width_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.width_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
     <span class="n">only_non_branching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1156,7 +1156,7 @@
     <span class="n">nodes_to_exclude</span> <span class="o">=</span> <span class="n">nodes_to_exclude</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="skeletal_length_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeletal_length_upstream_downstream">[docs]</a><span class="k">def</span> <span class="nf">skeletal_length_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="skeletal_length_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeletal_length_upstream_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeletal_length_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">direction</span><span class="p">,</span>
     <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
@@ -1202,7 +1202,7 @@
         <span class="k">return</span> <span class="n">sk_len</span></div>
     
     
-<div class="viewcode-block" id="skeletal_length_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeletal_length_upstream">[docs]</a><span class="k">def</span> <span class="nf">skeletal_length_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="skeletal_length_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeletal_length_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeletal_length_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
     <span class="n">only_non_branching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1225,7 +1225,7 @@
     <span class="n">nodes_to_exclude</span> <span class="o">=</span> <span class="n">nodes_to_exclude</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="skeletal_length_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeletal_length_downstream">[docs]</a><span class="k">def</span> <span class="nf">skeletal_length_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="skeletal_length_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeletal_length_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeletal_length_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
     <span class="n">only_non_branching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1253,7 +1253,7 @@
 
 
 
-<div class="viewcode-block" id="synapse_density_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapse_density_upstream_downstream">[docs]</a><span class="k">def</span> <span class="nf">synapse_density_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="synapse_density_upstream_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapse_density_upstream_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapse_density_upstream_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">direction</span><span class="p">,</span>
     <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
@@ -1289,7 +1289,7 @@
      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
     
-<div class="viewcode-block" id="synapse_density_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapse_density_upstream">[docs]</a><span class="k">def</span> <span class="nf">synapse_density_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="synapse_density_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapse_density_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapse_density_upstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
     <span class="n">only_non_branching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1327,7 +1327,7 @@
     <span class="n">nodes_to_exclude</span> <span class="o">=</span> <span class="n">nodes_to_exclude</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="synapse_density_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapse_density_downstream">[docs]</a><span class="k">def</span> <span class="nf">synapse_density_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="synapse_density_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.synapse_density_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">synapse_density_downstream</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
     <span class="n">only_non_branching</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1350,7 +1350,7 @@
     <span class="n">nodes_to_exclude</span> <span class="o">=</span> <span class="n">nodes_to_exclude</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="downstream_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.downstream_nodes">[docs]</a><span class="k">def</span> <span class="nf">downstream_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="downstream_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.downstream_nodes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">downstream_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                     <span class="n">branch_idx</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Will give the downstream nodes excluding the </span>
@@ -1360,26 +1360,26 @@
     <span class="n">down_nodes</span> <span class="o">=</span> <span class="n">nru</span><span class="o">.</span><span class="n">downstream_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">setdiff1d</span><span class="p">(</span><span class="n">down_nodes</span><span class="p">,</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">nodes_to_exclude</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="all_downtream_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_downtream_branches">[docs]</a><span class="k">def</span> <span class="nf">all_downtream_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="all_downtream_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_downtream_branches">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">all_downtream_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                           <span class="n">branch_idx</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">xu</span><span class="o">.</span><span class="n">all_downstream_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network_directional</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="all_downtream_branches_including_branch"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_downtream_branches_including_branch">[docs]</a><span class="k">def</span> <span class="nf">all_downtream_branches_including_branch</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="all_downtream_branches_including_branch"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_downtream_branches_including_branch">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">all_downtream_branches_including_branch</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                           <span class="n">branch_idx</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">xu</span><span class="o">.</span><span class="n">all_downstream_nodes_including_node</span><span class="p">(</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network_directional</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="all_upstream_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_upstream_branches">[docs]</a><span class="k">def</span> <span class="nf">all_upstream_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="all_upstream_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_upstream_branches">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">all_upstream_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                           <span class="n">branch_idx</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">xu</span><span class="o">.</span><span class="n">all_upstream_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network_directional</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="all_upstream_branches_including_branch"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_upstream_branches_including_branch">[docs]</a><span class="k">def</span> <span class="nf">all_upstream_branches_including_branch</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="all_upstream_branches_including_branch"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_upstream_branches_including_branch">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">all_upstream_branches_including_branch</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                           <span class="n">branch_idx</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">xu</span><span class="o">.</span><span class="n">all_upstream_nodes_including_node</span><span class="p">(</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network_directional</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">)</span></div>
 
 
 
 
-<div class="viewcode-block" id="skeleton_downstream_restricted"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeleton_downstream_restricted">[docs]</a><span class="k">def</span> <span class="nf">skeleton_downstream_restricted</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="skeleton_downstream_restricted"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.skeleton_downstream_restricted">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeleton_downstream_restricted</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                   <span class="n">branch_idx</span><span class="p">,</span>
                                    <span class="n">downstream_skeletal_length</span><span class="p">,</span>
                                   <span class="n">downstream_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1443,7 +1443,7 @@
     <span class="k">return</span> <span class="n">restr_sk</span></div>
 
 
-<div class="viewcode-block" id="width_downstream_restricted"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.width_downstream_restricted">[docs]</a><span class="k">def</span> <span class="nf">width_downstream_restricted</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="width_downstream_restricted"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.width_downstream_restricted">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_downstream_restricted</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                <span class="n">branch_idx</span><span class="p">,</span>
                                <span class="n">downstream_skeletal_length</span><span class="p">,</span>
                                <span class="n">downstream_nodes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1528,7 +1528,7 @@
 
     <span class="k">return</span> <span class="n">new_width</span></div>
 
-<div class="viewcode-block" id="G_weighted_from_limb"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.G_weighted_from_limb">[docs]</a><span class="k">def</span> <span class="nf">G_weighted_from_limb</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="G_weighted_from_limb"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.G_weighted_from_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">G_weighted_from_limb</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                       <span class="n">weight_name</span> <span class="o">=</span> <span class="s2">&quot;weight&quot;</span><span class="p">,</span>
                                     <span class="n">upstream_attribute_for_weight</span> <span class="o">=</span> <span class="s2">&quot;skeletal_length&quot;</span><span class="p">,</span>
                                       <span class="n">node_properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -1570,7 +1570,7 @@
 
                 <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">curr_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">nst</span><span class="o">.</span><span class="n">get_stat</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">[</span><span class="n">n</span><span class="p">],</span><span class="n">n_prop</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">G</span></div>
-<div class="viewcode-block" id="all_downstream_branches_from_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_downstream_branches_from_branches">[docs]</a><span class="k">def</span> <span class="nf">all_downstream_branches_from_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="all_downstream_branches_from_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_downstream_branches_from_branches">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">all_downstream_branches_from_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                          <span class="n">branches</span><span class="p">,</span>
                                          <span class="n">include_original_branches</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                          <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -1591,7 +1591,7 @@
         
     <span class="k">return</span> <span class="n">downstream_nodes</span></div>
 
-<div class="viewcode-block" id="all_upstream_branches_from_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_upstream_branches_from_branches">[docs]</a><span class="k">def</span> <span class="nf">all_upstream_branches_from_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="all_upstream_branches_from_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_upstream_branches_from_branches">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">all_upstream_branches_from_branches</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                          <span class="n">branches</span><span class="p">,</span>
                                          <span class="n">include_original_branches</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                          <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -1614,7 +1614,7 @@
 
 
 <span class="c1"># ---- helps with developing statistics over current/above/below branches</span>
-<div class="viewcode-block" id="feature_over_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.feature_over_branches">[docs]</a><span class="k">def</span> <span class="nf">feature_over_branches</span><span class="p">(</span>
+<div class="viewcode-block" id="feature_over_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.feature_over_branches">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">feature_over_branches</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branches</span><span class="p">,</span>
     <span class="n">direction</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#downstream or upstream</span>
@@ -1674,7 +1674,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">branches_val</span></div>
     
-<div class="viewcode-block" id="weighted_feature_over_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.weighted_feature_over_branches">[docs]</a><span class="k">def</span> <span class="nf">weighted_feature_over_branches</span><span class="p">(</span>
+<div class="viewcode-block" id="weighted_feature_over_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.weighted_feature_over_branches">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">weighted_feature_over_branches</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branches</span><span class="p">,</span>
     <span class="n">direction</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#downstream or upstream</span>
@@ -1724,7 +1724,7 @@
 
     <span class="k">return</span> <span class="n">return_value</span></div>
 
-<div class="viewcode-block" id="sum_feature_over_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.sum_feature_over_branches">[docs]</a><span class="k">def</span> <span class="nf">sum_feature_over_branches</span><span class="p">(</span>
+<div class="viewcode-block" id="sum_feature_over_branches"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.sum_feature_over_branches">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">sum_feature_over_branches</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branches</span><span class="p">,</span>
     <span class="n">direction</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#downstream or upstream</span>
@@ -1774,11 +1774,11 @@
 
     <span class="k">return</span> <span class="n">return_value</span></div>
     
-<div class="viewcode-block" id="all_downstream_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_downstream_nodes">[docs]</a><span class="k">def</span> <span class="nf">all_downstream_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">):</span>
+<div class="viewcode-block" id="all_downstream_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.all_downstream_nodes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">all_downstream_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span><span class="n">branch_idx</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">xu</span><span class="o">.</span><span class="n">all_downstream_nodes</span><span class="p">(</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">concept_network_directional</span><span class="p">,</span>
                                    <span class="n">branch_idx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="upstream_branches_in_branches_list"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.upstream_branches_in_branches_list">[docs]</a><span class="k">def</span> <span class="nf">upstream_branches_in_branches_list</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="upstream_branches_in_branches_list"><a class="viewcode-back" href="../../neurd.html#neurd.concept_network_utils.upstream_branches_in_branches_list">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">upstream_branches_in_branches_list</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">,</span>
                                        <span class="n">branches</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Purpose: To return branch idxs where </span>
@@ -1805,22 +1805,22 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>   
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">width_utils</span> <span class="k">as</span> <span class="n">wu</span>  
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>   
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">width_utils</span> <span class="k">as</span> <span class="n">wu</span>  
 
 <span class="c1">#--- from mesh_tools ---</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">concept_network_utils</span> <span class="k">as</span> <span class="n">cnu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">concept_network_utils</span> <span class="k">as</span> <span class="n">cnu</span>
 </pre></div>
 
            </div>

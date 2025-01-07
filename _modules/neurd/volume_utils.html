@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.volume_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -71,11 +71,11 @@
              
   <h1>Source code for neurd.volume_utils</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
   <span class="n">ABC</span><span class="p">,</span>
   <span class="n">abstractmethod</span><span class="p">,)</span>
-<div class="viewcode-block" id="DataInterface"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface">[docs]</a><span class="k">class</span> <span class="nc">DataInterface</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<div class="viewcode-block" id="DataInterface.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterface"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DataInterface</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterface.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.__init__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> 
         <span class="n">source</span><span class="p">,</span>
         <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -85,34 +85,34 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">voxel_to_nm_scaling</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span> <span class="o">=</span> <span class="n">synapse_filepath</span></div>
         
-<div class="viewcode-block" id="DataInterface.set_synapse_filepath"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.set_synapse_filepath">[docs]</a>    <span class="k">def</span> <span class="nf">set_synapse_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">synapse_filepath</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterface.set_synapse_filepath"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.set_synapse_filepath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_synapse_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">synapse_filepath</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span> <span class="o">=</span> <span class="n">synapse_filepath</span></div>
 
 <div class="viewcode-block" id="DataInterface.align_array"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.align_array">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">align_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">align_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="DataInterface.align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.align_mesh">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">align_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">align_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="DataInterface.align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.align_skeleton">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">align_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">align_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="DataInterface.align_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.align_neuron_obj">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">align_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">align_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="DataInterface.unalign_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.unalign_neuron_obj">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">unalign_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unalign_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
     
 <div class="viewcode-block" id="DataInterface.segment_id_to_synapse_dict"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.segment_id_to_synapse_dict">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">segment_id_to_synapse_dict</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">segment_id_to_synapse_dict</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
         
         <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;synapse_filepath&quot;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">synapse_filepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -123,7 +123,7 @@
 
     
     
-<div class="viewcode-block" id="DataInterface.nuclei_from_segment_id"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.nuclei_from_segment_id">[docs]</a>    <span class="k">def</span> <span class="nf">nuclei_from_segment_id</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterface.nuclei_from_segment_id"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.nuclei_from_segment_id">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">nuclei_from_segment_id</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="p">,</span>
         <span class="n">return_centers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -140,7 +140,7 @@
             <span class="k">return</span> <span class="n">nuclues_ids</span><span class="p">,</span><span class="n">nucleus_centers</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">nucleus_ids</span></div>
-<div class="viewcode-block" id="DataInterface.nuclei_classification_info_from_nucleus_id"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.nuclei_classification_info_from_nucleus_id">[docs]</a>    <span class="k">def</span> <span class="nf">nuclei_classification_info_from_nucleus_id</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterface.nuclei_classification_info_from_nucleus_id"><a class="viewcode-back" href="../../neurd.html#neurd.volume_utils.DataInterface.nuclei_classification_info_from_nucleus_id">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">nuclei_classification_info_from_nucleus_id</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">nuclei</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span>

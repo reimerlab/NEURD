@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.proximity_analysis_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -71,20 +71,20 @@
              
   <h1>Source code for neurd.proximity_analysis_utils</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">import</span> <span class="nn">datajoint</span> <span class="k">as</span> <span class="nn">dj</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pykdtree.kdtree</span> <span class="kn">import</span> <span class="n">KDTree</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datajoint</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dj</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pykdtree.kdtree</span><span class="w"> </span><span class="kn">import</span> <span class="n">KDTree</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
 
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
 
 
-<div class="viewcode-block" id="conversion_rate_by_attribute_and_cell_type_pairs"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_rate_by_attribute_and_cell_type_pairs">[docs]</a><span class="k">def</span> <span class="nf">conversion_rate_by_attribute_and_cell_type_pairs</span><span class="p">(</span>
+<div class="viewcode-block" id="conversion_rate_by_attribute_and_cell_type_pairs"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_rate_by_attribute_and_cell_type_pairs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">conversion_rate_by_attribute_and_cell_type_pairs</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">hue</span> <span class="o">=</span> <span class="s2">&quot;e_i_predicted&quot;</span><span class="p">,</span>
     <span class="n">hue_pre</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -192,7 +192,7 @@
     <span class="k">return</span> <span class="n">results_df</span></div>
 
 
-<div class="viewcode-block" id="example_basal_conversion_rate"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.example_basal_conversion_rate">[docs]</a><span class="k">def</span> <span class="nf">example_basal_conversion_rate</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="example_basal_conversion_rate"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.example_basal_conversion_rate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">example_basal_conversion_rate</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">prox_with_ct</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">proximity_with_gnn_cell_type_fine</span>
         <span class="n">prox_with_ct</span>
@@ -222,7 +222,7 @@
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
     
-<div class="viewcode-block" id="conversion_df_from_proximity_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_df_from_proximity_df">[docs]</a><span class="k">def</span> <span class="nf">conversion_df_from_proximity_df</span><span class="p">(</span>
+<div class="viewcode-block" id="conversion_df_from_proximity_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_df_from_proximity_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">conversion_df_from_proximity_df</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">in_place</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -289,7 +289,7 @@
 
 
 
-<div class="viewcode-block" id="pairwise_presyn_proximity_onto_postsyn"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.pairwise_presyn_proximity_onto_postsyn">[docs]</a><span class="k">def</span> <span class="nf">pairwise_presyn_proximity_onto_postsyn</span><span class="p">(</span>
+<div class="viewcode-block" id="pairwise_presyn_proximity_onto_postsyn"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.pairwise_presyn_proximity_onto_postsyn">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">pairwise_presyn_proximity_onto_postsyn</span><span class="p">(</span>
     <span class="n">segment_id</span><span class="p">,</span>
     <span class="n">split_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="n">plot_postsyn</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -594,7 +594,7 @@
     
     <span class="k">return</span> <span class="n">pairwise_dfs</span></div>
 
-<div class="viewcode-block" id="example_pairwise_postsyn_analysis"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.example_pairwise_postsyn_analysis">[docs]</a><span class="k">def</span> <span class="nf">example_pairwise_postsyn_analysis</span><span class="p">():</span>
+<div class="viewcode-block" id="example_pairwise_postsyn_analysis"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.example_pairwise_postsyn_analysis">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">example_pairwise_postsyn_analysis</span><span class="p">():</span>
     <span class="n">seg_df</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">df_from_table</span><span class="p">(</span>
         <span class="p">(</span><span class="n">vdi</span><span class="o">.</span><span class="n">proofreading_neurons_table</span> <span class="o">&amp;</span> <span class="s2">&quot;dendrite_skeletal_length &gt; 100000&quot;</span><span class="p">),</span>
         <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;segment_id&quot;</span><span class="p">,</span><span class="s2">&quot;split_index&quot;</span><span class="p">,</span><span class="s2">&quot;cell_type&quot;</span><span class="p">],</span>
@@ -621,7 +621,7 @@
             <span class="n">presyn_table_restriction</span> <span class="o">=</span> <span class="n">vdi</span><span class="o">.</span><span class="n">functional_tuning_table_raw</span><span class="p">,</span>
         <span class="p">)</span></div>
         
-<div class="viewcode-block" id="add_euclidean_dist_to_prox_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.add_euclidean_dist_to_prox_df">[docs]</a><span class="k">def</span> <span class="nf">add_euclidean_dist_to_prox_df</span><span class="p">(</span>
+<div class="viewcode-block" id="add_euclidean_dist_to_prox_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.add_euclidean_dist_to_prox_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_euclidean_dist_to_prox_df</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">centroid_df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">in_place</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -692,12 +692,12 @@
     <span class="k">return</span> <span class="n">df_with_centr</span></div>
 
 
-<div class="viewcode-block" id="conversion_rate"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_rate">[docs]</a><span class="k">def</span> <span class="nf">conversion_rate</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<div class="viewcode-block" id="conversion_rate"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_rate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">conversion_rate</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_synapses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> </div>
 
-<div class="viewcode-block" id="plot_prox_func_vs_attribute_from_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.plot_prox_func_vs_attribute_from_edge_df">[docs]</a><span class="k">def</span> <span class="nf">plot_prox_func_vs_attribute_from_edge_df</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_prox_func_vs_attribute_from_edge_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.plot_prox_func_vs_attribute_from_edge_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_prox_func_vs_attribute_from_edge_df</span><span class="p">(</span>
     <span class="n">edge_df</span><span class="p">,</span>
     <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;Exc&quot;</span><span class="p">,</span>
     <span class="n">targets</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Exc&quot;</span><span class="p">,</span><span class="s2">&quot;Inh&quot;</span><span class="p">],</span>
@@ -832,7 +832,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">axs</span></div>
     
-<div class="viewcode-block" id="print_n_dict"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.print_n_dict">[docs]</a><span class="k">def</span> <span class="nf">print_n_dict</span><span class="p">(</span>
+<div class="viewcode-block" id="print_n_dict"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.print_n_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">print_n_dict</span><span class="p">(</span>
     <span class="n">n_dict</span><span class="p">,</span>
     <span class="n">category_joiner</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
@@ -863,7 +863,7 @@
         
     <span class="k">return</span> <span class="n">total_str</span></div>
 
-<div class="viewcode-block" id="conversion_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_df">[docs]</a><span class="k">def</span> <span class="nf">conversion_df</span><span class="p">(</span>
+<div class="viewcode-block" id="conversion_df"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.conversion_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">conversion_df</span><span class="p">(</span>
     <span class="n">proximity_df</span><span class="p">,</span>
     <span class="n">presyn_column</span> <span class="o">=</span> <span class="s2">&quot;presyn&quot;</span><span class="p">,</span>
     <span class="n">postsyn_column</span> <span class="o">=</span> <span class="s2">&quot;postsyn&quot;</span><span class="p">,</span>
@@ -918,7 +918,7 @@
     <span class="k">return</span> <span class="n">df_conv</span></div>
 
 
-<div class="viewcode-block" id="str_of_n_prox_n_syn"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.str_of_n_prox_n_syn">[docs]</a><span class="k">def</span> <span class="nf">str_of_n_prox_n_syn</span><span class="p">(</span>
+<div class="viewcode-block" id="str_of_n_prox_n_syn"><a class="viewcode-back" href="../../neurd.html#neurd.proximity_analysis_utils.str_of_n_prox_n_syn">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">str_of_n_prox_n_syn</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">category_column</span> <span class="o">=</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
     <span class="n">independent_axis</span> <span class="o">=</span> <span class="s2">&quot;proximity_dist&quot;</span><span class="p">,</span>
@@ -1032,23 +1032,23 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">nature_paper_plotting</span> <span class="k">as</span> <span class="n">npp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">nature_paper_plotting</span> <span class="k">as</span> <span class="n">npp</span>
 
 <span class="c1">#--- from neuron_morphology_tools ---</span>
-<span class="kn">from</span> <span class="nn">neuron_morphology_tools</span> <span class="kn">import</span> <span class="n">neuron_nx_utils</span> <span class="k">as</span> <span class="n">nxu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">neuron_morphology_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_nx_utils</span> <span class="k">as</span> <span class="n">nxu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools.tqdm_utils</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools.tqdm_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">proximity_analysis_utils</span> <span class="k">as</span> <span class="n">pxa</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">proximity_analysis_utils</span> <span class="k">as</span> <span class="n">pxa</span>
 </pre></div>
 
            </div>

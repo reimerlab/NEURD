@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.width_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -71,12 +71,12 @@
              
   <h1>Source code for neurd.width_utils</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
 
 <span class="n">default_skeleton_segment_size</span> <span class="o">=</span> <span class="mi">1000</span>
 
-<div class="viewcode-block" id="skeleton_resized_ordered"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.skeleton_resized_ordered">[docs]</a><span class="k">def</span> <span class="nf">skeleton_resized_ordered</span><span class="p">(</span>
+<div class="viewcode-block" id="skeleton_resized_ordered"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.skeleton_resized_ordered">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeleton_resized_ordered</span><span class="p">(</span>
     <span class="n">skeleton</span><span class="p">,</span>
     <span class="n">skeleton_segment_size</span><span class="o">=</span><span class="n">default_skeleton_segment_size</span><span class="p">,</span>
     <span class="n">width_segment_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -100,7 +100,7 @@
         <span class="k">return</span> <span class="n">sk</span><span class="o">.</span><span class="n">skeleton_coordinate_path_from_start</span><span class="p">(</span><span class="n">ex_branch_skeleton_resized</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ex_branch_skeleton_resized</span></div>
 
-<div class="viewcode-block" id="calculate_new_width"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.calculate_new_width">[docs]</a><span class="k">def</span> <span class="nf">calculate_new_width</span><span class="p">(</span><span class="n">branch</span><span class="p">,</span> 
+<div class="viewcode-block" id="calculate_new_width"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.calculate_new_width">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_new_width</span><span class="p">(</span><span class="n">branch</span><span class="p">,</span> 
                                <span class="n">skeleton_segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
                                    <span class="n">width_segment_size</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                               <span class="n">return_average</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -207,7 +207,7 @@
         <span class="k">return</span> <span class="n">total_distances</span></div>
         
         
-<div class="viewcode-block" id="find_mesh_width_array_border"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.find_mesh_width_array_border">[docs]</a><span class="k">def</span> <span class="nf">find_mesh_width_array_border</span><span class="p">(</span><span class="n">curr_limb</span><span class="p">,</span>
+<div class="viewcode-block" id="find_mesh_width_array_border"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.find_mesh_width_array_border">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">find_mesh_width_array_border</span><span class="p">(</span><span class="n">curr_limb</span><span class="p">,</span>
                              <span class="n">node_1</span><span class="p">,</span>
                              <span class="n">node_2</span><span class="p">,</span>
                             <span class="n">width_name</span> <span class="o">=</span> <span class="s2">&quot;no_spine_median_mesh_center&quot;</span><span class="p">,</span>
@@ -382,7 +382,7 @@
     <span class="k">return</span> <span class="n">return_arrays</span></div>
 
 
-<div class="viewcode-block" id="new_width_from_mesh_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.new_width_from_mesh_skeleton">[docs]</a><span class="k">def</span> <span class="nf">new_width_from_mesh_skeleton</span><span class="p">(</span><span class="n">skeleton</span><span class="p">,</span>
+<div class="viewcode-block" id="new_width_from_mesh_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.new_width_from_mesh_skeleton">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">new_width_from_mesh_skeleton</span><span class="p">(</span><span class="n">skeleton</span><span class="p">,</span>
                                 <span class="n">mesh</span><span class="p">,</span>
                                 <span class="n">skeleton_segment_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
                                 <span class="n">width_segment_size</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -454,7 +454,7 @@
         <span class="k">return</span> <span class="n">total_distances</span></div>
     
     
-<div class="viewcode-block" id="calculate_new_width_for_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.calculate_new_width_for_neuron_obj">[docs]</a><span class="k">def</span> <span class="nf">calculate_new_width_for_neuron_obj</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="calculate_new_width_for_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.calculate_new_width_for_neuron_obj">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_new_width_for_neuron_obj</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                           <span class="n">skeleton_segment_size</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
                            <span class="n">width_segment_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">width_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -582,7 +582,7 @@
                     
                     
 
-<div class="viewcode-block" id="neuron_width_calculation_standard"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.neuron_width_calculation_standard">[docs]</a><span class="k">def</span> <span class="nf">neuron_width_calculation_standard</span><span class="p">(</span>
+<div class="viewcode-block" id="neuron_width_calculation_standard"><a class="viewcode-back" href="../../neurd.html#neurd.width_utils.neuron_width_calculation_standard">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">neuron_width_calculation_standard</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">widths_to_calculate</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;median_mesh_center&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;no_spine_median_mesh_center&quot;</span><span class="p">),</span>
@@ -606,19 +606,19 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
 
 <span class="c1">#--- from mesh_tools ---</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">compartment_utils</span> <span class="k">as</span> <span class="n">cu</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">compartment_utils</span> <span class="k">as</span> <span class="n">cu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">width_utils</span> <span class="k">as</span> <span class="n">wu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">width_utils</span> <span class="k">as</span> <span class="n">wu</span>
 </pre></div>
 
            </div>

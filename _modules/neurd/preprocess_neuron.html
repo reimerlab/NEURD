@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.preprocess_neuron &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -71,21 +71,21 @@
              
   <h1>Source code for neurd.preprocess_neuron</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">reload</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">meshparty</span> <span class="kn">import</span> <span class="n">trimesh_io</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">reload</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">meshparty</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_io</span>
 
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">from</span> <span class="nn">pykdtree.kdtree</span> <span class="kn">import</span> <span class="n">KDTree</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">trimesh</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">data_struct_utils</span> <span class="k">as</span> <span class="n">dsu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pykdtree.kdtree</span><span class="w"> </span><span class="kn">import</span> <span class="n">KDTree</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">trimesh</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">data_struct_utils</span> <span class="k">as</span> <span class="n">dsu</span>
 
 <span class="c1">#importing at the bottom so don&#39;t get any conflicts</span>
 
@@ -115,7 +115,7 @@
 
 
 <span class="c1">#--------------- default arguments to use ----------#</span>
-<div class="viewcode-block" id="plot_correspondence"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.plot_correspondence">[docs]</a><span class="k">def</span> <span class="nf">plot_correspondence</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_correspondence"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.plot_correspondence">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_correspondence</span><span class="p">(</span>
     <span class="n">mesh</span><span class="p">,</span>
     <span class="n">correspondence</span><span class="p">,</span>
     <span class="n">idx_to_show</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -164,7 +164,7 @@
         <span class="p">)</span></div>
         
 
-<div class="viewcode-block" id="plot_correspondence_on_single_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.plot_correspondence_on_single_mesh">[docs]</a><span class="k">def</span> <span class="nf">plot_correspondence_on_single_mesh</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_correspondence_on_single_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.plot_correspondence_on_single_mesh">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_correspondence_on_single_mesh</span><span class="p">(</span>
     <span class="n">mesh</span><span class="p">,</span>
     <span class="n">correspondence</span><span class="p">,</span>
     <span class="p">):</span>
@@ -191,7 +191,7 @@
     <span class="p">)</span></div>
     
     
-<div class="viewcode-block" id="mesh_correspondence_first_pass"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.mesh_correspondence_first_pass">[docs]</a><span class="k">def</span> <span class="nf">mesh_correspondence_first_pass</span><span class="p">(</span>
+<div class="viewcode-block" id="mesh_correspondence_first_pass"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.mesh_correspondence_first_pass">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">mesh_correspondence_first_pass</span><span class="p">(</span>
     <span class="n">mesh</span><span class="p">,</span>
     <span class="n">skeleton</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">skeleton_branches</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -285,7 +285,7 @@
 
 
 
-<div class="viewcode-block" id="check_skeletonization_and_decomp"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.check_skeletonization_and_decomp">[docs]</a><span class="k">def</span> <span class="nf">check_skeletonization_and_decomp</span><span class="p">(</span>
+<div class="viewcode-block" id="check_skeletonization_and_decomp"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.check_skeletonization_and_decomp">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_skeletonization_and_decomp</span><span class="p">(</span>
     <span class="n">skeleton</span><span class="p">,</span>
     <span class="n">local_correspondence</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -354,7 +354,7 @@
 
         
         
-<div class="viewcode-block" id="correspondence_1_to_1"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.correspondence_1_to_1">[docs]</a><span class="k">def</span> <span class="nf">correspondence_1_to_1</span><span class="p">(</span>
+<div class="viewcode-block" id="correspondence_1_to_1"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.correspondence_1_to_1">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">correspondence_1_to_1</span><span class="p">(</span>
     <span class="n">mesh</span><span class="p">,</span>
     <span class="n">local_correspondence</span><span class="p">,</span>
     <span class="n">curr_limb_endpoints_must_keep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -470,7 +470,7 @@
 
 
 
-<div class="viewcode-block" id="filter_soma_touching_vertices_dict_by_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.filter_soma_touching_vertices_dict_by_mesh">[docs]</a><span class="k">def</span> <span class="nf">filter_soma_touching_vertices_dict_by_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span>
+<div class="viewcode-block" id="filter_soma_touching_vertices_dict_by_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.filter_soma_touching_vertices_dict_by_mesh">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">filter_soma_touching_vertices_dict_by_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span>
                                               <span class="n">curr_piece_to_soma_touching_vertices</span><span class="p">,</span>
                                               <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -522,7 +522,7 @@
     
 <span class="c1"># ----------------- When refactoring the limb decomposition function ------ #</span>
 
-<div class="viewcode-block" id="find_if_stitch_point_on_end_or_branch"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.find_if_stitch_point_on_end_or_branch">[docs]</a><span class="k">def</span> <span class="nf">find_if_stitch_point_on_end_or_branch</span><span class="p">(</span><span class="n">matched_branches_skeletons</span><span class="p">,</span>
+<div class="viewcode-block" id="find_if_stitch_point_on_end_or_branch"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.find_if_stitch_point_on_end_or_branch">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">find_if_stitch_point_on_end_or_branch</span><span class="p">(</span><span class="n">matched_branches_skeletons</span><span class="p">,</span>
                                                               <span class="n">stitch_coordinate</span><span class="p">,</span>
                                                               <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
                     
@@ -550,7 +550,7 @@
 
 
 
-<div class="viewcode-block" id="closest_dist_from_floating_mesh_to_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.closest_dist_from_floating_mesh_to_skeleton">[docs]</a><span class="k">def</span> <span class="nf">closest_dist_from_floating_mesh_to_skeleton</span><span class="p">(</span>
+<div class="viewcode-block" id="closest_dist_from_floating_mesh_to_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.closest_dist_from_floating_mesh_to_skeleton">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">closest_dist_from_floating_mesh_to_skeleton</span><span class="p">(</span>
     <span class="n">skeleton</span><span class="p">,</span>
     <span class="n">floating_mesh</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -606,7 +606,7 @@
         
     <span class="k">return</span> <span class="n">min_dist</span></div>
 
-<div class="viewcode-block" id="attach_floating_pieces_to_limb_correspondence"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.attach_floating_pieces_to_limb_correspondence">[docs]</a><span class="k">def</span> <span class="nf">attach_floating_pieces_to_limb_correspondence</span><span class="p">(</span>
+<div class="viewcode-block" id="attach_floating_pieces_to_limb_correspondence"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.attach_floating_pieces_to_limb_correspondence">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">attach_floating_pieces_to_limb_correspondence</span><span class="p">(</span>
         <span class="n">limb_correspondence</span><span class="p">,</span>
         <span class="n">floating_meshes</span><span class="p">,</span>
         <span class="n">floating_piece_face_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -970,7 +970,7 @@
 
 
 
-<div class="viewcode-block" id="calculate_limb_concept_networks"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.calculate_limb_concept_networks">[docs]</a><span class="k">def</span> <span class="nf">calculate_limb_concept_networks</span><span class="p">(</span><span class="n">limb_correspondence</span><span class="p">,</span>
+<div class="viewcode-block" id="calculate_limb_concept_networks"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.calculate_limb_concept_networks">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_limb_concept_networks</span><span class="p">(</span><span class="n">limb_correspondence</span><span class="p">,</span>
                                     <span class="n">network_starting_info</span><span class="p">,</span>
                                    <span class="n">run_concept_network_checks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -1106,7 +1106,7 @@
 
 
 
-<div class="viewcode-block" id="filter_limb_correspondence_for_end_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.filter_limb_correspondence_for_end_nodes">[docs]</a><span class="k">def</span> <span class="nf">filter_limb_correspondence_for_end_nodes</span><span class="p">(</span><span class="n">limb_correspondence</span><span class="p">,</span>
+<div class="viewcode-block" id="filter_limb_correspondence_for_end_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.filter_limb_correspondence_for_end_nodes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">filter_limb_correspondence_for_end_nodes</span><span class="p">(</span><span class="n">limb_correspondence</span><span class="p">,</span>
                                              <span class="n">mesh</span><span class="p">,</span>
                                              <span class="n">starting_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                              <span class="n">filter_end_node_length</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span>
@@ -1258,7 +1258,7 @@
 
 
 
-<div class="viewcode-block" id="preprocess_limb"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.preprocess_limb">[docs]</a><span class="k">def</span> <span class="nf">preprocess_limb</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span>
+<div class="viewcode-block" id="preprocess_limb"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.preprocess_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">preprocess_limb</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span>
                    <span class="n">soma_touching_vertices_dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                    <span class="n">distance_by_mesh_center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1">#how the distance is calculated for mesh correspondence</span>
                     <span class="n">meshparty_segment_size</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
@@ -3585,7 +3585,7 @@
 
 
 
-<div class="viewcode-block" id="preprocess_neuron"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.preprocess_neuron">[docs]</a><span class="k">def</span> <span class="nf">preprocess_neuron</span><span class="p">(</span>
+<div class="viewcode-block" id="preprocess_neuron"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.preprocess_neuron">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">preprocess_neuron</span><span class="p">(</span>
     <span class="n">mesh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">mesh_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">segment_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -4632,7 +4632,7 @@
 
 
 <span class="c1"># --- 3/24 Addition ----</span>
-<div class="viewcode-block" id="high_fidelity_axon_decomposition"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.high_fidelity_axon_decomposition">[docs]</a><span class="k">def</span> <span class="nf">high_fidelity_axon_decomposition</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="high_fidelity_axon_decomposition"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.high_fidelity_axon_decomposition">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">high_fidelity_axon_decomposition</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
                                      <span class="n">plot_new_axon_limb_correspondence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                      <span class="n">plot_connecting_skeleton_fix</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                                      <span class="n">plot_final_limb_correspondence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -4962,7 +4962,7 @@
 <span class="c1"># ----- 12/29: Helps with the human data --------------</span>
 
 <span class="n">floating_piece_face_threshold_expansion</span> <span class="o">=</span> <span class="mi">500</span>
-<div class="viewcode-block" id="limb_meshes_expansion"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.limb_meshes_expansion">[docs]</a><span class="k">def</span> <span class="nf">limb_meshes_expansion</span><span class="p">(</span>
+<div class="viewcode-block" id="limb_meshes_expansion"><a class="viewcode-back" href="../../neurd.html#neurd.preprocess_neuron.limb_meshes_expansion">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">limb_meshes_expansion</span><span class="p">(</span>
     <span class="n">non_soma_touching_meshes</span><span class="p">,</span>
     <span class="n">insignificant_limbs</span><span class="p">,</span>
     <span class="n">soma_meshes</span><span class="p">,</span>
@@ -5364,33 +5364,33 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">soma_extraction_utils</span> <span class="k">as</span> <span class="n">sm</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">soma_extraction_utils</span> <span class="k">as</span> <span class="n">sm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">axon_utils</span> <span class="k">as</span> <span class="n">au</span>
 
 <span class="c1">#--- from mesh_tools ---</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">compartment_utils</span> <span class="k">as</span> <span class="n">cu</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">meshparty_skeletonize</span> <span class="k">as</span> <span class="n">m_sk</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">compartment_utils</span> <span class="k">as</span> <span class="n">cu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">meshparty_skeletonize</span> <span class="k">as</span> <span class="n">m_sk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">data_struct_utils</span> <span class="k">as</span> <span class="n">dsu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
-<span class="kn">from</span> <span class="nn">datasci_tools.tqdm_utils</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">data_struct_utils</span> <span class="k">as</span> <span class="n">dsu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">matplotlib_utils</span> <span class="k">as</span> <span class="n">mu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">system_utils</span> <span class="k">as</span> <span class="n">su</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools.tqdm_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">preprocess_neuron</span> <span class="k">as</span> <span class="n">pre</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">preprocess_neuron</span> <span class="k">as</span> <span class="n">pre</span>
 </pre></div>
 
            </div>

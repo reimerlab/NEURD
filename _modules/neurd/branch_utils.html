@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.branch_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -71,12 +71,12 @@
              
   <h1>Source code for neurd.branch_utils</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">pykdtree.kdtree</span> <span class="kn">import</span> <span class="n">KDTree</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pykdtree.kdtree</span><span class="w"> </span><span class="kn">import</span> <span class="n">KDTree</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
 
 <span class="n">non_optional_features</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;mesh&quot;</span><span class="p">,</span>
@@ -121,7 +121,7 @@
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="skeleton_adjust"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeleton_adjust">[docs]</a><span class="k">def</span> <span class="nf">skeleton_adjust</span><span class="p">(</span>
+<div class="viewcode-block" id="skeleton_adjust"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeleton_adjust">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeleton_adjust</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">skeleton</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">skeleton_append</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,):</span>
@@ -151,7 +151,7 @@
     
     <span class="k">return</span> <span class="n">branch_obj</span></div>
 
-<div class="viewcode-block" id="add_jitter_to_endpoint"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.add_jitter_to_endpoint">[docs]</a><span class="k">def</span> <span class="nf">add_jitter_to_endpoint</span><span class="p">(</span>
+<div class="viewcode-block" id="add_jitter_to_endpoint"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.add_jitter_to_endpoint">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_jitter_to_endpoint</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">endpoint</span><span class="p">,</span>
     <span class="n">jitter</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
@@ -184,7 +184,7 @@
 
 
 
-<div class="viewcode-block" id="combine_attr_lists"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.combine_attr_lists">[docs]</a><span class="k">def</span> <span class="nf">combine_attr_lists</span><span class="p">(</span><span class="n">list_1</span><span class="p">,</span><span class="n">list_2</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="combine_attr_lists"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.combine_attr_lists">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">combine_attr_lists</span><span class="p">(</span><span class="n">list_1</span><span class="p">,</span><span class="n">list_2</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">list_1</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">list_2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Both None&quot;</span><span class="p">)</span>
@@ -207,7 +207,7 @@
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;both arrays&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">list_1</span><span class="p">,</span><span class="n">list_2</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="combine_branches"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.combine_branches">[docs]</a><span class="k">def</span> <span class="nf">combine_branches</span><span class="p">(</span>
+<div class="viewcode-block" id="combine_branches"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.combine_branches">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">combine_branches</span><span class="p">(</span>
     <span class="n">branch_upstream</span><span class="p">,</span>
     <span class="n">branch_downstream</span><span class="p">,</span>
     <span class="n">add_skeleton</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -489,7 +489,7 @@
         <span class="k">return</span> <span class="n">b_obj</span></div>
     
 <span class="c1"># --------------- setting branch attributes --------------</span>
-<div class="viewcode-block" id="set_branch_attr_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_branch_attr_on_limb">[docs]</a><span class="k">def</span> <span class="nf">set_branch_attr_on_limb</span><span class="p">(</span>
+<div class="viewcode-block" id="set_branch_attr_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_branch_attr_on_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_branch_attr_on_limb</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">func</span><span class="p">,</span>
     <span class="n">attr_name</span><span class="p">,</span>
@@ -506,7 +506,7 @@
         
     <span class="k">return</span> <span class="n">limb_obj</span></div>
 
-<div class="viewcode-block" id="set_branches_endpoints_upstream_downstream_idx_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_branches_endpoints_upstream_downstream_idx_on_limb">[docs]</a><span class="k">def</span> <span class="nf">set_branches_endpoints_upstream_downstream_idx_on_limb</span><span class="p">(</span>
+<div class="viewcode-block" id="set_branches_endpoints_upstream_downstream_idx_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_branches_endpoints_upstream_downstream_idx_on_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_branches_endpoints_upstream_downstream_idx_on_limb</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
@@ -517,7 +517,7 @@
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span></div>
     
-<div class="viewcode-block" id="set_branch_attr_on_limb_on_neuron"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_branch_attr_on_limb_on_neuron">[docs]</a><span class="k">def</span> <span class="nf">set_branch_attr_on_limb_on_neuron</span><span class="p">(</span>
+<div class="viewcode-block" id="set_branch_attr_on_limb_on_neuron"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_branch_attr_on_limb_on_neuron">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_branch_attr_on_limb_on_neuron</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">func</span><span class="p">,</span>
     <span class="n">attr_name</span><span class="p">,</span>
@@ -531,7 +531,7 @@
         <span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">bu</span><span class="o">.</span><span class="n">set_branch_attr_on_limb</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">[</span><span class="n">limb_idx</span><span class="p">],</span><span class="n">func</span><span class="p">,</span><span class="n">attr_name</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">neuron_obj</span></div>
         
-<div class="viewcode-block" id="set_branches_endpoints_upstream_downstream_idx"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_branches_endpoints_upstream_downstream_idx">[docs]</a><span class="k">def</span> <span class="nf">set_branches_endpoints_upstream_downstream_idx</span><span class="p">(</span>
+<div class="viewcode-block" id="set_branches_endpoints_upstream_downstream_idx"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_branches_endpoints_upstream_downstream_idx">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_branches_endpoints_upstream_downstream_idx</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
@@ -547,7 +547,7 @@
     <span class="k">return</span> <span class="n">neuron_obj</span></div>
 
 
-<div class="viewcode-block" id="skeleton_vector_endpoint"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeleton_vector_endpoint">[docs]</a><span class="k">def</span> <span class="nf">skeleton_vector_endpoint</span><span class="p">(</span>
+<div class="viewcode-block" id="skeleton_vector_endpoint"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeleton_vector_endpoint">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeleton_vector_endpoint</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">endpoint_type</span><span class="p">,</span>
     <span class="n">directional_flow</span> <span class="o">=</span> <span class="s2">&quot;downstream&quot;</span><span class="p">,</span>
@@ -612,7 +612,7 @@
     <span class="k">return</span> <span class="n">final_vec</span></div>
 
 
-<div class="viewcode-block" id="skeleton_vector_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeleton_vector_upstream">[docs]</a><span class="k">def</span> <span class="nf">skeleton_vector_upstream</span><span class="p">(</span>
+<div class="viewcode-block" id="skeleton_vector_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeleton_vector_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeleton_vector_upstream</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">directional_flow</span> <span class="o">=</span> <span class="s2">&quot;downstream&quot;</span><span class="p">,</span>
     <span class="n">endpoint_coordinate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -631,7 +631,7 @@
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="skeleton_vector_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeleton_vector_downstream">[docs]</a><span class="k">def</span> <span class="nf">skeleton_vector_downstream</span><span class="p">(</span>
+<div class="viewcode-block" id="skeleton_vector_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeleton_vector_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeleton_vector_downstream</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">directional_flow</span> <span class="o">=</span> <span class="s2">&quot;downstream&quot;</span><span class="p">,</span>
     <span class="n">endpoint_coordinate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -651,7 +651,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="width_endpoint"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_endpoint">[docs]</a><span class="k">def</span> <span class="nf">width_endpoint</span><span class="p">(</span>
+<div class="viewcode-block" id="width_endpoint"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_endpoint">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_endpoint</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">endpoint</span><span class="p">,</span> <span class="c1"># if None then will select most upstream endpoint of branch</span>
     <span class="c1">#parameters for the restriction</span>
@@ -691,7 +691,7 @@
         
     <span class="k">return</span> <span class="n">branch_width</span></div>
 
-<div class="viewcode-block" id="width_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_upstream">[docs]</a><span class="k">def</span> <span class="nf">width_upstream</span><span class="p">(</span>
+<div class="viewcode-block" id="width_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_upstream</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
@@ -702,7 +702,7 @@
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="width_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_downstream">[docs]</a><span class="k">def</span> <span class="nf">width_downstream</span><span class="p">(</span>
+<div class="viewcode-block" id="width_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_downstream</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
@@ -715,7 +715,7 @@
 
 
 <span class="c1"># ---------- synapse dists ------------</span>
-<div class="viewcode-block" id="min_dist_synapse_endpoint"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.min_dist_synapse_endpoint">[docs]</a><span class="k">def</span> <span class="nf">min_dist_synapse_endpoint</span><span class="p">(</span>
+<div class="viewcode-block" id="min_dist_synapse_endpoint"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.min_dist_synapse_endpoint">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">min_dist_synapse_endpoint</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">synapse_type</span><span class="p">,</span>
     <span class="n">endpoint_type</span><span class="p">,</span>
@@ -743,7 +743,7 @@
     <span class="k">return</span> <span class="n">min_dist</span></div>
 
 
-<div class="viewcode-block" id="min_dist_synapses_pre_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.min_dist_synapses_pre_upstream">[docs]</a><span class="k">def</span> <span class="nf">min_dist_synapses_pre_upstream</span><span class="p">(</span>
+<div class="viewcode-block" id="min_dist_synapses_pre_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.min_dist_synapses_pre_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">min_dist_synapses_pre_upstream</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">min_dist_synapse_endpoint</span><span class="p">(</span>
@@ -753,7 +753,7 @@
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="min_dist_synapses_post_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.min_dist_synapses_post_upstream">[docs]</a><span class="k">def</span> <span class="nf">min_dist_synapses_post_upstream</span><span class="p">(</span>
+<div class="viewcode-block" id="min_dist_synapses_post_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.min_dist_synapses_post_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">min_dist_synapses_post_upstream</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">min_dist_synapse_endpoint</span><span class="p">(</span>
@@ -763,7 +763,7 @@
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="min_dist_synapses_pre_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.min_dist_synapses_pre_downstream">[docs]</a><span class="k">def</span> <span class="nf">min_dist_synapses_pre_downstream</span><span class="p">(</span>
+<div class="viewcode-block" id="min_dist_synapses_pre_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.min_dist_synapses_pre_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">min_dist_synapses_pre_downstream</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">min_dist_synapse_endpoint</span><span class="p">(</span>
@@ -773,7 +773,7 @@
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="min_dist_synapses_post_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.min_dist_synapses_post_downstream">[docs]</a><span class="k">def</span> <span class="nf">min_dist_synapses_post_downstream</span><span class="p">(</span>
+<div class="viewcode-block" id="min_dist_synapses_post_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.min_dist_synapses_post_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">min_dist_synapses_post_downstream</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">min_dist_synapse_endpoint</span><span class="p">(</span>
@@ -784,7 +784,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="closest_mesh_skeleton_dist"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.closest_mesh_skeleton_dist">[docs]</a><span class="k">def</span> <span class="nf">closest_mesh_skeleton_dist</span><span class="p">(</span>
+<div class="viewcode-block" id="closest_mesh_skeleton_dist"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.closest_mesh_skeleton_dist">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">closest_mesh_skeleton_dist</span><span class="p">(</span>
     <span class="n">obj</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -801,7 +801,7 @@
         
     <span class="k">return</span> <span class="n">min_dist</span></div>
 
-<div class="viewcode-block" id="mesh_shaft"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.mesh_shaft">[docs]</a><span class="k">def</span> <span class="nf">mesh_shaft</span><span class="p">(</span>
+<div class="viewcode-block" id="mesh_shaft"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.mesh_shaft">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">mesh_shaft</span><span class="p">(</span>
     <span class="n">obj</span><span class="p">,</span>
     <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">return_mesh</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
@@ -809,7 +809,7 @@
 <span class="sd">    Purpose: To export the shaft mesh of the branch</span>
 <span class="sd">    (aka the mesh without the spine meshes)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
     <span class="n">shaft_mesh</span> <span class="o">=</span> <span class="n">tu</span><span class="o">.</span><span class="n">subtract_mesh</span><span class="p">(</span>
         <span class="n">obj</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span>
@@ -827,11 +827,11 @@
         
     <span class="k">return</span> <span class="n">shaft_mesh</span></div>
     
-<div class="viewcode-block" id="mesh_shaft_idx"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.mesh_shaft_idx">[docs]</a><span class="k">def</span> <span class="nf">mesh_shaft_idx</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span>
+<div class="viewcode-block" id="mesh_shaft_idx"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.mesh_shaft_idx">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">mesh_shaft_idx</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span>
     <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,):</span>
     <span class="k">return</span> <span class="n">mesh_shaft</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">plot</span><span class="o">=</span><span class="n">plot</span><span class="p">,</span><span class="n">return_mesh</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="is_skeleton_upstream_to_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.is_skeleton_upstream_to_downstream">[docs]</a><span class="k">def</span> <span class="nf">is_skeleton_upstream_to_downstream</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="is_skeleton_upstream_to_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.is_skeleton_upstream_to_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_skeleton_upstream_to_downstream</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="n">upstream_endpoint</span> <span class="o">=</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoint_upstream</span>
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;endpoints = </span><span class="si">{</span><span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoints</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -849,7 +849,7 @@
     <span class="k">return</span> <span class="n">up_flag</span></div>
 
 
-<div class="viewcode-block" id="width_array_upstream_to_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_array_upstream_to_downstream">[docs]</a><span class="k">def</span> <span class="nf">width_array_upstream_to_downstream</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="width_array_upstream_to_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_array_upstream_to_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_array_upstream_to_downstream</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="n">is_upstream</span> <span class="o">=</span> <span class="n">bu</span><span class="o">.</span><span class="n">is_skeleton_upstream_to_downstream</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">verbose</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">is_upstream</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">width_array</span>
@@ -858,7 +858,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Applying Flip&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">width_array</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
     
-<div class="viewcode-block" id="width_array_skeletal_lengths_upstream_to_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_array_skeletal_lengths_upstream_to_downstream">[docs]</a><span class="k">def</span> <span class="nf">width_array_skeletal_lengths_upstream_to_downstream</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="width_array_skeletal_lengths_upstream_to_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_array_skeletal_lengths_upstream_to_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_array_skeletal_lengths_upstream_to_downstream</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">width_array_skeletal_lengths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     
@@ -869,7 +869,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">branch_obj</span><span class="o">.</span><span class="n">width_array_skeletal_lengths</span><span class="p">)</span></div>
     
     
-<div class="viewcode-block" id="skeletal_coordinates_upstream_to_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeletal_coordinates_upstream_to_downstream">[docs]</a><span class="k">def</span> <span class="nf">skeletal_coordinates_upstream_to_downstream</span><span class="p">(</span>
+<div class="viewcode-block" id="skeletal_coordinates_upstream_to_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeletal_coordinates_upstream_to_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeletal_coordinates_upstream_to_downstream</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">skeleton</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -913,7 +913,7 @@
     
     <span class="k">return</span> <span class="n">coordinates</span></div>
 
-<div class="viewcode-block" id="skeletal_coordinates_dist_upstream_to_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeletal_coordinates_dist_upstream_to_downstream">[docs]</a><span class="k">def</span> <span class="nf">skeletal_coordinates_dist_upstream_to_downstream</span><span class="p">(</span>
+<div class="viewcode-block" id="skeletal_coordinates_dist_upstream_to_downstream"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeletal_coordinates_dist_upstream_to_downstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeletal_coordinates_dist_upstream_to_downstream</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">cumsum</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -932,17 +932,17 @@
         <span class="k">return</span> <span class="n">dist_array</span></div>
     
     
-<div class="viewcode-block" id="endpoint_upstream_idx"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.endpoint_upstream_idx">[docs]</a><span class="k">def</span> <span class="nf">endpoint_upstream_idx</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">coordinate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="endpoint_upstream_idx"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.endpoint_upstream_idx">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">endpoint_upstream_idx</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">coordinate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">coordinate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">coordinate</span> <span class="o">=</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoint_upstream</span>
     <span class="k">return</span> <span class="n">nu</span><span class="o">.</span><span class="n">matching_row_index</span><span class="p">(</span><span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoints</span><span class="p">,</span><span class="n">coordinate</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="endpoint_downstream_idx"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.endpoint_downstream_idx">[docs]</a><span class="k">def</span> <span class="nf">endpoint_downstream_idx</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">coordinate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="endpoint_downstream_idx"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.endpoint_downstream_idx">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">endpoint_downstream_idx</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">coordinate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">coordinate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">coordinate</span> <span class="o">=</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoint_downstream</span>
     <span class="k">return</span> <span class="n">nu</span><span class="o">.</span><span class="n">matching_row_index</span><span class="p">(</span><span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoints</span><span class="p">,</span><span class="n">coordinate</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="set_endpoints_upstream_downstream_idx_from_upstream_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_endpoints_upstream_downstream_idx_from_upstream_coordinate">[docs]</a><span class="k">def</span> <span class="nf">set_endpoints_upstream_downstream_idx_from_upstream_coordinate</span><span class="p">(</span>
+<div class="viewcode-block" id="set_endpoints_upstream_downstream_idx_from_upstream_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_endpoints_upstream_downstream_idx_from_upstream_coordinate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_endpoints_upstream_downstream_idx_from_upstream_coordinate</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">upstream_coordinate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">up_idx</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -954,7 +954,7 @@
         <span class="n">up_idx</span> <span class="o">=</span> <span class="n">bu</span><span class="o">.</span><span class="n">endpoint_upstream_idx</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">upstream_coordinate</span><span class="p">)</span>
     <span class="n">branch_obj</span><span class="o">.</span><span class="n">endpoints_upstream_downstream_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">up_idx</span><span class="p">,</span><span class="mi">1</span><span class="o">-</span><span class="n">up_idx</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="set_endpoints_upstream_downstream_idx_on_branch"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_endpoints_upstream_downstream_idx_on_branch">[docs]</a><span class="k">def</span> <span class="nf">set_endpoints_upstream_downstream_idx_on_branch</span><span class="p">(</span>
+<div class="viewcode-block" id="set_endpoints_upstream_downstream_idx_on_branch"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.set_endpoints_upstream_downstream_idx_on_branch">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_endpoints_upstream_downstream_idx_on_branch</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,):</span>
     
@@ -983,7 +983,7 @@
     <span class="c1">#&quot;soma_distance&quot;</span>
 <span class="p">]</span>
 
-<div class="viewcode-block" id="width_array_upstream_to_dowstream_with_skeletal_points"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_array_upstream_to_dowstream_with_skeletal_points">[docs]</a><span class="k">def</span> <span class="nf">width_array_upstream_to_dowstream_with_skeletal_points</span><span class="p">(</span>
+<div class="viewcode-block" id="width_array_upstream_to_dowstream_with_skeletal_points"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_array_upstream_to_dowstream_with_skeletal_points">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_array_upstream_to_dowstream_with_skeletal_points</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">width_name</span> <span class="o">=</span> <span class="s2">&quot;no_spine_median_mesh_center&quot;</span><span class="p">,</span>
     <span class="p">):</span>
@@ -997,7 +997,7 @@
     
     <span class="k">return</span> <span class="n">branch_obj</span><span class="o">.</span><span class="n">width_array_upstream_to_downstream</span><span class="p">[</span><span class="n">width_name</span><span class="p">],</span><span class="n">skeleton_coords_mid</span></div>
 
-<div class="viewcode-block" id="width_array_value_closest_to_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_array_value_closest_to_coordinate">[docs]</a><span class="k">def</span> <span class="nf">width_array_value_closest_to_coordinate</span><span class="p">(</span>
+<div class="viewcode-block" id="width_array_value_closest_to_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.width_array_value_closest_to_coordinate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_array_value_closest_to_coordinate</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">coordinate</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,):</span>
@@ -1027,7 +1027,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">closest_widths</span></div>
 
-<div class="viewcode-block" id="branch_dynamics_attr_dict_dynamics_from_node"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.branch_dynamics_attr_dict_dynamics_from_node">[docs]</a><span class="k">def</span> <span class="nf">branch_dynamics_attr_dict_dynamics_from_node</span><span class="p">(</span>
+<div class="viewcode-block" id="branch_dynamics_attr_dict_dynamics_from_node"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.branch_dynamics_attr_dict_dynamics_from_node">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">branch_dynamics_attr_dict_dynamics_from_node</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">width_name</span> <span class="o">=</span> <span class="s2">&quot;no_spine_median_mesh_center&quot;</span>
     <span class="p">):</span>
@@ -1065,7 +1065,7 @@
     <span class="k">return</span> <span class="n">return_dict</span></div>
 
 
-<div class="viewcode-block" id="refine_width_array_to_match_skeletal_coordinates"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.refine_width_array_to_match_skeletal_coordinates">[docs]</a><span class="k">def</span> <span class="nf">refine_width_array_to_match_skeletal_coordinates</span><span class="p">(</span>
+<div class="viewcode-block" id="refine_width_array_to_match_skeletal_coordinates"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.refine_width_array_to_match_skeletal_coordinates">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">refine_width_array_to_match_skeletal_coordinates</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1074,12 +1074,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">bu</span><span class="o">.</span><span class="n">set_branches_endpoints_upstream_downstream_idx</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">width_array_length</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">width_name</span><span class="o">=</span><span class="s2">&quot;no_spine_median_mesh_center&quot;</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">width_array_length</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="n">width_name</span><span class="o">=</span><span class="s2">&quot;no_spine_median_mesh_center&quot;</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">branch_obj</span><span class="o">.</span><span class="n">width_array</span><span class="p">[</span><span class="n">width_name</span><span class="p">])</span>
-    <span class="k">def</span> <span class="nf">skeletal_coordinates_upstream_to_downstream_length</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">skeletal_coordinates_upstream_to_downstream_length</span><span class="p">(</span><span class="n">branch_obj</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">branch_obj</span><span class="o">.</span><span class="n">skeletal_coordinates_upstream_to_downstream</span><span class="p">)</span>
 
-    <span class="kn">from</span> <span class="nn">neurd</span> <span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">neurd</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
     <span class="n">lb</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">query_neuron</span><span class="p">(</span>
         <span class="n">neuron_obj</span><span class="p">,</span>
         <span class="n">functions_list</span><span class="o">=</span><span class="p">[</span>
@@ -1099,7 +1099,7 @@
     
     <span class="k">return</span> <span class="n">neuron_obj</span></div>
 
-<div class="viewcode-block" id="endpoint_type_with_offset"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.endpoint_type_with_offset">[docs]</a><span class="k">def</span> <span class="nf">endpoint_type_with_offset</span><span class="p">(</span>
+<div class="viewcode-block" id="endpoint_type_with_offset"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.endpoint_type_with_offset">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">endpoint_type_with_offset</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">endpoint_type</span><span class="o">=</span><span class="s2">&quot;upstream&quot;</span><span class="p">,</span>
     <span class="n">offset</span> <span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
@@ -1123,7 +1123,7 @@
         
     <span class="k">return</span> <span class="n">coordinate</span></div>
     
-<div class="viewcode-block" id="endpoint_upstream_with_offset"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.endpoint_upstream_with_offset">[docs]</a><span class="k">def</span> <span class="nf">endpoint_upstream_with_offset</span><span class="p">(</span>
+<div class="viewcode-block" id="endpoint_upstream_with_offset"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.endpoint_upstream_with_offset">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">endpoint_upstream_with_offset</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">offset</span> <span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
     <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1149,7 +1149,7 @@
         <span class="n">verbose</span><span class="o">=</span> <span class="n">verbose</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="endpoint_downstream_with_offset"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.endpoint_downstream_with_offset">[docs]</a><span class="k">def</span> <span class="nf">endpoint_downstream_with_offset</span><span class="p">(</span>
+<div class="viewcode-block" id="endpoint_downstream_with_offset"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.endpoint_downstream_with_offset">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">endpoint_downstream_with_offset</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">offset</span> <span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
     <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1166,7 +1166,7 @@
 
 
 
-<div class="viewcode-block" id="skeleton_angle_from_top"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeleton_angle_from_top">[docs]</a><span class="k">def</span> <span class="nf">skeleton_angle_from_top</span><span class="p">(</span>
+<div class="viewcode-block" id="skeleton_angle_from_top"><a class="viewcode-back" href="../../neurd.html#neurd.branch_utils.skeleton_angle_from_top">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeleton_angle_from_top</span><span class="p">(</span>
     <span class="n">branch_obj</span><span class="p">,</span>
     <span class="n">top_of_layer_vector</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">top_of_layer_vector</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1244,28 +1244,28 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">branch_attr_utils</span> <span class="k">as</span> <span class="n">bau</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">width_utils</span> <span class="k">as</span> <span class="n">wu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">branch_attr_utils</span> <span class="k">as</span> <span class="n">bau</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">spine_utils</span> <span class="k">as</span> <span class="n">spu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">width_utils</span> <span class="k">as</span> <span class="n">wu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
 
  
 
 <span class="c1">#--- from mesh_tools ---</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">skeleton_utils</span> <span class="k">as</span> <span class="n">sk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
 </pre></div>
 
            </div>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.functional_tuning_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -72,16 +72,16 @@
   <h1>Source code for neurd.functional_tuning_utils</h1><div class="highlight"><pre>
 <span></span>
 
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
 
-<div class="viewcode-block" id="cdiff"><a class="viewcode-back" href="../../neurd.html#neurd.functional_tuning_utils.cdiff">[docs]</a><span class="k">def</span> <span class="nf">cdiff</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">rad</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>    
+<div class="viewcode-block" id="cdiff"><a class="viewcode-back" href="../../neurd.html#neurd.functional_tuning_utils.cdiff">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cdiff</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">rad</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>    
     <span class="k">return</span> <span class="n">nu</span><span class="o">.</span><span class="n">cdiff</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span><span class="n">period</span><span class="o">=</span><span class="n">period</span><span class="p">,</span><span class="n">rad</span><span class="o">=</span><span class="n">rad</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="cdist"><a class="viewcode-back" href="../../neurd.html#neurd.functional_tuning_utils.cdist">[docs]</a><span class="k">def</span> <span class="nf">cdist</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">rad</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="cdist"><a class="viewcode-back" href="../../neurd.html#neurd.functional_tuning_utils.cdist">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cdist</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">rad</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">nu</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">period</span><span class="p">,</span><span class="n">rad</span><span class="o">=</span><span class="n">rad</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="add_on_delta_to_df"><a class="viewcode-back" href="../../neurd.html#neurd.functional_tuning_utils.add_on_delta_to_df">[docs]</a><span class="k">def</span> <span class="nf">add_on_delta_to_df</span><span class="p">(</span>
+<div class="viewcode-block" id="add_on_delta_to_df"><a class="viewcode-back" href="../../neurd.html#neurd.functional_tuning_utils.add_on_delta_to_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_on_delta_to_df</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">ori_name_1</span> <span class="o">=</span> <span class="s2">&quot;ori_rad&quot;</span><span class="p">,</span>
     <span class="n">ori_name_2</span> <span class="o">=</span> <span class="s2">&quot;ori_rad_post&quot;</span><span class="p">,</span>
@@ -101,10 +101,10 @@
 
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">functional_tuning_utils</span> <span class="k">as</span> <span class="n">ftu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">functional_tuning_utils</span> <span class="k">as</span> <span class="n">ftu</span>
 </pre></div>
 
            </div>

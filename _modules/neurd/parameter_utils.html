@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.parameter_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -70,11 +70,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for neurd.parameter_utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">sys</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 
 <span class="n">modes_default</span> <span class="o">=</span> <span class="p">(</span>
@@ -95,7 +95,7 @@
 <span class="c1">#---- code used to read in legacy parameters stored inside module into their own json file ----</span>
 
 
-<div class="viewcode-block" id="injest_nested_dict"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.injest_nested_dict">[docs]</a><span class="k">def</span> <span class="nf">injest_nested_dict</span><span class="p">(</span>
+<div class="viewcode-block" id="injest_nested_dict"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.injest_nested_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">injest_nested_dict</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
     <span class="n">filter_away_suffixes</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">suffixes_to_ignore</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -114,8 +114,8 @@
     
     <span class="k">return</span> <span class="n">data</span></div>
     
-<div class="viewcode-block" id="Parameters"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.Parameters">[docs]</a><span class="k">class</span> <span class="nc">Parameters</span><span class="p">:</span>
-<div class="viewcode-block" id="Parameters.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.Parameters.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="Parameters"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.Parameters">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Parameters</span><span class="p">:</span>
+<div class="viewcode-block" id="Parameters.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.Parameters.__init__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -128,7 +128,7 @@
             <span class="n">data</span> <span class="o">=</span> <span class="n">jsu</span><span class="o">.</span><span class="n">json_to_dict</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span> <span class="o">=</span> <span class="n">injest_nested_dict</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="Parameters.json_dict"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.Parameters.json_dict">[docs]</a>    <span class="k">def</span> <span class="nf">json_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Parameters.json_dict"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.Parameters.json_dict">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">json_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">jsonable_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">)</span></div>
     
     <span class="c1"># def __getattr__(self,k):</span>
@@ -146,7 +146,7 @@
     <span class="c1">#     else:</span>
     <span class="c1">#         self.__dict__[k] = v</span>
             
-    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">k</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;__&quot;</span> <span class="ow">or</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;_dict&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
@@ -154,37 +154,37 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
         
-    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;_dict&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         
-    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span>
     
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
     
-    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         
-<div class="viewcode-block" id="Parameters.update"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.Parameters.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="Parameters.update"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.Parameters.update">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">data</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">_dict</span><span class="p">)</span></div>
         
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">jsu</span><span class="o">.</span><span class="n">dict_to_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">))</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">)</span>
     
-<div class="viewcode-block" id="Parameters.attr_map"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.Parameters.attr_map">[docs]</a>    <span class="k">def</span> <span class="nf">attr_map</span><span class="p">(</span>
+<div class="viewcode-block" id="Parameters.attr_map"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.Parameters.attr_map">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">attr_map</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">attr_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">suffixes_to_ignore</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -249,9 +249,9 @@
         
         <span class="k">return</span> <span class="n">return_value</span></div></div>
     
-<span class="kn">import</span> <span class="nn">copy</span>
-<div class="viewcode-block" id="PackageParameters"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.PackageParameters">[docs]</a><span class="k">class</span> <span class="nc">PackageParameters</span><span class="p">:</span>
-<div class="viewcode-block" id="PackageParameters.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.PackageParameters.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<div class="viewcode-block" id="PackageParameters"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.PackageParameters">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PackageParameters</span><span class="p">:</span>
+<div class="viewcode-block" id="PackageParameters.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.PackageParameters.__init__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">filepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -278,21 +278,21 @@
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">shared_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span></div>
         
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">curr_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">curr_str</span><span class="o">+=</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">       ---</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">.py---</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">curr_str</span><span class="o">+=</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">curr_str</span> 
     
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>   
-    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span> 
-    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> 
         
-<div class="viewcode-block" id="PackageParameters.module_attr_map"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.PackageParameters.module_attr_map">[docs]</a>    <span class="k">def</span> <span class="nf">module_attr_map</span><span class="p">(</span>
+<div class="viewcode-block" id="PackageParameters.module_attr_map"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.PackageParameters.module_attr_map">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">module_attr_map</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">module_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">attr_list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -318,7 +318,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{}</span></div>
         
-<div class="viewcode-block" id="PackageParameters.module_attr_map_requested"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.PackageParameters.module_attr_map_requested">[docs]</a>    <span class="k">def</span> <span class="nf">module_attr_map_requested</span><span class="p">(</span>
+<div class="viewcode-block" id="PackageParameters.module_attr_map_requested"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.PackageParameters.module_attr_map_requested">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">module_attr_map_requested</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">module</span><span class="p">,</span>
         <span class="n">plus_unused</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -329,7 +329,7 @@
             <span class="n">plus_unused</span><span class="o">=</span><span class="n">plus_unused</span><span class="p">,</span>
         <span class="p">)</span></div>
         
-<div class="viewcode-block" id="PackageParameters.update"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.PackageParameters.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="PackageParameters.update"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.PackageParameters.update">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other_obj</span><span class="p">):</span>
         <span class="n">other_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">other_obj</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">other_obj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
@@ -337,7 +337,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span><span class="n">Parameters</span><span class="p">(</span><span class="n">other_obj</span><span class="p">[</span><span class="n">k</span><span class="p">])})</span></div>
             
-    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">k</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;__&quot;</span> <span class="ow">or</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;_data&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
@@ -345,18 +345,18 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
         
-    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;_data&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
             
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="o">.</span><span class="n">dict</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
             
 
-<div class="viewcode-block" id="parameter_list_from_module"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.parameter_list_from_module">[docs]</a><span class="k">def</span> <span class="nf">parameter_list_from_module</span><span class="p">(</span>
+<div class="viewcode-block" id="parameter_list_from_module"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.parameter_list_from_module">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parameter_list_from_module</span><span class="p">(</span>
     <span class="n">module</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">clean_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -397,13 +397,13 @@
     <span class="k">return</span> <span class="n">params_to_request</span>   </div>
         
 
-<div class="viewcode-block" id="jsonable_dict"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.jsonable_dict">[docs]</a><span class="k">def</span> <span class="nf">jsonable_dict</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="jsonable_dict"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.jsonable_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">jsonable_dict</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">dsu</span><span class="o">.</span><span class="n">DictType</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">asdict</span><span class="p">()</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">jsu</span><span class="o">.</span><span class="n">is_jsonable</span><span class="p">(</span><span class="n">v</span><span class="p">)}</span></div>
 
-<div class="viewcode-block" id="clean_modules_dict"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.clean_modules_dict">[docs]</a><span class="k">def</span> <span class="nf">clean_modules_dict</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="clean_modules_dict"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.clean_modules_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">clean_modules_dict</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">module</span><span class="p">,</span><span class="n">module_dict</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">param_type</span><span class="p">,</span><span class="n">param_dict</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">cat</span><span class="p">,</span><span class="n">cat_dict</span> <span class="ow">in</span> <span class="n">param_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -411,12 +411,12 @@
                         
     <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="add_global_name_to_dict"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.add_global_name_to_dict">[docs]</a><span class="k">def</span> <span class="nf">add_global_name_to_dict</span><span class="p">(</span><span class="n">mydict</span><span class="p">):</span>
+<div class="viewcode-block" id="add_global_name_to_dict"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.add_global_name_to_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_global_name_to_dict</span><span class="p">(</span><span class="n">mydict</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">_global&quot;</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> 
         <span class="n">mydict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> 
     <span class="p">}</span></div>
     
-<div class="viewcode-block" id="modes_global_param_and_attributes_dict_from_module"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.modes_global_param_and_attributes_dict_from_module">[docs]</a><span class="k">def</span> <span class="nf">modes_global_param_and_attributes_dict_from_module</span><span class="p">(</span>
+<div class="viewcode-block" id="modes_global_param_and_attributes_dict_from_module"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.modes_global_param_and_attributes_dict_from_module">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">modes_global_param_and_attributes_dict_from_module</span><span class="p">(</span>
     <span class="n">module</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">modes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -521,7 +521,7 @@
     <span class="k">return</span> <span class="n">mode_jsons</span></div>
 
 
-<div class="viewcode-block" id="modes_global_param_and_attributes_dict_all_modules"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.modes_global_param_and_attributes_dict_all_modules">[docs]</a><span class="k">def</span> <span class="nf">modes_global_param_and_attributes_dict_all_modules</span><span class="p">(</span>
+<div class="viewcode-block" id="modes_global_param_and_attributes_dict_all_modules"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.modes_global_param_and_attributes_dict_all_modules">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">modes_global_param_and_attributes_dict_all_modules</span><span class="p">(</span>
     <span class="n">directory</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">clean_dict</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -559,7 +559,7 @@
 
     <span class="k">return</span> <span class="n">final_dict</span></div>
 
-<div class="viewcode-block" id="global_param_and_attributes_dict_to_separate_mode_jsons"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.global_param_and_attributes_dict_to_separate_mode_jsons">[docs]</a><span class="k">def</span> <span class="nf">global_param_and_attributes_dict_to_separate_mode_jsons</span><span class="p">(</span>
+<div class="viewcode-block" id="global_param_and_attributes_dict_to_separate_mode_jsons"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.global_param_and_attributes_dict_to_separate_mode_jsons">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">global_param_and_attributes_dict_to_separate_mode_jsons</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
     <span class="n">filepath</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;./&quot;</span><span class="p">,</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[mode_name]_config.json&quot;</span><span class="p">,</span>
@@ -613,7 +613,7 @@
         
 
 <span class="n">parameter_config_folder_name</span> <span class="o">=</span> <span class="s2">&quot;parameter_configs&quot;</span>
-<div class="viewcode-block" id="parameter_config_folder"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.parameter_config_folder">[docs]</a><span class="k">def</span> <span class="nf">parameter_config_folder</span><span class="p">(</span><span class="n">return_str</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="parameter_config_folder"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.parameter_config_folder">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parameter_config_folder</span><span class="p">(</span><span class="n">return_str</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="n">return_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parameter_config_folder_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="n">return_str</span><span class="p">:</span>
@@ -622,7 +622,7 @@
     <span class="k">return</span> <span class="n">return_path</span></div>
 
 
-<div class="viewcode-block" id="parameters_from_filepath"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.parameters_from_filepath">[docs]</a><span class="k">def</span> <span class="nf">parameters_from_filepath</span><span class="p">(</span>
+<div class="viewcode-block" id="parameters_from_filepath"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.parameters_from_filepath">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parameters_from_filepath</span><span class="p">(</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="c1">#&quot;parameters_config_default.py&quot;,</span>
     <span class="n">dict_name</span> <span class="o">=</span> <span class="s2">&quot;parameters&quot;</span><span class="p">,</span>
     <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -662,7 +662,7 @@
     <span class="k">return</span> <span class="n">return_value</span></div>
 
 
-<div class="viewcode-block" id="parameter_dict_from_module_and_obj"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.parameter_dict_from_module_and_obj">[docs]</a><span class="k">def</span> <span class="nf">parameter_dict_from_module_and_obj</span><span class="p">(</span>
+<div class="viewcode-block" id="parameter_dict_from_module_and_obj"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.parameter_dict_from_module_and_obj">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parameter_dict_from_module_and_obj</span><span class="p">(</span>
     <span class="n">module</span><span class="p">,</span>
     <span class="n">obj</span><span class="p">,</span>
     <span class="n">parameters_obj_name</span> <span class="o">=</span> <span class="s2">&quot;parameters_obj&quot;</span><span class="p">,</span>
@@ -730,18 +730,18 @@
 
     <span class="k">return</span> <span class="n">param_dict</span></div>
 
-<div class="viewcode-block" id="this_directory"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.this_directory">[docs]</a><span class="k">def</span> <span class="nf">this_directory</span><span class="p">():</span>
+<div class="viewcode-block" id="this_directory"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.this_directory">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">this_directory</span><span class="p">():</span>
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span></div>
 
 <span class="n">config_directory_name</span> <span class="o">=</span> <span class="s2">&quot;parameter_configs&quot;</span>
-<div class="viewcode-block" id="config_directory"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.config_directory">[docs]</a><span class="k">def</span> <span class="nf">config_directory</span><span class="p">():</span>
+<div class="viewcode-block" id="config_directory"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.config_directory">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">config_directory</span><span class="p">():</span>
     <span class="k">return</span> <span class="nb">str</span><span class="p">((</span>
         <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> 
         <span class="n">config_directory_name</span>
         <span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span></div>
     
 
-<div class="viewcode-block" id="set_parameters_for_directory_modules_from_obj"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.set_parameters_for_directory_modules_from_obj">[docs]</a><span class="k">def</span> <span class="nf">set_parameters_for_directory_modules_from_obj</span><span class="p">(</span>
+<div class="viewcode-block" id="set_parameters_for_directory_modules_from_obj"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.set_parameters_for_directory_modules_from_obj">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_parameters_for_directory_modules_from_obj</span><span class="p">(</span>
     <span class="n">obj</span><span class="p">,</span>
     <span class="n">directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">verbose_loop</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -811,7 +811,7 @@
                 <span class="nb">setattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="export_package_param_dict_to_file"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.export_package_param_dict_to_file">[docs]</a><span class="k">def</span> <span class="nf">export_package_param_dict_to_file</span><span class="p">(</span>
+<div class="viewcode-block" id="export_package_param_dict_to_file"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.export_package_param_dict_to_file">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">export_package_param_dict_to_file</span><span class="p">(</span>
     <span class="n">package_directory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
     <span class="n">clean_dict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -853,7 +853,7 @@
         <span class="k">return</span> <span class="n">nest_dict</span></div>
 
 
-<div class="viewcode-block" id="category_param_from_module"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.category_param_from_module">[docs]</a><span class="k">def</span> <span class="nf">category_param_from_module</span><span class="p">(</span>
+<div class="viewcode-block" id="category_param_from_module"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.category_param_from_module">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">category_param_from_module</span><span class="p">(</span>
     <span class="n">module</span><span class="p">,</span>
     <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;no_category&quot;</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -887,7 +887,7 @@
 
     <span class="k">return</span> <span class="n">output_dict</span></div>
 
-<div class="viewcode-block" id="export_df"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.export_df">[docs]</a><span class="k">def</span> <span class="nf">export_df</span><span class="p">(</span>
+<div class="viewcode-block" id="export_df"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.export_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">export_df</span><span class="p">(</span>
     <span class="n">parameters_obj</span><span class="p">,</span>
     <span class="n">module_col</span> <span class="o">=</span> <span class="s2">&quot;module&quot;</span><span class="p">,</span>
     <span class="n">parameter_col</span> <span class="o">=</span> <span class="s2">&quot;parameter name&quot;</span><span class="p">,</span>
@@ -923,7 +923,7 @@
         
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">param_list</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="export_csv"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.export_csv">[docs]</a><span class="k">def</span> <span class="nf">export_csv</span><span class="p">(</span>
+<div class="viewcode-block" id="export_csv"><a class="viewcode-back" href="../../neurd.html#neurd.parameter_utils.export_csv">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">export_csv</span><span class="p">(</span>
     <span class="n">parameters_obj</span><span class="p">,</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./parameters.csv&quot;</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -938,18 +938,18 @@
 
 
 <span class="c1">#--- from python-tools</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">package_utils</span> <span class="k">as</span> <span class="n">pku</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">data_struct_utils</span> <span class="k">as</span> <span class="n">dsu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">json_utils</span> <span class="k">as</span> <span class="n">jsu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pathlib_utils</span> <span class="k">as</span> <span class="n">plu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">package_utils</span> <span class="k">as</span> <span class="n">pku</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">module_utils</span> <span class="k">as</span> <span class="n">modu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">data_struct_utils</span> <span class="k">as</span> <span class="n">dsu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">json_utils</span> <span class="k">as</span> <span class="n">jsu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span> <span class="k">as</span> <span class="n">gu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pathlib_utils</span> <span class="k">as</span> <span class="n">plu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
 
 
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">parameter_utils</span> <span class="k">as</span> <span class="n">paru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">parameter_utils</span> <span class="k">as</span> <span class="n">paru</span>
 </pre></div>
 
            </div>

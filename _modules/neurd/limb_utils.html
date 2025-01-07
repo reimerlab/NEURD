@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.limb_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -72,9 +72,9 @@
   <h1>Source code for neurd.limb_utils</h1><div class="highlight"><pre>
 <span></span>
 
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
 
-<div class="viewcode-block" id="all_paths_to_leaf_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.all_paths_to_leaf_nodes">[docs]</a><span class="k">def</span> <span class="nf">all_paths_to_leaf_nodes</span><span class="p">(</span>
+<div class="viewcode-block" id="all_paths_to_leaf_nodes"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.all_paths_to_leaf_nodes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">all_paths_to_leaf_nodes</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">xu</span><span class="o">.</span><span class="n">all_paths_to_leaf_nodes</span><span class="p">(</span>
@@ -85,7 +85,7 @@
 
 <span class="n">default_relation_value</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
-<div class="viewcode-block" id="parent_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.parent_skeletal_angle">[docs]</a><span class="k">def</span> <span class="nf">parent_skeletal_angle</span><span class="p">(</span>
+<div class="viewcode-block" id="parent_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.parent_skeletal_angle">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parent_skeletal_angle</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -125,7 +125,7 @@
         <span class="n">branch_obj_2</span><span class="o">.</span><span class="n">skeleton_vector_upstream</span><span class="p">),</span><span class="mi">2</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="relation_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.relation_skeletal_angle">[docs]</a><span class="k">def</span> <span class="nf">relation_skeletal_angle</span><span class="p">(</span>
+<div class="viewcode-block" id="relation_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.relation_skeletal_angle">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">relation_skeletal_angle</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">relation</span><span class="p">,</span>
@@ -197,7 +197,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">sibling_angles</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="siblings_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.siblings_skeletal_angle">[docs]</a><span class="k">def</span> <span class="nf">siblings_skeletal_angle</span><span class="p">(</span>
+<div class="viewcode-block" id="siblings_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.siblings_skeletal_angle">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">siblings_skeletal_angle</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">sibling_idx</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -215,7 +215,7 @@
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="children_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.children_skeletal_angle">[docs]</a><span class="k">def</span> <span class="nf">children_skeletal_angle</span><span class="p">(</span>
+<div class="viewcode-block" id="children_skeletal_angle"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.children_skeletal_angle">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">children_skeletal_angle</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">nodes_idx</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -233,7 +233,7 @@
     <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="siblings_skeletal_angle_max"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.siblings_skeletal_angle_max">[docs]</a><span class="k">def</span> <span class="nf">siblings_skeletal_angle_max</span><span class="p">(</span>
+<div class="viewcode-block" id="siblings_skeletal_angle_max"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.siblings_skeletal_angle_max">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">siblings_skeletal_angle_max</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
@@ -246,7 +246,7 @@
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="siblings_skeletal_angle_min"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.siblings_skeletal_angle_min">[docs]</a><span class="k">def</span> <span class="nf">siblings_skeletal_angle_min</span><span class="p">(</span>
+<div class="viewcode-block" id="siblings_skeletal_angle_min"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.siblings_skeletal_angle_min">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">siblings_skeletal_angle_min</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
@@ -259,7 +259,7 @@
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="children_skeletal_angle_max"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.children_skeletal_angle_max">[docs]</a><span class="k">def</span> <span class="nf">children_skeletal_angle_max</span><span class="p">(</span>
+<div class="viewcode-block" id="children_skeletal_angle_max"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.children_skeletal_angle_max">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">children_skeletal_angle_max</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
@@ -272,7 +272,7 @@
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span></div>
 
-<div class="viewcode-block" id="children_skeletal_angle_min"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.children_skeletal_angle_min">[docs]</a><span class="k">def</span> <span class="nf">children_skeletal_angle_min</span><span class="p">(</span>
+<div class="viewcode-block" id="children_skeletal_angle_min"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.children_skeletal_angle_min">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">children_skeletal_angle_min</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
@@ -286,7 +286,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="most_usptream_endpoints_of_branches_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.most_usptream_endpoints_of_branches_on_limb">[docs]</a><span class="k">def</span> <span class="nf">most_usptream_endpoints_of_branches_on_limb</span><span class="p">(</span>
+<div class="viewcode-block" id="most_usptream_endpoints_of_branches_on_limb"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.most_usptream_endpoints_of_branches_on_limb">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">most_usptream_endpoints_of_branches_on_limb</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branches_idx</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -365,7 +365,7 @@
         
     <span class="k">return</span> <span class="n">coordinates</span></div>
 
-<div class="viewcode-block" id="most_upstream_endpoints_of_limb_branch"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.most_upstream_endpoints_of_limb_branch">[docs]</a><span class="k">def</span> <span class="nf">most_upstream_endpoints_of_limb_branch</span><span class="p">(</span>
+<div class="viewcode-block" id="most_upstream_endpoints_of_limb_branch"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.most_upstream_endpoints_of_limb_branch">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">most_upstream_endpoints_of_limb_branch</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">limb_branch_dict</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -414,7 +414,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">return_limb_coords</span></div>
     
-<div class="viewcode-block" id="width_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.width_upstream">[docs]</a><span class="k">def</span> <span class="nf">width_upstream</span><span class="p">(</span>
+<div class="viewcode-block" id="width_upstream"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.width_upstream">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">width_upstream</span><span class="p">(</span>
     <span class="n">limb_obj</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -464,22 +464,22 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">branch_utils</span> <span class="k">as</span> <span class="n">bu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_searching</span> <span class="k">as</span> <span class="n">ns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_statistics</span> <span class="k">as</span> <span class="n">nst</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_utils</span> <span class="k">as</span> <span class="n">nru</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">networkx_utils</span> <span class="k">as</span> <span class="n">xu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">limb_utils</span> <span class="k">as</span> <span class="n">lu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">limb_utils</span> <span class="k">as</span> <span class="n">lu</span>
 
 <span class="n">ns</span><span class="o">.</span><span class="n">set_limb_functions_for_search</span><span class="p">(</span><span class="n">lu</span><span class="p">,</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 
-<div class="viewcode-block" id="skeletal_angles_df"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.skeletal_angles_df">[docs]</a><span class="k">def</span> <span class="nf">skeletal_angles_df</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
+<div class="viewcode-block" id="skeletal_angles_df"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.skeletal_angles_df">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">skeletal_angles_df</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">functions_list</span><span class="o">=</span><span class="p">(</span><span class="n">lu</span><span class="o">.</span><span class="n">parent_skeletal_angle_limb_ns</span><span class="p">,</span>
                     <span class="n">lu</span><span class="o">.</span><span class="n">siblings_skeletal_angle_max_limb_ns</span><span class="p">,</span>
                     <span class="n">lu</span><span class="o">.</span><span class="n">children_skeletal_angle_max_limb_ns</span><span class="p">)</span>
@@ -488,10 +488,10 @@
         
     <span class="k">return</span> <span class="n">angles_df</span></div>
 
-<div class="viewcode-block" id="root_width"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.root_width">[docs]</a><span class="k">def</span> <span class="nf">root_width</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">):</span>
+<div class="viewcode-block" id="root_width"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.root_width">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">root_width</span><span class="p">(</span><span class="n">limb_obj</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">limb_obj</span><span class="p">[</span><span class="n">limb_obj</span><span class="o">.</span><span class="n">current_starting_node</span><span class="p">]</span><span class="o">.</span><span class="n">width_upstream</span></div>
 
-<div class="viewcode-block" id="best_feature_match_in_descendents"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.best_feature_match_in_descendents">[docs]</a><span class="k">def</span> <span class="nf">best_feature_match_in_descendents</span><span class="p">(</span>
+<div class="viewcode-block" id="best_feature_match_in_descendents"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.best_feature_match_in_descendents">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">best_feature_match_in_descendents</span><span class="p">(</span>
     <span class="n">limb</span><span class="p">,</span>
     <span class="n">branch_idx</span><span class="p">,</span>
     <span class="n">feature</span><span class="p">,</span>
@@ -516,7 +516,7 @@
         
     <span class="k">return</span> <span class="n">min_child</span></div>
 
-<div class="viewcode-block" id="root_skeleton_vector_from_soma"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.root_skeleton_vector_from_soma">[docs]</a><span class="k">def</span> <span class="nf">root_skeleton_vector_from_soma</span><span class="p">(</span>
+<div class="viewcode-block" id="root_skeleton_vector_from_soma"><a class="viewcode-back" href="../../neurd.html#neurd.limb_utils.root_skeleton_vector_from_soma">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">root_skeleton_vector_from_soma</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">limb_idx</span><span class="p">,</span>
     <span class="n">soma_name</span> <span class="o">=</span> <span class="s2">&quot;S0&quot;</span><span class="p">,</span>

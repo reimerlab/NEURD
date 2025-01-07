@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.h01_volume_utils &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -71,9 +71,9 @@
              
   <h1>Source code for neurd.h01_volume_utils</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
 
 <span class="n">voxel_to_nm_scaling</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">33</span><span class="p">])</span>
 <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;h01&quot;</span>
@@ -90,7 +90,7 @@
 
 
 
-<div class="viewcode-block" id="aligning_matrix_3D"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.aligning_matrix_3D">[docs]</a><span class="k">def</span> <span class="nf">aligning_matrix_3D</span><span class="p">(</span><span class="n">upward_vector</span><span class="o">=</span><span class="n">align_vector</span><span class="p">,</span><span class="c1">#upward_vector_middle,</span>
+<div class="viewcode-block" id="aligning_matrix_3D"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.aligning_matrix_3D">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">aligning_matrix_3D</span><span class="p">(</span><span class="n">upward_vector</span><span class="o">=</span><span class="n">align_vector</span><span class="p">,</span><span class="c1">#upward_vector_middle,</span>
                 <span class="n">target_vector</span> <span class="o">=</span> <span class="n">mvu</span><span class="o">.</span><span class="n">top_of_layer_vector</span><span class="p">,</span>
                        <span class="n">rotation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -108,7 +108,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;upward_vector AFTER = </span><span class="si">{</span><span class="n">upward_vector</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">nu</span><span class="o">.</span><span class="n">aligning_matrix_3D</span><span class="p">(</span><span class="n">upward_vector</span><span class="p">,</span><span class="n">target_vector</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="align_mesh_from_rotation"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_mesh_from_rotation">[docs]</a><span class="k">def</span> <span class="nf">align_mesh_from_rotation</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_mat</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">upward_vector</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="align_mesh_from_rotation"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_mesh_from_rotation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">align_mesh_from_rotation</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">align_mat</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">upward_vector</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                <span class="n">rotation</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                              <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -135,12 +135,12 @@
 
     
 
-<div class="viewcode-block" id="radius_for_rotation_from_proj_magn"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.radius_for_rotation_from_proj_magn">[docs]</a><span class="k">def</span> <span class="nf">radius_for_rotation_from_proj_magn</span><span class="p">(</span><span class="n">magn</span><span class="p">):</span>
+<div class="viewcode-block" id="radius_for_rotation_from_proj_magn"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.radius_for_rotation_from_proj_magn">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">radius_for_rotation_from_proj_magn</span><span class="p">(</span><span class="n">magn</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">top_radius</span><span class="o">-</span><span class="n">bottom_radius</span><span class="p">)</span><span class="o">*</span><span class="n">magn</span> <span class="o">+</span> <span class="n">bottom_radius</span></div>
     
 
 
-<div class="viewcode-block" id="rotation_from_proj_error_and_radius"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotation_from_proj_error_and_radius">[docs]</a><span class="k">def</span> <span class="nf">rotation_from_proj_error_and_radius</span><span class="p">(</span>
+<div class="viewcode-block" id="rotation_from_proj_error_and_radius"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotation_from_proj_error_and_radius">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">rotation_from_proj_error_and_radius</span><span class="p">(</span>
     <span class="n">proj_error</span><span class="p">,</span>
     <span class="n">radius_for_rotation</span><span class="p">,</span>
     <span class="n">max_rotation</span> <span class="o">=</span> <span class="n">max_rotation_global</span><span class="p">,</span>
@@ -165,7 +165,7 @@
 
 
 
-<div class="viewcode-block" id="rotation_signed_from_middle_vector"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotation_signed_from_middle_vector">[docs]</a><span class="k">def</span> <span class="nf">rotation_signed_from_middle_vector</span><span class="p">(</span>
+<div class="viewcode-block" id="rotation_signed_from_middle_vector"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotation_signed_from_middle_vector">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">rotation_signed_from_middle_vector</span><span class="p">(</span>
     <span class="n">coordinate</span><span class="p">,</span>
     <span class="n">origin_coordinate</span><span class="o">=</span><span class="n">upward_vector_start_point</span><span class="p">,</span>
     <span class="n">middle_vector</span> <span class="o">=</span> <span class="n">upward_vector_middle_non_scaled</span><span class="p">,</span>
@@ -247,7 +247,7 @@
     
     <span class="k">return</span> <span class="n">curr_rotation</span><span class="o">*</span><span class="n">rotation_sign</span></div>
 
-<div class="viewcode-block" id="rotation_from_soma_center"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotation_from_soma_center">[docs]</a><span class="k">def</span> <span class="nf">rotation_from_soma_center</span><span class="p">(</span><span class="n">soma_center</span><span class="p">,</span>
+<div class="viewcode-block" id="rotation_from_soma_center"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotation_from_soma_center">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">rotation_from_soma_center</span><span class="p">(</span><span class="n">soma_center</span><span class="p">,</span>
                              <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                              <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -264,7 +264,7 @@
     <span class="k">return</span> <span class="n">rotation</span></div>
     
 
-<div class="viewcode-block" id="align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_mesh">[docs]</a><span class="k">def</span> <span class="nf">align_mesh</span><span class="p">(</span>
+<div class="viewcode-block" id="align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_mesh">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">align_mesh</span><span class="p">(</span>
     <span class="n">mesh</span><span class="p">,</span>
     <span class="n">soma_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">rotation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -301,7 +301,7 @@
 
 
 
-<div class="viewcode-block" id="align_matrix_from_rotation"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_matrix_from_rotation">[docs]</a><span class="k">def</span> <span class="nf">align_matrix_from_rotation</span><span class="p">(</span><span class="n">upward_vector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="align_matrix_from_rotation"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_matrix_from_rotation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">align_matrix_from_rotation</span><span class="p">(</span><span class="n">upward_vector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                               <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                               <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">upward_vector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -310,7 +310,7 @@
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rotation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rotation</span>
     <span class="k">return</span> <span class="n">aligning_matrix_3D</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="align_matrix_from_soma_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_matrix_from_soma_coordinate">[docs]</a><span class="k">def</span> <span class="nf">align_matrix_from_soma_coordinate</span><span class="p">(</span>
+<div class="viewcode-block" id="align_matrix_from_soma_coordinate"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_matrix_from_soma_coordinate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">align_matrix_from_soma_coordinate</span><span class="p">(</span>
     <span class="n">soma_center</span><span class="p">,</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
@@ -336,7 +336,7 @@
     <span class="k">return</span> <span class="n">align_matrix_from_rotation</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="align_array"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_array">[docs]</a><span class="k">def</span> <span class="nf">align_array</span><span class="p">(</span>
+<div class="viewcode-block" id="align_array"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_array">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">align_array</span><span class="p">(</span>
     <span class="n">array</span><span class="p">,</span>
     <span class="n">soma_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">rotation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -379,7 +379,7 @@
     
     <span class="k">return</span> <span class="n">new_array</span></div>
 
-<div class="viewcode-block" id="align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_skeleton">[docs]</a><span class="k">def</span> <span class="nf">align_skeleton</span><span class="p">(</span>
+<div class="viewcode-block" id="align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_skeleton">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">align_skeleton</span><span class="p">(</span>
     <span class="n">array</span><span class="p">,</span>
     <span class="n">soma_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -402,7 +402,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="align_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_attribute">[docs]</a><span class="k">def</span> <span class="nf">align_attribute</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">attribute_name</span><span class="p">,</span>
+<div class="viewcode-block" id="align_attribute"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_attribute">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">align_attribute</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">attribute_name</span><span class="p">,</span>
                     <span class="n">soma_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">align_matrix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,):</span>
@@ -413,13 +413,13 @@
         <span class="n">align_matrix</span> <span class="o">=</span> <span class="n">align_matrix</span><span class="p">))</span></div>
     
 
-<div class="viewcode-block" id="rotate_mesh_from_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotate_mesh_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">rotate_mesh_from_matrix</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="rotate_mesh_from_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.rotate_mesh_from_matrix">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">rotate_mesh_from_matrix</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="n">matrix</span><span class="p">):</span>
     <span class="n">new_mesh</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">new_mesh</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">new_mesh</span><span class="o">.</span><span class="n">vertices</span> <span class="o">@</span> <span class="n">matrix</span>
     <span class="k">return</span> <span class="n">new_mesh</span></div>
 
     
-<div class="viewcode-block" id="align_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_neuron_obj_from_align_matrix">[docs]</a><span class="k">def</span> <span class="nf">align_neuron_obj_from_align_matrix</span><span class="p">(</span>
+<div class="viewcode-block" id="align_neuron_obj_from_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_neuron_obj_from_align_matrix">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">align_neuron_obj_from_align_matrix</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">align_matrix</span><span class="p">,</span>
     <span class="p">):</span>
@@ -507,7 +507,7 @@
     <span class="k">return</span> <span class="n">neuron_obj</span></div>
 
 
-<div class="viewcode-block" id="align_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_neuron_obj">[docs]</a><span class="k">def</span> <span class="nf">align_neuron_obj</span><span class="p">(</span>
+<div class="viewcode-block" id="align_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.align_neuron_obj">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">align_neuron_obj</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
     <span class="n">mesh_center</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">rotation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -564,7 +564,7 @@
         <span class="n">nviz</span><span class="o">.</span><span class="n">visualize_neuron</span><span class="p">(</span><span class="n">neuron_obj</span><span class="p">,</span><span class="n">limb_branch_dict</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">neuron_obj</span></div>
 
-<div class="viewcode-block" id="unalign_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.unalign_neuron_obj">[docs]</a><span class="k">def</span> <span class="nf">unalign_neuron_obj</span><span class="p">(</span>
+<div class="viewcode-block" id="unalign_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.unalign_neuron_obj">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">unalign_neuron_obj</span><span class="p">(</span>
     <span class="n">neuron_obj</span><span class="p">,</span>
                        <span class="n">align_attribute</span> <span class="o">=</span> <span class="s2">&quot;align_matrix&quot;</span><span class="p">,</span>
                        <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -596,27 +596,27 @@
     
     <span class="k">return</span> <span class="n">curr_neuron</span></div>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">volume_utils</span>
-<div class="viewcode-block" id="DataInterface"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface">[docs]</a><span class="k">class</span> <span class="nc">DataInterface</span><span class="p">(</span><span class="n">volume_utils</span><span class="o">.</span><span class="n">DataInterface</span><span class="p">):</span>
-<div class="viewcode-block" id="DataInterface.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">volume_utils</span>
+<div class="viewcode-block" id="DataInterface"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DataInterface</span><span class="p">(</span><span class="n">volume_utils</span><span class="o">.</span><span class="n">DataInterface</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterface.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.__init__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DataInterface.align_array"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_array">[docs]</a>    <span class="k">def</span> <span class="nf">align_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterface.align_array"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_array">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">align_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">align_array</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DataInterface.align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">align_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterface.align_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_mesh">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">align_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">align_mesh</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DataInterface.align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_skeleton">[docs]</a>    <span class="k">def</span> <span class="nf">align_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterface.align_skeleton"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_skeleton">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">align_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">align_skeleton</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="DataInterface.align_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">align_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterface.align_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.align_neuron_obj">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">align_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">align_neuron_obj</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataInterface.unalign_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.unalign_neuron_obj">[docs]</a>    <span class="k">def</span> <span class="nf">unalign_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterface.unalign_neuron_obj"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.unalign_neuron_obj">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">unalign_neuron_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">unalign_neuron_obj</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> </div>
     
-<div class="viewcode-block" id="DataInterface.segment_id_to_synapse_dict"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.segment_id_to_synapse_dict">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_dict</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterface.segment_id_to_synapse_dict"><a class="viewcode-back" href="../../neurd.html#neurd.h01_volume_utils.DataInterface.segment_id_to_synapse_dict">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">segment_id_to_synapse_dict</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">synapse_filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -637,20 +637,20 @@
 
 
 <span class="c1">#--- from neurd_packages ---</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">volume_utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">microns_volume_utils</span> <span class="k">as</span> <span class="n">mvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">neuron_visualizations</span> <span class="k">as</span> <span class="n">nviz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">volume_utils</span>
 
 <span class="c1">#--- from mesh_tools ---</span>
-<span class="kn">from</span> <span class="nn">mesh_tools</span> <span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mesh_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">trimesh_utils</span> <span class="k">as</span> <span class="n">tu</span>
 
 <span class="c1">#--- from datasci_tools ---</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">linalg_utils</span> <span class="k">as</span> <span class="n">lu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">linalg_utils</span> <span class="k">as</span> <span class="n">lu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_dep</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">numpy_utils</span> <span class="k">as</span> <span class="n">nu</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">h01_volume_utils</span> <span class="k">as</span> <span class="n">hvu</span>
 </pre></div>
 
            </div>

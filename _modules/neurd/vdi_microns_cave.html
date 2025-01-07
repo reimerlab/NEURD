@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>neurd.vdi_microns_cave &mdash; neurd  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -70,12 +70,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for neurd.vdi_microns_cave</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">vdi_default</span> <span class="k">as</span> <span class="n">vdi_def</span>
-<span class="kn">from</span> <span class="nn">.cave_client_utils</span> <span class="kn">import</span> <span class="n">CaveInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">vdi_default</span> <span class="k">as</span> <span class="n">vdi_def</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.cave_client_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">CaveInterface</span>
 
 <span class="n">parameters_config_filename</span> <span class="o">=</span> <span class="s2">&quot;parameters_config_microns.py&quot;</span>
 <span class="n">config_filepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span>
@@ -93,9 +93,9 @@
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="DataInterfaceMicrons"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons">[docs]</a><span class="k">class</span> <span class="nc">DataInterfaceMicrons</span><span class="p">(</span><span class="n">vdi_def</span><span class="o">.</span><span class="n">DataInterfaceDefault</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceMicrons"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DataInterfaceMicrons</span><span class="p">(</span><span class="n">vdi_def</span><span class="o">.</span><span class="n">DataInterfaceDefault</span><span class="p">):</span>
     
-<div class="viewcode-block" id="DataInterfaceMicrons.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceMicrons.__init__"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.__init__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         
         <span class="c1"># --- cave interface</span>
@@ -125,10 +125,10 @@
         <span class="p">)</span></div>
         
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">voxel_to_nm_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">voxel_to_nm_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">voxel_to_nm_scaling</span>
     
-<div class="viewcode-block" id="DataInterfaceMicrons.segment_id_to_synapse_df"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.segment_id_to_synapse_df">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id_to_synapse_df</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceMicrons.segment_id_to_synapse_df"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.segment_id_to_synapse_df">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">segment_id_to_synapse_df</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span>
@@ -176,10 +176,10 @@
     <span class="c1">#         coordinates_nm = False,</span>
     <span class="c1">#     )</span>
     
-<div class="viewcode-block" id="DataInterfaceMicrons.get_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.get_align_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_align_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataInterfaceMicrons.get_align_matrix"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.get_align_matrix">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_align_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span> </div>
     
-<div class="viewcode-block" id="DataInterfaceMicrons.fetch_segment_id_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.fetch_segment_id_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">fetch_segment_id_mesh</span><span class="p">(</span>
+<div class="viewcode-block" id="DataInterfaceMicrons.fetch_segment_id_mesh"><a class="viewcode-back" href="../../neurd.html#neurd.vdi_microns_cave.DataInterfaceMicrons.fetch_segment_id_mesh">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_segment_id_mesh</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">segment_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -193,10 +193,10 @@
             
         <span class="k">return</span> <span class="n">mesh</span></div></div>
     
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
-<span class="kn">from</span> <span class="nn">datasci_tools</span> <span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ipyvolume_utils</span> <span class="k">as</span> <span class="n">ipvu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasci_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">pandas_utils</span> <span class="k">as</span> <span class="n">pu</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>  
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">synapse_utils</span> <span class="k">as</span> <span class="n">syu</span>  
 
 <span class="k">try</span><span class="p">:</span>
     <span class="n">volume_data_interface</span> <span class="o">=</span> <span class="n">DataInterfaceMicrons</span><span class="p">()</span>
