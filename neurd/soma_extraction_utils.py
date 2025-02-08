@@ -70,6 +70,7 @@ def side_length_check(current_mesh,side_length_ratio_threshold=3):
 
 def largest_mesh_piece(msh):
     mesh_splits_inner = msh.split(only_watertight=False)
+    mesh_splits_inner = np.array(mesh_splits_inner)
     total_mesh_split_lengths_inner = [len(k.faces) for k in mesh_splits_inner]
     ordered_mesh_splits_inner = mesh_splits_inner[np.flip(np.argsort(total_mesh_split_lengths_inner))]
     return ordered_mesh_splits_inner[0]
@@ -995,6 +996,7 @@ def extract_soma_center(
     #preforming the splits of the decimated mesh
 
     mesh_splits = new_mesh.split(only_watertight=False)
+    mesh_splits = np.array(mesh_splits)
 
     #get the largest mesh
     mesh_lengths = np.array([len(split.faces) for split in mesh_splits])
@@ -1120,6 +1122,7 @@ def extract_soma_center(
 
             #splitting the Poisson into the largest pieces and ordering them
             mesh_splits_inner = new_mesh_inner.split(only_watertight=False)
+            mesh_splits_inner = np.array(mesh_splits_inner)
             total_mesh_split_lengths_inner = [len(k.faces) for k in mesh_splits_inner]
             ordered_mesh_splits_inner = mesh_splits_inner[np.flip(np.argsort(total_mesh_split_lengths_inner))]
 
