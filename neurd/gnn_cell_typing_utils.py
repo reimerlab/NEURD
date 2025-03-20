@@ -135,7 +135,7 @@ def limb_data_dict_from_G(
 
 
 class LimbGraphData(GraphData):
-    def __init__(self,G,soma_attributes,limb_idx = None,label=None):
+    def __init__(self,G,soma_attributes,limb_idx = None,label=None,features=None,**kwargs):
         
         if "S0" in G.nodes():
             raise ValueError("This graph has a soma node, supposed to be a limb graph")
@@ -144,7 +144,7 @@ class LimbGraphData(GraphData):
             raise ValueError(f"Graph  had multiple different limb prefixes (should have one): {node_prefixes}")
 
         # set the essential properties
-        limb_dict = limb_data_dict_from_G(G,soma_attributes)
+        limb_dict = limb_data_dict_from_G(G,soma_attributes,features=features,**kwargs)
         super().__init__(G,data=limb_dict,label = label)
         
         #set the limb identifier
@@ -163,7 +163,7 @@ def extract_soma_attributes(G):
     }
     soma_dict = G.nodes["S0"]
     return {k:soma_dict[v] for k,v in 
-                      soma_attributes_names.items()}
+                      soma_attributes_names.items() if v in soma_dict}
 
 def clean_fetched_graph(G,verbose = False):
     G =  nxu.fix_flipped_skeleton(G,verbose=verbose)
@@ -274,7 +274,9 @@ class NeuronGraphData(GraphData):
         soma_attributes = None,
         limb_skeletal_length_min = 25_000,
         label = None,
-        verbose = False):
+        verbose = False,
+        features=None,
+        **kwargs):
         """
         Purpose
         -------
@@ -298,6 +300,8 @@ class NeuronGraphData(GraphData):
                 soma_attributes=soma_attributes,
                 limb_idx = j,
                 label = label,
+                features=features,
+                **kwargs
             )
             for j,Gl in enumerate(
                 nxu.all_limb_graphs_off_soma(G,verbose = verbose)

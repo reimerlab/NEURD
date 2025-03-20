@@ -1,0 +1,31 @@
+parameters = {
+  'soma_extraction_utils':
+  {
+    'global_parameters':
+    {
+      'glia':
+      {
+        'glia_volume_threshold_in_um':2500,
+        'glia_n_faces_threshold':400000,
+        'glia_n_faces_min':100000,
+      },
+      'nuclei':
+      {
+        'nucleus_min':700,
+        'nucleus_max':None,
+      },
+      'soma':
+      {
+        'outer_decimation_ratio':0.25,
+        'large_mesh_threshold':10000,
+        'large_mesh_threshold_inner':10000,
+      },
+    },
+    'attributes':
+    {
+      'no_category':
+      {
+      },
+    },
+  }, 
+}

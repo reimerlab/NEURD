@@ -968,12 +968,20 @@ def axon_segment_clean_false_positives(curr_limb,
             #1) If has an upstream node that is not an axon --> if not then continue
             curr_upstream_nodes = xu.upstream_edges_neighbors(curr_directional_network,n)
             
-            if len(curr_upstream_nodes) == 0:
-                continue
-            if len(curr_upstream_nodes) > 1:
-                raise Exception(f"More than one upstream node for node {n}: {curr_upstream_nodes}")
+            try:
+                upstream_node_temp = curr_upstream_nodes[0][0]
+            except:
+                upstream_node_list = curr_upstream_nodes
+            else:
+                upstream_node_list = curr_upstream_nodes[0]
             
-            upstream_node = curr_upstream_nodes[0][0]
+            if len(upstream_node_list) == 0:
+                continue
+            if len(upstream_node_list) > 1:
+                raise Exception(f"More than one upstream node for node {n}: {upstream_node_list}")
+            
+            upstream_node = upstream_node_list[0]
+                
             if print_flag:
                 print(f"n = {n}, upstream_node= {upstream_node}")
             

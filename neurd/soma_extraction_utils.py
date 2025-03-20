@@ -1120,10 +1120,13 @@ def extract_soma_center(
 
             #splitting the Poisson into the largest pieces and ordering them
             mesh_splits_inner = new_mesh_inner.split(only_watertight=False)
-            total_mesh_split_lengths_inner = [len(k.faces) for k in mesh_splits_inner]
-            ordered_mesh_splits_inner = mesh_splits_inner[np.flip(np.argsort(total_mesh_split_lengths_inner))]
+            if len(mesh_splits_inner) > 0:
+                total_mesh_split_lengths_inner = [len(k.faces) for k in mesh_splits_inner]
+                ordered_mesh_splits_inner = mesh_splits_inner[np.flip(np.argsort(total_mesh_split_lengths_inner))]
 
-            list_of_largest_mesh_inner = [k for k in ordered_mesh_splits_inner if len(k.faces) > large_mesh_threshold_inner]
+                list_of_largest_mesh_inner = [k for k in ordered_mesh_splits_inner if len(k.faces) > large_mesh_threshold_inner]
+            else:
+                list_of_largest_mesh_inner = []
             print(f"Total found significant pieces AFTER Poisson = {list_of_largest_mesh_inner}")
 
             n_failed_inner_soma_loops = 0
