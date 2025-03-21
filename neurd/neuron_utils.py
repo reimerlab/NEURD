@@ -9662,6 +9662,7 @@ def align_array(array,align_matrix = None,**kwargs):
     return nu.align_array(array,align_matrix = align_matrix)
 
 def align_mesh(mesh,align_matrix = None,**kwargs):
+    #print(f"inside align mesh function = {align_matrix}")
     return meshu.align_mesh(mesh,align_matrix=align_matrix)
 
 def align_skeleton(skeleton,align_matrix = None,**kwargs):
@@ -9686,8 +9687,10 @@ def align_neuron_obj_from_align_matrix(
     if align_matrix is None:
         return neuron_obj
     
+
     if not in_place:
         neuron_obj = copy.deepcopy(neuron_obj)
+        
     
     for j,limb_obj in enumerate(neuron_obj):
         for branch_obj in limb_obj:
@@ -9747,11 +9750,14 @@ def align_neuron_obj_from_align_matrix(
         limb_obj.all_concept_network_data = copy.deepcopy(all_concept_network_data)
         limb_obj.set_concept_network_directional()
         
+    #print(f'align_matrix = {align_matrix}')
+    #print(f"verts before:\n{neuron_obj.mesh.vertices}")
     neuron_obj.mesh = align_mesh(
                                 neuron_obj.mesh,
                                 align_matrix=align_matrix,
                                 verbose = False
                                 )
+    #print(f"-->verts after:\n{neuron_obj.mesh.vertices}")
         
     #finishing soma mesh stuff
     for s_name in neuron_obj.get_soma_node_names():
@@ -9768,6 +9774,7 @@ def align_neuron_obj_from_align_matrix(
         neuron_obj[s_name].mesh_center = tu.mesh_center_vertex_average(neuron_obj[s_name].mesh)
         #print(f"neuron_obj[s_name].mesh_center = {neuron_obj[s_name].mesh_center}")
         
+    neuron_obj.align_matrix = align_matrix
         
     return neuron_obj
 

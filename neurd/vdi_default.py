@@ -200,6 +200,8 @@ class DataInterfaceBoilerplate(ABC):
         Keep the body of function as "pass" unless the neuron obj needs to be rotated so axon is pointing down
         """
         if align_matrix is None:
+            align_matrix = getattr(neuron_obj,"align_matrix",None)
+        if align_matrix is None:
             align_matrix = self.get_align_matrix(neuron_obj,**kwargs)
         return self.unalign_neuron_obj_from_align_matrix(
             neuron_obj,
