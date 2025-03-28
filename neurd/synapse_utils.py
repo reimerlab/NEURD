@@ -4018,7 +4018,6 @@ def presyn_on_dendrite_synapses_after_axon_on_dendrite_filter_away(
     )
     
 def synapses_to_dj_keys(
-        self,
         neuron_obj,
         valid_synapses = True,
         verbose = False,
@@ -4100,7 +4099,7 @@ def synapses_to_dj_keys(
         if add_secondary_segment and len(syn_keys) > 0:
             syn_keys_df = pd.DataFrame(syn_keys)
             
-            df = self.segment_id_to_synapse_table_optimized(
+            df = vdi.segment_id_to_synapse_table_optimized(
                 neuron_obj.segment_id,
                 return_df = True)
             df_secondary = df[["synapse_id","secondary_seg_id"]]

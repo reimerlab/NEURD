@@ -155,8 +155,8 @@ parameters = {
     {
       'auto_proof':
       {
-        'skip_distance_poly_x':((80, 400), 'blob'),
-        'skip_distance_poly_y':((1500, 1700), 'blob'),
+        'skip_distance_poly_x':(80, 400),
+        'skip_distance_poly_y':(1500, 1700),
         'use_high_degree_false_positive_filter':True,
         'width_min_high_degree_false_positive':300,
         'sibling_skeletal_angle_max_high_degree_false_positive':110,

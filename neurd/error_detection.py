@@ -3330,6 +3330,10 @@ def high_low_degree_upstream_match_preprocessing(
             if verbose:
                 print(f"Skipping because distance away from soma ({dist}) was less than min_distance_from_soma_for_proof = {min_distance_from_soma_for_proof}")
             return_value = [None,np.array([])]
+
+    # # check if any downstream branches at all, and if not then return
+    # if len(nru.downstream_nodes(limb_obj,branch_idx)) == 0:
+    #     return_value = [None,np.array([])]
                 
     
     if len(return_value) > 0:
@@ -3338,7 +3342,7 @@ def high_low_degree_upstream_match_preprocessing(
         else:
             return return_value,downstream_branches
                             
-                            
+    
     
     if skip_distance is None:
         #print(f'Calculating skip distance')

@@ -4452,7 +4452,7 @@ def synapse_filtering(neuron_obj,
     #1) Get the synapses that are presyn or postsyn to segment id (but not both)
 
     if precomputed_synapse_dict is None:
-        beginning_direct_connections = vdi.segment_id_to_synapse_table(segment_id,
+        beginning_direct_connections = vdi.segment_id_to_synapse_table_optimized(segment_id,
                                                                          validation=validation)
     #2) Build a KDTree of the mesh final
     if not original_mesh_method:
