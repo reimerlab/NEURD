@@ -350,6 +350,7 @@ def rotate_mesh_from_matrix(mesh,matrix):
 def align_neuron_obj_from_align_matrix(
     neuron_obj,
     align_matrix,
+    align_synapses,
     ):
     
     for j,limb_obj in enumerate(neuron_obj):
