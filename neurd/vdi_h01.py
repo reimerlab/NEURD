@@ -23,10 +23,10 @@ class DataInterfaceH01(vdi_def.DataInterfaceDefault):
         **kwargs
         ):
         
-        kwargs.update(default_settings)
         super().__init__(
             **kwargs
         )
+        kwargs.update(default_settings)
         
     @property
     def voxel_to_nm_scaling(self):

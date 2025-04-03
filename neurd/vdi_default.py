@@ -53,6 +53,7 @@ class DataInterfaceBoilerplate(ABC):
         source = "default",
         **kwargs
         ):
+        super().__init__()
         for k,v in default_settings.items():
             setattr(self,k,v)
             
