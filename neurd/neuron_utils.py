@@ -9724,6 +9724,16 @@ def align_neuron_obj_from_align_matrix(
             if branch_obj.spines_obj is not None:
                 for s_obj in branch_obj.spines_obj:
                     s_obj.mesh = align_mesh(s_obj.mesh,align_matrix=align_matrix)
+                    
+                    if s_obj._head_mesh_splits is not None:
+                        for i,kk in enumerate(s_obj._head_mesh_splits):
+                            s_obj._head_mesh_splits[i] = align_mesh(kk,align_matrix=align_matrix)
+                    
+            if branch_obj.boutons is not None:
+                branch_obj.boutons = [align_mesh(k,align_matrix=align_matrix) for k in branch_obj.boutons]
+                
+            if branch_obj.web is not None:
+                branch_obj.web = align_mesh(branch_obj.web,align_matrix=align_matrix) 
                 
                         
             
