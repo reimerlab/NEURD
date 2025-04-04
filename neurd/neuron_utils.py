@@ -2702,7 +2702,7 @@ def n_boutons(neuron_obj):
         return len(neuron_obj.boutons)
     
 def n_web(neuron_obj):
-    if neuron_obj.boutons is None:
+    if neuron_obj.web is None:
         return 0
     else:
         return 1
@@ -10105,7 +10105,37 @@ compartment_root_width_min = update_wrapper(
             stat_func = "width_upstream",),
     compartment_roots_stat_min
 )
-    
+
+# ---- 4/4 adjustments ---
+
+
+def update_neuron_cell_type_computed_attributes_trimesh_version(
+    neuron_obj,
+    verbose = False
+    ):
+    def new_trimesh(mesh):
+        return trimesh.Trimesh(vertices=mesh.vertices,faces = mesh.faces)
+    for lidx,limb_obj in enumerate(neuron_obj.limbs):
+        for bidx,b in enumerate(limb_obj.branches):
+            
+            # set spine info
+            obj = getattr(b,"spines_obj",None)
+            if obj is None:
+                continue
+            for s in obj:
+                s.mesh = new_trimesh(s.mesh) 
+                
+                if hasattr(s,"_head_mesh_splits"):
+                    for i in range(len(s._head_mesh_splits)):
+                        s._head_mesh_splits[i] = new_trimesh(s._head_mesh_splits[i])
+            
+            # set the bouton info
+            if b.boutons is not None:
+                b.boutons = [new_trimesh(k) for k in b.boutons]
+            if b.web is not None:
+                b.web = new_trimesh(b.web)
+            
+                    
 
 # ------------- parameters for stats ---------------
 
