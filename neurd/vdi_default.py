@@ -59,6 +59,7 @@ class DataInterfaceBoilerplate(ABC):
             
         for k,v in kwargs.items():
             setattr(self,k,v)
+            
         
         self.set_parameters_obj()
         

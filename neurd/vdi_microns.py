@@ -1,5 +1,6 @@
 import numpy as np
 from pathlib import Path
+from datasci_tools import numpy_utils as nu
 
 
 from . import vdi_default as vdi_def
@@ -26,7 +27,17 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
         **kwargs
         ):
         
-        kwargs.update(default_settings)
+        for k,v in default_settings.items():
+            if k == "parameters_config_filepaths":
+                parameters_config_filepaths = kwargs.get(k,[])
+                parameters_config_filepaths = nu.to_list(parameters_config_filepaths)
+                parameters_config_filepaths = nu.to_list(v) + parameters_config_filepaths
+                kwargs["parameters_config_filepaths"] = parameters_config_filepaths
+            else:
+                if k not in kwargs:
+                    kwargs[k] = v
+                
+        
         super().__init__(
             **kwargs
         )
@@ -50,3 +61,4 @@ class DataInterfaceMicrons(vdi_def.DataInterfaceDefault):
     
     
 volume_data_interface = DataInterfaceMicrons()
+

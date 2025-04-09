@@ -997,7 +997,6 @@ def axon_width_like_segments(current_neuron,
     
     """
     
-    
     if non_ais_width is None:
         non_ais_width = non_ais_width_axon_global
     if ais_width is None:

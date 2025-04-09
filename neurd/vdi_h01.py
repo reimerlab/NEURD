@@ -1,5 +1,6 @@
 import numpy as np
 from pathlib import Path
+from datasci_tools import numpy_utils as nu
 
 from . import vdi_default as vdi_def
 
@@ -15,6 +16,8 @@ default_settings = dict(
     synapse_filepath = None,
 )
 
+
+
 from . import h01_volume_utils as hvu
 class DataInterfaceH01(vdi_def.DataInterfaceDefault):
     
@@ -22,11 +25,22 @@ class DataInterfaceH01(vdi_def.DataInterfaceDefault):
         self,
         **kwargs
         ):
+        #print(kwargs)
+        for k,v in default_settings.items():
+            if k == "parameters_config_filepaths":
+                parameters_config_filepaths = kwargs.get("parameters_config_filepaths",[])
+                parameters_config_filepaths = nu.to_list(parameters_config_filepaths)
+                parameters_config_filepaths = nu.to_list(v) + parameters_config_filepaths
+                kwargs["parameters_config_filepaths"] = parameters_config_filepaths
+                
+            else:
+                if k not in kwargs:
+                    kwargs[k] = v
         
         super().__init__(
             **kwargs
         )
-        kwargs.update(default_settings)
+        
         
     @property
     def voxel_to_nm_scaling(self):
@@ -88,3 +102,4 @@ class DataInterfaceH01(vdi_def.DataInterfaceDefault):
         
     
 volume_data_interface = DataInterfaceH01()
+
