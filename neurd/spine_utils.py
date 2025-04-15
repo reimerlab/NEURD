@@ -396,8 +396,6 @@ class Spine:
     def neck_bbox_oriented_side_min(self):
         return self.neck_bbox_oriented_side_lengths[2]
     
-    
-    
     @property
     def head_mesh(self):
         return spu.head_mesh(self)
@@ -455,6 +453,10 @@ class Spine:
     @property
     def n_faces(self):
         return len(self.mesh.faces)
+    
+    @property
+    def n_vertices(self):
+        return len(self.mesh.vertices)
     
     @property
     def n_faces_head(self):
@@ -736,7 +738,26 @@ class Spine:
     def neck_bbox_max_z_nm(self,**kwargs):
         return bbox_max_z_nm_from_compartment(self,compartment = 'neck',**kwargs)
     
+    # -- general mesh properties of spine
+    @property
+    def face_area_mean(self):
+        return tu.face_area_mean(self.mesh)
     
+    @property
+    def face_area_sum(self):
+        return tu.face_area_sum(self.mesh)
+    
+    @property
+    def boundary_edges_lengths_sum(self):
+        return tu.boundary_edges_lengths_sum(self.mesh)
+    
+    @property
+    def face_area_max(self):
+        return tu.face_area_max(self.mesh)
+    
+    @property 
+    def area_to_boundary_length_ratio(self):
+        return tu.area_to_boundary_length_ratio(self.mesh)
     
 computed_attributes_to_export = (
         "area",
@@ -1544,6 +1565,7 @@ def get_spine_meshes_unfiltered_from_mesh(
     segment_name=None,
     clusters=None,
     smoothness=None,
+    connectivity_type_for_shaft = None,#"vertices",
     shaft_expansion_method = "path_to_all_shaft_mesh",
     cgal_folder = Path("./cgal_temp"),
     delete_temp_file=True,
@@ -1568,6 +1590,8 @@ def get_spine_meshes_unfiltered_from_mesh(
     ----------------
 
     """
+    if connectivity_type_for_shaft is None:
+        connectivity_type_for_shaft = connectivity_type_for_shaft_global
     
     if clusters is None:
         clusters = clusters_threshold_global
@@ -1621,7 +1645,7 @@ def get_spine_meshes_unfiltered_from_mesh(
                             main_mesh=current_mesh,
                             central_piece=curr_mesh_idx,
                             periphery_pieces=total_meshes_idx,
-                            connectivity = "vertices")
+                            connectivity = connectivity_type_for_shaft)
             try:
                 touching_meshes.remove(j)
             except:
@@ -2456,13 +2480,20 @@ def calculate_spines_on_branch(
     filter_by_volume_threshold = None, #calculated from experiments
     plot_spines_after_volume_filter = False,
     
+    # ----- 4/14/25 Additions ----
+    filter_by_face_area_mean = None,
+    filter_by_face_area_mean_min = None,
+    plot_spines_after_filter_by_face_area_mean = False,
+
+    filter_by_boundary_to_area_ratio = None,
+    filter_by_boundary_to_area_ratio_min = None,
+    plot_spines_after_filter_by_boundary_to_area_ratio_min = False,
+    
     
     print_flag = False,
     plot_segmentation = False,
     **kwargs,
     ):
-    
-    
     """
     Purpose
     -------
@@ -2592,20 +2623,33 @@ def calculate_spines_on_branch(
         
     if filter_by_volume_threshold is None:
         filter_by_volume_threshold = filter_by_volume_threshold_global
+        
+    if filter_by_face_area_mean is None:
+        filter_by_face_area_mean = filter_by_face_area_mean_global
+    if filter_by_face_area_mean_min is None:
+        filter_by_face_area_mean_min = filter_by_face_area_mean_min_global
+        
+    if filter_by_boundary_to_area_ratio is None:
+        filter_by_boundary_to_area_ratio = filter_by_boundary_to_area_ratio_global
+    
+    if filter_by_boundary_to_area_ratio_min is None:
+        filter_by_boundary_to_area_ratio_min = filter_by_boundary_to_area_ratio_min_global
     
     cgal_path=Path("./cgal_temp")
     
     # Step 1: Initial segmentation to get unfiltered spines
-    spine_submesh_split= spu.get_spine_meshes_unfiltered_from_mesh(branch.mesh,
-                                                                   segment_name="no_name",
-                                                                clusters=clusters_threshold,
-                                                                smoothness=smoothness_threshold,
-                                                                cgal_folder = cgal_path,
-                                                                delete_temp_file=True,
-                                                                return_sdf=False,
-                                                                print_flag=False,
-                                                                shaft_threshold=shaft_threshold,
-                                                                  plot_segmentation=plot_segmentation)
+    spine_submesh_split= spu.get_spine_meshes_unfiltered_from_mesh(
+        branch.mesh,
+        segment_name="no_name",
+        clusters=clusters_threshold,
+        smoothness=smoothness_threshold,
+        cgal_folder = cgal_path,
+        delete_temp_file=True,
+        return_sdf=False,
+        print_flag=False,
+        shaft_threshold=shaft_threshold,
+        plot_segmentation=plot_segmentation
+    )
     
     
     if print_flag:
@@ -2726,6 +2770,41 @@ def calculate_spines_on_branch(
                              meshes = spine_submesh_split_filtered,
                              meshes_colors="red")
         
+    # --- 4/14/25 addition --
+    if filter_by_face_area_mean:
+        kept_idx = [i for i,k in enumerate(spine_submesh_split_filtered) if tu.face_area_mean(k)>=filter_by_face_area_mean_min]
+        
+        if print_flag:
+            print(f"Number of spines filtered away by face_area_mean = {len(spine_submesh_split_filtered) - len(kept_idx)}")
+        
+        
+        spine_submesh_split_filtered =[spine_submesh_split_filtered[k] for k in kept_idx]
+        spine_volumes = [spine_volumes[k] for k in kept_idx]
+        
+        if plot_spines_after_filter_by_face_area_mean:
+                print(f"plot_spines_after_filter_by_face_area_mean: {len(spine_submesh_split_filtered)}")
+                nviz.plot_objects(branch.mesh,
+                                meshes = spine_submesh_split_filtered,
+                                meshes_colors="red")
+            
+    # --- 4/14/25 addition --
+    if filter_by_boundary_to_area_ratio:
+        kept_idx = [i for i,k in enumerate(spine_submesh_split_filtered) if tu.area_to_boundary_length_ratio(k)>=filter_by_boundary_to_area_ratio_min]
+        
+        if print_flag:
+            print(f"Number of spines filtered away by boundary_to_area_ratio = {len(spine_submesh_split_filtered) - len(kept_idx)}")
+        
+        
+        spine_submesh_split_filtered =[spine_submesh_split_filtered[k] for k in kept_idx]
+        spine_volumes = [spine_volumes[k] for k in kept_idx]
+        
+        if plot_spines_after_filter_by_boundary_to_area_ratio_min:
+                print(f"plot_spines_after_filter_by_boundary_to_area_ratio_min: {len(spine_submesh_split_filtered)}")
+                nviz.plot_objects(branch.mesh,
+                                meshes = spine_submesh_split_filtered,
+                                meshes_colors="red")
+                         
+    
         
     if calculate_spine_volume:
         return spine_submesh_split_filtered,spine_volumes
@@ -2880,7 +2959,9 @@ def calculate_spines_on_neuron(
             
             if calculate_spine_volume and not already_calculated_volumes:
                 curr_branch.compute_spines_volume()
-                
+            
+            # reset the spines obj so old spines won't override
+            curr_branch.spines_obj = None
                 
 # --------------- for filtering spines: 1/25 ------------
 def print_filter_spine_thresholds():
@@ -3038,7 +3119,7 @@ def complete_spine_processing(
     compute_initial_spines = True,
     compute_no_spine_width = True,
     compute_spine_objs = True,
-    limb_branch_dict_exclude = None,
+    limb_branch_dict_exclude = "axon",
     verbose = False,
     plot= False,
     ):
@@ -3060,11 +3141,14 @@ def complete_spine_processing(
     """
     global_time = time.time()
     
+    if limb_branch_dict_exclude == "axon":
+        limb_branch_dict_exclude = neuron_obj.axon_limb_branch_dict
+    
     if compute_initial_spines: 
         st = time.time()
         spu.calculate_spines_on_neuron(
             neuron_obj,
-            limb_branch_dict_exclude = neuron_obj.axon_limb_branch_dict)
+            limb_branch_dict_exclude = limb_branch_dict_exclude)
         
         if verbose:
             print(f"Time for compute_initial_spines = {time.time() - st}")
@@ -6736,12 +6820,74 @@ def plot_spine_attribute_vs_category_from_spine_df_samples(
 
     
     return ax
+
+def neuron_spine_df_from_features(
+    neuron_obj = None,
+    include_limb_branch_name = True,
+    attributes = None,
+    ):
+    
+    if attributes is None:
+        attributes = [
+            "n_faces",
+            "n_vertices",
+            "face_area_max",
+            "boundary_edges_lengths_sum",
+            "face_area_mean",
+        ]
+
+    spine_dicts = []
+    for limb_name in neuron_obj.get_limb_names():
+        for branch_idx in neuron_obj[limb_name].get_branch_names():
+            branch = neuron_obj[limb_name][branch_idx]
+            sp_objs = branch.spines_obj
+            for i,s in enumerate(sp_objs):
+                if include_limb_branch_name:
+                    local_dict = dict(limb = limb_name,branch=branch_idx,spine_idx =i)
+                else:
+                    local_dict = dict()
+                for k in attributes:
+                    local_dict[k] = getattr(s,k)
+                spine_dicts.append(local_dict)
+    
+    spine_df = pd.DataFrame.from_records(spine_dicts)
+    return spine_df
+
+def spine_objs_from_spine_df(
+    spine_df,
+    neuron_obj,
+    limb_column = "limb",
+    branch_column = "branch",
+    return_meshes = False,
+    verbose = False):
+    """
+    Purpose: extract the spine objects from a neuron obj
+    using a spine df
+    
+    Pseudocode:
+    1. group all spines on a limb and branch
+    2. extract all spine groups and put in 
+    """
+    grouped_df = spine_df.groupby(['limb', 'branch'])['spine_idx'].agg(list).reset_index()
+    spine_objs = []
+    for i in grouped_df.itertuples():
+        spine_idxs = np.unique(i.spine_idx)
+        sp_objs = [neuron_obj[i.limb][i.branch].spines_obj[k] for k in spine_idxs]
+        if sp_objs is not None:
+            if return_meshes:
+                sp_objs = [k.mesh for k in sp_objs]
+            spine_objs += sp_objs
+    
+    if verbose:
+        print(f"# of spines extracted from df = {len(spine_objs)}")
+        
+    return spine_objs
 # ----------------- Parameters ------------------------
 
 global_parameters_dict_default_spine_identification = dict(
     query="median_mesh_center > 115 and n_faces_branch>100",#previous used median_mesh_center > 140
     calculate_spine_volume=True,
-
+    connectivity_type_for_shaft="vertices",
     clusters_threshold=5,#3,#2,
     smoothness_threshold=0.08,#0.12,#0.08,
     shaft_close_hole_area_top_2_mean_max = 110_000,
@@ -6771,6 +6917,13 @@ global_parameters_dict_default_spine_identification = dict(
     #-------1/20 Addition --------
     filter_by_volume = True,
     filter_by_volume_threshold = 19_835_293, #calculated from experiments   
+    
+    # ----- 4/14/25 additions
+    filter_by_face_area_mean = False,
+    filter_by_face_area_mean_min = 0,
+
+    filter_by_boundary_to_area_ratio = False,
+    filter_by_boundary_to_area_ratio_min = 0,
     
 )
 

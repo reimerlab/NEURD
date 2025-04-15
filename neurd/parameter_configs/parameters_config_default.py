@@ -750,6 +750,12 @@ parameters = {
         'check_spine_border_perc':0.4,
         'filter_by_volume':True,
         'filter_by_volume_threshold':19835293,
+        'connectivity_type_for_shaft':"vertices",
+        
+        'filter_by_face_area_mean':False,
+        'filter_by_face_area_mean_min':0,
+        'filter_by_boundary_to_area_ratio':False,
+        'filter_by_boundary_to_area_ratio_min':0,
       },
     },
     'attributes':

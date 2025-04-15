@@ -2350,7 +2350,6 @@ def axon_classification_excitatory(
         ais_syn_density_max = ais_syn_density_max_excitatory_global
     if ais_syn_density_max_backup is None:
         ais_syn_density_max_backup = ais_syn_density_max_backup_excitatory_global
-        
     
     return axon_classification_using_synapses(
                 neuron_obj,
