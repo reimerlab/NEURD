@@ -237,6 +237,11 @@ class Branch:
         self._width_downstream = None
         self._width_upstream = None
         
+        self._skeleton_vector_upstream_extra_offset = None
+        self._skeleton_vector_downstream_extra_offset = None
+        self._width_downstream_extra_offset = None
+        self._width_upstream_extra_offset = None
+        
         
         
         
@@ -368,6 +373,25 @@ class Branch:
         return self._skeleton_vector_downstream
     
     @property
+    def skeleton_vector_upstream_extra_offset(self):
+        """
+        the skelelton vector near upstream coordinate where the vector is oriented in the skeletal walk direction away from the soma
+        """
+        if self._skeleton_vector_upstream_extra_offset is None:
+            self._skeleton_vector_upstream_extra_offset = bu.skeleton_vector_upstream_extra_offset(self)
+        return self._skeleton_vector_upstream_extra_offset
+    
+    @property
+    def skeleton_vector_downstream_extra_offset(self):
+        """
+        the skelelton vector near downstream coordinate where the vector is oriented in the skeletal walk direction away from the soma
+        """
+
+        if self._skeleton_vector_downstream_extra_offset is None:
+            self._skeleton_vector_downstream_extra_offset = bu.skeleton_vector_downstream_extra_offset(self)
+        return self._skeleton_vector_downstream_extra_offset
+    
+    @property
     def width_upstream(self):
         if self._width_upstream is None:
             self._width_upstream = bu.width_upstream(self)
@@ -378,6 +402,18 @@ class Branch:
         if self._width_downstream is None:
             self._width_downstream = bu.width_downstream(self)
         return self._width_downstream 
+    
+    @property
+    def width_upstream_extra_offset(self):
+        if self._width_upstream_extra_offset is None:
+            self._width_upstream_extra_offset = bu.width_upstream_extra_offset(self)
+        return self._width_upstream_extra_offset
+    
+    @property
+    def width_downstream_extra_offset(self):
+        if self._width_downstream_extra_offset is None:
+            self._width_downstream_extra_offset = bu.width_downstream_extra_offset(self)
+        return self._width_downstream_extra_offset 
     
     @property
     def min_dist_synapses_pre_upstream(self):
@@ -449,6 +485,9 @@ class Branch:
     def skeletal_length_eligible(self):
         return sk.calculate_skeleton_distance(self.skeleton) 
     
+    @property
+    def max_skeleton_endpoint_dist(self):
+        return nst.max_skeleton_endpoint_dist(self) 
     
     '''
     def compute_spines_volume(self,

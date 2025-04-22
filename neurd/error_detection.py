@@ -2738,15 +2738,19 @@ def width_jump_from_upstream_min(limb_obj,
     return width_jump
 
 
-def width_jump_up_error_limb_branch_dict(neuron_obj,
-                                         limb_branch_dict_restriction=None,
-                                         upstream_skeletal_length_min = 10000,
-                                         branch_skeletal_length_min = 6000,
-                                         upstream_skeletal_length_min_for_min= 4000,
-                                        width_jump_max = 75,
-                                        plot_final_width_jump = False,
-                                         verbose = False,
-                                        **kwargs):
+def width_jump_up_error_limb_branch_dict(
+    neuron_obj,
+    limb_branch_dict_restriction=None,
+    upstream_skeletal_length_min = 10000,
+    branch_skeletal_length_min = 6000,
+    upstream_skeletal_length_min_for_min= 4000,
+    width_jump_max = 75,
+    plot_final_width_jump = False,
+    verbose = False,
+    ignore_large_skeleton_endpoint_jump = False,
+    max_skeleton_endpoint_jump = None,
+    **kwargs
+    ):
 
 
     """
@@ -2781,10 +2785,17 @@ def width_jump_up_error_limb_branch_dict(neuron_obj,
         return limb_branch_dict_restriction
 
     
+    functions_list=["width_jump_from_upstream_min"]
+    query=f"(width_jump_from_upstream_min>{width_jump_max})"
+    
+    if ignore_large_skeleton_endpoint_jump:
+        query += f" and (max_skeleton_endpoint_dist < {max_skeleton_endpoint_jump})"
+        functions_list.append("max_skeleton_endpoint_dist")
+    
     
     width_jump_limb_branch = ns.query_neuron(neuron_obj,
-                    functions_list=["width_jump_from_upstream_min"],
-                    query=f"width_jump_from_upstream_min>{width_jump_max}",
+                    functions_list=functions_list,
+                    query=query,
                     function_kwargs=dict(skeletal_length_min=upstream_skeletal_length_min_for_min),
                     return_dataframe=False,
             limb_branch_dict_restriction=limb_branch_dict_restriction)
@@ -2919,6 +2930,8 @@ def width_jump_up_dendrite(
     upstream_skeletal_length_min_for_min = None,#4000,
     width_jump_max = None,#200,
     plot_width_errors = False,
+    ignore_large_skeleton_endpoint_jump = None,
+    max_skeleton_endpoint_jump = None,
                           **kwargs):
     """
     Purpose: To apply the width 
@@ -2938,6 +2951,10 @@ def width_jump_up_dendrite(
         upstream_skeletal_length_min_for_min = upstream_skeletal_length_min_for_min_width_j_dendr_global
     if width_jump_max is None:
         width_jump_max = width_jump_max_width_j_dendr_global
+    if ignore_large_skeleton_endpoint_jump is None:
+        ignore_large_skeleton_endpoint_jump = ignore_large_skeleton_endpoint_jump_global
+    if max_skeleton_endpoint_jump is None:
+        max_skeleton_endpoint_jump = max_skeleton_endpoint_jump_global
 
 
 
@@ -2950,7 +2967,9 @@ def width_jump_up_dendrite(
                                          branch_skeletal_length_min = branch_skeletal_length_min,
                                          upstream_skeletal_length_min_for_min= upstream_skeletal_length_min_for_min,
                                         width_jump_max = width_jump_max,
-                                                          **kwargs)
+                                        ignore_large_skeleton_endpoint_jump=ignore_large_skeleton_endpoint_jump,
+                                        max_skeleton_endpoint_jump=max_skeleton_endpoint_jump,
+                                        **kwargs)
     
     if plot_width_errors:
         if len(width_errors) == 0:
@@ -2965,20 +2984,21 @@ def width_jump_up_dendrite(
 # -------------- Doubling Back Errors ---------------------- #
 
 
-def double_back_error_limb_branch_dict(neuron_obj,
-                                       double_back_threshold=120,
-                                       branch_skeletal_length_min=4000,
-                                       
-                                         limb_branch_dict_restriction=None,
-                                         upstream_skeletal_length_min = 5000,
-                                       
-                                       comparison_distance = 3000,
-                                       offset = 0,
-                                        plot_final_double_back = False,
-                                         verbose = False,
-                                        **kwargs):
+def double_back_error_limb_branch_dict(
+    neuron_obj,
+    double_back_threshold=120,
+    branch_skeletal_length_min=4000,
 
+    limb_branch_dict_restriction=None,
+    upstream_skeletal_length_min = 5000,
 
+    comparison_distance = 3000,
+    offset = 0,
+    plot_final_double_back = False,
+    verbose = False,
+    
+    angle_func_type = None,
+    **kwargs):
     """
     Purpose: To find all branches that have a skeleton that
     doubles back by a certain degree
@@ -2987,6 +3007,10 @@ def double_back_error_limb_branch_dict(neuron_obj,
     0)
 
     """
+    
+    if angle_func_type is None:
+        angle_func_type = double_back_angle_func_type_global
+    
     limb_branch_dict_restriction = ns.restrict_by_branch_and_upstream_skeletal_length(neuron_obj, 
                                                 limb_branch_dict_restriction=limb_branch_dict_restriction,
                                                 upstream_skeletal_length_min = upstream_skeletal_length_min,
@@ -2999,10 +3023,12 @@ def double_back_error_limb_branch_dict(neuron_obj,
     if len(limb_branch_dict_restriction) == 0:
         return limb_branch_dict_restriction
 
+    print(f"inside double_back_error_limb_branch_dict")
     double_back_limb_branch_dict = ns.query_neuron(neuron_obj,
                     functions_list=["parent_angle"],
                     query=f"parent_angle>{double_back_threshold}",
                     function_kwargs=dict(comparison_distance=comparison_distance,
+                                         angle_func_type=angle_func_type,
                                         offset=offset,
                                         check_upstream_network_connectivity=False),
                     return_dataframe=False,
@@ -3015,16 +3041,17 @@ def double_back_error_limb_branch_dict(neuron_obj,
     return double_back_limb_branch_dict
 
 
-def double_back_dendrite(neuron_obj,
-                        double_back_threshold=None,#120,
-                         comparison_distance = None,#3000,
-                         offset = None,#0,
-                         branch_skeletal_length_min = None,#7000, #deciding which branches will be skipped because of length
-                         width_max = None,
-                         plot_starting_limb_branch = False,
-                         plot_double_back_errors = False,
-                         **kwargs
-                        ):
+def double_back_dendrite(
+    neuron_obj,
+    double_back_threshold=None,#120,
+    comparison_distance = None,#3000,
+    offset = None,#0,
+    branch_skeletal_length_min = None,#7000, #deciding which branches will be skipped because of length
+    width_max = None,
+    plot_starting_limb_branch = False,
+    plot_double_back_errors = False,
+    **kwargs
+    ):
     """
     Purpose: To find all skeletal double 
     back errors on dendrite port
@@ -5088,6 +5115,10 @@ global_parameters_dict_default_auto_proof = dsu.DictType(
     upstream_skeletal_length_min_for_min_width_j_dendr = 4000,
     width_jump_max_width_j_dendr = 200,
     
+    # -- 4/22/25 addition to prevent width jump when skeleton jumps
+    ignore_large_skeleton_endpoint_jump = False,
+    max_skeleton_endpoint_jump = 4500,
+    
     # **** filter 5 ***** #
     #--- width_jump_axon ---
     upstream_skeletal_length_min_width_j_axon = 5000,
@@ -5102,6 +5133,8 @@ global_parameters_dict_default_auto_proof = dsu.DictType(
     comparison_distance_double_b_dendrite = 3000,
     offset_double_b_dendrite = 0,
     branch_skeletal_length_min_double_b_dendrite = 7000, #deciding which branches will be skipped because of length
+    double_back_angle_func_type = "parent_skeletal_angle",
+    
     
     
     

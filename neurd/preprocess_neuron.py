@@ -40,7 +40,7 @@ process_version = 10 #no skeleton jumping hopefully
 
 
 
-
+min_distance_threshold = 0.00001
 
 #--------------- default arguments to use ----------#
 def plot_correspondence(
@@ -553,6 +553,7 @@ def attach_floating_pieces_to_limb_correspondence(
         size_threshold_MAP_stitch = None,
         #invalidation_d = 2000,
     
+        mp_only_revised_invalidation_d = None,
         
     **kwargs):
     
@@ -582,6 +583,9 @@ def attach_floating_pieces_to_limb_correspondence(
         
     if use_adaptive_invalidation_d is None:
         use_adaptive_invalidation_d  = use_adaptive_invalidation_d_floating_global
+        
+    if mp_only_revised_invalidation_d is None:
+        mp_only_revised_invalidation_d = mp_only_revised_invalidation_d_global
     
     
     """
@@ -660,6 +664,8 @@ def attach_floating_pieces_to_limb_correspondence(
                             max_stitch_distance_CGAL=max_stitch_distance_CGAL,
                             size_threshold_MAP = size_threshold_MAP_stitch,
                             #invalidation_d=invalidation_d,
+                            
+                            mp_only_revised_invalidation_d=mp_only_revised_invalidation_d,
                             **kwargs,
                            )
                 
@@ -1237,6 +1243,12 @@ def preprocess_limb(mesh,
                     error_on_bad_cgal_return=False,
                     max_stitch_distance_CGAL = None,
                     
+                    # ----- 4/17/25 revision
+                    mp_only_revised_invalidation_d = None,
+                    mp_only_invalidation_d_axon_buffer = None,
+                    mp_only_revised_invalidation_d_reference = None,
+                    mp_only_revised_width_reference = None,
+                    
                    ):
     if filter_end_node_length is None:
         filter_end_node_length = filter_end_node_length_global
@@ -1257,6 +1269,15 @@ def preprocess_limb(mesh,
         
     if use_adaptive_invalidation_d is None:
         use_adaptive_invalidation_d = use_adaptive_invalidation_d_global
+        
+    if mp_only_revised_invalidation_d is None:
+        mp_only_revised_invalidation_d=mp_only_revised_invalidation_d_global
+    if mp_only_invalidation_d_axon_buffer is None:
+        mp_only_invalidation_d_axon_buffer=mp_only_invalidation_d_axon_buffer_global
+    if mp_only_revised_invalidation_d_reference is None:
+        mp_only_revised_invalidation_d_reference=mp_only_revised_invalidation_d_reference_global
+    if mp_only_revised_width_reference is None:
+        mp_only_revised_width_reference=mp_only_revised_width_reference_global
     
     
     print(f"invalidation_d = {invalidation_d}")
@@ -1300,12 +1321,13 @@ def preprocess_limb(mesh,
 
     # --------------- Part 3: Meshparty skeletonization and Decomposition ------------- #
     for ii in range(0,2):
-        sk_meshparty_obj = m_sk.skeletonize_mesh_largest_component(limb_mesh_mparty,
-                                                                root=root_curr,
-                                                                   invalidation_d=invalidation_d,
-                                                                   smooth_neighborhood=smooth_neighborhood,
-                                                                  filter_mesh=False)
-
+        sk_meshparty_obj = m_sk.skeletonize_mesh_largest_component(
+            limb_mesh_mparty,
+            root=root_curr,
+            invalidation_d=invalidation_d,
+            smooth_neighborhood=smooth_neighborhood,
+            filter_mesh=False
+        )
 
         print(f"meshparty_segment_size = {meshparty_segment_size}")
 
@@ -1318,11 +1340,13 @@ def preprocess_limb(mesh,
             
         (segment_branches, #skeleton branches
         divided_submeshes, divided_submeshes_idx, #mesh correspondence (mesh and indices)
-        segment_widths_median) = m_sk.skeleton_obj_to_branches(sk_meshparty_obj,
-                                                              mesh = limb_mesh_mparty,
-                                                              meshparty_segment_size=meshparty_segment_size,
-                        combine_close_skeleton_nodes_threshold=combine_close_skeleton_nodes_threshold_meshparty,
-                                        filter_end_node_length=filter_end_node_length_meshparty)
+        segment_widths_median) = m_sk.skeleton_obj_to_branches(
+                                    sk_meshparty_obj,
+                                    mesh = limb_mesh_mparty,
+                                    meshparty_segment_size=meshparty_segment_size,
+                                    combine_close_skeleton_nodes_threshold=combine_close_skeleton_nodes_threshold_meshparty,
+                                    filter_end_node_length=filter_end_node_length_meshparty
+                                    )
         
         debug_meshparty = False
         if debug_meshparty:
@@ -1333,16 +1357,22 @@ def preprocess_limb(mesh,
         
             raise Exception("")
         
+        
         if not use_adaptive_invalidation_d:
             break
             
         width_median = m_sk.width_median_weighted(segment_widths_median,segment_branches)
+        pieces_above_threshold = np.where(segment_widths_median>width_threshold_MAP)[0]
         #width_median = nu.weighted_average(segment_widths_median,[sk.calculate_skeleton_distance(k) for k in segment_branches])
         
         
         if True:#verbose:
             print(f"width_median= {width_median}")
             print(f"segment_widths_median = {segment_widths_median}")
+            print(f"# pieces_above_threshold = {len(pieces_above_threshold)}")
+        
+        if ii == 1:
+            break
         
         if width_median <= axon_width_preprocess_limb_max:
             if verbose:
@@ -1352,12 +1382,52 @@ def preprocess_limb(mesh,
             filter_end_node_length= filter_end_node_length_axon_global
             invalidation_d= invalidation_d_axon_global
             smooth_neighborhood = smooth_neighborhood_axon_global
+            continue
+        elif len(pieces_above_threshold) == 0 and mp_only_revised_invalidation_d and invalidation_d != invalidation_d_axon_global:
+            print(f"Using MP only revised invalidation")
+            """
+            -- 4/17 change --
+            if there are no MAP pieces then we want to do a meshparty processing with a slightly finer 
+            meshparty processing 
+            """
+            def new_invalidation_d(
+                width_median,
+                max_invalidation_d = invalidation_d,
+                verbose = False
+                ):
+                """
+                Purpose: to compute the new invalidation_d based on the width 
+                (linear interpolation between parameters)
+                
+                equation (just computes the slope and bases reference on invalidation ref)
+                --------
+                slope = (mp_only_inv_d_ref - (inv_d_axon + buffer)) / (mp_only_width_ref - ax_width)
+                new_inv_d = slope*(width - mp_only_width_ref) + mp_only_inv_d_ref
+                """
+                lowest_value = invalidation_d_axon_global + mp_only_invalidation_d_axon_buffer
+                change_y = (mp_only_revised_invalidation_d_reference - lowest_value)
+                change_x = (mp_only_revised_width_reference - axon_width_preprocess_limb_max)
+
+                if change_x == 0:
+                    return invalidation_d
+
+                slope = change_y/change_x
+
+                delta_x = width_median - mp_only_revised_width_reference
+                new_d = slope*delta_x + mp_only_revised_invalidation_d_reference
+                final_d = max(min(new_d,max_invalidation_d),lowest_value)
+
+                if verbose:
+                    print(f"new_invalidation_d = {new_d} (max = {max_invalidation_d}), final_invalidation_d = {final_d}")
+
+                return final_d
+            
+            invalidation_d=new_invalidation_d(width_median,verbose = True)
+            continue
+         
         else:
             break
-        
-
-
-
+            
 
     if print_fusion_steps:
         print(f"Decomposing first pass: {time.time() - fusion_time }")
@@ -1535,6 +1605,7 @@ def preprocess_limb(mesh,
 
     #if no sublimbs need to be decomposed with MAP then just reassign all of the previous MP processing to the sublimb_MPs
     if len(mesh_pieces_for_MAP) == 0:
+        print('no MAP pieces')
         sublimb_meshes_MP = [limb_mesh_mparty] #trimesh pieces that have already been passed through MP skeletonization (may not need)
         # -- the decomposition information ---
         sublimb_mesh_branches_MP = [divided_submeshes] #the mesh branches for all the disconnected sublimbs
@@ -1733,7 +1804,7 @@ def preprocess_limb(mesh,
                     matching_mesh_idx = tu.filter_meshes_by_containing_coordinates(mesh_list=divided_submeshes,
                                                nullifying_points=sm_bord_verts,
                                                 filter_away=False,
-                                               distance_threshold=0,
+                                               distance_threshold=min_distance_threshold,
                                                return_indices=True)
                     #2) concatenate all meshes and skeletons that are touching
                     if len(matching_mesh_idx) <= 0:
@@ -2206,7 +2277,7 @@ def preprocess_limb(mesh,
             MAP_pieces_idx_touching_border = tu.filter_meshes_by_containing_coordinates(mesh_list=curr_MAP_branch_meshes,
                                            nullifying_points=v_g,
                                             filter_away=False,
-                                           distance_threshold=0,
+                                           distance_threshold=min_distance_threshold,
                                            return_indices=True)
 
             MAP_branches_considered = curr_MAP_branch_skeletons[MAP_pieces_idx_touching_border]
@@ -2311,7 +2382,7 @@ def preprocess_limb(mesh,
             conn = tu.filter_meshes_by_containing_coordinates(mesh_list=curr_MP_branch_meshes,
                                            nullifying_points=v_g,
                                             filter_away=False,
-                                           distance_threshold=0,
+                                           distance_threshold=min_distance_threshold,
                                            return_indices=True)
 
             if len(conn) == 0:
@@ -2884,7 +2955,7 @@ def preprocess_limb(mesh,
                 mesh_indices_on_border = tu.filter_meshes_by_containing_coordinates(curr_meshes,
                                               nullifying_points=curr_border_group_coordinates,
                                               filter_away=False,
-                                              distance_threshold=0,
+                                              distance_threshold=min_distance_threshold,
                                               return_indices=True)
                 if len(mesh_indices_on_border) == 0:
                     raise Exception("There were no meshes that were touching the boundary group")
@@ -4574,6 +4645,8 @@ def high_fidelity_axon_decomposition(neuron_obj,
                                 floating_piece_face_threshold = None,#12,
                                 max_stitch_distance = None,#13000,#np.inf,
                                 plot_new_axon_limb_correspondence_after_stitch = False,
+                                
+                                mp_only_revised_invalidation_d = False,
     ):
     """
     Purpose: To get the decomposition of the 
@@ -4668,7 +4741,7 @@ def high_fidelity_axon_decomposition(neuron_obj,
         axon_mesh_filtered_idx = tu.filter_meshes_by_containing_coordinates(diff_meshes,
                                               nullifying_points=border_vertices_for_axon[0],
                                                method="distance",
-                                               distance_threshold = 0,
+                                               distance_threshold = min_distance_threshold,
                                               filter_away=False,
                                             return_indices=True)[0]
     except:
@@ -4676,7 +4749,7 @@ def high_fidelity_axon_decomposition(neuron_obj,
         axon_mesh_filtered_idx = tu.filter_meshes_by_containing_coordinates(diff_meshes,
                                                   nullifying_points=border_vertices_for_axon,
                                                    method="distance",
-                                                   distance_threshold = 0,
+                                                   distance_threshold = min_distance_threshold,
                                                   filter_away=False,
                                                 return_indices=True)[0]
         
@@ -4700,6 +4773,8 @@ def high_fidelity_axon_decomposition(neuron_obj,
         filter_end_node_length = filter_end_node_length_axon_global,
         invalidation_d=invalidation_d_axon_global,
         smooth_neighborhood=smooth_neighborhood_axon_global,
+        
+        mp_only_revised_invalidation_d=mp_only_revised_invalidation_d,
         **preprocessing_args,
         )
 
@@ -4760,6 +4835,7 @@ def high_fidelity_axon_decomposition(neuron_obj,
 #         su.compressed_pickle(np.array(starting_coordinate).reshape(-1,3),"excluded_node_coordinates")
 #         print(f"max_stitch_distance = {max_stitch_distance}")
 #         su.compressed_pickle({0:limb_correspondence_individual},"limb_correspondence_before")
+        print(f"attemptin to stitch the following = {meshes_to_stitch}")
         
         limb_correspondence_with_floating_pieces = pre.attach_floating_pieces_to_limb_correspondence(
                         {0:limb_correspondence_individual},
@@ -4777,6 +4853,8 @@ def high_fidelity_axon_decomposition(neuron_obj,
                         invalidation_d=invalidation_d_axon_global,
                         smooth_neighborhood=smooth_neighborhood_axon_global,
                         use_adaptive_invalidation_d = False,
+                        
+                        mp_only_revised_invalidation_d=mp_only_revised_invalidation_d,
                         **preprocessing_args
         )
         
@@ -4916,7 +4994,6 @@ def limb_meshes_expansion(
     verbose = False,
     
     ):
-
     """
     Purpose: To find the objects that should be made into 
     significant limbs for decomposition 
@@ -5157,7 +5234,12 @@ global_parameters_dict_default_decomp = dict(
         floating_piece_face_threshold = 50,
         invalidation_d = 12000,
         remove_mesh_interior_face_threshold = 0,
-        )
+        
+        mp_only_revised_invalidation_d = False,
+        mp_only_invalidation_d_axon_buffer = None,
+        mp_only_revised_invalidation_d_reference = None,
+        mp_only_revised_width_reference = None,
+)
 
 global_parameters_dict_default_axon_decomp = dsu.DictType(
     combine_close_skeleton_nodes_threshold_meshparty_axon = 1300,

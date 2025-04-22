@@ -329,6 +329,11 @@ parameters = {
         'axon_width_preprocess_limb_max':350,
         'limb_remove_mesh_interior_face_threshold':150,
         'floating_piece_face_threshold':500,
+        
+        'mp_only_revised_invalidation_d':False,
+        'mp_only_invalidation_d_axon_buffer':None,
+        'mp_only_revised_invalidation_d_reference':None,
+        'mp_only_revised_width_reference':None,
       },
     },
     'attributes':

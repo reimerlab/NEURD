@@ -1625,9 +1625,12 @@ def width_jump(curr_limb,limb_name=None,
 #raise Exception("Need to fix all of the relational skeletal angles")
 
 @run_options(run_type="Limb")
-def parent_angle(curr_limb,limb_name=None,
-                 comparison_distance = comparison_distance_global,
-               **kwargs):
+def parent_angle(
+    curr_limb,
+    limb_name=None,
+    comparison_distance = comparison_distance_global,
+    angle_func_type = "parent_skeletal_angle",
+    **kwargs):
     """
     Will return the angle between the current node and the parent
     """
@@ -1638,7 +1641,41 @@ def parent_angle(curr_limb,limb_name=None,
 #             parent_angle = nru.find_parent_child_skeleton_angle(curr_limb,
 #                                             b,comparison_distance=comparison_distance,
 #                                                                **kwargs)
-            parent_angle = lu.parent_skeletal_angle(curr_limb,b,default_value=0)
+            if angle_func_type == "parent_skeletal_angle":
+                parent_angle = lu.parent_skeletal_angle(curr_limb,b,default_value=0)
+            elif angle_func_type == "parent_angle_extra_offset":
+                parent_angle = lu.parent_angle_extra_offset(curr_limb,b,default_value=0)
+            elif angle_func_type == "parent_angle_extra_offset_min":
+                parent_angle = min(
+                    lu.parent_skeletal_angle(curr_limb,b,default_value=0),
+                    lu.parent_skeletal_angle_extra_offset(curr_limb,b,default_value=0)
+                )
+            else:
+                raise Exception(f"unknown angle_func_type = {angle_func_type}")
+        except:
+            parent_angle = 0
+            
+        output_dict[b] = parent_angle
+            
+    return output_dict
+
+@run_options(run_type="Limb")
+def parent_angle_extra_offset(
+    curr_limb,
+    limb_name=None,
+    comparison_distance = comparison_distance_global,
+    **kwargs):
+    """
+    Will return the angle between the current node and the parent
+    """
+    from neurd import limb_utils as lu
+    output_dict = dict()
+    for b in curr_limb.get_branch_names():
+        try:
+#             parent_angle = nru.find_parent_child_skeleton_angle(curr_limb,
+#                                             b,comparison_distance=comparison_distance,
+#                                                                **kwargs)
+            parent_angle = lu.parent_skeletal_angle_extra_offset(curr_limb,b,default_value=0)
         except:
             parent_angle = 0
             
@@ -2226,6 +2263,10 @@ def closest_mesh_skeleton_dist(curr_branch,name=None,branch_name=None,**kwargs):
 def area(curr_branch,name=None,branch_name=None,**kwargs):
     return curr_branch.area
 
+@run_options(run_type="Branch")
+def synapse_density_post(curr_branch,name=None,branch_name=None,**kwargs):
+    return syu.synapse_density_post(curr_branch)
+
 # ------------- skeletal angles -------------
 @run_options(run_type="Limb")
 def is_branch_mesh_connected_to_neighborhood(curr_limb,limb_name=None,
@@ -2288,6 +2329,11 @@ def set_limb_functions_for_search(
             return dummy_func
         setattr(module,new_name,make_func(f_func))
 
+# --- for better controlling stitching errors --
+
+@run_options(run_type="Branch")
+def max_skeleton_endpoint_dist(curr_branch,name=None,branch_name=None,**kwargs):
+    return curr_branch.max_skeleton_endpoint_dist
 
 #--- from neurd_packages ---
 from . import axon_utils as au

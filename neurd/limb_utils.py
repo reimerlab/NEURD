@@ -18,6 +18,7 @@ def parent_skeletal_angle(
     branch_idx,
     verbose = False,
     default_value = None,
+    skeletal_angle_attr = "skeleton_vector_[dir]",
     **kwargs):
     """
     Purpose: to get the branching angle with parent
@@ -36,6 +37,9 @@ def parent_skeletal_angle(
     verbose = True,
     )
     """
+    upstream_attr = skeletal_angle_attr.replace('[dir]','upstream')
+    downstream_attr = skeletal_angle_attr.replace('[dir]','downstream')
+    
     if limb_obj[branch_idx].endpoints_upstream_downstream_idx is None:
         bu.set_branches_endpoints_upstream_downstream_idx_on_limb(limb_obj)
     
@@ -49,9 +53,24 @@ def parent_skeletal_angle(
     branch_obj = limb_obj[parent_idx]
     branch_obj_2 = limb_obj[branch_idx]
     return np.round(nu.angle_between_vectors(
-        branch_obj.skeleton_vector_downstream,
-        branch_obj_2.skeleton_vector_upstream),2
+        getattr(branch_obj,downstream_attr),
+        getattr(branch_obj_2,upstream_attr)),2
     )
+    
+def parent_skeletal_angle_extra_offset(
+    limb_obj,
+    branch_idx,
+    verbose = False,
+    default_value = None,
+    skeletal_angle_attr = "skeleton_vector_[dir]",
+    **kwargs):
+    return parent_skeletal_angle(
+        limb_obj,
+        branch_idx,
+        verbose = verbose,
+        default_value = default_value,
+        skeletal_angle_attr = "skeleton_vector_[dir]_extra_offset",
+        **kwargs)
 
 def relation_skeletal_angle(
     limb_obj,

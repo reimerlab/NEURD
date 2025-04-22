@@ -5141,15 +5141,13 @@ def proofreading_table_processing(key,
     
     
 
-def refine_axon_for_high_fidelity_skeleton(neuron_obj,
+def refine_axon_for_high_fidelity_skeleton(
+    neuron_obj,
     plot_new_axon_limb_correspondence = False,
     plot_new_limb_object = False,
     plot_final_revised_axon_branch=False,
-     verbose = False,
-                                          **kwargs):
-
-
-
+    verbose = False,
+    **kwargs):
     """
     Purpose: To replace the axon branches with a higher
     fidelity representation within the neuron object

@@ -577,13 +577,40 @@ def skeleton_vector_downstream(
         plot_restricted_skeleton= plot_restricted_skeleton,
         **kwargs
     )
+    
+def skeleton_vector_upstream_extra_offset(
+    branch_obj,
+    offset = None,
+    **kwargs
+    ):
+    if offset is None:
+        offset = extra_offset_skeleton_vector_global
+    return bu.skeleton_vector_upstream(
+        branch_obj,
+        offset = offset,
+        **kwargs
+    )
+
+def skeleton_vector_downstream_extra_offset(
+    branch_obj,
+    offset = None,
+    **kwargs
+    ):
+    if offset is None:
+        offset = extra_offset_skeleton_vector_global
+    return bu.skeleton_vector_downstream(
+        branch_obj,
+        offset = offset,
+        **kwargs
+    )
+
 
 
 def width_endpoint(
     branch_obj,
     endpoint, # if None then will select most upstream endpoint of branch
     #parameters for the restriction
-    offset=0,
+    offset=None,
     comparison_distance=2000,
     skeleton_segment_size=1000,
     verbose = False,
@@ -594,6 +621,8 @@ def width_endpoint(
     on it's skeleton
 
     """
+    if offset is None:
+        offset = offset_width_endpoint_global
 
     if verbose:
         print(f"endpoint = {endpoint}")
@@ -641,6 +670,35 @@ def width_downstream(
         **kwargs
     )
 
+def width_upstream_extra_offset(
+    branch_obj,
+    offset = None,
+    **kwargs
+    ):
+    
+    if offset is None:
+        offset = extra_offset_skeleton_vector_global
+    
+    return bu.width_upstream(
+        branch_obj,
+        offset = offset,
+        **kwargs
+    )
+    
+def width_downstream_extra_offset(
+    branch_obj,
+    offset = None,
+    **kwargs
+    ):
+    
+    if offset is None:
+        offset = extra_offset_skeleton_vector_global
+    
+    return bu.width_downstream(
+        branch_obj,
+        offset = offset,
+        **kwargs
+    )
 
 # ---------- synapse dists ------------
 def min_dist_synapse_endpoint(
@@ -826,12 +884,14 @@ def skeletal_coordinates_upstream_to_downstream(
         coordinate_dists = np.concatenate([[0],branch_obj.width_array_skeletal_lengths_upstream_to_downstream])
         
     #coordinate_dists = branch_obj.width_array_skeletal_lengths_upstream_to_downstream
-        
+    
+    
     if coordinate_dists is not None:
         coordinate_dists = np.cumsum(coordinate_dists)
         coordinates = sk.coordinates_from_downstream_dist(
             array,
             coordinate_dists,
+            start_endpoint_coordinate = branch_obj.endpoint_upstream,
             verbose = False,
             segment_width=0,
             plot = False
@@ -1110,7 +1170,9 @@ def skeleton_angle_from_top(
 
 global_parameters_dict_default = dict(
     offset_skeleton_vector = 500,
-    comparison_distance_skeleton_vector = 3000
+    comparison_distance_skeleton_vector = 3000,
+    extra_offset_skeleton_vector = 6000,
+    offset_width_endpoint = 0,
 )
 attributes_dict_default = dict()    
 

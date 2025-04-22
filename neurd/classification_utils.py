@@ -1067,14 +1067,15 @@ def axon_like_limb_branch_dict(neuron_obj,
     final_axon_like_classification = ns.query_neuron(neuron_obj,
 
                                        query="axon_segment==True",
-                                       function_kwargs=dict(limb_branch_dict =axon_like_limb_branch_dict,
-                                                            downstream_face_threshold=downstream_face_threshold,
-                                                            width_match_threshold=width_match_threshold,
-                                                            downstream_non_axon_percentage_threshold=downstream_non_axon_percentage_threshold,
-                                                            distance_for_downstream_check=distance_for_downstream_check,
-                                                            max_skeletal_length_can_flip=max_skeletal_length_can_flip,
-                                                            
-                                                           print_flag=verbose),
+                                       function_kwargs=dict(
+                                            limb_branch_dict=axon_like_limb_branch_dict,
+                                            downstream_face_threshold=downstream_face_threshold,
+                                            width_match_threshold=width_match_threshold,
+                                            downstream_non_axon_percentage_threshold=downstream_non_axon_percentage_threshold,
+                                            distance_for_downstream_check=distance_for_downstream_check,
+                                            max_skeletal_length_can_flip=max_skeletal_length_can_flip,
+                                            
+                                            print_flag=verbose),
                                        functions_list=current_functions_list)
     
     if verbose:
@@ -1411,9 +1412,7 @@ def axon_classification(neuron_obj,
                     limb_branch_dict=final_axon_like_classification,
                     labels="axon-like")
         
-        
     if (label_axon_errors or return_error_labels) and add_axon_labels:
-        
         
         if error_width_max is None and error_length_min is None:
             error_limb_branch_dict = ns.query_neuron_by_labels(curr_neuron_obj,
@@ -1427,8 +1426,7 @@ def axon_classification(neuron_obj,
                 error_width_max = np.inf
             
             error_limb_branch_dict = ns.query_neuron(neuron_obj,
-                            query=f"(labels_restriction == True) and (median_mesh_center < {error_width_max}) "
-                                                     f"and (skeletal_length > {error_length_min})",
+                            query=f"(labels_restriction == True) and (median_mesh_center < {error_width_max}) and (skeletal_length > {error_length_min})",
                    functions_list=["labels_restriction","median_mesh_center","skeletal_length"],
                    function_kwargs=dict(matching_labels=["axon-like"],
                                         not_matching_labels=["axon"]
@@ -2274,6 +2272,14 @@ def filter_axon_candiates(
     skeletal_length_winning_buffer = 30_000,
     skeletal_length_winning_min = 10_000,
     tie_breaker_axon_attribute = "soma_plus_axon_angle",#"axon_angle",
+    
+    # -- added filter for bst descending axon
+    compute_relative_attributes_every_round = None,
+    descending_axon_query = None,
+    descending_axon_y_depth_buffer = None,
+    descending_axon_skeletal_length_buffer = None,
+    descending_axon_min_axon_percentage = None,
+    
 
     #for last booking on the final winning candidate
     best_axon = False,
@@ -2283,6 +2289,18 @@ def filter_axon_candiates(
     return_axon_angles = True,
     verbose = False,
     **kwargs):
+    
+    if compute_relative_attributes_every_round is None:
+        compute_relative_attributes_every_round = compute_relative_attributes_every_round_global
+    if descending_axon_query is None:
+        descending_axon_query = descending_axon_query_global
+    if descending_axon_y_depth_buffer is None:
+        descending_axon_y_depth_buffer = descending_axon_y_depth_buffer_global
+    if descending_axon_skeletal_length_buffer is None:
+        descending_axon_skeletal_length_buffer = descending_axon_skeletal_length_buffer_global
+    if descending_axon_min_axon_percentage is None:
+        descending_axon_min_axon_percentage = descending_axon_min_axon_percentage_global
+        
     
     debug = False
 
@@ -2480,6 +2498,18 @@ def filter_axon_candiates(
 
         if verbose:
             print(f"Adding axon candidate to be considered for final")
+            
+        max_y_depth = nst.deepest_y_coordinate_on_limb_branches(
+                    curr_limb,
+                    branches = curr_candidate_subgraph,
+        )
+        max_y_depth_axon_like = nst.deepest_y_coordinate_on_limb_branches(
+                curr_limb,
+                branches = axon_branches_on_subgraph,
+        )
+        max_y_depth_soma_relative = max_y_depth - neuron_obj['S0'].mesh_center[1] 
+        max_y_depth_axon_like_soma_relative = max_y_depth_axon_like - neuron_obj['S0'].mesh_center[1] 
+        
         candidate_filt_dicts.append(dict(
             candidate = axon_cand,
             true_axon_branches = true_axon_branches,
@@ -2489,6 +2519,11 @@ def filter_axon_candiates(
             soma_plus_axon_angle = curr_soma_angle + max_axon_angle,
             axon_skeletal_length =  nst.skeletal_length_over_candidate(curr_neuron_obj,axon_cand),
             width =  nst.width_over_candidate(curr_neuron_obj,axon_cand),
+            axon_percentage = axon_percentage,
+            max_y_depth=max_y_depth,
+            max_y_depth_axon_like=max_y_depth_axon_like,
+            max_y_depth_soma_relative=max_y_depth_soma_relative,
+            max_y_depth_axon_like_soma_relative=max_y_depth_axon_like_soma_relative,
 
         ))
 
@@ -2501,29 +2536,52 @@ def filter_axon_candiates(
                           #object_attributes=candidate_filt_dicts_atts
                           )
 
+        global_attributes =[
+                "soma_angle",
+                "axon_angle",
+                "axon_skeletal_length",
+                "soma_plus_axon_angle",
+                "max_y_depth_soma_relative",
+            ]
         C.compute_global_functions(
-            attributes_list=["soma_angle",
-                             "axon_angle",
-                             "axon_skeletal_length",
-                            "soma_plus_axon_angle"],
+            attributes_list=global_attributes,
             verbose = True
         )
 
-
+        # --- starting with queries
+        queries = [
+            f"soma_angle >= {comparison_soma_angle_threshold}",
+            f"(axon_skeletal_length > {skeletal_length_winning_min}) and "
+            f"(axon_angle_diff_from_max > -{axon_angle_winning_buffer})",
+            f"(axon_skeletal_length > {skeletal_length_winning_min}) and "
+            f"(axon_angle_diff_from_max > -{axon_angle_winning_buffer_backup}) and"
+            f"(soma_angle_diff_from_max > - {soma_angle_winning_buffer_backup})"
+            #                        f"(axon_skeletal_length > {skeletal_length_winning_min}) and "
+#                        f"(axon_skeletal_length_diff_from_max > -{skeletal_length_winning_buffer})",
+        ]
+        
+        if descending_axon_query:
+            long_axon_query = [
+                f"max_y_depth_soma_relative_diff_from_max >= -{descending_axon_y_depth_buffer}",
+                f"axon_skeletal_length_diff_from_max >= -{descending_axon_skeletal_length_buffer}",
+                f"axon_percentage >= {descending_axon_min_axon_percentage}"
+            ]
+            
+            long_axon_query = " and ".join([f"({k})" for k in long_axon_query])
+            queries.append(long_axon_query)
+                       
+        queries.append(f"{tie_breaker_axon_attribute} == MAX({tie_breaker_axon_attribute})")
+        # --- finished with queries
+        
         objs_filt,df = flu.filter_to_one_by_query(
             C,
-            queries = [f"soma_angle >= {comparison_soma_angle_threshold}",
-                       f"(axon_skeletal_length > {skeletal_length_winning_min}) and "
-                       f"(axon_angle_diff_from_max > -{axon_angle_winning_buffer})",
-                        f"(axon_skeletal_length > {skeletal_length_winning_min}) and "
-                       f"(axon_angle_diff_from_max > -{axon_angle_winning_buffer_backup}) and"
-                       f"(soma_angle_diff_from_max > - {soma_angle_winning_buffer_backup})",
-                       
-#                        f"(axon_skeletal_length > {skeletal_length_winning_min}) and "
-#                        f"(axon_skeletal_length_diff_from_max > -{skeletal_length_winning_buffer})",
-                      f"{tie_breaker_axon_attribute} == MAX({tie_breaker_axon_attribute})"],
-        return_df_before_query=True,
-        verbose=True)
+            queries,
+            compute_relative_attributes_every_round = compute_relative_attributes_every_round,
+            global_attributes = global_attributes,
+            return_df_before_query=True,
+            verbose=True
+        )
+        
         
         if debug:
             su.compressed_pickle(df,"df_candidates")
@@ -2666,6 +2724,13 @@ global_parameters_dict_default_axon = dict(
     ais_width_axon = 600,
     max_n_spines_axon = 7,
     max_spine_density_axon = 0.00008,
+    
+    compute_relative_attributes_every_round = False,
+    descending_axon_query = False,
+    descending_axon_y_depth_buffer = None,
+    descending_axon_skeletal_length_buffer = None,
+    descending_axon_min_axon_percentage = None,
+    
 )
 
 

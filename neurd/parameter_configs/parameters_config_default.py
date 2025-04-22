@@ -184,7 +184,9 @@ parameters = {
       'no_category':
       {
         'offset_skeleton_vector':500,
+        'extra_offset_skeleton_vector':3000,
         'comparison_distance_skeleton_vector':3000,
+        'offset_width_endpoint':0,
       },
     },
     'attributes':
@@ -228,6 +230,12 @@ parameters = {
         'ais_width_axon':600,
         'max_n_spines_axon':7,
         'max_spine_density_axon':8e-05,
+        
+        "compute_relative_attributes_every_round":False,
+        "descending_axon_query":False,
+        "descending_axon_y_depth_buffer":None,
+        "descending_axon_skeletal_length_buffer":None,
+        "descending_axon_min_axon_percentage":None,
       },
     },
     'attributes':
@@ -336,9 +344,13 @@ parameters = {
         'width_jump_max_width_j_axon':55,
         'axon_width_threshold_max_width_j_axon':100,
         'double_back_threshold_double_b_dendrite':120,
-        'comparison_distance_double_b_dendrite':3000,
-        'offset_double_b_dendrite':0,
+        'comparison_distance_double_b_dendrite':3000, #depricated
+        'offset_double_b_dendrite':0, #depricated
         'branch_skeletal_length_min_double_b_dendrite':7000,
+        
+        'double_back_angle_func_type':"parent_skeletal_angle",
+        'ignore_large_skeleton_endpoint_jump':False,
+        'max_skeleton_endpoint_jump':4500,
       },
       'crossover':
       {
@@ -527,6 +539,11 @@ parameters = {
         'floating_piece_face_threshold':50,
         'invalidation_d':12000,
         'remove_mesh_interior_face_threshold':0,
+        
+        'mp_only_revised_invalidation_d':False,
+        'mp_only_invalidation_d_axon_buffer':None,
+        'mp_only_revised_invalidation_d_reference':None,
+        'mp_only_revised_width_reference':None,
       },
     },
     'attributes':

@@ -3752,6 +3752,128 @@ def euclidean_distance_farther_than_soma_limb_branch(
     verbose = verbose,
     plot = plot,
     )
+    
+def max_closest_skeleton_to_mesh_distance(
+    branch,
+    skeleton_endpoints_only = False,
+    plot = False,
+    **kwargs,
+    ):
+
+    if skeleton_endpoints_only:
+        skeleton_coords = branch.endpoints
+    else:
+        skeleton_coords = branch.skeleton.reshape(-1,3)
+    
+    dist = nu.closest_dist_between_coordinates(
+            array1 = branch.mesh.vertices,
+            array2 = skeleton_coords,
+            return_min = False,
+        )
+    if plot:
+        coord1,coord2 = nu.closest_dist_between_coordinates(
+            array1 = branch.mesh.vertices,
+            array2 = skeleton_coords,
+            return_min = False,
+            return_coordinates = True
+        )
+        
+        ipvu.plot_objects(
+            branch.mesh,
+            branch.skeleton,
+            scatters=[coord1,coord2],
+        )
+    return dist
+
+def max_closest_skeleton_endpoint_to_mesh_distance(
+    branch,
+    plot = False,
+    **kwargs
+    ):
+    return max_closest_skeleton_to_mesh_distance(
+    branch,
+    skeleton_endpoints_only = True,
+    plot = plot,
+    **kwargs
+    )
+max_skeleton_endpoint_dist = max_closest_skeleton_endpoint_to_mesh_distance
+    
+def coordinate_with_deepest_y_over_branches(branches,verbose = True):
+    """
+    Purpose: 
+    --------
+    to get the coordinates with deepest y coordinate of the skeletons of a set of branch objects
+    
+    Application
+    -----------
+    1) get the lowest point at which an axon-like branch descends into the volume 
+    --> for use in axon identification
+
+    Pseudocode
+    ----------
+    1) get the skeletons for all branches
+    2) concatenate all of the vertices
+    3) find the minimum v coordinate
+
+    Parameters
+    ---------
+    branches: list of branch objects
+        
+    """
+    sk_verts = np.vstack([k.skeleton.reshape(-1,3) for k in branches])
+
+    # because y increases as you go down in the volume
+    deepest_idx = np.argmax(sk_verts[:,1])
+    deepest_coord = sk_verts[deepest_idx]
+    if verbose:
+        print(f"deepest_coord = {deepest_coord}")
+
+    return deepest_coord
+
+def deepest_y_coordinate_on_limb_branches(
+    limb,
+    branches,
+    verbose = False,
+    plot=False
+    ):
+    """
+    Purpose
+    -------
+    Get the deepest y coordinate on a set of branches on a limb
+
+    Example
+    -------
+    import numpy as np
+    axon_branches_on_limb = [ 0 , 4,  5 , 6 , 7,  8,  9 ,10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ,20, 21 ,22, 23 ,24]
+    branches_idx = [12 ,13, 14, 15 ,16, 17, 18, 19, 20 ,21, 22, 23, 24]
+    
+    limb_idx = 1
+    limb = neuron_obj[limb_idx]
+    
+    deepest_y_coordinate_on_limb_branches(
+        limb,
+        branches = branches_idx,
+        plot = True,
+        verbose = True
+    )
+    """
+    branches = [limb[k] for k in branches]
+    deepest_coord = coordinate_with_deepest_y_over_branches(
+        branches = branches,
+        verbose = verbose)
+    deepest_y = deepest_coord[1]
+    if verbose:
+        print(f"deepest y value = {deepest_y}")
+
+    if plot:
+        ipvu.plot_objects(
+            limb.mesh,
+            meshes = [b.mesh for b in branches],
+            meshes_colors="red",
+            scatters=[deepest_coord.reshape(-1,3)]
+        )
+
+    return deepest_y
 
 # ----------------- Parameters ------------------------
 
@@ -3844,5 +3966,6 @@ from datasci_tools import networkx_utils as xu
 from datasci_tools import numpy_dep as np
 from datasci_tools import numpy_utils as nu
 from datasci_tools import pandas_utils as pu
+from datasci_tools import ipyvolume_utils as ipvu
 
 from . import neuron_statistics as nst
