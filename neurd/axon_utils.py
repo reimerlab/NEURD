@@ -2602,7 +2602,7 @@ def compute_axon_on_dendrite_limb_branch_dict(
                                                           ns.n_synapses_post_downstream,],
                                            query = pre_down_limb_branch_query,
                                            limb_branch_dict_restriction = axon_like_dendr
-                                                        )
+    )
     if verbose:
         print(f"pre_down_limb_branch = {pre_down_limb_branch}")
     

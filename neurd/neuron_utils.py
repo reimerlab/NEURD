@@ -6363,6 +6363,33 @@ def neuron_mesh_from_branches(neuron_obj,
         nviz.plot_objects(neuron_mesh_from_branches)
     return neuron_mesh_from_branches
 
+def limb_mesh_from_branches(limb_obj,
+                             plot_mesh=False):
+    """
+    Purpose: To reconstruct the mesh of neuron
+    from all of the branch obejcts
+
+    Pseudocode:
+    Iterate through all the limbs:
+        iterate through all the branches
+            add to big list
+
+    Add some to big list
+
+    concatenate list into mesh
+    """
+    from mesh_tools import trimesh_utils as tu
+
+    neuron_mesh_list = []
+    
+    for branch_obj in limb_obj:
+        neuron_mesh_list.append(branch_obj.mesh)
+
+    neuron_mesh_from_branches = tu.combine_meshes(neuron_mesh_list)
+    if plot_mesh:
+        nviz.plot_objects(neuron_mesh_from_branches)
+    return neuron_mesh_from_branches
+
 def non_soma_touching_meshes_not_stitched(neuron_obj,
                                           return_meshes=True):
                                           

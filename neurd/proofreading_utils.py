@@ -2860,6 +2860,8 @@ def filter_away_limb_branch_dict(neuron_obj,
         return new_neuron
     
     
+def filter_away_axon_on_dendrite_merges_old_limb_branch_dict(neuron_obj):
+    return ns.query_neuron_by_labels(neuron_obj,matching_labels=["axon-error"])
 
 def filter_away_axon_on_dendrite_merges_old(
     neuron_obj,

@@ -1604,6 +1604,9 @@ def preprocess_limb(mesh,
     # --------------- Part 8: If No MAP sublimbs found, set the MP sublimb lists to just the whole MP branch decomposition ------------- #
 
     #if no sublimbs need to be decomposed with MAP then just reassign all of the previous MP processing to the sublimb_MPs
+    
+    
+    
     if len(mesh_pieces_for_MAP) == 0:
         print('no MAP pieces')
         sublimb_meshes_MP = [limb_mesh_mparty] #trimesh pieces that have already been passed through MP skeletonization (may not need)
@@ -1621,6 +1624,10 @@ def preprocess_limb(mesh,
 
     mesh_pieces_for_MAP #trimesh pieces that should go through CGAL skeletonization
     sublimb_meshes_MP #trimesh pieces that have already been passed through MP skeletonization (may not need)
+    
+    # su.save_object(mesh_pieces_for_MAP,"mesh_pieces_for_MAP")
+    # su.save_object(sublimb_meshes_MP,"sublimb_meshes_MP")
+    # raise Exception("")
 
     # -- the decomposition information ---
     sublimb_mesh_branches_MP #the mesh branches for all the disconnected sublimbs
@@ -2878,7 +2885,7 @@ def preprocess_limb(mesh,
                     network_starting_info_revised[sm_idx][winning_border_group] = []
                 network_starting_info_revised[sm_idx][winning_border_group].append(dict(touching_verts=v_l,endpoint=endpt))
 
-
+    
     # Part 2 Filter
     """
     2) iterate through all the somas and border vertex groups
@@ -4242,7 +4249,7 @@ def preprocess_neuron(
     # ---------- Part A: skeletonization and mesh decomposition --------- #
     skeleton_time = time.time()
     
-    
+    #raise Exception("")
 
     for curr_limb_idx,limb_mesh_mparty in enumerate(current_mesh_data[0]["branch_meshes"]):
         use_meshafterparty_current = copy.copy(use_meshafterparty)

@@ -919,6 +919,10 @@ class Limb:
             print(f"self.created_edges = {self.created_edges}")
             
     @property
+    def mesh_from_branches(self):
+        return nru.limb_mesh_from_branches(self)
+    
+    @property
     def current_starting_soma_vertices(self):
         return self.current_touching_soma_vertices    
     
@@ -2668,6 +2672,14 @@ class Neuron:
                     
 
                 print(f"curr_limb_concept_networks= {curr_limb_concept_networks}")
+                
+                # su.save_object(limb_meshes,"limb_meshes")
+                # su.save_object(limb_mehses_face_idx,"limb_mehses_face_idx")
+                # su.save_object(limb_correspondence,"limb_correspondence")
+                # su.save_object(limb_concept_networks,"limb_concept_networks")
+                # su.save_object(limb_labels,"limb_labels")
+                # su.save_object(limb_to_branch_objects,"limb_to_branch_objects")
+                
                 
                 Limb_obj = Limb(
                                  mesh=curr_limb_mesh,

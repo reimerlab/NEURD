@@ -3318,9 +3318,7 @@ def high_low_degree_upstream_match_preprocessing(
         axon_dependent = axon_dependent_global
     if width_func is None:
         width_func = au.axon_width
-    
-    
-    
+
     return_value = []
     downstream_branches = None
     skipped_nodes = None
@@ -4205,7 +4203,7 @@ def high_degree_upstream_match(
         
     #print(f"width_diff_perc_threshold = {width_diff_perc_threshold}")
     #print(f"width_diff_perc_buffer = {width_diff_perc_buffer}")
-    
+    #print(f"skip_distance = {skip_distance}")
             
     # ---------- Phase A: Figure out if branch needs to be processed at all (and if so compute the downstream branches ---
     (return_value,
@@ -4564,7 +4562,7 @@ def high_degree_branch_errors_dendrite_limb_branch_dict(
         print(f"limb_branch_too_close = {limb_branch_too_close}")
         print(f"axon_spines_limb_branch = {axon_spines_limb_branch}")
     
-    
+    #print(f"skip_distance = {skip_distance}")
     return ed.high_degree_branch_errors_limb_branch_dict(
         neuron_obj,
         limb_branch_dict = limb_b_restr,
