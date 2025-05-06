@@ -19,6 +19,7 @@ def parent_skeletal_angle(
     verbose = False,
     default_value = None,
     skeletal_angle_attr = "skeleton_vector_[dir]",
+    skeleton_attribute = "skeleton",
     **kwargs):
     """
     Purpose: to get the branching angle with parent
@@ -37,16 +38,19 @@ def parent_skeletal_angle(
     verbose = True,
     )
     """
+    
+    skeletal_angle_attr=skeletal_angle_attr.replace("skeleton",skeleton_attribute)
+    
     upstream_attr = skeletal_angle_attr.replace('[dir]','upstream')
     downstream_attr = skeletal_angle_attr.replace('[dir]','downstream')
     
     if limb_obj[branch_idx].endpoints_upstream_downstream_idx is None:
         bu.set_branches_endpoints_upstream_downstream_idx_on_limb(limb_obj)
     
-    
     parent_idx = nru.parent_node(limb_obj,branch_idx)
     if verbose:
         print(f"parent_idx = {parent_idx}")
+    
     if  parent_idx is None:
         return default_value
     
@@ -81,6 +85,7 @@ def relation_skeletal_angle(
     verbose = False,
     extrema_value = None,
     return_dict = True,
+    skeleton_attribute = "skeleton",
     **kwargs
     ):
     """
@@ -104,6 +109,8 @@ def relation_skeletal_angle(
         branch_vec_func = "skeleton_vector_upstream"
     else:
         raise Exception("")
+    
+    branch_vec_func = branch_vec_func.replace("skeleton",skeleton_attribute)
     
     if nodes_idx is None:
         nodes_idx = node_func(limb_obj,branch_idx)
@@ -232,6 +239,56 @@ def children_skeletal_angle_min(
         **kwargs
     )
 
+
+def sibling_angle_smooth(
+    limb_obj,
+    branch_1,
+    branch_2,
+    extra_offset = False,
+    suppress_errors = True,
+    default_value = -1,
+    verbose=False,
+    ):
+    if extra_offset:
+        attr = "skeleton_smooth_vector_upstream_extra_offset"
+    else:
+        attr = "skeleton_smooth_vector_upstream"
+
+    if verbose:
+        print(f"Angle attr = {attr}")
+    obj1,obj2 = limb_obj[branch_1],limb_obj[branch_2]
+    if obj1.endpoints_upstream_downstream_idx is None:
+        bu.set_branches_endpoints_upstream_downstream_idx_on_limb(limb_obj)
+
+    try:
+        v1 = getattr(obj1,attr)
+        v2 = getattr(obj2,attr)
+    except Exception as e:
+        if suppress_errors:
+            return default_value
+        else:
+            raise Exception(e)
+    angle = nu.angle_between_vectors(v1,v2)
+    return np.round(angle,2)
+
+def sibling_angle_smooth_extra_offset(
+    limb_obj,
+    branch_1,
+    branch_2,
+    suppress_errors = True,
+    default_value = -1,
+    verbose=False,
+    ):
+
+    return sibling_angle_smooth(
+        limb_obj,
+        branch_1,
+        branch_2,
+        extra_offset = True,
+        suppress_errors = suppress_errors,
+        default_value = default_value,
+        verbose=verbose,
+    )
 
 def most_usptream_endpoints_of_branches_on_limb(
     limb_obj,
@@ -402,7 +459,64 @@ def width_upstream(
         print(f"parent_node = {parent_node} (width = {width}, parent_sk_length = {parent_sk_length})")
         
     return width
+
+def width_path_to_start(
+    limb_obj,
+    branch_idx,
+    nodes_to_ignore = None,
+    remove_zeros = True,
+    width_func = None,
+    verbose= False,
+    skeletal_length_min = 0,
+    remove_start_branch = True,
+    return_branch_path = True,
+    ):
+    """
+    To find the path from a branch to the start of the limb while accounting 
+    for some branches being ing
+    """
+    if nodes_to_ignore is None:
+        nodes_to_ignore = []
+    if width_func is None:
+        width_func = au.axon_width
+
+    path_to_start = nru.branch_path_to_start_node(limb_obj = limb_obj,
+        branch_idx = branch_idx,
+        include_branch_idx = False,
+        skeletal_length_min = skeletal_length_min,
+        include_last_branch_idx = remove_start_branch,
+        verbose = False
+    )
+
+    # filtering the path to start
+    path_to_start_filtered = np.array([k for k in path_to_start if k not in nodes_to_ignore])
+    if verbose:
+        print(f"path_to_start before_filter = {path_to_start}")
+        print(f"path_to_start_filtered = {path_to_start_filtered}")
+
+    path_widths = np.array([width_func(limb_obj[k]) for k in path_to_start_filtered])
+
+    if verbose:
+        print(f"path_widths = {path_widths}")
+        
+    if remove_zeros:
+        filt = path_widths>0
+        path_widths = list(path_widths[filt])
+        path_to_start_filtered = path_to_start_filtered[filt]
+        
+        if verbose:
+            print(f"path_widths AFTER REMOVING ZEROS= {path_widths}")
+
+    if return_branch_path:
+        return path_widths,path_to_start_filtered
+    else:
+        return path_widths
     
+def downstream_endnode_skeletal_distance_from_soma(limb,branch_idx):
+    
+    path_to_soma = nru.branch_path_to_soma(limb,branch_idx)
+    downstream_skeletal_length_to_soma = np.sum([limb[k].skeletal_length for k in path_to_soma])
+    return downstream_skeletal_length_to_soma
 
 # ------------ automatically create limb functions out of existing functions ------
 

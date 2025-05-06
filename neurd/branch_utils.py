@@ -484,6 +484,7 @@ def skeleton_vector_endpoint(
     plot_restricted_skeleton= False,
     offset=500,
     comparison_distance=3_000,#2_000,
+    skeleton_attribute = "skeleton",
     **kwargs
     ):
     """
@@ -514,8 +515,9 @@ def skeleton_vector_endpoint(
         if verbose:
             print(f"{endpoint_type} endpoint: {endpoint_coordinate}")
 
+    skeleton = getattr(branch_obj,skeleton_attribute)
     curr_vec = sk.vector_away_from_endpoint(
-        skeleton = branch_obj.skeleton,
+        skeleton = skeleton,
         endpoint = endpoint_coordinate,
         verbose = False,
         plot_restricted_skeleton = plot_restricted_skeleton,
@@ -546,6 +548,7 @@ def skeleton_vector_upstream(
     endpoint_coordinate = None,
     verbose = False,
     plot_restricted_skeleton= False,
+    skeleton_attribute = "skeleton",
     **kwargs
     
     ):
@@ -556,6 +559,7 @@ def skeleton_vector_upstream(
         endpoint_coordinate = endpoint_coordinate,
         verbose = verbose,
         plot_restricted_skeleton= plot_restricted_skeleton,
+        skeleton_attribute=skeleton_attribute,
         **kwargs
     )
 
@@ -565,6 +569,7 @@ def skeleton_vector_downstream(
     endpoint_coordinate = None,
     verbose = False,
     plot_restricted_skeleton= False,
+    skeleton_attribute = "skeleton",
     **kwargs
     
     ):
@@ -575,12 +580,14 @@ def skeleton_vector_downstream(
         endpoint_coordinate = endpoint_coordinate,
         verbose = verbose,
         plot_restricted_skeleton= plot_restricted_skeleton,
+        skeleton_attribute=skeleton_attribute,
         **kwargs
     )
     
 def skeleton_vector_upstream_extra_offset(
     branch_obj,
     offset = None,
+    skeleton_attribute = "skeleton",
     **kwargs
     ):
     if offset is None:
@@ -588,12 +595,14 @@ def skeleton_vector_upstream_extra_offset(
     return bu.skeleton_vector_upstream(
         branch_obj,
         offset = offset,
+        skeleton_attribute=skeleton_attribute,
         **kwargs
     )
 
 def skeleton_vector_downstream_extra_offset(
     branch_obj,
     offset = None,
+    skeleton_attribute = "skeleton",
     **kwargs
     ):
     if offset is None:
@@ -601,6 +610,7 @@ def skeleton_vector_downstream_extra_offset(
     return bu.skeleton_vector_downstream(
         branch_obj,
         offset = offset,
+        skeleton_attribute=skeleton_attribute,
         **kwargs
     )
 
@@ -1164,6 +1174,143 @@ def skeleton_angle_from_top(
     sk_vector = branch_obj.skeleton_vector_upstream
     angle_from_top = np.round(nu.angle_between_vectors(nst.top_of_layer_vector,sk_vector),4)
     return angle_from_top
+
+
+def width_diff_directional(
+    limb_obj,
+    branch_1,
+    branch_2,
+    extra_offset = True,
+    verbose = False,
+    branch_1_dir = "upstream",
+    branch_2_dir = "upstream",
+    return_percentage = False,
+    ):
+    """
+    Compute the difference in upstream/downstream width (with_buffer)
+    for 2 branches
+    """
+    
+    width_attr = "width_[dir]"
+    if extra_offset:
+        width_attr += "_extra_offset"
+    obj1,obj2 = limb_obj[branch_1],limb_obj[branch_2]
+    b1_attr = width_attr.replace('[dir]',branch_1_dir)
+    b2_attr = width_attr.replace('[dir]',branch_2_dir)
+    b1_width,b2_width= getattr(obj1,b1_attr),getattr(obj2,b2_attr)
+    min_width,max_width = min(b1_width,b2_width),max(b1_width,b2_width)
+    if verbose:
+        print(f"branch 1 width ({b1_attr}) = {b1_width}")
+        print(f"branch 2 width ({b2_attr}) = {b2_width}")
+        print(f"min_width = {min_width},max_width = {max_width}")
+    
+    width_diff = max_width - min_width
+    width_diff_perc = width_diff/min_width
+    
+    if verbose:
+        print(f"width_diff = {width_diff:.2f} (perc = {width_diff_perc:.2f})")
+
+    if return_percentage:
+        return width_diff_perc
+    else:
+        return width_diff
+    
+def large_jump_indices(
+    skeleton_points,
+    return_both_sides=False,
+    verbose = False,
+    ):
+    distance_threshold = 300
+    edge_distances = np.linalg.norm(skeleton_points[:-1,:]-skeleton_points[1:,:],axis = 1)
+    large_jump_mask = edge_distances>distance_threshold
+    large_jump_idx = np.arange(len(large_jump_mask))[large_jump_mask]
+    if return_both_sides:
+        large_jump_idx = np.hstack([large_jump_idx,large_jump_idx+1])
+        large_jump_idx.sort()
+    if verbose:
+        print(f"large_jump_idx = {large_jump_idx}")
+    return large_jump_idx
+
+def bend_max_on_branch_skeleton(
+    branch,
+    skeleton_attribute = "skeleton_smooth",
+    window_size = 40,
+    ignore_large_jump_idx = False,
+    large_jump_window = 35*3,
+    radians = False,
+    plot = False,
+    window_color = "purple",
+    verbose = False,
+    return_all_data = False,
+    return_coordinate = False,
+    return_index_perc = False,
+    return_dict = False,
+    ):
+    # 1) Create the ordered skeleton to compute on
+    skeleton = getattr(branch,skeleton_attribute)
+    ordered_sk = sk.order_skeleton(skeleton,start_endpoint_coordinate=branch.endpoint_upstream)
+    
+    points = sk.points_from_skeleton(ordered_sk)
+    
+    # calculate the sharp indices
+    if ignore_large_jump_idx:
+        large_jump_idx = large_jump_indices(points)
+        large_jump_idx_with_buffer = nu.expand_indices(
+            large_jump_idx,
+            large_jump_window + window_size,
+            min_val=0,
+            max_val=len(points)-1,
+        )
+    else:
+        large_jump_idx_with_buffer = []
+        
+    data = sk.bend_max_from_non_branching_skeleton(
+        points=points,
+        #skeleton = ordered_sk,
+        window_size = window_size,
+        order_skeleton=False,
+        verbose = verbose,
+        plot = False,
+        radians=radians,
+        indices_to_ignore=large_jump_idx_with_buffer,
+    )
+        
+    coordinate = data['coordinate']
+    largest_index = data['largest_index']
+    index_perc = data['index_perc']
+    angle_max = data['angle_max']
+    
+    
+        
+    if plot: 
+        if coordinate is None:
+            print(f"No bend found so not plotting")
+        else:
+            sub_sk = ordered_sk[largest_index-window_size:largest_index+window_size+1]
+            ipvu.plot_objects(
+                branch.mesh,
+                skeleton,
+                scatters=[coordinate.reshape(-1,3),sub_sk.reshape(-1,3)],
+                scatters_colors=["red",window_color],
+                scatter_size=0.5,
+            )
+
+    if return_all_data:
+        return data
+
+    if not return_index_perc and not return_coordinate:
+        return angle_max
+    else:
+        return_value = dict(angle_max = angle_max)
+        if return_coordinate:
+            return_value['coordinate'] = coordinate
+        if return_index_perc:
+            return_value['index_perc'] = index_perc
+        if return_dict:
+            return return_value
+        else:
+            return list(return_value.values())
+    
 
 # -------------------------------------------------------
 

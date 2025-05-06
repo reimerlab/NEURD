@@ -2008,6 +2008,52 @@ def get_whole_neuron_skeleton(current_neuron,
 
     return total_neuron_skeleton
 
+def get_whole_neuron_skeleton_smooth(
+    current_neuron,
+    print_flag=False,
+    ):
+    """
+    Purpose: To generate the entire skeleton with limbs stitched to the somas
+    of a neuron object
+    
+    Example Use: 
+    
+    total_neuron_skeleton = nru.get_whole_neuron_skeleton(current_neuron = recovered_neuron)
+    sk.graph_skeleton_and_mesh(other_meshes=[current_neuron.mesh],
+                              other_skeletons = [total_neuron_skeleton])
+                              
+    Ex 2: 
+    nru = reload(nru)
+    returned_skeleton = nru.get_whole_neuron_skeleton(recovered_neuron,print_flag=True)
+    sk.graph_skeleton_and_mesh(other_skeletons=[returned_skeleton])
+    """
+    limb_skeletons_total = []
+    for limb_idx in current_neuron.get_limb_node_names():
+        if print_flag:
+            print(f"\nWorking on limb: {limb_idx}")
+        #stack the new skeleton pieces with the current skeleton 
+        curr_limb_skeleton = current_neuron[limb_idx].skeleton_smooth
+        if print_flag:
+            print(f"curr_limb_skeleton.shape = {curr_limb_skeleton.shape}")
+        
+        limb_skeletons_total.append(curr_limb_skeleton)
+
+    #get the soma skeletons
+    soma_skeletons_total = []
+    for soma_idx in current_neuron.get_soma_node_names():
+        if print_flag:
+            print(f"\nWorking on soma: {soma_idx}")
+        #get the soma skeletons
+        curr_soma_skeleton = get_soma_skeleton(current_neuron,soma_name=soma_idx)
+        
+        if print_flag:
+            print(f"for soma {soma_idx}, curr_soma_skeleton.shape = {curr_soma_skeleton.shape}")
+        
+        soma_skeletons_total.append(curr_soma_skeleton)
+
+    total_neuron_skeleton = sk.stack_skeletons(limb_skeletons_total + soma_skeletons_total)
+    return total_neuron_skeleton
+
 def get_soma_skeleton(current_neuron,soma_name):
     """
     Purpose: to return the skeleton for a soma that goes from the 
@@ -6999,7 +7045,8 @@ def min_width_upstream(limb_obj,
                        default_value = 10000,
                         verbose = False,
                       remove_first_branch=True,
-                      remove_zeros=True):
+                      remove_zeros=True,
+                      ):
     """
     Purpose: Find the width jump from 
     the minimum of all of the branches proceeding
@@ -10173,7 +10220,12 @@ def update_neuron_cell_type_computed_attributes_trimesh_version(
                 b.web = new_trimesh(b.web)
             
                     
-
+def reinitialize_branches(neuron_obj):
+    for limb_idx in neuron_obj.get_limb_names():
+        limb = neuron_obj[limb_idx]
+        for branch_idx in limb.get_branch_names():
+            branch = neuron_obj[limb_idx][branch_idx]
+            neuron_obj[limb_idx][branch_idx] = neuron.Branch(branch)
 # ------------- parameters for stats ---------------
 
 

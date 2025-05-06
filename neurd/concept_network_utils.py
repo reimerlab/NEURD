@@ -98,11 +98,13 @@ def branches_within_distance_downstream(limb_obj,
                                    include_branch_idx = include_branch_idx)
 
 #find all end nodes within a downstream threshold
-def endnode_branches_of_branches_within_distance_downtream(limb_obj,
-                                                   branch_idx,
-                                                   skip_distance=2000,
-                                                           return_skipped_branches=False,
-                                                          **kwargs):
+def endnode_branches_of_branches_within_distance_downtream(
+    limb_obj,
+    branch_idx,
+    skip_distance=2000,
+    return_skipped_branches=False,
+    **kwargs
+    ):
     """
     Purpose: To get the branches that are a certain distance
     away from a branch but to only return the furthermost branches
@@ -116,8 +118,11 @@ def endnode_branches_of_branches_within_distance_downtream(limb_obj,
                                                           0)
     
     """
-    downstream_branches = cnu.branches_within_distance_downstream(limb_obj,branch_idx,
-                                           skip_distance)
+    downstream_branches = cnu.branches_within_distance_downstream(
+        limb_obj,
+        branch_idx,
+        skip_distance
+    )
     G = limb_obj.concept_network_directional
     G_sub = G.subgraph(downstream_branches)
 
@@ -1731,6 +1736,90 @@ def upstream_branches_in_branches_list(limb_obj,
 
     return upstream_nodes
 
+def downstream_nodes_with_skip_distance(
+    limb_obj,
+    branch_idx,
+    skip_distance = 0,
+    skip_nodes = None,
+    return_skipped=False,
+    verbose = False,
+    max_iterations = 1000,
+    ):
+    """
+    Purpose: Find the branches that are immediately downstream of a parent node
+    (where branches between a certain threshold are skipped, according to skip distance)
+    * could skip multiple branches in a row if all below skip distance
+    
+    Pseudocode:
+    0. Initialize a skipped_nodes,downstream_nodes
+    1. Add current node to list of parent nodes
+    Iterate through parent nodes until list is empty
+        a. get all the downstream nodes
+        b. if any of the nodes have a skeletal length less than the skip_distance, add to skip_list and parent nodes
+        b2. For any nodes above the skip_distance, add to downstream nodes
+    """
+
+    
+    G = limb_obj.concept_network_directional
+    
+    parent_nodes = []
+    processed_nodes = set()
+    downstream_nodes = set()
+    
+    def node_distance(n):
+        return limb_obj[n].skeletal_length
+    
+    parent_nodes.append(branch_idx)
+    counter = 0
+    while len(parent_nodes) > 0:
+        p = parent_nodes.pop(0)
+        processed_nodes.add(p)
+        if verbose:
+            print(f"-- Working on parent {p} --")
+            
+        # children of parent
+        children = list(G[p].keys())
+
+        if verbose:
+            print(f"children = {children}")
+        if len(children) == 0:
+            continue
+        for c in children:
+            if skip_nodes is None:
+                node_dist = node_distance(c)
+                skip_value = node_dist < skip_distance
+                skip_reason = "(dist = {node_dist})"
+            else:
+                skip_value = c in skip_nodes
+                skip_reason = f"(due to argument skip_nodes = {skip_nodes})"
+                
+            #print(f"skip_reason = {skip_reason}")
+            if not skip_value:
+                if verbose:
+                    print(f"   child {c}: adding to downstream nodes {skip_reason}")
+                downstream_nodes.add(c)
+            else:
+                if verbose:
+                    print(f"   child {c}: skipped and added to parent list {skip_reason}")
+                if c in processed_nodes:
+                    raise Exception("child already in processed nodes")
+                parent_nodes.append(c)
+        counter += 1
+        if counter > max_iterations:
+            raise Exception("Max iterations in downstream nodes loop reached")
+    
+    processed_nodes.remove(branch_idx)
+    if skip_nodes is None:
+        skip_nodes = list(processed_nodes)
+    downstream_nodes = list(downstream_nodes)
+    
+    if verbose:
+        print(f"\n -- Results --\nfor branch {branch_idx} with skip_distance = {skip_distance}:")
+        print(f"downstream_nodes = {downstream_nodes}\nskipped_nodes = {skip_nodes}")
+
+    if return_skipped:
+        return downstream_nodes,skip_nodes
+    return downstream_nodes
 
 #--- from neurd_packages ---
 from . import axon_utils as au   

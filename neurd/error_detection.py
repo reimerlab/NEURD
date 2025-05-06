@@ -2998,6 +2998,7 @@ def double_back_error_limb_branch_dict(
     verbose = False,
     
     angle_func_type = None,
+    skeleton_attribute="skeleton",
     **kwargs):
     """
     Purpose: To find all branches that have a skeleton that
@@ -3023,14 +3024,15 @@ def double_back_error_limb_branch_dict(
     if len(limb_branch_dict_restriction) == 0:
         return limb_branch_dict_restriction
 
-    print(f"inside double_back_error_limb_branch_dict")
+    #print(f"inside double_back_error_limb_branch_dict")
     double_back_limb_branch_dict = ns.query_neuron(neuron_obj,
                     functions_list=["parent_angle"],
                     query=f"parent_angle>{double_back_threshold}",
                     function_kwargs=dict(comparison_distance=comparison_distance,
                                          angle_func_type=angle_func_type,
                                         offset=offset,
-                                        check_upstream_network_connectivity=False),
+                                        check_upstream_network_connectivity=False,
+                                        skeleton_attribute = skeleton_attribute),
                     return_dataframe=False,
             limb_branch_dict_restriction=limb_branch_dict_restriction)
 
@@ -3050,6 +3052,7 @@ def double_back_dendrite(
     width_max = None,
     plot_starting_limb_branch = False,
     plot_double_back_errors = False,
+    skeleton_attribute = "skeleton_smooth",
     **kwargs
     ):
     """
@@ -3086,6 +3089,7 @@ def double_back_dendrite(
                                          comparison_distance = comparison_distance,
                                            offset = offset,
                                         branch_skeletal_length_min=branch_skeletal_length_min,
+                                        skeleton_attribute=skeleton_attribute,
                                                               **kwargs)
     
     if plot_double_back_errors:

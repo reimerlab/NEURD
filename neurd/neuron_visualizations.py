@@ -2288,12 +2288,34 @@ def plot_limb_path(limb_obj,path,**kwargs):
     
     """
     
-    nviz.plot_objects(main_mesh = limb_obj.mesh,
+    nviz.plot_objects(main_mesh = limb_obj.mesh_from_branches,
                         meshes=[limb_obj[k].mesh for k in path],
                       meshes_colors="red",
                      skeletons=[limb_obj[k].skeleton for k in path],
                      **kwargs)
     
+def plot_limb_parent_and_children(
+    limb_obj,
+    parent,
+    children = None,
+    **kwargs):
+    """
+    Purpose: To highlight the nodes on a path
+    with just given a limb object
+    
+    Pseudocode: 
+    1) Get the entire limb mesh will be the main mesh
+    2) Get the meshes corresponding to the path
+    3) Get all of the skeletons
+    4) plot
+    
+    """
+    
+    nviz.plot_objects(main_mesh = limb_obj.mesh_from_branches,
+                        meshes=[limb_obj[k].mesh for k in path],
+                      meshes_colors="red",
+                     skeletons=[limb_obj[k].skeleton for k in path],
+                     **kwargs)
     
     
 # ----------- For plotting classifications ------------------ #
@@ -2466,6 +2488,7 @@ def plot_branch_with_boutons_old(branch_obj,
 def plot_branches_with_mesh_attribute(branches,
                                       mesh_attribute,
                                       plot_skeletons=True,
+                                      plot_skeleton_smooth = True,
                              verbose=True):
     """
     To plot the branch meshes and their spines
@@ -2479,8 +2502,16 @@ def plot_branches_with_mesh_attribute(branches,
         
     if plot_skeletons:
         skeletons = [k.skeleton for k in branches]
+        skeleton_colors = ['blue']*len(branches)
+        
     else:
         skeletons = []
+        skeleton_colors = []
+
+        
+    if plot_skeleton_smooth and plot_skeletons:
+        skeletons += [k.skeleton_smooth for k in branches]
+        skeleton_colors += ['orange']*len(branches)
         
     total_mesh = tu.combine_meshes([k.mesh for k in branches])
 
@@ -2514,7 +2545,9 @@ def plot_branches_with_mesh_attribute(branches,
                      meshes=total_spines,
                      meshes_colors="red",
                       mesh_alpha=1,
-                     skeletons=skeletons)
+                     skeletons=skeletons,
+                     skeletons_colors = skeleton_colors,
+                     )
 
 
 def plot_branches_with_spines(branches,plot_skeletons=True,

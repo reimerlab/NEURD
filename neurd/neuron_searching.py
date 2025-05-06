@@ -1630,26 +1630,31 @@ def parent_angle(
     limb_name=None,
     comparison_distance = comparison_distance_global,
     angle_func_type = "parent_skeletal_angle",
+    skeleton_attribute = "skeleton",
     **kwargs):
     """
     Will return the angle between the current node and the parent
     """
     from neurd import limb_utils as lu
     output_dict = dict()
+    
+    
     for b in curr_limb.get_branch_names():
+        #print(f"b = {b}")
         try:
 #             parent_angle = nru.find_parent_child_skeleton_angle(curr_limb,
 #                                             b,comparison_distance=comparison_distance,
 #                                                                **kwargs)
             if angle_func_type == "parent_skeletal_angle":
-                parent_angle = lu.parent_skeletal_angle(curr_limb,b,default_value=0)
+                parent_angle = lu.parent_skeletal_angle(curr_limb,b,default_value=0,skeleton_attribute=skeleton_attribute)
             elif angle_func_type == "parent_angle_extra_offset":
-                parent_angle = lu.parent_angle_extra_offset(curr_limb,b,default_value=0)
+                parent_angle = lu.parent_skeletal_angle_extra_offset(curr_limb,b,default_value=0,skeleton_attribute=skeleton_attribute)
             elif angle_func_type == "parent_angle_extra_offset_min":
-                parent_angle = min(
-                    lu.parent_skeletal_angle(curr_limb,b,default_value=0),
-                    lu.parent_skeletal_angle_extra_offset(curr_limb,b,default_value=0)
-                )
+                p_angle = lu.parent_skeletal_angle(curr_limb,b,default_value=0,skeleton_attribute=skeleton_attribute)
+                p_angle_offset = lu.parent_skeletal_angle_extra_offset(curr_limb,b,default_value=0,skeleton_attribute=skeleton_attribute)
+                #print(f"    p_angle = {p_angle},p_angle_offset={p_angle_offset}")
+                parent_angle = min(p_angle,p_angle_offset)
+                #print(f"    parent_angle = {parent_angle}")
             else:
                 raise Exception(f"unknown angle_func_type = {angle_func_type}")
         except:
@@ -2334,6 +2339,10 @@ def set_limb_functions_for_search(
 @run_options(run_type="Branch")
 def max_skeleton_endpoint_dist(curr_branch,name=None,branch_name=None,**kwargs):
     return curr_branch.max_skeleton_endpoint_dist
+
+@run_options(run_type="Branch")
+def bend_max_smooth(curr_branch,name=None,branch_name=None,**kwargs):
+    return bu.bend_max_on_branch_skeleton(curr_branch)
 
 #--- from neurd_packages ---
 from . import axon_utils as au

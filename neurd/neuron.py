@@ -193,10 +193,33 @@ class Branch:
             self._width_downstream = dc_check(skeleton,"_width_downstream")
             self._width_upstream = dc_check(skeleton,"_width_upstream")
             
+            # 5/2: adding a skeleton_smooth
+            self._skeleton_smooth = dc_check(skeleton,"_skeleton_smooth")
+            
+            self._skeleton_vector_upstream = dc_check(skeleton,"_skeleton_vector_upstream")
+            self._skeleton_vector_downstream = dc_check(skeleton,"_skeleton_vector_downstream")
+            self._width_downstream = dc_check(skeleton,"_width_downstream")
+            self._width_upstream = dc_check(skeleton,"_width_upstream")
+            
+            
+            # extra offsets and smooth skeleton vectors
+            skeleton_vector_atts = [
+                "_skeleton_vector_upstream_extra_offset",
+                "_skeleton_vector_downstream_extra_offset",
+                "_width_downstream_extra_offset",
+                "_width_upstream_extra_offset",
+                "_skeleton_smooth_vector_downstream_extra_offset",
+                "_skeleton_smooth_vector_upstream_extra_offset",
+                "_skeleton_smooth_vector_downstream",
+                "_skeleton_smooth_vector_upstream",
+            ]
+            for kk in skeleton_vector_atts:
+                setattr(self,kk,dc_check(skeleton,kk))
             
             return 
             
         self.skeleton=skeleton.reshape(-1,2,3)
+        self._skeleton_smooth = None
         self._skeleton_graph = None
         self._endpoints_nodes = None
         self.mesh=mesh
@@ -241,6 +264,11 @@ class Branch:
         self._skeleton_vector_downstream_extra_offset = None
         self._width_downstream_extra_offset = None
         self._width_upstream_extra_offset = None
+        
+        self._skeleton_smooth_vector_downstream_extra_offset = None
+        self._skeleton_smooth_vector_upstream_extra_offset = None
+        self._skeleton_smooth_vector_downstream = None
+        self._skeleton_smooth_vector_upstream = None
         
         
         
@@ -350,9 +378,6 @@ class Branch:
     def endpoint_downstream_z(self):
         return self.endpoint_downstream[2]
     
-    
-    
-    
     @property
     def skeleton_vector_upstream(self):
         """
@@ -391,6 +416,45 @@ class Branch:
             self._skeleton_vector_downstream_extra_offset = bu.skeleton_vector_downstream_extra_offset(self)
         return self._skeleton_vector_downstream_extra_offset
     
+    
+    @property
+    def skeleton_smooth_vector_upstream(self):
+        """
+        the skelelton vector near upstream coordinate where the vector is oriented in the skeletal walk direction away from the soma
+        """
+        if self._skeleton_smooth_vector_upstream is None:
+            self._skeleton_smooth_vector_upstream = bu.skeleton_vector_upstream(self,skeleton_attribute="skeleton_smooth")
+        return self._skeleton_smooth_vector_upstream 
+    
+    @property
+    def skeleton_smooth_vector_downstream(self):
+        """
+        the skelelton vector near downstream coordinate where the vector is oriented in the skeletal walk direction away from the soma
+        """
+
+        if self._skeleton_smooth_vector_downstream is None:
+            self._skeleton_smooth_vector_downstream = bu.skeleton_vector_downstream(self,skeleton_attribute="skeleton_smooth")
+        return self._skeleton_smooth_vector_downstream
+    
+    @property
+    def skeleton_smooth_vector_upstream_extra_offset(self):
+        """
+        the skelelton vector near upstream coordinate where the vector is oriented in the skeletal walk direction away from the soma
+        """
+        if self._skeleton_smooth_vector_upstream_extra_offset is None:
+            self._skeleton_smooth_vector_upstream_extra_offset = bu.skeleton_vector_upstream_extra_offset(self,skeleton_attribute="skeleton_smooth")
+        return self._skeleton_smooth_vector_upstream_extra_offset
+    
+    @property
+    def skeleton_smooth_vector_downstream_extra_offset(self):
+        """
+        the skelelton vector near downstream coordinate where the vector is oriented in the skeletal walk direction away from the soma
+        """
+
+        if self._skeleton_smooth_vector_downstream_extra_offset is None:
+            self._skeleton_smooth_vector_downstream_extra_offset = bu.skeleton_vector_downstream_extra_offset(self,skeleton_attribute="skeleton_smooth")
+        return self._skeleton_smooth_vector_downstream_extra_offset
+    
     @property
     def width_upstream(self):
         if self._width_upstream is None:
@@ -414,6 +478,15 @@ class Branch:
         if self._width_downstream_extra_offset is None:
             self._width_downstream_extra_offset = bu.width_downstream_extra_offset(self)
         return self._width_downstream_extra_offset 
+    
+    @property
+    def skeleton_smooth(self):
+        if self._skeleton_smooth is None:
+            self._skeleton_smooth = sk.smooth_skeleton_transform(
+                self.skeleton,
+                transform = "gaussian",
+            )
+        return self._skeleton_smooth
     
     @property
     def min_dist_synapses_pre_upstream(self):
@@ -1205,6 +1278,10 @@ class Limb:
         """
         return nru.convert_limb_concept_network_to_neuron_skeleton(self.concept_network,
                              check_connected_component=check_connected_component)
+    
+    @property
+    def skeleton_smooth(self):
+        return sk.stack_skeletons([self[k].skeleton_smooth for k in self.get_branch_names()])
     
     def get_concept_network_data_by_soma(self,soma_idx=None):
         #compile a dictionary of all of the starting material
@@ -2965,7 +3042,10 @@ class Neuron:
         return nru.get_whole_neuron_skeleton(self,
                                  check_connected_component=check_connected_component)
 
-        
+    @property
+    def skeleton_smooth(self,):
+        return nru.get_whole_neuron_skeleton_smooth(self)    
+    
     def calculate_new_width(self,**kwargs):
         wu.calculate_new_width_for_neuron_obj(self,**kwargs)
     

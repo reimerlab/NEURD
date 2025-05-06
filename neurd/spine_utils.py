@@ -5089,6 +5089,7 @@ def spine_compartments_face_idx_for_neuron_mesh(
     plot = False,
     mesh_alpha=1,
     add_n_faces = True,
+    skip_index_errors = False,
     ):
     """
     Purpose: To compile the face_idx of a compartment from
@@ -5108,7 +5109,13 @@ def spine_compartments_face_idx_for_neuron_mesh(
     comp_face_idx_dict = {k:[] for k in compartments}
     for limb_idx,branch_info in limb_branch_spine_dict.items():
         for b_idx,b_spine_dict in branch_info.items():
-            branch_face_idx = limb_branch_face_dict[limb_idx][b_idx]
+            try:
+                branch_face_idx = limb_branch_face_dict[limb_idx][b_idx]
+            except:
+                if skip_index_errors:
+                    continue
+                else:
+                    raise Exception("{limb_idx}, {b_idx} index not present in faces dict")
             for comp in compartments:
                 branch_comp_face_idx = [k.mesh_face_idx[getattr(k,f"{comp}_face_idx").astype('int')]
                                         if len(getattr(k,f"{comp}_face_idx")) > 0 else []
@@ -5230,11 +5237,15 @@ def features_to_export_for_db():
 def spine_df_for_db_from_spine_objs(
     spine_objs,
     verbose = False,
-    verbose_loop = False,):
+    verbose_loop = False,
+    attributes = None):
+    
+    if attributes is None:
+        attributes = features_to_export_for_db()
 
     return spu.df_from_spine_objs(
         spine_objs,
-        attributes = features_to_export_for_db(),
+        attributes = attributes,
         verbose = verbose,
         verbose_loop = verbose_loop,
     )
