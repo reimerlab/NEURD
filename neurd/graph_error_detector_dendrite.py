@@ -247,6 +247,7 @@ class DendriteCrossRoadsDownstreamErrorDetector(ged.DownstreamErrorDetector):
         sibling_angle_min: float = 140
         width_extra_offset: bool = True
         width_diff_perc_max: float = 1.5
+        width_diff_from_min_directional_and_entire: bool = True
         width_diff_max: float = 100
         
     # def __init__(
@@ -267,7 +268,7 @@ class DendriteCrossRoadsDownstreamErrorDetector(ged.DownstreamErrorDetector):
         )
 
     def width_diff_perc(self,limb,n1,n2,verbose=False):
-        return bu.width_diff_directional(
+        width_diff = bu.width_diff_directional(
             limb_obj = limb,
             branch_1 = n1,
             branch_2 = n2,
@@ -277,9 +278,25 @@ class DendriteCrossRoadsDownstreamErrorDetector(ged.DownstreamErrorDetector):
             branch_2_dir = "upstream",
             return_percentage = True,
         )
+        
+        if self.config.width_diff_from_min_directional_and_entire:
+            entire_width_diff = bu.width_diff_entire_branch(
+                limb_obj = limb,
+                branch_1 = n1,
+                branch_2 = n2,
+                verbose = verbose,
+                return_percentage = True
+            )
+            
+            min_width_diff = min(width_diff,entire_width_diff)
+            
+            if verbose:
+                print(f"For directional width_diff_perc ({width_diff:.2f}) and  entire width_diff_perc ({entire_width_diff:.2f}), min = {min_width_diff} ")
+            return min_width_diff
+        return width_diff
 
     def width_diff(self,limb,n1,n2,verbose=False):
-        return bu.width_diff_directional(
+        width_diff = bu.width_diff_directional(
             limb_obj = limb,
             branch_1 = n1,
             branch_2 = n2,
@@ -289,6 +306,26 @@ class DendriteCrossRoadsDownstreamErrorDetector(ged.DownstreamErrorDetector):
             branch_2_dir = "upstream",
             return_percentage = False,
         )
+        
+        if self.config.width_diff_from_min_directional_and_entire:
+            entire_width_diff = bu.width_diff_entire_branch(
+                limb_obj = limb,
+                branch_1 = n1,
+                branch_2 = n2,
+                verbose = verbose,
+                return_percentage = False
+            )
+            
+            min_width_diff = min(width_diff,entire_width_diff)
+            
+            if verbose:
+                print(f"For directional width_diff ({width_diff:.2f}) and  entire width_diff ({entire_width_diff:.2f}), min = {min_width_diff} ")
+            return min_width_diff
+        return width_diff
+            
+            
+        
+        
 
     def __call__(self,limb_obj,parent_node,downstream_nodes,verbose = False,**kwargs):
         error_nodes = []

@@ -1184,6 +1184,7 @@ def width_diff_directional(
     verbose = False,
     branch_1_dir = "upstream",
     branch_2_dir = "upstream",
+    width_attr = "width_[dir]",
     return_percentage = False,
     ):
     """
@@ -1191,7 +1192,6 @@ def width_diff_directional(
     for 2 branches
     """
     
-    width_attr = "width_[dir]"
     if extra_offset:
         width_attr += "_extra_offset"
     obj1,obj2 = limb_obj[branch_1],limb_obj[branch_2]
@@ -1202,6 +1202,38 @@ def width_diff_directional(
     if verbose:
         print(f"branch 1 width ({b1_attr}) = {b1_width}")
         print(f"branch 2 width ({b2_attr}) = {b2_width}")
+        print(f"min_width = {min_width},max_width = {max_width}")
+    
+    width_diff = max_width - min_width
+    width_diff_perc = width_diff/min_width
+    
+    if verbose:
+        print(f"width_diff = {width_diff:.2f} (perc = {width_diff_perc:.2f})")
+
+    if return_percentage:
+        return width_diff_perc
+    else:
+        return width_diff
+    
+def width_diff_entire_branch(
+    limb_obj,
+    branch_1,
+    branch_2,
+    return_percentage = False,
+    width_func = None,
+    verbose = False,
+    ):
+    
+    if width_func is None:
+        width_func = au.axon_width
+        
+    obj1,obj2 = limb_obj[branch_1],limb_obj[branch_2]
+    
+    b1_width,b2_width= width_func(obj1),width_func(obj2)
+    min_width,max_width = min(b1_width,b2_width),max(b1_width,b2_width)
+    if verbose:
+        print(f"branch 1 width  = {b1_width}")
+        print(f"branch 2 width  = {b2_width}")
         print(f"min_width = {min_width},max_width = {max_width}")
     
     width_diff = max_width - min_width
@@ -1388,6 +1420,7 @@ from . import spine_utils as spu
 from . import synapse_utils as syu
 from . import width_utils as wu
 from . import neuron_statistics as nst
+from . import axon_utils as au
 
  
 
