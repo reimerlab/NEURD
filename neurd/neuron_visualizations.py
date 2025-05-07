@@ -2638,6 +2638,26 @@ def plot_branch_on_whole_mesh(neuron_obj,
                           return_color_dict=False,
                          **kwargs)
     
+def quick_plot_limb_branch_dict(
+    neuron_obj,
+    limb_branch_dict,
+    color = "red",
+    mesh_alpha=1):
+
+    if hasattr(limb_branch_dict,"limb_branch_dict"):
+        limb_branch_dict = limb_branch_dict.limb_branch_dict
+        
+    meshes = nru.mesh_over_limb_branch_dict(
+        neuron_obj,limb_branch_dict,combine_meshes=False)
+        
+    ipvu.plot_objects(
+        neuron_obj.mesh_from_branches,
+        meshes = meshes,
+        meshes_colors=color,
+        mesh_alpha=mesh_alpha
+    )
+        
+        
 def plot_limb_branch_dict(neuron_obj,
                          limb_branch_dict,
                           visualize_type=["mesh"],
@@ -2653,6 +2673,9 @@ def plot_limb_branch_dict(neuron_obj,
                           plot_random_color_map=True)
     
     """
+    if hasattr(limb_branch_dict,"limb_branch_dict"):
+        limb_branch_dict = limb_branch_dict.limb_branch_dict
+        
     if len(limb_branch_dict) == 0 and dont_plot_if_empty:
         print(f"limb_branch_dict empty ")
         return 

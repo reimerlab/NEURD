@@ -2860,7 +2860,7 @@ def filter_away_limb_branch_dict(neuron_obj,
         return new_neuron
     
     
-def filter_away_axon_on_dendrite_merges_old_limb_branch_dict(neuron_obj):
+def filter_away_axon_on_dendrite_merges_old_limb_branch_dict(neuron_obj,**kwargs):
     return ns.query_neuron_by_labels(neuron_obj,matching_labels=["axon-error"])
 
 def filter_away_axon_on_dendrite_merges_old(
@@ -5515,16 +5515,17 @@ def plot_limb_to_red_blue_groups(neuron_obj,
             limb_branch_dict_plot[limb_name] = []
             limb_branch_dict_plot_color[limb_name] = dict()
 
-        for comp_idx,points_info in error_comp_dict.items():
-            limb_branch_dict_plot[limb_name] += list(points_info["error_branches"]) + list(points_info["valid_branches"])
-            total_valid_points.append(points_info["valid_points"])
-            total_error_points.append(points_info["error_points"])
+        for comp_idx,p_info in error_comp_dict.items():
+            for points_info in p_info:
+                limb_branch_dict_plot[limb_name] += list(points_info["error_branches"]) + list(points_info["valid_branches"])
+                total_valid_points.append(points_info["valid_points"])
+                total_error_points.append(points_info["error_points"])
 
-            for e in points_info["error_branches"]:
-                limb_branch_dict_plot_color[limb_name][e] = error_color
+                for e in points_info["error_branches"]:
+                    limb_branch_dict_plot_color[limb_name][e] = error_color
 
-            for e in points_info["valid_branches"]:
-                limb_branch_dict_plot_color[limb_name][e] = valid_color
+                for e in points_info["valid_branches"]:
+                    limb_branch_dict_plot_color[limb_name][e] = valid_color
 
     try:
         total_valid_points = np.concatenate(total_valid_points).reshape(-1,3)
@@ -6285,8 +6286,11 @@ def limb_errors_to_cancel_to_red_blue_group(
                                     curr_limb,
                                     branches_idx=error_border_branches,
                                     )
-
+            
+            #print(f"plot_final_blue_red_points = {plot_final_blue_red_points}")
+            #raise Exception("")
             if plot_final_blue_red_points and n_obj is not None and limb_idx is not None:
+                print(f"Plotting L{limb_idx} red blue points")
                 nviz.visualize_neuron_path(n_obj,
                                       limb_idx=limb_idx,
                                       path=curr_conn_comp_div,
@@ -6421,6 +6425,7 @@ def limb_branch_dict_to_cancel_to_red_blue_groups(neuron_obj,
     from datasci_tools import networkx_utils as xu
 
 
+    #print(f"plot_final_blue_red_points = {plot_final_blue_red_points}")
 
 
     error_limb_branch_dict = limb_branch_dict_to_cancel# axon_merge_error_limb_branch_dict
@@ -6456,6 +6461,7 @@ def limb_branch_dict_to_cancel_to_red_blue_groups(neuron_obj,
         limb_to_red_blue_groups[limb_name] = pru.limb_errors_to_cancel_to_red_blue_group(
                                                     limb_obj,
                                                     error_branches,
+                                                    limb_idx=limb_idx,
                                                     neuron_obj = n_obj,
 
                                                     plot_error_graph_before_create_edges = plot_error_graph_before_create_edges,

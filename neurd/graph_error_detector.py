@@ -119,7 +119,7 @@ When errored out all downstream: return_value = [None,downstream_branches]
         a. Runs the filter to determine winning branch, error branches
 """
 
-limb_filter_graph_doc = """
+limb_screener_graph_doc = """
 Purpose
 -------
 Create code that will input a limb object and parameters for a certain filter
@@ -292,7 +292,7 @@ from dataclasses import dataclass, field,asdict
 #     width_min:float = 0
 
 @dataclass
-class NeuronGraphFilterConfig:
+class NeuronGraphScreenerConfig:
     """
     parameters for whole neuron queries
 
@@ -302,16 +302,16 @@ class NeuronGraphFilterConfig:
         function (or string referring to neuron_obj attr) that will return limb_branch to search
     filter_short_thick_endnodes:
         Whether to filter away downstream nodes returned by `au.short_thick_branches_limb_branch_dict()`.
-        Stored in `LimbGraphFilterConfig.short_thick_endpoint_nodes`
+        Stored in `LimbGraphScreenerConfig.short_thick_endpoint_nodes`
     min_distance_from_soma_mesh: float
         The minimum distance away a parent node needs to be to be considered (measured from it's upstream skeleton endpoint). If you want to constrain by distance from downstream skeleton endpoint then use `branch_graph_config.min_downstream_endnode_skeletal_dist_from_soma`.
-        Stored in `LimbGraphFilterConfig.too_close_to_soma_nodes`
+        Stored in `LimbGraphScreenerConfig.too_close_to_soma_nodes`
     min_skeletal_length_endpoints:
         The maximum skeletal length of an downstream node that is filtered away (used for axon spines)
-        Stored in `LimbGraphFilterConfig.spine_nodes`
+        Stored in `LimbGraphScreenerConfig.spine_nodes`
     min_upstream_skeletal_distance:
         The minimum skeletal length a parent node needs to be to be considered 
-        Stored in `LimbGraphFilterConfig.too_small_skeleton`
+        Stored in `LimbGraphScreenerConfig.too_small_skeleton`
     """
     # what branches to search over
     limb_branch_dict_func: Callable[..., Any] = None
@@ -332,7 +332,7 @@ import numpy as np
 #ListOrArray: TypeAlias = Union[List[int], np.ndarray]
 
 @dataclass
-class LimbGraphFilterConfig:
+class LimbGraphScreenerConfig:
     """
     parameters for controlling parent and downstream nodes considered
 
@@ -359,9 +359,9 @@ class LimbGraphFilterConfig:
     too_small_skeleton: Union[List[int], np.ndarray] = None
     
 
-inf = 10000000
+inf = np.inf
 @dataclass
-class BranchGraphFilterConfig:
+class BranchGraphScreenerConfig:
     """
     parameters controlling which parent nodes are:
     i. skipped
@@ -373,13 +373,13 @@ class BranchGraphFilterConfig:
     skip_distance : float
         Skeletal length of downstream nodes that are skipped and have their children added as downstream nodes
     min_degree_to_resolve: int
-        The minimum number of children a parent node needs to be considered by error_filter (or else skipped)
+        The minimum number of children a parent node needs to be considered by error_detector (or else skipped)
     max_degree_to_resolve_absolute: int
         The maximum number of children a parent node can have or else all downstream nodes errored (error_all)
     width_func: function
         Function that is called on a branch object to determine its width (typically `au.axon_width`)
     upstream_width_max: float
-        The maximum width of a parent branch to be considered by error_filter (or else skipped)
+        The maximum width of a parent branch to be considered by error_detector (or else skipped)
     
     max_degree_to_resolve: int
         The maximum number of children a parent node can have or else all downstream nodes errored (error_all).
@@ -394,7 +394,7 @@ class BranchGraphFilterConfig:
     axon_dependent: bool
         If all downstream nodes are not an axon, then parent is skipped
     width_min: float
-        Minimum width a parent node must be to be considered by error_filter (or else skipped)
+        Minimum width a parent node must be to be considered by error_detector (or else skipped)
         
     max_skeleton_endpoint_dist: float
         Maximum amount of a distane a skeleton endpoint can be from a mesh
@@ -427,9 +427,9 @@ class BranchGraphFilterConfig:
     
     min_downstream_endnode_skeletal_dist_from_soma: float = 0
     
-class NeuronBranchLimbGraphFilterConfig:
+class NeuronBranchLimbGraphScreenerConfig:
     """
-    Bundle together the three sub-configs needed by NeuronGraphFilter.
+    Bundle together the three sub-configs needed by NeuronGraphScreener.
     """
     def __init__(self,
                  neuron_graph_config_kwargs = None,
@@ -445,17 +445,17 @@ class NeuronBranchLimbGraphFilterConfig:
         bgk = branch_graph_config_kwargs or {}
         
         if neuron_graph_config is None:
-            neuron_graph_config = NeuronGraphFilterConfig(**ngk)
+            neuron_graph_config = NeuronGraphScreenerConfig(**ngk)
         if  limb_graph_config is None:
-            limb_graph_config = LimbGraphFilterConfig(**lgk)
+            limb_graph_config = LimbGraphScreenerConfig(**lgk)
         if branch_graph_config is None:
-            branch_graph_config = BranchGraphFilterConfig(**bgk) 
+            branch_graph_config = BranchGraphScreenerConfig(**bgk) 
         self.neuron_graph_config =   neuron_graph_config
         self.limb_graph_config    = limb_graph_config
         self.branch_graph_config  = branch_graph_config
 
     @property
-    def graph_filter_config_dict(self) -> dict:
+    def graph_screener_config_dict(self) -> dict:
         return {
             "neuron_config": self.neuron_graph_config,
             "limb_config":   self.limb_graph_config,
@@ -491,7 +491,7 @@ class BranchNode:
 
 import inspect
 
-class NeuronGraphFilter(UserDict):
+class NeuronGraphScreener(UserDict):
     def __init__(
         self,
         neuron_obj,
@@ -504,7 +504,7 @@ class NeuronGraphFilter(UserDict):
         
     ):
         if neuron_config is None:
-            neuron_config = NeuronGraphFilterConfig()
+            neuron_config = NeuronGraphScreenerConfig()
         self.neuron_config = neuron_config
         self.limb_config = limb_config
         self.branch_config = branch_config
@@ -569,7 +569,7 @@ class NeuronGraphFilter(UserDict):
         self.too_small_skeleton_limb_branch = too_small_skeleton_limb_branch
 
         if limb_config is None:
-            limb_config_default = LimbGraphFilterConfig()
+            limb_config_default = LimbGraphScreenerConfig()
         else:
             limb_config_default = limb_config
             
@@ -585,7 +585,7 @@ class NeuronGraphFilter(UserDict):
             limb_config.spine_nodes = self.axon_spines_limb_branch.get(limb_idx,None)
             limb_config.too_small_skeleton = self.too_small_skeleton_limb_branch.get(limb_idx,None)
             
-            G = LimbGraphFilter(
+            G = LimbGraphScreener(
                 limb = neuron_obj[limb_idx],
                 config = limb_config,
                 branch_config = branch_config,
@@ -604,7 +604,7 @@ class NeuronGraphFilter(UserDict):
         return "\n".join(total_str)
             
 
-class LimbGraphFilter(UserDict):
+class LimbGraphScreener(UserDict):
     def __init__(
         self,
         limb,
@@ -618,9 +618,9 @@ class LimbGraphFilter(UserDict):
             
         self.limb = limb
         if config is None:
-            config = LimbGraphFilterConfig()
+            config = LimbGraphScreenerConfig()
         if branch_config is None:
-            branch_config = BranchGraphFilterConfig()
+            branch_config = BranchGraphScreenerConfig()
             
         
         self.short_thick_endpoint_nodes = config.short_thick_endpoint_nodes
@@ -884,7 +884,7 @@ class LimbGraphFilter(UserDict):
         
         if verbose:
             if substr_filter is not None:
-                print(f"Filtering for substr_filter = {substr_filter}")
+                print(f"Screenering for substr_filter = {substr_filter}")
         for b,obj in self.items():
             if not obj.skipped:
                 if verbose:
@@ -907,9 +907,9 @@ class LimbGraphFilter(UserDict):
         
         return return_value
 
-LimbGraphFilter.__doc__ = limb_filter_graph_doc
+LimbGraphScreener.__doc__ = limb_screener_graph_doc
 
-## ----- DownstreamErrorFilter Class ----
+## ----- DownstreamErrorDetector Class ----
 from abc import ABC, abstractmethod
 from dataclasses import field
 
@@ -930,7 +930,7 @@ class NodeError:
         return hash(self.node)
     
 
-class DownstreamErrorFilter(ABC):
+class DownstreamErrorDetector(ABC):
     """
     Purpose:
     --------
@@ -967,10 +967,10 @@ class DownstreamErrorFilter(ABC):
         pass
 
 from typing import Any, Callable, Iterable, List
-class FunctionFilter(DownstreamErrorFilter):
+class FunctionDownstreamErrorDetector(DownstreamErrorDetector):
     """
     Thin rapper that can turn any function and string into a 
-    subclass of DownstreamErrorFilter
+    subclass of DownstreamErrorDetector
     """
     def __init__(self,
                  func: Callable[[Any, Any, Iterable[Any]], List[Any]],
@@ -991,12 +991,23 @@ class FunctionFilter(DownstreamErrorFilter):
 
 
         
-## ------ GraphErrorFilters -----
+## ------ GraphErrorScreeners -----
 
 from collections import UserDict 
 class ErrorLimbBranch(UserDict):
-    def __init__(self):
+    def __init__(self,limb_branch_dict=None,description=None):
+        
+        if isinstance(self,type(limb_branch_dict)):
+            self.data = dict(limb_branch_dict.data)
+            return
         self.data = {}
+        
+        if limb_branch_dict is None:
+            limb_branch_dict = {}
+            
+        for limb_name,branches in limb_branch_dict.items():
+            self.data[limb_name] = [NodeError(b,description) for b in branches]
+            
 
     @staticmethod
     def unique_branch_list(branch_list):
@@ -1025,73 +1036,115 @@ class ErrorLimbBranch(UserDict):
             for b in v:
                 return_str.append(f"\t{b}")
         return "\n".join(return_str)
+    
+class LimbBranchErrorDetector(ABC):
+    """
+    Baseclass that any function that returns a limb branch error dict
+    can be turned into a valid detector class
+    """
+    def __init__(
+        self,
+        config = None,
+        **kwargs):
+        
+        if config is None:
+            config = self.Config(**kwargs)
+        self.config = config
+        
+    @abstractmethod
+    def error_limb_branch_dict(self,neuron_obj,**kwargs):
+        pass 
+    
+    def __call__(self,neuron_obj,**kwargs):
+        return ErrorLimbBranch(
+            self.error_limb_branch_dict(neuron_obj,**kwargs),
+            description = self.config.name,
+        )
         
 import time
-class NeuronGraphErrorFilter:
+class NeuronGraphErrorDetector:
     """
     Purpose
     -------
-    Combine a GraphFilter and a DownstreamErrorFilter
+    Combine a GraphScreener and a DownstreamErrorDetector
     to determine a list of all error nodes on a neuron object
     and return that list as a limb branch dict
     
     Attributes:
     ---------
-        GraphFilterConfig: NeuronGraphFilterConfig
-        ErrorFilter: DownstreamErrorFilter
+        graph_screener_config: NeuronGraphScreenerConfig
+        error_detector: DownstreamErrorDetector
     
     """
     def __init__(
         self,
-        graph_filter_config: NeuronBranchLimbGraphFilterConfig,
-        error_filter: DownstreamErrorFilter):
-        self.graph_filter_config = graph_filter_config
-        self.error_filter = error_filter
         
-    @classmethod
-    def build(
-        cls,
-        error_filter_cls: DownstreamErrorFilter,
-        error_filter_kwargs = None,
+        error_detector_cls: DownstreamErrorDetector=None,
+        error_detector_kwargs = None,
         neuron_graph_config_kwargs = None,
         branch_graph_config_kwargs = None,
-        graph_filter_kwargs = None,
+        graph_screener_kwargs = None,
+        
+        graph_screener_config: NeuronBranchLimbGraphScreenerConfig=None,
+        error_detector: DownstreamErrorDetector=None,
+        
+        config = None,
+        **kwargs
         ):
         """
-        Create a NeuornGraphErrorFilter object that uses
-        a certain DownstreamErrorFilter subclass and initializes
-        all the graph_filter_config and error_filter automatically
+        Create a NeuornGraphErrorScreener object that uses
+        a certain DownstreamErrorDetector subclass and initializes
+        all the graph_screener_config and error_detector automatically
         """
-        if graph_filter_kwargs is None:
-            graph_filter_kwargs = dict()
-        if error_filter_kwargs is None:
-            error_filter_kwargs = dict()
-
-        # Step 1: graph_filter_config - Instantiating the graph filter config object
-        graph_filter_config = NeuronBranchLimbGraphFilterConfig(
-            neuron_graph_config_kwargs=neuron_graph_config_kwargs,
-            branch_graph_config_kwargs=branch_graph_config_kwargs,
-            **graph_filter_kwargs
-        )
-
-        error_filter = error_filter_cls(
-            **error_filter_kwargs
-        )
-
-        return cls(
-            graph_filter_config = graph_filter_config,
-            error_filter = error_filter,
-        )
+        if hasattr(self,"Config"):
+            config = self.Config(**kwargs)
         
+        if config is not None:
+            if error_detector_cls is None:
+                error_detector_cls = config.error_detector_cls
+            if error_detector_kwargs is None:
+                error_detector_kwargs = config.error_detector_kwargs
+            if neuron_graph_config_kwargs is None:
+                neuron_graph_config_kwargs = config.neuron_graph_config_kwargs
+            if branch_graph_config_kwargs is None:
+                branch_graph_config_kwargs = config.branch_graph_config_kwargs
+            if graph_screener_kwargs is None:
+                graph_screener_kwargs = config.graph_screener_kwargs
+                
+            if hasattr(config,"generate_error_kwargs"):
+                self._generate_error_kwargs = config.generate_error_kwargs
+            else:
+                self._generate_error_kwargs = {}
+        
+        if graph_screener_config is None:
+            if graph_screener_kwargs is None:
+                graph_screener_kwargs = dict()
+            if error_detector_kwargs is None:
+                error_detector_kwargs = dict()
 
-    def error_limb_branch(
+            # Step 1: graph_screener_config - Instantiating the graph filter config object
+            graph_screener_config = NeuronBranchLimbGraphScreenerConfig(
+                neuron_graph_config_kwargs=neuron_graph_config_kwargs,
+                branch_graph_config_kwargs=branch_graph_config_kwargs,
+                **graph_screener_kwargs
+            )
+
+        if error_detector is None:
+            error_detector = error_detector_cls(
+                **error_detector_kwargs
+            )
+        self.graph_screener_config = graph_screener_config
+        self.error_detector = error_detector
+        self.config = config
+        
+    def __call__(
         self,
         neuron_obj,
         verbose = False,
         branch_verbose = False,
         debug = False,
-        graph_filter_kwargs = None,
-        error_filter_kwargs = None,
+        graph_screener_kwargs = None,
+        error_detector_kwargs = None,
         **kwargs
     ):
         """
@@ -1110,38 +1163,41 @@ class NeuronGraphErrorFilter:
                 a. if error_all: add all downstream to error list (with reason)
                 b. If skipped: continue
                 c. if regular downstream list:
-                    Run the DownstreamErrorFilter on the node and all downstream (add to the list)
+                    Run the DownstreamErrorDetector on the node and all downstream (add to the list)
             d. add the error list and limb idx to an error limb branch dict
 
         3. Return the ErrorLimbBranch
         """
+        #overwritting the generic error kwargs
+        kwargs = {**self._generate_error_kwargs, **kwargs}
+        
         eobj = ErrorLimbBranch()
 
         st = time.time()
         
-        if graph_filter_kwargs is None:
-            graph_filter_kwargs = dict()
-        filtered_graph = NeuronGraphFilter(
+        if graph_screener_kwargs is None:
+            graph_screener_kwargs = dict()
+        screened_graph = NeuronGraphScreener(
             neuron_obj,
-            **self.graph_filter_config.graph_filter_config_dict,
-            **graph_filter_kwargs
+            **self.graph_screener_config.graph_screener_config_dict,
+            **graph_screener_kwargs
             )
-        self.filtered_graph = filtered_graph
+        self.screened_graph = screened_graph
         
         if debug:
-            print(f"Time for graph_filter = {time.time() - st}")
-            print(f"filtered_graph.limb_branch_dict = {filtered_graph.limb_branch_dict}")
+            print(f"Time for graph_screener = {time.time() - st}")
+            print(f"screened_graph.limb_branch_dict = {screened_graph.limb_branch_dict}")
 
-        error_filter = self.error_filter
-        if error_filter_kwargs is None:
-            error_filter_kwargs = dict()
+        error_detector = self.error_detector
+        if error_detector_kwargs is None:
+            error_detector_kwargs = dict()
             
-        if getattr(error_filter.config,"require_filtered_graph",False):
+        if getattr(error_detector.config,"require_screened_graph",False):
             add_filtered_limb = True
         else:
             add_filtered_limb = False
             
-        for limb_idx,limbG in filtered_graph.items():
+        for limb_idx,limbG in screened_graph.items():
             
             limb = neuron_obj[limb_idx]
             limb_errors = []
@@ -1165,18 +1221,18 @@ class NeuronGraphErrorFilter:
             
                 downstream_nodes = b_node.downstream_nodes
                 if branch_verbose:
-                    print(f"\t\t\nRunning DownstreamErrorFilter for parent = {branch_idx} with downstream node = {downstream_nodes}\n")
+                    print(f"\t\t\nRunning DownstreamErrorDetector for parent = {branch_idx} with downstream node = {downstream_nodes}\n")
             
                 kwargs_dict = dict(
                     limb_obj=limb,
                     parent_node=branch_idx,
                     downstream_nodes=downstream_nodes,
-                    **error_filter_kwargs
+                    **error_detector_kwargs
                 )
                 if add_filtered_limb:
-                    kwargs_dict['filtered_graph'] = limbG
+                    kwargs_dict['screened_graph'] = limbG
                     
-                branch_downstream_errors = error_filter(
+                branch_downstream_errors = error_detector(
                     **kwargs_dict
                 )
             
@@ -1192,5 +1248,6 @@ class NeuronGraphErrorFilter:
             
         return eobj
     
+    error_limb_branch = __call__
     
 #from . import graph_filters_refactored as gf

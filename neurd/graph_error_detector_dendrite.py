@@ -1,3 +1,102 @@
+"""
+# -- Instructions --
+
+# -- Instruction 1: How to build DownstreamErrorDetector --
+Step 0. Create a class inheriting from ged.DownstreamErrorDetector
+Step 1. Define a Config subclassclass with the default parameters
+Step 2. Define a __call__ function with the following criter
+    Arguments:
+        limb_obj
+        parent_node
+        downstream_nodes
+    Returns:
+        error_nodes: List[ged:NodeError]
+Step 3. Create a description property
+
+- Template
+
+class (ged.DownstreamErrorDetector):
+    @dataclass(frozen = True)
+    class Config:
+        '''
+        Parameters:
+            param1: type
+                description
+        '''
+        
+    
+        
+
+    def __call__(self,limb_obj,parent_node,downstream_nodes,verbose = False,**kwargs):
+        error_nodes = []
+        
+        return error_nodes
+        
+    @property
+    def description(self):
+        return f"
+    
+
+# -- Instruction 2: How to build an ErrorDetector --
+Purpose: These classes will generate an ErrorLimbBranch object
+for their call functions using:
+a. GraphScreenerConfig object
+b. DownstreamErrorDetection object
+
+Step 0. Create a class inheriting from ged.NeuronGraphErrorDetector
+Step 1. Define Config subclass with the following items
+    # -- DownstreamErrorDetector related --
+    error_detector_cls: the DownstreamErrorDetector class you are using
+    error_detector_kwargs: dict overrides to detectors default parameters
+    # -- NeuronBranchLimbGraphScreenerConfig related --
+    neuron_graph_config_kwargs: dict overrides to graph screener config default parameters
+    branch_graph_config_kwargs: dict overrides to branch screener config default parameters
+    graph_screener_kwargs: any other kwarg used in creation of the 
+    # -- call function kwargs --
+    generate_error_kwargs: dict for arguments that can be used during __call__
+Step 2: NeuronGraphErrorDetector inheritance does the rest
+
+Template:
+
+class ClassName(ged.NeuronGraphErrorDetector):
+    @dataclass
+    class Config:
+        # give it a name (used for logging / pipeline keys)
+        name: str = 
+        
+        # Which downstream detector to use, plus its kwargs
+        error_detector_cls: Type[ged.DownstreamErrorDetector] = 
+        error_detector_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            
+        ))
+        
+        # instruction for How to build the graph screener
+        neuron_graph_config_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            
+        ))
+        branch_graph_config_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            
+        ))
+        
+        # Any extra kwargs you want to pass into the screener build
+        graph_screener_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            
+        ))
+        
+        # Any extra kwargs you want to pass when you actually call it
+        # (verbose, branch_verbose, debug, etc)
+        generate_error_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            verbose=False,
+            branch_verbose=False,
+            debug=False,
+            error_filter_kwargs = dict(
+
+            ),
+            
+        ))
+    
+"""
+
 from dataclasses import dataclass
 from . import (
     #axon_utils as au,
@@ -6,19 +105,17 @@ from . import (
     #concept_network_utils as cnu,
     limb_utils as lu,
     branch_utils as bu,
-    graph_filters_refactored as gf,
+    graph_error_detector as ged,
     axon_utils as au,
     neuron_utils as nru,
 )
 import numpy as np
+from dataclasses import dataclass, field
+from typing import Type, Dict, Any
 
-## -- Filter 1
-"""
-Every filter will have the following classes
-i.  DownstreamErrorFilter
-ii. DownstreamErrorFilterConfig (initializes the filter)
-"""
-class DoubleBackDownstreamErrorFilter(gf.DownstreamErrorFilter):
+## -- #1 DownstreamErrorDetector 
+
+class DendriteDoubleBackDownstreamErrorDetector(ged.DownstreamErrorDetector):
     @dataclass(frozen = True)
     class Config:
         skeleton_attribute: str = "skeleton_smooth"
@@ -76,25 +173,74 @@ class DoubleBackDownstreamErrorFilter(gf.DownstreamErrorFilter):
                 description=f"parent angle ({p_angle:.2f}) with {parent_node} greater than double_back_threshold ({self.config.double_back_threshold:.2f}), max_skeleton_endpoint_dist = {max_skeleton_endpoint_dist:.2f}"
                 if verbose:
                     print(f"\t error: {description}")
-                error_nodes.append(gf.NodeError(n,description))
+                error_nodes.append(ged.NodeError(n,description))
         return error_nodes
         
     @property
     def description(self):
         return f"Errors downstream node if parent angle greater than {self.config.double_back_threshold}"
     
-## --- filter #2: CrossRoads filter --
+dendrite_double_back_skip_distance = 9_000
+class DendriteDoubleBackErrorDetector(ged.NeuronGraphErrorDetector):
+    @dataclass
+    class Config:
+        # give it a name (used for logging / pipeline keys)
+        name: str = "dendrite_double_back"
+        
+        # Which downstream detector to use, plus its kwargs
+        error_detector_cls: Type[ged.DownstreamErrorDetector] = DendriteDoubleBackDownstreamErrorDetector
+        error_detector_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            skeleton_attribute="skeleton_smooth",
+            double_back_threshold=95,
+            with_offset=True,
+        ))
+        
+        # instruction for How to build the graph screener
+        neuron_graph_config_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            limb_branch_dict_func="dendrite_limb_branch_dict",
+            filter_short_thick_endnodes=False,
+            min_distance_from_soma_mesh=0,
+            min_skeletal_length_endpoints=dendrite_double_back_skip_distance,
+            min_upstream_skeletal_distance=dendrite_double_back_skip_distance,
+        ))
+        branch_graph_config_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            skip_distance=dendrite_double_back_skip_distance,
+            min_degree_to_resolve=1,
+            width_func=au.axon_width,
+            axon_dependent=False,
+            width_min=0,
+            max_skeleton_endpoint_dist=5_000,
+            min_downstream_endnode_skeletal_dist_from_soma=10_000,
+        ))
+        
+        # Any extra kwargs you want to pass into the screener build
+        graph_screener_kwargs: Dict[str, Any] = field(default_factory=lambda: dict())
+        
+        # Any extra kwargs you want to pass when you actually call it
+        # (verbose, branch_verbose, debug, etc)
+        generate_error_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            verbose=False,
+            branch_verbose=False,
+            debug=False,
+            error_detector_kwargs=dict(
+                verbose=False,
+                angle_verbose=False,
+            ),
+        ))
+
+    
+## --- #2 DownstreamErrorDetector: CrossRoads  --
 from dataclasses import dataclass
 
 # @dataclass
-# class CrossRoadsDownstreamErrorFilterConfig:
+# class CrossRoadsDownstreamErrorDetectorConfig:
 #     angle_extra_offset: bool = True
 #     sibling_angle_min: float = 140
 #     width_extra_offset: bool = True
 #     width_diff_perc_max: float = 0.2
 #     width_diff_max: float = 100
 
-class CrossRoadsDownstreamErrorFilter(gf.DownstreamErrorFilter):
+class DendriteCrossRoadsDownstreamErrorDetector(ged.DownstreamErrorDetector):
     @dataclass(frozen=True)
     class Config:
         angle_extra_offset: bool = True
@@ -174,8 +320,8 @@ class CrossRoadsDownstreamErrorFilter(gf.DownstreamErrorFilter):
                     #if error then add both nodes to error nodes
                     if verbose:
                         print(f"\tCross roads error for {n},{sib}")
-                    n_node = gf.NodeError(n,f"cross roads with {sib}: {stats_str}")
-                    sib_node = gf.NodeError(sib,f"cross roads with {n}: {stats_str}")
+                    n_node = ged.NodeError(n,f"cross roads with {sib}: {stats_str}")
+                    sib_node = ged.NodeError(sib,f"cross roads with {n}: {stats_str}")
                     error_nodes += [n_node,sib_node]
         if verbose:
             print(f"Final error nodes = {error_nodes}")
@@ -192,16 +338,85 @@ class CrossRoadsDownstreamErrorFilter(gf.DownstreamErrorFilter):
         """
         return return_str
     
-## -- Filter 3
-class DendriteWidthJumpDownstreamErrorFilter(gf.DownstreamErrorFilter):
+cross_roads_skip_distance = 5_000
+class DendriteCrossRoadsErrorDetector(ged.NeuronGraphErrorDetector):
+    @dataclass
+    class Config:
+        # give it a name (used for logging / pipeline keys)
+        name: str = "dendrite_cross_roads"
+        
+        # Which downstream detector to use, plus its kwargs
+        error_detector_cls: Type[ged.DownstreamErrorDetector] = DendriteCrossRoadsDownstreamErrorDetector
+        error_detector_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            sibling_angle_min = 140,
+            width_diff_perc_max = 1.5,
+        ))
+        
+        # instruction for How to build the graph screener
+        neuron_graph_config_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            limb_branch_dict_func = "dendrite_limb_branch_dict",
+            filter_short_thick_endnodes = False,
+            min_distance_from_soma_mesh = 0,#30_000,
+            min_skeletal_length_endpoints = cross_roads_skip_distance,
+            min_upstream_skeletal_distance = cross_roads_skip_distance,
+        ))
+        branch_graph_config_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            skip_distance = cross_roads_skip_distance,
+            min_degree_to_resolve = 2,
+            width_func = au.axon_width,
+
+            axon_dependent = False,
+            min_downstream_endnode_skeletal_dist_from_soma = 10_000,
+            width_min = 0,
+        ))
+        
+        # Any extra kwargs you want to pass into the screener build
+        graph_screener_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            
+        ))
+        
+        # Any extra kwargs you want to pass when you actually call it
+        # (verbose, branch_verbose, debug, etc)
+        generate_error_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            verbose = False,
+            branch_verbose = False,
+            debug = False,
+            error_filter_kwargs = dict(
+                verbose = False,
+            )
+            
+        ))
+    
+## -- DownstreamErrorDetector 3
+class DendriteWidthJumpDownstreamErrorDetector(ged.DownstreamErrorDetector):
     @dataclass(frozen=True)
     class Config:
+        """
+        Parameters:
+            upstream_width_jump_threshold: float
+                minimum raw nm width increase from upstream minimum required for an error
+            upstream_width_jump_perc_threshold: float
+                minimum percentage width increase from upstream minimum required for an error
+            max_skeleton_endpoint_dist_threshold:
+                The maximum distance the endpoint of the skeleton can be from the mesh in order for an error to be found (helps filter away false positives)
+
+
+            require_screened_graph: bool
+                Whether DownstreamErrorDetector needs the 
+            ignore_skipped_nodes_for_width: bool
+                Whether to ignore nodes that were skipped in graph screener step when calculating all the upstream widths
+            min_skeletal_length_for_upstream_path: float
+                minimum skeletal lenght an upstream node needs to have for width to be considered in determining minimum upstream width
+            remove_first_branch_for_upstream_path: bool
+                whether the limb starting node should be removed from upstream list that upstream minimum width is determined from
+        
+        """
         upstream_width_jump_threshold: float = 190
         upstream_width_jump_perc_threshold: float = 0.4
         max_skeleton_endpoint_dist_threshold: float = np.inf
 
         # for computing the nodes to compare the width to
-        require_filtered_graph: bool = True
+        require_screened_graph: bool = True
         ignore_skipped_nodes_for_width: bool = True
         min_skeletal_length_for_upstream_path: float = 5000
         remove_first_branch_for_upstream_path: bool = True
@@ -217,7 +432,7 @@ class DendriteWidthJumpDownstreamErrorFilter(gf.DownstreamErrorFilter):
         self,
         limb_obj,
         n,
-        filtered_graph=None,
+        screened_graph=None,
         verbose= False,
         nodes_to_ignore = None,
         width_func = None,
@@ -228,7 +443,7 @@ class DendriteWidthJumpDownstreamErrorFilter(gf.DownstreamErrorFilter):
         
         """
         if self.config.ignore_skipped_nodes_for_width:
-            nodes_to_ignore = filtered_graph.skipped_nodes_too_small_skeleton
+            nodes_to_ignore = screened_graph.skipped_nodes_too_small_skeleton
             if verbose:
                 print(f"too_small_skeleton skeleton nodes being ignore = {nodes_to_ignore}")
         else:
@@ -266,12 +481,12 @@ class DendriteWidthJumpDownstreamErrorFilter(gf.DownstreamErrorFilter):
         self,
         limb_obj,
         n,
-        filtered_graph,
+        screened_graph,
         verbose = False,**kwargs):
         up_width_min,min_upstream = self.upstream_width_min(
             limb_obj,
             n,
-            filtered_graph=filtered_graph,
+            screened_graph=screened_graph,
             verbose= verbose
         )
         branch_width = self.width_func(limb_obj[n])
@@ -285,7 +500,7 @@ class DendriteWidthJumpDownstreamErrorFilter(gf.DownstreamErrorFilter):
         self,
         limb_obj,
         downstream_nodes,
-        filtered_graph,
+        screened_graph,
         verbose = False,
         verbose_width_jump=False,
         **kwargs
@@ -302,7 +517,7 @@ class DendriteWidthJumpDownstreamErrorFilter(gf.DownstreamErrorFilter):
             (upstream_width_jump,
              upstream_width_jump_perc,
              min_upstream) = self.upstream_width_min_jump(
-                limb,n,filtered_graph=filtered_graph,verbose = verbose_width_jump,**kwargs
+                limb,n,screened_graph=screened_graph,verbose = verbose_width_jump,**kwargs
             )
             width_flag = (
                 (upstream_width_jump > self.config.upstream_width_jump_threshold)
@@ -330,7 +545,7 @@ class DendriteWidthJumpDownstreamErrorFilter(gf.DownstreamErrorFilter):
                 f"\nsk_endpoint_dist ({skeleton_endpoint_jump_dist:.2f}) less than threshold ({sk_endpt_threshold:.2f})"
                 if verbose:
                     print(f"Node {n}: {description}")
-                error_nodes.append(gf.NodeError(n,description))
+                error_nodes.append(ged.NodeError(n,description))
         if verbose:
             print(f"Final error nodes: {error_nodes}")
         return error_nodes
@@ -342,8 +557,63 @@ class DendriteWidthJumpDownstreamErrorFilter(gf.DownstreamErrorFilter):
         width from parent to child branch
         """
         
-# -- Filter 4 ---
-class InternalBendDownstreamErrorFilter(gf.DownstreamErrorFilter):
+dend_width_jump_skip_distance = 9_000
+class DendriteWidthJumpErrorDetector(ged.NeuronGraphErrorDetector):
+    @dataclass
+    class Config:
+        # give it a name (used for logging / pipeline keys)
+        name: str = "dendrite_width_jump"
+        
+        # Which downstream detector to use, plus its kwargs
+        error_detector_cls: Type[ged.DownstreamErrorDetector] = DendriteWidthJumpDownstreamErrorDetector
+        error_detector_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            upstream_width_jump_threshold= 190,
+            upstream_width_jump_perc_threshold = 0.4,
+            max_skeleton_endpoint_dist_threshold= 5000,
+            
+            ignore_skipped_nodes_for_width = True,
+            min_skeletal_length_for_upstream_path = 5000,
+        ))
+        
+        # instruction for How to build the graph screener
+        neuron_graph_config_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            limb_branch_dict_func = "dendrite_limb_branch_dict",
+            filter_short_thick_endnodes = False,
+            min_distance_from_soma_mesh = 0,
+            min_skeletal_length_endpoints = dend_width_jump_skip_distance,
+            min_upstream_skeletal_distance = dend_width_jump_skip_distance,
+            
+        ))
+        branch_graph_config_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            skip_distance = dend_width_jump_skip_distance,
+            min_degree_to_resolve = 1,
+            width_func = au.axon_width,
+            axon_dependent = False,
+            width_min = 0,
+            max_skeleton_endpoint_dist = np.inf,
+            min_downstream_endnode_skeletal_dist_from_soma = 30_000,
+        ))
+        
+        # Any extra kwargs you want to pass into the screener build
+        graph_screener_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            
+        ))
+        
+        # Any extra kwargs you want to pass when you actually call it
+        # (verbose, branch_verbose, debug, etc)
+        generate_error_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            verbose=False,
+            branch_verbose=False,
+            debug=False,
+            error_filter_kwargs = dict(
+                verbose = False,
+                verbose_width_jump = False,
+            ),
+            
+        ))
+        
+# -- DownstreamDetector 4 ---
+class DendriteInternalBendDownstreamErrorDetector(ged.DownstreamErrorDetector):
     @dataclass(frozen = True)
     class Config:
         """
@@ -410,7 +680,7 @@ class InternalBendDownstreamErrorFilter(gf.DownstreamErrorFilter):
         return skeletal_distance_to_soma,euclidean_distance_to_soma
     
 
-    def __call__(self,limb_obj,parent_node,downstream_nodes,verbose,**kwargs):
+    def __call__(self,limb_obj,parent_node,downstream_nodes,verbose=False,**kwargs):
         error_nodes = []
         #for n in downstream_nodes:
         n = parent_node
@@ -447,7 +717,7 @@ class InternalBendDownstreamErrorFilter(gf.DownstreamErrorFilter):
                     )
                     if verbose:
                         print(f"   Error: {description}")
-                    error_nodes.append(gf.NodeError(n,description))
+                    error_nodes.append(ged.NodeError(n,description))
             
         if verbose:
             print(f"Final error nodes = {error_nodes}")
@@ -462,5 +732,56 @@ class InternalBendDownstreamErrorFilter(gf.DownstreamErrorFilter):
         Also constrains filter to only those internal bends a certain percentage ({self.config.index_perc_buffer})
         of skeletal length away from the endpoints so that stitching edges don't accidentally set of filter
         """
+        
+end_to_end_double_back_skip_distance = 15_000
+class DendriteInternalBendErrorDetector(ged.NeuronGraphErrorDetector):
+    @dataclass
+    class Config:
+        # give it a name (used for logging / pipeline keys)
+        name: str = "dendrite_internal_bend"
+        
+        # Which downstream detector to use, plus its kwargs
+        error_detector_cls: Type[ged.DownstreamErrorDetector] = DendriteInternalBendDownstreamErrorDetector
+        error_detector_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            double_back_threshold = 80,
+            index_perc_buffer = 0.1
+        ))
+        
+        # instruction for How to build the graph screener
+        neuron_graph_config_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            limb_branch_dict_func = "dendrite_limb_branch_dict",
+            filter_short_thick_endnodes = False,
+            min_distance_from_soma_mesh = 0,
+            min_skeletal_length_endpoints = dendrite_double_back_skip_distance,
+            min_upstream_skeletal_distance = dendrite_double_back_skip_distance,
+        ))
+        branch_graph_config_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            skip_distance = dendrite_double_back_skip_distance,
+            min_degree_to_resolve = 0,
+            width_func = au.axon_width,
+
+            axon_dependent = False,
+            width_min = 0,
+
+            min_downstream_endnode_skeletal_dist_from_soma = 10_000,
+        ))
+        
+        # Any extra kwargs you want to pass into the screener build
+        graph_screener_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            
+        ))
+        
+        # Any extra kwargs you want to pass when you actually call it
+        # (verbose, branch_verbose, debug, etc)
+        generate_error_kwargs: Dict[str, Any] = field(default_factory=lambda: dict(
+            verbose=False,
+            branch_verbose=False,
+            debug=False,
+            error_filter_kwargs = dict(
+                verbose = True,
+            )
+            
+        ))
+
     
-from . import graph_filters_refactored as gf
+from . import graph_error_detector_dendrite as gedd
