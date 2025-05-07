@@ -1342,6 +1342,60 @@ def bend_max_on_branch_skeleton(
             return return_value
         else:
             return list(return_value.values())
+        
+def clear_branch_upstream_downstream_smooth_attributes(
+    branch_obj,
+    attributes_to_clear = None
+    ):
+    if attributes_to_clear is None:
+        attributes_to_clear = (
+            "_skeleton_smooth",
+            "_skeleton_graph",
+            "_endpoints_nodes",
+            
+            "_skeleton_vector_upstream",
+            "_skeleton_vector_downstream",
+            "_width_downstream",
+            "_width_upstream",
+            
+            "_skeleton_vector_upstream_extra_offset",
+            "_skeleton_vector_downstream_extra_offset",
+            "_width_downstream_extra_offset",
+            "_width_upstream_extra_offset",
+            
+            "_skeleton_smooth_vector_downstream_extra_offset",
+            "_skeleton_smooth_vector_upstream_extra_offset",
+            "_skeleton_smooth_vector_downstream",
+            "_skeleton_smooth_vector_upstream",
+        )
+
+    for att in attributes_to_clear:
+        setattr(branch_obj,att,None)
+
+def clear_neuron_upstream_downstream_smooth_attributes(
+    neuron_obj,
+    attributes_to_clear = None):
+
+    for limb_idx in neuron_obj.get_limb_names():
+        limb = neuron_obj[limb_idx]
+        for branch_idx in limb.get_branch_names():
+            branch = neuron_obj[limb_idx][branch_idx]
+            clear_branch_upstream_downstream_smooth_attributes(
+                branch,
+                attributes_to_clear=attributes_to_clear)
+            
+def clear_limb_upstream_downstream_smooth_attributes(
+    limb_obj,
+    attributes_to_clear = None):
+
+
+    for branch_idx in limb_obj.get_branch_names():
+        branch = neuron_obj[limb_idx][branch_idx]
+        clear_branch_upstream_downstream_smooth_attributes(
+            branch,
+            attributes_to_clear=attributes_to_clear)
+
+
     
 
 # -------------------------------------------------------

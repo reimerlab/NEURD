@@ -404,6 +404,7 @@ class NeuronFilter:
         if self.config.combine_path_branches:
             new_neuron = nsimp.combine_path_branches(
                     new_neuron,
+                    return_copy=False,
                     plot_downstream_path_limb_branch = False,
                     verbose = verbose,
             )

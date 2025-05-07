@@ -381,6 +381,7 @@ def combine_path_branches(
     verbose = True,
     plot_final_neuron= False,
     return_copy = True,
+    clear_skeleton_attr = True,
     ):
     """
     Purpose: To combine all branches that are along a 
@@ -404,6 +405,9 @@ def combine_path_branches(
         
     if len(downstream_path_limb_branch) == 0:
         return neuron_obj
+    
+    if clear_skeleton_attr:
+        bu.clear_neuron_upstream_downstream_smooth_attributes(neuron_obj)
     
     if return_copy:
         neuron_obj = copy.deepcopy(neuron_obj)
