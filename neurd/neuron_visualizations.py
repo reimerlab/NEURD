@@ -2533,6 +2533,7 @@ def plot_branches_with_mesh_attribute(branches,
         for curr_branch in branches:
             print(f"")
             print(f"width = {curr_branch.width_new}, \nn_{mesh_attribute} = {getattr(curr_branch,f'n_{mesh_attribute}')},")
+            print(f"axon width = {au.axon_width(curr_branch)}")
             if mesh_attribute == "spines":
                   print(f" spine_density = {curr_branch.spine_density}\n spine_volume_density = {curr_branch.spine_volume_density}")
             
@@ -3994,6 +3995,69 @@ def plot_merge_filter_suggestions(
         scatters=scatters,
         scatters_colors=scatters_colors
     )
+    
+def plot_cross_roads_vectors(
+    limb,
+    branches,
+    parent_idx = None,
+    verbose = True,
+    plot_upstream_mesh = True,
+    **kwargs
+    ):
+      
+    total_colors = mu.generate_non_randon_named_color_list(len(branches)+1,colors_to_omit=['green'])
+    
+    if plot_upstream_mesh:
+        upstream_mesh = lu.upstream_mesh(limb,branches,plot=False)
+    
+    skeletons = []
+    skeletons_colors = []
+    scatters = []
+    scatters_colors = []
+    meshes = []
+    meshes_colors = []
+    
+    
+    for b_count,branch_idx in enumerate(branches):
+        
+        branch_color = total_colors[b_count]
+        print(f"branch {branch_idx}: {branch_color}")
+            
+        branch = limb[branch_idx]
+        meshes.append(branch.mesh)
+        meshes_colors.append(branch_color)
+        skeletons.append(branch.skeleton)
+        scatters.append(branch.endpoint_upstream)
+        skeletons_colors.append(branch_color)
+        scatters_colors.append(branch_color)
+    
+        vec_points =  bu.vector_points_upstream(
+            branch,
+            plot = False,
+        )
+        scatters.append(vec_points)
+        scatters_colors.append(branch_color)
+    
+    if parent_idx is not None:
+        parent_color = total_colors[-1]
+        print(f"parent {parent_id}: {parent_color}")
+        parent = limb[parent_idx]
+        parent_mesh = parent.mesh
+        
+        meshes.append(parent_mesh)
+        meshes_colors.append(parent_color)
+    
+    ipvu.plot_objects(
+        main_mesh=upstream_mesh,
+        meshes = meshes,
+        meshes_colors=meshes_colors,
+        skeletons=skeletons,
+        skeletons_colors=skeletons_colors,
+        scatters=scatters,
+        scatters_colors=scatters_colors,
+        **kwargs
+    )
+    
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk
@@ -4015,6 +4079,10 @@ from . import neuron_utils as nru
 from . import proofreading_utils as pru
 from . import synapse_utils as syu
 from . import spine_utils as spu
+from . import (
+    branch_utils as bu,
+    limb_utils as lu,
+)
 
 
 

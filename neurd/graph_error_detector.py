@@ -1076,6 +1076,21 @@ class NeuronGraphErrorDetector:
         error_detector: DownstreamErrorDetector
     
     """
+    @property
+    def debug_detector_kwargs(self):
+        kwargs = self._generate_error_kwargs
+        new_dict = deepcopy(kwargs)
+        for k,v in kwargs.items():
+            if type(v) == dict:
+                for jk,jv in v.items():
+                    new_dict[k][jk] = True
+            else:
+                new_dict[k] = True
+        return new_dict
+    
+    def debug_run(self,neuron_obj,**kwargs):
+        return self(neuron_obj,**self.debug_detector_kwargs,**kwargs)
+    
     def __init__(
         self,
         

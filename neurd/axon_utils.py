@@ -2367,6 +2367,7 @@ def axon_classification_inhibitory(
     neuron_obj,# for excitatory
     min_distance_from_soma_dendr_on_axon = None,
     ais_new_width_min = None,
+    ais_n_syn_pre_max = None,
     **kwargs):
     
     if min_distance_from_soma_dendr_on_axon is None:
@@ -2375,11 +2376,15 @@ def axon_classification_inhibitory(
     if ais_new_width_min is None:
         ais_new_width_min= ais_new_width_min_inhibitory_global
         
+    if ais_n_syn_pre_max is None:
+        ais_n_syn_pre_max = ais_n_syn_pre_max_inhibitory_global
+        
     return axon_classification_using_synapses(
                 neuron_obj,
                 axon_soma_angle_threshold = None,
                 min_distance_from_soma_dendr_on_axon=min_distance_from_soma_dendr_on_axon,
                 ais_new_width_min=ais_new_width_min,
+                ais_n_syn_pre_max=ais_n_syn_pre_max,
                 **kwargs)
 
 
@@ -3692,6 +3697,8 @@ global_parameters_dict_default_axon_finding = dsu.DictType(
     ais_syn_density_max_backup_excitatory = None,
     
     candidate_downstream_postsyn_density_max = 0.00015,
+    
+    ais_n_syn_pre_max_inhibitory = None,
 )
 
 global_parameters_dict_default_dendr_on_axon = dict(
@@ -3833,6 +3840,8 @@ global_parameters_dict_h01_axon_finding = dsu.DictType(
     postsyn_distance = 90_000,
     
     max_search_distance_addition_backup = 10_000,
+    
+    
                                                                  
 )
 

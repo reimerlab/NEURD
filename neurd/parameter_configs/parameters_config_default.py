@@ -70,6 +70,7 @@ parameters = {
         'add_zero_width_segments_short_thick':True,
         'width_min_threshold_parent_short_thick':95,
         'width_global_min_threshold_parent_short_thick':40,
+        
       },
       'axon_finding':
       {
@@ -110,6 +111,7 @@ parameters = {
         'ais_syn_density_max_excitatory':None,
         'ais_syn_density_max_backup_excitatory':None,
         'candidate_downstream_postsyn_density_max':0.00015,
+        'ais_n_syn_pre_max_inhibitory':None,
       },
       'axon_on_dendrite':
       {

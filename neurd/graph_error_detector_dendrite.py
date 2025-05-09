@@ -89,7 +89,7 @@ class ClassName(ged.NeuronGraphErrorDetector):
             verbose=False,
             branch_verbose=False,
             debug=False,
-            error_filter_kwargs = dict(
+            error_detector_kwargs = dict(
 
             ),
             
@@ -249,6 +249,7 @@ class DendriteCrossRoadsDownstreamErrorDetector(ged.DownstreamErrorDetector):
         width_diff_perc_max: float = 1.5
         width_diff_from_min_directional_and_entire: bool = True
         width_diff_max: float = 100
+        skeletal_length_downstream_min = 8_500
         
     # def __init__(
     #     self,
@@ -329,6 +330,14 @@ class DendriteCrossRoadsDownstreamErrorDetector(ged.DownstreamErrorDetector):
 
     def __call__(self,limb_obj,parent_node,downstream_nodes,verbose = False,**kwargs):
         error_nodes = []
+        sk_len_min = self.config.skeletal_length_downstream_min
+        if sk_len_min is not None:
+            downstream_nodes_too_small = [k for k in downstream_nodes
+                                          if limb_obj[k].skeletal_length  < sk_len_min]
+            if verbose:
+                print(f"downstream_nodes_too_small = {downstream_nodes_too_small}")
+            downstream_nodes = [k for k in downstream_nodes
+                                if k not in downstream_nodes_too_small]
         for n in downstream_nodes:
             if verbose:
                 print(f"-- Working on branch {n}")
@@ -418,11 +427,32 @@ class DendriteCrossRoadsErrorDetector(ged.NeuronGraphErrorDetector):
             verbose = False,
             branch_verbose = False,
             debug = False,
-            error_filter_kwargs = dict(
+            error_detector_kwargs = dict(
                 verbose = False,
             )
             
         ))
+        
+    def debug_vectors(
+        self,
+        limb,
+        branches,
+        parent_idx = None,
+        verbose = True,
+        ):
+        
+        if verbose:
+            for b in branches:
+                branch = limb[b]
+                print(f"{b} vector = {branch.skeleton_smooth_vector_upstream}, skeletal_length = {branch.skeletal_length}")
+                
+        nviz.plot_cross_roads_vectors(
+            limb = limb,
+            branches = branches,
+            parent_idx = parent_idx,
+            verbose = verbose,
+            plot_upstream_mesh = True,
+        )
     
 ## -- DownstreamErrorDetector 3
 class DendriteWidthJumpDownstreamErrorDetector(ged.DownstreamErrorDetector):
@@ -456,14 +486,19 @@ class DendriteWidthJumpDownstreamErrorDetector(ged.DownstreamErrorDetector):
         require_screened_graph: bool = True
         ignore_skipped_nodes_for_width: bool = True
         min_skeletal_length_for_upstream_path: float = 5000
+        max_skeleton_endpoint_dist_for_upstream_path: float = 4500
         remove_first_branch_for_upstream_path: bool = True
 
     def max_skeleton_endpoint_dist(self,limb_obj,n):
         return limb_obj[n].max_skeleton_endpoint_dist
         
     @property
-    def width_func(self):
-        return au.axon_width
+    def branch_width_func(self):
+        return bu.width_min
+    
+    @property
+    def upstream_width_func(self):
+        return bu.width_max
         
     def upstream_width_min(
         self,
@@ -479,6 +514,9 @@ class DendriteWidthJumpDownstreamErrorDetector(ged.DownstreamErrorDetector):
         """
         
         """
+        if width_func is None:
+            width_func = self.upstream_width_func
+            
         if self.config.ignore_skipped_nodes_for_width:
             nodes_to_ignore = screened_graph.skipped_nodes_too_small_skeleton
             if verbose:
@@ -494,9 +532,19 @@ class DendriteWidthJumpDownstreamErrorDetector(ged.DownstreamErrorDetector):
             verbose = verbose,
             skeletal_length_min = self.config.min_skeletal_length_for_upstream_path,
             remove_start_branch = not self.config.remove_first_branch_for_upstream_path,
-            width_func = self.width_func,
+            width_func = width_func,
             return_branch_path = True,
             )
+        
+        width_path,branch_path = np.array(width_path),np.array(branch_path)
+        
+        max_endpt = self.config.max_skeleton_endpoint_dist_for_upstream_path
+        if max_endpt is not None and max_endpt < np.inf:
+            endpt_dist = np.array([limb_obj[k].max_skeleton_endpoint_dist for k in branch_path])
+            endpt_mask = endpt_dist < max_endpt
+            width_path,branch_path = width_path[endpt_mask],branch_path[endpt_mask]
+            if verbose:
+                print(f"After filtering by endpoint_dist: branch_path = {branch_path},width_path = {width_path} ")
 
         if len(width_path) > 0:
             min_idx = np.argmin(width_path)
@@ -526,7 +574,7 @@ class DendriteWidthJumpDownstreamErrorDetector(ged.DownstreamErrorDetector):
             screened_graph=screened_graph,
             verbose= verbose
         )
-        branch_width = self.width_func(limb_obj[n])
+        branch_width = self.branch_width_func(limb_obj[n])
         width_jump = branch_width - up_width_min
         width_jump_perc = width_jump/up_width_min
         if verbose:
@@ -571,7 +619,7 @@ class DendriteWidthJumpDownstreamErrorDetector(ged.DownstreamErrorDetector):
                 if skeleton_endpoint_jump_dist > sk_endpt_threshold:
                     sk_endpt_flag = False
                 if verbose:
-                    print(f"\tskeleton_endpoint_jump_dist = {skeleton_endpoint_jump_dist:.2f} (threshold = {sk_endpt_threshold:.2f}, flag = {sk_endpt_flag}")
+                    print(f"\tskeleton_endpoint_jump_dist = {skeleton_endpoint_jump_dist:.2f} (threshold = {sk_endpt_threshold:.2f}, flag = {sk_endpt_flag})")
             else:
                 skeleton_endpoint_jump_dist = None
                 
@@ -609,7 +657,7 @@ class DendriteWidthJumpErrorDetector(ged.NeuronGraphErrorDetector):
             max_skeleton_endpoint_dist_threshold= 5000,
             
             ignore_skipped_nodes_for_width = True,
-            min_skeletal_length_for_upstream_path = 5000,
+            min_skeletal_length_for_upstream_path = 13000,
         ))
         
         # instruction for How to build the graph screener
@@ -642,12 +690,23 @@ class DendriteWidthJumpErrorDetector(ged.NeuronGraphErrorDetector):
             verbose=False,
             branch_verbose=False,
             debug=False,
-            error_filter_kwargs = dict(
+            error_detector_kwargs = dict(
                 verbose = False,
                 verbose_width_jump = False,
             ),
             
         ))
+    
+
+    def debug_branch_path_stats(self,limb,branch_idx):
+        branch_width = self.error_detector.branch_width_func(limb[branch_idx])
+        for b_idx in nru.branch_path_to_soma(limb,branch_idx):
+            obj = limb[b_idx]
+            up_width_min = self.error_detector.upstream_width_func(obj)
+            width_jump = branch_width - up_width_min
+            width_jump_perc = width_jump/up_width_min
+            print(f"{b_idx}: max_endpt_dist = {obj.max_skeleton_endpoint_dist:.2f}, width = {up_width_min:.2f}, sk_length = {obj.skeletal_length:.2f}, width_jump = {width_jump:.2f}, width_jump_perc = {width_jump_perc:.2f}")
+    
         
 # -- DownstreamDetector 4 ---
 class DendriteInternalBendDownstreamErrorDetector(ged.DownstreamErrorDetector):
@@ -814,11 +873,15 @@ class DendriteInternalBendErrorDetector(ged.NeuronGraphErrorDetector):
             verbose=False,
             branch_verbose=False,
             debug=False,
-            error_filter_kwargs = dict(
+            error_detector_kwargs = dict(
                 verbose = True,
             )
             
         ))
 
     
-from . import graph_error_detector_dendrite as gedd
+from . import (
+    graph_error_detector_dendrite as gedd,
+    neuron_visualizations as nviz,
+    neuron_utils as nru,
+)

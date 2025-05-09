@@ -460,6 +460,7 @@ def width_upstream(
         
     return width
 
+
 def width_path_to_start(
     limb_obj,
     branch_idx,
@@ -478,7 +479,7 @@ def width_path_to_start(
     if nodes_to_ignore is None:
         nodes_to_ignore = []
     if width_func is None:
-        width_func = au.axon_width
+        width_func = bu.width_max#au.axon_width
 
     path_to_start = nru.branch_path_to_start_node(limb_obj = limb_obj,
         branch_idx = branch_idx,
@@ -520,6 +521,21 @@ def downstream_endnode_skeletal_distance_from_soma(limb,branch_idx):
 
 # ------------ automatically create limb functions out of existing functions ------
 
+def upstream_mesh(limb,branches,plot = False):
+    branches = nu.to_list(branches)
+    upstream_path = []
+    for b in branches:
+        upstream_path += nru.branch_path_to_soma(limb,b)
+    upstream_path = set(upstream_path)
+    upstream_mesh = tu.combine_meshes([limb[k].mesh for k in upstream_path])
+
+    if plot:
+        ipvu.plot_objects(
+            upstream_mesh,
+            meshes = [limb[k].mesh for k in branches],
+            meshes_colors="red"
+        )
+    return upstream_mesh
 
 
 
@@ -535,6 +551,13 @@ from . import neuron_visualizations as nviz
 from datasci_tools import networkx_utils as xu
 from datasci_tools import numpy_dep as np
 from datasci_tools import numpy_utils as nu
+
+
+from mesh_tools import trimesh_utils as tu
+from datasci_tools import (
+    numpy_utils as nu,
+    ipyvolume_utils as ipvu,
+)
 
 from . import limb_utils as lu
 

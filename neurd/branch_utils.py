@@ -1397,6 +1397,161 @@ def clear_limb_upstream_downstream_smooth_attributes(
 
 
     
+def all_width_values(
+    branch_obj,
+    width_attributes = (
+            "width_downstream",
+            "width_downstream_extra_offset",
+            "width_upstream",
+            "width_upstream",
+        ),
+    width_functions = None,
+    verbose = False,
+    default_value = 0,
+    return_dict = True,
+    ):
+    
+    if width_functions is None:
+        width_functions = [au.axon_width]
+    
+    width_dict = {k:getattr(branch_obj,k,default_value) for k in width_attributes}
+    for func in width_functions:
+        try:
+            width_dict[func.__name__] = func(branch_obj)
+        except:
+            width_dict[func.__name__] = 0
+    
+    if verbose:
+        print(f"width_dict = {width_dict}")
+        
+    if return_dict:
+        return width_dict
+    else:
+        return list(width_dict.values())
+        
+def width_extrema(
+        branch_obj,
+        verbose = False,
+        extrema = "max",
+        return_width_type = False,
+        verbose_widths = False,
+        **kwargs
+        ):
+    """
+    Purpose: To find the maximum width from all the different width versions
+    of a branch
+    """
+    width_dict = all_width_values(
+        branch_obj,
+        return_dict = True,
+        verbose = verbose_widths,
+        **kwargs
+    )
+    
+    width_names = np.array(list(width_dict.keys()))
+    width_values = np.array(list(width_dict.values()))
+    
+    arg_func = getattr(np,f"arg{extrema}")
+    idx = arg_func(width_values)
+    width_type = width_names[idx]
+    width_value = width_values[idx]
+    
+    if verbose:
+        print(f"{extrema} width value ({width_value}) from {width_type}")
+    if return_width_type:
+        return width_value,width_type
+    else:
+        return width_value
+    
+def width_max(
+        branch_obj,
+        verbose = False,
+        return_width_type = False,
+        **kwargs
+    ):
+    return width_extrema(
+        branch_obj,
+        verbose = verbose,
+        extrema = "max",
+        return_width_type = return_width_type,
+        **kwargs
+        )
+    
+def width_min(
+        branch_obj,
+        verbose = False,
+        return_width_type = False,
+        **kwargs
+    ):
+    return width_extrema(
+        branch_obj,
+        verbose = verbose,
+        extrema = "min",
+        return_width_type = return_width_type,
+        **kwargs
+        )
+    
+from mesh_tools import skeleton_utils as sk
+
+
+def vector_points(
+    branch,
+    endpoint_type = "upstream",
+    skeleton_attribute = "skeleton_smooth",
+    offset=500,
+    comparison_distance=3000,
+    plot = False,
+    ):
+        
+    start_coordinate = getattr(branch,f"endpoint_{endpoint_type}")
+    
+    skeleton_smooth_rest = sk.restrict_skeleton_from_start_plus_offset(
+        branch.skeleton_smooth,
+        start_coordinate = start_coordinate,
+        offset=offset,
+        comparison_distance=comparison_distance,
+    )
+    
+    vector_points = sk.points_from_skeleton(
+        skeleton_smooth_rest
+    )
+
+    if plot:
+        ipvu.plot_objects(
+            branch.mesh,
+            branch.skeleton,
+            scatters=[vector_points]
+        )
+    return vector_points
+
+def vector_points_upstream(
+    branch,
+    skeleton_attribute = "skeleton_smooth",
+    plot=False,
+    **kwargs
+):
+    return vector_points(
+        branch,
+        endpoint_type = "upstream",
+        skeleton_attribute = skeleton_attribute,
+        plot=plot,
+        **kwargs
+    )
+
+def vector_points_downstream(
+    branch,
+    skeleton_attribute = "skeleton_smooth",
+    plot=False,
+    **kwargs
+):
+    return vector_points(
+        branch,
+        endpoint_type = "upstream",
+        skeleton_attribute = skeleton_attribute,
+        plot=plot,
+        **kwargs
+    )
+    
 
 # -------------------------------------------------------
 
