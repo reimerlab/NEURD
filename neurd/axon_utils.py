@@ -23,7 +23,8 @@ axon_ais_threshold = 180
 def axon_width(branch_obj,
               width_name="no_bouton_median",
                width_name_backup="no_spine_median_mesh_center",
-               width_name_backup_2 = "median_mesh_center",):
+               width_name_backup_2 = "median_mesh_center",
+               **kwargs):
     """
     Computes the widht of the branch (specifically in the axon case)
     

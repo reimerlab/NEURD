@@ -5591,6 +5591,7 @@ def limb_errors_to_cancel_to_red_blue_group(
     
     return_error_skeleton_points = True,
     return_synapse_points = True,
+    add_extensive_parent_downstream_features = True,
     **kwargs
     ):
     """
@@ -6333,6 +6334,15 @@ def limb_errors_to_cancel_to_red_blue_group(
                                                                    error_points = final_red_points,
                                        coordinate = coord,
                                       )
+            
+            if add_extensive_parent_downstream_features:
+                curr_local_red_blue.update(
+                    nst.parent_and_downstream_branches_feature_dict(
+                        curr_limb,
+                        parent_idx = parent_branch,
+                        branches = error_branches,
+                    )
+                )
             if return_error_skeleton_points:
                 curr_local_red_blue["error_branches_skeleton_points"] = nru.skeleton_nodes_from_branches_on_limb(
                                                     curr_limb,
@@ -8007,6 +8017,7 @@ from . import preprocess_neuron as pre
 from . import spine_utils as spu
 from . import synapse_utils as syu
 from . import cell_type_utils as ctu
+from . import neuron_statistics as nst
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk

@@ -4,6 +4,7 @@ import networkx as nx
 from datasci_tools import numpy_dep as np
 from datasci_tools import module_utils as modu
 from datasci_tools import general_utils as gu
+import pandas as pd
 from . import microns_volume_utils as mvu
 from . import h01_volume_utils as hvu
 
@@ -3962,6 +3963,8 @@ def branch_computed_dict(
         "skeleton_smooth_vector_downstream",
         "skeleton_smooth_vector_upstream",
     ]
+    
+    from . import branch_utils as bu
 
     for b_att in branch_attributes:
         try:
@@ -4006,6 +4009,8 @@ def branch_limb_computed_dict(
     catch_errors = False,):
 
     branch_dict = {}
+    
+    from . import limb_utils as lu
         
     branch_functions = [
         lu.downstream_endnode_skeletal_distance_from_soma,
@@ -4054,6 +4059,10 @@ def limb_node_stats_dict(
         d. iterate through limb functions
         e. update the limb_node_dict with local func
     """
+    from . import (
+        branch_utils as bu,
+        limb_utils as lu
+    )
     
     limb_node_dict = limb_node_query_dict(neuron_obj)
     limb_node_dict
@@ -4086,6 +4095,234 @@ def limb_node_stats_dict(
             limb_node_dict[name].update(limb_dict)
     
     return limb_node_dict
+
+
+def limb_branches_aggr_features(
+    limb,
+    branches,
+    features,
+    aggr_type = "sum",
+    default_value = None,
+    add_aggr_suffix = True,
+):
+        
+        
+    def value_and_name(branch,feat):
+        value = None
+        if type(feat) == str:
+            value = getattr(branch,feat,default_value)
+            if value == default_value:
+                func = getattr(ns,feat,None)
+                if func is None:
+                    func = getattr(nst,feat,None)
+                    
+                if func is not None:
+                    value = func(branch)
+            name = feat
+        else:
+            value = feat(branch)
+            name = feat.__name__
+            
+        return name,value
+    
+        
+    records = []
+    for branch_idx in branches:
+        local_dict= dict()
+        branch = limb[branch_idx]
+        for feat in features:
+            name,value = value_and_name(branch,feat)
+            local_dict[name] = value
+        
+        records.append(local_dict)
+                
+    df = pd.DataFrame.from_records(records)
+    
+    func = getattr(df,aggr_type)
+    branch_attr_dict = func(skipna=True,numeric_only=True).to_dict()
+    
+    if add_aggr_suffix:
+        branch_attr_dict = {f"{k}_{aggr_type}":v 
+                                for k,v in branch_attr_dict.items()}
+    return branch_attr_dict 
+
+def limb_branch_avg_features(
+    limb,
+    branches,
+    features=None,
+    default_value = None,
+    **kwargs
+):
+    if features is None:
+        features = [
+            au.axon_width,
+        ]
+    
+    return limb_branches_aggr_features(
+        limb,
+        branches,
+        features=features,
+        aggr_type = "mean",
+        default_value = default_value,
+        **kwargs
+    ) 
+    
+def limb_branch_sum_features(
+    limb,
+    branches,
+    features=None,
+    default_value = None,
+    **kwargs
+):
+    
+    if features is None:
+        features = [
+            "area",
+            "mesh_volume",
+            'n_spines',
+            'n_synapses',
+            'n_synapses_head',
+            'n_synapses_neck',
+            'n_synapses_no_head',
+            'n_synapses_post',
+            'n_synapses_pre',
+            'n_synapses_shaft', 
+            'n_synapses_spine',
+            "skeletal_length",
+            'total_spine_volume',
+            #bu.width_min,
+            #bu.width_max,
+            
+        ]
+    
+    return limb_branches_aggr_features(
+        limb,
+        branches,
+        features=features,
+        aggr_type = "sum",
+        default_value = default_value,
+        **kwargs
+    ) 
+    
+def limb_branch_avg_and_sum_features(
+    limb,
+    branches,
+    add_aggr_suffix = True,
+    **kwargs
+):
+    avg_dict = limb_branch_avg_features(
+        limb,
+        branches,
+        add_aggr_suffix=add_aggr_suffix,
+        **kwargs
+    )
+    
+    sum_dict = limb_branch_sum_features(
+        limb,
+        branches,
+        add_aggr_suffix=add_aggr_suffix,
+        **kwargs
+    )
+    
+    return dict(**avg_dict,**sum_dict)
+
+def parent_node_features(
+    limb,
+    branch_idx,
+    default_value = None,
+    add_parent_prefix = True,
+    ):
+    """
+    Purpose
+    -------
+    
+    Generate a an attribute dictionary of attributes for a node
+    that serves as the parent of a list of downstream nodes
+    
+    Pseudocode
+    ----------
+    1. Compute the 
+    """
+    from . import limb_utils as lu
+    
+    branch = limb[branch_idx]
+    def get_branch_attr(branch,feat):
+        try:
+            return getattr(branch,feat)
+        except:
+            return default_value
+    
+    def get_limb_branch_attr(limb_obj,branch_idx,func):
+        try:
+            return func(limb_obj,branch_idx)
+        except:
+            return None
+            
+    branch_attr = [
+        "width_downstream",
+        "width_upstream",
+        'min_dist_synapses_pre_upstream',
+         'min_dist_synapses_post_upstream',
+         'min_dist_synapses_pre_downstream',
+         'min_dist_synapses_post_downstream',
+        "max_skeleton_endpoint_dist",
+    ]
+    branch_dict = {k:get_branch_attr(branch,k) 
+                   for k in branch_attr}
+    
+    standard_branch_dict = nst.limb_branch_avg_and_sum_features(
+        limb,[branch_idx],add_aggr_suffix = False)
+    
+    branch_dict.update(standard_branch_dict)
+    
+    limb_branch_funcs = [
+        nst.distance_from_soma,
+        
+        lu.siblings_skeletal_angle_max,
+        lu.siblings_skeletal_angle_min,
+        lu.children_skeletal_angle_max,
+        lu.children_skeletal_angle_min,
+        lu.sibling_angle_smooth_max,
+        lu.sibling_angle_smooth_min,
+        lu.sibling_angle_smooth_extra_offset_max,
+        lu.sibling_angle_smooth_extra_offset_min,
+        lu.downstream_endnode_skeletal_distance_from_soma,
+    ]
+    
+    limb_dict = {k.__name__:get_limb_branch_attr(limb,branch_idx,k) 
+                    for k in limb_branch_funcs}
+    
+    branch_dict.update(limb_dict)
+    
+    if add_parent_prefix:
+        branch_dict  = {f"parent_{k}":v 
+                            for k,v in branch_dict.items()}
+    return branch_dict
+
+def parent_and_downstream_branches_feature_dict(
+    limb,
+    parent_idx,
+    branches,
+):
+    if len(branches) > 0:
+        downstream_attr_dict = nst.limb_branch_avg_and_sum_features(
+            limb,
+            branches)
+        downstream_attr_dict = {f"downstream_{k}":v for k,v in downstream_attr_dict.items()}
+    else:
+        downstream_attr_dict = {}
+        
+    if parent_idx is not None:
+        parent_dict = nst.parent_node_features(
+            limb,
+            branch_idx = parent_idx,
+            default_value = None,)
+    else:
+        parent_dict = {}
+    
+    total_dict = dict(**downstream_attr_dict,**parent_dict)
+    return total_dict
+
 
 # ----------------- Parameters ------------------------
 
@@ -4166,11 +4403,7 @@ from . import neuron_searching as ns
 from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
 from . import synapse_utils as syu
-from . import (
-    branch_utils as bu,
-    limb_utils as lu,
-    neuron_searching as ns,
-)
+
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk
