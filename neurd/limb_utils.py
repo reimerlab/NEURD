@@ -75,6 +75,22 @@ def parent_skeletal_angle_extra_offset(
         default_value = default_value,
         skeletal_angle_attr = "skeleton_vector_[dir]_extra_offset",
         **kwargs)
+    
+def parent_skeletal_angle_smooth(limb_obj,branch_idx,default_value=0,):
+    return lu.parent_skeletal_angle(
+        limb_obj,
+        branch_idx,
+       default_value=default_value,
+       skeleton_attribute="skeleton_smooth",
+    )
+    
+def parent_skeletal_angle_smooth_extra_offset(limb_obj,branch_idx,default_value=0,):
+    return lu.parent_skeletal_angle_extra_offset(
+        limb_obj,
+        branch_idx,
+       default_value=default_value,
+       skeleton_attribute="skeleton_smooth",
+    )
 
 def relation_skeletal_angle(
     limb_obj,
@@ -537,7 +553,129 @@ def upstream_mesh(limb,branches,plot = False):
         )
     return upstream_mesh
 
+def sibling_angle_smooth_extrema(
+    limb_obj,
+    branch_idx,
+    extrema = "max",
+    extra_offset = False,
+    suppress_errors = True,
+    default_value = None,
+    verbose=False,
+    ):
+    
+    siblings = nru.sibling_nodes(limb_obj,branch_idx)
 
+    if verbose:
+        print(f"siblings = {siblings}")
+    values = [
+        lu.sibling_angle_smooth(
+        limb_obj,
+        branch_idx,
+        sib,
+        extra_offset = extra_offset,
+        suppress_errors = suppress_errors,
+        default_value = default_value,
+        verbose=verbose,
+        ) for sib in siblings
+    ]
+
+    values = [k for k in values if k != default_value]
+    if verbose:
+        print(f"values = {values}")
+        
+    if len(values) == 0:
+        return default_value
+    else:
+        extrema_value = getattr(np,extrema)(values)
+        return extrema_value
+
+
+def sibling_angle_smooth_max(
+    limb_obj,
+    branch_idx,
+    extra_offset = False,
+    suppress_errors = True,
+    default_value = None,
+    verbose=False,
+    ):
+    return sibling_angle_smooth_extrema(
+        limb_obj,
+        branch_idx,
+        extrema = "max",
+        extra_offset = extra_offset,
+        suppress_errors = suppress_errors,
+        default_value = default_value,
+        verbose=verbose,
+    )
+def sibling_angle_smooth_min(
+    limb_obj,
+    branch_idx,
+    extra_offset = False,
+    suppress_errors = True,
+    default_value = None,
+    verbose=False,
+    ):
+    return sibling_angle_smooth_extrema(
+        limb_obj,
+        branch_idx,
+        extrema = "min",
+        extra_offset = extra_offset,
+        suppress_errors = suppress_errors,
+        default_value = default_value,
+        verbose=verbose,
+    )
+
+def sibling_angle_smooth_extra_offset_max(
+    limb_obj,
+    branch_idx,
+    extra_offset = False,
+    default_value = None,
+    suppress_errors = True,
+    verbose=False,
+    ):
+    return sibling_angle_smooth_extrema(
+        limb_obj,
+        branch_idx,
+        extrema = "max",
+        extra_offset = True,
+        suppress_errors = suppress_errors,
+        default_value = default_value,
+        verbose=verbose,
+    )
+def sibling_angle_smooth_extra_offset_min(
+    limb_obj,
+    branch_idx,
+    extra_offset = False,
+    suppress_errors = True,
+    default_value = None,
+    verbose=False,
+    ):
+    return sibling_angle_smooth_extrema(
+        limb_obj,
+        branch_idx,
+        extrema = "min",
+        extra_offset = True,
+        suppress_errors = suppress_errors,
+        default_value = default_value,
+        verbose=verbose,
+    )
+
+def n_children_with_skip_distance(
+    limb_obj,
+    branch_idx,
+    skip_distance = 9_000,
+    verbose = False):
+    dnodes = cnu.downstream_nodes_with_skip_distance(
+            limb_obj,
+            branch_idx = branch_idx,
+            skip_distance = skip_distance,
+            return_skipped=False)
+    if verbose:
+        print(f"dnodes with skip_distance ({skip_distance}) = {dnodes}")
+    return len(dnodes)
+
+def n_children(limb_obj,branch_idx):
+    return len(nru.children_nodes(limb_obj,branch_idx))
 
 
 #--- from neurd_packages ---
@@ -546,6 +684,7 @@ from . import neuron_searching as ns
 from . import neuron_statistics as nst
 from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
+from . import concept_network_utils as cnu
 
 #--- from datasci_tools ---
 from datasci_tools import networkx_utils as xu

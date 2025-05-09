@@ -996,10 +996,18 @@ class FunctionDownstreamErrorDetector(DownstreamErrorDetector):
 from collections import UserDict 
 class ErrorLimbBranch(UserDict):
     def __init__(self,limb_branch_dict=None,description=None):
-        
+        """
+        Example 1
+        ---------
+        limb_branch = dict(L0  =[1,3,4,4,5],L2 = [0,0,4,5],L3 = [14,15])
+        test = ged.ErrorLimbBranch(limb_branch)
+        test.limb_branch_dict
+        """
         if isinstance(self,type(limb_branch_dict)):
             self.data = dict(limb_branch_dict.data)
+            self.ensure_unique_branches()
             return
+        
         self.data = {}
         
         if limb_branch_dict is None:
@@ -1007,6 +1015,8 @@ class ErrorLimbBranch(UserDict):
             
         for limb_name,branches in limb_branch_dict.items():
             self.data[limb_name] = [NodeError(b,description) for b in branches]
+            
+        self.ensure_unique_branches()
             
 
     @staticmethod
@@ -1018,6 +1028,10 @@ class ErrorLimbBranch(UserDict):
                 unique_branches.append(e)
                 seen.add(e)
         return unique_branches
+    
+    def ensure_unique_branches(self):
+        for limb_name,branches in self.data.items():
+            self.data[limb_name] = self.unique_branch_list(self.data[limb_name])
         
     def add_limb(self,limb_idx,branch_list,filter_to_unique=True):
         if filter_to_unique:

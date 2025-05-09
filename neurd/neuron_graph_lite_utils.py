@@ -207,6 +207,7 @@ def G_with_attrs_from_neuron_obj(
     plot_G  = False,
     neuron_obj_attributes_dict = None,
     recalculate_soma_volumes = True,
+    add_comprehensive_feature_set = True,
     ):
     """
     To convert a neuron object to 
@@ -234,6 +235,7 @@ def G_with_attrs_from_neuron_obj(
         print_flag = verbose,
         with_data_in_nodes = False,
     )
+    
     
     update_dict = dict()
     
@@ -292,6 +294,20 @@ def G_with_attrs_from_neuron_obj(
     if neuron_obj_attributes_dict is not None:
         for k,v in neuron_obj_attributes_dict.items():
             xu.set_graph_attr(G_total,k,v)
+            
+    
+    if add_comprehensive_feature_set:
+        
+        attr_dict = nst.limb_node_stats_dict(neuron_obj)
+        
+        for node, attrs in attr_dict.items():
+            if node in G_total:
+                # update existing node-attribute dict
+                G_total.nodes[node].update(attrs)
+            else:
+                raise Exception(f"Node {node} present in comprehensive_feature_dict but not already present in graph ")
+            
+ 
     
     return G_total
 

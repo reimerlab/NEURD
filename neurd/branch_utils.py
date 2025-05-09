@@ -1552,6 +1552,24 @@ def vector_points_downstream(
         **kwargs
     )
     
+def internal_bend_dict_func(branch,verbose = False):
+    internal_bend_dict = bend_max_on_branch_skeleton(
+                branch,
+                skeleton_attribute = "skeleton_smooth",
+                window_size = 100,
+                ignore_large_jump_idx = False,
+                large_jump_window=35*3,
+                verbose = verbose,
+                plot = False,
+                return_index_perc=True,
+                return_coordinate=False,
+                return_dict=True,
+    ) 
+    
+    
+    internal_bend_dict = {f"internal_bend_{k}":v for k,v in internal_bend_dict.items()}
+    return internal_bend_dict
+    
 
 # -------------------------------------------------------
 

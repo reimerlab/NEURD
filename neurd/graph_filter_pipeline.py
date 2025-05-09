@@ -9,6 +9,7 @@ from neurd import (
     graph_error_detector_axon as ax,
 )
 from neurd.neuron import Neuron
+import time
 
 
 class LimbBranch:
@@ -30,6 +31,7 @@ class LimbBranch:
         
     ):
         self.error_limb_branch = ged.ErrorLimbBranch(error_limb_branch)
+        
         if neuron_limb_branch is None:
             neuron_limb_branch = nru.neuron_limb_branch_dict(neuron_obj)
         self.neuron_limb_branch = neuron_limb_branch
@@ -466,8 +468,7 @@ class NeuronFilter:
         results.time = time.time() - global_time
         
         return cleaned,results
-    
-import time
+
 ## -- Orchestration class --
 class FilterPipeline:
     
@@ -593,11 +594,20 @@ inh_filters_v8 = [
     ax.ExcAxonWidthJumpErrorDetector(),    
 ]
 
+def filters_from_cell_type(cell_type):
+    if cell_type == "inhibitory":
+        return inh_filters_v8
+    elif cell_type == 'excitatory':
+        return exc_filters_v8
+    else:
+        raise ValueError("cell type requested is neiether inhibitory nor excitatory")
+
 def proofread_neuron_full_refactored(
     neuron_obj,
     cell_type,
     verbose = False,
     verbose_time = False,
+    store_ml_training_in_limb_branch_dict_to_cancel = True,
     **kwargs):
     
     # Step 1: Pick the right filters
@@ -628,8 +638,66 @@ def proofread_neuron_full_refactored(
     # Step 3: Generate the filtering info
     filtering_info = FilterPipeline.filter_results_dict_to_old_filtering_info(results)
     
+    if store_ml_training_in_limb_branch_dict_to_cancel:
+        ml_train = ml_training_data_from_neuron_obj_and_cell_type(
+            neuron_obj,
+            cell_type=cell_type)
+        filtering_info["limb_branch_dict_to_cancel"] = ml_train
+    
     return cleaned_neuron,filtering_info
 
+# -- For exporting error rules
+def convert_limb_branch_dict_to_node_names(limb_branch_dict):
+    node_names = []
+    for limb,branches in limb_branch_dict.items():
+        node_names += [f"{limb}_{k}" for k in branches]
+    return node_names
+
+def ml_training_data_from_neuron_obj_and_cell_type(
+    neuron_obj,
+    cell_type,
+    verbose=False,
+    return_node_names = True,
+    **kwargs
+    ):
+
+    cell_type_detectors = filters_from_cell_type(
+        cell_type=cell_type
+    )
+    
+    if verbose:  
+        print(f"cell_type_detectors = ")
+        for k in cell_type_detectors:
+            print(k)
+    
+    results = {}
+    for det in cell_type_detectors:
+        st = time.time()
+        name = det.__class__.__name__
+        if verbose:
+            print(f"\n--- Working on filter {name} ---")
+    
+        filter = NeuronFilter(det)
+    
+        error_results = filter.detect(neuron_obj)
+        error_limb_branch = error_results.limb_branch_dict
+    
+        results[name] = error_limb_branch
+        if verbose:
+            print(f"error_limb_branch = {error_limb_branch}")
+            print(f"Total time = {time.time() - st:.2f}")
+    results_node_names = {k:convert_limb_branch_dict_to_node_names(v) for k,v in results.items()}
+    if verbose:
+        print(f"final classification: {results_node_names}")
+
+    key = dict(segment_id=neuron_obj.segment_id,cell_type=cell_type)
+    results_node_names.update(key)
+    results.update(key)
+
+    if return_node_names:
+        return results_node_names
+    else:
+        return results
 
 from . import (
     neuron_utils as nru,

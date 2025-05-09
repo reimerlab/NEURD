@@ -3875,6 +3875,218 @@ def deepest_y_coordinate_on_limb_branches(
 
     return deepest_y
 
+
+# -- 5/9 Addition for computing more statistics
+
+
+def limb_node_query_dict(neuron_obj):
+    search_features = [
+        ns.n_synapses_pre,
+        ns.synapse_pre_perc,
+        ns.axon_width,
+        ns.n_spines,
+        ns.n_synapses_post_spine,
+        ns.skeletal_length,
+        ns.closest_mesh_skeleton_dist,
+        ns.area,
+        
+        ns.synapse_pre_perc_downstream,
+        ns.n_synapses_downstream,
+        ns.n_synapses_post_downstream,
+        
+        ns.width_new,ns.skeletal_length,
+        ns.n_synapses_post_downstream,
+        ns.closest_mesh_skeleton_dist,
+        ns.skeletal_length_downstream,
+        ns.area,
+        
+        ns.is_axon_in_downstream_branches,
+        
+        # -- myelination --
+        ns.synapse_density_post,
+        ns.axon_width,
+        #ns.is_axon_like,
+        ns.is_axon,
+        ns.distance_from_soma,
+        ns.skeletal_length_downstream,
+        syu.downstream_dist_min_over_syn,
+    ]
+    
+    feature_strs = [
+        "ray_trace_perc","skeletal_length","n_downstream_nodes",
+        "n_synapses_post","n_synapses_pre","n_faces_branch",
+        "synapse_closer_to_downstream_endpoint_than_upstream",
+        "downstream_upstream_diff_of_most_downstream_syn",
+        "axon_width","skeletal_length",
+        "n_downstream_nodes",
+        "ray_trace_perc",
+        "parent_width",
+        "total_upstream_skeletal_length",
+    ]
+    
+    ns_features_from_str = [getattr(ns,k) for k in feature_strs]
+    
+    search_features = list(set(search_features + ns_features_from_str))
+    
+    search_df = ns.generate_neuron_dataframe(
+        neuron_obj,
+        functions_list=search_features
+    )
+    
+    def df_to_dict_iter(df):
+        result = {}
+        for _, row in df.iterrows():
+            key = f"{row['limb']}_{row['node']}"
+            # build a sub-dict of all other columns
+            value = {col: row[col] for col in df.columns if col not in ('limb', 'node')}
+            result[key] = value
+        return result
+    
+    # usage
+    limb_node_dict = df_to_dict_iter(search_df)
+    return limb_node_dict
+
+def branch_computed_dict(
+    branch,
+    default_value = None,
+    catch_errors = False,):
+
+    branch_dict = {}
+        
+    branch_attributes = [
+        "width_downstream_extra_offset",
+        "width_upstream_extra_offset",
+        "max_skeleton_endpoint_dist",
+        "skeleton_smooth_vector_downstream_extra_offset",
+        "skeleton_smooth_vector_upstream_extra_offset",
+        "skeleton_smooth_vector_downstream",
+        "skeleton_smooth_vector_upstream",
+    ]
+
+    for b_att in branch_attributes:
+        try:
+            branch_dict[b_att] = getattr(branch,b_att)
+        except:
+            if not catch_errors:
+                raise e
+            branch_dict[b_att] = default_value
+    
+    branch_functions = [
+        bu.width_min,
+        bu.width_max,
+    ]
+
+    for b_func in branch_functions:
+        try:
+            branch_dict[b_func.__name__] = b_func(branch)
+        except Exception as e:
+            if not catch_errors:
+                raise e
+            branch_dict[b_func.__name__] = default_value
+        
+
+    branch_dict_functions = [
+        bu.internal_bend_dict_func,
+    ]
+
+    for b_dict_func in branch_dict_functions:
+        try:
+            branch_dict.update(b_dict_func(branch))
+        except:
+            if not catch_errors:
+                raise e
+            pass
+
+    return branch_dict
+
+def branch_limb_computed_dict(
+    limb,
+    branch_idx,
+    default_value = None,
+    catch_errors = False,):
+
+    branch_dict = {}
+        
+    branch_functions = [
+        lu.downstream_endnode_skeletal_distance_from_soma,
+        lu.sibling_angle_smooth_max,
+        lu.sibling_angle_smooth_min,
+        lu.sibling_angle_smooth_extra_offset_max,
+        lu.sibling_angle_smooth_extra_offset_min,
+        lu.n_children_with_skip_distance,
+        lu.n_children,
+        lu.parent_skeletal_angle_smooth,
+        lu.parent_skeletal_angle_smooth_extra_offset,
+    ]
+
+
+    for b_func in branch_functions:
+        try:
+            branch_dict[b_func.__name__] = b_func(limb,branch_idx)
+        except Exception as e:
+            if not catch_errors:
+                raise e
+            branch_dict[b_func.__name__] = default_value
+    return branch_dict
+
+
+def limb_node_stats_dict(
+    neuron_obj,
+    default_value = None,
+    catch_errors = True,
+    ):
+    """
+    Purpose
+    -------
+    To generate a dictionary of node names to new features using
+    neuron_searching.generate_neuron_dataframe, branch_attributes, branch function, limb functions
+    
+    Pseudocode
+    ----------
+    1. Run the generate_neuron_dataframe function for the entire neuron
+    2. Change the dataframe into a limb_node_dict
+    
+    3. Iterate through the limbs and branches
+        - create a local dict
+        a. iterate through the branch attributes and export those to local dict
+        b. iterate through branch functions and add to local dict
+        c. iterate through branch dict functions
+        d. iterate through limb functions
+        e. update the limb_node_dict with local func
+    """
+    
+    limb_node_dict = limb_node_query_dict(neuron_obj)
+    limb_node_dict
+    
+    for limb_name in neuron_obj.get_limb_node_names():
+        limb = neuron_obj[limb_name]
+        for branch_idx in limb.get_branch_names():
+            
+            local_dict = dict()
+            branch = limb[branch_idx]
+    
+            # computes the branch dict
+            branch_dict = branch_computed_dict(
+                branch,
+                default_value = default_value,
+                catch_errors=catch_errors,
+            )  
+    
+            # compute limb assisted branch attributes
+            limb_dict = branch_limb_computed_dict(
+                limb,
+                branch_idx,
+                default_value = default_value,
+                catch_errors=catch_errors,
+            )  
+    
+            # update all attributes in dict
+            name = f"{limb_name}_{branch_idx}"
+            limb_node_dict[name].update(branch_dict)
+            limb_node_dict[name].update(limb_dict)
+    
+    return limb_node_dict
+
 # ----------------- Parameters ------------------------
 
 
@@ -3954,6 +4166,11 @@ from . import neuron_searching as ns
 from . import neuron_utils as nru
 from . import neuron_visualizations as nviz
 from . import synapse_utils as syu
+from . import (
+    branch_utils as bu,
+    limb_utils as lu,
+    neuron_searching as ns,
+)
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk
