@@ -41,7 +41,10 @@ class LimbBranch:
         self.limb_branch_dict = self.lb_dict(self.error_limb_branch)
         
     def __len__(self):
-        return len(self.error_limb_branch)
+        if self.error_limb_branch is None:
+            return 0
+        return len([k for k,v in self.error_limb_branch.items()
+                    if len(v)>0])
     
     @classmethod
     def from_neuron_and_error_limb_branch(

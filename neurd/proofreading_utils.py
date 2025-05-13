@@ -7067,7 +7067,7 @@ def proofread_neuron_full(
 
     return_filtering_info = True,
     verbose = False,
-    debug_time = False,
+    debug_time = True,
     return_red_blue_splits = True,
     return_split_locations = True,
     filter_list=None,
