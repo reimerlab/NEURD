@@ -6336,11 +6336,13 @@ def limb_errors_to_cancel_to_red_blue_group(
                                       )
             
             if add_extensive_parent_downstream_features:
+                #print(f"#### ---- Need to fix so computed statistic over all downstream branches")
                 curr_local_red_blue.update(
                     nst.parent_and_downstream_branches_feature_dict(
                         curr_limb,
                         parent_idx = parent_branch,
-                        branches = error_branches,
+                        branches = e_branches_for_syns,
+                        #branches = error_branches,
                     )
                 )
             if return_error_skeleton_points:
@@ -7072,6 +7074,7 @@ def proofread_neuron_full(
     
     add_spine_distances = False,
     original_mesh = None,
+    use_refactored_proofread_neuron_full=False
     ):
     """
     Purpose: To proofread the neuron after it has already been:
@@ -7178,7 +7181,10 @@ def proofread_neuron_full(
     st = time.time()
     
     high_fidelity_axon_on_excitatory = False
-    o_neuron,filtering_info = pru.proofread_neuron_class_predetermined(neuron_obj=neuron_obj,
+    
+    if not use_refactored_proofread_neuron_full:
+        o_neuron,filtering_info = pru.proofread_neuron_class_predetermined(
+            neuron_obj=neuron_obj,
             inh_exc_class = cell_type,
             plot_limb_branch_filter_with_disconnect_effect = plot_limb_branch_filter_with_disconnect_effect,
             verbose = proofread_verbose,
@@ -7188,7 +7194,18 @@ def proofread_neuron_full(
             filter_list=filter_list,
             return_red_blue_splits=return_red_blue_splits,
             return_split_locations = return_split_locations 
-                                                                      )
+                                                                    )
+    else:
+        from . import graph_filter_pipeline as pipe
+        
+        o_neuron,filtering_info = pipe.proofread_neuron_full_refactored(
+            neuron_obj,
+            cell_type=cell_type,
+            verbose = True,
+            verbose_time = True,
+        )
+    
+    
     
     if debug_time:
         print(f"\nTime for proofreading rules: {time.time() - st}")
@@ -8018,6 +8035,7 @@ from . import spine_utils as spu
 from . import synapse_utils as syu
 from . import cell_type_utils as ctu
 from . import neuron_statistics as nst
+
 
 #--- from mesh_tools ---
 from mesh_tools import skeleton_utils as sk
