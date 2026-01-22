@@ -23,6 +23,9 @@ from . import (
     concept_network_utils as cnu,
     limb_utils as lu,
     branch_utils as bu,
+    error_detection as ed,
+    graph_error_detector as ged,
+    
     #neuron_utils as nru,
 )
 
@@ -345,7 +348,7 @@ class LimbGraphScreenerConfig:
         Nodes returned by `au.short_thick_branches_limb_branch_dict()`.
         Only populated if the `filter_short_thick_endnodes` flag is set.
     too_close_to_soma_nodes: list[int]
-        Nodes returned by the query for nodes with a pathlength of `min_distance_from_soma_mesh` of soma
+        Nodes returned by the query for nodes with a path length of `min_distance_from_soma_mesh` of soma
     spine_nodes: list[int]
         Nodes return by query for endnodes with skeletal length less than `min_skeletal_length_endpoints`
     too_small_skeleton: list[int]
@@ -503,14 +506,42 @@ class NeuronGraphScreener(UserDict):
         debug_branch = False,
         
     ):
+        """
+        Purpose
+        -------
+        Stores all the skipping,erroring results for a neuron of the prescreening
+        before any filters are run (aka deciding where the filters on entire neuron should even run on)
+        
+        Main Use: To convert a neuron object into an object that stores for every limb what branches should be skipped (based on the filtering config)
+        and what are the downstream branches for all branches (for the filter to later run on)
+
+        Parameters
+        ----------
+        neuron_obj : _type_
+            _description_
+        neuron_config : _type_, optional
+            _description_, by default None
+        limb_config : _type_, optional
+            _description_, by default None
+        branch_config : _type_, optional
+            _description_, by default None
+        verbose_limb : bool, optional
+            _description_, by default False
+        verbose_branch : bool, optional
+            _description_, by default False
+        debug_branch : bool, optional
+            _description_, by default False
+        """
         if neuron_config is None:
             neuron_config = NeuronGraphScreenerConfig()
         self.neuron_config = neuron_config
         self.limb_config = limb_config
         self.branch_config = branch_config
         
+        
         config = self.neuron_config
-
+        
+        # Determining the maximum sized limb_branch_dict to search over this neuron
         if config.limb_branch_dict_func is None:
             self.limb_branch_dict = neuron_obj.limb_branch_dict
         elif isinstance(config.limb_branch_dict_func,str):
@@ -518,6 +549,7 @@ class NeuronGraphScreener(UserDict):
         else:
             self.limb_branch_dict = config.limb_branch_dict_func(neuron_obj)
 
+        # using the global neuron config for skipping info on the entire neuron that will eventually be unpacked into limb_screener
         # -- find all the neuron wide limb branches to use as filters --
         if config.filter_short_thick_endnodes:
             short_thick_endnodes_to_remove_limb_branch = au.short_thick_branches_limb_branch_dict(
@@ -573,8 +605,10 @@ class NeuronGraphScreener(UserDict):
         else:
             limb_config_default = limb_config
             
+        
         self.data = {}
         for limb_idx in self.limb_branch_dict:
+            # -- unbacks all the skipping information from the neuron_config and stores in the limb_config
             limb_config = deepcopy(limb_config_default)
                 
             if verbose_limb:
@@ -585,6 +619,7 @@ class NeuronGraphScreener(UserDict):
             limb_config.spine_nodes = self.axon_spines_limb_branch.get(limb_idx,None)
             limb_config.too_small_skeleton = self.too_small_skeleton_limb_branch.get(limb_idx,None)
             
+            # -- 
             G = LimbGraphScreener(
                 limb = neuron_obj[limb_idx],
                 config = limb_config,
@@ -681,6 +716,14 @@ class LimbGraphScreener(UserDict):
         debug_branch = False,
         **kwargs):
         """
+        Purpose
+        -------
+        Builds out the self.branch_map with branch objects that indicate for each branch on the limb
+        if the branch:
+        a. should be skipped 
+        b. if not skipped, what are the relevant downstream nodes
+        """
+        """
         1. Feature: Determine branches_to_skip:
             a. add all short_thick_endpoints (if requested)
                 param: 
@@ -702,7 +745,9 @@ class LimbGraphScreener(UserDict):
                 param:
                     min_upstream_skeletal_distance
         """
-        # Start branch iteration
+        # Iterates over all the branches of the limb and creates an object for each that informs if branch:
+        # a. is skipped (and for what reason)
+        # b. what downstream branches should be used in the filter
         for branch_idx in self.limb.get_branch_names():
             self.branch_map[branch_idx] = self.preprocess_branch(
                 branch_idx,
@@ -717,6 +762,24 @@ class LimbGraphScreener(UserDict):
         debug = False,
         **kwargs
     ):
+        """
+        determines whether a specific branch should be skipped or not
+        and if not skipped then what the downstream branches should be when running the filter
+
+        Parameters
+        ----------
+        branch_idx : _type_
+            _description_
+        verbose : bool, optional
+            _description_, by default False
+        debug : bool, optional
+            _description_, by default False
+
+        Returns
+        -------
+        _type_
+            _description_
+        """
         
         config = self.branch_config
         config = deepcopy(config)
@@ -995,6 +1058,17 @@ class FunctionDownstreamErrorDetector(DownstreamErrorDetector):
 
 from collections import UserDict 
 class ErrorLimbBranch(UserDict):
+    """
+    Purpose
+    -------
+    A datastructure that stores the limb branches information
+    concerning errors on a neuron (initialized from a limb_branch dictionary)
+
+    Parameters
+    ----------
+    UserDict : _type_
+        _description_
+    """
     def __init__(self,limb_branch_dict=None,description=None):
         """
         Example 1
@@ -1083,6 +1157,8 @@ class NeuronGraphErrorDetector:
     Combine a GraphScreener and a DownstreamErrorDetector
     to determine a list of all error nodes on a neuron object
     and return that list as a limb branch dict
+    
+    Ultimately generates a ErrorLimbBranch as the output of the call function
     
     Attributes:
     ---------
@@ -1278,5 +1354,12 @@ class NeuronGraphErrorDetector:
         return eobj
     
     error_limb_branch = __call__
+  
+        
+from . import (
+    graph_error_detector_dendrite as gedd,
+    neuron_visualizations as nviz,
+    neuron_utils as nru,
+)
     
 #from . import graph_filters_refactored as gf

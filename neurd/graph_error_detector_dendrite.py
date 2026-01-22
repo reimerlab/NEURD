@@ -108,6 +108,8 @@ from . import (
     graph_error_detector as ged,
     axon_utils as au,
     neuron_utils as nru,
+    proofreading_utils as pru,
+    error_detection as ed
 )
 import numpy as np
 from dataclasses import dataclass, field
@@ -878,7 +880,50 @@ class DendriteInternalBendErrorDetector(ged.NeuronGraphErrorDetector):
             )
             
         ))
-
+        
+  
+    
+# --- original m65 microns filters --
+class ExcDendriteWidthJumpErrorDetector(ged.LimbBranchErrorDetector):
+    @dataclass
+    class Config:
+        name: str = "exc_dendrite_width_jump"
+    
+    def error_limb_branch_dict(self,neuron_obj,**kwargs):
+        return ed.width_jump_up_dendrite(
+            neuron_obj,**kwargs
+        )
+        
+class ExcDendriteDoubleBackErrorDetector(ged.LimbBranchErrorDetector):
+    @dataclass
+    class Config:
+        name: str = "exc_dendrite_double_back"
+    
+    def error_limb_branch_dict(self,neuron_obj,**kwargs):
+        return ed.double_back_dendrite(
+            neuron_obj,**kwargs
+        )
+        
+class InhDendriteDoubleBackErrorDetector(ged.LimbBranchErrorDetector):
+    @dataclass
+    class Config:
+        name: str = "inh_dendrite_double_back"
+    
+    def error_limb_branch_dict(
+        self,
+        neuron_obj,
+        double_back_threshold = None,
+        **kwargs):
+        
+        if double_back_threshold is None:
+            double_back_threshold = pru.double_back_threshold_inh_double_b_global
+        
+            
+        return ed.double_back_dendrite(
+            neuron_obj,
+            double_back_threshold=double_back_threshold,
+            **kwargs
+        )
     
 from . import (
     graph_error_detector_dendrite as gedd,

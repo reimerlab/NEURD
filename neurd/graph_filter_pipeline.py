@@ -57,6 +57,15 @@ class LimbBranch:
         
 
     def set_error_limb_branch_downstream(self,neuron_obj):
+        """
+        Will compute all the final limb branch that is removed after applying the cuts
+        at the specified error_limb_branch
+
+        Parameters
+        ----------
+        neuron_obj : _type_
+            _description_
+        """
         self._error_limb_branch_downstream = nru.limb_branch_after_limb_branch_removal(
                 neuron_obj = neuron_obj,
                 limb_branch_dict = self.lb_dict(self.error_limb_branch),
@@ -84,6 +93,10 @@ class LimbBranch:
 @dataclass
 class RemovedStats:
     """
+    Dataclass that will hold all of the skeletal length and area of the
+    downstream limb branch. Class function can generate object from neuron obj
+    and error limb branch
+    
     Example Generation
     ------------------
     stats_obj = FilterStats.from_neuron_and_limb_branch(
@@ -139,6 +152,13 @@ class RemovedStats:
 
 @dataclass
 class RedBlueSuggestions:
+    """
+    Datastructure to hold the red blue suggestions output.
+    Has a class function that allows you to calculate it from the
+    neuron object and the downstream limb branch
+
+    The proofreading global functions have _red_blue before them
+    """
     @dataclass
     class Config:
         plot_error_graph_before_create_edges: bool = False
@@ -212,6 +232,16 @@ class RedBlueSuggestions:
     
 @dataclass
 class SplitSuggestions:
+    """
+    Data structure that holds the split suggestion points before and after downstream.
+    Has a class method that generates the split suggestion coordinates using the limb_utils
+    function given the neuron object and limb branch errors
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
     split_locations: Any = None
     split_locations_before_downstream: Any = None
 
@@ -277,6 +307,15 @@ class SplitSuggestions:
 
 @dataclass
 class FilterResults:
+    """
+    Container for holding all the metadata we want (skeletal length/area, split points, red blue points) of a certain filter given.
+    Cotains class method for generating container from the neuron object and error limb branch
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
     name: str
     time: float = None
     limb_branch: LimbBranch = None
@@ -319,10 +358,12 @@ class FilterResults:
         
 class NeuronFilter:
     """
+    Object that is initialized with an error detector that will then using the run function calculate the limb branch error from an error filter, compute the filter results and then clean the neuron accordingly, and return the new neuron object and results
+    
     Responsible for taking a detection method that identifies all error nodes and 
     1. Detect: Running the detedction
     2. Analyze: Generating all of the data products
-    3. Run: running the neuron cleaning
+    3. Clean: running the neuron cleaning
     - then returns results
 
     What configuratin do we need?
@@ -474,6 +515,12 @@ class NeuronFilter:
 
 ## -- Orchestration class --
 class FilterPipeline:
+    """
+    Object that is initialized with a set of filters and runs the filters one after the other
+    and stores the results.
+    
+    Can export the list of results in the same old format
+    """
     
     def __init__(self, filters,**kwargs):
         self.filters = [self.to_filter(k,**kwargs)
@@ -539,8 +586,11 @@ class FilterPipeline:
             inh_axon_low_degree = "low_degree_branching",
             exc_axon_width_jump = "width_jump_up_axon",
             dendrite_double_back = "double_back_dendrite",
+            exc_dendrite_double_back = "double_back_dendrite",
+            inh_dendrite_double_back = "double_back_dendrite",
             dendrite_cross_roads = "high_degree_branching_dendrite",
             dendrite_width_jump = "width_jump_up_dendrite",
+            exc_dendrite_width_jump = "width_jump_up_dendrite",
             dendrite_internal_bend = "dendrite_internal_bend",
         )
         
@@ -571,55 +621,104 @@ class FilterPipeline:
     
     
 # --- Fully refactored proofread_neuron_full --
-exc_filters_v8 = [
-    ax.AxonOnDendriteErrorDetector(),
-    ax.ExcAxonHighDegreeErrorDetector(),
-    ax.ExcAxonLowDegreeErrorDetector(),
+filters_for_datasets = dict(
+    h01_c2 = dict(
+        excitatory = [
+            ax.AxonOnDendriteErrorDetector(),
+            ax.ExcAxonHighDegreeErrorDetector(),
+            ax.ExcAxonLowDegreeErrorDetector(),
+            
+            dend.DendriteCrossRoadsErrorDetector(),
+            dend.DendriteDoubleBackErrorDetector(),
+            dend.DendriteWidthJumpErrorDetector(),
+            dend.DendriteInternalBendErrorDetector(),
+
+            ax.ExcAxonWidthJumpErrorDetector(),    
+            
+        ],
+        inhibitory = [
+            ax.AxonOnDendriteErrorDetector(),
+            ax.InhAxonHighDegreeErrorDetector(),
+            ax.InhAxonLowDegreeErrorDetector(),
+            
+            dend.DendriteCrossRoadsErrorDetector(),
+            dend.DendriteDoubleBackErrorDetector(),
+            dend.DendriteWidthJumpErrorDetector(),
+            dend.DendriteInternalBendErrorDetector(),
+
+            ax.ExcAxonWidthJumpErrorDetector(), 
+        ]
+    ),
+    microns = dict(
+        excitatory = [
+            ax.AxonOnDendriteErrorDetector(),
+            ax.ExcAxonHighDegreeErrorDetector(),
+            ax.ExcAxonLowDegreeErrorDetector(),
+            
+            dend.ExcDendriteWidthJumpErrorDetector(),
+            ax.ExcAxonWidthJumpErrorDetector(),  
+            dend.ExcDendriteDoubleBackErrorDetector(),  
+        ],
+        inhibitory = [
+            ax.AxonOnDendriteErrorDetector(),
+            ax.ExcAxonHighDegreeErrorDetector(),
+            ax.ExcAxonLowDegreeErrorDetector(),
+            
+            dend.ExcDendriteWidthJumpErrorDetector(),
+            ax.ExcAxonWidthJumpErrorDetector(),  
+            dend.InhDendriteDoubleBackErrorDetector(),  
+        ]
+    )
+)
+# exc_filters_h01_c2 = [
     
-    dend.DendriteCrossRoadsErrorDetector(),
-    dend.DendriteDoubleBackErrorDetector(),
-    dend.DendriteWidthJumpErrorDetector(),
-    dend.DendriteInternalBendErrorDetector(),
+# ]
 
-    ax.ExcAxonWidthJumpErrorDetector(),    
-]
+# inh_filters_h01_c2 = [
+       
+# ]
 
-inh_filters_v8 = [
-    ax.AxonOnDendriteErrorDetector(),
-    ax.InhAxonHighDegreeErrorDetector(),
-    ax.InhAxonLowDegreeErrorDetector(),
+# exc_filters_microns = [
     
-    dend.DendriteCrossRoadsErrorDetector(),
-    dend.DendriteDoubleBackErrorDetector(),
-    dend.DendriteWidthJumpErrorDetector(),
-    dend.DendriteInternalBendErrorDetector(),
+# ]
 
-    ax.ExcAxonWidthJumpErrorDetector(),    
-]
+# inh_filters_microns = [
+    
+# ]
 
-def filters_from_cell_type(cell_type):
-    if cell_type == "inhibitory":
-        return inh_filters_v8
-    elif cell_type == 'excitatory':
-        return exc_filters_v8
+
+def filters_from_cell_type(cell_type,dataset = "h01_c2"):
+    if dataset in filters_for_datasets:
+        filter_dict = filters_for_datasets[dataset]
+        if cell_type in filter_dict:
+            return filter_dict[cell_type]
+        else:
+            raise ValueError(f"cell_type ({cell_type}) requested is neiether not in the predefined options in {list(filter_dict.keys())}")
     else:
-        raise ValueError("cell type requested is neiether inhibitory nor excitatory")
+        raise ValueError(f"dataset ({dataset}) requested is neiether not in the predefined options")
 
 def proofread_neuron_full_refactored(
     neuron_obj,
-    cell_type,
+    cell_type = None,
     verbose = False,
     verbose_time = False,
     store_ml_training_in_limb_branch_dict_to_cancel = True,
+    filters_dataset = "h01_c2",
+    filters = None,
     **kwargs):
     
     # Step 1: Pick the right filters
-    if cell_type == 'excitatory':
-        cell_type_filters = exc_filters_v8
-    elif cell_type == 'inhibitory':
-        cell_type_filters = inh_filters_v8
+    # cell_type_filters = 
+    # if cell_type == 'excitatory':
+    #     cell_type_filters = exc_filters_v8
+    # elif cell_type == 'inhibitory':
+    #     cell_type_filters = inh_filters_v8
+    # else:
+    #     raise ValueError(f"cell type was not excitatory nor inhibitory")
+    if filters is not None:
+        cell_type_filters = filters
     else:
-        raise ValueError(f"cell type was not excitatory nor inhibitory")
+        cell_type_filters = filters_from_cell_type(cell_type,dataset=filters_dataset)
     
     if verbose:
         print(f"Using the following filters for {cell_type} cell:")
@@ -644,7 +743,10 @@ def proofread_neuron_full_refactored(
     if store_ml_training_in_limb_branch_dict_to_cancel:
         ml_train = ml_training_data_from_neuron_obj_and_cell_type(
             neuron_obj,
-            cell_type=cell_type)
+            cell_type=cell_type,
+            filters=filters,
+            dataset=filters_dataset
+            )
         filtering_info["limb_branch_dict_to_cancel"] = ml_train
     
     return cleaned_neuron,filtering_info
@@ -658,15 +760,52 @@ def convert_limb_branch_dict_to_node_names(limb_branch_dict):
 
 def ml_training_data_from_neuron_obj_and_cell_type(
     neuron_obj,
-    cell_type,
+    cell_type=None,
+    filters_dataset = "h01_c2",
+    filters = None,
     verbose=False,
     return_node_names = True,
+    
     **kwargs
     ):
+    """
+    will run the cell type filters on the particular neuron object 
+    
+    For each filter will:
+    1. Turns each detector into a neuron filter
+    2. Runs the detect stage of the filter
+    3. Generates the error_limb branch
+    4. Adds to the results dictionary - filter name: list of error node names (ex: AxonOnDendriteErrorDetector:['L0_0',
+  'L0_1',])
+  
+    Final Output: dictionary with
+    - cell type
+    - segment id
+    - filter results
 
-    cell_type_detectors = filters_from_cell_type(
-        cell_type=cell_type
-    )
+    Parameters
+    ----------
+    neuron_obj : _type_
+        _description_
+    cell_type : _type_
+        _description_
+    verbose : bool, optional
+        _description_, by default False
+    return_node_names : bool, optional
+        _description_, by default True
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
+    if filters is not None:
+        cell_type_detectors = filters
+    else:
+        cell_type_detectors = filters_from_cell_type(
+            cell_type=cell_type,
+            dataset=filters_dataset
+        )
     
     if verbose:  
         print(f"cell_type_detectors = ")
@@ -693,7 +832,10 @@ def ml_training_data_from_neuron_obj_and_cell_type(
     if verbose:
         print(f"final classification: {results_node_names}")
 
-    key = dict(segment_id=neuron_obj.segment_id,cell_type=cell_type)
+    key = dict(
+        segment_id=neuron_obj.segment_id,
+        cell_type=cell_type
+    )
     results_node_names.update(key)
     results.update(key)
 

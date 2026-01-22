@@ -7074,7 +7074,8 @@ def proofread_neuron_full(
     
     add_spine_distances = False,
     original_mesh = None,
-    use_refactored_proofread_neuron_full=False
+    use_refactored_proofread_neuron_full=None,
+    filters_dataset = None,
     ):
     """
     Purpose: To proofread the neuron after it has already been:
@@ -7084,6 +7085,11 @@ def proofread_neuron_full(
     3) Synapses have been added (can be optionally performed)
     
     """
+    if use_refactored_proofread_neuron_full is None:
+        use_refactored_proofread_neuron_full = use_refactored_proofread_neuron_full_global
+    if filters_dataset is None:
+        filters_dataset = filters_dataset_global
+    
     if add_valid_synapses:
         st = time.time()
         if verbose:
@@ -7201,6 +7207,7 @@ def proofread_neuron_full(
         o_neuron,filtering_info = pipe.proofread_neuron_full_refactored(
             neuron_obj,
             cell_type=cell_type,
+            filters_dataset=filters_dataset,
             verbose = True,
             verbose_time = True,
         )

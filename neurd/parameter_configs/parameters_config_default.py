@@ -569,6 +569,8 @@ parameters = {
         'dendrite_branching_filters':False,
         'dendrite_branching_filters_inh':False,
         'double_back_threshold_inh_double_b':None,
+        'use_refactored_proofread_neuron_full':False,
+        'filters_dataset':"microns",
       },
       'low_branch_clusters':
       {
