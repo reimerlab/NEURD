@@ -7863,6 +7863,9 @@ global_parameters_dict_default_auto_proof = dict(
     
     #--double back filters 
     double_back_threshold_inh_double_b = None,
+    use_refactored_proofread_neuron_full = None,
+    filters_dataset = 'microns',
+    
 )
 
 global_parameters_dict_default_red_blue_multi_soma = dict(
