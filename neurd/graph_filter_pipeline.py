@@ -192,6 +192,13 @@ class RedBlueSuggestions:
         return_error_skeleton_points: bool = True
         return_synapse_points: bool = True
         red_blue_suggestions: Any = None
+        
+    Config_h01_c2 = Config
+        
+    @dataclass
+    class Config_minnie:
+        n_red_points: int = 3
+        n_blue_points: int = 2
 
     def __init__(self,**kwargs):
         
@@ -216,10 +223,15 @@ class RedBlueSuggestions:
         neuron_obj,
         limb_branch,
         plot_final_blue_red_points = False,
+        dataset = None,
         **kwargs
     ):
         kwargs["plot_final_blue_red_points"] = plot_final_blue_red_points
-        config = cls.Config(**kwargs)
+        if dataset is None:
+            config = cls.Config(**kwargs)
+        else:
+            config = getattr(cls,f"Config_{dataset}")(**kwargs)
+            
         red_blue_suggestions = pru.limb_branch_dict_to_cancel_to_red_blue_groups(
             neuron_obj,
             limb_branch_dict_to_cancel=limb_branch.error_limb_branch_downstream,
@@ -333,13 +345,18 @@ class FilterResults:
         time=None,
         plot_red_blue = False,
         plot_splits = False,
+        dataset = None,
         verbose = False,
         **kwargs
         ):
         
         limb_branch = LimbBranch(neuron_obj,error_limb_branch)
         stats = RemovedStats.from_neuron_and_limb_branch(neuron_obj,limb_branch)
-        red_blue = RedBlueSuggestions.from_neuron_and_limb_branch(neuron_obj,limb_branch)
+        red_blue = RedBlueSuggestions.from_neuron_and_limb_branch(
+            neuron_obj,
+            limb_branch,
+            dataset=dataset,
+            )
         if plot_red_blue:
             red_blue.plot(neuron_obj)
         splits = SplitSuggestions.from_neuron_and_limb_branch(neuron_obj,limb_branch)
@@ -406,12 +423,14 @@ class NeuronFilter:
         self, 
         neuron_obj:Neuron,
         error_limb_branch: ged.ErrorLimbBranch,
+        dataset = None,
         **kwargs) -> FilterResults:
 
         return FilterResults.from_neuron_and_error_limb_branch(
             neuron_obj=neuron_obj,
             error_limb_branch=error_limb_branch,
             name = self.config.name,
+            dataset=dataset,
             **kwargs
         )
 
@@ -467,7 +486,7 @@ class NeuronFilter:
         verbose_time=False,
         detector_verbose = False,
         verbose = False,
-        
+        dataset = None,
         **kwargs):
         global_time = time.time()
         
@@ -481,7 +500,13 @@ class NeuronFilter:
             print(f"\t-- time for detection: {(time.time() - st):.2f}--")
             st = time.time()
         #2: Analyze
-        results = self.analyze(neuron_obj,error,verbose = verbose,**kwargs)
+        results = self.analyze(
+            neuron_obj,
+            error,
+            dataset=dataset,
+            verbose = verbose,
+            **kwargs
+        )
         
         if verbose_time:
             print(f"\t-- time for analyzing : {(time.time() - st):.2f}--")
@@ -538,14 +563,15 @@ class FilterPipeline:
         self, 
         neuron_obj: Neuron,
         verbose_time=False,
-        visualize = False):
+        visualize = False,
+        dataset = None):
         results: dict[str, FilterResults] = {}
         current = neuron_obj
         for flt in self.filters:
             if verbose_time:
                 st = time.time()
                 print(f"\n-- working on {flt.config.name}--")
-            cleaned, res = flt.run(current,verbose_time=verbose_time,)
+            cleaned, res = flt.run(current,verbose_time=verbose_time,dataset=dataset)
             if verbose_time:
                 print(f"\n\t--total time for {flt.config.name}: {(time.time() - st):.2f}--")
             results[flt.config.name] = res
@@ -755,11 +781,14 @@ def proofread_neuron_full_refactored(
         cell_type_filters,
         combine_path_branches = True,
         save_intermediate_neuron = False,
+        
     )
     
     cleaned_neuron, results = pipeline.run(
         neuron_obj,
-        verbose_time=verbose)
+        dataset = filters_dataset,
+        verbose_time=verbose
+    )
     
     # Step 3: Generate the filtering info
     filtering_info = FilterPipeline.filter_results_dict_to_old_filtering_info(results)
