@@ -84,8 +84,19 @@ class ExcAxonLowDegreeErrorDetector(ged.LimbBranchErrorDetector):
     @dataclass
     class Config:
         name: str = "exc_axon_low_degree"
+        skip_greater_than_max_degree_to_resolve: bool = False
     
     def error_limb_branch_dict(self,neuron_obj,**kwargs):
+
+        skip_greater_than_max_degree_to_resolve = getattr(self.config,"skip_greater_than_max_degree_to_resolve",False)
+        print(f"inside ExcAxonLowDegreeErrorDetector, skip_greater_than_max_degree_to_resolve = {skip_greater_than_max_degree_to_resolve}")
+        
+        return ed.low_degree_branch_errors_limb_branch_dict(
+            neuron_obj,
+            skip_greater_than_max_degree_to_resolve=skip_greater_than_max_degree_to_resolve,
+            **kwargs
+        )
+        
         return ed.low_degree_branch_errors_limb_branch_dict(
             neuron_obj,**kwargs
         )
@@ -94,6 +105,7 @@ class InhAxonLowDegreeErrorDetector(ged.LimbBranchErrorDetector):
     @dataclass
     class Config:
         name: str = "inh_axon_low_degree"
+        skip_greater_than_max_degree_to_resolve: bool = False
     
     def error_limb_branch_dict(
         self,
@@ -104,6 +116,9 @@ class InhAxonLowDegreeErrorDetector(ged.LimbBranchErrorDetector):
         filters_to_run = None,
         **kwargs
         ):
+
+        skip_greater_than_max_degree_to_resolve = getattr(self.config,"skip_greater_than_max_degree_to_resolve",False)
+        print(f"inside ExcAxonLowDegreeErrorDetector, skip_greater_than_max_degree_to_resolve = {skip_greater_than_max_degree_to_resolve}")
         
         if width_max is None:
             width_max = pru.width_max_high_low_degree_inh_global
@@ -131,6 +146,7 @@ class InhAxonLowDegreeErrorDetector(ged.LimbBranchErrorDetector):
             upstream_width_max = upstream_width_max,
             max_degree_to_resolve_absolute = max_degree_to_resolve_absolute,
             filters_to_run=filters_to_run,
+            skip_greater_than_max_degree_to_resolve=skip_greater_than_max_degree_to_resolve,
             **kwargs
         )
     

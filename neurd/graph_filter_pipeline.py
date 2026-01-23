@@ -668,7 +668,31 @@ filters_for_datasets = dict(
             ax.ExcAxonWidthJumpErrorDetector(),  
             dend.InhDendriteDoubleBackErrorDetector(),  
         ]
-    )
+    ),
+    microns_ml = dict(
+        excitatory = [
+            ax.AxonOnDendriteErrorDetector(),
+            ax.ExcAxonHighDegreeErrorDetector(),
+            ax.ExcAxonLowDegreeErrorDetector(
+                skip_greater_than_max_degree_to_resolve = True,
+            ),
+            
+            dend.ExcDendriteWidthJumpErrorDetector(),
+            ax.ExcAxonWidthJumpErrorDetector(),  
+            dend.ExcDendriteDoubleBackErrorDetector(),  
+        ],
+        inhibitory = [
+            ax.AxonOnDendriteErrorDetector(),
+            ax.ExcAxonHighDegreeErrorDetector(),
+            ax.ExcAxonLowDegreeErrorDetector(
+                skip_greater_than_max_degree_to_resolve = True,
+            ),
+            
+            dend.ExcDendriteWidthJumpErrorDetector(),
+            ax.ExcAxonWidthJumpErrorDetector(),  
+            dend.InhDendriteDoubleBackErrorDetector(),  
+        ]
+    ),
 )
 # exc_filters_h01_c2 = [
     

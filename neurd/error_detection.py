@@ -3267,6 +3267,7 @@ def high_low_degree_upstream_match_preprocessing(
     max_degree_to_resolve = None,#1000,
     max_degree_to_resolve_wide = None,#1000,
     max_degree_to_resolve_width_threshold = None,#200,
+    skip_greater_than_max_degree_to_resolve = False,
     
     
     # parameter checking to see if high degree resolve can be used
@@ -3425,11 +3426,14 @@ def high_low_degree_upstream_match_preprocessing(
     # -------- 8/1: Sets a limit on the maximum branch degree to be resolved ---------
     upstream_branch = branch_idx
     
-
+    #print(f"!!!!inside ed. skip_greater_than_max_degree_to_resolve = {skip_greater_than_max_degree_to_resolve}")
     if max_degree_to_resolve_absolute is not None and len(downstream_branches) > max_degree_to_resolve_absolute:
         if verbose:
             print(f"Number of branches ({len(downstream_branches)}) was more than max_degree_to_resolve ({max_degree_to_resolve_absolute}) so returning all downstream as error branches")
-        return_value= [None,downstream_branches]
+        if skip_greater_than_max_degree_to_resolve:
+            return_value =  [None,[]]
+        else:
+            return_value= [None,downstream_branches]
     
     if len(return_value) > 0:
         if return_skip_info:
@@ -3469,7 +3473,10 @@ def high_low_degree_upstream_match_preprocessing(
     if max_degree_to_resolve is not None and len(downstream_branches) > max_degree_to_resolve:
         if verbose:
             print(f"Number of branches ({len(downstream_branches)}) was more than max_degree_to_resolve ({max_degree_to_resolve}) so returning all downstream as error branches")
-        return_value= [None,downstream_branches]
+        if skip_greater_than_max_degree_to_resolve:
+            return_value =  [None,[]]
+        else:
+            return_value= [None,downstream_branches]
 
         
     if len(return_value) > 0:
@@ -4079,6 +4086,7 @@ def high_degree_upstream_match(
     max_degree_to_resolve = None,#1000,
     max_degree_to_resolve_wide = None,#1000,
     max_degree_to_resolve_width_threshold = None,#200,
+    skip_greater_than_max_degree_to_resolve=False,
     
     # parameter checking to see if high degree resolve can be used
     width_max = None,#170,
@@ -4230,6 +4238,7 @@ def high_degree_upstream_match(
                         max_degree_to_resolve = max_degree_to_resolve,
                         max_degree_to_resolve_wide = max_degree_to_resolve_wide,
                         max_degree_to_resolve_width_threshold = max_degree_to_resolve_width_threshold,
+                        skip_greater_than_max_degree_to_resolve=skip_greater_than_max_degree_to_resolve,
 
                         # parameter checking to see if high degree resolve can be used
                         width_max = width_max,
@@ -4624,6 +4633,7 @@ def low_degree_upstream_match(
     width_func = None,
     max_degree_to_resolve_absolute = None,#1000,
     max_degree_to_resolve = None,#2,
+    skip_greater_than_max_degree_to_resolve = False,
     #max_width_to_resolve = None,
     
     # parameter checking to see if high degree resolve can be used
@@ -4739,6 +4749,7 @@ def low_degree_upstream_match(
                         max_degree_to_resolve = max_degree_to_resolve,
                         max_degree_to_resolve_wide = None,
                         max_degree_to_resolve_width_threshold = None,
+                        skip_greater_than_max_degree_to_resolve=skip_greater_than_max_degree_to_resolve,
 
                         # parameter checking to see if high degree resolve can be used
                         width_max = width_max,
@@ -4801,6 +4812,7 @@ def low_degree_upstream_match(
         
         if len(error_branches) > 0:
             filter_triggered = filt_func.__name__
+            verbose = True
             if verbose:
                 print(f"filter_triggered = {filter_triggered}, error_branches = {error_branches}")
             break
